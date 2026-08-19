@@ -109,8 +109,14 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 
 Код и документация перенесены в `D:\Projects\trading_lab`; canonical `data`, `runs` и
 модели остаются вне Git в `D:\Projects\trading_lab_data`. Исходное дерево
-`D:\Projects\Trading` сохранено как резервная копия. Проверка 2026-08-19:
+`D:\Projects\Trading` после полной сверки удалено с исходного пути и перемещено в
+Корзину. Проверка 2026-08-19:
 
+- в старом source/config/test дереве не было old-only файлов: 274 файла совпали
+  побайтово, 10 имеют ожидаемые migration-изменения в актуальной копии, 8 добавлены уже
+  после переноса;
+- все 1 403 файла `data` и 1 598 файлов `runs` совпали с external storage по
+  относительному пути, размеру и SHA-256; отдельными оставались только `.venv` и кеши;
 - полный CPU suite без encoding-test: **611 passed, 7 skipped, 2 failed**;
 - два failure относятся только к sealed V8 `context_run`: его старый anti-symlink guard
   намеренно не принимает external NTFS junction. Старый byte-sealed код нельзя менять
