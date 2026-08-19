@@ -1,0 +1,176 @@
+﻿[
+  {
+    "source_event_id": "fake-sber-2023-v0",
+    "document_id": "fake-sber-ifrs-fy2023",
+    "action": "published",
+    "revision_number": 0,
+    "revision_of_event_id": null,
+    "issuer": {
+      "symbol": "SBER",
+      "legal_name": "PAO Sberbank",
+      "inn": "7707083893",
+      "disclosure_id": "3043",
+      "ogrn": "1027700132195"
+    },
+    "filing_kind": "ifrs",
+    "period": {
+      "fiscal_year": 2023,
+      "fiscal_months": 12,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31"
+    },
+    "published_at": "2024-03-01T07:30:00Z",
+    "artifact": {
+      "source_kind": "interfax_gateway",
+      "source_url": "https://gateway.e-disclosure.ru/api/v1/disclosure/download/files/fake-2023",
+      "retrieved_at": "2025-08-01T10:00:00Z",
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byte_size": 111,
+      "media_type": "application/pdf",
+      "attachment_uid": "fake-2023"
+    },
+    "numeric_facts": [
+      {
+        "metric": "revenue",
+        "value": 100.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=10:table=revenue",
+        "extraction_method": "manual_verified",
+        "verified": true
+      },
+      {
+        "metric": "ebitda",
+        "value": 25.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=11:table=profit",
+        "extraction_method": "manual_verified",
+        "verified": true
+      }
+    ],
+    "text_metadata": {
+      "status": "not_extracted"
+    }
+  },
+  {
+    "source_event_id": "fake-sber-2024-v0",
+    "document_id": "fake-sber-ifrs-fy2024",
+    "action": "published",
+    "revision_number": 0,
+    "revision_of_event_id": null,
+    "issuer": {
+      "symbol": "SBER",
+      "legal_name": "PAO Sberbank",
+      "inn": "7707083893",
+      "disclosure_id": "3043",
+      "ogrn": "1027700132195"
+    },
+    "filing_kind": "ifrs",
+    "period": {
+      "fiscal_year": 2024,
+      "fiscal_months": 12,
+      "period_start": "2024-01-01",
+      "period_end": "2024-12-31"
+    },
+    "published_at": "2025-03-03T05:00:00Z",
+    "artifact": {
+      "source_kind": "interfax_gateway",
+      "source_url": "https://gateway.e-disclosure.ru/api/v1/disclosure/download/files/fake-2024-v0",
+      "retrieved_at": "2025-08-01T10:00:00Z",
+      "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "byte_size": 222,
+      "media_type": "application/pdf",
+      "attachment_uid": "fake-2024-v0"
+    },
+    "numeric_facts": [
+      {
+        "metric": "revenue",
+        "value": 120.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=10:table=revenue",
+        "extraction_method": "manual_verified",
+        "verified": true
+      },
+      {
+        "metric": "ebitda",
+        "value": 30.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=11:table=profit",
+        "extraction_method": "manual_verified",
+        "verified": true
+      }
+    ],
+    "text_metadata": {
+      "status": "not_extracted"
+    }
+  },
+  {
+    "source_event_id": "fake-sber-2024-v1",
+    "document_id": "fake-sber-ifrs-fy2024",
+    "action": "revised",
+    "revision_number": 1,
+    "revision_of_event_id": "fake-sber-2024-v0",
+    "issuer": {
+      "symbol": "SBER",
+      "legal_name": "PAO Sberbank",
+      "inn": "7707083893",
+      "disclosure_id": "3043",
+      "ogrn": "1027700132195"
+    },
+    "filing_kind": "ifrs",
+    "period": {
+      "fiscal_year": 2024,
+      "fiscal_months": 12,
+      "period_start": "2024-01-01",
+      "period_end": "2024-12-31"
+    },
+    "published_at": "2025-03-05T09:00:00Z",
+    "artifact": {
+      "source_kind": "interfax_gateway",
+      "source_url": "https://gateway.e-disclosure.ru/api/v1/disclosure/download/files/fake-2024-v1",
+      "retrieved_at": "2025-08-01T10:00:00Z",
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "byte_size": 223,
+      "media_type": "application/pdf",
+      "attachment_uid": "fake-2024-v1"
+    },
+    "numeric_facts": [
+      {
+        "metric": "revenue",
+        "value": 125.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=10:table=revenue-corrected",
+        "extraction_method": "manual_verified",
+        "verified": true
+      },
+      {
+        "metric": "ebitda",
+        "value": 31.0,
+        "unit": "rub",
+        "scale": 1000000000.0,
+        "accounting_standard": "ifrs",
+        "reporting_scope": "consolidated",
+        "source_locator": "page=11:table=profit-corrected",
+        "extraction_method": "manual_verified",
+        "verified": true
+      }
+    ],
+    "text_metadata": {
+      "status": "not_extracted"
+    }
+  }
+]

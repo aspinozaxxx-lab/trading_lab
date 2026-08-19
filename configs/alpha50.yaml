@@ -1,0 +1,74 @@
+﻿paths:
+  root: ..
+  raw_data_dir: data/raw
+  processed_data_dir: data/processed
+  runs_dir: runs
+
+universe:
+  development:
+    - SBER
+    - GAZP
+    - LKOH
+    - NVTK
+    - ROSN
+    - TATN
+    - MOEX
+    - VTBR
+  holdout:
+    - CHMF
+    - PHOR
+    - RUAL
+  board: TQBR
+  timeframe: 1h
+
+protocol:
+  data_start: 2018-01-01
+  validation_start: 2023-01-01
+  validation_end: 2024-12-31
+  test_start: 2025-01-01
+  test_end: 2026-08-16
+  validation_fold_months: 6
+  embargo_days: 2
+
+portfolio:
+  initial_capital: 1000000.0
+  commission_bps: 5.0
+  slippage_bps: 2.0
+  financing_rate_annual: 0.20
+  maximum_gross_leverage: 2.0
+  volatility_floor: 0.003
+
+search:
+  momentum_windows:
+    - 20
+    - 60
+    - 120
+  top_k:
+    - 1
+    - 2
+    - 3
+  gross_leverages:
+    - 1.0
+    - 1.5
+    - 2.0
+  regime_filters:
+    - true
+    - false
+
+selection:
+  target_cagr: 0.50
+  maximum_drawdown: 0.25
+  minimum_sharpe: 1.0
+  minimum_positive_fold_fraction: 0.75
+  stress_cost_multiplier: 2.0
+  minimum_stress_cagr: 0.25
+
+model:
+  ridge_alpha: 100.0
+  extra_trees_estimators: 160
+  extra_trees_max_features: 0.70
+  extra_trees_min_samples_leaf: 30
+  comparison_top_k: 3
+  comparison_leverage: 1.0
+
+seed: 42

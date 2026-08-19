@@ -1,0 +1,25 @@
+﻿audit_id: futures_v9_structural_robustness_v1
+canonical_run: runs/futures_v9_structural/structural_c86d4852729d4c8a
+canonical_config_sha256: c9aa50d3ea3f16e0aa8d729aef238b2d316e249c8277d39f573046880ea3ef68
+forbidden_from: "2026-01-01"
+replay_absolute_tolerance: 1.0e-12
+cost_stress_one_way_bps: 20.0
+extra_execution_delay_sessions: 1
+bootstrap:
+  method: circular_moving_block
+  replications: 10000
+  block_sessions: 21
+  seed: 20260818
+  confidence: 0.95
+cscv:
+  contiguous_segments: 10
+  fixed_candidates: 8
+families:
+  fx: [AUDU, ED, Eu, GBPU, Si, UCHF, UJPY]
+  metals: [GOLD, SILV, PLD, PLT]
+  equity_index_volatility: [MIX, RTS, RVI]
+  russian_single_stock: [GAZR, LKOH, ROSN, SBRF, VTBR]
+  energy: [BR]
+  agriculture: [SUGR]
+  rates: [RUON]
+ruble_energy_scope: [BR, Eu, MIX, Si]

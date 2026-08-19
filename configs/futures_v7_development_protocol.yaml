@@ -1,0 +1,131 @@
+﻿protocol_name: futures-v7-causal-multiresolution
+protocol_version: 7
+research_status: development_only_no_pnl_no_holdout_access
+
+model:
+  architecture: causal_multiresolution_tcn_attention_v7
+  bar_feature_names:
+    - log_return_1
+    - log_return_3
+    - log_return_6
+    - range_log
+    - body_log
+    - close_location
+    - log1p_volume
+    - relative_volume_36
+    - realized_volatility_6
+    - realized_volatility_36
+    - session_phase_sin
+    - session_phase_cos
+  daily_feature_names:
+    - daily_return_1
+    - daily_return_5
+    - daily_return_20
+    - daily_volatility_20
+    - roll_yield
+    - days_to_expiry_scaled
+    - open_interest_change_1
+    - open_interest_change_5
+    - physical_net_share_lag_1
+    - legal_net_share_lag_1
+    - cbr_key_rate_level
+    - cbr_key_rate_change
+    - cbr_ruonia_spread
+    - cbr_usdrub_return_1
+    - cftc_primary_score
+    - cftc_cross_asset_score
+  sequence_bars: 512
+  width: 192
+  temporal_blocks: 8
+  kernel_size: 3
+  dilations: [1, 2, 4, 8, 16, 32, 64, 128]
+  attention_heads: 6
+  feedforward_multiplier: 2
+  dropout: 0.10
+  ssl_horizons: [1, 6, 24, 72]
+  prediction_target: next_open_to_next_open_log_return
+  ticker_embeddings: false
+  cross_asset_attention_timing: same_decision_timestamp_only
+  daily_conditioning: masked_gated_carry_oi_cbr_cftc
+  expected_parameter_count: 2245161
+
+training:
+  seeds: [1729, 2718, 3141]
+  deterministic_algorithms: true
+  accelerator: single_nvidia_rtx_5090
+  precision: bfloat16
+  optimizer: adamw
+  normalization: train_fold_robust_median_iqr
+  ssl_epochs: 40
+  supervised_epochs: 25
+  ssl_learning_rate: 0.0003
+  supervised_learning_rate: 0.0001
+  weight_decay: 0.01
+  gradient_clip_norm: 1.0
+  freeze_first_temporal_blocks: 6
+  early_stopping: false
+  seed_aggregation: arithmetic_mean_prediction
+  oos_hyperparameter_tuning: false
+
+development:
+  assets: [BR, MIX, RI, SI]
+  development_start: 2018-01-01
+  development_end: 2025-12-31
+  continuous_ledger_start: 2021-01-01
+  continuous_ledger_end: 2025-12-31
+  positions_reset_between_folds: false
+  purge_sessions: 5
+  decision_timezone: Europe/Moscow
+  decision_local_time: '18:50:00'
+  intraday_alignment: exact_same_decision_timestamp
+  entry_rule: first_factual_tradable_10m_open_after_decision
+  exit_rule: first_factual_tradable_open_of_subsequent_trade_session
+  scaler_fit_scope: current_train_fold_only
+  ssl_label_boundary: future_horizon_must_end_inside_train_fold
+  benchmark_name: futures_v6_frozen_base
+  benchmark_config_path: configs/futures_v6_experiment.yaml
+  benchmark_config_sha256: 73bc4cba13c65530ae446b0174f14987d0f55d74fdc45e10a8f93b6c6bdcdee9
+  model_selection: fixed_architecture_three_seed_mean_no_oos_tuning
+  protected_holdout_start: 2026-01-01
+  protected_holdout_status: locked_untouched
+  protected_holdout_local_read_allowed: false
+  protected_holdout_network_download_allowed: false
+  protected_holdout_evaluation_budget: 1
+  folds:
+    - name: outer_2021
+      train_start: 2018-01-01
+      train_end: 2020-12-31
+      score_start: 2021-01-01
+      score_end: 2021-12-31
+    - name: outer_2022
+      train_start: 2018-01-01
+      train_end: 2021-12-31
+      score_start: 2022-01-01
+      score_end: 2022-12-31
+    - name: outer_2023
+      train_start: 2018-01-01
+      train_end: 2022-12-31
+      score_start: 2023-01-01
+      score_end: 2023-12-31
+    - name: outer_2024
+      train_start: 2018-01-01
+      train_end: 2023-12-31
+      score_start: 2024-01-01
+      score_end: 2024-12-31
+    - name: outer_2025
+      train_start: 2018-01-01
+      train_end: 2024-12-31
+      score_start: 2025-01-01
+      score_end: 2025-12-31
+
+execution:
+  ledger: futures_v6_integer_contract_continuous_ledger
+  initial_capital_rub: 1000000.0
+  integer_contracts: true
+  atomicity_scenarios: [asset, portfolio]
+  primary_atomicity: asset
+  stress_atomicity: portfolio
+  slippage_ticks: [1, 2, 4]
+  fee_multipliers: [1.0, 2.0]
+  maximum_participation: 0.01
+  initial_margin_buffer_multiplier: 2.0

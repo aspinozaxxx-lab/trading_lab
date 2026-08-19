@@ -1,0 +1,100 @@
+﻿paths:
+  root: ..
+  raw_data_dir: data/raw
+  processed_data_dir: data/processed
+  runs_dir: runs
+
+data:
+  source: moex
+  instrument: SBER
+  engine: stock
+  market: shares
+  board: TQBR
+  trading_mode: TQBR
+  timeframe: 1d
+  start: 2015-01-01
+  end: 2026-08-16
+  fixture_path: tests/fixtures/moex_sber_daily.json
+  timeout_seconds: 15
+  max_retries: 3
+  page_size: 500
+
+portfolio:
+  initial_capital: 1000000.0
+  commission_bps: 5.0
+  slippage_bps: 2.0
+  allow_short: false
+
+features:
+  names:
+    - return_1
+    - return_5
+    - momentum_5
+    - momentum_20
+    - momentum_60
+    - sma_ratio_5_20
+    - sma_ratio_20_75
+    - volatility_10
+    - volatility_20
+    - volatility_60
+    - volume_ratio_5_20
+
+strategy:
+  name: hybrid_trend_logistic
+  parameters:
+    C: 0.04340090178245676
+    threshold: 0.5749619509441004
+  baselines:
+    sma_fast: 5
+    sma_slow: 50
+  regime_trend:
+    sma_window: 75
+    momentum_window: 60
+    entry_band: 0.0
+  robust_trend:
+    sma_window: 150
+    momentum_window: 20
+    entry_band: 0.01
+    exit_band: 0.02
+  hybrid_trend:
+    sma_window: 200
+    momentum_window: 120
+    entry_band: 0.03
+  selection:
+    minimum_validation_score: 0.0
+    minimum_validation_return: 0.0
+    maximum_validation_drawdown: 0.25
+    maximum_validation_trade_count: 40
+    minimum_positive_fold_fraction: 0.5
+    minimum_recent_fold_return: -1.0
+
+optimization:
+  n_trials: 20
+  objective: validation_sharpe
+  min_trades: 5
+  search_space:
+    C:
+      kind: float
+      low: 0.005
+      high: 0.1
+      log: true
+    threshold:
+      kind: float
+      low: 0.54
+      high: 0.59
+      log: false
+
+validation:
+  train_fraction: 0.5817402768622281
+  validation_fraction: 0.35003295978905735
+  test_fraction: 0.06822676334871457
+  gap_bars: 2
+  walk_forward_folds: 8
+
+report:
+  annualization_factor: 252
+  plot_width: 10
+  plot_height: 5
+  evaluation_status: post_selection_exploratory
+
+seed: 42

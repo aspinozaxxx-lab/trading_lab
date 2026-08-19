@@ -1,0 +1,134 @@
+protocol: futures_v9_intraday_timing
+protocol_version: 1
+sealed_before_outcomes: true
+development_cutoff: "2025-12-31T23:59:59+03:00"
+holdout_2026_access: forbidden
+
+universe:
+  assets: [BR, MIX, RI, SI]
+  canonical_source_roots: [BR, IMOEX, RTS, Si]
+  point_in_time_contracts: true
+  continuous_price_bridging: forbidden
+  cross_contract_horizons: forbidden
+
+clock_and_execution:
+  bar_minutes: 10
+  decision_time: completed_bar_close
+  execution_lag_bars: 1
+  require_exact_600_second_successor: true
+  require_same_contract: true
+  missing_bar_policy: mask_and_sleep
+  entry_fill:
+    long: next_bar_high
+    short: next_bar_low
+  exit_fill:
+    long: next_bar_low
+    short: next_bar_high
+  actions: [long, short, wait, exit]
+  one_position_per_asset: true
+  pyramiding: false
+  maximum_holding_bars: 18
+  factual_next_bar_volume_participation_cap: 0.01
+  integer_contracts: true
+  initial_capital_rub: 10000000
+  maximum_portfolio_gross: 1.0
+  maximum_asset_gross: 0.25
+
+features:
+  history_bars: 144
+  causal_only: true
+  values:
+    - log_close_return
+    - log_open_to_close
+    - log_high_low_range
+    - log_volume_change
+    - realized_volatility_6
+    - realized_volatility_18
+    - realized_volatility_72
+    - range_zscore_72
+    - volume_zscore_72
+    - minute_sin
+    - minute_cos
+    - weekday_sin
+    - weekday_cos
+  normalization: train_fold_robust_median_iqr
+  missing_values: masked_nan_never_zero_imputed
+
+targets:
+  kind: supervised_adverse_fill_action_value
+  horizons_bars: [3, 6, 18]
+  long_entry: next_bar_high
+  long_exit: horizon_successor_bar_low
+  short_entry: next_bar_low
+  short_exit: horizon_successor_bar_high
+  include_round_trip_costs: true
+  require_exact_contiguous_same_contract_path: true
+  uncertainty_target: absolute_forecast_error
+
+model:
+  family: shared_causal_gru
+  hidden_size: 32
+  layers: 1
+  dropout: 0.0
+  asset_embedding_size: 8
+  cross_asset_variants:
+    - masked_same_time_attention
+    - independent_asset_encoder
+  attention_heads: 2
+  attention_layers: 1
+  output_heads: [long_value_3, short_value_3, long_value_6, short_value_6, long_value_18, short_value_18, uncertainty]
+  loss: huber
+  optimizer: adamw
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 512
+  maximum_epochs: 8
+  early_stopping_patience: 2
+  gradient_clip_norm: 1.0
+  seeds: [1729, 2718, 3141]
+
+calibration_and_policy:
+  validation_tail_calendar_days: 120
+  purge_bars: 18
+  calibration: validation_isotonic_by_side_horizon
+  horizon_selection: maximum_calibrated_net_value
+  minimum_signal_to_noise: 0.75
+  minimum_predicted_edge_over_exact_costs: 0.0
+  enter_only_if_positive_after_cost_and_snr: true
+  exit_if_best_same_side_value_nonpositive: true
+  exit_if_opposite_value_exceeds_same_side_value: true
+  force_exit_at_maximum_holding_bars: true
+  tie_break: wait_or_exit
+
+walk_forward:
+  warmup: [2018, 2019, 2020]
+  outer_test_years: [2021, 2022, 2023, 2024, 2025]
+  training_window: expanding
+  retrain_frequency: annual
+  no_test_year_threshold_selection: true
+  no_test_year_calibration: true
+
+costs:
+  base_multiplier: 1.0
+  stress_multiplier: 2.0
+  commission_and_exchange_fees: point_in_time_contract_spec_if_available
+  fallback_round_trip_bps: 10.0
+  adverse_bar_fill_is_additional_to_fees: true
+
+ablations:
+  - masked_cross_asset_gru
+  - independent_asset_gru
+  - causal_18_bar_breakout_momentum
+  baseline_policy:
+    breakout_lookback_bars: 18
+    volatility_lookback_bars: 72
+    entry_zscore: 1.0
+    exit_zscore: 0.0
+    maximum_holding_bars: 18
+
+reporting:
+  metrics: [decisions, trades, cagr, sharpe, maximum_drawdown, worst_year, turnover, costs, long_short_balance, maximum_participation, cost_stress_2x]
+  per_year: true
+  per_asset: true
+  preserve_predictions: true
+  preserve_trades: true

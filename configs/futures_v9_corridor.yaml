@@ -1,0 +1,140 @@
+﻿protocol_name: futures-v9-corridor-hazard
+protocol_version: 1
+frozen_before_development_outcome_read: true
+research_status: isolated_challenger_no_v8_seal_changes
+protected_holdout_start: 2026-01-01
+
+sources:
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+  daily_curve:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+  raw_10m_manifest:
+    path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+    sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+  cbr:
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+  cftc:
+    path: data/processed/info_radar/cftc-dev-2018-2025-v1/processed/cftc_positions.parquet
+    sha256: fa83ee60008b75b38da8bd3bc0007cd014ae38da5870f5084133e0df3ebc1a23
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+  v8_context_qa_only:
+    path: runs/v8_20260818T111317Z_83135473_context_raw10m_v2/validity_aware_context_767c830d7943ea32.parquet
+    sha256: 767c830d7943ea324e4b069da875dd4a51486ededa3a13195d5b5062b847a746
+  v8_regime_qa_only:
+    path: runs/v8_20260818T111317Z_83135473_enrichment_regime_v2/regime_abstain_ensemble.parquet
+    sha256: 4fd847f49f837516e637c81c81d17344ccf3ff781c808d1318da7ce17f40c14a
+
+universe:
+  assets: [BR, MIX, RI, SI]
+  history_start: 2018-01-01
+  development_start: 2021-01-01
+  development_end: 2025-12-31
+  decision_timezone: Europe/Moscow
+  decision_time: '18:50:00'
+  main_session_bucket_opens: '10:00:00..18:40:00/10m'
+  minimum_main_session_buckets: 48
+  exact_close_bucket_open: '18:40:00'
+  exact_close_bucket_end_lte: '18:50:00'
+
+execution:
+  contract_rule: lock_active_contract_known_at_decision_for_entire_trade
+  entry_window_open: '19:20:00'
+  entry_window_close: '19:30:00'
+  entry_fill_long: bar_high
+  entry_fill_short: bar_low
+  entry_bar_not_used_for_barrier_detection: true
+  time_exit_after_common_sessions: 5
+  time_exit_window_open: '19:20:00'
+  time_exit_window_close: '19:30:00'
+  time_exit_fill_long: bar_low
+  time_exit_fill_short: bar_high
+  same_bar_precedence: stop_before_take_profit
+  long_stop_gap_fill: min_stop_and_bar_open
+  short_stop_gap_fill: max_stop_and_bar_open
+  take_profit_fill: exact_barrier
+  non_emitted_zero_trade_monitor_bucket: factual_no_trade
+  missing_entry_or_exit_bar: unresolved_no_fill
+  contract_not_active_on_any_horizon_common_session: unresolved_no_fill
+  partial_fill: unresolved_no_fill
+
+corridors:
+  primary:
+    take_profit_atr: 0.8
+    stop_loss_atr: 2.8
+    nominal_break_even_win_rate: 0.7777777777777778
+    authoritative: true
+  safer_diagnostic:
+    take_profit_atr: 1.2
+    stop_loss_atr: 1.6
+    nominal_break_even_win_rate: 0.5714285714285714
+    authoritative: false
+  parameter_search: forbidden
+
+features:
+  availability: completed_at_or_before_decision_only
+  price_basis: raw_10m_active_contract_plus_causal_forward_additive_adjustment
+  atr_window: 20
+  volatility_window: 20
+  momentum_windows: [1, 5, 20]
+  include_intraday_shape: true
+  include_causal_regime_proxy: true
+  include_carry: true
+  include_cftc: true
+  include_usd_rub: true
+  key_rate: sleeping_missing_indicator
+  missing_value_policy: median_fit_on_training_slice_plus_missing_indicators
+  reusable_intraday_loader_contract: completed_bars_through_t_features_execution_t_plus_1
+
+labels:
+  schema: competing_risk_event_and_discrete_bar_duration
+  event_types: [take_profit, stop_loss, time_exit, unresolved]
+  directions: [long, short]
+  stop_first: true
+  label_availability: after_exact_exit_window_only
+
+model:
+  family: sklearn_hist_gradient_boosting_multiclass_plus_platt_tp_calibration
+  random_state: 90421
+  learning_rate: 0.05
+  max_iter: 160
+  max_leaf_nodes: 15
+  min_samples_leaf: 40
+  l2_regularization: 5.0
+  train_split: years_strictly_before_calibration_year
+  calibration_split: immediately_prior_calendar_year
+  oos_folds: [2021, 2022, 2023, 2024, 2025]
+  threshold_source: 90th_percentile_of_calibration_daily_max_calibrated_tp_probability
+  selection: at_most_one_highest_probability_asset_direction_per_decision
+  absolute_probability_floor: none
+  oos_label_or_threshold_use: forbidden
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  target_gross_per_trade: 0.18
+  maximum_gross: 1.0
+  maximum_one_trade_per_asset: true
+  integer_contracts: true
+  entry_capacity_fraction: 0.01
+  requested_quantity: floor_target_gross_divided_by_causal_spec_sizing_notional
+  actual_entry_capacity: floor_entry_window_volume_times_0.01
+  desired_above_capacity: unresolved_partial_no_fill
+  unknown_or_unusable_spec: unresolved_no_fill
+  fees: conservative_spec_proxy_per_side
+  cost_scenarios: [1.0, 2.0]
+  collateral_interest: 0.0
+  taxes: not_modeled
+
+reporting:
+  equity_curve: exact_D_18_40_locked_contract_mark_to_market_plus_realized_events
+  sizing_equity: causal_mark_to_market_equity_at_D_18_50_before_entry
+  missing_locked_contract_mark: unresolved_no_new_entry_and_metric_no_go
+  metrics: [trade_count, win_rate, payoff_ratio, cagr, sharpe, maximum_drawdown]
+  breakdowns: [year, oos_fold, asset, direction, event_type]
+  capacity_and_unresolved_required: true
+  no_go_on_2026_timestamp: true

@@ -1,0 +1,271 @@
+﻿protocol_name: futures-v6-information-specialist-continuous
+protocol_version: 6
+research_status: development_only_holdout_untouched
+
+paths:
+  project_root: ..
+  runs: runs
+
+sealed_configs:
+  base_v5:
+    id: base_v5_protocol
+    path: configs/futures_v5_protocol.yaml
+    sha256: d73d17ffd9caeac46cbd3a353526c178df792070a4ea17744ab32abdfc32da38
+    bytes: 3644
+  information_channels:
+    id: information_channels_protocol
+    path: configs/futures_v6_information_channels.yaml
+    sha256: 1d38314608832f8680a0b6b483b67464c0e5beac2226f76f5d5943b986d37493
+    bytes: 2907
+
+artifacts:
+  - id: panel
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+  - id: active_map
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+  - id: contract_observations
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+  - id: panel_audit
+    path: data/processed/futures_v5/development_panel_2018_2025_audit.json
+    sha256: 4e7e00870910d54a9aadb17a4b4cf082880211ab5e5de4cc36dfe2bf7e2ea64b
+    bytes: 4543
+  - id: spec_proxy
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+  - id: spec_manifest
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/manifest.json
+    sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+    bytes: 105211
+  - id: cbr_data
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    bytes: 102901
+    rows: 5951
+  - id: cbr_manifest
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+    bytes: 4609
+  - id: cftc_data
+    path: data/processed/info_radar/cftc-dev-2018-2025-v1/processed/cftc_positions.parquet
+    sha256: fa83ee60008b75b38da8bd3bc0007cd014ae38da5870f5084133e0df3ebc1a23
+    bytes: 368423
+    rows: 8360
+  - id: cftc_manifest
+    path: data/processed/info_radar/cftc-dev-2018-2025-v1/manifest.json
+    sha256: 4962b1d4b19de268c7ae5497f09c199c04e3115dcb142ad52ad03c51bb8f5b3e
+    bytes: 13173
+
+code_files:
+  - id: panel_engine
+    path: src/market_lab/futures/panel.py
+    sha256: ae52d9c71c0b38e35cbe72e993d1823d6fa57b4b960fa91549a465add6edfd30
+    bytes: 44864
+  - id: roll_engine
+    path: src/market_lab/futures/roll.py
+    sha256: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+    bytes: 24592
+  - id: moe_model
+    path: src/market_lab/futures/moe.py
+    sha256: 9e80db8cf5c9e368f78e0a39061d3cbec990dbd49197e0020a2e4b8a8225b7bf
+    bytes: 26251
+  - id: cbr_adapter
+    path: src/market_lab/futures/info_radar.py
+    sha256: f155c276ba7bd77475e2e4775a74181f9f4912ba6b28b2fe90cf62c51ed349a6
+    bytes: 53604
+  - id: macro_fusion
+    path: src/market_lab/futures/information_fusion.py
+    sha256: 77960afd30c951aac002c4602438b5ca024d07111f2972c07e572b9c7a675ed6
+    bytes: 21312
+  - id: cftc_adapter
+    path: src/market_lab/futures/cftc_radar.py
+    sha256: 9a13e0b7c79e0feab9def49f8b5088ee029601d13bdec169e4e54b653f72187f
+    bytes: 52328
+  - id: specialist_router
+    path: src/market_lab/futures/specialist_router.py
+    sha256: 41ee82ac51dcf2aa32b361d9af86a9a7c04cf906dae2910a51ec13cf7064ecd7
+    bytes: 12887
+  - id: portfolio_construction
+    path: src/market_lab/futures/portfolio_construction.py
+    sha256: 01a90cf236e7fc9d27fcddab847d258e19a8a1333f62900cc912ca287015ece1
+    bytes: 14534
+  - id: execution_dataset
+    path: src/market_lab/futures/execution_dataset.py
+    sha256: fc83cbf1f08fb38084488a41e618cc103c0ba27b0563b0d12293eca15548c663
+    bytes: 29937
+  - id: portfolio_ledger
+    path: src/market_lab/futures/portfolio_ledger.py
+    sha256: 910b66e881a0c4332be150552fe5f8d2298b91baa837e940b9befe29f65b24c0
+    bytes: 53297
+  - id: session_timing
+    path: src/market_lab/futures/session_timing.py
+    sha256: 0f900aea2415d44aca219892a4b60512562c7863bdd24a303672c79d2483be53
+    bytes: 3594
+  - id: spec_proxy_code
+    path: src/market_lab/futures/spec_proxy.py
+    sha256: 213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783
+    bytes: 25554
+  - id: v6_evaluation
+    path: src/market_lab/futures/v6_evaluation.py
+    sha256: b54836d98d72c8b44d14dd65a0fac79cc42fb901f4f533b2774342cca14584be
+    bytes: 16043
+  - id: v6_candidates
+    path: src/market_lab/futures/v6_candidates.py
+    sha256: 89ca9d4cf6846f3515f63baf10e9a764586c5129756f81ceed33ac43505ceb0a
+    bytes: 23034
+  - id: v6_experiment
+    path: src/market_lab/futures/v6_experiment.py
+    sha256: c834329c7b5efd7bbd862191922f03486459310e1e834132ccc48396e681bd76
+    bytes: 17085
+
+sources:
+  moex: enabled
+  cbr: enabled
+  cftc: enabled
+  gdelt: disabled_429
+  filings: disabled_no_authorized_historical_pit
+  qwen: extractor_only
+
+candidates:
+  - base_moe
+  - macro_overlay
+  - macro_confirmation
+  - specialist_router
+
+models:
+  moe:
+    trend_horizons: [5, 20, 60]
+    volatility_lookback: 20
+    long_volatility_lookback: 60
+    breakout_lookback: 20
+    participation_lookback: 20
+    learning_rate: 2.0
+    regime_shrinkage: 24.0
+    exploration: 0.04
+    risk_threshold: 0.25
+    crisis_threshold: 0.75
+  macro:
+    information_budget: 0.35
+    strong_event_threshold: 0.65
+    conflict_gross_scale: 0.25
+    confirmation_boost: 1.15
+    cbr_scale_lookback: 60
+    cbr_minimum_history: 20
+    shock_clip: 3.0
+  router:
+    learning_rate: 2.0
+    exploration: 0.04
+    maximum_gross: 1.0
+    mandatory_specialists: [base, cbr_macro]
+    sleeping_specialists: [filings, news]
+  portfolio:
+    ewma_volatility_span: 20
+    covariance_sessions: 60
+    annual_target_volatility: 0.20
+    gross_cap: 1.0
+    turnover_sleeves: 5
+    trading_sessions_per_year: 252
+
+timing:
+  timezone: Europe/Moscow
+  decision_local_time: '18:50:00'
+  execution_local_time: '19:00:00'
+  execution_rule: next_factual_trade_date_daily_open
+  timing_regime: legacy_evening_belongs_to_next_trade_date
+  development_end: 2025-12-31
+  protected_holdout_start: 2026-01-01
+  unified_session_start: 2026-03-23
+  holdout_timing_protocol_required: exact_10m_ets_session_protocol
+
+execution:
+  initial_capital_rub: 1000000.0
+  integer_contracts: true
+  atomicity_scenarios: [asset, portfolio]
+  primary_atomicity: asset
+  stress_atomicity: portfolio
+  slippage_ticks: [1, 2, 4]
+  fee_multipliers: [1.0, 2.0]
+  maximum_participation: 0.01
+  initial_margin_buffer_multiplier: 2.0
+
+validation:
+  scheme: continuous_deployment_expanding_calendar_years
+  continuous_ledger_start: 2021-01-01
+  continuous_ledger_end: 2025-12-31
+  positions_reset_between_folds: false
+  purge_sessions: 5
+  folds:
+    - name: outer_2021
+      train_start: 2018-01-01
+      train_end: 2020-12-31
+      score_start: 2021-01-01
+      score_end: 2021-12-31
+    - name: outer_2022
+      train_start: 2018-01-01
+      train_end: 2021-12-31
+      score_start: 2022-01-01
+      score_end: 2022-12-31
+    - name: outer_2023
+      train_start: 2018-01-01
+      train_end: 2022-12-31
+      score_start: 2023-01-01
+      score_end: 2023-12-31
+    - name: outer_2024
+      train_start: 2018-01-01
+      train_end: 2023-12-31
+      score_start: 2024-01-01
+      score_end: 2024-12-31
+    - name: outer_2025
+      train_start: 2018-01-01
+      train_end: 2024-12-31
+      score_start: 2025-01-01
+      score_end: 2025-12-31
+
+selection:
+  scenario: asset_s2_f2
+  primary_metric: median_outer_fold_net_sharpe
+  tie_breakers: [worst_outer_fold_net_cagr_desc, candidate_id_asc]
+  selected_before_holdout_access: true
+  all_candidates_same_scenarios: true
+
+gates:
+  primary_scenario: asset_s1_f1
+  double_cost_scenario: asset_s2_f2
+  minimum_positive_folds: 4
+  minimum_worst_fold_net_cagr: -0.10
+  minimum_aggregate_net_cagr: 0.12
+  minimum_aggregate_net_sharpe: 0.80
+  maximum_aggregate_drawdown: 0.25
+  minimum_double_cost_net_cagr: 0.00
+  execution_complete_required: true
+  maximum_critical_execution_events: 0
+  maximum_unresolved_halt_events: 0
+  all_candidate_scenarios_reported: true
+
+stretch:
+  minimum_net_cagr: 0.50
+  role: report_only
+  used_for_selection: false
+  used_for_holdout_access: false
+  guarantee: false
+
+holdout:
+  start: 2026-01-01
+  end: 2026-07-31
+  status: locked_untouched
+  evaluation_budget: 1
+  network_download_allowed: false
+  local_read_allowed: false
+  unlock_condition: sealed_development_passes_all_pre_holdout_gates
+  required_timing_protocol: exact_10m_ets_session_protocol
+  legacy_daily_mapping_allowed: false

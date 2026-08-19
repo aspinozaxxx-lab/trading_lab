@@ -1,0 +1,136 @@
+﻿protocol_name: futures-v5-causal-continuous
+protocol_version: 5
+sealed_at_utc: '2026-08-18T00:00:00Z'
+research_status: development_only_holdout_untouched
+
+universe:
+  engine: futures
+  market: forts
+  board: RFUD
+  instruments:
+    - logical_symbol: Si
+      asset_code: Si
+      security_prefix: Si
+    - logical_symbol: RI
+      asset_code: RTS
+      security_prefix: RI
+    - logical_symbol: BR
+      asset_code: BR
+      security_prefix: BR
+    - logical_symbol: MIX
+      asset_code: MIX
+      security_prefix: MX
+
+periods:
+  development_start: 2018-01-01
+  development_end: 2025-12-31
+  holdout:
+    start: 2026-01-01
+    end: 2026-07-31
+    status: untouched
+    evaluation_budget: 1
+    network_download_allowed: false
+    local_read_allowed: false
+    unlock_condition: sealed_development_passes_pre_holdout_gates
+
+validation:
+  scheme: outer_expanding_calendar_years
+  purge_sessions: 5
+  folds:
+    - name: outer_2021
+      train_start: 2018-01-01
+      train_end: 2020-12-31
+      outer_start: 2021-01-01
+      outer_end: 2021-12-31
+    - name: outer_2022
+      train_start: 2018-01-01
+      train_end: 2021-12-31
+      outer_start: 2022-01-01
+      outer_end: 2022-12-31
+    - name: outer_2023
+      train_start: 2018-01-01
+      train_end: 2022-12-31
+      outer_start: 2023-01-01
+      outer_end: 2023-12-31
+    - name: outer_2024
+      train_start: 2018-01-01
+      train_end: 2023-12-31
+      outer_start: 2024-01-01
+      outer_end: 2024-12-31
+    - name: outer_2025
+      train_start: 2018-01-01
+      train_end: 2024-12-31
+      outer_start: 2025-01-01
+      outer_end: 2025-12-31
+
+roll:
+  ranking_inputs:
+    - session_volume
+    - contract_open_interest
+  dominance_sessions: 2
+  dominance_ratio: 1.0
+  hard_fallback_sessions_before_expiry: 5
+  decision_time: session_close
+  execution_time: next_session_open
+  missing_overlap_policy: flat_skip
+  execution_failure_policy: carry_position_and_invalidate_run
+  adjustment_direction: forward_only
+  adjustment_method: additive
+  adjustment_anchor: settle
+  backward_adjustment_allowed: false
+
+feature_timing:
+  participant_open_interest:
+    availability_lag_sessions: 1
+    usable_from: next_session
+    same_session_use_allowed: false
+
+execution:
+  integer_contracts: true
+  maximum_gross_leverage: 1.0
+  initial_margin_buffer_multiplier: 2.0
+  maximum_participation: 0.01
+  participation_denominator: lagged_contract_volume
+  unknown_liquidity_policy: reject_execution
+  costs:
+    slippage_unit: ticks_per_leg
+    tick_stress_scenarios:
+      - 1
+      - 2
+      - 4
+    fee_source: versioned_conservative_proxy
+    fee_multiplier_scenarios:
+      - 1.0
+      - 2.0
+    require_round_trip_costs: true
+
+pre_holdout_gates:
+  minimum_positive_outer_folds: 4
+  minimum_worst_fold_net_cagr: -0.10
+  minimum_aggregate_net_cagr: 0.12
+  minimum_aggregate_net_sharpe: 0.80
+  maximum_aggregate_drawdown: 0.25
+  minimum_double_cost_net_cagr: 0.00
+  maximum_failed_execution_events: 0
+  maximum_unknown_participation_events: 0
+  maximum_unknown_point_value_events: 0
+  model_and_feature_seal_required: true
+  all_candidates_reported: true
+  unlock_scope: one_time_research_evaluation_only
+
+research_limits:
+  historical_bid_ask_available: false
+  historical_fee_schedule_complete: false
+  historical_initial_margin_complete: false
+  exact_intraday_rub_point_value_all_assets: false
+  conservative_proxy_must_be_versioned: true
+  broker_executable_pnl_claim_allowed: false
+  live_trading_allowed: false
+
+stretch_gate:
+  minimum_net_cagr: 0.50
+  role: stretch_only
+  used_for_model_selection: false
+  used_for_holdout_access: false
+  guarantee: false
+  live_trading_allowed: false

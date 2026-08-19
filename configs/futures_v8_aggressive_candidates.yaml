@@ -1,0 +1,235 @@
+﻿catalog_name: futures-v8-aggressive-candidates
+catalog_version: 1
+research_status: fixed_before_candidate_pnl_no_2026_access
+base_protocol: configs/futures_v8_development_protocol.yaml
+base_protocol_sha256: e0175b0e02d5a304d90f33f61bd77ed5649005e91e6af50662d4545dc070035d
+implementation: src/market_lab/futures_v8/aggressive_strategies.py
+implementation_sha256: 99077eb0b3e9e4668dcf61990638cfcc9ee0e6d4d03cb76fbced5f6ab3fa50f6
+context_protocol: configs/futures_v8_evaluation_context.yaml
+context_protocol_sha256: 84573f410cd28e101395a9f87ecd8c436c588d3fcd37e3a016990d3c1d8d45ba
+context_implementation: src/market_lab/futures_v8/context_run.py
+context_implementation_sha256: 57b8ffedc3cbf5fab410157b0670e47dd3c85eeb87d78a72cafff47ef83dacd8
+development_status: adaptive_development_backtest_not_fresh_oos
+
+causality:
+  decision_timezone: Europe/Moscow
+  decision_local_time: '18:50:00'
+  development_universe: [BR, MIX, RI, SI]
+  full_universe_required: true
+  allowed_inputs:
+    - sealed_v8_prediction_outputs
+    - causal_raw_10m_interval_previous_d18_50_exclusive_to_d18_50_inclusive
+    - d_known_active_contract_and_forward_additive_adjustment
+    - point_in_time_cftc
+    - point_in_time_cbr
+    - d_known_carry
+  later_10m_use: state_transition_after_factual_bar_close_only
+  expected_bar_sequence: exact_exchange_calendar_sequence_or_carry_unresolved
+  point_in_time_provenance: published_at_source_id_observation_id_source_sha256
+  input_bundle_sha256: canonical_hash_of_all_prediction_market_and_pit_values
+  model_input_valid: base_prediction_asset_valid_and_finite_outputs
+  decision_market_valid: exact_raw_close_and_all_causal_market_features
+  planned_contract_valid: nominal_calendar_14d_conservative_proxy
+  strategy_eligible: model_input_valid_and_decision_market_valid_and_planned_contract_valid
+  invalid_cross_section: exclude_before_rank_demean_normalize_or_state_transition
+  invalid_stateful_position: carry_only_locked_factual_contracts_no_target_or_order_intent
+  raw_close: exact_active_contract_18_40_to_18_50_msk_bar_no_stale_fallback
+  signal_chain: causal_forward_additive_economic_asset_chain_across_rolls_no_reset
+  daily_price_features: raw_10m_derived_ohlc_atr20_momentum20_daily_vol20_range20_no_panel_fallback
+  final_daily_panel: qa_only_never_strategy_input_or_mask_or_hash
+  intraday_ratio_coverage: current_and_prior20_each_at_least_48_of_53_scheduled_buckets
+  intraday_raw_end_rule: raw_end_at_lte_scheduled_close_lte_decision
+  nominal_span_rule: calendar_14d_conservative_proxy_not_exact_five_session_proof
+  evaluation_exit_observable: separate_d_i_to_d_i_plus_5_calendar_mask_never_strategy_input
+  missing_input: optional_none_never_impute
+  entry_execution: futures-v8-completed-window-pov-v2
+  future_entry_selection: forbidden
+  protected_holdout_start: 2026-01-01
+  protected_holdout_access: forbidden_before_all_fixed_development_gates_pass
+
+portfolio_handoff:
+  maximum_gross_exposure: 1.0
+  leverage_above_one: false
+  holding_sleeve_count: 5
+  sleeve_weight: 0.20
+  minimum_trade_delta_contracts: 1
+  integer_contract_rounding: truncate_toward_zero_after_allocation
+  participation_maximum_bps: 100
+  execution_price: adverse_high_for_buy_low_for_sell_of_factual_window
+  no_fill_or_incomplete_window: carry_and_record_not_hindsight_cash_filter
+  stateful_identity: candidate_sleeve_asset_contract_order_execution_evidence
+  state_advance: factual_full_fill_only
+  partial_fill: retain_exposure_and_mark_carry_unresolved
+
+typed_boundaries:
+  sleeve_schedule: HoldingSleeveSchedule
+  primary_execution: CandidateExecutionEvidence
+  scheduled_execution_pair: ScheduledCandidateExecution
+  corridor_exit_intent: CorridorExitIntent
+  corridor_exit_outcome: CandidateExitExecutionEvidence
+  breakout_signal_intent: BreakoutAssetIntent
+  breakout_unresolved_fill: BreakoutUnresolvedExecution
+  breakout_locked_position: BreakoutLockedPosition
+  direct_price_or_quantity_injection: forbidden
+
+candidates:
+  - id: volatility_corridor_harvest
+    family: stateful_intraday_range_harvest
+    thesis: volatile_range_mean_reversion_with_near_profit_and_distant_fixed_stop
+    inputs: [v8_predictions, d_known_daily, factual_later_10m]
+    volatility_ratio_minimum: 1.15
+    lower_range_position_maximum: 0.20
+    upper_range_position_minimum: 0.80
+    residual_score_minimum: 0.15
+    crash_probability_maximum: 0.35
+    maximum_assets: 2
+    take_profit_atr: 0.80
+    stop_loss_atr: 2.80
+    bracket_reference: atr_20_known_at_decision
+    bracket_activation: only_after_factual_v8_entry_fill
+    entry_api: linked_candidate_decision_plus_scheduled_execution_evidence_only
+    monitor: chronological_factual_10m_bars_after_entry
+    missing_expected_monitor_bar: carry_unresolved
+    maximum_holding: scheduled_fifth_common_session_execution_window
+    no_touch_scheduled_exit: adverse_low_for_long_high_for_short_of_exact_exit_window
+    missing_scheduled_exit_window: carry_unresolved_no_synthetic_price
+    same_bar_take_profit_and_stop: adverse_stop_first
+    stop_gap_fill: worse_of_bar_open_and_predeclared_stop
+    trigger_result: exit_intent_only
+    closed_state: factual_capacity_bounded_exit_evidence_only
+    exit_participation_maximum_bps: 100
+
+  - id: concentrated_residual_dispersion
+    family: cross_asset_residual
+    thesis: concentrate_on_one_strongest_long_and_one_strongest_short_residual
+    inputs: [v8_predictions, d_known_daily]
+    leg_count_each_side: 1
+    score_spread_minimum: 0.45
+    absolute_score_minimum: 0.20
+    abstain_probability_maximum: 0.50
+    long_gross: 0.50
+    short_gross: 0.50
+
+  - id: breakout_pyramiding_trailing_stop
+    family: stateful_trend
+    thesis: add_only_after_repeated_confirmed_breakout_and_exit_on_causal_atr_trail
+    inputs: [v8_predictions, d_known_daily, d_known_completed_10m]
+    trend_probability_minimum: 0.50
+    residual_score_minimum: 0.25
+    volatility_ratio_minimum: 1.10
+    breakout_long_range_position_minimum: 1.0
+    breakout_short_range_position_maximum: 0.0
+    pyramid_levels: 3
+    pyramid_level_fractions: [0.3333333333333333, 0.6666666666666666, 1.0]
+    pyramid_fraction_scope: aggregate_candidate_gross_after_cross_asset_base_allocation
+    level_advance: only_after_factual_full_fill_no_carry
+    partial_or_zero_fill: keep_prior_level_and_mark_unresolved
+    opposite_signal_with_open_state: exit_first_reversal_entry_only_after_full_exit
+    trailing_stop_atr: 2.00
+    trailing_extreme: monotone_max_for_long_min_for_short
+
+  - id: regime_switch_trend_reversion
+    family: regime_switch
+    thesis: trend_follow_in_trend_expert_and_range_fade_in_normal_expert
+    inputs: [v8_predictions, d_known_daily]
+    trend_probability_minimum: 0.55
+    normal_probability_minimum: 0.55
+    residual_score_minimum: 0.15
+    lower_range_position_maximum: 0.20
+    upper_range_position_minimum: 0.80
+    allocation: inverse_ex_ante_daily_volatility_then_gross_normalize
+
+  - id: crash_expert_convex_defense
+    family: crash_defense
+    thesis: reverse_common_factor_and_increase_defense_as_crash_probability_rises
+    inputs: [v8_predictions, d_known_daily]
+    crash_probability_minimum: 0.40
+    factor_score_minimum: 0.20
+    exposure_ramp: linear_from_zero_at_0_40_to_one_at_1_00
+    direction: opposite_sign_of_cross_asset_mean_factor_score
+    allocation: inverse_ex_ante_daily_volatility
+    options_or_synthetic_convexity_claim: false
+
+  - id: carry_momentum_confirmation
+    family: carry_trend
+    thesis: require_carry_momentum_and_model_residual_to_agree
+    inputs: [v8_predictions, d_known_daily, carry]
+    carry_z_minimum: 0.40
+    momentum_20_minimum_in_direction: 0.01
+    residual_score_minimum_in_direction: 0.15
+    allocation: absolute_carry_z_over_ex_ante_daily_volatility
+
+  - id: cftc_crowded_unwind
+    family: positioning_reversal
+    thesis: fade_extreme_positioning_only_after_price_reversal_against_crowd
+    inputs: [v8_predictions, d_known_daily, point_in_time_cftc]
+    cftc_crowd_z_minimum: 1.50
+    reversal_momentum_minimum: 0.005
+    direction: opposite_sign_of_crowd
+    missing_cftc: cash
+    allocation: absolute_crowd_z_over_ex_ante_daily_volatility
+
+  - id: macro_shock_rotation
+    family: macro_event
+    thesis: rotate_across_moex_futures_on_point_in_time_rate_and_fx_shocks
+    inputs: [v8_predictions, d_known_daily, point_in_time_cbr]
+    rate_shock_z_minimum: 1.50
+    fx_shock_z_minimum: 1.50
+    rate_sensitivities: {RI: -1.0, MIX: -1.0, SI: 0.35, BR: 0.0}
+    fx_sensitivities: {SI: 1.0, BR: 0.50, RI: -0.50, MIX: -0.35}
+    missing_macro_channel: zero_contribution
+    allocation: summed_shock_sensitivity_over_ex_ante_daily_volatility
+
+  - id: confidence_concentration
+    family: uncertainty_concentration
+    thesis: deploy_full_gross_only_to_highest_residual_signal_to_noise_asset
+    inputs: [v8_predictions, d_known_daily]
+    residual_snr_minimum: 1.75
+    abstain_probability_maximum: 0.25
+    maximum_assets: 1
+    score: residual_location_divided_by_total_scale
+    auxiliary_direction_logit_used_as_return: false
+
+  - id: volatility_expansion_breakout
+    family: volume_volatility_breakout
+    thesis: trade_breakout_only_with_joint_volatility_volume_and_model_confirmation
+    inputs: [v8_predictions, d_known_daily, d_known_completed_10m]
+    volatility_ratio_minimum: 1.50
+    volume_ratio_minimum: 1.30
+    residual_score_minimum: 0.20
+    breakout_long_range_position_minimum: 1.0
+    breakout_short_range_position_maximum: 0.0
+    maximum_assets: 2
+    allocation: equal_weight_selected_then_gross_normalize
+
+multiple_testing_control:
+  candidate_family_size: 10
+  all_candidates_predeclared_before_new_pnl: true
+  post_pnl_parameter_or_candidate_edit: forbidden
+  same_trained_predictions_for_every_candidate: true
+  same_full_evaluation_bundle_for_every_candidate: true
+  annual_and_gate_worst_year_must_match_exactly: true
+  scenario_selection: false
+  development_years: [2021, 2022, 2023, 2024, 2025]
+  ranking:
+    - median_yearly_sharpe_descending
+    - worst_calendar_year_return_descending
+    - candidate_id_ascending_tiebreak
+  hard_gates:
+    positive_calendar_year_count_minimum: 4
+    primary_net_cagr_minimum: 0.08
+    primary_sharpe_minimum: 0.50
+    primary_max_drawdown_maximum: 0.25
+    worst_calendar_year_return_minimum: -0.10
+    doubled_cost_cagr_strictly_positive: true
+    critical_execution_failure_count: 0
+    maximum_participation_bps: 100
+    unknown_capacity_count: 0
+    unresolved_positions_at_terminal: 0
+  multiplicity_interpretation: finite_predeclared_family_plus_hurdle_gates_not_a_p_value_claim
+  fifty_percent_cagr:
+    threshold: 0.50
+    report_only: true
+    used_for_ranking: false
+    used_for_holdout_access: false
+  protected_holdout_access: locked_until_all_fixed_development_gates_pass

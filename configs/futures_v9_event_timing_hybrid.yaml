@@ -1,0 +1,87 @@
+protocol: futures_v9_event_timing_hybrid
+protocol_version: 1
+sealed_before_joint_outcomes_or_pnl: true
+development_cutoff: "2025-12-31T23:59:59+03:00"
+holdout_2026_access: forbidden
+
+frozen_inputs:
+  event_config_sha256: 91f61abea2e4ca53179c9d5d085cbe98a8b6b863404050af547873c49cca7330
+  event_run_manifest_sha256: dc2be61119332af65f38b369f4dba89619fce29586db2f445bf48b5f0934191c
+  event_run: runs/event_alpha_v1/development_20260818T155959Z_91f61abe
+  timing_tensor_sha256: 7bf3397864e44a13fa2ce841c206ed3c33974439e32bd439625b40df12014b21
+  timing_v1_protocol_sha256: fd6ee70086bc7056ca60c73a91490362aae37c4caf053091cc73e2e0924159cf
+  timing_v1_predictions_sha256: 3c7b4e50aff3b49d34b146b9ca89b3b7518e7317da466b80b03795bf58ece32a
+  timing_v2_protocol_sha256: 4268723dbeca5408592399b680af36216f8f70cd7ca6439811d706e7977d3dcc
+  timing_v2_predictions_sha256: 3bd145406906376e4ec1067686d83eb67c175dee525b1aa80d9efbbce38be129
+  mutation_of_frozen_inputs: forbidden
+
+event_families:
+  all_macro: {direction_horizon: 5d}
+  cbr_usd_rub_tail: {direction_horizon: 5d}
+  cbr_key_rate_change: {direction_horizon: 1d}
+  evaluation: separately_and_combined_union
+  combined_tie_priority: [cbr_key_rate_change, cbr_usd_rub_tail, all_macro]
+  duplicate_canonical_event_asset: keep_highest_priority_only
+
+availability:
+  event_direction: exact_frozen_oos_direction_only
+  event_time: frozen_point_in_time_available_at
+  require_event_available_before_decision_bar_close: true
+  missing_or_unprovable_timestamp_or_direction: skip
+  outer_years: [2021, 2022, 2023, 2024, 2025]
+
+execution:
+  decision_clock: completed_10m_bar
+  baseline_entry: first_eligible_decision_at_or_after_event_availability
+  timed_entry: first_score_pass_among_first_6_eligible_decisions
+  no_score_pass: skip_without_fallback
+  entry_fill: {long: next_bar_high, short: next_bar_low}
+  require_exact_next_600_seconds: true
+  require_same_contract_at_entry: true
+  exit: adverse_bar_at_same_moscow_clock_slot_on_fifth_subsequent_asset_session
+  exit_fill: {long: bar_low, short: bar_high}
+  require_same_contract_entry_to_exit: true
+  missing_entry_or_exit: skip_unresolved
+  maximum_one_trade_per_event_asset: true
+  overlapping_asset_holding_intervals: block_later_event
+  factual_next_bar_volume_participation_cap: 0.01
+  integer_contracts: true
+  initial_capital_rub: 10000000
+  maximum_asset_gross: 0.25
+  maximum_portfolio_gross: 1.0
+
+timing_modes:
+  v1_attention_tail_q90:
+    frozen_variant: attention
+    score: maximum_same_direction_calibrated_mean_divided_by_its_uncertainty
+    threshold: prior_120_calendar_day_score_quantile_0.90
+    threshold_labels_or_returns: forbidden
+    minimum_prior_rows: 1000
+    require_calibrated_mean_positive: true
+  v1_independent_tail_q90:
+    frozen_variant: independent
+    score: maximum_same_direction_calibrated_mean_divided_by_its_uncertainty
+    threshold: prior_120_calendar_day_score_quantile_0.90
+    threshold_labels_or_returns: forbidden
+    minimum_prior_rows: 1000
+    require_calibrated_mean_positive: true
+  v2_attention_frozen_gate:
+    frozen_variant: attention
+    threshold: exact_frozen_train_only_gate_boolean
+  v2_independent_frozen_gate:
+    frozen_variant: independent
+    threshold: exact_frozen_train_only_gate_boolean
+  missing_prior_threshold_or_timing_coverage: skip_without_fallback
+
+costs:
+  commission: exact_point_in_time_spec_proxy_per_side
+  stress_multipliers: [1.0, 2.0]
+  adverse_fill_is_additional_to_commission: true
+
+paired_reporting:
+  unit: executable_baseline_event_asset
+  timed_skip_pnl: 0.0
+  incremental_pnl: timed_pnl_or_zero_minus_baseline_pnl
+  required: [baseline_and_timed_trades, entry_delay_bars, basis_points_per_trade, cagr, sharpe, maximum_drawdown, per_year, hit_rate, cost_2x, paired_increment]
+  family_and_combined_breakdowns: true
+  timing_modes_reported_without_cherry_pick: true

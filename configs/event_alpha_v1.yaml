@@ -1,0 +1,158 @@
+﻿version: 1
+experiment_id: event-alpha-v1-radical-pivot
+sealed_before_return_analysis: true
+research_only: true
+development_start: 2018-01-01
+evaluation_start: 2021-01-01
+development_end: 2025-12-31
+protected_holdout_start: 2026-01-01
+forbid_2026_rows: true
+forbid_future_price_features: true
+forbid_price_or_label_access_in_text_extractor: true
+
+inputs:
+  cbr_panel:
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    manifest_path: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    manifest_sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+  cftc_panel:
+    path: data/processed/info_radar/cftc-dev-2018-2025-v1/processed/cftc_positions.parquet
+    sha256: fa83ee60008b75b38da8bd3bc0007cd014ae38da5870f5084133e0df3ebc1a23
+    manifest_path: data/processed/info_radar/cftc-dev-2018-2025-v1/manifest.json
+    manifest_sha256: 4962b1d4b19de268c7ae5497f09c199c04e3115dcb142ad52ad03c51bb8f5b3e
+  causal_daily_execution_panel:
+    path: data/processed/futures_v7/execution_open_8f161d0e902928ac.parquet
+    sha256: 8f161d0e902928ac81c7d80bc2083950b0c17ac3fa22ac06c047fe61a3dbb9d7
+    manifest_path: data/processed/futures_v7/manifest_c41c641ef1d54d1e.json
+    manifest_sha256: 4c75ac0df3c06b45ec4ac210f0126488d1796c4ddd6ec72e3bdeeea14aa99dad
+
+event_families:
+  cbr_key_rate_change:
+    series_id: key_rate
+    rule: emit_only_on_consecutive_level_change
+    assets: [SI, MIX]
+    minimum_prior_releases: 8
+  cbr_ruonia_tail:
+    series_id: ruonia
+    rule: absolute_expanding_prior_only_innovation_z_at_least_threshold
+    threshold: 2.0
+    assets: [SI, MIX]
+    minimum_prior_releases: 60
+  cbr_usd_rub_tail:
+    series_id: usd_rub_official
+    rule: absolute_expanding_prior_only_log_return_z_at_least_threshold
+    threshold: 2.0
+    assets: [SI]
+    minimum_prior_releases: 60
+  cftc_energy_tail:
+    markets: [brent, wti]
+    categories: [managed_money]
+    aggregation: equal_mean_same_report_date
+    asset: BR
+    threshold: 1.0
+    minimum_prior_releases: 26
+  cftc_equity_risk_tail:
+    markets: [emini_sp500, emini_nasdaq100]
+    categories: [asset_manager]
+    aggregation: equal_mean_same_report_date
+    asset: MIX
+    threshold: 1.0
+    minimum_prior_releases: 26
+  cftc_usd_tail:
+    markets: [usd_index]
+    categories: [leveraged_money]
+    aggregation: single_series
+    asset: SI
+    threshold: 1.0
+    minimum_prior_releases: 26
+
+corporate_reporting:
+  requested: true
+  status: sleeping_legal_and_pit_blocker
+  eligible_issuers: []
+  reason: >-
+    No local real issuer document set has exact publication time, revision chain,
+    page evidence, and confirmed automated-use rights. Synthetic test fixtures are
+    forbidden from metrics. Interfax Gateway needs credentials/rights and Rosneft
+    IR bulk use needs written permission.
+  local_qwen_policy:
+    accepted_fields: [metric, value, unit, scale, accounting_standard, reporting_scope, page_evidence, text_fact]
+    forbidden_fields: [price, prices, return, returns, target, targets, label, labels, pnl]
+    require_page_evidence: true
+    permitted_role: facts_only_never_market_labels
+
+features:
+  common_numeric:
+    - innovation_z
+    - innovation_raw
+    - level
+    - prior_innovation_raw
+    - direction
+    - absolute_innovation_z
+    - prior_asset_momentum_20
+    - prior_asset_volatility_20
+  categorical: [event_family, asset]
+  no_imputation: true
+  expanding_z_ddof: 0
+  expanding_z_uses_current_observation: false
+  winsorization: none
+  price_context_rule: only_exact_same_contract_raw_daily_opens_strictly_before_event_availability
+  expanding_standardization: train_fold_only
+
+targets:
+  entry: first_exact_active_raw_open_strictly_after_event_availability
+  horizons:
+    - id: next_executable_30m
+      kind: minutes
+      value: 30
+      status: conditional
+      requirement: physically_isolated_pre_2026_exact_10m_bars_same_contract
+    - id: next_1_session
+      kind: sessions
+      value: 1
+      status: active
+    - id: next_5_sessions
+      kind: sessions
+      value: 5
+      status: active
+  response: log_same_contract_raw_open_exit_over_entry
+  missing_or_contract_roll_boundary: sleeping_no_trade
+
+validation:
+  scheme: purged_event_time_expanding_year
+  evaluation_years: [2021, 2022, 2023, 2024, 2025]
+  train_starts: 2018-01-01
+  purge_rule: training_exit_time_strictly_before_test_year_start
+  duplicate_key: [event_id, asset]
+  minimum_train_events: 60
+  no_hyperparameter_search: true
+
+model:
+  kind: ridge_regression
+  alpha: 10.0
+  fit_intercept: true
+  random_component: false
+  shared_across_event_families: true
+  confidence_rule: absolute_prediction_at_or_above_train_prediction_quantile
+  confidence_quantile: 0.75
+  confidence_quantile_method: linear
+  minimum_edge_multiple_of_round_trip_cost: 1.25
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  allocation_per_trade: 0.20
+  maximum_concurrent_gross: 1.0
+  same_asset_overlap: reject_new_event_until_exit
+  same_timestamp_same_asset: keep_highest_absolute_prediction_then_event_id
+  round_trip_cost_bps: 10.0
+  daily_ledger: realize_net_return_on_exit_date_and_zero_elsewhere
+  selection_uses_oos_only: true
+
+outputs:
+  root: runs/event_alpha_v1
+  persist_event_dataset: true
+  persist_oos_predictions: true
+  persist_trade_ledger: true
+  report_metrics: [event_count, coverage, net_costs, cagr, sharpe, maximum_drawdown, hit_rate, worst_year, fold_metrics]
+  decision_rule: exploratory_challenger_no_production_claim

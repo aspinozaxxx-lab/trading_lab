@@ -1,0 +1,78 @@
+﻿protocol_id: futures_v9_structural_execution_proxy_v1
+status: sealed_before_execution_pnl
+sealed_at_utc: "2026-08-18T20:25:00Z"
+research_only: true
+broker_exact: false
+historical_exchange_exact: false
+canonical:
+  run: runs/futures_v9_structural/structural_c86d4852729d4c8a
+  config_sha256: c9aa50d3ea3f16e0aa8d729aef238b2d316e249c8277d39f573046880ea3ef68
+  source_manifest_sha256: b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68
+  history_sha256: dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31
+  panel_sha256: 71b4f509585416c9f8001234d53c5f12f959e74f2cd15226a1547e9611064ec5
+  raw_source_archive:
+    path: data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz
+    sha256: c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20
+  selected_strategies:
+    - tsmom_6m
+    - tsmom_multi
+    - risk_adjusted_momentum
+dates:
+  development_start: "2021-01-01"
+  development_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+signal_and_contract_plan:
+  weights: exact_frozen_weekly_canonical_formula
+  weight_decision: last_available_canonical_session_close_each_week
+  weight_between_rebalances: forward_fill
+  contract_decision: canonical_active_contract_at_each_completed_close
+  execution_base: next_canonical_factual_session_open
+  execution_delay_stress: second_canonical_factual_session_open
+  no_open: no_trade_and_explicit_rejection
+capital_and_sizing:
+  initial_cash_rub: 1000000.0
+  sizing_capital: fixed_initial_cash
+  integer_rule: truncate_toward_zero_target_weight_times_capital_over_open_notional
+  gross_notional_cap_multiple: 1.0
+  cap_test: post_trade_using_factual_open_and_lagged_point_value_proxy
+  risk_reducing_orders_first: true
+  risk_increasing_order: lexical_asset_code
+point_value_proxy:
+  realized_primary: VALUE/(VOLUME*WAPRICE)
+  realized_fallback: OPENPOSITIONVALUE/(OPENPOSITION*SETTLEPRICE)
+  sizing: immediately_previous_factual_global_session_same_contract_realized_proxy
+  previous_session_gap_required: 1
+  sensitivity_lower: min_primary_fallback_when_both_else_selected_proxy
+  sensitivity_upper: max_primary_fallback_when_both_else_selected_proxy
+  exact_limitation: factual_formula_proxy_not_historical_contract_spec
+liquidity:
+  lagged_volume: immediately_previous_factual_global_session_same_contract_VOLUME
+  maximum_participation: 0.01
+  same_contract_resize: fill_toward_target_up_to_floor_lagged_volume_times_0.01
+  roll: atomic_full_old_exit_and_capacity_bounded_new_entry_or_reject_entire_roll
+  unfilled_remainder: remains_pending_until_next_daily_contract_plan
+accounting:
+  mark: factual_settlement_variation_margin_proxy
+  split_when_open_available: prior_settle_to_open_plus_open_to_current_settle
+  held_missing_open: factual_settle_to_settle_bridge_flagged_incomplete
+  missing_settle_or_point_value: unresolved_no_zero_imputation
+  canonical_missing_return_dates_must_be_flagged: true
+  expected_canonical_missing_return_sessions: 7
+  collateral_yield: 0.0
+cost_scenarios_one_way_bps:
+  ordinary: 5.0
+  doubled: 10.0
+  stress: 20.0
+  application: absolute_traded_factual_open_notional
+  limitation: scenario_interval_not_historical_broker_fee
+initial_margin:
+  modeled_rate_of_lagged_notional: 0.25
+  required_buffer_multiple: 2.0
+  binding: false
+  limitation: diagnostic_only_not_historical_exchange_initial_margin
+terminal_policy: carry
+promotion_rule:
+  required: positive_cagr_in_ordinary_doubled_stress_and_delay_ordinary
+  execution_complete_required: false
+  unresolved_rows_must_be_reported: true
+  live_promotion_allowed: false

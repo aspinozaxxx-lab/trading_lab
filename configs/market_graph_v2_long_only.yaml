@@ -1,0 +1,92 @@
+protocol_name: market-graph-v2-long-only-relative-momentum
+protocol_version: 1
+research_status: post_ic_exploratory_no_selection_claim_no_2026_no_live_trading
+
+objective:
+  hypothesis: >-
+    The already predeclared relative-momentum score may be economically useful on the
+    long side, while the failed v1 long-short implementation was destroyed by the
+    sealed 20% annual stock short-borrow charge.
+  score_training_or_modification_allowed: false
+  candidate_selection_claim_allowed: false
+  result_required: true
+
+sealed_inputs:
+  score_path: runs/market_graph_v1_20260818T164732Z/oos_predictions.parquet
+  score_sha256: 351c33c0c04696b48e57a60ba4f3f4cd6f0c149a5e464dcf708b3addcf6a2b6c
+  score_column: relative_momentum_score
+  score_definition: equal_blend_within_date_ranks_return_20_60_120
+  source_v1_manifest_path: runs/market_graph_v1_20260818T164732Z/manifest.json
+  source_v1_manifest_sha256: ca02ae86cbe1ffafdb33ab89edffda3b7265d5e6b3a14811f3b4c47272ea3d36
+  execution_panel_path: data/processed/daily_v4/development_panel.parquet
+  execution_panel_sha256: a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe
+  minimum_oos_date: 2021-01-04
+  maximum_date: 2025-12-30
+  protected_2026_read_allowed: false
+
+timing:
+  decision: after_factual_daily_signal_time
+  entry: next_factual_asset_open
+  holding_common_sessions: 5
+  sleeves: 5
+  rebalance: one_sleeve_each_common_session
+  missing_entry: cash_no_delayed_entry
+  missing_exit_or_rebalance: retain_until_first_factual_open
+  terminal_unobservable_position: purge_to_cash
+
+candidates:
+  - name: relative_momentum_long_top5_keep10
+    source: sealed_relative_momentum_score
+    direction: long_only
+    selection: top_5_equal_weight
+    rank_hysteresis_keep_through_rank: 10
+    maximum_single_stock_absolute_weight: 0.20
+    total_gross_limit: 1.00
+  - name: relative_momentum_long_top10_keep15
+    source: sealed_relative_momentum_score
+    direction: long_only
+    selection: top_10_equal_weight
+    rank_hysteresis_keep_through_rank: 15
+    maximum_single_stock_absolute_weight: 0.10
+    total_gross_limit: 1.00
+  - name: passive_all_valid_equal_weight
+    source: no_score
+    direction: long_only
+    selection: all_currently_valid_equal_weight
+    rank_hysteresis_keep_through_rank: null
+    maximum_single_stock_absolute_weight: 0.20
+    total_gross_limit: 1.00
+
+execution:
+  initial_capital_rub: 1000000
+  one_way_commission_bps: 5.0
+  one_way_slippage_bps: 2.0
+  stress_cost_multiplier: 2.0
+  short_borrow_rate_annual: 0.0
+  quantity_model: fractional_research_shares
+  order_netting: across_five_sleeves_at_same_open
+  gross_and_stock_caps: strict_after_cost_fixed_point
+
+reporting:
+  metrics:
+    - net_cagr
+    - net_sharpe
+    - maximum_drawdown
+    - worst_year
+    - yearly_returns
+    - turnover
+    - trading_cost
+    - passive_beta
+    - passive_correlation
+    - excess_cagr_vs_passive
+    - yearly_excess_vs_passive
+    - average_holdings
+    - maximum_stock_weight
+    - concentration_hhi
+  beta_definition: covariance_daily_net_returns_over_variance_passive_daily_net_returns
+  correlation_definition: pearson_daily_net_returns
+  excess_cagr_definition: candidate_net_cagr_minus_passive_net_cagr
+  reject_if:
+    - net_cagr_not_positive
+    - passive_beta_at_least_0_80_and_excess_cagr_not_positive
+  publish_all_candidates_and_both_cost_levels: true

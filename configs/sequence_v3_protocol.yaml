@@ -1,0 +1,179 @@
+﻿protocol_name: sequence-v3-daily-residual
+frozen_at_utc: '2026-08-17T20:30:39.0693167Z'
+evaluation_status: post_diagnostic_asset_transfer
+
+purpose:
+  target_cagr: 0.50
+  guarantee: false
+  live_trading_allowed: false
+
+data:
+  start: 2018-01-01
+  development_end: 2026-08-16
+  point_in_time_membership_date: 2024-12-30
+  development:
+    - SBER
+    - GAZP
+    - LKOH
+    - NVTK
+    - ROSN
+    - TATN
+    - MOEX
+    - VTBR
+    - CHMF
+    - PHOR
+    - RUAL
+    - ALRS
+    - MAGN
+    - NLMK
+    - SNGS
+    - MGNT
+    - GMKN
+    - PLZL
+    - SBERP
+    - TATNP
+    - AFKS
+    - AFLT
+    - BSPB
+    - CBOM
+    - ENPG
+    - IRAO
+    - MTSS
+    - RTKM
+    - SNGSP
+    - TRNFP
+  frozen_asset_holdout:
+    - ASTR
+    - FEES
+    - FLOT
+    - HEAD
+    - HYDR
+    - LEAS
+    - MSNG
+    - MTLR
+    - MTLRP
+    - PIKK
+    - POSI
+    - SELG
+    - SMLT
+    - SVCB
+    - T
+    - UGLD
+    - UPRO
+    - VKCO
+    - YDEX
+  mature_holdout:
+    - FEES
+    - FLOT
+    - HYDR
+    - MSNG
+    - MTLR
+    - MTLRP
+    - PIKK
+    - POSI
+    - SELG
+    - SMLT
+    - T
+    - UPRO
+    - VKCO
+  recent_listing_holdout:
+    - ASTR
+    - HEAD
+    - LEAS
+    - SVCB
+    - UGLD
+    - YDEX
+
+target:
+  holding_sessions: 5
+  entry: next_main_session_open
+  exit: first_real_open_at_or_after_five_sessions
+  kind: rolling_beta_market_residual_open_to_open
+  benchmark: IMOEX
+  beta_window_sessions: 60
+
+features:
+  price_and_liquidity: true
+  cross_sectional_breadth_and_dispersion: true
+  context:
+    - IMOEX
+    - RVI
+    - RGBI
+    - CNYRUB_TOM
+  news: false
+  ticker_embedding: false
+
+model:
+  family: causal_multi_resolution_tcn
+  daily_sequence_sessions: 128
+  intraday_context_sessions: 5
+  seeds:
+    - 11
+    - 23
+    - 42
+    - 71
+    - 101
+  ensemble: arithmetic_mean_without_seed_selection
+  primary_loss: cross_sectional_residual_ranking
+
+portfolio:
+  staggered_sleeves: 5
+  stock_gross_leverage: 1.0
+  long_top_k: 3
+  long_keep_rank: 6
+  maximum_stock_weight: 0.40
+  maximum_sector_weight: 0.50
+  volatility_target_annual: 0.12
+  beta_target_range:
+    - -0.10
+    - 0.10
+  diagnostic_long_short: true
+  commission_bps: 5.0
+  slippage_bps: 2.0
+  missing_exit_policy: carry_to_first_real_open
+
+development_folds:
+  - train: 2018-2020
+    inner: 2021
+    outer: 2022
+  - train: 2018-2021
+    inner: 2022
+    outer: 2023
+  - train: 2018-2022
+    inner: 2023
+    outer: 2024
+  - train: 2018-2023
+    inner: 2024
+    outer: 2025
+
+pre_holdout_gates:
+  minimum_mean_rank_ic: 0.03
+  minimum_positive_ic_folds: 3
+  fold_count: 4
+  minimum_aggregate_net_sharpe: 1.0
+  minimum_median_fold_sharpe: 0.8
+  minimum_worst_fold_sharpe: -0.25
+  maximum_drawdown: 0.20
+  require_positive_double_cost_return: true
+  require_positive_delayed_entry_return: true
+  maximum_participation_of_lagged_value: 0.01
+  require_zero_synthetic_executions: true
+
+holdout_gates:
+  minimum_mature_rank_ic: 0.02
+  minimum_net_sharpe: 0.75
+  maximum_drawdown: 0.20
+  require_positive_net_cagr: true
+  require_positive_double_cost_return: true
+  require_zero_synthetic_executions: true
+
+stretch_gate:
+  minimum_core_cagr: 0.50
+  minimum_sharpe: 1.50
+  maximum_drawdown: 0.25
+  require_positive_double_cost_return: true
+
+holdout_access_rule: >-
+  Download and return access is forbidden until the exact feature pipeline, model
+  ensemble, portfolio rule, development results and their hashes are sealed. After
+  that seal, one evaluation of the frozen asset holdout is allowed.

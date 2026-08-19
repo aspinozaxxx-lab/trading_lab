@@ -1,0 +1,135 @@
+﻿paths:
+  root: ..
+  raw_data_dir: data/raw
+  processed_data_dir: data/processed
+  runs_dir: runs
+
+universe:
+  development:
+    - SBER
+    - GAZP
+    - LKOH
+    - NVTK
+    - ROSN
+    - TATN
+    - MOEX
+    - VTBR
+    - CHMF
+    - PHOR
+    - RUAL
+    - ALRS
+    - MAGN
+    - NLMK
+    - SNGS
+    - MGNT
+    - GMKN
+    - PLZL
+    - SBERP
+    - TATNP
+    - AFKS
+    - AFLT
+    - BSPB
+    - CBOM
+    - ENPG
+    - IRAO
+    - MTSS
+    - RTKM
+    - SNGSP
+    - TRNFP
+  mature_holdout:
+    - FEES
+    - FLOT
+    - HYDR
+    - MSNG
+    - MTLR
+    - MTLRP
+    - PIKK
+    - POSI
+    - SELG
+    - SMLT
+    - T
+    - UPRO
+    - VKCO
+  recent_holdout:
+    - ASTR
+    - HEAD
+    - LEAS
+    - SVCB
+    - UGLD
+    - YDEX
+  board: TQBR
+
+protocol:
+  data_start: 2018-01-01
+  development_end: 2026-08-16
+  sequence_length: 128
+  horizon_sessions: 5
+  embargo_sessions: 5
+  beta_window_sessions: 60
+  beta_min_periods: 20
+  folds:
+    - train_end: 2020-12-31
+      inner_start: 2021-01-01
+      inner_end: 2021-12-31
+      outer_start: 2022-01-01
+      outer_end: 2022-12-31
+    - train_end: 2021-12-31
+      inner_start: 2022-01-01
+      inner_end: 2022-12-31
+      outer_start: 2023-01-01
+      outer_end: 2023-12-31
+    - train_end: 2022-12-31
+      inner_start: 2023-01-01
+      inner_end: 2023-12-31
+      outer_start: 2024-01-01
+      outer_end: 2024-12-31
+    - train_end: 2023-12-31
+      inner_start: 2024-01-01
+      inner_end: 2024-12-31
+      outer_start: 2025-01-01
+      outer_end: 2025-12-31
+
+model:
+  network:
+    channels: 192
+    blocks: 6
+    kernel_size: 3
+    dropout: 0.10
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+    batch_size: 1024
+    epochs: 20
+    patience: 4
+    classification_weight: 0.10
+    ranking_weight: 1.0
+    ranking_temperature: 0.50
+    gradient_clip: 1.0
+    workers: 8
+    precision: bf16
+    target_mode: absolute
+  seeds:
+    - 11
+    - 23
+    - 42
+    - 71
+    - 101
+
+portfolio:
+  initial_capital: 1000000.0
+  commission_bps: 5.0
+  slippage_bps: 2.0
+  short_borrow_rate_annual: 0.20
+  stock_gross_leverage: 1.0
+  top_k: 3
+  keep_rank: 6
+  minimum_score_bps: 0.0
+  staggered_sleeves: 5
+
+gates:
+  minimum_mean_rank_ic: 0.03
+  minimum_positive_ic_folds: 3
+  minimum_aggregate_sharpe: 1.0
+  minimum_median_fold_sharpe: 0.8
+  minimum_worst_fold_sharpe: -0.25
+  maximum_drawdown: 0.20
+  target_cagr: 0.50

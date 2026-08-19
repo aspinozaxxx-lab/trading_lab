@@ -1,0 +1,254 @@
+﻿protocol_name: futures-v8-validity-aware-evaluation-context
+protocol_version: 2
+research_status: fixed_before_candidate_pnl_target_free_no_2026
+
+dependencies:
+  base_protocol_path: configs/futures_v8_development_protocol.yaml
+  base_protocol_sha256: e0175b0e02d5a304d90f33f61bd77ed5649005e91e6af50662d4545dc070035d
+  aggressive_implementation_path: src/market_lab/futures_v8/aggressive_strategies.py
+  aggressive_implementation_sha256: 99077eb0b3e9e4668dcf61990638cfcc9ee0e6d4d03cb76fbced5f6ab3fa50f6
+  base_predictions_path: runs/v8_20260818T111317Z_83135473/oos_predictions.parquet
+  base_predictions_sha256: ca7dae8d856e512a6b3e476662b73d7d7f4f87521f0c103606b147f117acd437
+  regime_enrichment_manifest_path: runs/v8_20260818T111317Z_83135473_enrichment_regime_v2/enrichment_manifest.json
+  regime_enrichment_manifest_sha256: 3de404989d18d04e668e5880871b1aa98b74b756a6f72e62553961e4358e2727
+  regime_enrichment_path: runs/v8_20260818T111317Z_83135473_enrichment_regime_v2/regime_abstain_ensemble.parquet
+  regime_enrichment_sha256: 4fd847f49f837516e637c81c81d17344ccf3ff781c808d1318da7ce17f40c14a
+  adjusted_daily_chain_path: data/processed/futures_v5/development_panel_2018_2025.parquet
+  adjusted_daily_chain_sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+  v8_assembly_manifest_path: data/processed/futures_v8/manifest_8c26216529a9b73b.json
+  v8_assembly_manifest_sha256: 02eb71d810c683a19a2311d3fc73db97fd3eaf5b6a777cb96b5ba1a365b845fa
+  v8_assembly_path: data/processed/futures_v8/assembly_dc02a013ac5d7e6f.npz
+  v8_assembly_sha256: dc02a013ac5d7e6fe21bde3256732e86bfa977d44516cdeaa96a8239fc58b139
+  checkpoint_identities_path: runs/v8_20260818T111317Z_83135473/checkpoint_identities.json
+  checkpoint_identities_sha256: bc21d48852bee9ebe5c212aa301634b95c29880d54d25423566ee9892b582139
+  active_contract_map_path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+  active_contract_map_sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+  main_session_10m_manifest_path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+  main_session_10m_manifest_sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+  cbr_manifest_path: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+  cbr_manifest_sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+  cbr_dataset_path: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+  cbr_dataset_sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+  cftc_manifest_path: data/processed/info_radar/cftc-dev-2018-2025-v1/manifest.json
+  cftc_manifest_sha256: 4962b1d4b19de268c7ae5497f09c199c04e3115dcb142ad52ad03c51bb8f5b3e
+  cftc_dataset_path: data/processed/info_radar/cftc-dev-2018-2025-v1/processed/cftc_positions.parquet
+  cftc_dataset_sha256: fa83ee60008b75b38da8bd3bc0007cd014ae38da5870f5084133e0df3ebc1a23
+  protected_holdout_start: 2026-01-01
+
+decision:
+  timezone: Europe/Moscow
+  local_time: '18:50:00'
+  assets: [BR, MIX, RI, SI]
+  exact_four_rows_required: true
+  future_data_policy: reject_before_io
+
+market:
+  signal_price_basis: causal_raw_10m_forward_additive_adjusted_active_contract
+  signal_chain_scope: economic_asset_chain_across_rolls_no_reset
+  daily_source: verified_raw_10m_only
+  daily_session_interval: previous_d_18_50_exclusive_to_current_d_18_50_inclusive
+  daily_candle_cutoff: raw_end_at_lte_scheduled_close_lte_decision_at
+  active_contract_and_adjustment_as_of: known_at_lte_previous_decision_at
+  final_daily_panel_role: qa_only_never_numeric_fallback
+  final_daily_panel_qa_scope: published_2021_2025_context_rows_only
+  final_daily_panel_close_reconciliation: global_artifact_no_go_on_unexplained_mismatch
+  execution_reference_price_basis: raw_active_contract
+  close_formula: raw_close_of_exact_scheduled_18_40_to_18_50_msk_bar
+  close_bar_open_local_time: '18:40:00'
+  close_bar_close_local_time: '18:50:00'
+  close_fallback: forbidden
+  current_session_required: true
+  invalid_session_policy: optional_none_never_impute
+  atr20:
+    source: causal_raw_10m_derived_forward_additive_daily_ohlc
+    true_range_formula: max(high_d-low_d,abs(high_d-close_d_minus_1),abs(low_d-close_d_minus_1))
+    window: 20
+    include_current_session: true
+    population_or_sample: arithmetic_mean
+    chain_scope: causal_forward_additive_economic_asset_chain_across_rolls_no_reset
+    gap_policy: invalidate_until_full_consecutive_window
+  momentum20:
+    source: causal_raw_10m_derived_forward_additive_daily_close
+    formula: log_close_d_minus_log_close_d_minus_20
+    chain_scope: causal_forward_additive_economic_asset_chain_across_rolls_no_reset
+    gap_policy: invalidate_until_full_consecutive_window
+  daily_volatility20:
+    source: causal_raw_10m_derived_forward_additive_daily_close
+    formula: population_std_of_20_one_session_log_returns_ending_d
+    ddof: 0
+    chain_scope: causal_forward_additive_economic_asset_chain_across_rolls_no_reset
+    gap_policy: invalidate_until_full_consecutive_window
+    zero_policy: invalid
+  range_position20:
+    source: causal_raw_10m_derived_forward_additive_daily_ohlc
+    formula: (close_d-min_low_prior_20)/(max_high_prior_20-min_low_prior_20)
+    lookback_sessions: 20
+    current_session_in_range: false
+    clipping: none
+    zero_range_policy: invalid
+  volatility_ratio20:
+    input: d_known_completed_10m_raw_active_contract_main_session
+    main_session_scheduled_bucket_opens_msk: 10_00_through_18_40_inclusive_every_10m
+    expected_distinct_buckets: 53
+    minimum_distinct_completed_buckets: 48
+    completed_bucket_rule: raw_end_at_lte_scheduled_close_lte_decision
+    numerator: sqrt_sum_squared_log_close_to_previous_bar_close_within_current_session
+    first_bar_cross_session_return: excluded
+    denominator: arithmetic_mean_current_definition_rv_of_prior_20_factual_common_sessions
+    current_session_in_baseline: false
+    prior_session_coverage_rule: every_prior_session_at_least_48_of_53_completed_buckets
+    epsilon: none
+    zero_denominator_policy: invalid
+  volume_ratio20:
+    input: d_known_completed_10m_raw_active_contract_main_session
+    main_session_scheduled_bucket_opens_msk: 10_00_through_18_40_inclusive_every_10m
+    expected_distinct_buckets: 53
+    minimum_distinct_completed_buckets: 48
+    completed_bucket_rule: raw_end_at_lte_scheduled_close_lte_decision
+    numerator: sum_nonnegative_volume_of_current_completed_main_session_buckets
+    denominator: arithmetic_mean_same_definition_volume_of_prior_20_factual_common_sessions
+    current_session_in_baseline: false
+    prior_session_coverage_rule: every_prior_session_at_least_48_of_53_completed_buckets
+    zero_denominator_policy: invalid
+
+standardization:
+  formula: (current_value-mean_strictly_prior_history)/population_std_strictly_prior_history
+  ddof: 0
+  minimum_prior_observations: 60
+  clip_minimum: -5.0
+  clip_maximum: 5.0
+  zero_std_policy: missing
+  future_append_invariance_required: true
+  channels:
+    carry_z:
+      raw_source: sealed_v8_roll_yield
+      scope: per_asset
+      history_unit: decision_snapshot
+    cftc_crowd_z:
+      raw_source: sealed_v8_cftc_primary_score
+      scope: per_asset
+      history_unit: unique_composite_report_release_observation_id
+    key_rate_change_z:
+      raw_source: causal_cbr_key_rate_change
+      scope: global
+      history_unit: unique_consecutive_level_change_observation_id
+      observed_unique_finite_changes_2018_2025: 41
+      minimum_prior_observations_outcome_2021_2025: sleeping_missing_all_oos
+      adaptive_minimum_history: forbidden
+    usd_rub_return_z:
+      raw_source: causal_cbr_usdrub_return_1
+      scope: global
+      history_unit: unique_release_observation_id
+  provenance_fields:
+    - raw_value
+    - standardized_value
+    - unclipped_z
+    - history_count
+    - published_at
+    - available_at
+    - source_id
+    - observation_id
+    - source_sha256
+    - freshness_seconds
+
+validity:
+  model_input_valid: base_prediction_asset_valid_and_finite_required_model_outputs
+  decision_market_valid: all_required_market_features_current_and_finite
+  planned_contract_valid: d_known_contract_code_nominal_mapping_and_14d_proxy_pass
+  strategy_eligible: model_input_valid_and_decision_market_valid_and_planned_contract_valid
+  future_execution_outcome: separate_post_decision_state_never_used_in_d_signal
+  missing_policy: optional_none_never_impute
+  cross_section_policy: exclude_invalid_before_rank_demean_normalize
+  stateful_invalid_policy: preserve_existing_position_without_state_advance_or_new_intent
+
+evaluation_exit:
+  role: evaluation_only_never_strategy_input
+  horizon_common_decisions: 5
+  mapping: decision_i_to_decision_i_plus_5_on_exact_sealed_1269_calendar
+  trailing_decisions_policy: last_5_false_no_entry
+  protected_timestamp_rule: exit_and_accounting_timestamps_lt_2026_01_01
+  final_expiration_date_used: false
+  independent_of_strategy_validity_masks: true
+
+nominal_span:
+  rule: calendar_14d_conservative_proxy
+  minimum_calendar_days_after_decision: 14
+  source: contract_code_plus_fixed_nominal_schedule_rule_known_at_d
+  final_expiration_date_role: qa_only_never_decision
+  exact_five_session_proof_claimed: false
+  unproved_mapping_policy: planned_contract_invalid_cash
+  month_codes:
+    F: 1
+    G: 2
+    H: 3
+    J: 4
+    K: 5
+    M: 6
+    N: 7
+    Q: 8
+    U: 9
+    V: 10
+    X: 11
+    Z: 12
+  asset_rules:
+    BR: first_calendar_day_of_contract_month_conservative
+    MIX: third_thursday_of_contract_month
+    RI: third_thursday_of_contract_month
+    SI: third_thursday_of_contract_month
+
+economics:
+  initial_capital_rub: 1000000.0
+  collateral_interest: 0.0
+  taxes: not_modeled
+  dividends: not_applicable_futures
+  broker_queue_exact_claim: false
+  point_value_fee_initial_margin_spec:
+    role: research_only_proxy
+    version: futures-conservative-spec-proxy-v1
+    manifest_path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/manifest.json
+    manifest_sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+    dataset_path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    dataset_sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    formula: manifest_v1_point_value_fee_initial_margin_columns_without_live_broker_claim
+    as_of_rule: latest_observation_known_at_or_before_factual_execution_timestamp
+    unknown_spec_policy: no_go_no_sizing_or_accounting_fallback
+  variation_margin_gap_policy: retain_all_factual_mark_gaps_no_synthetic_fill
+  bankruptcy_or_negative_equity: no_go
+
+artifact:
+  schema: market-lab-futures-v8-context-source-v2
+  context_completion_status: validity_aware_causal_raw_10m_context_proxy_calendar
+  evaluator_admission_status: blocked_pending_schema_followup
+  full_dependency_bundle_hash_required: true
+  main_session_transitive_child_verification: top_to_asset_to_segment_to_raw_and_parquet
+  main_session_transitive_child_bundle_sha256: 622b4f245f6cf16d9e0af99f85e11963600cadc2f21af9c67fc7495646e489e8
+  main_session_transitive_counts:
+    asset_manifests: 4
+    segment_manifests: 219
+    raw_artifacts: 219
+    parquet_artifacts: 219
+    parquet_rows: 1699545
+  required_dependency_names:
+    - v8_assembly_manifest
+    - v8_assembly
+    - base_predictions
+    - checkpoint_identities
+    - regime_enrichment_manifest
+    - regime_enrichment
+    - adjusted_daily_chain
+    - active_contract_map
+    - main_session_10m
+    - cbr_manifest
+    - cftc_manifest
+    - carry_pit
+    - cftc_pit
+    - cbr_key_rate_pit
+    - cbr_usdrub_pit
+    - spec_proxy_dataset
+    - spec_proxy_manifest
+    - aggressive_catalog
+    - aggressive_catalog_sidecar
+    - aggressive_implementation
+    - context_implementation
+  target_columns_forbidden: true
+  pnl_columns_forbidden: true

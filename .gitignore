@@ -1,0 +1,42 @@
+﻿# Lokalnye okruzheniya i keshi
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.pytest_tmp/
+.pytest_*/
+.ruff_cache/
+.cache/
+
+# Dannye i rezultaty eksperimentov
+data/
+runs/
+models/
+checkpoints/
+*.joblib
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.npz
+*.npy
+*.parquet
+*.feather
+*.sqlite3
+*.tar
+*.tar.gz
+*.zip
+
+# Sluzhebnye fail-y
+*.log
+.env
+.env.*
+!.env.example
+*credentials*.json
+*service-account*.json
+*.pem
+*.key
+.idea/
+.vscode/

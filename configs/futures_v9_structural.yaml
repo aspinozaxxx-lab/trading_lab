@@ -1,0 +1,78 @@
+﻿protocol_id: futures_v9_structural_proxy_v1
+status: predeclared_before_any_metric
+declared_at_utc: "2026-08-18T18:30:00Z"
+research_only: true
+source:
+  provider: MOEX ISS
+  base_url: https://iss.moex.com/iss
+  series_endpoint: /statistics/engines/futures/markets/forts/series.json
+  history_endpoint: /history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  board: RFUD
+  show_expired: true
+dates:
+  source_start: "2017-01-01"
+  warmup_start: "2018-01-01"
+  development_start: "2021-01-01"
+  development_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+universe:
+  minimum_requested_series: 15
+  candidates:
+    - {asset_code: RTS, category: equity_index_usd}
+    - {asset_code: MIX, category: equity_index_rub}
+    - {asset_code: RVI, category: equity_volatility}
+    - {asset_code: Si, category: fx_usd_rub}
+    - {asset_code: Eu, category: fx_eur_rub}
+    - {asset_code: ED, category: fx_eur_usd}
+    - {asset_code: AUDU, category: fx_aud_usd}
+    - {asset_code: GBPU, category: fx_gbp_usd}
+    - {asset_code: UCHF, category: fx_usd_chf}
+    - {asset_code: UJPY, category: fx_usd_jpy}
+    - {asset_code: BR, category: energy_brent}
+    - {asset_code: GOLD, category: metal_gold}
+    - {asset_code: SILV, category: metal_silver}
+    - {asset_code: PLT, category: metal_platinum}
+    - {asset_code: PLD, category: metal_palladium}
+    - {asset_code: SUGR, category: agriculture_sugar}
+    - {asset_code: RUON, category: rates_ruonia}
+    - {asset_code: GAZR, category: equity_gazprom}
+    - {asset_code: SBRF, category: equity_sberbank}
+    - {asset_code: LKOH, category: equity_lukoil}
+    - {asset_code: ROSN, category: equity_rosneft}
+    - {asset_code: VTBR, category: equity_vtb}
+eligibility:
+  roll_buffer_calendar_days: 5
+  trailing_liquidity_days: 60
+  minimum_trailing_median_value_rub: 1000000
+  minimum_return_observations: 252
+  minimum_daily_assets: 5
+signals:
+  momentum_horizons_sessions: [21, 63, 126, 252]
+  skip_recent_sessions: 0
+  volatility_lookback_sessions: 60
+  volatility_floor_annualized: 0.05
+  carry_minimum_tenor_gap_days: 20
+  carry_maximum_absolute_annualized: 5.0
+portfolio:
+  rebalance: weekly_last_available_session
+  volatility_target_annualized: 0.12
+  gross_cap: 1.0
+  single_asset_cap: 0.15
+  annualization_sessions: 252
+costs:
+  primary_one_way_bps: 5.0
+  stressed_multiplier: 2.0
+  roll_turnover_rule: close_plus_open
+strategy_family:
+  - {id: tsmom_1m, formula: sign_21d_total_return}
+  - {id: tsmom_3m, formula: sign_63d_total_return}
+  - {id: tsmom_6m, formula: sign_126d_total_return}
+  - {id: tsmom_12m, formula: sign_252d_total_return}
+  - {id: tsmom_multi, formula: mean_of_four_horizon_signs}
+  - {id: risk_adjusted_momentum, formula: clipped_mean_horizon_return_over_sqrt_horizon_vol}
+  - {id: curve_carry, formula: sign_annualized_front_minus_next_log_basis}
+  - {id: carry_momentum_confirmation, formula: carry_sign_only_when_equal_to_tsmom_multi_sign}
+selection_policy:
+  mode: report_all_no_post_metric_tuning
+  no_per_ticker_parameters: true
+  no_holdout_2026_access: true

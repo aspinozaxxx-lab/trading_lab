@@ -1,0 +1,42 @@
+﻿{
+  "schema": "trading-lab-external-storage-v1",
+  "captured_on": "2026-08-19",
+  "repository_root": "D:\\Projects\\trading_lab",
+  "external_root": "D:\\Projects\\trading_lab_data",
+  "source_backup_root": "D:\\Projects\\Trading",
+  "copy_mode": "copy_without_source_deletion",
+  "git_policy": {
+    "data_tracked": false,
+    "runs_tracked": false,
+    "models_tracked": false,
+    "checkpoints_tracked": false
+  },
+  "trees": {
+    "data": {
+      "path": "D:\\Projects\\trading_lab_data\\data",
+      "files": 1403,
+      "bytes": 1865086088,
+      "local_junction": "D:\\Projects\\trading_lab\\data"
+    },
+    "runs": {
+      "path": "D:\\Projects\\trading_lab_data\\runs",
+      "files": 1598,
+      "bytes": 887259732,
+      "local_junction": "D:\\Projects\\trading_lab\\runs",
+      "contains_models_and_checkpoints": true
+    },
+    "models": {
+      "path": "D:\\Projects\\trading_lab_data\\models",
+      "files": 0,
+      "bytes": 0,
+      "local_junction": "D:\\Projects\\trading_lab\\models",
+      "note": "Reserved for model weights stored separately from Git; existing checkpoints remain under runs."
+    }
+  },
+  "verification": {
+    "method": "source_and_destination_file_count_plus_total_bytes",
+    "counts_match": true,
+    "bytes_match": true,
+    "tree_sha256_computed": false
+  }
+}

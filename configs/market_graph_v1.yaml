@@ -1,0 +1,218 @@
+﻿protocol_name: market-graph-v1
+protocol_version: 1
+research_status: development_only_no_2026_no_live_trading
+
+objective:
+  hypothesis: >-
+    A prediction for each stock improves when the model sees the synchronized state
+    of every development-universe stock and learns causal cross-asset dependencies.
+  primary_comparison: masked_market_graph_vs_same_encoder_without_cross_asset_attention
+  result_required: true
+
+source:
+  panel_path: data/processed/daily_v4/development_panel.parquet
+  panel_sha256: a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe
+  panel_bytes: 28555394
+  panel_rows: 62190
+  manifest_path: data/processed/daily_v4/panel_manifest.json
+  manifest_sha256: 873916a268dae55c3ac6537d1a02f7d773ea7f0276c7377389c494d7996e492f
+  minimum_date: 2018-01-03
+  maximum_date: 2025-12-30
+  expected_tickers: 30
+  protected_2026_read_allowed: false
+
+universe:
+  tickers:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+  point_in_time_policy: fixed_development_universe_with_per_asset_observation_masks
+  missing_asset_policy: masked_cash_no_imputation_from_future
+
+timing:
+  decision: after_factual_daily_signal_time
+  entry: next_factual_asset_open
+  exit: first_factual_asset_open_after_five_complete_common_sessions
+  holding_sessions: 5
+  terminal_target_policy: purge
+  roll_or_gap_bridging: forbidden
+
+features:
+  history_sessions: 128
+  asset_columns:
+    - return_1
+    - return_2
+    - return_5
+    - return_10
+    - return_20
+    - return_60
+    - return_120
+    - open_gap
+    - candle_range
+    - candle_body
+    - close_location
+    - volatility_5
+    - volatility_20
+    - volatility_60
+    - sma_ratio_5
+    - sma_ratio_20
+    - sma_ratio_60
+    - sma_ratio_120
+    - volume_z_20
+    - value_z_20
+    - volume_z_60
+    - value_z_60
+    - intraday_realized_volatility
+    - morning_return
+    - afternoon_return
+    - last_hour_return
+    - vwap_deviation
+    - first_hour_volume_share
+    - last_hour_volume_share
+    - range_efficiency
+    - bar_return_volume_correlation
+    - high_time_fraction
+    - low_time_fraction
+  market_context_columns:
+    - context_ctx_imoex_ret_1
+    - context_ctx_imoex_ret_5
+    - context_ctx_imoex_ret_20
+    - context_ctx_imoex_ret_60
+    - context_ctx_imoex_vol_20
+    - context_ctx_rvi_ret_1
+    - context_ctx_rvi_ret_5
+    - context_ctx_rvi_ret_20
+    - context_ctx_rvi_ret_60
+    - context_ctx_rvi_vol_20
+    - context_ctx_rgbi_ret_1
+    - context_ctx_rgbi_ret_5
+    - context_ctx_rgbi_ret_20
+    - context_ctx_rgbi_ret_60
+    - context_ctx_rgbi_vol_20
+    - context_ctx_cnyrub_tom_ret_1
+    - context_ctx_cnyrub_tom_ret_5
+    - context_ctx_cnyrub_tom_ret_20
+    - context_ctx_cnyrub_tom_ret_60
+    - context_ctx_cnyrub_tom_vol_20
+  normalization: train_fold_median_iqr_only
+  correlation_bias:
+    source: pairwise_return_1
+    lookback_sessions: 60
+    minimum_pair_observations: 40
+    cutoff: decision_date_inclusive
+    clipping: [-0.8, 0.8]
+
+model:
+  family: masked_temporal_market_graph
+  temporal_encoder:
+    type: causal_tcn
+    hidden_dimension: 128
+    blocks: 6
+    kernel_size: 3
+    dropout: 0.10
+  cross_asset_encoder:
+    type: masked_self_attention_with_causal_correlation_bias
+    layers: 4
+    heads: 4
+    hidden_dimension: 128
+    ticker_embedding: true
+  heads:
+    factor_location: independent_scalar
+    factor_scale: positive_softplus
+    residual_location: cross_section_demeaned
+    residual_scale: positive_softplus
+    direction_logit: auxiliary_only_never_converted_to_return_score
+  seeds: [1729, 2718, 3141]
+  ensemble: arithmetic_mean_without_seed_selection
+  epochs: 35
+  batch_decision_dates: 32
+  precision: bf16
+  optimizer: adamw
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+
+target:
+  source_column: raw_target_return
+  factor_definition: equal_weight_mean_over_valid_assets_at_same_decision
+  residual_definition: asset_raw_target_minus_same_decision_factor
+  factor_and_residual_scale: train_fold_iqr_only
+  valid_mask: daily_available_and_entry_available_and_finite_target
+
+loss:
+  factor_huber_weight: 0.50
+  residual_huber_weight: 1.00
+  residual_pairwise_rank_weight: 0.30
+  auxiliary_direction_weight: 0.10
+  aleatoric_nll_weight: 0.20
+  transaction_cost_utility_weight: 0.20
+  direction_logit_may_drive_position: false
+
+folds:
+  purge_sessions: 10
+  embargo_sessions: 5
+  expanding_outer_years: [2021, 2022, 2023, 2024, 2025]
+  first_train_start: 2018-01-03
+  first_train_end: 2020-12-31
+  oos_target_values_may_be_read_during_inference: false
+
+portfolio:
+  initial_capital_rub: 1000000
+  factor_gross_budget: 0.25
+  factor_minimum_snr: 1.25
+  residual_gross_budget: 0.75
+  residual_construction: exact_dollar_neutral_top5_bottom5
+  maximum_single_stock_absolute_weight: 0.10
+  total_gross_limit: 1.00
+  staggered_sleeves: 5
+  missing_or_uncertain_asset: cash
+  one_way_commission_bps: 5.0
+  one_way_slippage_bps: 2.0
+  short_borrow_rate_annual: 0.20
+  stress_cost_multiplier: 2.0
+
+predeclared_ablations:
+  - market_graph_full
+  - identical_temporal_encoder_without_cross_asset_attention
+  - relative_momentum_20_60_120
+
+reporting:
+  primary_metrics:
+    - mean_daily_cross_sectional_spearman_ic
+    - yearly_cross_sectional_spearman_ic
+    - net_cagr
+    - net_sharpe
+    - maximum_drawdown
+    - worst_year
+    - turnover
+    - long_short_balance
+    - double_cost_net_cagr
+  graph_increment_test: paired_daily_ic_difference_graph_minus_no_attention
+  publish_all_predeclared_ablations: true
+  promote_only_if_graph_beats_no_attention_and_net_sharpe_ge: 0.8

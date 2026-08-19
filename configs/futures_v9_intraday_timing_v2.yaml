@@ -1,0 +1,67 @@
+protocol: futures_v9_intraday_timing_v2_train_only_gate
+protocol_version: 2
+sealed_before_v2_pnl: true
+parent_protocol_sha256: fd6ee70086bc7056ca60c73a91490362aae37c4caf053091cc73e2e0924159cf
+fixed_tensor_sha256: 7bf3397864e44a13fa2ce841c206ed3c33974439e32bd439625b40df12014b21
+development_cutoff: "2025-12-31T23:59:59+03:00"
+holdout_2026_access: forbidden
+
+unchanged_from_v1:
+  universe: [BR, MIX, RI, SI]
+  history_bars: 144
+  model_variants: [masked_cross_asset_gru, independent_asset_gru]
+  hidden_size: 32
+  action_value_horizons: [3, 6, 18]
+  seeds: [1729, 2718, 3141]
+  outer_test_years: [2021, 2022, 2023, 2024, 2025]
+  execution: exact_next_bar_same_contract_adverse_high_low
+  maximum_holding_bars: 18
+  participation_cap: 0.01
+  maximum_asset_gross: 0.25
+  maximum_portfolio_gross: 1.0
+  costs: [1.0, 2.0]
+
+fold_inner_timeline:
+  validation_tail_calendar_days: 120
+  isotonic_fit_slice: first_60_calendar_days
+  gate_fit_slice: last_60_calendar_days
+  purge_between_slices_bars: 18
+  purge_before_outer_test_bars: 18
+  early_stopping_slice: isotonic_fit_slice
+  no_outer_test_labels_in_calibration: true
+
+gate:
+  scope: per_variant_per_fold_per_side_horizon_combined_assets
+  score: calibrated_mean_divided_by_total_ensemble_uncertainty
+  quantile_candidates: [0.90, 0.95, 0.975, 0.99, 0.995]
+  candidate_order: lowest_quantile_first
+  minimum_gate_rows: 200
+  required_score_cutoff: positive
+  required_mean_realized_net_action_value: positive
+  one_sided_lower_confidence_bound:
+    method: normal_standard_error
+    z: 1.645
+    required: positive
+  selection: first_candidate_passing_all_requirements
+  no_candidate_policy: sleep_output_for_fold
+  outer_entry_requirements:
+    - calibrated_mean_positive
+    - selected_output_not_sleeping
+    - score_at_or_above_train_only_cutoff
+  outer_threshold_or_pnl_selection: forbidden
+
+policy:
+  choose_highest_calibrated_action_value_among_passing_outputs: true
+  actions: [long, short, wait, exit]
+  exit_if_best_same_side_value_nonpositive: true
+  exit_if_opposite_value_exceeds_same_side_value: true
+  force_exit_at_18_bars: true
+  one_position_per_asset: true
+  pyramiding: false
+
+reporting:
+  threshold_audit_required: true
+  sleeping_outputs_required: true
+  metrics: [decisions, trades, cagr, sharpe, maximum_drawdown, worst_year, turnover, costs, long_short_balance, maximum_participation]
+  per_year: true
+  cost_stress_2x_same_trades: true

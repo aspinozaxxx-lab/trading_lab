@@ -1,0 +1,245 @@
+﻿protocol_name: futures-v8-regime-residual-alpha
+protocol_version: 8
+research_status: architecture_fixed_no_pnl_no_holdout_access
+
+model:
+  architecture: causal_patch_state_space_regime_alpha_v8
+  bar_feature_names:
+    - log_return_1
+    - log_return_3
+    - log_return_6
+    - range_log
+    - body_log
+    - close_location
+    - log1p_volume
+    - relative_volume_36
+    - realized_volatility_6
+    - realized_volatility_36
+    - session_phase_sin
+    - session_phase_cos
+  daily_feature_names:
+    - daily_return_1
+    - daily_return_5
+    - daily_return_20
+    - daily_volatility_20
+    - roll_yield
+    - days_to_expiry_scaled
+    - open_interest_change_1
+    - open_interest_change_5
+    - physical_net_share_lag_1
+    - legal_net_share_lag_1
+    - cbr_key_rate_level
+    - cbr_key_rate_change
+    - cbr_ruonia_spread
+    - cbr_usdrub_return_1
+    - cftc_primary_score
+    - cftc_cross_asset_score
+  sequence_bars: 512
+  patch_size_bars: 8
+  width: 160
+  state_space_blocks: 6
+  attention_heads: 5
+  feedforward_multiplier: 3
+  dropout: 0.10
+  regime_experts: 3
+  crash_expert_index: 2
+  contrastive_projection_width: 64
+  ssl_horizons: [6, 24, 72, 144]
+  target_scale: train_fold_cross_asset_iqr
+  abstain_z_threshold: 1.0
+  abstain_temperature: 0.25
+  scale_floor_iqr: 0.05
+  ticker_embeddings: false
+  temporal_attention: causal_patch_only
+  cross_asset_attention_timing: same_decision_timestamp_only
+  daily_conditioning: masked_gated_carry_oi_cbr_cftc
+  expected_parameter_count: 2694086
+
+training:
+  seeds: [1729, 2718, 3141]
+  deterministic_algorithms: true
+  accelerator: single_nvidia_rtx_5090
+  precision: bfloat16
+  optimizer: adamw
+  ssl_universe: current_purged_train_fold_only
+  fresh_ssl_per_fold: true
+  ssl_input_bar_cutoff: all_input_bars_strictly_before_purged_effective_train_cutoff
+  ssl_label_end_cutoff: every_6_24_72_144_horizon_label_end_strictly_before_purged_effective_train_cutoff
+  feature_scaler_fit_scope: target_valid_current_purged_train_fold_only
+  ssl_epochs: 48
+  supervised_epochs: 32
+  ssl_learning_rate: 0.0003
+  supervised_learning_rate: 0.00015
+  weight_decay: 0.02
+  gradient_clip_norm: 1.0
+  supervised_encoder: frozen_ssl_patch_state_space
+  supervised_trainable_parameter_count: 149534
+  return_loss: iqr_scaled_residual_gaussian_nll
+  auxiliary_direction_loss: separate_residual_direction_bce
+  cost_aware_loss: differentiable_turnover_penalized_residual_utility
+  contrastive_loss: causal_two_view_infonce
+  direction_loss_weight: 0.05
+  crash_loss_weight: 0.05
+  regime_balance_weight: 0.01
+  cost_aware_loss_weight: 0.10
+  one_way_cost_proxy_version: futures-conservative-spec-proxy-v1
+  one_way_cost_spec_manifest_path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/manifest.json
+  one_way_cost_spec_manifest_sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+  one_way_cost_formula: ((conservative_fee_per_side+1*sizing_tick_cash_value)/sizing_notional)/(max(d_known_daily_volatility_20,0.01)*sqrt(5)*train_target_iqr)
+  one_way_cost_join: entry_effective_date_same_contract_asset_spec_proxy_row
+  one_way_cost_asof_rule: sizing_observed_session_date_equals_decision_d
+  one_way_cost_fee_side_multiplier: 1
+  one_way_cost_slippage_ticks: 1
+  unknown_one_way_cost_policy: fail_every_residual_valid_row_no_zero_no_skip
+  crash_label_threshold_iqr: 2.5
+  oos_hyperparameter_tuning: false
+  early_stopping: false
+  max_wall_clock_minutes: 90
+
+development:
+  assets: [BR, MIX, RI, SI]
+  development_start: 2018-01-01
+  development_end: 2025-12-31
+  protected_holdout_start: 2026-01-01
+  development_backtest_score_years: [2021, 2022, 2023, 2024, 2025]
+  development_backtest_status: adaptive_development_backtest_not_fresh_oos
+  purge_sessions: 10
+  decision_timezone: Europe/Moscow
+  decision_local_time: '18:50:00'
+  intraday_alignment: exact_same_decision_timestamp
+  effective_train_cutoff: fold_train_end_minus_10_sessions
+  supervised_target_end_cutoff: target_exit_window_close_strictly_before_purged_effective_train_cutoff
+  pre_io_date_guard: reject_2026_or_later_before_any_data_io
+  channels:
+    - 10m_ohlcv
+    - daily_open_interest_numtrades
+    - participant_open_interest
+    - cbr
+    - cftc
+    - carry
+  sleeping_channels: [filings, news]
+  protected_holdout_local_read_allowed: false
+  protected_holdout_network_download_allowed: false
+  folds:
+    - name: outer_2021
+      train_start: 2018-01-01
+      train_end: 2020-12-31
+      score_start: 2021-01-01
+      score_end: 2021-12-31
+    - name: outer_2022
+      train_start: 2018-01-01
+      train_end: 2021-12-31
+      score_start: 2022-01-01
+      score_end: 2022-12-31
+    - name: outer_2023
+      train_start: 2018-01-01
+      train_end: 2022-12-31
+      score_start: 2023-01-01
+      score_end: 2023-12-31
+    - name: outer_2024
+      train_start: 2018-01-01
+      train_end: 2023-12-31
+      score_start: 2024-01-01
+      score_end: 2024-12-31
+    - name: outer_2025
+      train_start: 2018-01-01
+      train_end: 2024-12-31
+      score_start: 2025-01-01
+      score_end: 2025-12-31
+
+execution:
+  execution_version: futures-v8-completed-window-pov-v2
+  decision_timezone: Europe/Moscow
+  decision_local_time: '18:50:00'
+  capacity_observation_window_open_time: '19:00:00'
+  capacity_observation_window_close_time: '19:10:00'
+  mandatory_order_latency_minutes: 10
+  order_live_local_time: '19:20:00'
+  execution_window_open_time: '19:20:00'
+  execution_window_close_time: '19:30:00'
+  max_observed_bar_participation_bps: 100
+  max_realized_execution_window_participation_bps: 100
+  primary_order_price_policy: market_order_research_fill_at_adverse_high_or_low_of_19_20_19_30_window
+  adverse_hl_ledger: buy_high_sell_low_of_factual_execution_window
+  provenance: research_only_not_queue_exact
+  paired_roll_policy: paired_research_fill_broker_atomicity_not_proven
+
+supervised_target:
+  primary_target: direction_independent_log_return
+  primary_formula: log_exit_window_close_over_entry_window_close
+  horizon_common_sessions: 5
+  horizon_interval_definition: five_complete_common_session_intervals_from_entry
+  entry_timestamp: per_asset_factual_19_20_19_30_window_close
+  exit_timestamp: per_asset_analogous_execution_window_close_after_d_plus_5_common_sessions
+  label_available_after: per_asset_exit_window_close_only
+  volatility_scale: max_ex_ante_d_known_daily_volatility_20_or_floor_times_sqrt_5
+  daily_volatility_floor: 0.01
+  factor_definition: cross_asset_mean_of_valid_primary_targets
+  residual_definition: primary_target_minus_same_timestamp_cross_asset_factor
+  residual_minimum_valid_assets: 2
+  auxiliary_direction_target: sign_of_residual_target
+  train_iqr_fit_scope: target_valid_current_purged_train_fold_only
+  mask_conditions:
+    - missing_or_incomplete_factual_entry_or_exit_window
+    - missing_or_nonpositive_19_00_19_10_capacity_or_19_20_19_30_execution_window_volume
+    - active_contract_change_or_roll_within_horizon
+    - unpriced_carry
+    - exit_window_close_not_strictly_before_fold_cutoff
+  same_contract_required: true
+  cash_when_same_contract_target_impossible: true
+
+portfolio:
+  holding_sleeve_count: 5
+  sleeve_weight: 0.20
+  new_sleeve_cadence: each_common_session
+  sleeve_entry: factual_19_20_19_30_execution_window
+  sleeve_exit: analogous_execution_window_after_d_plus_5_common_sessions
+  factor_gross_budget: 0.35
+  residual_gross_budget: 0.65
+  combined_gross_cap: 1.0
+  factor_snr_definition: factor_location_divided_by_factor_scale
+  factor_common_exposure: sign_of_factor_snr_if_not_abstained
+  factor_asset_allocation: inverse_ex_ante_volatility_across_eligible_assets
+  factor_abstain_z_threshold: 1.0
+  factor_abstain_rule: cash_when_absolute_factor_snr_below_1
+  residual_score_source: residual_decision_score
+  residual_demeaning: cross_section_demean_across_eligible_assets
+  residual_inverse_volatility: inverse_ex_ante_volatility_after_demeaning
+  residual_net_notional_neutralization: rescale_long_and_short_legs_to_equal_absolute_notional
+  residual_neutrality: net_notional_neutral_only_no_beta_claim
+  inference_contract_eligibility: decision_time_current_contract_nominal_maturity_and_session_calendar_only
+  new_sleeve_cash_condition: cash_only_when_decision_time_known_contract_cannot_span_five_common_sessions
+  selected_contract_binding: lock_decision_time_contract_for_all_five_sessions
+  post_entry_contract_failure: carry_and_record_execution_failure_not_hindsight_cash_filter
+  invalid_or_same_contract_impossible_position: cash
+  uncertainty_abstain_position: cash
+  no_leverage_above_one: true
+  minimum_trade_delta_contracts: 1
+  minimum_trade_rule: no_trade_if_absolute_desired_delta_less_than_one_contract
+  integer_contract_rounding: truncate_toward_zero_after_allocation
+  costs_and_initial_margin: handled_by_ledger
+  selection_tuning: false
+
+evaluation:
+  same_trained_predictions_for_every_scenario: true
+  scenario_selection: false
+  scenarios:
+    primary: adverse_high_low_factual_execution_window
+    doubled_cost: two_x_fee_and_two_x_slippage
+    delay_stress: next_factual_10m_execution_window_only_when_complete
+  gates:
+    critical_execution_failure_count: 0
+    unresolved_or_carried_positions_at_terminal: 0
+    realized_fill_capacity_maximum_bps: 100
+    unknown_capacity_count: 0
+    primary_net_cagr_minimum: 0.08
+    primary_sharpe_minimum: 0.50
+    primary_max_drawdown_maximum: 0.25
+    positive_calendar_year_fold_count_minimum: 4
+    doubled_cost_cagr_must_be_positive: true
+    worst_calendar_year_return_minimum: -0.10
+  stretch_report_only:
+    primary_net_cagr_minimum: 0.50
+    used_for_selection: false
+    used_for_holdout_access: false
+  protected_holdout_access: locked_until_all_fixed_gates_pass
