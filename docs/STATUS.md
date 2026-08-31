@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V15 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V16 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -30,10 +30,19 @@ V15 впервые пробил целевую доходность: frozen V12 
 8 critical execution events. Поэтому V15 — важный capital-efficiency lead, но его
 verdict **NO-GO**, метрики недействительны для promotion и live trading запрещён.
 
-Дополнительно получен официальный MOEX FUTOI daily-last для всех core-four: 11 744 строк
-2020–2025, 24 bounded запроса, raw archive + manifest. Он даёт causal crowding ФИЗ/ЮР;
-same-day close использование запрещено. RVI также сохранён, но его V14 gate уже закрыт.
-Подробности и очередь full-5m/EIA/execution sources — в
+V16 добавил strictly-prior FUTOI crowding и общий capacity-aware execution contract.
+Это лучший агрессивный результат: combined CAGR **22,0082%**, Sharpe **0,9678**, MDD
+**−31,3402%**, stress CAGR **21,0971%**; 730 legs исполнены без rejected, critical или
+unresolved. По сравнению с V15 улучшились CAGR, Sharpe, worst year и MDD, однако заранее
+заданный предел MDD 25% всё ещё нарушен. Поэтому verdict **NO-GO**, live запрещён;
+V12 остаётся единственным lead с GO только к новой unseen validation.
+
+Официальный MOEX FUTOI daily-last для всех core-four — 11 744 строк 2020–2025,
+24 bounded запроса, raw archive + manifest — теперь проверен в V16 как causal crowding
+ФИЗ/ЮР; same-day close использование запрещено. Следующий data-контур — полный 5m
+FUTOI, поскольку официальный endpoint отдаёт не более 1 000 строк и игнорирует обычный
+`start`, поэтому загрузчик обязан дробить даты и доказывать полноту. Подробности и
+очередь full-5m/EIA/execution sources — в
 [карте источников](INFORMATION_SOURCES.md).
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
@@ -48,6 +57,7 @@ same-day close использование запрещено. RVI также с�
 | V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
 | V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
 | V15 2x V12 + causal RUONIA | +162,87%, CAGR 21,33%, Sharpe 0,88, MDD −34,48%; 8 critical | CAGR gate пройден, stability/execution gates нет; NO-GO |
+| V16 FUTOI crowding + capacity-aware 2x | +170,33%, CAGR 22,01%, Sharpe 0,97, MDD −31,34%; execution complete | Лучший aggressive lead, но MDD gate 25% не пройден; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -58,6 +68,35 @@ same-day close использование запрещено. RVI также с�
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V16 FUTOI governor — лучший aggressive lead, но не стабильное решение
+
+V16 был запечатан и отправлен commit `8fd2abf` после отдельного общего
+capacity-aware admission commit `1323781`, оба до первого PnL.
+
+- config SHA:
+  `d04617756a8226ecc2900a0f3f4036e5891903a65bb722608b276908d803c070`;
+- metrics SHA:
+  `8246e155843dad0928c1ae283b9023622fc19fe9ed11ca956753bfbe92c6d73f`;
+- canonical run:
+  `runs/v16_futoi_governor_20260831T220539Z_d0461775/`;
+- 1 044 weekly asset states: 253 crowded 1x, 577 aggressive 2x, 214 neutral/zero
+  signal base-risk; все FUTOI свежие и строго предшествуют decision date;
+- 1 040/1 040 nonzero target dependencies, 730 filled legs, 0 rejected/critical/
+  unresolved, шесть текущих attempts причинно отменены из-за отсутствия factual open;
+- primary futures-only CAGR **20,1280%**; collateral **201 950,38 RUB**; combined CAGR
+  **22,0082%**, Sharpe **0,9678**, MDD **−31,3402%**;
+- doubled/stress combined CAGR **21,8474%/21,0971%**, оба complete и положительны;
+- годы: 2021 **+39,1146%**, 2022 **+70,4325%**, 2023 **+15,2018%**,
+  2024 **+9,0275%**, 2025 **−9,2234%**;
+- все 23 artifact hashes и 19 parquet row counts совпали; 40 временных полей имеют
+  максимум `2025-12-30`.
+
+Главная просадка `2024-11-26..2025-04-07` распределилась примерно как RI −482 тыс.
+RUB, SI −270 тыс., MIX −173 тыс., BR −56 тыс. FUTOI уменьшил риск части активов, но
+SI оставался 2x во всех 19 недельных состояниях окна. Это объяснение outcome, а не
+основание подбирать новый threshold. Единственный проваленный sealed gate — MDD выше
+25%; verdict `NO_GO`, independent confirmation всё ещё обязателен.
 
 ## V15 capital efficiency — доходность найдена, устойчивость ещё нет
 
@@ -215,20 +254,24 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
 
-### P1 — новый risk budget поверх подтверждённого capital-efficiency механизма
+### P1 — новая информация для intraday timing и устойчивости
 
-1. Считать V15 закрытым: 20% CAGR достигнут, но MDD/execution gates провалены; не менять
-   его leverage, haircut, buffer или мартовские заявки post hoc.
-2. Следующая допустимая гипотеза меняет сам механизм риска, а не число плеча: один V16
-   FUTOI crowding governor использует только exact previous-source-date ФИЗ/ЮР и
-   warmup-only normalization без OOS threshold search.
-3. Для остановок рынка заранее определить общий causal contract: нет factual open — нет
-   fill; позиция сохраняется, новая попытка возникает только по следующему независимому
-   решению. Нельзя специально кодировать даты марта 2022 или рисовать missing mark.
-4. Сохранить V15 RUONIA rules byte-identical и отдельно показать alpha/collateral PnL,
-   FUTOI coverage/state counts, rejected/critical/unresolved и worst path.
-5. Gate остаётся прежним: CAGR не ниже 20%, MDD не выше 25%, 4/5 положительных лет,
-   complete execution во всех cost scenarios. Результат всё равно adaptive, не live.
+1. Считать V16 закрытым: 20% CAGR и complete execution достигнуты, но MDD 25% gate
+   провален. Не менять daily-last FUTOI threshold/multipliers, leverage, RUONIA rules или
+   RVI mapping по уже просмотренному path.
+2. Получить полный официальный MOEX FUTOI 5m 2020–2025 в отдельное внешнее хранилище.
+   API ограничивает ответ 1 000 строками и не поддерживает обычную offset-pagination;
+   downloader должен рекурсивно дробить интервалы до доказуемо полного дня, сохранять
+   каждый raw response, SHA, `systime` и точный `available_at`.
+3. До любого нового PnL сформулировать один принципиально новый timing protocol:
+   intraday FUTOI используется только после завершённого bucket и delivery buffer,
+   а решение исполняется на следующем фактическом bucket/open. Daily V16 не ретюнится.
+4. Проверять сначала target-free свойства нового источника: coverage, gaps, revisions,
+   FIZ/YUR identity и права. Технически анонимный HTTP 200 не доказывает разрешение на
+   перераспространение или пригодность для live.
+5. Экстремальный RVI совпал с V16 drawdown только как post-outcome diagnostic. Новый
+   RVI threshold/blend на 2021–2025 запрещён sealed V14; такой механизм можно объявить
+   лишь для действительно unseen forward validation.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -282,6 +325,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v13_trend_carry_20260831T190300Z_94841c0b/metrics.json`
 - `runs/v14_rvi_governor_20260831T201919Z_9f680ebf/metrics.json`
 - `runs/v15_levered_ruonia_20260831T205040Z_8cbcf307/metrics.json`
+- `runs/v16_futoi_governor_20260831T220539Z_d0461775/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

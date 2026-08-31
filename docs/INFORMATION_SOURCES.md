@@ -55,6 +55,18 @@ revision archive не доказан. Это daily-last выборка; полн
 загружен. Официальный документ говорит о подписке/входе, хотя все 24 запроса в момент
 снимка успешно прошли анонимно; это не доказывает права на перераспространение raw data.
 
+Источник проверен в sealed V16 без same-day join. Из 1 044 weekly asset states 253
+определены как crowded 1x, 577 как aggressive 2x и 214 как neutral/zero-signal base-risk.
+V16 улучшил V15 до combined CAGR 22,01%, Sharpe 0,968 и MDD 31,34%, а также устранил
+rejected/critical execution, но заранее заданный MDD 25% gate не прошёл. Daily-last
+threshold/multipliers теперь закрыты для подстройки на 2021–2025.
+
+Проверка официального intraday endpoint без `latest=1` показала важную особенность:
+один Si-день `2025-12-30` возвращает 348 строк, годовой диапазон обрезается ровно на
+1 000 строках, а параметры `start=1000/2000` возвращают те же первые строки. Значит,
+полный 5m архив нельзя доказывать обычной offset-pagination: интервалы нужно делить до
+ответов короче 1 000 строк, а каждый день проверять отдельно на paired FIZ/YUR points.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -62,9 +74,9 @@ revision archive не доказан. Это daily-last выборка; полн
 - CBR: ключевая ставка, RUONIA и официальный USD/RUB с publication semantics;
 - CFTC: weekly positioning с Friday release lag и отдельными holiday overrides.
 
-RUONIA теперь использована в V15: 1 271/1 271 причинных интервалов покрыты, 50% ставки
-после двойного modeled-IM reserve и 10% cash buffer дали 142 698,54 RUB за 2021–2025.
-Это повысило combined CAGR до 21,33%, но не устранило MDD 34,48% и execution failures.
+RUONIA использована в V15 и без изменения правил перенесена в V16. В V16 причинный
+collateral income составил 201 950,38 RUB и поднял combined CAGR до 22,01%, но не
+устранил MDD 31,34%.
 
 Эти признаки уже встречались в V6/V8/V9. Их нельзя выдавать за новую информацию лишь
 потому, что изменён threshold или модель.
@@ -75,8 +87,8 @@ RUONIA теперь использована в V15: 1 271/1 271 причинн�
 |---|---|---|---|---|
 | P0 | Historical MOEX/broker specs, fees, IM, spread/order book | Отделить реальную исполнимость от ложной прибыли | Лицензия/подписка и broker archive | Использовать только запись, действовавшую до order time |
 | P1 | MOEX RVI | Forward-looking risk regime для RI/MIX и общего gross | Current-vintage history; нужен один sealed test | Только предыдущая source date |
-| P1 | MOEX FUTOI daily-last | Новый causal crowding/risk regime для всех core-four | Current-vintage; права и revisions не доказаны | Только `source_date < decision_date` |
-| P2 | Полный MOEX FUTOI 5m | Непрерывный crowding и момент сделки | Нужны тысячи daily requests либо лицензированный bulk archive | Только завершённый bucket плюс delivery lag |
+| P1 | MOEX FUTOI daily-last | Causal crowding/risk regime для всех core-four | V16 завершён NO-GO по MDD; current-vintage, права/revisions не доказаны | Только `source_date < decision_date` |
+| P1 | Полный MOEX FUTOI 5m | Непрерывный crowding и момент сделки | 1 000-row cap, offset игнорируется; нужны bounded split requests либо licensed bulk | Только завершённый bucket плюс delivery lag |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply shocks для BR | Время релиза, holidays, revision/consensus | Не раньше официального release timestamp |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -97,19 +109,18 @@ RUONIA теперь использована в V15: 1 271/1 271 причинн�
 
 ## Следующая проверяемая гипотеза
 
-V15 завершён: combined CAGR 21,33% впервые достиг цели, но MDD 34,48% и восемь critical
-halt events дали `NO_GO`. Семейство post-outcome leverage/haircut вариантов закрыто.
+V16 завершён: combined CAGR 22,01%, Sharpe 0,968 и complete execution улучшили V15, но
+MDD 31,34% дал `NO_GO`. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
-Теперь первый незаблокированный development-кандидат — один V16 FUTOI crowding governor:
+Первый незаблокированный шаг теперь не PnL-вариант, а новый target-free source bundle:
 
-1. frozen V12 trend и V15 RUONIA economics остаются неизменными;
-2. для каждого asset используется только последний FUTOI `source_date < decision_date`;
-3. retail crowding определяется из FIZ long/short/net без price/return labels, а
-   normalization/границы фиксируются только по 2020 warmup до чтения V16 PnL;
-4. leverage уменьшается только в заранее определённом trend-aligned crowded state;
-   missing FUTOI означает консервативный base risk, не zero feature;
-5. единый capacity-aware order contract задаётся до PnL: неизвестный factual open/lagged
-   volume отменяет текущую попытку, известная participation ограничивает размер, без
-   специальных дат марта 2022;
-6. gate требует одновременно CAGR `>=20%`, MDD `<=25%` и complete execution. Это всё ещё
-   adaptive development; независимое подтверждение и exact broker/exchange archive нужны.
+1. скачать полный официальный FUTOI 5m 2020–2025 по BR/MX/RI/Si с interval splitting,
+   потому что ответ ровно 1 000 строк считается недоказанно полным;
+2. сохранить raw response каждого запроса, URL, SHA, request bounds и immutable manifest
+   вне Git; запретить 2026 в каждом URL до сети;
+3. доказать уникальность `(ticker, tradedate, tradetime, clgroup)`, paired FIZ/YUR,
+   монотонный `systime`, gaps и `available_at = systime + delivery buffer`;
+4. не публиковать raw архив до проверки лицензии, несмотря на анонимный HTTP 200;
+5. только после source audit запечатать один новый continuous-timing protocol без
+   повторного threshold search. Он должен выбирать момент чаще одного раза в сутки, но
+   не имеет права использовать ещё не опубликованный bucket, future price или PnL.

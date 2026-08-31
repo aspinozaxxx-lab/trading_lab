@@ -155,6 +155,20 @@ targets в изолированном 2x admission-контуре и начис�
 MDD выше 25% и critical halt orders; это механизм для дальнейшего risk research, а не
 live-кандидат.
 
+### `market_lab.futures_v16_futoi_crowding_governor`
+
+Накладывает на frozen V12/V15 asset-level risk state из последнего строго предыдущего
+MOEX FUTOI daily-last. Warmup median/MAD фиксированы только по 2020, crowded state
+оставляет 1x, обычное/contrarian состояние допускает 2x, missing/stale закрывается в 1x.
+Общий ledger policy `cancel_and_clip` отменяет текущую попытку при недоказанном factual
+open/lagged volume и не создаёт скрытый retry. V16 дал complete execution и лучший
+aggressive CAGR/Sharpe, но MDD 31,34% не прошёл sealed limit 25%.
+
+Следующий source-контур должен быть отдельным модулем полного FUTOI 5m. Analytical
+endpoint ограничивает ответ 1 000 строками и игнорирует обычный `start`; поэтому loader
+обязан рекурсивно делить интервалы, архивировать каждый raw response и считать ответ
+ровно из 1 000 строк недоказанно полным.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

@@ -251,6 +251,24 @@ Replay создаёт новый immutable каталог и не разреша
 после чего target удваивается; frozen ledger normalizer транзакционно масштабируется и
 обязательно восстанавливается. Config SHA должен оставаться `8cbcf307...`.
 
+### V16 FUTOI crowding governor plus capacity-aware execution
+
+Canonical V16 завершён с `NO_GO`: combined CAGR 22,01%, но MDD 31,34% превышает
+sealed limit 25%. Execution complete; replay не предназначен для изменения FUTOI
+threshold/multipliers или добавления post-outcome RVI gate:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v16_futoi_crowding_governor `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Config SHA должен оставаться
+`d04617756a8226ecc2900a0f3f4036e5891903a65bb722608b276908d803c070`. Canonical run:
+`v16_futoi_governor_20260831T220539Z_d0461775`; любой replay создаёт новый каталог.
+Полный FUTOI 5m нельзя получать годовым запросом: официальный 1 000-row cap срезает
+ответ, а `start` для этого endpoint игнорируется. Использовать только downloader с
+bounded interval splitting и доказательством полноты каждого дня.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

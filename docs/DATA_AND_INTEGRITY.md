@@ -22,7 +22,7 @@ SHA-256. Если external root отличается от sibling-каталог
 
 ## Защищённая временная граница
 
-Для текущих V8–V15 исследований `2026-01-01` — protected boundary. Запрещено:
+Для текущих V8–V16 исследований `2026-01-01` — protected boundary. Запрещено:
 
 - читать 2026 prices, returns, targets, labels или PnL;
 - выбирать universe, признаки, thresholds или execution assumptions по 2026;
@@ -80,6 +80,10 @@ identity и должен проверяться перед чтением.
   В source хранится official `systime`, но консервативный `available_at` дополнительно
   сдвинут на одну минуту. Семь ненулевых FIZ/YUR balance points сохраняются как source
   facts и не заменяются искусственным нулём.
+- Для будущего FUTOI 5m ответ ровно из 1 000 строк считается обрезанным, даже если HTTP
+  успешен: `start` на analytical endpoint фактически игнорируется. Интервал нужно делить
+  до bounded ответа короче лимита, затем проверять каждый trading day и пару FIZ/YUR.
+  Intraday feature доступен только после official `systime` плюс delivery buffer.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный
