@@ -1,0 +1,254 @@
+﻿protocol_id: futures_v12_core4_correlation_trend_v1
+protocol_version: 1
+status: predeclared_before_v12_oos_outcomes
+declared_at_utc: "2026-08-31T18:03:50Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+relationship_to_prior_work: >-
+  Adaptive same-period hypothesis generation after V5-V11 and the broad V9 structural
+  proxy were observed. A positive 2021-2025 result is not an independent confirmation
+  and requires new unseen history before any admission decision.
+
+hypothesis:
+  statement: >-
+    Persistent multi-horizon trends in BR, MIX, RI and SI can produce positive net
+    variation-margin PnL when all four markets are sized jointly with a causal covariance
+    risk model and executed at the next factual open using integer contracts.
+  economic_mechanism:
+    - slow_information_diffusion_and_hedger_pressure_create_trend_persistence
+    - cross_asset_covariance_downscaling_reduces_duplicate_RI_MIX_risk
+    - five_rebalance_sleeves_reduce_turnover_without_using_future_outcomes
+  primary_comparison: flat_cash_zero_return
+  reject_if:
+    - any_required_input_identity_or_temporal_check_fails
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - primary_total_return_is_not_positive
+    - doubled_or_stress_total_return_is_not_positive
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - changing_momentum_horizons_or_clip
+    - changing_rebalance_frequency_or_sleeve_count
+    - changing_target_volatility_gross_or_participation_caps
+    - selecting_assets_or_cost_model_by_observed_v12_metrics
+    - treating_this_development_result_as_independent_holdout
+
+dates:
+  source_start: "2018-01-03"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  timezone: Europe/Moscow
+
+inputs:
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    decision_minimum_timestamp: "2018-01-03"
+    decision_maximum_timestamp: "2025-12-29"
+    effective_maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  panel_audit:
+    path: data/processed/futures_v5/development_panel_2018_2025_audit.json
+    sha256: 4e7e00870910d54a9aadb17a4b4cf082880211ab5e5de4cc36dfe2bf7e2ea64b
+    bytes: 4543
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+  spec_manifest:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/manifest.json
+    sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+    bytes: 105211
+
+universe:
+  exact_order: [SI, RI, BR, MIX]
+  aliases: {Si: SI, RTS: RI, BR: BR, MIX: MIX}
+  membership: fixed_research_universe_not_historical_index_membership
+  minimum_signal_assets: 1
+
+information_set:
+  decision: after_completed_official_daily_close_D
+  feature_price: causal_forward_additive_adjusted_close_available_at_D_close
+  execution_not_before: active_contract_factual_open_on_effective_date_strictly_after_D
+  missing_price: asset_score_missing_and_target_cash
+  missing_contract_known_at_decision: asset_target_cash
+  future_columns_forbidden: [open_D_plus_1, settle_D_plus_1, return_D_plus_1, target, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: core4_risk_adjusted_multi_horizon_trend
+  log_momentum_horizons_sessions: [21, 63, 126, 252]
+  recent_skip_sessions: 0
+  volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  volatility_floor_annualized: 0.05
+  per_horizon_formula: >-
+    clip(sum_of_log_returns_over_horizon /
+    ((max(prior_60_session_annualized_volatility,0.05)/sqrt(252))*sqrt(horizon)),
+    -2,2)/2
+  final_score: arithmetic_mean_of_all_four_finite_per_horizon_scores_else_missing
+  normalization: none
+  fit_or_training: none
+  hyperparameter_search: false
+
+portfolio:
+  implementation_contract: futures_causal_risk_portfolio_v1
+  decision_schedule: last_factual_session_of_each_W_SUN_week
+  mandatory_additional_decisions: any_known_active_contract_change_for_a_nonzero_held_target
+  signal_weight_between_weekly_decisions: carry_last_weekly_target
+  ewma_volatility_span_sessions: 20
+  covariance_lookback_sessions: 60
+  covariance_assets: [SI, RI, BR, MIX]
+  annual_target_volatility: 0.20
+  gross_cap: 1.0
+  turnover_sleeves: 5
+  sleeve_unit: weekly_rebalance_decisions
+  risk_scaling: only_downward_after_gross_cap
+  target_missing_policy: zero_weight_for_that_asset
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_weight_times_current_cash_over_lagged_notional
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open
+  execution_atomicity: asset
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 1.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  collateral_yield: 0.0
+  terminal_policy: carry_with_terminal_positions_and_cost_limitation_reported
+  missing_or_unprovable: reject_or_unresolved_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+
+validation:
+  scheme: fixed_development_OOS_after_unsupervised_warmup
+  warmup: "2018-01-03..2020-12-31"
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  parameter_selection_on_oos: forbidden
+  protected_2026_read: forbidden
+
+reporting:
+  required_counts:
+    - source_rows
+    - weekly_decisions
+    - roll_decisions
+    - mapped_target_rows
+    - nonzero_targets
+    - filled_legs
+    - rejected_legs_by_reason
+  required_metrics:
+    - total_return
+    - cagr
+    - sharpe
+    - maximum_drawdown
+    - annual_returns_2021_2025
+    - positive_years
+    - worst_year
+    - turnover_notional
+    - commission_slippage_and_total_cost
+    - maximum_participation
+    - maximum_gross_and_margin
+    - coverage_and_unresolved
+  artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - scores.parquet
+    - weekly_weights.parquet
+    - mapped_targets.parquet
+    - coverage.csv
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_and_temporal_check_true
+    - all_three_scenarios_execution_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_cagr_at_least_0.05
+    - primary_sharpe_at_least_0.60
+    - primary_maximum_drawdown_at_most_0.25
+    - primary_positive_years_at_least_4_of_5
+    - doubled_total_return_positive
+    - stress_total_return_positive
+    - no_gross_participation_or_margin_breach
+  independent_confirmation_required: true

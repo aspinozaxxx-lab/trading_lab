@@ -1,17 +1,19 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-08-31**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V11 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V12 гипотез защищены и не используются.
 
 ## Короткий ответ
 
-Единственный условно перспективный lead — широкий structural futures portfolio. Он дал
-положительный fractional daily proxy, но не прошёл проверку полного исполнимого PnL.
-Текущий общий статус: **research-only, NO-GO for live trading**.
+Новый главный lead — V12 core-four correlation trend. Он впервые завершил полный
+integer-contract next-open ledger 2021–2025 без critical/unresolved событий и прошёл
+заранее зафиксированный gate к новой независимой валидации. Текущий общий статус:
+**GO TO NEW UNSEEN VALIDATION, но NO-GO for live trading**.
 
-Лучший proxy — `risk_adjusted_momentum`: CAGR **6,7745%**, Sharpe **0,7840**,
-MDD **−15,1293%** при 5 bps one-way; при двойных издержках CAGR **5,3463%**.
-Это не broker-exact результат.
+V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
+MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
+**40,8019%**, при stress — **41,7324%**. Это conservative research proxy, а не
+broker-exact обещание прибыли.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -21,6 +23,7 @@ MDD **−15,1293%** при 5 bps one-way; при двойных издержка
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
+| V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -31,6 +34,32 @@ MDD **−15,1293%** при 5 bps one-way; при двойных издержка
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V12 core-four correlation trend — новый исполнимый lead
+
+V12 использует только BR/MIX/RI/SI, для которых уже существовал единый frozen
+conservative spec proxy. После закрытия каждой недели он строит общий multi-horizon
+trend score 21/63/126/252 сессий, затем учитывает 60-session covariance всех четырёх
+рынков, target volatility 20%, gross `<= 1` и пять недельных turnover sleeves. Сигнал
+исполняется только на следующем factual open; roll получает отдельное причинное решение.
+
+- sealed protocol SHA:
+  `0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53`;
+- 261 weekly decisions, 53 дополнительных roll decisions, 1 256 полных target rows;
+- 1 040 ненулевых targets, coverage **1 040/1 040**;
+- 1 272 ledger sessions, 429 filled legs, 0 rejected legs, 0 critical failures,
+  0 unresolved halts;
+- primary costs **13 387,28 RUB**, maximum participation **0,1129%** при cap 1%,
+  maximum gross leverage **0,9544**, maximum 2x modeled-margin ratio **0,4688**;
+- primary годы: 2021 **+17,53%**, 2022 **+14,01%**, 2023 **+7,78%**,
+  2024 **+3,19%**, 2025 **−2,63%**;
+- terminal positions carried; отдельный one-way exit reserve **173,40 RUB** оставляет
+  total return **45,0941%**.
+
+Sealed gate полностью пройден, но результат adaptive: V5–V11 и широкий structural lead
+уже были известны до V12. На этой же истории запрещено менять horizons, sleeves, universe,
+vol target или costs. Historical exchange specs, broker fees, spread/queue и intraday
+margin остаются приблизительными, поэтому live promotion запрещён.
 
 ## V10/V11 triangular relative value — почему закрыт
 
@@ -89,7 +118,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — разблокировать structural exact execution
+### P0 — независимо подтвердить V12, не подгоняя его
+
+1. Заморозить byte-identical V12 signal/portfolio economics; не менять 21/63/126/252,
+   пять sleeves, 20% target vol, universe и execution caps по результатам 2021–2025.
+2. Получить новый действительно unseen период либо независимый PIT рынок. Уже
+   просмотренный legacy 2026 нельзя переименовывать в holdout.
+3. До следующего PnL получить historical exchange/broker specs, fee/IM schedules и
+   spread/order-book evidence хотя бы для BR/MIX/RI/SI.
+4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
+   отдельно мониторить отрицательный 2025 и деградацию trend edge.
+5. Только после независимого подтверждения проектировать отдельный live-admission
+   protocol с operational risk и аварийным отключением.
+
+### P1 — разблокировать широкий structural exact execution
 
 1. Получить лицензированный point-in-time архив historical contract specifications,
    multipliers/ticks, exchange и broker fees, initial margin и settlement rules для 21
@@ -102,13 +144,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Требовать 1 259/1 259 разрешённых сессий и положительный результат при 5/10/20 bps,
    delayed execution, integer contracts, capacity и gross cap.
 
-### P1 — наблюдать sparse event lead
+### P2 — наблюдать sparse event lead
 
 Не оптимизировать key-rate sleeve на десяти сделках. Его можно расширять только новой
 историей или независимыми заранее объявленными event families. Сохранять отдельный
 baseline: neural timing не улучшил входы и полностью abstained.
 
-### P2 — корпоративная отчётность
+### P3 — корпоративная отчётность
 
 Контур sleeping до появления корпуса с подтверждёнными правами, точным publication time,
 revision chain и page evidence. Локальная LLM извлекает факты, но не видит рыночные labels.
@@ -137,6 +179,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/market_graph_v2_long_only_20260819T074638Z/metrics.json`
 - `runs/v10_triangular_20260831T171000Z_4ff5c4cb/metrics.json`
 - `runs/v11_buffered_open_20260831T171200Z_584bf289/metrics.json`
+- `runs/v12_core4_trend_20260831T182210Z_0b1a79d5/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.
@@ -156,7 +199,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - восстановлены ошибочно исключённые общим `.gitignore` Python-пакеты
   `market_lab.data` и `market_lab.models`; root external paths теперь anchored как
   `/data`, `/runs`, `/models`, `/checkpoints`;
-- полный CPU suite: **626 passed, 7 skipped, 2 failed**;
+- полный CPU suite: **631 passed, 7 skipped, 2 failed**;
 - два failure относятся только к sealed V8 `context_run`: его старый anti-symlink guard
   намеренно не принимает external NTFS junction. Старый byte-sealed код нельзя менять
   задним числом; нужен новый migration-compatible loader/code identity;

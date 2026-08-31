@@ -4,6 +4,47 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V12: core-four correlation-aware trend — GO к unseen validation
+
+- Протокол: [`configs/futures_v12_core4_correlation_trend.yaml`](../configs/futures_v12_core4_correlation_trend.yaml)
+- Config SHA-256:
+  `0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53`
+- Canonical run:
+  `runs/v12_core4_trend_20260831T182210Z_0b1a79d5/metrics.json`
+- Metrics SHA-256:
+  `c989377f7de65c3ef0a8dd52a1f5fcbf11c6ad8048119ea0a7b4402f47b23288`
+- Input: byte-pinned V5 causal panel, active map, 66 052 contract observations и
+  frozen conservative spec proxy; maximum factual date `2025-12-30`.
+- Signal: одинаковый для BR/MIX/RI/SI risk-adjusted trend по 21/63/126/252 sessions;
+  weekly last-session decision, covariance 60 sessions, 20% target vol, gross `<= 1`,
+  five weekly turnover sleeves.
+- Execution: exact next factual open, целые контракты, asset-atomic explicit rolls,
+  participation `<= 1%`, current cash sizing, modeled 2x IM buffer, settlement VM.
+- Counts: 261 weekly + 53 roll decisions, 1 256 target rows, 1 040 nonzero targets,
+  coverage 1 040/1 040, 1 272 sessions, 429 primary filled legs, 0 rejected,
+  0 critical failures и 0 unresolved halts.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 tick + 1x fee | 45,1114% | 7,7318% | 0,7624 | −14,1526% | 4/5 | 13 387,28 |
+| 2 ticks + 2x fee | 40,8019% | 7,0841% | 0,7116 | −14,3150% | 4/5 | 26 601,80 |
+| 4 ticks + 2x fee | 41,7324% | 7,2253% | 0,7207 | −14,3289% | 4/5 | 38 812,65 |
+
+Primary yearly returns: 2021 `+17,5345%`, 2022 `+14,0141%`, 2023 `+7,7762%`,
+2024 `+3,1900%`, 2025 `−2,6318%`. Stress не обязан быть монотонно хуже doubled,
+потому что каждый scenario заново применяет integer sizing к собственному cash path;
+fixed-primary-position cost diagnostic также остался положительным, но не участвует в gate.
+
+Максимальная participation 0,1129%, gross leverage 0,9544, 2x modeled-margin ratio 0,4688;
+нарушений cap нет. Terminal positions carried; exit reserve 173,40 RUB оставляет primary
+return 45,0941%.
+
+Verdict: `GO_TO_NEW_UNSEEN_VALIDATION`. Это adaptive same-period результат после уже
+увиденных V5–V11 исследований, не независимый holdout и не разрешение на live. Запрещено
+подбирать V12 параметры на 2021–2025. Следующее допустимое действие — byte-identical
+проверка на новой unseen истории/рынке с broker/exchange exact specs и отдельный sealed
+paper-forward protocol.
+
 ## V10/V11: triangular RI/MIX/SI relative value — закрыто, NO-GO
 
 ### V10: adverse-window execution

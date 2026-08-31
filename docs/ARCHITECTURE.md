@@ -106,6 +106,16 @@ scheduled bucket end; `run.py` пишет hashed signal/trade/leg/unresolved aud
 изолированно проверяет buffered next-open execution. Оба контура fail-closed и имеют
 NO-GO; V11 дополнительно помечен adaptive same-period и не является независимым OOS.
 
+### `market_lab.futures_v12_core4_correlation_trend`
+
+Загружает только byte-pinned pre-2026 V5 artifacts для BR/MIX/RI/SI, строит единый
+21/63/126/252-session trend score и передаёт его существующему covariance-aware portfolio
+constructor. Weekly weights дополняются причинными roll decisions, затем exact next-open
+mapping проходит через общий integer-contract portfolio ledger с conservative tick/fee,
+capacity, gross и modeled-margin проверками. Run сохраняет scores, targets, coverage,
+orders, positions и ledger для трёх cost scenarios. Текущий результат прошёл только gate
+к новой unseen validation; live остаётся запрещён.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

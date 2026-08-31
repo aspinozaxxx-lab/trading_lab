@@ -176,6 +176,20 @@ V10 обязан останавливаться при capacity failure. V11 м�
 ослаблять эти правила и не менять thresholds в существующих версиях. Поле ISS `end` —
 время последней сделки внутри bucket; scheduled decision end равен `timestamp + 10m`.
 
+### V12 core-four correlation trend
+
+Canonical run уже выполнен. Для byte-new replay указывай только новый external root;
+protocol SHA и economics менять нельзя:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\run_futures_v12_core4_correlation_trend.py `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Команда проверяет config/data hashes и границу 2026 до загрузки price columns, затем пишет
+уникальный immutable `v12_core4_trend_<timestamp>_<config8>`. Не использовать replay для
+подбора horizons, costs, sleeves или universe по уже увиденному 2021–2025 результату.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
