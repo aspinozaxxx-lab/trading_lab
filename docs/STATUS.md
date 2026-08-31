@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-08-31**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V12 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V14 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -15,6 +15,15 @@ MDD **−14,1526%**; четыре из пяти лет положительны.
 **40,8019%**, при stress — **41,7324%**. Это conservative research proxy, а не
 broker-exact обещание прибыли.
 
+V13 добавил строгий front/next carry confirmation и поднял historical total return до
+**52,4579%** и CAGR до **8,8013%**, но Sharpe упал до **0,7081**, а MDD вырос до
+**−20,6861%**. Поэтому V13 — агрессивный return-challenger с verdict **NO-GO** как
+стабилизатор; V12 остаётся главным более устойчивым lead.
+
+Для следующей независимой идеи уже получен официальный MOEX RVI: 2 014 строк
+2018–2025, raw archive + manifest, same-day использование запрещено. Подробности и
+очередь FUTOI/EIA/execution sources — в [карте источников](INFORMATION_SOURCES.md).
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -24,6 +33,7 @@ broker-exact обещание прибыли.
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
 | V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
+| V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -34,6 +44,27 @@ broker-exact обещание прибыли.
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V13 carry confirmation — доход выше, устойчивость хуже
+
+V13 был запечатан commit `2c51cef` до просмотра outcome. Он оставил V12 portfolio и
+execution byte-identical, но допускал trend только при совпадении знака с одновременной
+front/next кривой, доказанно известной на close решения.
+
+- config SHA:
+  `94841c0baa1f4c7e0f88302467dfde3bc8104b2e662382b9224bbaf9b75f07ef`;
+- metrics SHA:
+  `783b0a7ec9dd613df9b7f38c3070eb33ee980358a69ec4a11f4e411e079a6039`;
+- 2 681 OOS confirmed и 1 363 observed-not-confirmed asset rows;
+- 841/841 nonzero target dependencies полны; 431 primary filled legs, 0 rejected,
+  0 critical и 0 unresolved;
+- годы: 2021 **+21,48%**, 2022 **+20,08%**, 2023 **+5,19%**,
+  2024 **+1,22%**, 2025 **−1,84%**;
+- doubled/stress total return **+51,85%/+51,62%**.
+
+По сравнению с V12 CAGR выше на 1,07 п.п. и worst year лучше на 0,79 п.п., но MDD хуже
+на 6,53 п.п., Sharpe ниже на 0,054 и costs выше на 4 049,64 RUB. Это не улучшение
+стабильности. Не создавать V13.1 с carry threshold/blend на уже просмотренной истории.
 
 ## V12 core-four correlation trend — новый исполнимый lead
 
@@ -131,7 +162,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
 
-### P1 — разблокировать широкий structural exact execution
+### P1 — один новый RVI risk-regime test для стабильности
+
+1. Использовать canonical RVI source
+   `data/processed/info_radar/moex-rvi-dev-2018-2025-v1/`, manifest SHA
+   `22573e6bba290a34aeee44bba3bb159f38d9e93014e78f9bd5367df8d0dd56fa`.
+2. Сохранить byte-identical V12 signal/portfolio/execution и требовать
+   `rvi.source_date < decision_date`; same-day RVI запрещён.
+3. До PnL запечатать единственный V14 governor. Любая калибровка заканчивается на
+   `2020-12-31`; не делать несколько OOS thresholds/variants.
+4. Promotion требует улучшить V12 Sharpe и MDD при CAGR `>= 5%`, 4/5 positive years,
+   положительных doubled/stress и полном exact ledger.
+5. Пометить результат current-vintage adaptive development; live и independent-holdout
+   claims запрещены.
+
+### P2 — разблокировать широкий structural exact execution
 
 1. Получить лицензированный point-in-time архив historical contract specifications,
    multipliers/ticks, exchange и broker fees, initial margin и settlement rules для 21
@@ -144,13 +189,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Требовать 1 259/1 259 разрешённых сессий и положительный результат при 5/10/20 bps,
    delayed execution, integer contracts, capacity и gross cap.
 
-### P2 — наблюдать sparse event lead
+### P3 — наблюдать sparse event lead
 
 Не оптимизировать key-rate sleeve на десяти сделках. Его можно расширять только новой
 историей или независимыми заранее объявленными event families. Сохранять отдельный
 baseline: neural timing не улучшил входы и полностью abstained.
 
-### P3 — корпоративная отчётность
+### P4 — корпоративная отчётность
 
 Контур sleeping до появления корпуса с подтверждёнными правами, точным publication time,
 revision chain и page evidence. Локальная LLM извлекает факты, но не видит рыночные labels.
@@ -180,6 +225,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v10_triangular_20260831T171000Z_4ff5c4cb/metrics.json`
 - `runs/v11_buffered_open_20260831T171200Z_584bf289/metrics.json`
 - `runs/v12_core4_trend_20260831T182210Z_0b1a79d5/metrics.json`
+- `runs/v13_trend_carry_20260831T190300Z_94841c0b/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.
@@ -199,7 +245,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - восстановлены ошибочно исключённые общим `.gitignore` Python-пакеты
   `market_lab.data` и `market_lab.models`; root external paths теперь anchored как
   `/data`, `/runs`, `/models`, `/checkpoints`;
-- полный CPU suite: **631 passed, 7 skipped, 2 failed**;
+- полный CPU suite: **642 passed, 7 skipped, 2 failed**;
 - два failure относятся только к sealed V8 `context_run`: его старый anti-symlink guard
   намеренно не принимает external NTFS junction. Старый byte-sealed код нельзя менять
   задним числом; нужен новый migration-compatible loader/code identity;

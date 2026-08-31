@@ -22,7 +22,7 @@ SHA-256. Если external root отличается от sibling-каталог
 
 ## Защищённая временная граница
 
-Для текущих V8/V9 исследований `2026-01-01` — protected boundary. Запрещено:
+Для текущих V8–V14 исследований `2026-01-01` — protected boundary. Запрещено:
 
 - читать 2026 prices, returns, targets, labels или PnL;
 - выбирать universe, признаки, thresholds или execution assumptions по 2026;
@@ -48,6 +48,8 @@ identity и должен проверяться перед чтением.
 | Futures spec proxy | `data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet` | `8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682` |
 | CBR PIT daily | `data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet` | `bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d` |
 | CFTC PIT positions | `data/processed/info_radar/cftc-dev-2018-2025-v1/processed/cftc_positions.parquet` | `fa83ee60008b75b38da8bd3bc0007cd014ae38da5870f5084133e0df3be1a23` |
+| MOEX RVI daily, current-vintage | `data/processed/info_radar/moex-rvi-dev-2018-2025-v1/rvi_daily.parquet` | `ac709b76ad7f2a03e48f8feb2b11248418e90d53d88d2b06d94fc35aea5b84b7` |
+| MOEX RVI manifest | `data/processed/info_radar/moex-rvi-dev-2018-2025-v1/manifest.json` | `22573e6bba290a34aeee44bba3bb159f38d9e93014e78f9bd5367df8d0dd56fa` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -70,6 +72,8 @@ identity и должен проверяться перед чтением.
 - Для каждого признака хранить `observation_date`, `publication_date`, `available_at`,
   revision/source identity и `known_at`.
 - Training row может видеть только значение, доступное к `decision_at`.
+- RVI current-vintage допускается только при `source_date < decision_date`; значение RVI
+  того же дня запрещено даже если стратегия формально решает после close.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

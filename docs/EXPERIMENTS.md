@@ -4,6 +4,49 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V13: trend + front/next carry confirmation — больше return, хуже stability; NO-GO
+
+- Протокол: [`configs/futures_v13_trend_carry_confirmation.yaml`](../configs/futures_v13_trend_carry_confirmation.yaml)
+- Config SHA-256:
+  `94841c0baa1f4c7e0f88302467dfde3bc8104b2e662382b9224bbaf9b75f07ef`
+- Pre-outcome Git commit: `2c51cef`.
+- Canonical run:
+  `runs/v13_trend_carry_20260831T190300Z_94841c0b/metrics.json`
+- Metrics SHA-256:
+  `783b0a7ec9dd613df9b7f38c3070eb33ee980358a69ec4a11f4e411e079a6039`
+- Parent V12 metrics были известны и byte-pinned до V13; это adaptive same-period
+  challenger, а не независимая проверка.
+- Signal: полный frozen V12 trend сохраняется только при строгом совпадении его знака со
+  знаком annualized `(front / next - 1)` carry. Противоположный/нулевой наблюдаемый знак
+  даёт cash; недоказанная кривая остаётся missing.
+- Curve proof: `observed_through == decision_date`, availability `decision_close`,
+  positive simultaneous settles, ordered expiries и независимый пересчёт каждого
+  `roll_yield`.
+- Coverage: 8 100/8 100 curve-valid source rows; OOS 5 084, из них 2 681 confirmed,
+  1 363 observed-not-confirmed и 1 040 missing trend inputs.
+- Execution: 261 weekly + 47 roll decisions, 1 232 target rows, 841 nonzero,
+  coverage 841/841; primary 431 filled legs, 0 rejected, 0 critical, 0 unresolved.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 tick + 1x fee | 52,4579% | 8,8013% | 0,7081 | −20,6861% | 4/5 | 17 436,92 |
+| 2 ticks + 2x fee | 51,8483% | 8,7142% | 0,7022 | −20,7601% | 4/5 | 34 753,47 |
+| 4 ticks + 2x fee | 51,6187% | 8,6813% | 0,6999 | −20,8382% | 4/5 | 51 412,64 |
+
+Primary годы: 2021 `+21,4803%`, 2022 `+20,0836%`, 2023 `+5,1862%`,
+2024 `+1,2208%`, 2025 `−1,8406%`. Относительно V12 total return выше на 7,3465 п.п.,
+CAGR на 1,0695 п.п. и worst year лучше на 0,7912 п.п.; одновременно Sharpe ниже на
+0,0543, MDD хуже на 6,5336 п.п., costs выше на 4 049,64 RUB.
+
+Maximum participation 0,1590%, maximum post-mark gross leverage 1,0524 и maximum 2x
+modeled-margin/start-cash ratio 0,5043. Order-time gross/margin admission не отклонял
+заявки; значение gross выше единицы возникло пассивно после mark/cash move между
+ребалансировками. Terminal exit reserve 99,29 RUB оставляет return 52,4479%.
+
+Sealed stability gate не пройден: и Sharpe, и MDD хуже frozen V12. Verdict: `NO_GO` как
+replacement/стабилизатор. V13 можно помнить как агрессивный return-challenger, но нельзя
+теперь подбирать carry threshold, blending weight или asset subset по тем же 2021–2025.
+
 ## V12: core-four correlation-aware trend — GO к unseen validation
 
 - Протокол: [`configs/futures_v12_core4_correlation_trend.yaml`](../configs/futures_v12_core4_correlation_trend.yaml)

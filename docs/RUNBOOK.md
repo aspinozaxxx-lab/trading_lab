@@ -190,6 +190,30 @@ protocol SHA и economics менять нельзя:
 уникальный immutable `v12_core4_trend_<timestamp>_<config8>`. Не использовать replay для
 подбора horizons, costs, sleeves или universe по уже увиденному 2021–2025 результату.
 
+### V13 trend plus curve confirmation
+
+Canonical V13 уже выполнен и получил `NO_GO` как stability replacement. Byte-new replay
+создаёт отдельный immutable каталог, но не разрешает подбирать carry threshold:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v13_trend_carry_confirmation `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+### MOEX RVI source
+
+Canonical snapshot уже находится во внешнем хранилище. Downloader намеренно не
+перезаписывает существующий каталог; новый аудит выполняй в другом versioned path:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.rvi_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\moex-rvi-<new-id>
+```
+
+Каждый URL физически ограничен `till=2025-12-31`. Processed dataset хранит
+`conservative_available_from_date`, а feature join обязан требовать
+`source_date < decision_date`.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

@@ -116,6 +116,21 @@ capacity, gross и modeled-margin проверками. Run сохраняет s
 orders, positions и ledger для трёх cost scenarios. Текущий результат прошёл только gate
 к новой unseen validation; live остаётся запрещён.
 
+### `market_lab.futures_v13_trend_carry_confirmation`
+
+Импортирует frozen V12 portfolio/execution, независимо пересчитывает simultaneous
+front/next roll yield и пропускает trend только при строгом совпадении знака. Config
+pinning, curve proof, comparison с frozen V12 и три exact-ledger scenario входят в один
+immutable run. V13 повысил development return, но ухудшил Sharpe/MDD и имеет NO-GO как
+stability replacement.
+
+### `market_lab.futures.rvi_source`
+
+Target-free downloader официального индекса MOEX RVI. Каждый ISS URL ограничен
+2018–2025, cursor проверяется на полноту и дубликаты, OHLC проходит fail-closed validation,
+а raw pages, Parquet и manifest получают SHA-256 во внешнем immutable каталоге. Для
+features действует отдельный contract: `source_date < decision_date`.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной
