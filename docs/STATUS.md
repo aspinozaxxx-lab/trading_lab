@@ -47,6 +47,11 @@ observation более чем на сутки, а для всей истории
 `2026-08-31T22:43:34Z`. Подробности — в
 [карте источников](INFORMATION_SOURCES.md).
 
+Новый независимый PIT-кандидат подготовлен: официальный EIA WPSR Table 1 bundle содержит
+727 допустимых release vintages и 38 248 target-free строк `2012-01-05..2025-12-29`.
+Один stale issue `2019-07-03` изолирован, 71 межвыпусковая revision сохранена. Outcome BR
+ещё не читался; следующий шаг — pre-outcome seal единственного supply-demand composite.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -271,8 +276,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 3. Для исторического continuous timing нужен лицензированный archival feed с original
    publication vintages либо собственный forward collector. Без него FUTOI-гипотеза
    sleeping, даже если анонимный endpoint технически возвращает данные.
-4. Следующий PnL-эксперимент выбирать только из источника с доказанной PIT-доступностью;
-   сначала исправить/аудировать source, затем sealed protocol, и только потом outcomes.
+4. EIA v2 source audit завершён: 727/728 releases допустимы, stale duplicate исключён,
+   maximum `available_at` — `2025-12-30T04:59:59Z`. Следующий PnL разрешён только после
+   отдельного seal семикомпонентного BR supply-demand shock без threshold search.
 5. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 

@@ -281,6 +281,22 @@ single-ticker/single-date requests и сохраняет resumable staging. Да
 разрешён для historical PnL: causal availability равна
 `max(SYSTIME + buffer, archive_retrieved_at)`.
 
+### EIA WPSR release-vintage source
+
+Canonical v2 bundle уже находится во внешнем хранилище. Новый snapshot всегда получает
+другой versioned output; staging можно возобновлять, но его hashes проверяются:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.eia_wpsr_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\eia-wpsr-table1-<new-id> `
+  --staging-directory D:\Projects\trading_lab_data\data\processed\info_radar\.eia-wpsr-table1-<new-id>.staging `
+  --max-workers 4
+```
+
+Collector берёт только issue links `2012-01-01..2025-12-30`, не использует current-vintage
+API и не читает market outcomes. Выпуск 31.12.2025 исключён из-за conservative UTC
+availability в 2026; stale duplicate 03.07.2019 остаётся в raw/coverage, но не processed.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

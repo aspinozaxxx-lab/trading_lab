@@ -55,6 +55,9 @@ identity и должен проверяться перед чтением.
 | MOEX FUTOI intraday current-vintage (not historical-PIT) | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/futoi_intraday.parquet` | `5f496a48c8359acb151eb2806d0705b4ee4197eda42ea43705bb805c70287744` |
 | MOEX FUTOI intraday manifest | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/manifest.json` | `cc432d5938e8b824339975e2d84b29fe3c24219c505c9dfefc4baeb3db46a1ed` |
 | MOEX FUTOI intraday raw archive | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/official_moex_iss_pages.jsonl.gz` | `f7bdab6f35884da5d6731134262b381c88a87f0ffebdac40139989e2a85d6056` |
+| EIA WPSR Table 1 release vintages | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/eia_wpsr_table1.parquet` | `5fccfa968ac88f04806df87bd7179a992f0f7c57137ba46db049d67350b54f3e` |
+| EIA WPSR source manifest | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/manifest.json` | `aac389628b61df446616cd171084af81482d09a7d4b403337a8332b5373c142b` |
+| EIA WPSR raw release archive | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/official_eia_wpsr_table1_releases.jsonl.gz` | `dce96ee233ed5cac153ab086f514a69688f28830749c4dc223dc66c79454b297` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -91,6 +94,10 @@ identity и должен проверяться перед чтением.
   `max(official SYSTIME + delivery buffer, actual archive retrieval time)`. Без original
   publication-vintage archive весь скачанный в 2026 current-vintage FUTOI запрещён для
   backtest 2021–2025.
+- EIA WPSR допускается только из release-specific v2 bundle и только при
+  `available_at <= decision_at`. `available_at` задан концом официальной даты выпуска в
+  `America/New_York`; issue `2019-07-03` помечен stale и не входит в processed rows.
+  `Last-Modified` не является временем публикации и для join запрещён.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

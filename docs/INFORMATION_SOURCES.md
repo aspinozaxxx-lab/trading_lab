@@ -92,6 +92,36 @@ retrieval time и считать
   правильному ключу `(session, seqnum)`, а не ошибочно дедуплицированы по времени;
 - raw redistribution запрещена до проверки лицензии.
 
+### EIA WPSR Table 1 — release-specific PIT bundle
+
+Официальный архив отдельных выпусков Weekly Petroleum Status Report собран без
+current-vintage API и без рыночных prices/returns/targets/PnL:
+
+- path: `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/`;
+- 728 официальных release links `2012-01-05..2025-12-29`, из них 727 допущены и один
+  сохранён только как raw evidence;
+- processed: 38 248 строк stock/supply/demand balance sheet, SHA-256
+  `5fccfa968ac88f04806df87bd7179a992f0f7c57137ba46db049d67350b54f3e`;
+- manifest SHA-256:
+  `aac389628b61df446616cd171084af81482d09a7d4b403337a8332b5373c142b`;
+- raw release archive SHA-256:
+  `dce96ee233ed5cac153ab086f514a69688f28830749c4dc223dc66c79454b297`;
+- conservative `available_at` — `23:59:59 America/New_York` официальной release date;
+  максимум `2025-12-30T04:59:59Z`, поэтому каждый causal join обязан проверять
+  `available_at <= decision_at`;
+- issue `2019-07-03` ссылается на byte-identical CSV от `2019-06-26` и повторяет data
+  week `2019-06-21`; он исключён как `duplicate_stale_archive_file`, но сохранён в raw и
+  coverage;
+- 38 036 соседних vintage comparisons дали 37 965 exact matches и 71 официально
+  сохранённую revision/reclassification;
+- EIA разрешает использование и распространение government publications как public
+  domain с указанием источника. Криптографических release-time hashes у EIA нет, поэтому
+  неизменность файла с момента публикации не объявляется доказанной.
+
+Выпуск `2025-12-31` намеренно не загружен: конец его release day в New York уже лежит в
+2026 UTC. Source audit допускает bundle к development-гипотезе, но не заменяет отдельный
+pre-outcome seal и не означает, что фундаментальный сигнал прибыльный.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -113,7 +143,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | MOEX RVI | Forward-looking risk regime для RI/MIX и общего gross | Current-vintage history; нужен один sealed test | Только предыдущая source date |
 | P1 | MOEX FUTOI daily-last | Forward crowding/risk regime для всех core-four | V16 INVALID; historical publication vintages не доказаны | Только `available_at <= decision_at`, source date недостаточно |
 | P1 | Полный MOEX FUTOI 5m | Будущий forward timing/момент сделки | Current-vintage, 1 000-row cap, offset игнорируется; historical PIT отсутствует | `max(SYSTIME + buffer, retrieval_at) <= decision_at` |
-| P2 | EIA Weekly Petroleum Status Report | Независимые supply shocks для BR | Время релиза, holidays, revision/consensus | Не раньше официального release timestamp |
+| P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
 
@@ -130,24 +160,26 @@ RUONIA использована в V15. Её причинная часть V16 �
   [RUONIA](https://www.cbr.ru/hd_base/ruonia/);
 - [CFTC COT description](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm)
   и [release schedule](https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm);
-- [EIA WPSR schedule](https://www.eia.gov/petroleum/supply/weekly/schedule.php) и
-  [API documentation](https://www.eia.gov/opendata/documentation.php).
+- [EIA WPSR schedule](https://www.eia.gov/petroleum/supply/weekly/schedule.php),
+  [release archive](https://www.eia.gov/petroleum/supply/weekly/archive/) и
+  [copyright/reuse](https://www.eia.gov/about/copyrights_reuse.php).
 
 ## Следующая проверяемая гипотеза
 
 V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states не были доступны к
 decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
-Current-vintage FUTOI bundle уже завершён и fail-closed закрыт для historical PnL.
+Current-vintage FUTOI bundle уже завершён и fail-closed закрыт для historical PnL. EIA
+release-vintage bundle прошёл source audit, но его market outcome ещё не читался.
 Следующие незаблокированные действия:
 
 1. запросить у MOEX licensed original-vintage/bulk history либо начать отдельный forward
    collector, который timestamp-ит получение каждого нового 5m response в реальном
    времени; до этого FUTOI timing sleeping;
 2. не публиковать raw FUTOI до проверки лицензии, несмотря на анонимный HTTP 200;
-3. как независимый historical PIT-кандидат исследовать архив отдельных выпусков EIA
-   Weekly Petroleum Status Report: использовать только неизменяемый файл конкретного
-   release и официальный timestamp, а не current-vintage API table;
+3. до чтения BR outcomes запечатать один EIA supply-demand composite: только семь заранее
+   названных строк, prior-only normalization, conservative release availability и exact
+   next-open execution; threshold/component search по результату запрещён;
 4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 5. любой следующий PnL начинается только после source manifest, `available_at` audit и

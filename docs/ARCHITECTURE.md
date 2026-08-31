@@ -54,6 +54,10 @@ runs -> external junction ignored by Git
 - portfolio construction, ledger и information radar;
 - CBR/CFTC features и specialist routers.
 
+`market_lab.futures.eia_wpsr_source` собирает release-specific WPSR Table 1 во внешнее
+хранилище, архивирует каждый исходный CSV, отделяет `release_date` от `available_at`,
+сохраняет revisions и fail-closed исключает stale/non-increasing issue files.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.
