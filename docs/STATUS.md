@@ -42,7 +42,9 @@ MOEX описывает `SYSTIME` как время публикации; для
 observation более чем на сутки, а для всей истории 2020–2024 равно 21.06.2025. Полный
 5m downloader сохраняет actual retrieval и использует
 `conservative_available_at = max(SYSTIME + buffer, retrieval_at)`, поэтому архив не
-может участвовать в backtest 2021–2025. Подробности — в
+может участвовать в backtest 2021–2025. Bundle уже завершён: 2 015 624 строки,
+1 007 812 paired points, manifest SHA `cc432d59...`; minimum conservative availability
+`2026-08-31T22:43:34Z`. Подробности — в
 [карте источников](INFORMATION_SOURCES.md).
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
@@ -262,9 +264,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. Считать V16 `INVALID`: 932/1 044 FUTOI states нарушают `available_at <= decision_at`.
    Не использовать его return, diagnostics или thresholds для дальнейшего отбора.
-2. Полный официальный FUTOI 5m можно сохранить только как current-vintage/forward
-   source. Для каждой строки хранить official `SYSTIME`, actual retrieval timestamp и
-   `conservative_available_at = max(SYSTIME + buffer, retrieval_at)`; история 2021–2025
+2. Полный официальный FUTOI 5m уже сохранён как current-vintage/forward source:
+   2 015 624 строки, 5 896 raw records, все hashes совпали. Для каждой строки есть
+   official `SYSTIME`, actual retrieval и `conservative_available_at`; история 2021–2025
    при таком contract не backtest-admissible.
 3. Для исторического continuous timing нужен лицензированный archival feed с original
    publication vintages либо собственный forward collector. Без него FUTOI-гипотеза

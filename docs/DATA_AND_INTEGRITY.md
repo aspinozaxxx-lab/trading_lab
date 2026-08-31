@@ -52,6 +52,9 @@ identity и должен проверяться перед чтением.
 | MOEX RVI manifest | `data/processed/info_radar/moex-rvi-dev-2018-2025-v1/manifest.json` | `22573e6bba290a34aeee44bba3bb159f38d9e93014e78f9bd5367df8d0dd56fa` |
 | MOEX FUTOI daily-last, current-vintage | `data/processed/info_radar/moex-futoi-dev-2020-2025-v1/futoi_daily_last.parquet` | `a6758388bc311c2c474ad4260337d8fc97f87aa5a9d5bb1f52217940421c1560` |
 | MOEX FUTOI manifest | `data/processed/info_radar/moex-futoi-dev-2020-2025-v1/manifest.json` | `5320875a02441e9844138fc24f85a631b1521061b2ef839403d5b98ebab6e9ee` |
+| MOEX FUTOI intraday current-vintage (not historical-PIT) | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/futoi_intraday.parquet` | `5f496a48c8359acb151eb2806d0705b4ee4197eda42ea43705bb805c70287744` |
+| MOEX FUTOI intraday manifest | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/manifest.json` | `cc432d5938e8b824339975e2d84b29fe3c24219c505c9dfefc4baeb3db46a1ed` |
+| MOEX FUTOI intraday raw archive | `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/official_moex_iss_pages.jsonl.gz` | `f7bdab6f35884da5d6731134262b381c88a87f0ffebdac40139989e2a85d6056` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |

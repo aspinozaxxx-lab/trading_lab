@@ -73,6 +73,25 @@ retrieval time и считать
 Такой current-vintage архив полезен для будущего forward collector, но не допускается к
 историческому PnL 2021–2025.
 
+Полный v2 bundle собран во внешнем хранилище:
+
+- path: `data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2/`;
+- 2 015 624 строки = 1 007 812 paired sequence points, ровно 503 906 строк на ticker;
+- 5 872 single-ticker/day jobs и 24 discovery requests, всего 5 896 raw records;
+- source dates `2020-05-04..2025-12-30`; каждый response короче 1 000 строк и final
+  sequence совпадает с отдельным daily-last proof;
+- processed SHA-256:
+  `5f496a48c8359acb151eb2806d0705b4ee4197eda42ea43705bb805c70287744`;
+- raw SHA-256:
+  `f7bdab6f35884da5d6731134262b381c88a87f0ffebdac40139989e2a85d6056`;
+- manifest SHA-256:
+  `cc432d5938e8b824339975e2d84b29fe3c24219c505c9dfefc4baeb3db46a1ed`;
+- minimum conservative availability — `2026-08-31T22:43:34Z`, поэтому manifest явно
+  содержит `historical_2020_2025_backtest_admissible=false`;
+- 1 356 sequence rows делят `MOMENT` с другой последовательностью: они сохранены по
+  правильному ключу `(session, seqnum)`, а не ошибочно дедуплицированы по времени;
+- raw redistribution запрещена до проверки лицензии.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -119,16 +138,18 @@ RUONIA использована в V15. Её причинная часть V16 �
 V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states не были доступны к
 decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
-Первый незаблокированный шаг теперь не PnL-вариант, а новый target-free source bundle:
+Current-vintage FUTOI bundle уже завершён и fail-closed закрыт для historical PnL.
+Следующие незаблокированные действия:
 
-1. сохранить полный официальный FUTOI 5m 2020–2025 по BR/MX/RI/Si только как
-   current-vintage/forward bundle; ответ ровно 1 000 строк недоказанно полон;
-2. сохранить raw response каждого запроса, URL, SHA, request bounds и immutable manifest
-   вне Git; запретить 2026 в каждом URL до сети;
-3. доказать уникальность `(ticker, tradedate, tradetime, clgroup)`, paired FIZ/YUR,
-   gaps, official `SYSTIME` и actual retrieval; не выдавать republished `SYSTIME` за
-   original vintage;
-4. не публиковать raw архив до проверки лицензии, несмотря на анонимный HTTP 200;
-5. не запускать historical continuous-timing PnL без licensed original-vintage archive.
-   С current-vintage bundle допустим только будущий forward collector, где запись
-   реально получена до решения.
+1. запросить у MOEX licensed original-vintage/bulk history либо начать отдельный forward
+   collector, который timestamp-ит получение каждого нового 5m response в реальном
+   времени; до этого FUTOI timing sleeping;
+2. не публиковать raw FUTOI до проверки лицензии, несмотря на анонимный HTTP 200;
+3. как независимый historical PIT-кандидат исследовать архив отдельных выпусков EIA
+   Weekly Petroleum Status Report: использовать только неизменяемый файл конкретного
+   release и официальный timestamp, а не current-vintage API table;
+4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
+   forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
+5. любой следующий PnL начинается только после source manifest, `available_at` audit и
+   нового sealed protocol. Continuous model может решать чаще суток, но не раньше
+   фактического получения bucket.

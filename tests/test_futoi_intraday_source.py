@@ -135,6 +135,23 @@ def test_response_at_official_row_cap_fails_closed() -> None:
         )
 
 
+def test_repeated_moment_with_distinct_sequence_is_preserved() -> None:
+    rows = [
+        *_point("18:44:59", 296, "2025-06-21 16:22:46"),
+        *_point("18:44:59", 297, "2025-06-21 16:22:46"),
+    ]
+
+    verified = source.verify_intraday_day(
+        _raw(rows),
+        "Si",
+        pd.Timestamp("2020-05-12"),
+    )
+
+    assert len(verified) == 4
+    assert set(verified["seqnum"]) == {296, 297}
+    assert verified["source_time"].nunique() == 1
+
+
 def test_wrong_daily_latest_proof_is_rejected() -> None:
     latest = daily_source.normalize_futoi_history(_raw(_rows()[-2:]), "Si")
     latest.loc[latest["client_group"].eq("FIZ"), "net_position"] += 1

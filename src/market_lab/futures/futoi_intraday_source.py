@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Final
 from urllib.parse import parse_qs, urlencode, urlparse
 
+import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -177,6 +178,132 @@ def fetch_intraday_day(
     }
 
 
+def normalize_intraday_history(frame: pd.DataFrame, expected_ticker: str) -> pd.DataFrame:
+    """Preserve repeated MOMENT values while proving paired session/sequence identity."""
+    if missing := set(daily_source.ISS_COLUMNS) - set(frame.columns):
+        raise ValueError(f"MOEX FUTOI intraday history lacks columns: {sorted(missing)}")
+    output = frame.loc[:, list(daily_source.ISS_COLUMNS)].copy().rename(
+        columns={
+            "tradedate": "source_date",
+            "tradetime": "source_time",
+            "clgroup": "client_group",
+            "pos": "net_position",
+            "pos_long": "long_position",
+            "pos_short": "short_position",
+            "pos_long_num": "long_accounts",
+            "pos_short_num": "short_accounts",
+            "systime": "published_at_moscow",
+        }
+    )
+    output["source_date"] = pd.to_datetime(
+        output["source_date"], errors="raise"
+    ).dt.normalize()
+    if output["source_date"].lt(SOURCE_START).any() or output["source_date"].gt(
+        SOURCE_END
+    ).any():
+        raise ValueError("MOEX FUTOI intraday history escaped the development interval")
+    if output["source_date"].ge(PROTECTED_FROM).any():
+        raise ValueError("MOEX FUTOI intraday history contains a protected source date")
+    source_clock = output["source_time"].astype("string")
+    observed = pd.to_datetime(
+        output["source_date"].dt.strftime("%Y-%m-%d") + " " + source_clock,
+        errors="raise",
+    )
+    published = pd.to_datetime(output["published_at_moscow"], errors="raise")
+    if published.dt.tz is not None:
+        raise ValueError("MOEX FUTOI intraday SYSTIME unexpectedly contains a timezone")
+    if published.lt(observed).any():
+        raise ValueError("MOEX FUTOI intraday publication predates its observation")
+    output["observed_at"] = observed.dt.tz_localize(
+        daily_source.MOSCOW_TIMEZONE
+    ).dt.tz_convert("UTC")
+    output["published_at"] = published.dt.tz_localize(
+        daily_source.MOSCOW_TIMEZONE
+    ).dt.tz_convert("UTC")
+    output["available_at"] = output["published_at"] + daily_source.DELIVERY_BUFFER
+    if not output["ticker"].astype("string").eq(expected_ticker).all():
+        raise ValueError("MOEX FUTOI intraday endpoint returned another ticker")
+    output["client_group"] = output["client_group"].astype("string").str.upper()
+    if not set(output["client_group"].dropna().unique()) <= daily_source.CLIENT_GROUPS:
+        raise ValueError("MOEX FUTOI intraday returned an unknown client group")
+    for column in (
+        "sess_id",
+        "seqnum",
+        "net_position",
+        "long_position",
+        "short_position",
+        "long_accounts",
+        "short_accounts",
+    ):
+        output[column] = daily_source._integer_series(output[column], column)
+    if output[["sess_id", "seqnum", "long_accounts", "short_accounts"]].lt(0).any().any():
+        raise ValueError("MOEX FUTOI intraday identifiers/accounts must be nonnegative")
+    if output["long_position"].lt(0).any() or output["short_position"].gt(0).any():
+        raise ValueError("MOEX FUTOI intraday long/short signs are invalid")
+    if not output["net_position"].eq(
+        output["long_position"] + output["short_position"]
+    ).all():
+        raise ValueError("MOEX FUTOI intraday net position identity failed")
+    point_keys = ["ticker", "source_date", "sess_id", "seqnum", "source_time"]
+    if output.duplicated(point_keys + ["client_group"]).any():
+        raise ValueError("MOEX FUTOI intraday contains duplicate sequence/group rows")
+    grouped = output.groupby(point_keys, sort=False, observed=True)
+    if grouped["client_group"].nunique().ne(2).any():
+        raise ValueError("MOEX FUTOI intraday sequence lacks a FIZ/YUR pair")
+    output["reported_pair_net_imbalance"] = grouped["net_position"].transform("sum")
+    reported_pair_gross = grouped["long_position"].transform("sum") + grouped[
+        "short_position"
+    ].transform("sum").abs()
+    output["reported_pair_balance_ratio"] = (
+        output["reported_pair_net_imbalance"].abs()
+        / reported_pair_gross.where(reported_pair_gross.gt(0), 1)
+    )
+    output["reported_pair_balance_exact"] = output[
+        "reported_pair_net_imbalance"
+    ].eq(0)
+    output["asset_code"] = output["ticker"].map(
+        daily_source.TICKER_TO_ASSET
+    ).astype("string")
+    output["availability_rule"] = (
+        "official_systime_plus_one_minute_current_vintage_not_original_vintage"
+    )
+    output["provider"] = "MOEX ISS FUTOI"
+    output["contains_prices_returns_targets_or_pnl"] = False
+    output["current_vintage_snapshot"] = True
+    ordered_columns = (
+        "source_date",
+        "source_time",
+        "observed_at",
+        "published_at_moscow",
+        "published_at",
+        "available_at",
+        "ticker",
+        "asset_code",
+        "client_group",
+        "sess_id",
+        "seqnum",
+        "net_position",
+        "long_position",
+        "short_position",
+        "long_accounts",
+        "short_accounts",
+        "reported_pair_net_imbalance",
+        "reported_pair_balance_ratio",
+        "reported_pair_balance_exact",
+        "availability_rule",
+        "provider",
+        "contains_prices_returns_targets_or_pnl",
+        "current_vintage_snapshot",
+    )
+    if not np.isfinite(output["reported_pair_balance_ratio"]).all():
+        raise ValueError("MOEX FUTOI intraday pair balance ratio is nonfinite")
+    return output.loc[:, ordered_columns].sort_values(
+        ["source_date", "sess_id", "seqnum", "ticker", "client_group"],
+        kind="mergesort",
+        ignore_index=True,
+    )
+
+
 def verify_intraday_day(
     frame: pd.DataFrame,
     ticker: str,
@@ -188,14 +315,21 @@ def verify_intraday_day(
     date = pd.Timestamp(source_date).normalize()
     if len(frame) >= MAX_RESPONSE_ROWS:
         raise ValueError("FUTOI intraday day can be truncated at the response cap")
-    normalized = daily_source.normalize_futoi_history(frame, ticker)
+    normalized = normalize_intraday_history(frame, ticker)
     if normalized.empty or not normalized["source_date"].eq(date).all():
         raise ValueError("FUTOI intraday response escaped its exact requested date")
-    keys = ["source_date", "source_time", "ticker", "client_group"]
+    keys = [
+        "source_date",
+        "ticker",
+        "sess_id",
+        "seqnum",
+        "source_time",
+        "client_group",
+    ]
     if normalized.duplicated(keys).any():
         raise ValueError("FUTOI intraday day contains duplicate point/group keys")
     point_groups = normalized.groupby(
-        ["source_date", "source_time", "ticker"], observed=True
+        ["source_date", "ticker", "sess_id", "seqnum", "source_time"], observed=True
     )["client_group"].nunique()
     if point_groups.ne(2).any():
         raise ValueError("FUTOI intraday point lacks an exact FIZ/YUR pair")
@@ -206,8 +340,15 @@ def verify_intraday_day(
         ].copy()
         if len(proof) != 2:
             raise ValueError("FUTOI daily-last proof is missing the planned ticker/date pair")
-        last_observation = normalized["observed_at"].max()
-        last = normalized.loc[normalized["observed_at"].eq(last_observation)].copy()
+        proof_identity = proof.loc[:, ["sess_id", "seqnum", "source_time"]].drop_duplicates()
+        if len(proof_identity) != 1:
+            raise ValueError("FUTOI daily-last pair disagrees on final sequence identity")
+        identity = proof_identity.iloc[0]
+        last = normalized.loc[
+            normalized["sess_id"].eq(identity["sess_id"])
+            & normalized["seqnum"].eq(identity["seqnum"])
+            & normalized["source_time"].eq(identity["source_time"])
+        ].copy()
         if len(last) != 2:
             raise ValueError("FUTOI intraday day has no unique final paired point")
         left = last.loc[:, COMPARISON_COLUMNS].sort_values(
@@ -473,7 +614,9 @@ def _assemble_output(
                 batch.append(normalized)
                 rows_by_ticker[job.ticker] += len(normalized)
                 total_rows += len(normalized)
-                points = normalized[["source_date", "source_time", "ticker"]].drop_duplicates()
+                points = normalized[
+                    ["source_date", "ticker", "sess_id", "seqnum", "source_time"]
+                ].drop_duplicates()
                 point_count += len(points)
                 coverage_rows.append(
                     {
