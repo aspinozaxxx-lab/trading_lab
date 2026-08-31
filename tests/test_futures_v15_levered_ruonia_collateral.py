@@ -76,6 +76,96 @@ def test_leverage_doubles_frozen_targets_without_changing_relative_signs() -> No
     assert levered["target_weight"].abs().sum() == pytest.approx(1.40)
 
 
+def test_execution_mapping_is_frozen_v12_then_doubled(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    weekly = pd.DataFrame(
+        {
+            "decision_date": [pd.Timestamp("2021-01-04")],
+            "asset": ["SI"],
+            "target_weight": [0.60],
+            "provenance": ["v12"],
+        }
+    )
+    mapped = pd.DataFrame(
+        {
+            "effective_date": [pd.Timestamp("2021-01-05")],
+            "decision_date": [pd.Timestamp("2021-01-04")],
+            "observed_through": [pd.Timestamp("2021-01-04")],
+            "asset_code": ["SI"],
+            "contract_id": ["SiH1"],
+            "target_weight": [0.60],
+            "provenance": ["v12-mapped"],
+        }
+    )
+    base = v15.v12.TargetBuild(
+        targets=mapped,
+        decision_audit=pd.DataFrame({"decision_date": [pd.Timestamp("2021-01-04")]}),
+        weekly_decisions=1,
+        roll_decisions=0,
+    )
+
+    def fake_builder(weights: pd.DataFrame, active: pd.DataFrame) -> v15.v12.TargetBuild:
+        pd.testing.assert_frame_equal(weights, weekly)
+        assert active.empty
+        return base
+
+    monkeypatch.setattr(v15.v12, "build_execution_targets", fake_builder)
+    result = v15.build_levered_execution_targets(weekly, pd.DataFrame())
+
+    assert result.targets.loc[0, "v12_target_weight"] == pytest.approx(0.60)
+    assert result.targets.loc[0, "target_weight"] == pytest.approx(1.20)
+    assert result.weekly_decisions == 1
+    assert result.roll_decisions == 0
+
+
+def _levered_targets(weights: list[float]) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "effective_date": [pd.Timestamp("2021-01-05")] * 4,
+            "decision_date": [pd.Timestamp("2021-01-04")] * 4,
+            "asset_code": list(v15.v12.ASSETS),
+            "contract_id": ["SiH1", "RIH1", "BRG1", pd.NA],
+            "target_weight": weights,
+        }
+    )
+
+
+def test_levered_target_gate_accepts_two_x_and_rejects_any_excess() -> None:
+    calendar = pd.DatetimeIndex([pd.Timestamp("2021-01-05")])
+    accepted = v15._normalize_levered_targets(
+        _levered_targets([1.20, -0.40, 0.20, 0.0]), calendar, v15.v12.ASSETS
+    )
+
+    assert accepted["target_weight"].abs().sum() == pytest.approx(1.80)
+    with pytest.raises(ValueError, match="target_weight"):
+        v15._normalize_levered_targets(
+            _levered_targets([2.01, 0.0, 0.0, 0.0]), calendar, v15.v12.ASSETS
+        )
+    with pytest.raises(ValueError, match="Gross target"):
+        v15._normalize_levered_targets(
+            _levered_targets([1.20, -0.90, 0.0, 0.0]), calendar, v15.v12.ASSETS
+        )
+
+
+def test_levered_ledger_always_restores_frozen_normalizer(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = v15.ledger_engine._normalize_targets
+
+    def fail_before_pnl(*_args: object, **_kwargs: object) -> None:
+        assert v15.ledger_engine._normalize_targets is v15._normalize_levered_targets
+        raise RuntimeError("synthetic pre-PnL failure")
+
+    monkeypatch.setattr(v15.ledger_engine, "run_futures_portfolio_ledger", fail_before_pnl)
+    with pytest.raises(RuntimeError, match="synthetic pre-PnL failure"):
+        v15.run_levered_portfolio_ledger(
+            pd.DataFrame(), pd.DataFrame(), v15.LeveredLedgerConfig()
+        )
+
+    assert v15.ledger_engine._normalize_targets is original
+
+
 def test_collateral_uses_only_rate_known_at_interval_start_and_clips_oos() -> None:
     evaluation = v15.evaluate_collateral_income(_ledger(), _ruonia())
     audit = evaluation.audit

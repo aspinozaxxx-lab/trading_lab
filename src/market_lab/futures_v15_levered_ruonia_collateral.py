@@ -55,6 +55,7 @@ RUONIA_COLUMNS: Final[tuple[str, ...]] = (
 )
 RUONIA_ROWS: Final[int] = 1963
 MOSCOW_TIMEZONE: Final[str] = "Europe/Moscow"
+_BASE_TARGET_NORMALIZER = ledger_engine._normalize_targets
 
 
 @dataclass(frozen=True, slots=True)
@@ -264,6 +265,68 @@ def build_levered_weights(weekly_weights: pd.DataFrame) -> pd.DataFrame:
     return output.sort_values(
         ["decision_date", "asset"], kind="mergesort", ignore_index=True
     )
+
+
+def build_levered_execution_targets(
+    weekly_weights: pd.DataFrame,
+    active_map: pd.DataFrame,
+) -> v12.TargetBuild:
+    """Reuse exact V12 timing/roll mapping, then apply the sealed 2x multiplier."""
+    base = v12.build_execution_targets(weekly_weights, active_map)
+    targets = base.targets.copy()
+    targets["v12_target_weight"] = pd.to_numeric(
+        targets["target_weight"], errors="raise"
+    ).astype(float)
+    targets["target_weight"] = targets["v12_target_weight"] * LEVERAGE_MULTIPLIER
+    gross = targets.groupby("effective_date")["target_weight"].apply(
+        lambda values: values.abs().sum()
+    )
+    if targets["target_weight"].abs().gt(MAXIMUM_GROSS + 1e-12).any():
+        raise ValueError("V15 mapped individual target exceeds sealed 2x limit")
+    if gross.gt(MAXIMUM_GROSS + 1e-12).any():
+        raise ValueError("V15 mapped target snapshot exceeds sealed gross two")
+    return v12.TargetBuild(
+        targets=targets.sort_values(
+            ["effective_date", "asset_code"], kind="mergesort", ignore_index=True
+        ),
+        decision_audit=base.decision_audit,
+        weekly_decisions=base.weekly_decisions,
+        roll_decisions=base.roll_decisions,
+    )
+
+
+def _normalize_levered_targets(
+    targets: pd.DataFrame,
+    calendar: pd.DatetimeIndex,
+    expected_assets: tuple[str, ...],
+) -> pd.DataFrame:
+    """Apply the frozen ledger validator in 2x units and restore economic weights."""
+    scaled = targets.copy()
+    if "target_weight" not in scaled:
+        return _BASE_TARGET_NORMALIZER(scaled, calendar, expected_assets)
+    scaled["target_weight"] = (
+        pd.to_numeric(scaled["target_weight"], errors="raise").astype(float)
+        / MAXIMUM_GROSS
+    )
+    normalized = _BASE_TARGET_NORMALIZER(scaled, calendar, expected_assets)
+    normalized["target_weight"] = normalized["target_weight"] * MAXIMUM_GROSS
+    return normalized
+
+
+def run_levered_portfolio_ledger(
+    market: pd.DataFrame,
+    targets: pd.DataFrame,
+    config: LeveredLedgerConfig,
+) -> FuturesPortfolioLedgerResult:
+    """Run the byte-reused ledger with a fail-closed, transactionally restored 2x gate."""
+    original = ledger_engine._normalize_targets
+    if original is not _BASE_TARGET_NORMALIZER:
+        raise RuntimeError("V15 refuses nested or externally replaced target normalization")
+    ledger_engine._normalize_targets = _normalize_levered_targets
+    try:
+        return ledger_engine.run_futures_portfolio_ledger(market, targets, config)
+    finally:
+        ledger_engine._normalize_targets = original
 
 
 def _annual_level_returns(
@@ -643,7 +706,7 @@ def run_experiment(output_root: Path) -> Path:
     scores = v12.build_trend_scores(panel)
     weekly_weights = v12.build_weekly_weights(panel, scores)
     levered_weights = build_levered_weights(weekly_weights)
-    target_build = v12.build_execution_targets(levered_weights, active)
+    target_build = build_levered_execution_targets(weekly_weights, active)
     market = v12.build_execution_market(observations, specs)
     coverage = v12.execution_coverage(market, target_build.targets)
 
@@ -660,7 +723,7 @@ def run_experiment(output_root: Path) -> Path:
     collateral_outputs: dict[str, CollateralEvaluation] = {}
     scenario_results: dict[str, dict[str, Any]] = {}
     for name, settings in v12._scenario_settings(protocol).items():
-        result = ledger_engine.run_futures_portfolio_ledger(
+        result = run_levered_portfolio_ledger(
             execution_market,
             target_build.targets,
             LeveredLedgerConfig(
