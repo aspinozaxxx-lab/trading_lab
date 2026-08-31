@@ -30,9 +30,11 @@ V15 впервые пробил целевую доходность: frozen V12 
 8 critical execution events. Поэтому V15 — важный capital-efficiency lead, но его
 verdict **NO-GO**, метрики недействительны для promotion и live trading запрещён.
 
-Для следующей независимой идеи уже получен официальный MOEX RVI: 2 014 строк
-2018–2025, raw archive + manifest, same-day использование запрещено. Подробности и
-очередь FUTOI/EIA/execution sources — в [карте источников](INFORMATION_SOURCES.md).
+Дополнительно получен официальный MOEX FUTOI daily-last для всех core-four: 11 744 строк
+2020–2025, 24 bounded запроса, raw archive + manifest. Он даёт causal crowding ФИЗ/ЮР;
+same-day close использование запрещено. RVI также сохранён, но его V14 gate уже закрыт.
+Подробности и очередь full-5m/EIA/execution sources — в
+[карте источников](INFORMATION_SOURCES.md).
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -217,15 +219,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. Считать V15 закрытым: 20% CAGR достигнут, но MDD/execution gates провалены; не менять
    его leverage, haircut, buffer или мартовские заявки post hoc.
-2. Следующая допустимая гипотеза должна менять сам механизм риска, а не число плеча:
-   например, один заранее объявленный strategy-equity trend governor, использующий только
-   завершённую prior-session shadow-equity V12 и переключающий заранее фиксированные
-   risk states без OOS threshold search.
+2. Следующая допустимая гипотеза меняет сам механизм риска, а не число плеча: один V16
+   FUTOI crowding governor использует только exact previous-source-date ФИЗ/ЮР и
+   warmup-only normalization без OOS threshold search.
 3. Для остановок рынка заранее определить общий causal contract: нет factual open — нет
    fill; позиция сохраняется, новая попытка возникает только по следующему независимому
    решению. Нельзя специально кодировать даты марта 2022 или рисовать missing mark.
 4. Сохранить V15 RUONIA rules byte-identical и отдельно показать alpha/collateral PnL,
-   observable valuation masks, rejected/critical/unresolved и worst path.
+   FUTOI coverage/state counts, rejected/critical/unresolved и worst path.
 5. Gate остаётся прежним: CAGR не ниже 20%, MDD не выше 25%, 4/5 положительных лет,
    complete execution во всех cost scenarios. Результат всё равно adaptive, не live.
 

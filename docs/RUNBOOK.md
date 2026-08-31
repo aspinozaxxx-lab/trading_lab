@@ -214,6 +214,20 @@ Canonical snapshot уже находится во внешнем хранили�
 `conservative_available_from_date`, а feature join обязан требовать
 `source_date < decision_date`.
 
+### MOEX FUTOI daily-last source
+
+Canonical target-free snapshot уже находится во внешнем хранилище. Новый аудит всегда
+пиши в другой versioned каталог:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.futoi_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\moex-futoi-<new-id>
+```
+
+Downloader использует `latest=1`, поэтому это последний официальный FIZ/YUR snapshot
+каждого дня, а не полный 5m архив. Для close-based решения требуется
+`source_date < decision_date`; raw данные нельзя публиковать, пока права не проверены.
+
 ### V14 prior-session RVI governor
 
 Canonical run уже завершён с `NO_GO`; replay не предназначен для перебора RVI mapping:

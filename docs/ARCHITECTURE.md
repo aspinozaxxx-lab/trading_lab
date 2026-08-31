@@ -131,6 +131,14 @@ Target-free downloader официального индекса MOEX RVI. Каж�
 а raw pages, Parquet и manifest получают SHA-256 во внешнем immutable каталоге. Для
 features действует отдельный contract: `source_date < decision_date`.
 
+### `market_lab.futures.futoi_source`
+
+Target-free downloader официального MOEX FUTOI. Он делает 24 bounded ticker-year запроса
+для Si/RI/BR/MX с `latest=1`, сохраняет закрытую схему, exact `systime`, минутный delivery
+buffer, raw JSONL gzip и hashed daily-last Parquet. Пары ФИЗ/ЮР валидируются, но
+официальный ненулевой reporting imbalance сохраняется явно. Полный 5m архив этим
+контуром не заявляется.
+
 ### `market_lab.futures_v14_rvi_risk_governor`
 
 Строит byte-identical V12 weekly weights, сопоставляет им только RVI точной предыдущей
