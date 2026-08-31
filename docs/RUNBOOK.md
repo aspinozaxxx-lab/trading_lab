@@ -253,9 +253,9 @@ Replay создаёт новый immutable каталог и не разреша
 
 ### V16 FUTOI crowding governor plus capacity-aware execution
 
-Canonical V16 завершён с `NO_GO`: combined CAGR 22,01%, но MDD 31,34% превышает
-sealed limit 25%. Execution complete; replay не предназначен для изменения FUTOI
-threshold/multipliers или добавления post-outcome RVI gate:
+Canonical V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 FUTOI states не были
+доступны к decision. Текущий entry point намеренно выбрасывает `RuntimeError` до PnL;
+команда ниже приведена только как имя заблокированного контура и не должна завершаться:
 
 ```powershell
 .\.venv\Scripts\python.exe -m market_lab.futures_v16_futoi_crowding_governor `
@@ -264,10 +264,22 @@ threshold/multipliers или добавления post-outcome RVI gate:
 
 Config SHA должен оставаться
 `d04617756a8226ecc2900a0f3f4036e5891903a65bb722608b276908d803c070`. Canonical run:
-`v16_futoi_governor_20260831T220539Z_d0461775`; любой replay создаёт новый каталог.
-Полный FUTOI 5m нельзя получать годовым запросом: официальный 1 000-row cap срезает
-ответ, а `start` для этого endpoint игнорируется. Использовать только downloader с
-bounded interval splitting и доказательством полноты каждого дня.
+`v16_futoi_governor_20260831T220539Z_d0461775`; его metrics — forensic artifact, не
+performance.
+
+Полный FUTOI 5m сохраняется только как current-vintage forward source:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.futoi_intraday_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\moex-futoi-intraday-dev-2020-2025-v2 `
+  --staging-directory D:\Projects\trading_lab_data\data\processed\info_radar\.moex-futoi-intraday-dev-2020-2025-v2.staging `
+  --max-workers 4
+```
+
+Официальный 1 000-row cap срезает годовой ответ, а `start` игнорируется. Collector делает
+single-ticker/single-date requests и сохраняет resumable staging. Даже полный bundle не
+разрешён для historical PnL: causal availability равна
+`max(SYSTIME + buffer, archive_retrieved_at)`.
 
 ## 5. Новый эксперимент
 

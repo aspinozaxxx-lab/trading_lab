@@ -35,7 +35,7 @@ MAX_RESPONSE_ROWS: Final[int] = 1_000
 DEFAULT_MAX_WORKERS: Final[int] = 4
 DEFAULT_OUTPUT: Final[Path] = (
     PROJECT_ROOT
-    / "data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v1"
+    / "data/processed/info_radar/moex-futoi-intraday-dev-2020-2025-v2"
 )
 DEFAULT_STAGING: Final[Path] = DEFAULT_OUTPUT.with_name(f".{DEFAULT_OUTPUT.name}.staging")
 USER_AGENT: Final[str] = "market-lab-futoi-intraday-source/1.0 (MOEX ISS research)"
@@ -51,7 +51,6 @@ COMPARISON_COLUMNS: Final[tuple[str, ...]] = (
     "short_position",
     "long_accounts",
     "short_accounts",
-    "published_at_moscow",
 )
 
 _THREAD_LOCAL = threading.local()
@@ -156,6 +155,7 @@ def fetch_intraday_day(
     *,
     session: daily_source.SessionLike | None = None,
     request_delay_seconds: float = 0.0,
+    retrieved_at_utc: str | None = None,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Fetch one date; fail closed instead of accepting a possibly truncated response."""
     date = pd.Timestamp(source_date).normalize()
@@ -171,6 +171,8 @@ def fetch_intraday_day(
         "ticker": ticker,
         "source_date": date.date().isoformat(),
         "request_url": url,
+        "retrieved_at_utc": retrieved_at_utc
+        or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "payload": payload,
     }
 
@@ -204,8 +206,8 @@ def verify_intraday_day(
         ].copy()
         if len(proof) != 2:
             raise ValueError("FUTOI daily-last proof is missing the planned ticker/date pair")
-        last_time = normalized["available_at"].max()
-        last = normalized.loc[normalized["available_at"].eq(last_time)].copy()
+        last_observation = normalized["observed_at"].max()
+        last = normalized.loc[normalized["observed_at"].eq(last_observation)].copy()
         if len(last) != 2:
             raise ValueError("FUTOI intraday day has no unique final paired point")
         left = last.loc[:, COMPARISON_COLUMNS].sort_values(
@@ -240,6 +242,7 @@ def discover_daily_latest(
     *,
     session: daily_source.SessionLike | None = None,
     request_delay_seconds: float = 0.0,
+    retrieved_at_utc: str | None = None,
 ) -> tuple[pd.DataFrame, list[dict[str, Any]]]:
     """Discover exact trading dates from bounded official latest-per-date requests."""
     chunks: list[pd.DataFrame] = []
@@ -261,6 +264,8 @@ def discover_daily_latest(
                     "from": start.date().isoformat(),
                     "till": end.date().isoformat(),
                     "request_url": url,
+                    "retrieved_at_utc": retrieved_at_utc
+                    or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
                     "payload": payload,
                 }
             )
@@ -309,10 +314,32 @@ def _record_frame(record: dict[str, Any], job: IntradayJob) -> pd.DataFrame:
         or record.get("ticker") != job.ticker
         or record.get("source_date") != job.source_date.date().isoformat()
         or record.get("request_url") != _intraday_request_url(job.ticker, job.source_date)
+        or not isinstance(record.get("retrieved_at_utc"), str)
         or not isinstance(record.get("payload"), dict)
     ):
         raise ValueError(f"staged FUTOI record identity mismatch: {job.key}")
     return _raw_intraday_frame(record["payload"])
+
+
+def _discovery_values_sha256(archive: list[dict[str, Any]]) -> str:
+    """Ignore mutable publication/retrieval stamps but pin every discovered value."""
+    stable: list[dict[str, Any]] = []
+    for record in archive:
+        payload = record.get("payload")
+        if not isinstance(payload, dict):
+            raise ValueError("FUTOI discovery archive lacks a payload")
+        frame = daily_source._table(payload)
+        columns = [column for column in frame.columns if column != "systime"]
+        stable.append(
+            {
+                "ticker": record.get("ticker"),
+                "from": record.get("from"),
+                "till": record.get("till"),
+                "columns": columns,
+                "data": frame.loc[:, columns].values.tolist(),
+            }
+        )
+    return hashlib.sha256(daily_source._canonical_json(stable)).hexdigest()
 
 
 def _plan_core(
@@ -320,15 +347,13 @@ def _plan_core(
     discovery_archive: list[dict[str, Any]],
 ) -> dict[str, Any]:
     return {
-        "source_id": "official-moex-futoi-intraday-current-vintage-2020-2025-v1",
+        "source_id": "official-moex-futoi-intraday-current-vintage-2020-2025-v2",
         "source_start": SOURCE_START.date().isoformat(),
         "source_end": SOURCE_END.date().isoformat(),
         "protected_from": PROTECTED_FROM.date().isoformat(),
         "tickers": list(TICKERS),
         "jobs": [job.key for job in jobs],
-        "discovery_archive_sha256": hashlib.sha256(
-            daily_source._canonical_json(discovery_archive)
-        ).hexdigest(),
+        "discovery_values_sha256": _discovery_values_sha256(discovery_archive),
     }
 
 
@@ -350,6 +375,7 @@ def _fetch_stage_job(
     *,
     session: daily_source.SessionLike | None,
     request_delay_seconds: float,
+    retrieved_at_utc: str,
 ) -> bool:
     path = _stage_path(staging, job)
     proof = daily_latest.loc[
@@ -366,6 +392,7 @@ def _fetch_stage_job(
         job.source_date,
         session=session,
         request_delay_seconds=request_delay_seconds,
+        retrieved_at_utc=retrieved_at_utc,
     )
     verify_intraday_day(raw, job.ticker, job.source_date, daily_latest=proof)
     _write_stage_record(path, record)
@@ -434,6 +461,14 @@ def _assemble_output(
                     job.source_date,
                     daily_latest=proof,
                 )
+                retrieved_at = pd.Timestamp(record["retrieved_at_utc"])
+                if retrieved_at.tzinfo is None:
+                    raise ValueError("FUTOI intraday retrieval timestamp lacks timezone")
+                retrieved_at = retrieved_at.tz_convert("UTC")
+                normalized["archive_retrieved_at"] = retrieved_at
+                normalized["conservative_available_at"] = normalized[
+                    "available_at"
+                ].where(normalized["available_at"].ge(retrieved_at), retrieved_at)
                 raw_stream.write(_record_bytes(record))
                 batch.append(normalized)
                 rows_by_ticker[job.ticker] += len(normalized)
@@ -450,6 +485,10 @@ def _assemble_output(
                         "minimum_observed_at": normalized["observed_at"].min(),
                         "maximum_observed_at": normalized["observed_at"].max(),
                         "maximum_available_at": normalized["available_at"].max(),
+                        "archive_retrieved_at": retrieved_at,
+                        "maximum_conservative_available_at": normalized[
+                            "conservative_available_at"
+                        ].max(),
                         "response_below_1000_row_cap": len(normalized) < MAX_RESPONSE_ROWS,
                         "daily_latest_pair_matched": True,
                     }
@@ -488,7 +527,7 @@ def _assemble_output(
         raw_requests = len(discovery_archive) + len(jobs)
         manifest_core = {
             "schema_version": 1,
-            "source_id": "official-moex-futoi-intraday-current-vintage-2020-2025-v1",
+            "source_id": "official-moex-futoi-intraday-current-vintage-2020-2025-v2",
             "provider": "MOEX ISS FUTOI",
             "official_endpoint": daily_source.ISS_ROOT,
             "fetched_at_utc": fetched_at_utc,
@@ -522,15 +561,27 @@ def _assemble_output(
             },
             "temporal_semantics": {
                 "source_timestamp": "tradedate plus tradetime in Europe/Moscow",
-                "published_timestamp": "official systime in Europe/Moscow",
-                "available_at": "official systime plus one minute, converted to UTC",
-                "admissible_intraday_join": "available_at at or before decision timestamp",
+                "official_systime": (
+                    "MOEX describes SYSTIME as publication time, but historical rows are "
+                    "republished/current-vintage and the original vintage is not preserved"
+                ),
+                "official_available_at": "official systime plus one minute in UTC",
+                "archive_retrieved_at": "actual retrieval timestamp of this raw response",
+                "conservative_available_at": (
+                    "maximum of official_available_at and archive_retrieved_at"
+                ),
+                "admissible_intraday_join": (
+                    "conservative_available_at at or before decision timestamp"
+                ),
                 "current_vintage_snapshot": True,
                 "historical_revision_archive_proved": False,
+                "historical_original_publication_vintage_proved": False,
+                "historical_2020_2025_backtest_admissible": False,
                 "contains_prices_returns_targets_or_pnl": False,
                 "full_intraday_history_downloaded": True,
                 "daily_completeness_proof": (
-                    "response below 1000-row cap and final pair equals official latest=1"
+                    "response below 1000-row cap and final pair values equal official "
+                    "latest=1; mutable republished SYSTIME is audited separately"
                 ),
             },
             "artifacts": {
@@ -596,9 +647,13 @@ def download_futoi_intraday_source(
     if staging == final or staging.is_relative_to(final):
         raise ValueError("FUTOI intraday staging must be outside the immutable final path")
 
+    snapshot_retrieved_at = fetched_at_utc or datetime.now(UTC).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
     daily_latest, discovery_archive = discover_daily_latest(
         session=session,
         request_delay_seconds=request_delay_seconds,
+        retrieved_at_utc=snapshot_retrieved_at,
     )
     job_keys = daily_latest.loc[:, ["ticker", "source_date"]].drop_duplicates()
     jobs = [
@@ -619,6 +674,7 @@ def download_futoi_intraday_source(
             daily_latest,
             session=session,
             request_delay_seconds=request_delay_seconds,
+            retrieved_at_utc=snapshot_retrieved_at,
         )
 
     network_requests = 0
@@ -639,14 +695,13 @@ def download_futoi_intraday_source(
                     ),
                     flush=True,
                 )
-    fetched_at = fetched_at_utc or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     return _assemble_output(
         final,
         staging,
         jobs,
         daily_latest,
         discovery_archive,
-        fetched_at_utc=fetched_at,
+        fetched_at_utc=snapshot_retrieved_at,
         network_requests_this_run=network_requests + len(discovery_archive),
     )
 

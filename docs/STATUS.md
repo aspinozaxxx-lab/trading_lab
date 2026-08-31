@@ -30,19 +30,19 @@ V15 впервые пробил целевую доходность: frozen V12 
 8 critical execution events. Поэтому V15 — важный capital-efficiency lead, но его
 verdict **NO-GO**, метрики недействительны для promotion и live trading запрещён.
 
-V16 добавил strictly-prior FUTOI crowding и общий capacity-aware execution contract.
-Это лучший агрессивный результат: combined CAGR **22,0082%**, Sharpe **0,9678**, MDD
-**−31,3402%**, stress CAGR **21,0971%**; 730 legs исполнены без rejected, critical или
-unresolved. По сравнению с V15 улучшились CAGR, Sharpe, worst year и MDD, однако заранее
-заданный предел MDD 25% всё ещё нарушен. Поэтому verdict **NO-GO**, live запрещён;
-V12 остаётся единственным lead с GO только к новой unseen validation.
+V16 после дополнительного source-аудита **INVALIDATED**. У 932 из 1 044 FUTOI states
+официальный `systime`/`available_at` позже decision; все 2021–2024 states и часть 2025
+были недоступны. Механические CAGR **22,0082%** и Sharpe **0,9678** нельзя считать
+причинным результатом: join проверял только `source_date`, а не обязательное
+`available_at <= decision_at`. Replay теперь аварийно запрещён кодом. V12 остаётся
+единственным lead с GO только к новой unseen validation.
 
-Официальный MOEX FUTOI daily-last для всех core-four — 11 744 строк 2020–2025,
-24 bounded запроса, raw archive + manifest — теперь проверен в V16 как causal crowding
-ФИЗ/ЮР; same-day close использование запрещено. Следующий data-контур — полный 5m
-FUTOI, поскольку официальный endpoint отдаёт не более 1 000 строк и игнорирует обычный
-`start`, поэтому загрузчик обязан дробить даты и доказывать полноту. Подробности и
-очередь full-5m/EIA/execution sources — в
+Официальный MOEX FUTOI daily-last — current-vintage archive, а не доказанный PIT history.
+MOEX описывает `SYSTIME` как время публикации; для 10 456 из 11 744 строк оно отстаёт от
+observation более чем на сутки, а для всей истории 2020–2024 равно 21.06.2025. Полный
+5m downloader сохраняет actual retrieval и использует
+`conservative_available_at = max(SYSTIME + buffer, retrieval_at)`, поэтому архив не
+может участвовать в backtest 2021–2025. Подробности — в
 [карте источников](INFORMATION_SOURCES.md).
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
@@ -57,7 +57,7 @@ FUTOI, поскольку официальный endpoint отдаёт не бо
 | V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
 | V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
 | V15 2x V12 + causal RUONIA | +162,87%, CAGR 21,33%, Sharpe 0,88, MDD −34,48%; 8 critical | CAGR gate пройден, stability/execution gates нет; NO-GO |
-| V16 FUTOI crowding + capacity-aware 2x | +170,33%, CAGR 22,01%, Sharpe 0,97, MDD −31,34%; execution complete | Лучший aggressive lead, но MDD gate 25% не пройден; NO-GO |
+| V16 FUTOI crowding + capacity-aware 2x | Механически CAGR 22,01%, но 932/1 044 states были недоступны | **INVALID: FUTOI look-ahead**, метрики не использовать |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -69,10 +69,11 @@ FUTOI, поскольку официальный endpoint отдаёт не бо
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
 
-## V16 FUTOI governor — лучший aggressive lead, но не стабильное решение
+## V16 FUTOI governor — INVALID из-за недоказанной доступности
 
-V16 был запечатан и отправлен commit `8fd2abf` после отдельного общего
-capacity-aware admission commit `1323781`, оба до первого PnL.
+V16 был честно запечатан до PnL, но последующий более глубокий source-аудит обнаружил
+нарушение общего PIT-контракта. Это делает run недействительным независимо от красивых
+метрик или pre-outcome seal.
 
 - config SHA:
   `d04617756a8226ecc2900a0f3f4036e5891903a65bb722608b276908d803c070`;
@@ -80,8 +81,10 @@ capacity-aware admission commit `1323781`, оба до первого PnL.
   `8246e155843dad0928c1ae283b9023622fc19fe9ed11ca956753bfbe92c6d73f`;
 - canonical run:
   `runs/v16_futoi_governor_20260831T220539Z_d0461775/`;
-- 1 044 weekly asset states: 253 crowded 1x, 577 aggressive 2x, 214 neutral/zero
-  signal base-risk; все FUTOI свежие и строго предшествуют decision date;
+- 1 044 weekly asset states: только 112 имели recorded `available_at` не позже decision;
+  932 были недоступны, включая все 832 states 2021–2024;
+- первый допустимый state появляется только `2025-06-27`, последний недопустимый —
+  `2025-06-20`; исторические строки 2020–2024 были republished 21.06.2025;
 - 1 040/1 040 nonzero target dependencies, 730 filled legs, 0 rejected/critical/
   unresolved, шесть текущих attempts причинно отменены из-за отсутствия factual open;
 - primary futures-only CAGR **20,1280%**; collateral **201 950,38 RUB**; combined CAGR
@@ -92,11 +95,12 @@ capacity-aware admission commit `1323781`, оба до первого PnL.
 - все 23 artifact hashes и 19 parquet row counts совпали; 40 временных полей имеют
   максимум `2025-12-30`.
 
-Главная просадка `2024-11-26..2025-04-07` распределилась примерно как RI −482 тыс.
-RUB, SI −270 тыс., MIX −173 тыс., BR −56 тыс. FUTOI уменьшил риск части активов, но
-SI оставался 2x во всех 19 недельных состояниях окна. Это объяснение outcome, а не
-основание подбирать новый threshold. Единственный проваленный sealed gate — MDD выше
-25%; verdict `NO_GO`, independent confirmation всё ещё обязателен.
+Числа выше сохранены только как forensic record. Их нельзя сравнивать с V12/V15 как
+causal performance и нельзя использовать для выбора новой стратегии. Причина ошибки:
+`build_futoi_governor` требовал `source_date < decision_date`, но не требовал
+`available_at <= decision_at`; warmup 2020 также не был доказанно доступен к началу OOS.
+Canonical directory и metrics SHA не изменяются, а текущий entry point V16 теперь
+выбрасывает `RuntimeError` с причиной invalidation до чтения PnL.
 
 ## V15 capital efficiency — доходность найдена, устойчивость ещё нет
 
@@ -256,22 +260,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P1 — новая информация для intraday timing и устойчивости
 
-1. Считать V16 закрытым: 20% CAGR и complete execution достигнуты, но MDD 25% gate
-   провален. Не менять daily-last FUTOI threshold/multipliers, leverage, RUONIA rules или
-   RVI mapping по уже просмотренному path.
-2. Получить полный официальный MOEX FUTOI 5m 2020–2025 в отдельное внешнее хранилище.
-   API ограничивает ответ 1 000 строками и не поддерживает обычную offset-pagination;
-   downloader должен рекурсивно дробить интервалы до доказуемо полного дня, сохранять
-   каждый raw response, SHA, `systime` и точный `available_at`.
-3. До любого нового PnL сформулировать один принципиально новый timing protocol:
-   intraday FUTOI используется только после завершённого bucket и delivery buffer,
-   а решение исполняется на следующем фактическом bucket/open. Daily V16 не ретюнится.
-4. Проверять сначала target-free свойства нового источника: coverage, gaps, revisions,
-   FIZ/YUR identity и права. Технически анонимный HTTP 200 не доказывает разрешение на
-   перераспространение или пригодность для live.
-5. Экстремальный RVI совпал с V16 drawdown только как post-outcome diagnostic. Новый
-   RVI threshold/blend на 2021–2025 запрещён sealed V14; такой механизм можно объявить
-   лишь для действительно unseen forward validation.
+1. Считать V16 `INVALID`: 932/1 044 FUTOI states нарушают `available_at <= decision_at`.
+   Не использовать его return, diagnostics или thresholds для дальнейшего отбора.
+2. Полный официальный FUTOI 5m можно сохранить только как current-vintage/forward
+   source. Для каждой строки хранить official `SYSTIME`, actual retrieval timestamp и
+   `conservative_available_at = max(SYSTIME + buffer, retrieval_at)`; история 2021–2025
+   при таком contract не backtest-admissible.
+3. Для исторического continuous timing нужен лицензированный archival feed с original
+   publication vintages либо собственный forward collector. Без него FUTOI-гипотеза
+   sleeping, даже если анонимный endpoint технически возвращает данные.
+4. Следующий PnL-эксперимент выбирать только из источника с доказанной PIT-доступностью;
+   сначала исправить/аудировать source, затем sealed protocol, и только потом outcomes.
+5. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
+   drawdown остаётся только post-outcome наблюдением.
 
 ### P2 — разблокировать широкий structural exact execution
 

@@ -137,7 +137,8 @@ Target-free downloader официального MOEX FUTOI. Он делает 24
 для Si/RI/BR/MX с `latest=1`, сохраняет закрытую схему, exact `systime`, минутный delivery
 buffer, raw JSONL gzip и hashed daily-last Parquet. Пары ФИЗ/ЮР валидируются, но
 официальный ненулевой reporting imbalance сохраняется явно. Полный 5m архив этим
-контуром не заявляется.
+контуром не заявляется. Source current-vintage: `source_date` не доказывает availability;
+consumer обязан проверять official `SYSTIME`/`available_at` против каждого decision.
 
 ### `market_lab.futures_v14_rvi_risk_governor`
 
@@ -161,13 +162,20 @@ live-кандидат.
 MOEX FUTOI daily-last. Warmup median/MAD фиксированы только по 2020, crowded state
 оставляет 1x, обычное/contrarian состояние допускает 2x, missing/stale закрывается в 1x.
 Общий ledger policy `cancel_and_clip` отменяет текущую попытку при недоказанном factual
-open/lagged volume и не создаёт скрытый retry. V16 дал complete execution и лучший
-aggressive CAGR/Sharpe, но MDD 31,34% не прошёл sealed limit 25%.
+open/lagged volume и не создаёт скрытый retry. Однако V16 **INVALIDATED**: join проверял
+только предыдущий `source_date`, и 932/1 044 FUTOI states имели `available_at` позже
+decision. Entry point теперь останавливается до PnL; старые metrics хранятся только для
+forensic audit.
 
-Следующий source-контур должен быть отдельным модулем полного FUTOI 5m. Analytical
+### `market_lab.futures.futoi_intraday_source`
+
+Resumable current-vintage collector полного FUTOI 5m. Analytical
 endpoint ограничивает ответ 1 000 строками и игнорирует обычный `start`; поэтому loader
-обязан рекурсивно делить интервалы, архивировать каждый raw response и считать ответ
-ровно из 1 000 строк недоказанно полным.
+делает один ticker/day request, архивирует каждый raw response и считает ответ ровно из
+1 000 строк недоказанно полным. Финальная пара сверяется с отдельным `latest=1` proof.
+Для каждой строки сохраняются official SYSTIME и actual retrieval; causal contract равен
+`max(SYSTIME + buffer, retrieval_at)`. Поэтому bundle пригоден для будущего forward
+collector, но не для historical PnL 2021–2025 без original-vintage archive.
 
 ### `market_lab.filings`
 

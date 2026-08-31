@@ -36,6 +36,12 @@ FUTOI_MIN_DATE: Final[pd.Timestamp] = pd.Timestamp("2020-05-04")
 FUTOI_MAX_DATE: Final[pd.Timestamp] = pd.Timestamp("2025-12-30")
 FUTOI_CLIENT_GROUP: Final[str] = "FIZ"
 FUTOI_STALENESS_DAYS: Final[int] = 7
+INVALIDATED_FUTOI_PIT_STATES: Final[int] = 932
+TOTAL_FUTOI_OOS_STATES: Final[int] = 1_044
+INVALIDATION_REASON: Final[str] = (
+    "V16 invalidated: 932/1044 FUTOI states were not available by decision time; "
+    "historical current-vintage SYSTIME was treated as if source_date proved availability"
+)
 ROBUST_Z_THRESHOLD: Final[float] = 1.0
 AGGRESSIVE_MULTIPLIER: Final[float] = 2.0
 DEFENSIVE_MULTIPLIER: Final[float] = 1.0
@@ -646,6 +652,7 @@ def _report_text(payload: dict[str, Any]) -> str:
 
 def run_experiment(output_root: Path) -> Path:
     """Execute the single immutable V16 FUTOI-governed capital-efficiency run."""
+    raise RuntimeError(INVALIDATION_REASON)
     protocol = load_protocol()
     verified = verify_inputs(protocol)
     panel = pd.read_parquet(

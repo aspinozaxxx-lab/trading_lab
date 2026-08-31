@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V16: FUTOI crowding + capacity-aware 2x trend — качество выше, MDD gate не пройден; NO-GO
+## V16: FUTOI crowding + capacity-aware 2x trend — INVALID, FUTOI look-ahead
 
 - Протокол: [`configs/futures_v16_futoi_crowding_governor.yaml`](../configs/futures_v16_futoi_crowding_governor.yaml)
 - Config SHA-256:
@@ -15,6 +15,13 @@
   `runs/v16_futoi_governor_20260831T220539Z_d0461775/metrics.json`
 - Metrics SHA-256:
   `8246e155843dad0928c1ae283b9023622fc19fe9ed11ca956753bfbe92c6d73f`
+- Invalidation audit: 932/1 044 OOS asset states имели recorded FUTOI `available_at`
+  позже decision. Все 832 states 2021–2024 недоступны; первый допустимый state только
+  `2025-06-27`. MOEX определяет `SYSTIME` как время публикации, а historical rows
+  2020–2024 в current-vintage response имеют `SYSTIME=2025-06-21`.
+- Root cause: join требовал `source_date < decision_date`, но не проверял обязательное
+  `available_at <= decision_at`. Pre-outcome seal не компенсирует look-ahead; run
+  недействителен и текущий entry point остановлен `RuntimeError` до PnL.
 - Signal: frozen V12 weekly trend. Для каждого asset последний FUTOI строго с
   `source_date < decision_date` переводит нормальное/contrarian состояние в 2x, а
   trend-aligned crowding не менее одной robust sigma — в 1x. Median/MAD зафиксированы
@@ -24,8 +31,9 @@
 - Capacity contract: неизвестный factual open или lagged volume отменяет только текущую
   попытку; известный participation excess заранее clip-ится. Нет скрытого GTC retry и
   специальных дат марта 2022.
-- Integrity: все 23 артефакта и 19 parquet row counts совпали с manifest; проверены 40
-  date/timestamp columns, максимум `2025-12-30`, защищённых данных 2026 нет.
+- Artifact integrity: все 23 артефакта и 19 parquet row counts совпали с manifest.
+  Предыдущий аудит проверял только отсутствие 2026 и потому не заметил, что timestamp
+  2025 всё равно позже решений 2021–2024.
 
 OOS содержит 261 weekly и 53 roll decision, 1 256 target rows и 1 040 ненулевых
 targets с coverage 1 040/1 040. Из 1 044 weekly asset states: 253 crowded 1x, 577
@@ -34,27 +42,26 @@ aggressive 2x и 214 neutral/zero-signal base-risk; stale/missing не было.
 причинно отменены из-за отсутствия factual open, позиция сохранялась до следующего
 самостоятельного target.
 
-| Scenario | Futures CAGR | Combined return | Combined CAGR | Sharpe | MDD | Costs RUB |
+| INVALID forensic scenario | Futures CAGR | Combined return | Combined CAGR | Sharpe | MDD | Costs RUB |
 |---|---:|---:|---:|---:|---:|---:|
 | 1 tick + 1x fee | 20,1280% | 170,3301% | 22,0082% | 0,9678 | −31,3402% | 45 074,70 |
 | 2 ticks + 2x fee | 19,9683% | 168,5542% | 21,8474% | 0,9624 | −30,8848% | 89 323,92 |
 | 4 ticks + 2x fee | 19,1924% | 160,3881% | 21,0971% | 0,9378 | −31,0004% | 132 148,39 |
 
 Primary collateral income — 201 950,38 RUB. Combined годы: 2021 `+39,1146%`,
-2022 `+70,4325%`, 2023 `+15,2018%`, 2024 `+9,0275%`, 2025 `−9,2234%`. Относительно
-V15 CAGR выше на 0,6810 п.п., Sharpe на 0,0851, MDD лучше на 3,1422 п.п., worst year
-лучше на 6,0301 п.п.; одновременно execution впервые полностью доказан.
+2022 `+70,4325%`, 2023 `+15,2018%`, 2024 `+9,0275%`, 2025 `−9,2234%`. Эти числа
+сохранены только для forensic reproducibility: их нельзя сравнивать с V15/V12,
+использовать для выбора следующей гипотезы или называть performance.
 
 Главная просадка шла от `2024-11-26` до `2025-04-07`: RI дал около −482 тыс. RUB,
 SI −270 тыс., MIX −173 тыс., BR −56 тыс. В этом окне FUTOI уже уменьшал RI/MIX/BR,
 но оставлял SI в 2x во всех 19 weekly states. Это outcome-diagnostic, не разрешение
 подбирать новый FUTOI/RVI threshold на том же периоде.
 
-Verdict: `NO_GO`. Все sealed условия, кроме одного, выполнены: combined CAGR выше 20%,
-4/5 лет положительны, cost stress положителен и execution complete, но MDD 31,34%
-превышает лимит 25%. V16 — лучший агрессивный development lead, а не стабильное или
-live-ready решение. Следующий шаг требует новой PIT-информации/нового unseen периода;
-V16.1 с подстройкой crowding, leverage либо RVI по просмотренному path запрещён.
+Verdict: `INVALID_FUTOI_LOOKAHEAD`, не `NO_GO`. Ни один promotion gate не оценивается
+по недоступным признакам. Daily/intraday FUTOI current-vintage можно использовать только
+после его conservative retrieval time либо с лицензированным original-vintage archive;
+V16.1 и любые post-outcome FUTOI/RVI thresholds запрещены.
 
 ## V15: 2x frozen V12 + causal RUONIA — цель CAGR достигнута, stability/execution нет; NO-GO
 

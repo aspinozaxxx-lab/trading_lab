@@ -76,14 +76,18 @@ identity и должен проверяться перед чтением.
 - Training row может видеть только значение, доступное к `decision_at`.
 - RVI current-vintage допускается только при `source_date < decision_date`; значение RVI
   того же дня запрещено даже если стратегия формально решает после close.
-- FUTOI daily-last current-vintage допускается только при `source_date < decision_date`.
-  В source хранится official `systime`, но консервативный `available_at` дополнительно
-  сдвинут на одну минуту. Семь ненулевых FIZ/YUR balance points сохраняются как source
-  facts и не заменяются искусственным нулём.
+- FUTOI current-vintage **не допускается** по одному `source_date`. Требуется одновременно
+  `source_date < decision_date` и `available_at <= decision_at`. MOEX определяет
+  `SYSTIME` как publication time; 10 456/11 744 строк daily-last опубликованы/republished
+  более чем через сутки после observation. Именно пропуск второй проверки инвалидировал
+  V16: 932/1 044 states были недоступны.
 - Для будущего FUTOI 5m ответ ровно из 1 000 строк считается обрезанным, даже если HTTP
   успешен: `start` на analytical endpoint фактически игнорируется. Интервал нужно делить
   до bounded ответа короче лимита, затем проверять каждый trading day и пару FIZ/YUR.
-  Intraday feature доступен только после official `systime` плюс delivery buffer.
+  Intraday feature доступен только после
+  `max(official SYSTIME + delivery buffer, actual archive retrieval time)`. Без original
+  publication-vintage archive весь скачанный в 2026 current-vintage FUTOI запрещён для
+  backtest 2021–2025.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

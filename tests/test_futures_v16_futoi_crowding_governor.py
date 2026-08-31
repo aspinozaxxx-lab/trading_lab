@@ -190,3 +190,10 @@ def test_sidecar_names_the_sealed_protocol() -> None:
 
     assert digest == v16.CONFIG_SHA256
     assert name == v16.CONFIG_PATH.name
+
+
+def test_invalidated_v16_cannot_be_replayed_as_causal(tmp_path: Path) -> None:
+    assert v16.INVALIDATED_FUTOI_PIT_STATES == 932
+    assert v16.TOTAL_FUTOI_OOS_STATES == 1_044
+    with pytest.raises(RuntimeError, match="V16 invalidated"):
+        v16.run_experiment(tmp_path)

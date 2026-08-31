@@ -55,17 +55,23 @@ revision archive не доказан. Это daily-last выборка; полн
 загружен. Официальный документ говорит о подписке/входе, хотя все 24 запроса в момент
 снимка успешно прошли анонимно; это не доказывает права на перераспространение raw data.
 
-Источник проверен в sealed V16 без same-day join. Из 1 044 weekly asset states 253
-определены как crowded 1x, 577 как aggressive 2x и 214 как neutral/zero-signal base-risk.
-V16 улучшил V15 до combined CAGR 22,01%, Sharpe 0,968 и MDD 31,34%, а также устранил
-rejected/critical execution, но заранее заданный MDD 25% gate не прошёл. Daily-last
-threshold/multipliers теперь закрыты для подстройки на 2021–2025.
+Дополнительный аудит **инвалидировал V16**. Официальное описание определяет `SYSTIME`
+как время публикации информации. У 10 456/11 744 строк оно более чем на сутки позже
+observation; у всей истории 2020–2024 значение равно `2025-06-21 16:35:12 MSK`.
+Следовательно, `source_date < decision_date` недостаточно: 932/1 044 V16 states не
+выполняют `available_at <= decision_at`, включая все states 2021–2024. Механические
+метрики V16 запрещено считать performance или использовать для отбора.
 
 Проверка официального intraday endpoint без `latest=1` показала важную особенность:
 один Si-день `2025-12-30` возвращает 348 строк, годовой диапазон обрезается ровно на
 1 000 строках, а параметры `start=1000/2000` возвращают те же первые строки. Значит,
 полный 5m архив нельзя доказывать обычной offset-pagination: интервалы нужно делить до
 ответов короче 1 000 строк, а каждый день проверять отдельно на paired FIZ/YUR points.
+Но полнота значений не создаёт PIT vintage: новый collector обязан хранить actual
+retrieval time и считать
+`conservative_available_at = max(SYSTIME + delivery buffer, archive_retrieved_at)`.
+Такой current-vintage архив полезен для будущего forward collector, но не допускается к
+историческому PnL 2021–2025.
 
 ### Уже использованные источники
 
@@ -74,9 +80,8 @@ threshold/multipliers теперь закрыты для подстройки н
 - CBR: ключевая ставка, RUONIA и официальный USD/RUB с publication semantics;
 - CFTC: weekly positioning с Friday release lag и отдельными holiday overrides.
 
-RUONIA использована в V15 и без изменения правил перенесена в V16. В V16 причинный
-collateral income составил 201 950,38 RUB и поднял combined CAGR до 22,01%, но не
-устранил MDD 31,34%.
+RUONIA использована в V15. Её причинная часть V16 не исправляет недоступный FUTOI signal,
+поэтому V16 collateral/combined metrics также недействительны.
 
 Эти признаки уже встречались в V6/V8/V9. Их нельзя выдавать за новую информацию лишь
 потому, что изменён threshold или модель.
@@ -87,8 +92,8 @@ collateral income составил 201 950,38 RUB и поднял combined CAGR 
 |---|---|---|---|---|
 | P0 | Historical MOEX/broker specs, fees, IM, spread/order book | Отделить реальную исполнимость от ложной прибыли | Лицензия/подписка и broker archive | Использовать только запись, действовавшую до order time |
 | P1 | MOEX RVI | Forward-looking risk regime для RI/MIX и общего gross | Current-vintage history; нужен один sealed test | Только предыдущая source date |
-| P1 | MOEX FUTOI daily-last | Causal crowding/risk regime для всех core-four | V16 завершён NO-GO по MDD; current-vintage, права/revisions не доказаны | Только `source_date < decision_date` |
-| P1 | Полный MOEX FUTOI 5m | Непрерывный crowding и момент сделки | 1 000-row cap, offset игнорируется; нужны bounded split requests либо licensed bulk | Только завершённый bucket плюс delivery lag |
+| P1 | MOEX FUTOI daily-last | Forward crowding/risk regime для всех core-four | V16 INVALID; historical publication vintages не доказаны | Только `available_at <= decision_at`, source date недостаточно |
+| P1 | Полный MOEX FUTOI 5m | Будущий forward timing/момент сделки | Current-vintage, 1 000-row cap, offset игнорируется; historical PIT отсутствует | `max(SYSTIME + buffer, retrieval_at) <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply shocks для BR | Время релиза, holidays, revision/consensus | Не раньше официального release timestamp |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -97,8 +102,10 @@ collateral income составил 201 950,38 RUB и поднял combined CAGR 
 
 - [MOEX ISS developer interface](https://www.moex.com/a8531) и
   [historical data service](https://www.moex.com/a2863);
-- [MOEX FUTOI description](https://fs.moex.com/f/12829/get-futoi-data-en.pdf) —
-  физлица/юрлица и пятиминутный open interest;
+- [MOEX FUTOI fields](https://fs.moex.com/f/12828/data-description-en.pdf) —
+  `MOMENT` как время последней учтённой сделки и `SYSTIME` как время публикации;
+- [MOEX FUTOI access](https://fs.moex.com/f/12829/get-futoi-data-en.pdf) —
+  физлица/юрлица, пятиминутный open interest и лимит 1 000 строк;
 - [CBR publication schedule](https://www.cbr.ru/eng/calendar/),
   [key-rate calendar](https://www.cbr.ru/DKP/cal_mp/) и
   [RUONIA](https://www.cbr.ru/hd_base/ruonia/);
@@ -109,18 +116,19 @@ collateral income составил 201 950,38 RUB и поднял combined CAGR 
 
 ## Следующая проверяемая гипотеза
 
-V16 завершён: combined CAGR 22,01%, Sharpe 0,968 и complete execution улучшили V15, но
-MDD 31,34% дал `NO_GO`. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
+V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states не были доступны к
+decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
 Первый незаблокированный шаг теперь не PnL-вариант, а новый target-free source bundle:
 
-1. скачать полный официальный FUTOI 5m 2020–2025 по BR/MX/RI/Si с interval splitting,
-   потому что ответ ровно 1 000 строк считается недоказанно полным;
+1. сохранить полный официальный FUTOI 5m 2020–2025 по BR/MX/RI/Si только как
+   current-vintage/forward bundle; ответ ровно 1 000 строк недоказанно полон;
 2. сохранить raw response каждого запроса, URL, SHA, request bounds и immutable manifest
    вне Git; запретить 2026 в каждом URL до сети;
 3. доказать уникальность `(ticker, tradedate, tradetime, clgroup)`, paired FIZ/YUR,
-   монотонный `systime`, gaps и `available_at = systime + delivery buffer`;
+   gaps, official `SYSTIME` и actual retrieval; не выдавать republished `SYSTIME` за
+   original vintage;
 4. не публиковать raw архив до проверки лицензии, несмотря на анонимный HTTP 200;
-5. только после source audit запечатать один новый continuous-timing protocol без
-   повторного threshold search. Он должен выбирать момент чаще одного раза в сутки, но
-   не имеет права использовать ещё не опубликованный bucket, future price или PnL.
+5. не запускать historical continuous-timing PnL без licensed original-vintage archive.
+   С current-vintage bundle допустим только будущий forward collector, где запись
+   реально получена до решения.

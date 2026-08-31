@@ -173,11 +173,15 @@ def test_download_writes_resumable_hashed_intraday_bundle(
     coverage = pd.read_parquet(result / "coverage.parquet")
     assert len(intraday) == 4
     assert len(coverage) == 1
+    assert intraday["conservative_available_at"].eq(
+        pd.Timestamp("2026-09-01T00:00:00Z")
+    ).all()
     assert manifest["request_count"] == 2
     assert manifest["network_requests_this_run"] == 2
     assert manifest["single_date_intraday_request_count"] == 1
     assert manifest["artifacts"]["processed_intraday"]["rows"] == 4
     assert manifest["temporal_semantics"]["contains_prices_returns_targets_or_pnl"] is False
+    assert manifest["temporal_semantics"]["historical_2020_2025_backtest_admissible"] is False
     assert manifest["access_observation"]["raw_redistribution_allowed"] is False
     assert (staging / "plan.json").read_bytes().startswith(b"\xef\xbb\xbf")
     with pytest.raises(FileExistsError):
