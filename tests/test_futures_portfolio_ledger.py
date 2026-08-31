@@ -330,6 +330,76 @@ def test_terminal_halt_order_is_unresolved_without_critical_failure() -> None:
     assert not result.execution_complete
 
 
+def test_cancel_and_clip_policy_discards_halt_target_without_retry() -> None:
+    """Proveryaet causal cancel tekushchei popytki vmesto GTC cherez halt."""
+    market, targets, _ = _exit_during_halt_case(include_reopen=True)
+    config = _config(
+        expected_assets=("SI",),
+        execution_atomicity="asset",
+        unexecutable_target_policy="cancel_and_clip",
+    )
+
+    result = run_futures_portfolio_ledger(market, targets, config)
+
+    assert result.orders["leg"].eq("entry").all()
+    assert result.positions.iloc[-1]["contracts"] == 5
+    assert result.metrics["target_cancel_no_open_count"] == 1
+    assert result.metrics["unresolved_halt_count"] == 0
+    assert result.metrics["critical_failure_count"] == 0
+    assert result.execution_complete
+
+
+def test_cancel_and_clip_policy_sleeps_without_lagged_liquidity() -> None:
+    """Proveryaet admission sleep pri unknown prior volume bez missing=zero fill."""
+    market = _market().loc[lambda frame: frame["asset_code"].eq("SI")].copy()
+    market.loc[
+        market["session_date"].eq(pd.Timestamp("2025-03-10")), "volume"
+    ] = np.nan
+    targets = _targets(si_weight=0.5, mix_weight=0.0).iloc[:1].copy()
+
+    result = run_futures_portfolio_ledger(
+        market,
+        targets,
+        _config(
+            expected_assets=("SI",),
+            execution_atomicity="asset",
+            unexecutable_target_policy="cancel_and_clip",
+        ),
+    )
+
+    assert result.orders.empty
+    assert result.positions["contracts"].eq(0).all()
+    assert result.metrics["target_cancel_no_liquidity_count"] == 1
+    assert result.metrics["unknown_liquidity_count"] == 0
+    assert result.execution_complete
+
+
+def test_cancel_and_clip_policy_limits_known_participation_before_order() -> None:
+    """Proveryaet partial quantity po exact prior-volume capacity."""
+    market = _market().loc[lambda frame: frame["asset_code"].eq("SI")].copy()
+    market.loc[
+        market["session_date"].eq(pd.Timestamp("2025-03-10")), "volume"
+    ] = 200.0
+    targets = _targets(si_weight=0.9, mix_weight=0.0).iloc[:1].copy()
+
+    result = run_futures_portfolio_ledger(
+        market,
+        targets,
+        _config(
+            expected_assets=("SI",),
+            execution_atomicity="asset",
+            unexecutable_target_policy="cancel_and_clip",
+        ),
+    )
+
+    assert result.orders.iloc[0]["quantity_delta"] == 2
+    assert result.orders.iloc[0]["participation"] == pytest.approx(0.01)
+    assert result.orders.iloc[0]["reason"] == "filled_participation_clipped"
+    assert result.metrics["participation_clip_count"] == 1
+    assert result.metrics["participation_rejection_count"] == 0
+    assert result.execution_complete
+
+
 def test_missing_settle_is_critical_and_never_masked_as_halt() -> None:
     """Proveryaet fail-closed pri neizvestnom settle vmesto halt-diagnostic."""
     market, targets, config = _exit_during_halt_case(include_reopen=False)

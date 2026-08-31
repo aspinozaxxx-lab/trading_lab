@@ -80,6 +80,10 @@ DIAGNOSTIC_COUNTER_NAMES: Final[frozenset[str]] = frozenset(  # Ne kriticheskie 
         "halt_only_portfolio_rejection_count",
         "halt_resolved_count",
         "halt_resolution_event_count",
+        "target_cancel_no_open_count",
+        "target_cancel_no_liquidity_count",
+        "target_cancel_roll_capacity_count",
+        "participation_clip_count",
     }
 )
 
@@ -97,6 +101,7 @@ class FuturesPortfolioLedgerConfig:
     fee_multiplier: Literal[1.0, 2.0] = 1.0
     execution_atomicity: Literal["portfolio", "asset"] = "portfolio"
     terminal_policy: Literal["carry"] = "carry"
+    unexecutable_target_policy: Literal["retry", "cancel_and_clip"] = "retry"
 
     def __post_init__(self) -> None:
         """Proveryaet konservativnye granicy do dostupa k market frame."""
@@ -121,6 +126,13 @@ class FuturesPortfolioLedgerConfig:
             raise ValueError("execution_atomicity dolzhen byt' portfolio ili asset")
         if self.terminal_policy != "carry":
             raise ValueError("Multi-asset research-ledger podderzhivaet tol'ko carry")
+        if self.unexecutable_target_policy not in {"retry", "cancel_and_clip"}:
+            raise ValueError("unexecutable_target_policy dolzhen byt' retry ili cancel_and_clip")
+        if (
+            self.unexecutable_target_policy == "cancel_and_clip"
+            and self.execution_atomicity != "asset"
+        ):
+            raise ValueError("cancel_and_clip trebuet asset execution_atomicity")
 
 
 @dataclass(frozen=True, slots=True)
@@ -167,6 +179,10 @@ class _PortfolioCounters:
     halt_only_portfolio_rejection_count: int = 0
     halt_resolved_count: int = 0
     halt_resolution_event_count: int = 0
+    target_cancel_no_open_count: int = 0
+    target_cancel_no_liquidity_count: int = 0
+    target_cancel_roll_capacity_count: int = 0
+    participation_clip_count: int = 0
 
     def total_failures(self) -> int:
         """Vozvrashchaet tol'ko kriticheskie, a ne diagnostic halt sobytiya."""
@@ -650,6 +666,94 @@ def _fit_integer_risk_budget(
     raise RuntimeError("Integer risk fitting ne soshelsya za konechnoe chislo shagov")
 
 
+def _fit_capacity_admission(
+    desired: dict[str, tuple[str | None, int, pd.Series | None]],
+    positions: dict[str, _PortfolioPosition],
+    indexed: pd.DataFrame,
+    session_date: pd.Timestamp,
+    config: FuturesPortfolioLedgerConfig,
+    counters: _PortfolioCounters,
+) -> tuple[
+    dict[str, tuple[str | None, int, pd.Series | None]],
+    set[str],
+    set[str],
+]:
+    """Cancel unprovable legs and clip one-contract-series deltas to known capacity."""
+    fitted = dict(desired)
+    cancelled: set[str] = set()
+    clipped: set[str] = set()
+    for asset, (desired_contract, desired_quantity, _) in desired.items():
+        legs = _desired_legs(positions[asset], desired_contract, desired_quantity)
+        if not legs:
+            continue
+        leg_rows = [
+            (
+                leg_name,
+                leg_contract,
+                delta,
+                _market_row(indexed, session_date, asset, leg_contract),
+            )
+            for leg_name, leg_contract, delta in legs
+        ]
+        if any(row is None for _, _, _, row in leg_rows):
+            continue
+        halt_rows = [
+            row
+            for _, _, _, row in leg_rows
+            if row is not None and not _finite_positive(row["open"]) and _factual_halt(row)
+        ]
+        if halt_rows:
+            position = positions[asset]
+            current_row = _market_row(indexed, session_date, asset, position.contract_id)
+            fitted[asset] = (position.contract_id, position.contracts, current_row)
+            counters.target_cancel_no_open_count += 1
+            cancelled.add(asset)
+            continue
+        if any(
+            row is not None and not _finite_positive(row["lagged_volume"])
+            for _, _, _, row in leg_rows
+        ):
+            position = positions[asset]
+            current_row = _market_row(indexed, session_date, asset, position.contract_id)
+            fitted[asset] = (position.contract_id, position.contracts, current_row)
+            counters.target_cancel_no_liquidity_count += 1
+            cancelled.add(asset)
+            continue
+        capacities = [
+            int(np.floor(float(row["lagged_volume"]) * config.maximum_participation))
+            for _, _, _, row in leg_rows
+            if row is not None
+        ]
+        if len(legs) > 1:
+            if any(
+                abs(delta) > capacity
+                for (_, _, delta, _), capacity in zip(
+                    leg_rows, capacities, strict=True
+                )
+            ):
+                position = positions[asset]
+                current_row = _market_row(
+                    indexed, session_date, asset, position.contract_id
+                )
+                fitted[asset] = (position.contract_id, position.contracts, current_row)
+                counters.target_cancel_roll_capacity_count += 1
+                cancelled.add(asset)
+            continue
+        _, leg_contract, delta, row = leg_rows[0]
+        capacity = capacities[0]
+        if abs(delta) <= capacity:
+            continue
+        admitted_delta = (1 if delta > 0 else -1) * capacity
+        admitted_quantity = positions[asset].contracts + admitted_delta
+        admitted_contract = leg_contract if admitted_quantity != 0 else None
+        fitted[asset] = (admitted_contract, admitted_quantity, row)
+        counters.participation_clip_count += 1
+        clipped.add(asset)
+        if capacity == 0:
+            cancelled.add(asset)
+    return fitted, cancelled, clipped
+
+
 def _risk_reasons(
     desired: dict[str, tuple[str | None, int, pd.Series | None]],
     estimated_equity: float,
@@ -758,6 +862,9 @@ def run_futures_portfolio_ledger(
     pending_asset_targets: dict[str, dict[str, object]] = {}
     pending_portfolio_targets: dict[str, dict[str, object]] | None = None
     pending_portfolio_halt_assets: set[str] = set()
+    target_policy = str(getattr(settings, "unexecutable_target_policy", "retry"))
+    if target_policy not in {"retry", "cancel_and_clip"}:
+        raise ValueError("unknown unexecutable_target_policy")
 
     for session_number, session_value in enumerate(calendar):
         session_date = pd.Timestamp(session_value)
@@ -767,6 +874,8 @@ def run_futures_portfolio_ledger(
         critical_blocked_assets: set[str] = set()
         halt_mark_assets: set[str] = set()
         session_halt_assets: set[str] = set()
+        capacity_cancelled_assets: set[str] = set()
+        participation_clipped_assets: set[str] = set()
         for asset, position in positions.items():
             if position.contracts == 0:
                 continue
@@ -853,6 +962,29 @@ def run_futures_portfolio_ledger(
                     target["contract_id"]
                 )
                 row = _market_row(indexed, session_date, asset, contract)
+                if (
+                    target_policy == "cancel_and_clip"
+                    and contract is not None
+                    and row is not None
+                    and not _finite_positive(row["open"])
+                    and _factual_halt(row)
+                ):
+                    position = positions[asset]
+                    current_row = _market_row(
+                        indexed,
+                        session_date,
+                        asset,
+                        position.contract_id,
+                    )
+                    desired[asset] = (
+                        position.contract_id,
+                        position.contracts,
+                        current_row,
+                    )
+                    counters.target_cancel_no_open_count += 1
+                    capacity_cancelled_assets.add(asset)
+                    session_halt_assets.add(asset)
+                    continue
                 quantity = _target_quantity(float(target["target_weight"]), cash, row)
                 if quantity is None:
                     reasons = _unsized_target_reasons(row, counters)
@@ -872,6 +1004,17 @@ def run_futures_portfolio_ledger(
                 cash,
                 settings,
             )
+            if target_policy == "cancel_and_clip":
+                desired, cancelled, clipped = _fit_capacity_admission(
+                    desired,
+                    positions,
+                    indexed,
+                    session_date,
+                    settings,
+                    counters,
+                )
+                capacity_cancelled_assets.update(cancelled)
+                participation_clipped_assets.update(clipped)
             proposed: list[dict[str, object]] = []
             atomic_group = f"{session_date.date().isoformat()}:{session_number:06d}"
             for asset in settings.expected_assets:
@@ -954,7 +1097,11 @@ def run_futures_portfolio_ledger(
                     leg["reason"] = (
                         "filled_after_factual_halt"
                         if asset in retry_assets
-                        else "filled"
+                        else (
+                            "filled_participation_clipped"
+                            if asset in participation_clipped_assets
+                            else "filled"
+                        )
                     )
                     leg["rejection_class"] = (
                         "resolved_halt" if asset in retry_assets else ""
@@ -993,6 +1140,10 @@ def run_futures_portfolio_ledger(
                     status = "partial_asset_atomic_rebalance"
                 elif asset_failures:
                     status = "asset_atomic_critical_rejected"
+                elif capacity_cancelled_assets and filled_assets:
+                    status = "partial_capacity_admission"
+                elif capacity_cancelled_assets:
+                    status = "target_cancelled_by_capacity_admission"
                 else:
                     status = "portfolio_rebalanced" if proposed else "target_unchanged"
             else:
