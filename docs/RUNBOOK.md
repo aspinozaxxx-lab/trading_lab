@@ -223,6 +223,20 @@ Canonical run уже завершён с `NO_GO`; replay не предназна
   --output-root D:\Projects\trading_lab_data\runs
 ```
 
+### V15 levered V12 plus causal RUONIA collateral
+
+Canonical V15 завершён с `NO_GO`: CAGR выше 20%, но MDD выше 25% и execution неполон.
+Replay создаёт новый immutable каталог и не разрешает менять leverage/RUONIA rules:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v15_levered_ruonia_collateral `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+2x admission изолирован внутри V15: общий V12 mapper сначала строит те же даты/контракты,
+после чего target удваивается; frozen ledger normalizer транзакционно масштабируется и
+обязательно восстанавливается. Config SHA должен оставаться `8cbcf307...`.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

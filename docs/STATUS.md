@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-08-31**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V14 гипотез защищены и не используются.
+Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
+`2025-12-31`; данные 2026 для текущих V8–V15 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -24,6 +24,12 @@ V14 проверил предыдущую сессию RVI как forward-volati
 **−9,3980%**, но CAGR упал до **4,6687%**, Sharpe — до **0,7342**. Verdict снова
 **NO-GO**: риск стал меньше, но цель доходности отдалилась.
 
+V15 впервые пробил целевую доходность: frozen V12 с 2x targets и консервативным доходом
+на свободное обеспечение дал combined CAGR **21,3272%** (stress **20,4453%**). Но MDD
+вырос до **−34,4823%**, 2025 дал **−15,2535%**, а остановка RI/MIX в марте 2022 создала
+8 critical execution events. Поэтому V15 — важный capital-efficiency lead, но его
+verdict **NO-GO**, метрики недействительны для promotion и live trading запрещён.
+
 Для следующей независимой идеи уже получен официальный MOEX RVI: 2 014 строк
 2018–2025, raw archive + manifest, same-day использование запрещено. Подробности и
 очередь FUTOI/EIA/execution sources — в [карте источников](INFORMATION_SOURCES.md).
@@ -39,6 +45,7 @@ V14 проверил предыдущую сессию RVI как forward-volati
 | V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
 | V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
 | V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
+| V15 2x V12 + causal RUONIA | +162,87%, CAGR 21,33%, Sharpe 0,88, MDD −34,48%; 8 critical | CAGR gate пройден, stability/execution gates нет; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -49,6 +56,28 @@ V14 проверил предыдущую сессию RVI как forward-volati
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V15 capital efficiency — доходность найдена, устойчивость ещё нет
+
+V15 был запечатан commit `f68226f`; отдельный fix `85b1074` только разрешил уже
+объявленный 2x target в mapper/ledger и был отправлен до первого расчёта PnL.
+
+- config SHA:
+  `8cbcf30712684607e16cde27a9bca333e4740bd3bdb119646890d0b28d00a50d`;
+- metrics SHA:
+  `3f882e0b74e1b58fced362c3f4713f6c7641e7577964b51625d1b18d471298c4`;
+- primary futures-only CAGR **19,9802%**; collateral **142 698,54 RUB**; combined CAGR
+  **21,3272%**, Sharpe **0,8826**, MDD **−34,4823%**;
+- doubled/stress combined CAGR **20,5038%/20,4453%**, оба total return положительны;
+- четыре из пяти лет положительны, но 2025 **−15,2535%**;
+- 1 040/1 040 targets и 1 271/1 271 RUONIA intervals покрыты;
+- 12 rejected legs и 8 critical events относятся к factual halt RI/MIX в марте 2022;
+  unresolved на конце нет, но `execution_complete=false`.
+
+Это первый прямой результат выше 20% CAGR, однако не решение задачи стабильного дохода:
+25% MDD gate превышен почти на 9,5 п.п., а неполное исполнение запрещает считать метрики
+promotion-valid. Не создавать V15.1 с подстройкой leverage/haircut/buffer по уже
+увиденному результату.
 
 ## V14 RVI governor — risk control работает, доходность нет
 
@@ -184,18 +213,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
 
-### P1 — доход на свободное обеспечение через causal RUONIA
+### P1 — новый risk budget поверх подтверждённого capital-efficiency механизма
 
-1. Сохранить frozen V12 alpha/targets/execution и построить новый ledger, не меняя
-   canonical V12/V13/V14 code identity.
-2. Использовать только официальную RUONIA, опубликованную до начала начисляемой сессии;
-   observation date без publication proof недостаточна.
-3. Начислять консервативную ставку только на положительный unencumbered cash после
-   двойного modeled-IM reserve и operational cash buffer; не начислять доход на margin.
-4. До PnL запечатать haircut, day-count, buffer, tax/fee assumptions и единственный
-   leverage/collateral вариант. Отдельно показывать alpha PnL и collateral PnL.
-5. Цель исследования — проверить, способен ли capital efficiency приблизить CAGR к 20%
-   без MDD выше 25%; это adaptive development, не обещание и не live admission.
+1. Считать V15 закрытым: 20% CAGR достигнут, но MDD/execution gates провалены; не менять
+   его leverage, haircut, buffer или мартовские заявки post hoc.
+2. Следующая допустимая гипотеза должна менять сам механизм риска, а не число плеча:
+   например, один заранее объявленный strategy-equity trend governor, использующий только
+   завершённую prior-session shadow-equity V12 и переключающий заранее фиксированные
+   risk states без OOS threshold search.
+3. Для остановок рынка заранее определить общий causal contract: нет factual open — нет
+   fill; позиция сохраняется, новая попытка возникает только по следующему независимому
+   решению. Нельзя специально кодировать даты марта 2022 или рисовать missing mark.
+4. Сохранить V15 RUONIA rules byte-identical и отдельно показать alpha/collateral PnL,
+   observable valuation masks, rejected/critical/unresolved и worst path.
+5. Gate остаётся прежним: CAGR не ниже 20%, MDD не выше 25%, 4/5 положительных лет,
+   complete execution во всех cost scenarios. Результат всё равно adaptive, не live.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -248,6 +280,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v12_core4_trend_20260831T182210Z_0b1a79d5/metrics.json`
 - `runs/v13_trend_carry_20260831T190300Z_94841c0b/metrics.json`
 - `runs/v14_rvi_governor_20260831T201919Z_9f680ebf/metrics.json`
+- `runs/v15_levered_ruonia_20260831T205040Z_8cbcf307/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

@@ -39,6 +39,10 @@ current-vintage; исторический revision archive пока не док�
 - CBR: ключевая ставка, RUONIA и официальный USD/RUB с publication semantics;
 - CFTC: weekly positioning с Friday release lag и отдельными holiday overrides.
 
+RUONIA теперь использована в V15: 1 271/1 271 причинных интервалов покрыты, 50% ставки
+после двойного modeled-IM reserve и 10% cash buffer дали 142 698,54 RUB за 2021–2025.
+Это повысило combined CAGR до 21,33%, но не устранило MDD 34,48% и execution failures.
+
 Эти признаки уже встречались в V6/V8/V9. Их нельзя выдавать за новую информацию лишь
 потому, что изменён threshold или модель.
 
@@ -48,7 +52,7 @@ current-vintage; исторический revision archive пока не док�
 |---|---|---|---|---|
 | P0 | Historical MOEX/broker specs, fees, IM, spread/order book | Отделить реальную исполнимость от ложной прибыли | Лицензия/подписка и broker archive | Использовать только запись, действовавшую до order time |
 | P1 | MOEX RVI | Forward-looking risk regime для RI/MIX и общего gross | Current-vintage history; нужен один sealed test | Только предыдущая source date |
-| P1 | MOEX Futures Open Interest Intraday (FUTOI) | Потоки и crowding физлиц/юрлиц каждые 5 минут | Авторизация/коммерческие условия, история с 2020 | Только завершённый bucket плюс delivery lag |
+| P1 | MOEX Futures Open Interest Intraday (FUTOI) | Потоки и crowding физлиц/юрлиц каждые 5 минут | Официальный API требует подписку и вход; история с 2020 | Только завершённый bucket плюс delivery lag |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply shocks для BR | Время релиза, holidays, revision/consensus | Не раньше официального release timestamp |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -69,17 +73,19 @@ current-vintage; исторический revision archive пока не док�
 
 ## Следующая проверяемая гипотеза
 
-V14 завершён: previous-session RVI уменьшил MDD до 9,40%, но CAGR до 4,67% и не улучшил
-Sharpe. Семейство threshold-вариантов закрыто на этом OOS.
+V15 завершён: combined CAGR 21,33% впервые достиг цели, но MDD 34,48% и восемь critical
+halt events дали `NO_GO`. Семейство post-outcome leverage/haircut вариантов закрыто.
 
-Первый незаблокированный кандидат — один V15 capital-efficiency experiment:
+Следующий незаблокированный development-кандидат — один заранее запечатанный
+strategy-equity risk governor поверх V15:
 
-1. byte-identical V12 alpha, targets и exact execution;
-2. официальная RUONIA допускается только после `available_at`, до начала периода
-   начисления;
-3. доход начисляется только на положительное обеспечение после двойного modeled IM и
-   заранее фиксированного operational buffer;
-4. haircut ставки, day-count, tax/fee assumptions и отсутствие reinvestment в sizing
-   запечатываются до PnL;
-5. отчёт отдельно показывает futures alpha, collateral income и combined equity; никакого
-   post-outcome перебора haircut/leverage на 2021–2025.
+1. frozen V12 shadow-equity строится отдельно и использует только завершённое состояние
+   предыдущей сессии;
+2. risk state определяется простым заранее фиксированным equity-trend правилом без
+   перебора thresholds на OOS;
+3. V15 RUONIA haircut/buffer/day-count остаются byte-identical;
+4. halt handling задаётся единым правилом для всех дат и активов до PnL, без специальных
+   исключений для марта 2022 и без missing=zero;
+5. gate требует одновременно CAGR `>=20%`, MDD `<=25%` и complete execution. Это всё ещё
+   adaptive development; независимую информацию параллельно искать в подписном FUTOI,
+   historical MOEX/broker execution archives и timestamped EIA releases.

@@ -138,6 +138,15 @@ core-four сессии и применяет общий downward-only scale. В 
 `rvi_governor.csv`, а metrics содержат delta против frozen V12. Контур уменьшил MDD, но
 получил NO-GO из-за падения CAGR/Sharpe.
 
+### `market_lab.futures_v15_levered_ruonia_collateral`
+
+Повторно использует frozen V12 mapping/ledger, удваивает уже причинно сопоставленные
+targets в изолированном 2x admission-контуре и начисляет haircutted RUONIA только на
+свободное обеспечение после двойного modeled IM и operational buffer. Interest хранится
+отдельно и не влияет на sizing. V15 пробил 20% combined CAGR, но получил NO-GO из-за
+MDD выше 25% и critical halt orders; это механизм для дальнейшего risk research, а не
+live-кандидат.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

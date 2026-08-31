@@ -4,6 +4,51 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V15: 2x frozen V12 + causal RUONIA — цель CAGR достигнута, stability/execution нет; NO-GO
+
+- Протокол: [`configs/futures_v15_levered_ruonia_collateral.yaml`](../configs/futures_v15_levered_ruonia_collateral.yaml)
+- Config SHA-256:
+  `8cbcf30712684607e16cde27a9bca333e4740bd3bdb119646890d0b28d00a50d`
+- Pre-outcome Git commits: `f68226f`; инфраструктурный 2x admission fix до PnL:
+  `85b1074`.
+- Canonical run:
+  `runs/v15_levered_ruonia_20260831T205040Z_8cbcf307/metrics.json`
+- Metrics SHA-256:
+  `3f882e0b74e1b58fced362c3f4713f6c7641e7577964b51625d1b18d471298c4`
+- Signal: frozen V12; mapped target weights умножены на 2, gross cap 2x, modeled-IM
+  reserve остаётся 2x. Первый технический запуск остановился до расчёта PnL на старом
+  1x admission guard и не создал run; economics/config не менялись.
+- Collateral: последняя RUONIA, консервативно доступная до начала интервала, haircut 50%,
+  ACT/365; начисление только на положительный остаток после двойного IM и 10% operational
+  buffer. Процент не участвует в sizing и не капитализируется в будущую базу.
+- Coverage: 1 040/1 040 nonzero target dependencies; 1 271/1 271 RUONIA intervals,
+  1 824 календарных дня. Все 23 run-артефакта совпадают с записанными hashes; 25
+  временных полей не пересекают защищённую границу 2026.
+
+| Scenario | Futures CAGR | Combined return | Combined CAGR | Sharpe | MDD | Costs RUB |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 tick + 1x fee | 19,9802% | 162,8703% | 21,3272% | 0,8826 | −34,4823% | 51 931,22 |
+| 2 ticks + 2x fee | 19,1440% | 154,0721% | 20,5038% | 0,8609 | −34,9389% | 101 335,27 |
+| 4 ticks + 2x fee | 19,0763% | 153,4561% | 20,4453% | 0,8605 | −34,5370% | 151 941,78 |
+
+Primary collateral income — 142 698,54 RUB, или 14,2699% начального капитала. Combined
+годы: 2021 `+40,3432%`, 2022 `+73,0253%`, 2023 `+19,8218%`, 2024 `+6,6062%`,
+2025 `−15,2535%`. Главная просадка шла от пика 2024-11-26 до минимума 2025-10-20.
+Maximum post-mark gross leverage 2,1862 и maximum 2x modeled-margin/start-cash ratio
+1,0831 возникали после рыночного движения; order-time gross/margin rejections равны нулю.
+
+Execution не является полным: primary содержит 756 filled и 12 rejected legs, восемь
+critical order events и ноль unresolved на конце. Все отказы сосредоточены в RI/MIX
+`2022-03-09..2022-03-23`, когда требуемого factual open/mark не было; дополнительно три
+случая не имели lagged volume и один превысил participation. Поэтому даже численно
+высокие return/CAGR имеют `metrics_valid=false`.
+
+Verdict: `NO_GO`. Sealed 20% CAGR gate пройден, но MDD 25% gate и complete-execution
+gate провалены. V15 доказал полезность capital efficiency как направления, но не
+стабильный исполнимый доход. Нельзя менять leverage, RUONIA haircut, buffer или правила
+марта 2022 по этому outcome; следующий вариант обязан быть отдельной заранее
+запечатанной risk/execution гипотезой и всё равно потребует независимой проверки.
+
 ## V14: previous-session RVI risk governor — просадка ниже, edge слишком ослаблен; NO-GO
 
 - Протокол: [`configs/futures_v14_rvi_risk_governor.yaml`](../configs/futures_v14_rvi_risk_governor.yaml)
