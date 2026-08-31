@@ -297,6 +297,20 @@ Collector берёт только issue links `2012-01-01..2025-12-30`, не и�
 API и не читает market outcomes. Выпуск 31.12.2025 исключён из-за conservative UTC
 availability в 2026; stale duplicate 03.07.2019 остаётся в raw/coverage, но не processed.
 
+### V17 EIA physical-balance direction
+
+Canonical V17 завершён с `NO_GO`; replay создаёт новый immutable каталог, но не разрешает
+инвертировать signs, менять components/normalization/lag/vol target:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v17_eia_supply_demand `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Config SHA должен оставаться `1d8eee3f...`. Canonical run:
+`v17_eia_supply_demand_20260831T234157Z_1d8eee3f`; execution complete, но primary CAGR
+−7,74%, поэтому это отрицательный forensic/development result, не кандидат в live.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

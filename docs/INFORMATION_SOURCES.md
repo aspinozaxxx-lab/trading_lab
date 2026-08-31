@@ -122,6 +122,12 @@ current-vintage API и без рыночных prices/returns/targets/PnL:
 2026 UTC. Source audit допускает bundle к development-гипотезе, но не заменяет отдельный
 pre-outcome seal и не означает, что фундаментальный сигнал прибыльный.
 
+Sealed V17 уже проверил один допустимый use case и получил `NO_GO`: delayed weekly
+direction из семи raw changes дал CAGR −7,74%, Sharpe −0,19 и MDD −48,80% при полном
+исполнении. Это закрывает raw-change composite, но не сам источник. Следующая экономически
+иная EIA-гипотеза требует point-in-time consensus/forecast для измерения surprise; простая
+инверсия signs, новый threshold или более ранний lag на тех же outcomes запрещены.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и

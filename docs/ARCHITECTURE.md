@@ -171,6 +171,15 @@ open/lagged volume и не создаёт скрытый retry. Однако V16
 decision. Entry point теперь останавливается до PnL; старые metrics хранятся только для
 forensic audit.
 
+### `market_lab.futures_v17_eia_supply_demand`
+
+Проверяет семь fixed EIA physical-balance changes без outcome training: каждый компонент
+получает prior-only rolling z-score, fixed economic sign и общий BR direction. Source
+`available_at` переводится в первую завершённую MOEX decision session, затем frozen V12
+active-contract mapper/ledger исполняет следующий factual open и отдельные roll events.
+V17 технически завершён, но получил `NO_GO`: полный ledger доказал, что отрицательный
+результат относится к сигналу, а не к missing execution.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

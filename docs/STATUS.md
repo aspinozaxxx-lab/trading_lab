@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V16 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V17 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -52,6 +52,12 @@ observation более чем на сутки, а для всей истории
 Один stale issue `2019-07-03` изолирован, 71 межвыпусковая revision сохранена. Outcome BR
 ещё не читался; следующий шаг — pre-outcome seal единственного supply-demand composite.
 
+V17 выполнил этот sealed test и получил **NO-GO**: total return **−33,1422%**,
+CAGR **−7,7373%**, Sharpe **−0,1893**, MDD **−48,8033%**, только два положительных года.
+Все 294 nonzero execution dependencies покрыты, 0 critical/unresolved, поэтому провал не
+объясняется исполнением. Raw delayed EIA balance не является доходным сигналом; signs,
+компоненты, lag и thresholds по этому результату не инвертировать и не подбирать.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -65,6 +71,7 @@ observation более чем на сутки, а для всей истории
 | V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
 | V15 2x V12 + causal RUONIA | +162,87%, CAGR 21,33%, Sharpe 0,88, MDD −34,48%; 8 critical | CAGR gate пройден, stability/execution gates нет; NO-GO |
 | V16 FUTOI crowding + capacity-aware 2x | Механически CAGR 22,01%, но 932/1 044 states были недоступны | **INVALID: FUTOI look-ahead**, метрики не использовать |
+| V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -75,6 +82,27 @@ observation более чем на сутки, а для всей истории
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V17 EIA physical balance — валидный отрицательный результат
+
+V17 был запечатан и pushed commit `a8b8407` до первого чтения BR outcomes.
+
+- config SHA:
+  `1d8eee3f7aa99aff5798aeaf6a946d110cfa4e4b451b57580b1d9ef6cd17b37a`;
+- metrics SHA:
+  `fbd3b74e44ce91d484bb9e1594130ee2dd4d6589c0e50cabb34f3345b898f255`;
+- canonical run: `runs/v17_eia_supply_demand_20260831T234157Z_1d8eee3f/`;
+- 245 OOS release decisions и 49 roll decisions; 1 176 target rows, 294/294 nonzero
+  execution dependencies complete;
+- primary/doubled/stress total return **−33,14%/−39,97%/−42,68%**;
+- primary costs **82 842,43 RUB**, maximum participation **0,1383%**;
+- годы: 2021 **+7,80%**, 2022 **−31,73%**, 2023 **+59,58%**,
+  2024 **−19,83%**, 2025 **−28,99%**;
+- все три ledger complete, 0 rejected/critical/unresolved; один factual halt carried.
+
+Source полезен как чистый PIT dataset, но именно raw-change delayed weekly direction
+закрыт. Допустимое возвращение к EIA требует новой информации — прежде всего исторического
+point-in-time analyst consensus для настоящего surprise — либо нового forward периода.
 
 ## V16 FUTOI governor — INVALID из-за недоказанной доступности
 
@@ -276,9 +304,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 3. Для исторического continuous timing нужен лицензированный archival feed с original
    publication vintages либо собственный forward collector. Без него FUTOI-гипотеза
    sleeping, даже если анонимный endpoint технически возвращает данные.
-4. EIA v2 source audit завершён: 727/728 releases допустимы, stale duplicate исключён,
-   maximum `available_at` — `2025-12-30T04:59:59Z`. Следующий PnL разрешён только после
-   отдельного seal семикомпонентного BR supply-demand shock без threshold search.
+4. EIA v2 source audit завершён, но sealed V17 raw-change composite убыточен и закрыт.
+   Не инвертировать его signs и не сокращать lag; искать point-in-time consensus surprise
+   либо принципиально другой независимый source family.
 5. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 
@@ -335,6 +363,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v14_rvi_governor_20260831T201919Z_9f680ebf/metrics.json`
 - `runs/v15_levered_ruonia_20260831T205040Z_8cbcf307/metrics.json`
 - `runs/v16_futoi_governor_20260831T220539Z_d0461775/metrics.json`
+- `runs/v17_eia_supply_demand_20260831T234157Z_1d8eee3f/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

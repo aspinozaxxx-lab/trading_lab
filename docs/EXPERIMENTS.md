@@ -4,6 +4,47 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V17: EIA seven-component physical balance for BR — NO-GO
+
+- Протокол: [`configs/futures_v17_eia_supply_demand.yaml`](../configs/futures_v17_eia_supply_demand.yaml)
+- Config SHA-256:
+  `1d8eee3f7aa99aff5798aeaf6a946d110cfa4e4b451b57580b1d9ef6cd17b37a`
+- Pre-outcome commit: `a8b8407`; config, implementation и tests были pushed до первого
+  чтения BR outcomes.
+- Canonical run:
+  `runs/v17_eia_supply_demand_20260831T234157Z_1d8eee3f/`
+- Metrics SHA-256:
+  `fbd3b74e44ce91d484bb9e1594130ee2dd4d6589c0e50cabb34f3345b898f255`
+- Новый input family: 38 248 строк из 727 release-specific EIA WPSR Table 1 vintages;
+  source manifest SHA `aac389628b...`, processed SHA `5fccfa968a...`.
+- Signal: семь заранее названных inventory/supply/refinery/demand changes, prior-only
+  156-release z-score с минимумом 104, fixed economic signs, без trade threshold;
+  BR target — знак composite с causal prior-60-session 20% vol scaling.
+- Timing: conservative end-of-release-day New York, затем завершение первой factual MOEX
+  decision session и только следующий factual active-contract open. Ни `Last-Modified`,
+  ни same-day response не использованы.
+- 623 source releases получили достаточную source history; 245 OOS release decisions и
+  49 causal roll decisions; 1 176 target rows, 294 nonzero dependencies, coverage
+  294/294. В 2022 13 releases уснули из-за отсутствия prior-60-session BR volatility;
+  последний release 2025 не имел будущего decision session.
+- Все 74 preflight/source checks true. Все три ledger полны: 0 critical, 0 unresolved,
+  maximum participation 0,1383%; один factual halt был корректно carried.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---|
+| primary | −33,1422% | −7,7373% | −0,1893 | −48,8033% | 82 842,43 | yes |
+| doubled | −39,9714% | −9,7044% | −0,2734 | −49,6065% | 153 735,82 | yes |
+| stress | −42,6776% | −10,5337% | −0,3237 | −51,6054% | 221 578,82 | yes |
+
+Primary годы: 2021 **+7,80%**, 2022 **−31,73%**, 2023 **+59,58%**,
+2024 **−19,83%**, 2025 **−28,99%**. Только 2/5 лет положительны.
+
+Verdict: **NO-GO**. Это валидный отрицательный результат, а не execution failure. Не
+инвертировать signs, не менять семь компонентов, 156/104 normalization, lag, vol target
+или threshold на тех же outcomes. Возвращение к EIA возможно только с действительно новой
+информацией, например point-in-time analyst consensus/forecast surprise, либо на новом
+forward периоде по заранее запечатанному протоколу.
+
 ## V16: FUTOI crowding + capacity-aware 2x trend — INVALID, FUTOI look-ahead
 
 - Протокол: [`configs/futures_v16_futoi_crowding_governor.yaml`](../configs/futures_v16_futoi_crowding_governor.yaml)
