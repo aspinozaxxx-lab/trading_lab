@@ -4,6 +4,52 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V10/V11: triangular RI/MIX/SI relative value — закрыто, NO-GO
+
+### V10: adverse-window execution
+
+- Протокол: [`configs/futures_v10_triangular_relative_value.yaml`](../configs/futures_v10_triangular_relative_value.yaml)
+- Config SHA-256:
+  `4ff5c4cb84e5ecd608d69f5673a0e8af6e4f8103cea8f9cb348530e525e6103c`
+- Canonical run:
+  `runs/v10_triangular_20260831T171000Z_4ff5c4cb/metrics.json`
+- Metrics SHA-256:
+  `71ea94ec170544e35bb6e2896536d328bae71256537b84eec2990a98c4a0bb65`
+- Signal: `log(RI) − log(MIX) + log(SI)`, prior 72 common observations, entry 2σ,
+  take-profit 0,5σ, adverse stop 4σ, maximum 18 completed bars.
+- Execution: exact next bucket; buy high/sell low; integer contracts; equal 30% leg
+  budgets; signal and realized participation cap 1%; ordinary and doubled costs.
+- Coverage: 169 071 common bars, 109 143 OOS bars, 31 953 eligible signal bars and
+  3 329 raw threshold events.
+- Fail-closed stop: after 4 completed trades, `2022-03-29 08:00 UTC`,
+  `insufficient_entry_window_capacity`.
+- Partial diagnostic only: return −2,5806%, CAGR −0,5230%, Sharpe −0,6344,
+  MDD −2,5806%, 0/4 winners, costs 697,15 RUB. Full-period metrics are invalid.
+- Verdict: `NO_GO_UNRESOLVED_EXECUTION`; live promotion forbidden.
+
+### V11: liquidity-buffered next-open sensitivity
+
+- Протокол: [`configs/futures_v11_liquidity_buffered_open.yaml`](../configs/futures_v11_liquidity_buffered_open.yaml)
+- Config SHA-256:
+  `584bf28977238681bfd90a39fa886eb0d1e1691a4799e041c4321d5bb02f400c`
+- Canonical run:
+  `runs/v11_buffered_open_20260831T171200Z_584bf289/metrics.json`
+- Metrics SHA-256:
+  `338fd41a35b64fe661112af389f17a1e4616c52d91cd8d41b4616aff0acb6ca1`
+- Alpha and thresholds inherited unchanged from V10. Execution uses factual next-bucket
+  open plus fee/one-tick cash cost, sizes from 0,25% of causal signal-bar volume, keeps a
+  1% factual cap, cancels unfilled entries and retries a triggered exit for at most six
+  exact same-contract buckets.
+- V11 is explicitly adaptive after reading V10 on the same 2021–2025 period. It is
+  hypothesis generation only and cannot make a confirmatory claim on this interval.
+- Fail-closed stop: 10 completed trades, 12 exit retries, then
+  `2022-06-06 11:10 UTC`, `exit_capacity_retry_limit`.
+- Partial diagnostic only: return −0,6768%, CAGR −0,1361%, Sharpe −0,9736,
+  MDD −0,6768%, win 20%, profit factor 0,1189, costs 1 899,99 RUB. At doubled costs:
+  return −0,8668%, Sharpe −1,0571. Full-period metrics are invalid.
+- Verdict: `NO_GO_UNRESOLVED_EXECUTION`. Семейство закрыто; не перебирать thresholds,
+  stops, holding или capacity на уже просмотренной истории.
+
 ## V9: текущая серия challenger-экспериментов
 
 ### Structural futures breadth — условный lead
@@ -155,4 +201,3 @@
 | `runs/market_graph_v2_long_only_20260819T074419Z/` | Superseded; final cap diagnostics are in 074638Z |
 
 Остальные timestamp-run считаются legacy/scratch, пока явно не внесены в этот реестр.
-

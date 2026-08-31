@@ -94,6 +94,18 @@ V1 получает одновременно 30 equities, causal market context,
 correlation bias. Factor head отделён от demeaned residual head. V2 не переобучает score,
 а проверяет sealed relative momentum только в long-only execution.
 
+### `market_lab.futures_v10_triangular_relative_value` и V11
+
+V10 собирает exact common active-contract 10m buckets RI/MIX/SI, проверяет полный
+manifest/SHA chain и lag-1 causal spec proxy, затем считает экономический residual
+`log(RI) − log(MIX) + log(SI)`. `core.py` отделяет prior-only signal от adverse
+next-window execution; `data.py` сохраняет factual last-trade timestamp отдельно от
+scheduled bucket end; `run.py` пишет hashed signal/trade/leg/unresolved audit.
+
+`market_lab.futures_v11_liquidity_buffered_open` наследует тот же сигнал без изменения и
+изолированно проверяет buffered next-open execution. Оба контура fail-closed и имеют
+NO-GO; V11 дополнительно помечен adaptive same-period и не является независимым OOS.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной
@@ -136,4 +148,3 @@ open, exit, spec или settlement не доказан, результат unres
 Пока это поддерживается локальными junctions. Если появится необходимость Linux/CI или
 нескольких data roots, следующий рефакторинг должен ввести один validated settings object,
 но не менять economics или identities уже канонических run.
-

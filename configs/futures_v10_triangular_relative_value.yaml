@@ -1,0 +1,155 @@
+protocol_id: futures_v10_triangular_relative_value_v1
+protocol_version: 1
+status: sealed_before_any_v10_outcome_read
+sealed_at_utc: "2026-08-31T16:03:42Z"
+frozen_before_development_outcome_read: true
+research_only: true
+live_trading_allowed: false
+broker_exact: false
+historical_exchange_exact: false
+
+hypothesis:
+  name: RTS_IMOEX_USDRUB_triangular_mean_reversion
+  economic_identity: log_RI_minus_log_MIX_plus_log_SI_is_locally_stationary
+  interpretation: RTS_is_USD_equity_MIX_is_RUB_equity_SI_is_USDRUB
+  novelty: explicit_three_leg_relative_value_not_generic_market_graph_or_directional_timing
+  parameter_search: forbidden
+
+sources:
+  raw_10m_manifest:
+    path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+    sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+
+boundaries:
+  history_start: "2018-01-01"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  protected_from: "2026-01-01"
+  oos_years: [2021, 2022, 2023, 2024, 2025]
+  timezone: Europe/Moscow
+
+universe:
+  logical_assets: [RI, MIX, SI]
+  source_assets: {RI: RTS, MIX: MIX, SI: Si}
+  exact_active_contract_known_on_session_required: true
+  all_three_legs_required: true
+
+signal:
+  primary_residual: log_RI_close_minus_log_MIX_close_plus_log_SI_close
+  bar_duration_minutes: 10
+  completed_bar_only: true
+  synchronization: exact_same_bar_start_and_end_for_all_three_legs
+  baseline_observations: 72
+  baseline: arithmetic_mean_and_sample_standard_deviation_of_prior_72_common_residuals
+  current_residual_excluded_from_baseline: true
+  minimum_standard_deviation: 1.0e-12
+  reset_on_any_leg_contract_change: true
+  observations_may_span_session_gaps_but_not_contract_triplets: true
+  missing_bar_policy: explicit_mask_no_imputation
+  entry_absolute_z: 2.0
+  take_profit_absolute_z: 0.5
+  distant_adverse_stop_absolute_z: 4.0
+  maximum_holding_completed_bars: 18
+  entry_decision_bar_end_local_inclusive: ['10:20:00', '14:30:00']
+  one_open_basket_at_a_time: true
+  direction_when_residual_high: {RI: short, MIX: long, SI: short}
+  direction_when_residual_low: {RI: long, MIX: short, SI: long}
+  exit_precedence: [distant_stop, take_profit, time_exit]
+
+execution:
+  entry_order_created_at: completed_signal_bar_end
+  fill_window: exact_immediate_next_10m_bar
+  buy_fill: factual_bar_high
+  sell_fill: factual_bar_low
+  exit_signal_created_at: completed_monitor_bar_end
+  exit_fill_window: exact_immediate_next_10m_bar
+  same_contract_required_from_entry_decision_through_exit_fill: true
+  gap_bridge: forbidden
+  roll_bridge: forbidden
+  partial_basket: forbidden
+  missing_or_changed_leg: unresolved_no_fill_and_run_no_go
+  entry_bar_can_trigger_exit_after_its_close: true
+  no_overnight_intent: true
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  target_total_gross_fraction: 0.90
+  equal_gross_budget_per_leg_fraction: 0.30
+  maximum_total_gross_fraction: 1.0
+  integer_contracts: true
+  requested_contracts: floor_leg_budget_divided_by_causal_sizing_notional_capped_by_one_percent_signal_bar_volume
+  entry_and_exit_realized_participation_limit: 0.01
+  realized_capacity_failure: unresolved_no_fill_and_run_no_go
+  zero_quantity_any_leg: skip_signal
+  concurrent_baskets: 1
+  collateral_interest: 0.0
+  taxes: not_modeled
+
+accounting:
+  point_value: causal_sizing_point_value_proxy_for_same_session
+  gross_leg_pnl: signed_contracts_times_exit_minus_entry_times_point_value
+  base_cost_per_side: conservative_fee_per_side_plus_one_sizing_tick_cash_value
+  cost_scenarios: {ordinary: 1.0, doubled: 2.0}
+  equity_frequency: Moscow_calendar_day
+  days_without_closed_trade: zero_realized_return
+  unresolved_position: metrics_invalid_and_run_no_go
+  limitations:
+    - causal_spec_is_conservative_proxy_not_historical_exchange_or_broker_truth
+    - adverse_high_low_fill_is_research_stress_not_order_book_replay
+    - atomic_three_leg_fill_is_not_claimed
+
+predeclared_diagnostics:
+  fx_ablation:
+    authoritative: false
+    residual: log_RI_close_minus_log_MIX_close
+    assets: [RI, MIX]
+    equal_gross_budget_per_leg_fraction: 0.45
+    all_other_signal_execution_and_cost_rules: identical
+  no_trade:
+    authoritative: false
+
+reporting:
+  required_counts:
+    - common_bars
+    - eligible_signal_bars
+    - raw_entries
+    - skipped_zero_quantity
+    - rejected_capacity
+    - unresolved
+    - completed_trades
+    - exits_by_reason
+  required_metrics:
+    - cagr
+    - annualized_sharpe
+    - maximum_drawdown
+    - total_return
+    - win_rate
+    - profit_factor
+    - average_trade_pnl
+    - maximum_realized_participation
+  breakdowns: [calendar_year, entry_side, exit_reason]
+  source_and_artifact_sha256_required: true
+  no_2026_timestamp_required: true
+
+promotion_to_next_research_stage:
+  live_promotion_allowed: false
+  all_conditions_required: true
+  completed_trades_minimum: 100
+  completed_trades_minimum_each_oos_year: 10
+  positive_oos_years_minimum: 4
+  ordinary_cagr_minimum: 0.08
+  ordinary_annualized_sharpe_minimum: 1.0
+  ordinary_maximum_drawdown_floor: -0.20
+  doubled_cost_cagr_strictly_positive: true
+  doubled_cost_annualized_sharpe_minimum: 0.50
+  primary_sharpe_advantage_over_fx_ablation_minimum: 0.15
+  unresolved_must_equal_zero: true
+  maximum_realized_participation_must_not_exceed: 0.01
+  protected_holdout_touches_must_equal_zero: true

@@ -1,0 +1,106 @@
+protocol_id: futures_v11_liquidity_buffered_open_v1
+protocol_version: 1
+status: sealed_before_any_v11_outcome_calculation
+sealed_at_utc: "2026-08-31T16:35:34Z"
+research_only: true
+live_trading_allowed: false
+historical_exchange_exact: false
+broker_exact: false
+adaptive_research_notice:
+  created_after_reviewing_v10_on_same_2021_2025_period: true
+  interpretation: execution_sensitivity_and_hypothesis_generation_only
+  confirmatory_claim_from_2021_2025_forbidden: true
+  new_unseen_history_required_before_any_promotion: true
+
+parents:
+  alpha_protocol:
+    path: configs/futures_v10_triangular_relative_value.yaml
+    sha256: 4ff5c4cb84e5ecd608d69f5673a0e8af6e4f8103cea8f9cb348530e525e6103c
+  v10_result:
+    path: runs/v10_triangular_20260831T161000Z_4ff5c4cb/metrics.json
+    verdict: NO_GO_UNRESOLVED_EXECUTION
+
+sources:
+  raw_10m_manifest:
+    path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+    sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+
+boundaries:
+  history_start: "2018-01-01"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  protected_from: "2026-01-01"
+  years: [2021, 2022, 2023, 2024, 2025]
+  timezone: Europe/Moscow
+
+signal_inherited_without_change:
+  residual: log_RI_close_minus_log_MIX_close_plus_log_SI_close
+  coefficients: {RI: 1, MIX: -1, SI: 1}
+  baseline_prior_common_observations: 72
+  baseline_current_observation_excluded: true
+  reset_on_any_contract_change: true
+  entry_absolute_z: 2.0
+  take_profit_absolute_z: 0.5
+  distant_adverse_stop_absolute_z: 4.0
+  maximum_holding_completed_bars: 18
+  entry_decision_bar_end_local_inclusive: ['10:20:00', '14:30:00']
+  one_open_basket_at_a_time: true
+  parameter_search: forbidden
+
+execution:
+  decision: completed_scheduled_10m_bucket_end
+  entry_window: exact_immediate_next_10m_bucket
+  exit_window: exact_immediate_next_10m_bucket_after_trigger
+  price: factual_window_open
+  ordinary_slippage_cost_per_side: one_causal_sizing_tick_cash_value
+  ordinary_fee_per_side: conservative_fee_proxy
+  doubled_cost: twice_ordinary_fee_and_tick_cost_same_fills
+  signal_bar_sizing_participation: 0.0025
+  factual_entry_and_exit_participation_cap: 0.01
+  entry_insufficient_factual_capacity: atomic_research_order_unfilled_no_position
+  exit_insufficient_factual_capacity: pending_exit_retry_each_exact_next_bucket
+  maximum_pending_exit_bars: 6
+  pending_exit_price: factual_open_of_first_capacity_eligible_retry_bucket
+  gap_or_contract_change_with_open_position: unresolved_and_run_no_go
+  partial_basket: forbidden
+  no_gap_bridge: true
+  no_roll_bridge: true
+  limitations:
+    - atomic_three_leg_order_is_a_research_proxy_not_a_native_MOEX_order
+    - full_bucket_volume_is_used_only_to_classify_window_fill_capacity_after_order_submission
+    - open_plus_cost_is_not_order_book_replay
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  target_total_gross_fraction: 0.90
+  equal_gross_budget_per_leg_fraction: 0.30
+  maximum_total_gross_fraction: 1.0
+  integer_contracts: true
+  requested_contracts: floor_leg_budget_over_causal_notional_capped_by_0_25_percent_signal_volume
+  zero_quantity_any_leg: skip_signal
+  collateral_interest: 0.0
+  taxes: not_modeled
+
+reporting:
+  metrics: [trade_count, cagr, annualized_sharpe, maximum_drawdown, win_rate, profit_factor]
+  cost_scenarios: [ordinary, doubled]
+  breakdowns: [year, exit_reason, residual_side]
+  rejected_entries_pending_exits_unresolved_and_participation_required: true
+  artifact_sha256_required: true
+
+exploratory_screen_only:
+  completed_trades_minimum: 100
+  minimum_trades_each_year: 10
+  positive_years_minimum: 4
+  ordinary_cagr_minimum: 0.08
+  ordinary_annualized_sharpe_minimum: 1.0
+  maximum_drawdown_floor: -0.20
+  doubled_cost_cagr_strictly_positive: true
+  unresolved_must_equal_zero: true
+  result_if_all_pass: candidate_for_validation_on_new_unseen_history_not_promotion

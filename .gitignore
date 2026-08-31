@@ -10,10 +10,10 @@ __pycache__/
 .cache/
 
 # Dannye i rezultaty eksperimentov
-data/
-runs/
-models/
-checkpoints/
+/data/
+/runs/
+/models/
+/checkpoints/
 *.joblib
 *.pt
 *.pth

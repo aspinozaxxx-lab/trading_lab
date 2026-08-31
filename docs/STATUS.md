@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-08-19**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8/V9 гипотез защищены и не используются.
+Обновлено: **2026-08-31**. Период разработки ограничен данными не позже
+`2025-12-31`; данные 2026 для текущих V8–V11 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -13,12 +13,17 @@
 MDD **−15,1293%** при 5 bps one-way; при двойных издержках CAGR **5,3463%**.
 Это не broker-exact результат.
 
+Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
+вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
+ликвидности; все доступные до остановки метрики отрицательны.
+
 ## Сводка активных гипотез
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
+| RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
 | Corridor hazard 0,8/2,8 ATR | 58 сделок, CAGR 0,46%, Sharpe 0,35 | Закрыт, NO-GO |
 | Continuous 10m neural timing | 0 допущенных neural trades; breakout CAGR −53,71% | Закрыт, NO-GO |
 | 30-stock market graph | IC −0,00639; CAGR −10,32%, Sharpe −1,40 | Закрыт, NO-GO |
@@ -26,6 +31,34 @@ MDD **−15,1293%** при 5 bps one-way; при двойных издержка
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V10/V11 triangular relative value — почему закрыт
+
+V10 фиксировал residual `log(RI) − log(MIX) + log(SI)`, prior-72 z-score, вход при
+`|z| >= 2`, take-profit внутри `0,5σ`, дальний stop `4σ`, максимум 18 баров и три
+integer-contract legs. Заполнение было намеренно неблагоприятным: buy по high, sell по
+low следующего точного 10m bucket; gross `<= 0,9`, участие `<= 1%`.
+
+- 169 071 общих баров, из них 109 143 OOS и 31 953 допустимых signal bars;
+- 4 завершённые корзины, все убыточны; partial ordinary return **−2,5806%**,
+  Sharpe **−0,6344**, costs **697,15 RUB**;
+- первая unresolved заявка: `2022-03-29 08:00 UTC`, недостаточный entry-window volume;
+- full-period CAGR/Sharpe недействительны: ledger остановлен, а не продолжен с
+  игнорированием неудобной заявки.
+
+V11 не менял alpha/пороги и проверил open следующего bucket с one-tick cost, sizing по
+0,25% известного signal volume и фактическим cap 1%. Это adaptive same-period diagnostic,
+не независимое подтверждение.
+
+- 10 завершённых корзин: partial return **−0,6768%**, Sharpe **−0,9736**, profit factor
+  **0,1189**, win rate **20%**, costs **1 899,99 RUB**;
+- 12 exit-capacity retries; `2022-06-06 11:10 UTC` выход не вместился в шесть следующих
+  bucket и стал unresolved;
+- verdict снова `NO_GO_UNRESOLVED_EXECUTION`.
+
+Не создавать V12, который меняет только z-threshold, holding period, stop или liquidity
+cap на той же истории. Возвращаться к relative value имеет смысл лишь с новой информацией:
+PIT spot/index basket, funding/dividends, calendar-spread legs или order-book execution.
 
 ## Structural: почему ещё нет GO
 
@@ -85,6 +118,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - threshold-only `intraday_timing_v3`;
 - повторный 30-stock attention/graph на том же target;
 - новые варианты corridor на тех же OOS после просмотра результатов;
+- новые пороги/стопы/ослабление capacity для RI/MIX/SI triangle на тех же OOS;
 - long-only momentum overlays на той же таблице без независимого holdout;
 - V8 PnL до authoritative admission certificate и полного источникового аудита.
 
@@ -101,23 +135,28 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/futures_v9_event_timing_hybrid_development_20260818T170400Z_92e98a72/report.md`
 - `runs/market_graph_v1_20260818T164732Z/metrics.json`
 - `runs/market_graph_v2_long_only_20260819T074638Z/metrics.json`
+- `runs/v10_triangular_20260831T171000Z_4ff5c4cb/metrics.json`
+- `runs/v11_buffered_open_20260831T171200Z_584bf289/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.
 
 ## Состояние миграции репозитория
 
-Код и документация перенесены в `D:\Projects\trading_lab`; canonical `data`, `runs` и
-модели остаются вне Git в `D:\Projects\trading_lab_data`. Исходное дерево
-`D:\Projects\Trading` после полной сверки удалено с исходного пути и перемещено в
-Корзину. Проверка 2026-08-19:
+Канонические код и документация находятся в `D:\Projects\trading_lab`; canonical `data`,
+`runs` и модели остаются вне Git в `D:\Projects\trading_lab_data`. Любая сохранившаяся
+копия под `D:\Projects\Trading` является только recovery source, а не рабочим репозиторием.
+Проверка 2026-08-31:
 
 - в старом source/config/test дереве не было old-only файлов: 274 файла совпали
   побайтово, 10 имеют ожидаемые migration-изменения в актуальной копии, 8 добавлены уже
   после переноса;
 - все 1 403 файла `data` и 1 598 файлов `runs` совпали с external storage по
   относительному пути, размеру и SHA-256; отдельными оставались только `.venv` и кеши;
-- полный CPU suite без encoding-test: **611 passed, 7 skipped, 2 failed**;
+- восстановлены ошибочно исключённые общим `.gitignore` Python-пакеты
+  `market_lab.data` и `market_lab.models`; root external paths теперь anchored как
+  `/data`, `/runs`, `/models`, `/checkpoints`;
+- полный CPU suite: **626 passed, 7 skipped, 2 failed**;
 - два failure относятся только к sealed V8 `context_run`: его старый anti-symlink guard
   намеренно не принимает external NTFS junction. Старый byte-sealed код нельзя менять
   задним числом; нужен новый migration-compatible loader/code identity;
@@ -126,8 +165,8 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - Ruff для изменённых config/migration файлов: clean; полный legacy tree имеет 58
   существующих замечаний (27 `E501`, 27 `F401`, 2 `I001`, 2 `UP035`), которые нельзя
   массово auto-fix без проверки code seals;
-- legacy encoding-test: mojibake-check проходит, BOM-check видит recent identity-pinned
-  V9 файлы без BOM. Не нормализовать их байты без нового seal.
+- encoding tests проходят. Для неизменяемых identity-pinned V9–V11 файлов без BOM задан
+  точный allowlist; новые незапечатанные text/code files обязаны иметь UTF-8 BOM.
 
 Git-инвентарь содержит только код/config/tests/docs и маленькие fixtures: ни `data/`, ни
 `runs/`, ни `models/`, ни checkpoints/Parquet/NPZ/PT в commit не входят.

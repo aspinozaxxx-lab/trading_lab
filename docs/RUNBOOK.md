@@ -161,6 +161,21 @@ GPU runs:
 V1 требует GPU. V2 использует уже sealed V1 relative-momentum predictions и не должен
 переобучать или изменять score.
 
+### Triangular RI/MIX/SI V10/V11
+
+Оба canonical run уже завершены с NO-GO. Для byte-new replay всегда указывай новый
+external output directory:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\run_futures_v10_triangular_relative_value.py --output runs\v10_triangular_<new-id>
+.\.venv\Scripts\python.exe .\scripts\run_futures_v11_liquidity_buffered_open.py --output runs\v11_buffered_open_<new-id>
+```
+
+V10 обязан останавливаться при capacity failure. V11 может отменить неисполненный entry,
+но уже открытая корзина допускает только шесть exact same-contract exit retries. Не
+ослаблять эти правила и не менять thresholds в существующих версиях. Поле ISS `end` —
+время последней сделки внутри bucket; scheduled decision end равен `timestamp + 10m`.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
