@@ -4,6 +4,41 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V14: previous-session RVI risk governor — просадка ниже, edge слишком ослаблен; NO-GO
+
+- Протокол: [`configs/futures_v14_rvi_risk_governor.yaml`](../configs/futures_v14_rvi_risk_governor.yaml)
+- Config SHA-256:
+  `9f680ebfcfcd6aae98a1e39eb44b9c51b59aa73067edc32e7a558399a8a29a53`
+- Pre-outcome Git commit: `677c713`.
+- Canonical run:
+  `runs/v14_rvi_governor_20260831T201919Z_9f680ebf/metrics.json`
+- Metrics SHA-256:
+  `1a236f0698ab906532e5381d8ecbc5c7b896c742533ad9b1e95df1096c8aa3ea`
+- Signal/portfolio/execution: frozen V12. После portfolio construction все четыре target
+  умножаются на `min(1, 24.135 / previous_session_RVI_close)`. Медиана `24.135`
+  рассчитана только по 756 RVI строкам 2018–2020 и запечатана до OOS PnL.
+- Causality: только RVI точной предыдущей factual core-four сессии; same-day запрещён,
+  missing переводит все четыре target в cash с отдельным mask.
+- OOS: RVI доступен для 259/261 weekly decisions, 219 решений downscaled, 2 missing;
+  minimum/mean scale `0,1810/0,7308`.
+- Execution: 261 weekly + 53 roll decisions, 1 256 target rows, 1 040 nonzero,
+  coverage 1 040/1 040; primary 330 filled legs, 0 rejected, 0 critical, 0 unresolved.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 tick + 1x fee | 25,6242% | 4,6687% | 0,7342 | −9,3980% | 4/5 | 8 313,85 |
+| 2 ticks + 2x fee | 25,5055% | 4,6489% | 0,7293 | −10,2238% | 4/5 | 16 390,64 |
+| 4 ticks + 2x fee | 24,6763% | 4,5103% | 0,7072 | −10,4019% | 4/5 | 24 254,85 |
+
+Primary годы: 2021 `+15,4005%`, 2022 `+3,1454%`, 2023 `+6,2241%`,
+2024 `+2,1197%`, 2025 `−2,7066%`. Относительно V12 MDD лучше на 4,7545 п.п. и costs
+ниже на 5 073,43 RUB, но CAGR ниже на 3,0631 п.п., Sharpe ниже на 0,0283 и worst year
+немного хуже. Maximum post-mark gross leverage 0,9049, maximum 2x margin ratio 0,4545.
+
+Verdict: `NO_GO`. RVI действительно уменьшил tail exposure, но не повысил
+risk-adjusted edge и нарушил sealed minimum CAGR 5%. Не перебирать RVI thresholds,
+floors или same-day joins на 2021–2025.
+
 ## V13: trend + front/next carry confirmation — больше return, хуже stability; NO-GO
 
 - Протокол: [`configs/futures_v13_trend_carry_confirmation.yaml`](../configs/futures_v13_trend_carry_confirmation.yaml)

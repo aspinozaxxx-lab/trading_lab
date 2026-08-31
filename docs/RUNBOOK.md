@@ -214,6 +214,15 @@ Canonical snapshot уже находится во внешнем хранили�
 `conservative_available_from_date`, а feature join обязан требовать
 `source_date < decision_date`.
 
+### V14 prior-session RVI governor
+
+Canonical run уже завершён с `NO_GO`; replay не предназначен для перебора RVI mapping:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v14_rvi_risk_governor `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

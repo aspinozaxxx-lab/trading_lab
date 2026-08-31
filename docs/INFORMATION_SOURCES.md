@@ -69,17 +69,17 @@ current-vintage; исторический revision archive пока не док�
 
 ## Следующая проверяемая гипотеза
 
-Первый незаблокированный кандидат — один V14 risk-regime experiment, а не семейство
-вариантов:
+V14 завершён: previous-session RVI уменьшил MDD до 9,40%, но CAGR до 4,67% и не улучшил
+Sharpe. Семейство threshold-вариантов закрыто на этом OOS.
 
-1. byte-identical V12 signal, universe, weekly schedule, sleeves и execution;
-2. только RVI с `source_date < decision_date` как внешний forward-volatility governor;
-3. формула и все параметры фиксируются до чтения V14 OOS PnL; если требуется калибровка,
-   она заканчивается на `2020-12-31`;
-4. один 2021–2025 run сравнивается с frozen V12 по CAGR, Sharpe, MDD, worst year, costs и
-   stress; никаких последующих RVI thresholds на этом периоде;
-5. продвижение возможно лишь к новой unseen validation, никогда прямо к live.
+Первый незаблокированный кандидат — один V15 capital-efficiency experiment:
 
-V13 carry-confirmation уже показал, что более высокая доходность может одновременно дать
-хуже Sharpe и MDD. Поэтому задача V14 — именно уменьшение tail risk, а не максимизация
-development return.
+1. byte-identical V12 alpha, targets и exact execution;
+2. официальная RUONIA допускается только после `available_at`, до начала периода
+   начисления;
+3. доход начисляется только на положительное обеспечение после двойного modeled IM и
+   заранее фиксированного operational buffer;
+4. haircut ставки, day-count, tax/fee assumptions и отсутствие reinvestment в sizing
+   запечатываются до PnL;
+5. отчёт отдельно показывает futures alpha, collateral income и combined equity; никакого
+   post-outcome перебора haircut/leverage на 2021–2025.

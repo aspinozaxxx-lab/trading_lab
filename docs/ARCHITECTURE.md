@@ -131,6 +131,13 @@ Target-free downloader официального индекса MOEX RVI. Каж�
 а raw pages, Parquet и manifest получают SHA-256 во внешнем immutable каталоге. Для
 features действует отдельный contract: `source_date < decision_date`.
 
+### `market_lab.futures_v14_rvi_risk_governor`
+
+Строит byte-identical V12 weekly weights, сопоставляет им только RVI точной предыдущей
+core-four сессии и применяет общий downward-only scale. В run отдельно сохраняется
+`rvi_governor.csv`, а metrics содержат delta против frozen V12. Контур уменьшил MDD, но
+получил NO-GO из-за падения CAGR/Sharpe.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

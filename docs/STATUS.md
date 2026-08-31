@@ -20,6 +20,10 @@ V13 добавил строгий front/next carry confirmation и поднял 
 **−20,6861%**. Поэтому V13 — агрессивный return-challenger с verdict **NO-GO** как
 стабилизатор; V12 остаётся главным более устойчивым lead.
 
+V14 проверил предыдущую сессию RVI как forward-volatility governor. MDD снизился до
+**−9,3980%**, но CAGR упал до **4,6687%**, Sharpe — до **0,7342**. Verdict снова
+**NO-GO**: риск стал меньше, но цель доходности отдалилась.
+
 Для следующей независимой идеи уже получен официальный MOEX RVI: 2 014 строк
 2018–2025, raw archive + manifest, same-day использование запрещено. Подробности и
 очередь FUTOI/EIA/execution sources — в [карте источников](INFORMATION_SOURCES.md).
@@ -34,6 +38,7 @@ V13 добавил строгий front/next carry confirmation и поднял 
 |---|---:|---|
 | V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
 | V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
+| V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -44,6 +49,23 @@ V13 добавил строгий front/next carry confirmation и поднял 
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V14 RVI governor — risk control работает, доходность нет
+
+V14 был запечатан commit `677c713` до PnL и выполнил один вариант без threshold search:
+
+- config SHA:
+  `9f680ebfcfcd6aae98a1e39eb44b9c51b59aa73067edc32e7a558399a8a29a53`;
+- metrics SHA:
+  `1a236f0698ab906532e5381d8ecbc5c7b896c742533ad9b1e95df1096c8aa3ea`;
+- 259/261 OOS weekly decisions имели точный previous-session RVI, 219 downscaled;
+- primary return **+25,62%** за пять лет, CAGR **4,67%**, Sharpe **0,734**,
+  MDD **−9,40%**;
+- doubled/stress return **+25,51%/+24,68%**;
+- 1 040/1 040 nonzero targets покрыты, 0 rejected/critical/unresolved.
+
+RVI снизил MDD V12 на 4,75 п.п., но не улучшил Sharpe и опустил CAGR ниже sealed 5%.
+Не создавать V14.1 с новым порогом по уже увиденной истории.
 
 ## V13 carry confirmation — доход выше, устойчивость хуже
 
@@ -162,19 +184,18 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
 
-### P1 — один новый RVI risk-regime test для стабильности
+### P1 — доход на свободное обеспечение через causal RUONIA
 
-1. Использовать canonical RVI source
-   `data/processed/info_radar/moex-rvi-dev-2018-2025-v1/`, manifest SHA
-   `22573e6bba290a34aeee44bba3bb159f38d9e93014e78f9bd5367df8d0dd56fa`.
-2. Сохранить byte-identical V12 signal/portfolio/execution и требовать
-   `rvi.source_date < decision_date`; same-day RVI запрещён.
-3. До PnL запечатать единственный V14 governor. Любая калибровка заканчивается на
-   `2020-12-31`; не делать несколько OOS thresholds/variants.
-4. Promotion требует улучшить V12 Sharpe и MDD при CAGR `>= 5%`, 4/5 positive years,
-   положительных doubled/stress и полном exact ledger.
-5. Пометить результат current-vintage adaptive development; live и independent-holdout
-   claims запрещены.
+1. Сохранить frozen V12 alpha/targets/execution и построить новый ledger, не меняя
+   canonical V12/V13/V14 code identity.
+2. Использовать только официальную RUONIA, опубликованную до начала начисляемой сессии;
+   observation date без publication proof недостаточна.
+3. Начислять консервативную ставку только на положительный unencumbered cash после
+   двойного modeled-IM reserve и operational cash buffer; не начислять доход на margin.
+4. До PnL запечатать haircut, day-count, buffer, tax/fee assumptions и единственный
+   leverage/collateral вариант. Отдельно показывать alpha PnL и collateral PnL.
+5. Цель исследования — проверить, способен ли capital efficiency приблизить CAGR к 20%
+   без MDD выше 25%; это adaptive development, не обещание и не live admission.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -226,6 +247,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v11_buffered_open_20260831T171200Z_584bf289/metrics.json`
 - `runs/v12_core4_trend_20260831T182210Z_0b1a79d5/metrics.json`
 - `runs/v13_trend_carry_20260831T190300Z_94841c0b/metrics.json`
+- `runs/v14_rvi_governor_20260831T201919Z_9f680ebf/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.
