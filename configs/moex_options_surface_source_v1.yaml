@@ -1,0 +1,101 @@
+﻿protocol_id: moex_options_surface_source_v1
+protocol_version: 1
+status: sealed_before_first_historical_option_price_byte
+declared_at_utc: "2026-09-01T16:30:00Z"
+scope: source_only_no_strategy_no_returns_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_separate_protocol:
+  statement: >-
+    A causal option-surface state from RTS/MOEX-index, USD/RUB and Brent options may
+    identify volatility, crash-demand and positioning regimes that are absent from
+    futures OHLC/carry and improve stability of an independently sealed strategy.
+  this_protocol_computes_signal_or_pnl: false
+  pilot_purpose: schema_coverage_and_short_code_audit_only
+  economic_outcomes_forbidden_during_pilot: true
+
+dates:
+  pilot_start: "2021-01-01"
+  pilot_end: "2021-01-31"
+  protected_from: "2026-01-01"
+
+source:
+  provider: MOEX_ISS
+  archive_kind: official_iss_monthly_securities_csv_zip
+  discovery_endpoint: >-
+    https://iss.moex.com/iss/archives/engines/futures/markets/options/securities/monthly.json?year=2021&format=csv&iss.meta=off
+  download_url: >-
+    https://iss.moex.com/iss/downloads/engines/futures/markets/options/years/2021/months/01/securities.csv.zip
+  expected_archive_bytes: 4347140
+  archive_member_name: securities.csv
+  required_columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - OPENPOSITIONVALUE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - SETTLEPRICE
+    - WAPRICE
+    - CHANGE
+    - QTY
+    - NUMTRADES
+    - THEOR_PRICE
+  archive_terms:
+    internal_research_only: true
+    redistribution_allowed: false
+    raw_bytes_must_remain_outside_git: true
+
+selection:
+  short_code_roots: [RI, MX, SI, BR]
+  asset_mapping: {RI: RI, MX: MIX, SI: SI, BR: BR}
+  official_short_code_fields: root_strike_settlement_option_month_year_optional_week
+  selection_uses_price_volume_oi_return_or_future_outcome: false
+  unparsed_core_prefix_policy: fail_closed
+  non_core_rows: ignored_but_counted
+  exact_expiry_day_inference: forbidden_in_source_v1
+
+temporal_semantics:
+  source_date: final_trading_results_date
+  conservative_available_at: next_calendar_date_00_00_Europe_Moscow
+  admissible_join: source_date_strictly_before_decision_date
+  same_day_signal_allowed: false
+  historical_final_archive: true
+  original_revision_vintage_proved: false
+  corrections_may_exist: true
+
+quality_gates:
+  exact_archive_bytes: true
+  exact_one_safe_csv_member: true
+  required_schema_complete: true
+  source_rows_positive: true
+  parsed_core_rows_positive: true
+  core_prefixed_unparsed_zero: true
+  duplicate_date_board_security_zero: true
+  protected_rows_zero: true
+  raw_replay_exact: true
+
+output:
+  directory: data/processed/options/moex-core4-options-pilot-2021-01-v1
+  immutable: true
+  overwrite_allowed: false
+  raw_archive_in_git: false
+  processed_data_in_git: false
+
+forbidden_after_pilot:
+  - computing_strategy_returns_or_pnl_before_a_separate_feature_and_strategy_seal
+  - selecting_strikes_maturities_days_or_assets_by_future_returns
+  - treating_THEOR_PRICE_as_observed_tradable_bid_or_ask
+  - claiming_historical_optionboard_volatility_from_current_option_calculator_API
+  - overwriting_the_pilot_output
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_options_surface_source.py: ea2cc756bf1b6f1117b6da526e91bca0bfb4f3ceb45b10a00fcf1aa038309bb7
