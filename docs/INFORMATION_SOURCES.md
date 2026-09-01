@@ -398,6 +398,24 @@ V27 был sealed/pushed до PnL и прошёл development gates, но rule �
 adaptive research, не для независимого live evidence. Требуется forward archive с
 actual retrieval/publication time; boundary/age/partial scale по 2021–2025 не менять.
 
+### Unseen validation audit — почему бесплатного pre-2018 backfill недостаточно
+
+После V27 был прочитан только текущий official ISS contract catalog, без price/PnL.
+Для expiries `2012–2017` он структурно неполон: у MIX нет 2014 contracts, у BR отсутствует
+большой участок после июля 2013 до марта 2015, у SI/RI в 2014 видны только H/M. Поэтому
+существующий strict downloader не сможет доказать continuous common-session core-four
+panel, а ручное придумывание отсутствующих contracts запрещено. Официальная CBR history
+также показывает maximum key rate 17% в декабре 2014, то есть pre-2018 period вообще не
+активирует V27 boundary `>=20%`.
+
+Авторитетный путь — [MOEX Historical Data](https://fs.moex.com/f/3431/available-data-types.pdf):
+официально доступны End-of-Day, trade log, top/full order book. Архивный доступ и право
+на individual/non-display use регулируются отдельными
+[тарифами/условиями MOEX](https://www.moex.com/files/4qp9vgzvtcvj33w14js8gxd3n3).
+Покупка/подписка не выполнялась: это требует отдельного решения пользователя. До
+получения лицензированного архива независимый V27 market validation остаётся P0, а не
+заменяется неполным бесплатным backfill.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и

@@ -650,7 +650,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    execution costs. Не выбирать partial scale или новый threshold по 2021–2025.
 2. Получить новый действительно unseen период либо независимый PIT рынок. Уже
    просмотренный legacy 2026 нельзя переименовывать в holdout.
-3. До следующего PnL получить historical exchange/broker specs, fee/IM schedules и
+   Source-only feasibility audit текущего anonymous ISS показал, что бесплатный catalog
+   не покрывает core-four непрерывно до 2018: MIX не имеет 2014 contracts, BR имеет
+   большой 2013–2015 gap, у SI/RI нет второй половины 2014. Key rate в 2013–2017 не
+   достигала V27 boundary 20% (официальный максимум 17% в декабре 2014). Такой backfill
+   не подтвердит главный governor и не является полноценным V27 holdout.
+3. До следующего PnL получить licensed MOEX Historical Data или broker archive с полным
+   contract/EOD либо order-book history, historical specs, fee/IM schedules и
    spread/order-book evidence хотя бы для BR/MIX/RI/SI.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
