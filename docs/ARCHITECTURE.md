@@ -274,6 +274,19 @@ Config SHA `97b2aa74...` был запечатан до outcome. Canonical V22 �
 положителен после costs, но CAGR 2,54%, Sharpe 0,36 и только 2/4 positive active years
 дали `NO_GO`; модуль сохраняется для воспроизводимости, а не для threshold tuning.
 
+### `market_lab.futures.cbr_inflation_expectations_source`
+
+Собирает отдельную датированную страницу, PDF и XLSX каждого официального выпуска
+«Инфляционных ожиданий и потребительских настроений» ЦБ за `2022-01..2025-12`.
+Стратегические значения извлекаются из release-specific XLSX по смысловым названиям
+листов и рядов: медиана ожидаемой на 12 месяцев инфляции и индекс потребительских
+настроений. Округлённые до одного знака endpoints HTML-графика служат независимой
+проверкой XLSX, но не заменяют точные значения. Availability равна концу московского дня
+более поздней из publication и last-updated dates; при одинаковом `available_at`
+downstream оставляет максимальный `release_month`. Bundle включает 48 страниц, 48 PDF,
+48 XLSX и две archive snapshots. Это current-retrieved release-specific history:
+development backtest допустим, но независимое подтверждение требует forward vintages.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

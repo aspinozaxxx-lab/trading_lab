@@ -280,6 +280,40 @@ cross-series bridge. Он завершён `NO_GO`: mechanical return −3,17%, 
 Положительный результат сосредоточен в 2024 и не разрешает same-history threshold,
 component, exact-decimal, sign, risk/expiry или blend selection.
 
+### CBR inflation expectations and consumer sentiment — household regime
+
+Официальный архив «Инфляционных ожиданий и потребительских настроений» содержит для
+каждого месяца отдельные страницу, PDF и статистический XLSX. Это независимая от BCI
+семейная/потребительская информация: ожидаемая инфляция отражает риск обесценения рубля,
+а индекс потребительских настроений — направление спроса и склонность домохозяйств к
+крупным покупкам.
+
+- path:
+  `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/`;
+- 48 полных выпусков за `2022-01..2025-12`, по 12 в каждом году; 48 HTML, 48 PDF,
+  48 XLSX и две archive snapshots, всего 146 raw responses;
+- processed: 20 690 bytes, SHA-256
+  `707112727156b4dbf61f115e53a19de0eb7474804c9d57cab55fe2829d9663c3`;
+- coverage: 20 765 bytes, SHA-256
+  `dd4444e2af0bfee1b4685fb2f8fde5b3ffa6245d93341096999da4facb1dad87`;
+- manifest: 4 635 bytes, SHA-256
+  `b132a45ee8170fc07c92dbf5be4c7b70833d07754c7abfd5d5ccc7ac6c3dce92`;
+- raw responses: 116 941 747 bytes, SHA-256
+  `fa2ecf58cc70588cb29089e96e47204f4bad1012aca131a809e5874cd0cd1c11`;
+- все 48 HTML endpoints совпадают с XLSX после округления до отображаемой десятой;
+  43/48 совпадают и без округления. Для стратегии разрешены точные release-specific
+  XLSX values, а HTML остаётся отдельным extraction audit;
+- после одного warmup expected-inflation delta: 25 positive и 22 negative; consumer
+  sentiment delta: 24 positive и 23 negative. Согласованное подтверждение даёт 16
+  risk-on, 17 risk-off и 14 mixed/zero source states до collision handling;
+- страница сентября 2022 была обновлена позже публикации и имеет один `available_at` с
+  октябрём 2022; causal downstream обязан оставить октябрь как новый release month.
+
+`available_at` — конец московского дня более поздней из header publication date и footer
+last-updated date. Исторические release-specific файлы получены сейчас, поэтому это один
+development challenger, а не независимое подтверждение: для validation нужны собственные
+forward snapshots. До запечатывания V23 рыночные outcomes с этим источником не читались.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -306,6 +340,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | Minfin OFZ auction results | Causal demand/liquidity shock для RI/MIX/SI | Date-only и current-vintage; нужен sealed test и forward vintages | Только конец publication day, затем следующий factual open |
 | P1 | CBR macro survey | Forward consensus revisions для SI/BR/RI/MIX | Current-vintage, historical release time неизвестен | Только конец месяца после survey month; original vintages нужны для confirmation |
 | P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
+| P1 | CBR household inflation/sentiment | Согласованный потребительский risk-on/off regime для RI/MIX/SI | Release files retrieved сейчас; нужен sealed test и forward vintages | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -325,6 +360,8 @@ RUONIA использована в V15. Её причинная часть V16 �
   диапазоны и история прогнозов аналитиков;
 - [CBR Business Monitoring archive](https://www.cbr.ru/analytics/dkp/monitoring/) —
   датированные страницы и PDF индекса бизнес-климата;
+- [CBR inflation expectations archive](https://www.cbr.ru/analytics/dkp/inflationary_expectations/) —
+  датированные страницы, PDF и статистические XLSX ожиданий и настроений домохозяйств;
 - [CBR liquidity forecast](https://www.cbr.ru/eng/statistics/pffl/),
   [daily liquidity-factor definitions](https://www.cbr.ru/statistics/flikvid/definitions/)
   и [historical publication-schedule notice](https://www.cbr.ru/eng/press/pr/?file=120516_104301eng_liq-ind.htm);
@@ -371,6 +408,11 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    processed SHA `b312f4e5...`, manifest SHA `99ad128b...`. V22 direct printed-delta
    завершён `NO_GO`: +13,37%, CAGR 2,54%, Sharpe 0,36, 2/4 positive active years при
    полном execution. Exact decimals/components/signs/risk/expiry не подбирать;
-9. любой следующий PnL начинается только после source manifest, `available_at` audit и
+9. CBR household inflation/sentiment bundle готов: 48 release-specific XLSX/PDF/pages,
+   146 raw responses, processed SHA `70711272...`, manifest SHA `b132a45e...`. V23
+   может проверить только один заранее объявленный confirmation regime: expected
+   inflation down + sentiment up = risk-on, обратная согласованная пара = risk-off,
+   mixed = cash. До protocol seal market outcome не читать;
+10. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

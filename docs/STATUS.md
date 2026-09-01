@@ -101,6 +101,13 @@ year gates не пройдены. Execution полностью доказан: 1
 critical и unresolved. Verdict **NO_GO**; BCI thresholds, components, exact decimals,
 signs, risk/expiry и blend по этому outcome не подбирать.
 
+Следующий независимый источник подготовлен без чтения рыночного outcome: 48
+release-specific выпусков ЦБ по инфляционным ожиданиям и потребительским настроениям,
+включая HTML/PDF/XLSX и 146 сохранённых официальных ответов. Processed SHA
+`70711272...`, manifest SHA `b132a45e...`; все 48 HTML endpoints подтверждают XLSX после
+округления. V23 ещё не запускался: сначала должен быть запечатан и pushed единственный
+confirmation regime, затем допускается ровно один development run.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -523,6 +530,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     sequential changes. V22 direct regime завершён `NO_GO`: +13,37%, Sharpe 0,36,
     MDD −8,86%, complete execution. Не подбирать threshold/components/sign/risk/expiry;
     следующий PnL допускается только с новой независимой информацией или forward period.
+12. CBR household inflation/sentiment bundle готов: 48 releases, 146 raw responses,
+    processed SHA `70711272...`, manifest SHA `b132a45e...`; 16 risk-on, 17 risk-off и
+    14 mixed source confirmations после warmup до collision handling. V23 пока не
+    запускался; сначала запечатать confirmation signs, cash rule, risk, expiry и gates.
 
 ### P2 — разблокировать широкий structural exact execution
 

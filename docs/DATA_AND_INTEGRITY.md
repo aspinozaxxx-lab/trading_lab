@@ -75,6 +75,10 @@ identity и должен проверяться перед чтением.
 | CBR business-climate coverage | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/coverage.parquet` | `742e5a5a825952e28c4507b5d248aa5c4044e99ecce3c1cf253ec36312e131e8` |
 | CBR business-climate manifest | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/manifest.json` | `99ad128b930b713cdda7988daa25f5dc763005eea768ccd4bd56ef89500835c8` |
 | CBR business-climate raw responses | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/official_cbr_business_climate_responses.jsonl.gz` | `e362918e5554cf4e9ddb25c4378113dadc6129ffaa3b1dbfcb28af06468c2286` |
+| CBR household inflation/sentiment releases | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/cbr_inflation_expectations_releases.parquet` | `707112727156b4dbf61f115e53a19de0eb7474804c9d57cab55fe2829d9663c3` |
+| CBR household inflation/sentiment coverage | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/coverage.parquet` | `dd4444e2af0bfee1b4685fb2f8fde5b3ffa6245d93341096999da4facb1dad87` |
+| CBR household inflation/sentiment manifest | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/manifest.json` | `b132a45ee8170fc07c92dbf5be4c7b70833d07754c7abfd5d5ccc7ac6c3dce92` |
+| CBR household inflation/sentiment raw responses | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/official_cbr_inflation_expectations_responses.jsonl.gz` | `fa2ecf58cc70588cb29089e96e47204f4bad1012aca131a809e5874cd0cd1c11` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -142,6 +146,12 @@ identity и должен проверяться перед чтением.
   При одинаковом `available_at` остаётся только максимальный `release_month`. Для сигнала
   разрешена напечатанная one-decimal endpoint label; chart exact хранится только для
   аудита. Три prior-month observation endpoints сохраняются как такие, без forward-fill.
+- CBR household inflation/sentiment release допускается по такому же conservative
+  `available_at`: конец московского дня более поздней из publication и last-updated
+  dates. При collision остаётся максимальный `release_month`. Стратегия может читать
+  точные значения только из release-specific XLSX; one-decimal HTML endpoints нужны для
+  cross-check. Missing не превращается в zero, а current-retrieved historical files
+  остаются development-only до накопления собственных forward vintages.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный
