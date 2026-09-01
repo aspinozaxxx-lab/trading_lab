@@ -4,6 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V29: post-V28 risk-first roll-capacity correction — sealed, outcome unread
+
+- Config SHA `d92f8cf2...`, implementation SHA `ea5aa37f...`; V29 создан только после
+  наблюдения execution failure V28, поэтому это post-V28 adaptive correction, а не
+  независимый holdout и не повторная unseen validation.
+- Parent неизменяем: V28 config SHA `4f9e6663...`, canonical metrics SHA `73b614b8...`.
+  Seal дословно фиксирует 5 129 critical failures, 1 251 rejected legs и пять
+  capacity-cancelled rolls; V28 не исправляется и не перезаписывается.
+- Меняется ровно одно правило admission при roll. Если factual open и lagged volume
+  доказывают полный выход из старого контракта в неизменном лимите 1%, old leg должен
+  быть закрыт. New leg независимо clip-ится к собственному 1% capacity или превращается
+  в cash. Если полный old exit недоказуем, позиция сохраняется и execution остаётся
+  invalid; synthetic liquidity запрещена.
+- Signal, V25/V27 governors, exact 2x, RUONIA no-credit policy, margin/gross limits,
+  costs, период и gates byte-identical по смыслу V28. Ни один threshold или market
+  outcome V29 до seal не читался.
+- Synthetic и связанные tests: `20 passed`; encoding/V29 slice: `8 passed`; Ruff и
+  py_compile clean. Расширенный futures baseline: `832 passed, 7 skipped`, плюс две
+  известные legacy V8 ошибки anti-junction guard, не затрагивающие V29.
+- Первый V29 run разрешён только после commit/push этого кода, config, sidecar, tests и
+  документации. Любой результат остаётся research-only; live trading запрещён.
+
 ## V28: frozen V27 economics on unseen 2013–2017 — FAIL/INVALID
 
 - Config SHA `4f9e6663...`, implementation SHA `b9c290f6...`; это первое использование

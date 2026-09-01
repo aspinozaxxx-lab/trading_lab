@@ -439,6 +439,18 @@ credit-ит только RUONIA с explicit causal `available_at`; неизве�
 NaN и даёт tagged no-credit interval. Output immutable во внешнем `runs/`; verdict
 разделяет поддержку CAGR 20% и 50%, но никогда не включает live admission.
 
+### `market_lab.futures_v29_risk_first_roll`
+
+Post-V28 execution correction поверх byte-pinned V28. Модуль не меняет signal,
+governors, leverage, collateral, costs или target gates. Только при переходе с
+удерживаемого old contract на новый он сначала проверяет, помещается ли полный выход из
+старой позиции в factual 1% lagged-volume capacity. Если да, новый вход независимо
+clip-ится к своей capacity или заменяется cash; если нет, old position сохраняется и
+ledger остаётся fail-closed. Подмена admission выполняется транзакционно только на время
+одного ledger run и восстанавливается даже при exception. V29 явно помечается как
+post-outcome adaptive correction, а не independent validation; output immutable и live
+trading запрещён.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

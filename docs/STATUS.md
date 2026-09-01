@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V28 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V29 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -40,6 +40,12 @@ capacity-cancelled atomic rolls оставили expired old contracts; с `2014
 Поэтому V28 не поддерживает ни 20%, ни 50%, а его метрики нельзя считать валидным
 полным тестом signal economics. Следующий отдельный V29 должен проверить risk-first
 roll: full executable old-leg exit, independently capacity-clipped new entry/cash.
+
+V29 теперь подготовлен и запечатан до outcome: config SHA `d92f8cf2...`, implementation
+SHA `ea5aa37f...`. Он меняет только admission ролла: доказуемый полный old-leg exit имеет
+приоритет, новый вход отдельно clip-ится к прежнему 1% capacity или cash. V29 является
+post-V28 adaptive correction, не независимым подтверждением. Outcome ещё не читался;
+первый run разрешён только после commit/push seal.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -724,10 +730,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
    S1 transport failed без output; S2 failed parse без output; S3 успешно собран и
    replayed. V28 завершён с отрицательным и execution-invalid outcome; не повторять.
-   Следующий шаг — отдельно запечатать V29 risk-first roll correction: old leg exit
-   независимо от clipped/cancelled new entry, без изменения signal/governors/leverage/
-   costs. Главный `>=20%` governor в этом периоде не активируется. Historical specs/
-   fees/IM всё ещё proxy; licensed MOEX/broker archive обязателен для live evidence.
+   V29 risk-first roll correction запечатан SHA `d92f8cf2...` до outcome: old leg exit
+   отделён от clipped/cancelled new entry без изменения signal/governors/leverage/costs.
+   После pre-outcome push выполнить V29 ровно один раз и записать verdict. Главный
+   `>=20%` governor в этом периоде не активируется. Historical specs/fees/IM всё ещё
+   proxy; licensed MOEX/broker archive обязателен для live evidence.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
    capacity cancels и деградацию trend edge.

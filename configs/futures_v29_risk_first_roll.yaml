@@ -1,0 +1,138 @@
+﻿protocol_id: futures_v29_risk_first_roll_v1
+protocol_version: 1
+status: predeclared_after_V28_before_V29_outcomes
+declared_at_utc: "2026-09-01T08:37:27Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+
+parent_V28:
+  protocol_path: configs/futures_v28_pre2018_unseen.yaml
+  protocol_sha256: 4f9e66634803a7ac1c100ecdc998e1ca6e29558b704416003bff9331eac511b2
+  metrics_path: runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/metrics.json
+  metrics_bytes: 39892
+  metrics_sha256: 73b614b8a63adaa77b4380bf77b8d8e5d9a92b2fe69272fe2b843583a41cfaed
+  outcome_observed_before_V29: true
+  verdict: FAIL_UNSEEN_20
+  sealed_diagnosis:
+    execution_complete: false
+    critical_failure_count: 5129
+    rejected_leg_count: 1251
+    capacity_cancelled_roll_count: 5
+    first_permanent_trap_session: "2014-05-19"
+    first_trapped_asset: BR
+    trapped_old_contract: BR:BRK4:2014-05-16
+    triggering_roll_session: "2014-05-12"
+    desired_new_contract: BR:BRM4:2014-06-16
+    held_old_quantity: 14
+    old_leg_prior_volume: 8451
+    old_leg_one_percent_capacity: 84
+    desired_new_quantity_before_capacity: 25
+    new_leg_prior_volume: 137
+    new_leg_one_percent_capacity: 1
+    V28_behavior: cancel_both_atomic_roll_legs_and_retain_old_position
+  V28_not_modified_or_relabelled: true
+
+hypothesis:
+  statement: >-
+    An atomic roll must not retain a soon-expiring old contract merely because the new
+    contract cannot accept the full desired entry. If the old leg has a factual open and
+    full exit fits the unchanged one-percent lagged-volume cap, exit it completely and
+    independently clip the new entry to its own one-percent capacity, including zero/cash.
+    This can remove V28's expired-contract trap without increasing signal risk, leverage,
+    participation, or optimistic fill assumptions.
+  primary_comparison: canonical_invalid_V28_parent
+  economic_mechanism:
+    - liquidation_risk_has_priority_over_desired_new_exposure
+    - old_exit_and_new_entry_have_independent_liquidity_constraints
+    - insufficient_new_liquidity_reduces_exposure_instead_of_extending_expiry_risk
+  reject_if:
+    - any_parent_identity_source_or_temporal_check_fails
+    - any_old_exit_exceeds_one_percent_capacity
+    - any_critical_failure_or_unresolved_halt_remains
+    - any_cost_scenario_CAGR_is_below_20_percent
+    - any_cost_scenario_MDD_exceeds_30_percent
+
+inheritance_from_V28:
+  exact_inputs: all
+  exact_market_and_macro_periods: true
+  exact_signal_and_portfolio: true
+  exact_STLFSI4_and_key_rate_governors: true
+  exact_two_times_leverage: true
+  exact_RUONIA_missing_no_credit_policy: true
+  exact_cost_scenarios: true
+  exact_validation_and_20_50_percent_gates: true
+
+only_changed_behavior:
+  id: risk_first_roll_exit_then_capacity_clipped_entry
+  applies_only_when: held_old_contract_differs_from_nonmissing_desired_contract
+  old_leg_exit_requirement: full_exit_only_when_factual_open_and_one_percent_capacity_prove_execution
+  new_leg_policy: independent_clip_to_one_percent_capacity_or_cash
+  new_leg_missing_open_or_lagged_volume: exit_old_and_hold_cash
+  new_leg_capacity_zero: exit_old_and_hold_cash
+  old_exit_capacity_insufficient: retain_old_position_flag_execution_invalid
+  old_exit_missing_open_or_liquidity: retain_old_position_flag_execution_invalid
+  desired_direction_preserved_when_entry_nonzero: true
+  maximum_participation_changed: false
+  signal_governor_leverage_collateral_or_cost_changed: false
+  synthetic_prices_or_volume_allowed: false
+
+execution:
+  implementation: V26_ledger_with_transactional_V29_capacity_admission_only
+  unexecutable_target_policy: risk_first_roll_then_cancel_and_clip
+  execution_atomicity: asset
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume_per_leg
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  terminal_policy: carry_with_terminal_exit_cost_reserve_reported
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+
+validation:
+  period_role: post_V28_adaptive_execution_correction
+  independent_confirmation: false
+  target_gates_byte_identical_to_V28: true
+  support_20_requires_all_scenarios_CAGR_at_least: 0.20
+  support_50_requires_all_scenarios_CAGR_at_least: 0.50
+  maximum_drawdown_all_scenarios: 0.30
+  minimum_primary_sharpe: 0.80
+  minimum_primary_positive_years: 4_of_5
+  minimum_primary_worst_year: -0.15
+  parameter_selection_on_V29: forbidden
+
+limitations:
+  post_V28_adaptive_correction: true
+  independent_holdout: false
+  V28_negative_pre_trap_returns_already_observed: true
+  old_exit_insufficient_capacity_still_invalid: true
+  STLFSI4_current_vintage_not_original_weekly_vintages: true
+  key_rate_20_percent_state_absent: true
+  RUONIA_most_historical_timing_unknown_and_uncredited: true
+  historical_exchange_specs_fees_margin_and_queue_exact: false
+  live_trading_allowed: false
+  guaranteed_future_return: false
+
+implementation_dependencies:
+  src/market_lab/futures_v29_risk_first_roll.py: ea5aa37fd261b8065fcd7e6c2d1ab8b6635922444afadba7adbbe5c62b5dc9fa
+  src/market_lab/futures_v28_pre2018_unseen_validation.py: b9c290f6a7f5edf36d8eb81cba61808e9148ebcc024d0e5bd68e608efdc0c987
+  src/market_lab/futures_v26_stlfsi_levered_ruonia_capacity.py: 8ffe540f99dccf30106af426da7d3e98b435d244b66a040c4ade56c5cc5a0718
+  src/market_lab/futures_v15_levered_ruonia_collateral.py: 4f6474423cc08fba7a1333b80301ab1ae37197af2e65b8e92b5984615ade97a6
+  src/market_lab/futures_v12_core4_correlation_trend.py: 27ca77002391df82edca57a2bfc02e2a0b1971693f7be37b190945b1fd512275
+  src/market_lab/futures/portfolio_ledger.py: 2b93564e13a006b4a1c4b1270a42064681e8286749c128c885cb5d89972ac9c2
+
+output:
+  root: runs
+  run_prefix: v29_risk_first_roll
+  immutable: true
+  overwrite_allowed: false
+
+forbidden_after_seal:
+  - weakening_or_removing_the_one_percent_capacity_limit
+  - allowing_partial_untracked_old_and_new_contract_positions
+  - changing_signal_governors_leverage_collateral_costs_or_target_gates
+  - treating_V29_as_independent_unseen_confirmation
+  - overwriting_V28_or_the_canonical_V29_run
+  - live_trading_or_claiming_guaranteed_profit

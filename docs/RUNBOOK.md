@@ -699,6 +699,30 @@ Verdict `FAIL_UNSEEN_20`, execution invalid из-за expired-contract trap по
 capacity-cancelled roll. Команду не повторять. Любая risk-first roll correction — новый
 V29 protocol с новым code/config/output и обязательным pre-outcome push.
 
+### Sealed V29 post-V28 risk-first roll correction
+
+Config SHA `d92f8cf2...`, implementation SHA `ea5aa37f...`. Это adaptive execution
+correction после увиденного V28 failure, не independent holdout. До первого V29 run код,
+config, sidecar, tests и docs должны быть committed и pushed:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v29_risk_first_roll.py `
+  tests/test_futures_v28_pre2018_unseen_validation.py `
+  tests/test_futures_v26_stlfsi_levered_ruonia_capacity.py `
+  tests/test_encoding.py
+.\.venv\Scripts\python.exe -m ruff check `
+  src/market_lab/futures_v29_risk_first_roll.py `
+  tests/test_futures_v29_risk_first_roll.py
+.\.venv\Scripts\python.exe -m market_lab.futures_v29_risk_first_roll `
+  --config .\configs\futures_v29_risk_first_roll.yaml `
+  --output-root .\runs
+```
+
+V29 нельзя перезапускать ради настройки. Full old exit обязан уложиться в factual 1%
+capacity; new entry отдельно clip-ится или заменяется cash. Если old exit недоказуем,
+ledger должен остаться invalid. После run сохранить exact path/hashes и verdict.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

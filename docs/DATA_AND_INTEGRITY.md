@@ -99,6 +99,11 @@ identity SHA `d7210826...`, declared artifact audit 103/103. Run immutable и in
 false, critical failures 5 129. Не исправлять V28 in-place и не выдавать его частичную
 equity curve за чистый unseen economic verdict.
 
+V29 config SHA `d92f8cf2...` pin-ит V28 config/metrics, все V28 inputs и implementation
+closure. Это post-V28 correction только для risk-first roll admission; новые данные и
+новая temporal граница не добавляются. До pre-outcome commit/push V29 run запрещён. V29
+не может восстановить статус independent holdout, даже если execution станет complete.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical
