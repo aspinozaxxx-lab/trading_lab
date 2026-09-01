@@ -542,6 +542,31 @@ Primary +49,07%, CAGR 8,31%, Sharpe 0,818, MDD −14,226%; execution complete. �
 false gate — MDD хуже V12 на 0,0736 п.п., поэтому verdict `NO_GO`. Команду не повторять
 для selection на той же истории; следующий допустимый шаг — новая forward/PIT validation.
 
+### Sealed V26/V27 capital-efficiency chain
+
+V26 config SHA `2b085890...` фиксирует 2x V25, RUONIA и capacity admission. Canonical
+run уже существует: `runs/v26_stlfsi_levered_ruonia_capacity_20260901T051200Z_2b085890/`,
+metrics SHA `b4149969...`. Его не повторять для leverage/haircut/capacity selection:
+all-scenario CAGR >23%, execution complete, но MDD >33%, verdict `NO_GO`.
+
+V27 config SHA `7a9a44cf...` добавляет только CBR key-rate `>=20%` global cash state.
+Canonical run уже существует: `runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/`,
+metrics SHA `5fc1f271...`. Replay/audit tests:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest `
+  tests/test_futures_v27_key_rate_extreme_governor.py `
+  tests/test_futures_v26_stlfsi_levered_ruonia_capacity.py `
+  tests/test_futures_portfolio_ledger.py tests/test_futures_info_radar.py `
+  tests/test_encoding.py -q
+```
+
+V27 primary/stress CAGR `28,38%/27,36%`, MDD `20,71%/21,05%`; 115/115 checks,
+828/828 dependencies, 0 critical/unresolved. Verdict `GO_TO_NEW_UNSEEN_VALIDATION`, not
+live. Не запускай V27 повторно ради выбора threshold/age/scale на 2021–2025. Следующий
+runner должен иметь новый protocol id, физически отдельный unseen/PIT input bundle и
+быть sealed/pushed до первого outcome.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

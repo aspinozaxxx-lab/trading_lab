@@ -349,6 +349,27 @@ decisions. Перед market outcomes runner проверяет все source SH
 Canonical result улучшил V12 return и Sharpe, но MDD хуже на 0,0736 п.п.; strict verdict
 `NO_GO`. Модуль сохраняется для exact replay и будущей forward/PIT validation.
 
+### `market_lab.futures_v26_stlfsi_levered_ruonia_capacity`
+
+Компонует immutable V25 governor и V15 collateral без нового сигнала. Governed weekly
+weights отображаются на factual active contract в admissible base units, после mapping
+умножаются ровно на 2. Ledger запускается через тот же 2x normalization contour, но с
+`unexecutable_target_policy=cancel_and_clip`: factual no-open target отменяется, а
+известная lagged-volume capacity ограничивает заявку до submission. RUONIA начисляется
+только на незанятое обеспечение и не влияет на будущий sizing. V26 дал CAGR >23% во всех
+cost scenarios и 0 critical, но MDD >33%, поэтому immutable verdict `NO_GO`.
+
+### `market_lab.futures_v27_key_rate_extreme_governor`
+
+Наследует все exact inputs/economics V26 и добавляет raw-replayed официальный CBR
+key-rate state до 2x multiplier. `verify_key_rate_bundle` проверяет manifest request,
+request-body SHA, raw bytes/SHA, повторяет SOAP XML parse и требует exact equality с
+filtered `cbr_daily.parquet`. На weekly decision выбирается только latest
+`available_at <= decision_at`; age >7 дней fail-closed. V25 pass допускается при rate
+`<20%`, rate `>=20%` переводит все targets в cash. Counts sealed до market outcome.
+Canonical V27 прошёл все gates и сохраняется как главный research lead только для новой
+unseen/PIT validation; модуль не разрешает live trading.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -1,14 +1,23 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V25 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V27 гипотез защищены и не используются.
 
 ## Короткий ответ
 
-Новый главный lead — V12 core-four correlation trend. Он впервые завершил полный
-integer-contract next-open ledger 2021–2025 без critical/unresolved событий и прошёл
-заранее зафиксированный gate к новой независимой валидации. Текущий общий статус:
+Новый главный research lead — **V27**, но только для новой независимой валидации.
+Он объединяет frozen V12/V25 trend, неизменный максимум 2x, консервативный доход RUONIA,
+capacity-aware исполнение и новый binary cash governor: latest causally available
+официальная ключевая ставка ЦБ `>=20%`. Все правила были committed/pushed до PnL.
+Primary combined CAGR **28,3752%**, Sharpe **1,2119**, MDD **−20,7138%**; stress CAGR
+**27,3643%**, MDD **−21,0511%**. Все sealed gates пройдены. Текущий общий статус:
 **GO TO NEW UNSEEN VALIDATION, но NO-GO for live trading**.
+
+V26 был необходимым промежуточным прорывом: 2x V25 + RUONIA + `cancel_and_clip` дал
+primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAGR
+**23,0255%**. Он устранил 8 critical events V15, но strict MDD `<=30%` не прошёл;
+verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
+причинный режим риска и снизил MDD на **12,8523 п.п.**.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -118,6 +127,8 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
+| V27 V26 + CBR key-rate `>=20%` cash governor | +248,61%, CAGR 28,38%, Sharpe 1,21, MDD −20,71%; stress CAGR 27,36% | Все sealed gates пройдены; **GO к новой unseen validation, не live** |
+| V26 2x V25 + causal RUONIA + capacity admission | +195,14%, CAGR 24,17%, Sharpe 0,98, MDD −33,57%; complete | Return/execution gates пройдены, MDD `>30%`; NO-GO |
 | V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
 | V13 trend + carry confirmation | +52,46%, CAGR 8,80%, Sharpe 0,71, MDD −20,69% | Return выше, stability хуже; NO-GO как replacement |
 | V14 prior-session RVI governor | +25,62%, CAGR 4,67%, Sharpe 0,73, MDD −9,40% | MDD лучше, edge слабее; NO-GO |
@@ -142,6 +153,55 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V27 extreme key-rate governor — все sealed gates пройдены
+
+Protocol/config commit `aca0380` был pushed до первого PnL. Config SHA
+`7a9a44cf7b09c7820a514b2706e332744a3b30ced8b7d3d4c8bdf7448a3194fe`
+фиксирует ровно один круглый monetary boundary: latest key rate `>=20%` переводит
+уже STLFSI4-governed portfolio в cash; `<20%` пропускает его. Missing/stale старше семи
+дней также cash. Максимум 2x, RUONIA haircut 50%, buffer 10%, capacity и costs V26 не
+изменены. Source-only states до PnL: all `418 = 309 pass / 68 STLFSI cash / 40 key-rate
+cash / 1 missing`; OOS `261 = 197/24/40/0`.
+
+Canonical run:
+`runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/`; metrics SHA
+`5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654`.
+
+- 115/115 checks true; 27/27 declared artifacts прошли bytes/SHA/row audit;
+- raw CBR SOAP 121 958 bytes, SHA `06da1497...`, exact replay всех 2 015 key-rate rows;
+- 828/828 nonzero next-open dependencies; все orders filled, 0 critical/unresolved;
+- primary combined return **+248,6127%**, CAGR **28,3752%**, Sharpe **1,2119**,
+  MDD **−20,7138%**, costs **44 141,07 RUB**, collateral **366 595,47 RUB**;
+- doubled: CAGR **27,6201%**, Sharpe **1,1918**, MDD **−20,9410%**;
+- stress: CAGR **27,3643%**, Sharpe **1,1839**, MDD **−21,0511%**;
+- primary годы: **+40,34%/+72,45%/+30,68%/+11,87%/−1,48%**;
+- против V26: CAGR `+4,21 п.п.`, Sharpe `+0,2356`, MDD лучше на `12,85 п.п.`,
+  worst year лучше на `10,79 п.п.`, costs ниже на 11 156,59 RUB;
+- market artifacts заканчиваются `2025-12-30`; timestamps/targets/PnL 2026 отсутствуют.
+
+Verdict **GO_TO_NEW_UNSEEN_VALIDATION** означает только переход к заранее запечатанному
+forward/PIT или ранее не просмотренному рынку. V27 создан после просмотра V26 на тех же
+2021–2025, поэтому не является независимым доказательством и live trading запрещён.
+Нельзя менять 20% boundary, age, cash/partial scale или V26 economics по этому outcome.
+
+## V26 capital efficiency — цель доходности пробита, MDD gate не пройден
+
+Config SHA `2b08589013f3b3387002830cad7878ef0fffc5dc808b8165fc004e724abf4c1b`
+и commit `3b9ce95` были pushed до market outcome; pre-PnL routing fix `5515321` лишь
+перенёс 2x после допустимого base mapper, не читая PnL. Canonical run:
+`runs/v26_stlfsi_levered_ruonia_capacity_20260901T051200Z_2b085890/`; metrics SHA
+`b4149969696e23a29a06b58085510d9f8c9f2bbf584ca0d2aaa883801493567d`.
+
+- 99/99 checks true; 25/25 declared artifacts прошли audit;
+- 1 016/1 016 dependencies, all filled orders, 0 critical/unresolved; шесть причинных
+  no-open cancellations на фактических остановках заменили 8 critical events V15;
+- primary/doubled/stress combined CAGR **24,17%/23,41%/23,03%**;
+- Sharpe **0,976/0,956/0,946**, но MDD **33,57%/33,99%/33,97%**;
+- единственный false promotion condition — all-scenario MDD `<=30%`.
+
+Verdict остаётся `NO_GO`; снижать постоянное плечо после этого outcome нельзя. V26
+сохраняется как exact parent V27 и как доказательство работоспособности capacity policy.
 
 ## V25 STLFSI4 weekly governor — сильнейший challenger, strict NO-GO
 
@@ -583,16 +643,18 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — независимо подтвердить V12, не подгоняя его
+### P0 — независимо подтвердить V27, не подгоняя его
 
-1. Заморозить byte-identical V12 signal/portfolio economics; не менять 21/63/126/252,
-   пять sleeves, 20% target vol, universe и execution caps по результатам 2021–2025.
+1. Заморозить byte-identical V27 целиком: V12 signal, V25 STLFSI4 zero/age, key-rate
+   boundary `>=20%`/7-day age, максимум 2x, RUONIA haircut/buffer, universe, capacity и
+   execution costs. Не выбирать partial scale или новый threshold по 2021–2025.
 2. Получить новый действительно unseen период либо независимый PIT рынок. Уже
    просмотренный legacy 2026 нельзя переименовывать в holdout.
 3. До следующего PnL получить historical exchange/broker specs, fee/IM schedules и
    spread/order-book evidence хотя бы для BR/MIX/RI/SI.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
-   отдельно мониторить отрицательный 2025 и деградацию trend edge.
+   отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
+   capacity cancels и деградацию trend edge.
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
 
@@ -653,6 +715,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     pushed до outcome; +49,07%, Sharpe 0,818 и worst year лучше V12, execution complete,
     но MDD хуже на 0,0736 п.п., поэтому strict `NO_GO`. Следующий шаг — только новая
     forward/PIT validation; same-history STLFSI tuning закрыт.
+15. V26 доказал capital efficiency: all-scenario CAGR `23,03–24,17%`, 0 critical, но
+    MDD `33,57–33,99%`, strict `NO_GO`. V27 добавил raw-replayed official key-rate
+    `>=20%` cash state и прошёл все gates: primary/stress CAGR `28,38%/27,36%`, MDD
+    `20,71%/21,05%`, Sharpe `1,212/1,184`. Это adaptive same-history lead; следующий
+    PnL допустим только в отдельной unseen/PIT validation, не через tuning V27.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -685,6 +752,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - новые варианты corridor на тех же OOS после просмотра результатов;
 - новые пороги/стопы/ослабление capacity для RI/MIX/SI triangle на тех же OOS;
 - long-only momentum overlays на той же таблице без независимого holdout;
+- V27 key-rate threshold/age/partial-scale variants на 2021–2025;
 - V8 PnL до authoritative admission certificate и полного источникового аудита.
 
 ## Канонические внешние артефакты
@@ -716,6 +784,8 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/metrics.json`
 - `runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/metrics.json`
 - `runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/metrics.json`
+- `runs/v26_stlfsi_levered_ruonia_capacity_20260901T051200Z_2b085890/metrics.json`
+- `runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

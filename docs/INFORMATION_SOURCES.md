@@ -379,6 +379,25 @@ execution. Return/Sharpe/worst year лучше V12, но MDD хуже на 0,073
 `NO_GO`. Version 4 current-vintage limitation остаётся главным барьером: следующий тест
 возможен только на новой forward/PIT history, без изменения zero/age/state mapping.
 
+### CBR key rate — raw-replayed extreme monetary regime
+
+V27 использует уже сохранённый официальный SOAP `KeyRateXML`, а не новостной proxy:
+
+- raw: `raw/info_radar/cbr-dev-2018-2025-v1/0001_cbr_key_rate_soap_key_rate_xml.xml`,
+  121 958 bytes, SHA `06da1497c...`;
+- request-body SHA `04c6f1fc...`; manifest и processed CBR panel byte-pinned через V26;
+- exact raw parse воспроизводит 2 015 rows `2018-01-09..2025-12-30`, range
+  `4,25..21,00%`; другой CBR series parquet predicate не допускает;
+- точного historical publication timestamp feed не даёт, поэтому
+  `available_at = effective_date + 1 calendar day, 00:00 Moscow`;
+- source-only weekly V27 state использует круглый boundary `>=20%`, age `<=7` дней:
+  OOS 40 дополнительных cash weeks после STLFSI4, 0 missing/stale.
+
+V27 был sealed/pushed до PnL и прошёл development gates, но rule выбран после V26 на
+том же периоде. Поэтому current/history плюс conservative timestamp достаточны для
+adaptive research, не для независимого live evidence. Требуется forward archive с
+actual retrieval/publication time; boundary/age/partial scale по 2021–2025 не менять.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -386,8 +405,8 @@ execution. Return/Sharpe/worst year лучше V12, но MDD хуже на 0,073
 - CBR: ключевая ставка, RUONIA и официальный USD/RUB с publication semantics;
 - CFTC: weekly positioning с Friday release lag и отдельными holiday overrides.
 
-RUONIA использована в V15. Её причинная часть V16 не исправляет недоступный FUTOI signal,
-поэтому V16 collateral/combined metrics также недействительны.
+RUONIA использована в V15/V26/V27; key rate — в V27. Причинная collateral часть V16 не
+исправляет недоступный FUTOI signal, поэтому V16 combined metrics недействительны.
 
 Эти признаки уже встречались в V6/V8/V9. Их нельзя выдавать за новую информацию лишь
 потому, что изменён threshold или модель.
@@ -409,7 +428,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | V24 NO-GO; новый тест только forward/unseen, source current-vintage/copyrighted | Только complete pair после Chicago day-end и `available_at <= decision_at` |
 | P1 | STLFSI4 via FRED | Редкий broad financial-stress switch для frozen V12 | V25 strong but strict NO-GO; только forward/PIT, Version 4 current-vintage | Только после following-Thursday Chicago end и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
-| P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
+| P2 | CBR publication calendar, RUONIA term structure, key-rate text | Forward confirmation V27 funding/monetary state | Числовые RUONIA/key-rate уже использованы; V27 требует unseen | Actual publication/retrieval timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
 
 Официальные точки входа:

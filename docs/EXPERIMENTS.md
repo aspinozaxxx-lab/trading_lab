@@ -4,6 +4,91 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V27: official CBR key-rate extreme governor — GO to unseen validation
+
+- Протокол:
+  [`configs/futures_v27_key_rate_extreme_governor.yaml`](../configs/futures_v27_key_rate_extreme_governor.yaml)
+- Config SHA-256:
+  `7a9a44cf7b09c7820a514b2706e332744a3b30ced8b7d3d4c8bdf7448a3194fe`.
+- Parent V26 immutable: protocol SHA `2b085890...`, metrics SHA `b4149969...`; maximum
+  2x, RUONIA haircut 50%, operational buffer 10%, `cancel_and_clip`, margin/gross/
+  participation и cost scenarios не менялись.
+- Один новый governor: после V25 STLFSI4 latest official CBR key rate с
+  `available_at <= decision_at` и age `<=7` дней. Rate `<20%` пропускает V25; rate
+  `>=20%`, missing/stale или уже cash STLFSI4 дают global cash до 2x multiplier.
+- Порог 20% — заранее объявленная круглая extreme monetary boundary. Levels below 20,
+  changes, percentiles, hysteresis, partial scale и asset exceptions не тестировались.
+- Raw SOAP source `121958` bytes, SHA `06da1497...`, exact parse восстанавливает 2 015
+  filtered key-rate rows `2018-01-09..2025-12-30`; same-day использование запрещено,
+  `available_at` консервативно равно следующей календарной полуночи Moscow.
+- Source-only seal: all `418 = 309 pass + 68 STLFSI cash + 40 key-rate cash + 1
+  missing`; OOS `261 = 197 + 24 + 40 + 0`.
+- Pre-outcome tests `43 passed`; config/code/tests committed и pushed как `aca0380` до
+  первого V27 PnL.
+- Promotion требовал во всех primary/doubled/stress CAGR `>=20%`, MDD `<=30%`, primary
+  Sharpe/worst-year не хуже V26, 4/5 positive years, complete execution и no breaches.
+
+- Canonical run:
+  `runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/`.
+- Metrics SHA-256:
+  `5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654`.
+
+Все 115 checks true; 27 declared artifacts плюс metrics/identity прошли bytes/SHA/row
+audit. Execution complete: 828/828 nonzero dependencies, primary 616 filled order legs,
+0 rejected/critical/unresolved, six causal no-open target cancellations and no gross/
+margin/participation breach.
+
+| Scenario | Combined return | CAGR | Sharpe | MDD | Worst year | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | +248,6127% | +28,3752% | 1,2119 | −20,7138% | −1,4772% | 44 141,07 | yes |
+| doubled | +238,4811% | +27,6201% | 1,1918 | −20,9410% | −2,3294% | 86 607,24 | yes |
+| stress | +235,1022% | +27,3643% | 1,1839 | −21,0511% | −2,6979% | 128 784,62 | yes |
+
+Primary годы: 2021 **+40,34%**, 2022 **+72,45%**, 2023 **+30,68%**,
+2024 **+11,87%**, 2025 **−1,48%**. Collateral income primary 366 595,47 RUB.
+Против V26 primary CAGR выше на **4,21 п.п.**, Sharpe на **0,2356**, MDD ниже на
+**12,85 п.п.**, worst year лучше на **10,79 п.п.**, costs ниже на 11 156,59 RUB.
+
+Verdict: `GO_TO_NEW_UNSEEN_VALIDATION`; все predeclared conditions true. Это не live
+promotion: V27 выбран после V26 на том же OOS, key-rate publication time заменён
+консервативным next-day proxy, STLFSI4 current-vintage и specs/fees/margin не broker-
+exact. Независимое подтверждение и paper/shadow forward обязательны. Same-history
+20% boundary/age/scale tuning запрещён.
+
+## V26: 2x V25 + RUONIA + capacity admission — NO-GO by MDD
+
+- Протокол:
+  [`configs/futures_v26_stlfsi_levered_ruonia_capacity.yaml`](../configs/futures_v26_stlfsi_levered_ruonia_capacity.yaml)
+- Config SHA-256:
+  `2b08589013f3b3387002830cad7878ef0fffc5dc808b8165fc004e724abf4c1b`.
+- Frozen V25 weekly signal/governor удваивается ровно один раз. V15 collateral formula
+  byte-reused; core ledger использует asset-atomic `cancel_and_clip`, known lagged volume
+  и factual open до submission.
+- До PnL config/code/tests были pushed commit `3b9ce95`; pre-execution mapper остановил
+  первый вызов до market ledger из-за >1 base-normalizer. Routing был исправлен до PnL
+  и pushed commit `5515321`: mapping выполняется на admissible V25 weights, затем 2x.
+- Promotion требовал CAGR `>=20%` и MDD `<=30%` во всех cost scenarios, Sharpe не ниже
+  V25, worst year `>=−15%`, complete execution и no breaches.
+
+- Canonical run:
+  `runs/v26_stlfsi_levered_ruonia_capacity_20260901T051200Z_2b085890/`.
+- Metrics SHA-256:
+  `b4149969696e23a29a06b58085510d9f8c9f2bbf584ca0d2aaa883801493567d`.
+
+Все 99 checks true; 25 artifacts прошли audit. 1 016/1 016 dependencies complete,
+primary 761 filled legs, 0 rejected/critical/unresolved. Capacity policy превратила
+проблемные halt targets в шесть explicit no-open cancellations.
+
+| Scenario | Combined return | CAGR | Sharpe | MDD | Worst year | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | +195,1384% | +24,1698% | 0,9764 | −33,5661% | −12,2686% | 55 297,66 | yes |
+| doubled | +186,2080% | +23,4090% | 0,9565 | −33,9890% | −12,9643% | 108 069,21 | yes |
+| stress | +181,7881% | +23,0255% | 0,9458 | −33,9672% | −14,1060% | 160 794,39 | yes |
+
+Verdict `NO_GO`: единственный false condition — all-scenario MDD `<=30%`. Постоянное
+плечо, haircut, buffer и capacity нельзя ретюнить на этом outcome. V26 остаётся
+immutable capital-efficiency/execution parent V27.
+
 ## V25: weekly STLFSI4 stress governor — NO-GO by strict MDD gate
 
 - Протокол:
