@@ -1,0 +1,158 @@
+﻿protocol_id: futures_v32_curve_regime_intraday_cross_asset_v1
+protocol_version: 1
+status: sealed_before_first_v32_market_outcome_read
+declared_at_utc: "2026-09-01T17:36:19Z"
+sealed_before_outcomes: true
+research_only: true
+live_trading_allowed: false
+
+outcome_boundary:
+  code_parameters_input_identities_and_metadata_counts_fixed_before_outcome_read: true
+  price_return_target_equity_or_pnl_observed_for_this_family_before_seal: false
+  one_canonical_economic_read_only_after_commit_and_push: true
+  post_outcome_parameter_tuning_inside_V32: forbidden
+
+boundaries:
+  raw_intraday_start: "2018-01-01"
+  raw_intraday_end: "2025-12-31"
+  curve_context_start: "2021-09-01"
+  curve_context_end: "2024-05-21"
+  evaluation_start: "2022-04-01"
+  evaluation_end: "2024-05-31"
+  protected_from: "2026-01-01"
+  decision_timezone: Europe/Moscow
+
+implementation:
+  core_path: src/market_lab/futures/curve_regime_intraday.py
+  core_sha256: 45bffa212eeb57ec2c6527acba033795553e6454186ca3f176913e27ad2cb305
+  runner_path: src/market_lab/futures_v32_curve_regime_intraday.py
+  runner_sha256: 9f70fa3c21dc3b0c525e92d1bc334debd78e4f4728ffc687d49b11c06181b53b
+
+inputs:
+  intraday_top_manifest:
+    path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+    bytes: 1785
+    sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+    declared_market_rows: 1699545
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    bytes: 500949
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    rows: 8100
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    bytes: 6218382
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    rows: 66052
+  curve_manifest:
+    path: data/processed/options/moex-curve-coefficient-regime-2021-2024-v1/manifest.json
+    bytes: 9203
+    sha256: f76a8ce1624e725fa321cf938e1ae20d240cfdb7f5fe03627c7baaddee5e0436
+  curve_wide_context:
+    path: data/processed/options/moex-curve-coefficient-regime-2021-2024-v1/coefficient_regime_wide.parquet
+    bytes: 950756
+    sha256: 8cb63799e504c9e483669f93c6f7ac7a5e74b0d345128572e82c4f6bdfd43231
+    rows: 686
+
+pre_outcome_metadata_seal:
+  metadata_only_no_market_values: true
+  active_bar_rows: 683209
+  common_four_bars: 169644
+  curve_events: 686
+  events_with_structural_decisions: 670
+  structural_decisions: 29810
+
+hypothesis:
+  statement: >-
+    A repeatedly refreshed nonlinear forecast of the next sixty-minute open-to-open
+    returns, trained on simultaneous SI, RI, BR and MIX state plus the same-day robust
+    cross-asset MOEX option-coefficient regime, can identify sparse opportunities whose
+    net portfolio return is stable across calendar segments and survives conservative
+    costs better than both a market-only neural ablation and a linear full-feature model.
+  aggressive_elements:
+    - a new decision after every completed ten-minute bucket
+    - simultaneous four-market state rather than an isolated instrument
+    - nonlinear cross-market interactions
+    - thirty-percent annual volatility target with 1.6x gross cap
+  no_sign_inversion_after_observation: true
+  no_model_or_architecture_search_inside_reported_test_months: true
+
+source_limitations:
+  original_live_delivery_vintage_proved: false
+  historical_archive_current_delivery_only: true
+  exact_option_maturity_mapping_available: false
+  maturity_agnostic_robust_coefficients_only: true
+  spec_proxy_approximate_research_only: true
+  historical_exchange_or_broker_fills_exact: false
+
+features:
+  coefficient_context: median_iqr_and_median_delta_for_S_A_B_C_D_E_by_four_assets
+  market_context: gap_tolerant_returns_volatility_range_body_volume_and_cross_dispersion
+  no_gap_or_overnight_return_synthesis: true
+  no_context_carry_to_days_without_a_curve_event: true
+  settings:
+    return_lookbacks: [1, 3, 6, 18]
+    realized_volatility_lookbacks: [6, 18]
+    volume_lookback: 18
+    label_horizon_bars: 6
+    first_decision_local: "10:10:00"
+    last_decision_local: "17:30:00"
+    forced_flat_local: "18:30:00"
+    covariance_observations: 132
+    covariance_minimum_observations: 66
+    covariance_diagonal_shrinkage: 0.50
+    annualization_bars: 11088
+
+validation_and_model:
+  evaluation_start: "2022-04-01"
+  evaluation_end: "2024-05-31"
+  calibration_months: 3
+  purge_calendar_days: 1
+  minimum_core_source_events: 80
+  minimum_calibration_source_events: 40
+  minimum_calibration_actions: 200
+  minimum_positive_calibration_months: 2
+  threshold_cost_multiples: [1.5, 2.5, 4.0]
+  hidden_layers: [32, 16]
+  activation: tanh
+  alpha: 0.001
+  learning_rate_init: 0.001
+  maximum_iterations: 120
+  batch_size: 256
+  seeds: [1729, 2718, 3141]
+  ridge_alpha: 10.0
+
+portfolio:
+  annual_target_volatility: 0.30
+  maximum_gross: 1.60
+  maximum_asset_weight: 0.60
+  score_clip: 2.0
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_exact_common_bucket_open
+  label: next_open_to_open_sixty_minutes
+  integer_quantity: truncate_toward_zero
+  signal_participation: 0.0025
+  factual_participation_cap: 0.01
+  exit_capacity_failure: unresolved_fail_closed
+  margin_buffer_multiple: 2.0
+  collateral_interest: omitted_no_credit
+  daily_terminal_policy: forced_flat_at_18_30_Moscow
+  scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+
+promotion_rule:
+  minimum_cagr: 0.20
+  aspirational_cagr: 0.50
+  minimum_sharpe: 1.0
+  maximum_drawdown: 0.25
+  minimum_positive_calendar_segments: 3
+  minimum_filled_order_legs: 200
+  minimum_cagr_advantage_over_baseline: 0.02
+  minimum_sharpe_advantage_over_baseline: 0.10
+  all_three_cost_scenarios_must_pass_CAGR: true
+  positive_result_requires_new_sealed_forward_validation: true
+  live_trading_remains_forbidden: true

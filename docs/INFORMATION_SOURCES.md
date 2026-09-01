@@ -596,6 +596,56 @@ weekly vintages; это нужно явно учитывать в verdict V28.
 fees и IM. Анонимный HTTP-доступ сам по себе не доказывает право на перераспределение и
 не заменяет licensed data для live admission.
 
+### MOEX volatility-curve coefficients — robust current-vintage context для V32
+
+Официальный archive catalog V2 сохранил 24/24 index/archive identities и 686 event dates
+`2021-09-01..2024-05-21`. Попытка расширить January 2021 через отдельный endpoint
+остановлена source-only: timestamp coverage только `38,5542%`, в основном вечерние
+snapshots, против predeclared minimum 85%. Exact public
+`OPTION_SERIES_ID -> expiration` probe тоже остановлен без output: endpoint вернул
+subscriber-only HTML. Ни missing T, ни maturity не были угаданы.
+
+Поэтому canonical source
+`data/processed/options/moex-curve-coefficient-regime-2021-2024-v1/` использует только
+устойчивые к составу серий statistics: median/IQR/delta каждого raw S/A/B/C/D/E,
+series count и cross-asset median/dispersion для RI/MIX/SI/BR. Counts: 25 172 core rows,
+2 744 long rows, 686 wide events; manifest SHA `f76a8ce1...`, wide SHA `8cb63799...`;
+15/15 checks true. Source не загружает settlement/price, не вычисляет return/label/PnL.
+Главное ограничение: bytes получены сейчас, а original historical delivery vintage не
+доказан. V32 поэтому остаётся adaptive development, даже если economic gates пройдут.
+
+### Разведка дополнительных источников для следующего forward-периода
+
+Самый полезный следующий слой — не ещё один пересмотр historical threshold, а
+timestamped forward microstructure collector:
+
+- [MOEX FUTOI per ticker](https://moexalgo.github.io/docs/api/get-futoi-for-ticker/)
+  документирует обновление каждые пять минут: подписчик получает real-time, а
+  неавторизованный ISS — данные с задержкой 15 дней. Для causal forward feature нужно
+  сохранять raw response, exchange `SYSTIME`, retrieval time и entitlement; delayed
+  history нельзя выдавать за original-vintage replay;
+- [MOEX futures tradestats](https://moexalgo.github.io/docs/api/get-fo-tradestats/) и
+  [MOEX real-time fields](https://moexalgo.github.io/docs/description/realtime/) дают
+  агрегаты потока сделок и `OPENPOSITION`. Это перспективный источник order-flow/
+  crowding для выбора момента, но до подписки и собственного forward archive он sleeping;
+- [CBR statistical REST API](https://cbr.ru/statistics/data-service/apidocumentation/)
+  возвращает JSON и публикует OpenAPI 3.0. Он подходит для автоматического macro state,
+  но dataset date не доказывает historical publication vintage — collector обязан
+  хранить actual retrieval и revision chain;
+- [EIA API v2](https://www.eia.gov/opendata/documentation.php) даёт бесплатный key и
+  petroleum datasets, а [WPSR schedule](https://www.eia.gov/petroleum/supply/weekly/schedule.php)
+  фиксирует обычный release после 10:30 ET по средам с holiday exceptions. Без
+  point-in-time consensus это supply state, но не корректно измеренный surprise;
+- [CFTC COT](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm) и
+  [historical compressed files](https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm)
+  дают weekly Tuesday positioning и публичные annual files. Частота слишком мала для
+  непосредственного 10m timing, но данные годятся как заранее известный slow regime.
+
+Приоритет: (1) forward MOEX FUTOI/tradestats raw snapshots, (2) licensed historical
+spec/order-book/multileg archive для проверки fills, (3) release-vintage CBR/EIA.
+Любой новый economic join получает отдельный source manifest и seal; V32 после outcome
+этими данными не «исправляется».
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и

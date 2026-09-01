@@ -1,7 +1,40 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V29 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V32 гипотез защищены и не используются.
+
+## Активная работа: V32 continuous cross-asset curve-regime — sealed, outcome pending
+
+После отрицательной независимой проверки V31 открыта принципиально новая family, а не
+ещё одна настройка старого weekly trend. V32 делает решение после каждого завершённого
+10-минутного bucket, одновременно видит SI/RI/BR/MIX и 92 maturity-agnostic признака
+официальных MOEX option coefficients. Target — следующие 60 минут open-to-open;
+исполнение — на следующем exact common open, принудительный flat в 18:30 мск.
+
+Config `configs/futures_v32_curve_regime_intraday.yaml` byte-sealed SHA
+`c7da1d45bee19a7e386df1bd2cec6d5b4ac335ba64eb9f0118a3d8fa42743d54`; core SHA
+`45bffa212eeb57ec2c6527acba033795553e6454186ca3f176913e27ad2cb305`, runner SHA
+`9f70fa3c21dc3b0c525e92d1bc334debd78e4f4728ffc687d49b11c06181b53b`.
+Outcome-free tests прошли `13/13`. Metadata-only preflight, не читавший OHLCV/return/
+target/PnL, подтвердил 218 raw artifacts, 8 064 causal effective-date plans, 683 209
+active bars, 169 644 exact common-four buckets, 686 curve events и 29 810 решений на
+670 event days; все 10 checks true.
+Полная регрессия проекта: `962 passed, 7 skipped`; два старых V8 anti-junction tests
+ожидаемо падают, потому что внешний `data/` намеренно resolve-ится за Git root. Это тот
+же известный инфраструктурный конфликт, новых V32 failures нет.
+
+Frozen comparison: full MLP ensemble `[32,16]` против того же market-only MLP и full
+Ridge. Monthly expanding core + preceding-three-month calibration имеют one-day purge;
+calibration может выбрать только один из заранее заданных stress-cost hurdles
+`1,5/2,5/4,0`, без инверсии знака. Portfolio target 30% annual volatility, gross `<=1,6`,
+asset `<=0,6`; integer next-open ledger проверяет 0,25% causal signal volume, 1% factual
+capacity, 2x margin buffer и costs `1tick/1fee`, `2/2`, `4/2`.
+
+Первый economic run ещё **не выполнен**. До commit/push seal запрещено читать его
+результаты. Даже прохождение all-cost CAGR `>=20%`, Sharpe `>=1`, MDD `<=25%`, трёх
+положительных календарных сегментов и преимущества над обеими ablation даст только
+`REQUIRES_NEW_FORWARD_VALIDATION`; live trading остаётся запрещён. Исторический archive
+coefficients получен current-vintage и не доказывает original live delivery timestamps.
 
 После провала V29 открыт новый, ещё не просмотренный рыночный период 2008–2011.
 Metadata-only audit без daily endpoint нашёл ровно 81 официальный expired contract:

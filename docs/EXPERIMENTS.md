@@ -4,6 +4,42 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V32: continuous curve-regime cross-asset intraday — sealed, outcome pending
+
+- Новая family после закрытия V30/V31. Она не меняет знак/плечо старой стратегии, а
+  обучает отдельный прогноз следующих 60 минут после каждого completed 10m bucket на
+  совместном состоянии SI/RI/BR/MIX и official MOEX coefficient-event context.
+- Source — immutable
+  `data/processed/options/moex-curve-coefficient-regime-2021-2024-v1/`: 686 events
+  `2021-09-01..2024-05-21`, wide SHA `8cb63799...`, manifest SHA `f76a8ce1...`.
+  Используются только robust median/IQR/delta коэффициентов S/A/B/C/D/E и их
+  cross-asset dispersion; цена/settlement, maturity и недоказанный T не используются.
+- Критическая correction выполнена до outcomes: 10m bars соединяются с contract plan
+  по `effective_date`, причём `decision_date < effective_date` и
+  `observed_through <= decision_date`. Старый intraday loader по `decision_date` для этой
+  family запрещён, потому что мог выбрать контракт по информации после close того же дня.
+- Exact information contract: source `available_at <= decision_at`; четыре factual bar
+  ends `<= decision_at`; feature не создаёт return через gap/overnight; label требует семь
+  exact successors одного contract; entry равен следующему common open, exit-label —
+  open через шесть buckets, forced flat — 18:30 мск.
+- Models frozen до outcome: full MLP ensemble `[32,16]`, seeds `1729/2718/3141`;
+  market-only twin; full Ridge alpha 10. Monthly expanding core, prior-three-month
+  calibration и one-day purge. Calibration выбирает только cost multiple
+  `1,5/2,5/4,0`, требует 200 actions и два positive months; иначе весь test month cash.
+- Risk/execution frozen: 30% annual target, gross `<=1,6`, per-asset `<=0,6`, causal
+  132-bucket covariance with 50% diagonal shrinkage, integer next-open size, 0,25%
+  signal-volume cap, 1% factual capacity, 2x margin buffer, full fail-closed exits and
+  primary/doubled/stress costs `1/1`, `2/2`, `4/2` ticks/fee multiplier.
+- Promotion requires every cost CAGR `>=20%`, primary Sharpe `>=1`, MDD `<=25%`, all
+  three calendar segments positive, at least 200 filled legs and full model advantage
+  over both ablations of `+2 п.п.` CAGR and `+0,1` Sharpe. Aspirational 50% is reported
+  separately. Any pass is development-only and requires sealed forward/paper evidence.
+- Config SHA `c7da1d45...`; core SHA `45bffa21...`; runner SHA `9f70fa3c...`.
+  Outcome-free unit/encoding tests `13/13`; metadata-only preflight `10/10`: 218 raw
+  artifacts, 683 209 active bars, 169 644 common-four buckets, 686 source events,
+  670 event days and 29 810 structural decisions. Economic output does not yet exist;
+  first run is allowed only after this exact code/config is committed and pushed.
+
 ## V31: one-shot unseen 2008–2011 temporal validation — canonical NO-GO
 
 - V31 byte-pin-ит canonical V30-D2 config/module/metrics/identity и не меняет signal,

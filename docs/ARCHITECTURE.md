@@ -706,6 +706,32 @@ endpoint ограничивает ответ 1 000 строками и игно�
 `max(SYSTIME + buffer, retrieval_at)`. Поэтому bundle пригоден для будущего forward
 collector, но не для historical PnL 2021–2025 без original-vintage archive.
 
+### `market_lab.futures.moex_curve_coefficient_regime_source`
+
+Строит maturity-agnostic event context из официального MOEX volatility-curve archive.
+Raw coefficients S/A/B/C/D/E не трактуются как конкретный expiry без точного
+`OPTION_SERIES_ID -> expiration` proof. Для каждого SI/RI/BR/MIX event сохраняются
+median, IQR, median delta, series count и одновременная cross-asset dispersion. Источник
+не содержит settlement/price/return/target/PnL и имеет отдельный immutable manifest.
+
+### `market_lab.futures.curve_regime_intraday`
+
+Outcome-agnostic V32 core. Он строит gap-tolerant признаки четырёх рынков только из
+completed 10m buckets, exact six-bucket open-to-open labels, causal covariance, monthly
+purged train/calibration/test, full/ablation predictions и bounded target weights.
+Default-объекты immutable; все feature/model/risk числа дополнительно frozen dataclass
+invariants. Модуль не открывает файлы и не публикует run самостоятельно.
+
+### `market_lab.futures_v32_curve_regime_intraday`
+
+Byte-sealed orchestration V32. Runner проверяет config sidecar, hashes всех transitive
+10m manifests, effective-date active map, strictly-prior spec proxy и curve manifest.
+`--preflight-only` читает только identity/schema/date/contract/availability columns.
+Economic mode затем строит три fixed models, пять ledgers, exact artifact hashes и
+atomic immutable run directory; `--audit-run` повторно проверяет bytes/rows/checks.
+Неполная exit capacity остаётся explicit unresolved и economic NO-GO, но не ломает
+целостность опубликованного отрицательного run.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

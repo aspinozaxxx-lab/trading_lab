@@ -343,6 +343,15 @@ identity и должен проверяться перед чтением.
 - Signal использует только завершённые свечи.
 - Fill происходит не раньше следующего фактического open/полного бара.
 - Для 10m successor требуется ровно 600 секунд и тот же contract id.
+- V32 выбирает active contract по `effective_date`, только если
+  `observed_through <= decision_date < effective_date`. Join intraday bar по
+  `decision_date` запрещён: это может внести решение после close в тот же торговый день.
+- Для каждого V32 feature bucket factual `source_end_timestamp <= decision_at`; четыре
+  рынка обязаны иметь один exact timestamp. Missing bucket не создаёт synthetic return,
+  а label требует непрерывную seven-successor path одного contract.
+- MOEX coefficient context присоединяется только на exact Moscow event date и при
+  `available_at <= decision_at`; перенос последнего context на день без event запрещён.
+  Current-vintage archive не считается доказательством original historical delivery.
 - Roll — две реальные ноги или explicit rejection; нельзя склеивать target через roll.
 - Для feature prices допустима только causal forward adjustment, известная на дату решения.
 - Missing open/exit/spec/settle/volume означает sleep или unresolved, не zero return.

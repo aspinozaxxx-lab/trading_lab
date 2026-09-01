@@ -850,6 +850,37 @@ Canonical output не перезаписывать. После просмотр�
 asset/year filter, sign inversion, leverage/cost/gate change или повтор V31. Любая новая
 информация — отдельная будущая family и новый ещё не просмотренный/forward period.
 
+### V32 continuous curve-regime intraday
+
+V32 config SHA `c7da1d45...`, core SHA `45bffa21...`, runner SHA `9f70fa3c...`.
+До economic run разрешены только tests и outcome-free metadata preflight:
+
+```powershell
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/curve_regime_intraday.py `
+  src/market_lab/futures_v32_curve_regime_intraday.py `
+  tests/test_futures_v32_curve_regime_intraday.py
+.\.venv\Scripts\pytest.exe -q `
+  tests/test_futures_v32_curve_regime_intraday.py tests/test_encoding.py
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v32_curve_regime_intraday --preflight-only
+```
+
+Preflight должен вернуть exact 683 209 active bars, 169 644 common-four buckets,
+686 curve events, 670 admitted event days, 29 810 decisions и 10/10 checks. Он не имеет
+права загрузить OHLCV, return, target, equity или PnL.
+
+Ровно после commit/push byte-identical code/config допускается первый canonical run:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v32_curve_regime_intraday --output-root .\runs
+```
+
+Полученный path сразу проверить отдельным `--audit-run <path>`. V32 не повторять и не
+менять thresholds/sign/model/risk по увиденному результату; положительный verdict лишь
+открывает новый sealed forward collector/paper test, но не live trading.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
