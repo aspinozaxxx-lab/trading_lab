@@ -641,23 +641,26 @@ Canonical manifest SHA `e06fd978...`: 8 381 daily rows, 81 contracts, 224 reques
 
 ### Sealed MOEX 2008–2011 causal variable-availability derived source
 
-D1 config SHA `8f5737bc...`, module SHA `d0c22df7...`. До первого build code/config/
-tests/docs должны быть committed и pushed. Затем build выполняется один раз, после него
-отдельно разрешён deterministic audit:
+D1 config SHA `8f5737bc...`, module SHA `d0c22df7...` был pushed `45e55af`, но build
+остановился до daily load/output на неверной boundary equality; D1 не повторять.
+Boundary-only D2 config SHA `f928e58b...`, module SHA `2e01c3fc...`. До первого D2 build
+code/config/tests/docs должны быть committed и pushed. Затем build выполняется один раз,
+после него отдельно разрешён deterministic audit:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_moex_pre2012_core_derived_v2.py `
   tests/test_moex_pre2012_core_derived_v1.py `
   tests/test_futures_panel.py tests/test_futures_spec_proxy.py tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures/moex_pre2012_core_derived_v1.py `
-  tests/test_moex_pre2012_core_derived_v1.py
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v1
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v1 --audit-only
+  src/market_lab/futures/moex_pre2012_core_derived_v2.py `
+  tests/test_moex_pre2012_core_derived_v2.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v2
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v2 --audit-only
 ```
 
 Default immutable output:
-`data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1/`.
+`data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2/`.
 Build должен fail-closed при unresolved roll/exit, MIX backfill, nonmissing pre-listing
 market values, source/hash drift или outcome columns. Strategy returns/PnL после D1 всё
 ещё запрещены до отдельного strategy seal.

@@ -514,6 +514,11 @@ SHA `e06fd978...`, raw SHA `e8a97876...`, 41/41 audit checks true. Вторая 
 Master строится по SI/RI/BR (781 factual sessions), MIX маскируется до `2011-09-30` и
 включается только по своим 54 factual dates. Derived build ещё не выполнялся; сначала
 обязателен commit/push SHA.
+
+D1 был pushed `45e55af`, но не дошёл до daily load: source `protected_from=2026` — это
+защита acquisition, не дата допустимого market row. D2 SHA `f928e58b...`/`2e01c3fc...`
+разделяет эти границы и по-прежнему требует все derived market dates `<2012`; никаких
+price/outcome фактов для correction не использовано.
 Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.

@@ -429,6 +429,12 @@ missing; backfill и zero return невозможны. Actual contract observati
 source-only, spec proxy использует строго lag-1 session, roll adjustment только forward.
 Persistence атомарна, а `--audit-only` заново строит все четыре таблицы и сравнивает их.
 
+`market_lab.futures.moex_pre2012_core_derived_v2` — узкий wrapper после D1 manifest
+failure. Он раздельно интерпретирует source acquisition protection (`2026-01-01`) и
+derived market ceiling (`<2012-01-01`), scoped подменяет только source verifier и output
+identity, затем восстанавливает D1 globals. Panel/roll/spec/availability build остаётся
+D1-identical. V2 публикуется через staging и добавляет explicit D1 failure lineage.
+
 ### `market_lab.futures.moex_pre2018_core4_derived`
 
 Source-only преобразование byte-pinned MOEX bundle 2012–2017 в common factual-session

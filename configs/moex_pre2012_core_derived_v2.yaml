@@ -1,0 +1,66 @@
+﻿protocol_id: moex_pre2012_core_derived_source_v2
+protocol_version: 2
+status: boundary_semantics_only_correction_after_fail_closed_D1
+declared_at_utc: "2026-09-01T00:00:00Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_first_derived_price_load: true
+live_trading_allowed: false
+
+parent_D1_protocol:
+  path: configs/moex_pre2012_core_derived_v1.yaml
+  sha256: 8f5737bc44b21a8777b55de037da7ad7cf925f652e3b715115e46d4765b1f959
+  implementation_sha256: d0c22df731b64c32211f1b92b771ff1d61b7892f31ff6385856ea8649f9c0e33
+  seal_commit: 45e55af
+
+failed_D1_build:
+  attempted_after_commit_and_push: true
+  failure_stage: source_manifest_contract_before_artifact_loading
+  failure: source_manifest_protected_from_expected_2012_but_factual_2026
+  daily_parquet_loaded: false
+  derived_price_value_loaded: false
+  output_published: false
+  returns_targets_labels_signals_equity_or_pnl_observed: false
+  diagnosis_basis: manifest_metadata_only
+
+boundary_semantics_correction:
+  changed_from_D1: only_source_manifest_protected_from_interpretation
+  source_acquisition_protected_from: "2026-01-01"
+  source_request_from: "2008-01-01"
+  source_request_till: "2011-12-31"
+  source_all_daily_requests_end_before_2012: true
+  derived_market_rows_must_be_before: "2012-01-01"
+  separate_acquisition_and_derived_boundaries: true
+  panel_roll_spec_and_availability_rules_unchanged: true
+  contract_admission_and_counts_unchanged: true
+  master_calendar_and_MIX_mask_unchanged: true
+  maximum_unresolved_rolls_and_exits_unchanged: 0
+  strategy_or_economic_parameter_changed: false
+
+output:
+  directory: >-
+    data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2012_core_derived_v2.py: 2e01c3fcbfb2c9ff7043bc68f4f2345918600c6f9d0d17866fae777fc34983fe
+  src/market_lab/futures/moex_pre2012_core_derived_v1.py: d0c22df731b64c32211f1b92b771ff1d61b7892f31ff6385856ea8649f9c0e33
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  acquisition_manifest_boundary: "2026-01-01"
+  derived_market_ceiling: "2012-01-01"
+  returns_targets_labels_predictions_signals_equity_or_pnl: forbidden
+  missing_values: preserve_never_zero_fill
+
+limitations:
+  inherits_D1_current_vintage_and_proxy_limitations: true
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_any_D1_panel_roll_spec_availability_or_quality_gate
+  - treating_source_acquisition_protection_as_a_market_row_date
+  - admitting_any_market_row_at_or_after_2012_01_01
+  - overwriting_D1_or_D2_output

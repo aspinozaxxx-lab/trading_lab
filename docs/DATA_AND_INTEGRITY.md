@@ -79,6 +79,12 @@ master session по factual SI/RI/BR и 54 поздних MIX sessions; 727 pre-
 return/target/signal/equity/PnL columns; zero unresolved roll/exit требуется до atomic
 publication.
 
+D1 seal `45e55af` остановился до source artifact load: acquisition `protected_from`
+равен 2026, а D1 сравнил его с derived ceiling 2012. Output отсутствует. D2 config SHA
+`f928e58b...`, module SHA `2e01c3fc...` исправляет только это: manifest обязан доказать
+requests до конца 2011 и acquisition boundary 2026, затем каждая market row независимо
+reject-ится при дате `>=2012-01-01`. Остальные D1 gates неизменны.
+
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
 Его immutable output с manifest SHA `73ffe4c3...` прошёл byte/causality checks, но

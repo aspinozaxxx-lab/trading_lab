@@ -4,7 +4,25 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2012-DERIVED-D1: sealed design, build pending
+## MOEX-PRE2012-DERIVED-D2: boundary-only correction sealed, build pending
+
+- D1 был sealed/pushed commit `45e55af`, но остановился до `daily.parquet` load и без
+  output: source acquisition manifest правильно хранит `protected_from=2026-01-01`,
+  тогда как D1 ошибочно сравнивал его с derived market ceiling `2012-01-01`. Только
+  manifest metadata было прочитано; market values/outcomes не наблюдались.
+- D2 config SHA
+  `f928e58b0bacce4d80c7d77fab7b399b3aba4650034bd3d518f45ef2f5c92c83`, module SHA
+  `2e01c3fcbfb2c9ff7043bc68f4f2345918600c6f9d0d17866fae777fc34983fe`.
+  Он pin-ит D1 config/module и меняет только boundary interpretation.
+- Source request bounds остаются `2008-01-01..2011-12-31`, acquisition protection —
+  `2026-01-01`; отдельно каждая loaded market row обязана быть `<2012-01-01`.
+  Contract cycles/counts, 781-session master, 727 MIX masks, roll/spec rules и zero
+  unresolved gates byte-identical D1.
+- Planned separate immutable output:
+  `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2/`.
+  D2 code/config должны быть pushed до первого daily load.
+
+## MOEX-PRE2012-DERIVED-D1: sealed, failed before daily load/output
 
 - Source-only config SHA
   `8f5737bc44b21a8777b55de037da7ad7cf925f652e3b715115e46d4765b1f959`, module SHA
@@ -20,9 +38,10 @@
 - Две parent inert rows лежат до master start и не создают gap/return bridge. Roll
   defaults byte-identical existing panel; publication требует zero unresolved roll/exit,
   rectangular 3 124-row panel/active map и отсутствие outcome columns.
-- Planned immutable output:
+- D1 output path (не создан):
   `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1/`.
-  Code/config должны быть pushed до первого build; canonical manifest пока отсутствует.
+  Seal `45e55af` был pushed. Build прочитал только manifest и fail-closed на ошибочной
+  boundary equality; canonical manifest отсутствует, D1 не повторять.
 
 ## MOEX-PRE2012-SOURCE-V2: canonical source complete, replay exact
 
