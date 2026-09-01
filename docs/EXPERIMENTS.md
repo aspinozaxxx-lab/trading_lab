@@ -4,6 +4,33 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V34: RI–MIX relative-corridor barrier — sealed, canonical outcome pending
+
+- Новая family после V33 economic NO-GO: barrier meta-label вместо absolute-return
+  regression. Relative residual `RI - beta*MIX`, rolling beta `132/min66`, residual
+  history `18`, admission `|z| >= 1,5`, TP `1x`, distant stop `3x`, maximum hold `12`
+  exact 10-minute bars.
+- Config `configs/futures_v34_relative_corridor_barrier.yaml`, SHA
+  `eece2650f3f049d29ae6e9ba3fe65f98393f368c6ab40c36740da0ab7c6c7c09`; core SHA
+  `f3e86c52...`, runner SHA `e8ad7882...`. `sealed_before_outcomes=true`, protected
+  boundary `2026-01-01`, live trading forbidden.
+- Full neural meta-label uses the simultaneous SI/RI/BR/MIX state plus same-day robust
+  MOEX option-curve context. Frozen ablations: identical market-only MLP and fixed
+  corridor rule. Architecture `[24,12]`, seeds `3401/3402/3403`; calibration may choose
+  only `0,55/0,65/0,75`, with 30 trades and two positive prior months required.
+- Execution is atomic across both legs, maximum two nonoverlapping pairs/day, stop-risk
+  budget `0,75%`, pair gross `<=1,2`, each asset `<=0,6`, factual cap `1%`, six bounded
+  exit retries. Scenarios `1tick/1fee`, `2/2`, `4/2` are all mandatory.
+- Promotion requires every cost CAGR `>=20%`, primary Sharpe `>=1`, MDD `<=25%`, all
+  three calendar segments positive, at least 200 filled legs and incremental edge over
+  the best market-only/fixed baseline. Even a pass is only a lead for new forward paper
+  validation.
+- Metadata-only preflight 8/8, targeted V32–V34 tests `25/25`, scoped Ruff clean. Full
+  suite: `976 passed, 7 skipped`; only the two pre-existing V8 anti-junction failures
+  remain because external data intentionally resolves outside Git root.
+- Economic outcomes have not been read. Run only once after the seal commit is pushed;
+  then append immutable path, metrics/identity SHA, coverage and verdict here.
+
 ## V33: V32 target-preserving liquidity execution repair — canonical NO-GO
 
 - Это post-outcome adaptive correction после V32 execution halt, не новая model search

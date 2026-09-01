@@ -913,6 +913,35 @@ Canonical path `runs/v33_curve_regime_liquidity_20260901T183357Z_615d7b8e/`, met
 `−1,7374%/−6,7677%`, verdict `NO_GO`. V33 не повторять; threshold/sign/horizon/retry
 tuning на этой history запрещён. Следующая family должна менять сам target/mechanism.
 
+### V34 atomic RI–MIX relative-corridor barrier
+
+V34 config SHA `eece2650...`, core SHA `f3e86c52...`, runner SHA `e8ad7882...`.
+До первого economic run выполнены только outcome-free проверки:
+
+```powershell
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/relative_corridor_barrier.py `
+  src/market_lab/futures_v34_relative_corridor_barrier.py `
+  tests/test_futures_v34_relative_corridor_barrier.py
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v32_curve_regime_intraday.py `
+  tests/test_futures_v33_curve_regime_liquidity_execution.py `
+  tests/test_futures_v34_relative_corridor_barrier.py
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v34_relative_corridor_barrier --preflight-only
+```
+
+После commit+push sealed family допускает ровно один canonical запуск:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v34_relative_corridor_barrier --output-root .\runs
+```
+
+Затем обязательно выполнить `--audit-run <exact-run-path>` и записать metrics SHA,
+identity SHA, результаты всех пяти ledgers, число candidates/active signals/trades,
+unresolved и итоговый verdict. Параметры V34 после просмотра результата не менять.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

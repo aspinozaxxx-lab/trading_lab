@@ -1,7 +1,32 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V33 гипотез защищены и не используются.
+Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
+`2025-12-31`; данные 2026 для текущих V8–V34 гипотез защищены и не используются.
+
+## Текущая работа: V34 sealed relative-corridor barrier, outcome ещё не читался
+
+После закрытия absolute-return regression подготовлена отдельная family V34. Она
+торгует только относительное отклонение RI–MIX: beta оценивается по 132 последним exact
+returns, admission требует `|z| >= 1,5`, take-profit равен одной residual sigma на
+шестибарном масштабе, distant stop в три раза дальше, maximum hold 12 баров. Target —
+достигнут ли take-profit и положителен ли stress-net выход на следующем open. Это не
+перенастройка знака или threshold V32/V33.
+
+Full MLP `[24,12]` оценивает barrier probability по всем четырём рынкам и MOEX curve
+context; сравнения заранее фиксированы как тот же market-only MLP и безмодельное fixed
+corridor rule. Monthly expanding core, preceding-three-month calibration и one-day
+purge могут выбрать только probability `0,55/0,65/0,75`. Не больше двух
+неперекрывающихся сделок в день. RI и MIX открываются/закрываются атомарно; risk at stop
+`0,75%`, pair gross `<=1,2`, asset `<=0,6`, signal/factual participation `0,25%/1%`,
+exit имеет максимум шесть exact retry.
+
+Config SHA `eece2650f3f049d29ae6e9ba3fe65f98393f368c6ab40c36740da0ab7c6c7c09`,
+core SHA `f3e86c52b5199b2e6844326cb771cbef9a075c0420f71c74d8f7d8906908b8f6`, runner SHA
+`e8ad78828ba89e535978c4db27434382c82ccac34da6181122e05c7e47f7bcfc`.
+Metadata-only preflight 8/8 совпал с V32 source identities; V32–V34 scoped tests
+`25/25`, full suite `976 passed, 7 skipped` плюс те же два известные V8 anti-junction
+failures. До commit+push запрещено запускать economic command; после push разрешён ровно
+один canonical read 2022-04..2024-05. Результат и claim о доходности пока отсутствуют.
 
 ## Последний результат: V33 full-horizon economic NO-GO
 

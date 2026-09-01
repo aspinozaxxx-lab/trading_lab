@@ -1,0 +1,148 @@
+﻿protocol_id: futures_v34_relative_corridor_barrier_v1
+protocol_version: 1
+status: sealed_before_first_v34_economic_read
+declared_at_utc: "2026-09-01T21:13:11Z"
+sealed_before_outcomes: true
+research_only: true
+live_trading_allowed: false
+
+outcome_boundary:
+  code_parameters_input_identities_and_metadata_counts_fixed_before_outcome_read: true
+  price_return_target_equity_or_pnl_observed_for_this_family_before_seal: false
+  one_canonical_economic_read_only_after_commit_and_push: true
+  post_outcome_parameter_tuning_inside_V34: forbidden
+
+boundaries:
+  raw_intraday_start: "2018-01-01"
+  raw_intraday_end: "2025-12-31"
+  curve_context_start: "2021-09-01"
+  curve_context_end: "2024-05-21"
+  evaluation_start: "2022-04-01"
+  evaluation_end: "2024-05-31"
+  protected_from: "2026-01-01"
+  decision_timezone: Europe/Moscow
+
+implementation:
+  core_path: src/market_lab/futures/relative_corridor_barrier.py
+  core_sha256: f3e86c52b5199b2e6844326cb771cbef9a075c0420f71c74d8f7d8906908b8f6
+  runner_path: src/market_lab/futures_v34_relative_corridor_barrier.py
+  runner_sha256: e8ad78828ba89e535978c4db27434382c82ccac34da6181122e05c7e47f7bcfc
+
+parent_v32:
+  config:
+    path: configs/futures_v32_curve_regime_intraday.yaml
+    bytes: 5957
+    sha256: c7da1d45bee19a7e386df1bd2cec6d5b4ac335ba64eb9f0118a3d8fa42743d54
+  config_sidecar:
+    path: configs/futures_v32_curve_regime_intraday.sha256
+    bytes: 108
+    sha256: 48661eebc44bed4e16fe87d06fbdb7055bf9e065761574e4fc804c00d310463c
+  core:
+    path: src/market_lab/futures/curve_regime_intraday.py
+    bytes: 57180
+    sha256: 45bffa212eeb57ec2c6527acba033795553e6454186ca3f176913e27ad2cb305
+  runner:
+    path: src/market_lab/futures_v32_curve_regime_intraday.py
+    bytes: 40423
+    sha256: 9f70fa3c21dc3b0c525e92d1bc334debd78e4f4728ffc687d49b11c06181b53b
+
+pre_outcome_metadata_seal:
+  metadata_only_no_market_values: true
+  active_bar_rows: 683209
+  common_four_bars: 169644
+  curve_events: 686
+  events_with_structural_decisions: 670
+  structural_decisions: 29810
+
+hypothesis:
+  statement: >-
+    A neural meta-label can identify RI/MIX relative deviations that reach a fixed
+    one-sigma take-profit corridor before a three-times-distant stop, using simultaneous
+    four-market state plus the same-day MOEX option-curve regime. Sparse atomic pair
+    entries should reduce outright beta and turnover enough to remain profitable across
+    three calendar segments and all predeclared cost scenarios.
+  change_from_v32_v33:
+    - probability of barrier ordering instead of absolute return regression
+    - relative RI/MIX residual instead of four independent outright positions
+    - at most two nonoverlapping atomic pair trades per day
+    - fixed-rule and market-only ablations rather than post-outcome sign changes
+  no_sign_inversion_after_observation: true
+  no_threshold_or_horizon_search_inside_reported_test_months: true
+
+corridor:
+  beta_observations: 132
+  beta_minimum_observations: 66
+  residual_observations: 18
+  minimum_absolute_z: 1.50
+  take_profit_sigma_multiple: 1.00
+  stop_to_take_profit_multiple: 3.00
+  barrier_scale_bars: 6
+  maximum_holding_bars: 12
+  minimum_signal_volume: 1000.0
+  first_decision_local: "10:10:00"
+  last_decision_local: "16:30:00"
+
+validation_and_model:
+  evaluation_start: "2022-04-01"
+  evaluation_end: "2024-05-31"
+  calibration_months: 3
+  purge_calendar_days: 1
+  minimum_core_source_events: 80
+  minimum_calibration_source_events: 40
+  minimum_core_candidates: 200
+  minimum_calibration_candidates: 50
+  minimum_calibration_trades: 30
+  minimum_positive_calibration_months: 2
+  probability_thresholds: [0.55, 0.65, 0.75]
+  maximum_trades_per_day: 2
+  hidden_layers: [24, 12]
+  activation: tanh
+  alpha: 0.002
+  learning_rate_init: 0.001
+  maximum_iterations: 80
+  batch_size: 128
+  seeds: [3401, 3402, 3403]
+
+pair_risk:
+  risk_budget_per_trade: 0.0075
+  maximum_pair_gross: 1.20
+  maximum_asset_weight: 0.60
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_entry: next_exact_common_bucket_open
+  barrier_trigger: completed_common_bucket_close
+  barrier_to_exit: next_exact_common_bucket_open
+  atomic_entry_and_exit: true
+  integer_quantity: truncate_toward_zero
+  signal_participation: 0.0025
+  factual_participation_cap: 0.01
+  margin_buffer_multiple: 2.0
+  maximum_exit_retry_bars: 6
+  maximum_trades_per_day: 2
+  collateral_interest: omitted_no_credit
+  scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+
+promotion_rule:
+  minimum_cagr: 0.20
+  aspirational_cagr: 0.50
+  minimum_sharpe: 1.0
+  maximum_drawdown: 0.25
+  minimum_positive_calendar_segments: 3
+  minimum_filled_order_legs: 200
+  minimum_cagr_advantage_over_baseline: 0.02
+  minimum_sharpe_advantage_over_baseline: 0.10
+  all_three_cost_scenarios_must_pass_CAGR: true
+  positive_result_requires_new_sealed_forward_validation: true
+  live_trading_remains_forbidden: true
+
+source_limitations:
+  original_live_delivery_vintage_proved: false
+  historical_archive_current_delivery_only: true
+  exact_option_maturity_mapping_available: false
+  maturity_agnostic_robust_coefficients_only: true
+  specification_proxy_approximate_research_only: true
+  historical_exchange_or_broker_fills_exact: false
