@@ -1,0 +1,92 @@
+﻿protocol_id: moex_forward_option_surface_source_v1
+protocol_version: 1
+status: declared_after_transport_schema_probe_before_first_persisted_snapshot
+scope: forward_source_only_no_signal_no_label_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol:
+  statement: >-
+    Point-in-time option surfaces may expose an independently monetizable volatility
+    risk premium through defined-risk spreads and delta-aware hedging, unlike another
+    directional forecast over futures OHLC.
+  this_protocol_computes_returns_targets_or_pnl: false
+  historical_backfill_from_this_endpoint: forbidden
+
+source:
+  provider: MOEX_ISS
+  endpoint: https://iss.moex.com/iss/engines/futures/markets/options/securities.json
+  query: {iss.meta: 'off', iss.only: 'securities,marketdata'}
+  requested_assets: [Si, RTS, BR, MIX]
+  asset_mapping: {Si: SI, RTS: RI, BR: BR, MIX: MIX}
+  access_mode: public_delayed
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+  historical_bulk_archive_subscription_page: https://www.moex.com/en/marketdata/archive/
+
+temporal_semantics:
+  available_at: actual_retrieval_utc
+  exchange_timestamp_is_not_allowed_to_precede_retrieval_availability: true
+  forward_only: true
+  old_experiments_may_not_read_this_source: true
+
+required_security_columns:
+  - SECID
+  - BOARDID
+  - MINSTEP
+  - LASTTRADEDATE
+  - LASTDELDATE
+  - ASSETCODE
+  - PREVSETTLEPRICE
+  - OPTIONTYPE
+  - STEPPRICE
+  - BUYSELLFEE
+  - SCALPERFEE
+  - EXERCISEFEE
+  - STRIKE
+  - UNDERLYINGASSET
+  - UNDERLYINGSETTLEPRICE
+
+required_marketdata_columns:
+  - SECID
+  - BOARDID
+  - BID
+  - OFFER
+  - SPREAD
+  - OPEN
+  - HIGH
+  - LOW
+  - LAST
+  - SETTLEPRICE
+  - NUMTRADES
+  - VOLTODAY
+  - SYSTIME
+  - OPENPOSITION
+  - TRADE_SESSION_DATE
+
+quality_gates:
+  all_four_responses_http_200: true
+  all_four_assets_nonempty: true
+  security_marketdata_identity_exact: true
+  requested_asset_matches_response_asset: true
+  unique_asset_board_secid: true
+  source_date_not_future_vs_retrieval_moscow_date: true
+  raw_replay_exact: true
+  forbidden_derived_columns_absent: true
+
+output:
+  root: data/forward/moex-options-surface-v1
+  snapshot_prefix: snapshot_
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [return, returns, label, target, prediction, pnl, profit, equity]
+
+future_economic_protocol_minimums:
+  discovery_snapshots: 60
+  calibration_snapshots: 20
+  unseen_evaluation_snapshots: 40
+  defined_risk_only: true
+  naked_short_options: forbidden
+  execution_requires_observed_bid_offer: true
