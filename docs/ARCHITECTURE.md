@@ -494,6 +494,12 @@ orchestration, наследует V2 parser context и допускает ров
 pin-ятся кодом и config; любое другое пустое окно аварийно. Manifest имеет новый V3
 bundle id, output отдельный и immutable; audit остаётся полным parent raw replay.
 
+Canonical V3 опубликован во внешнем data store и дважды прошёл 47-check replay audit:
+110 catalog rows, 9 997 ISS rows, 10 157 public-archive rows и 487 raw responses. Manifest
+SHA `94d5fab4...`, raw SHA `ccaba170...`. Source disagreements остаются explicit coverage
+flags; outcome columns отсутствуют. Downstream обязан использовать новый immutable
+derived artifact и отдельный SHA, а не добавлять strategy fields в source bundle.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-SOURCE-V3: exact empty-ISS correction, collection pending
+## CALENDAR-SPREAD-SOURCE-V3: completed source bundle, no PnL
 
 - V2 seal `7c8d45a` был pushed до resumed bulk history. Blank-ASSETCODE correction прошла,
   затем parent collector остановился без output на единственном empty ISS interval:
@@ -20,8 +20,26 @@
   board dates, сделать 0 ISS requests/rows и обязательно продолжить обычный public archive
   collection. Любой другой empty interval — fail-closed. V2 parser и все V1 gates
   наследуются byte-identical; output отдельный `-v3`.
-- Source V1/V2/V3 + encoding tests 23/23, scoped Ruff clean. Следующий шаг — commit/push
-  V3 seal, затем один immutable V3 collection и full raw replay. PnL всё ещё запрещён.
+- Source V1/V2/V3 + encoding tests 23/23, scoped Ruff clean. Seal `ed16ca3` был pushed
+  до collection. Canonical external path:
+  `data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v3/`;
+  manifest SHA `94d5fab4b799ac9a73b359c7350df7ccd30572e6dba8b9ae8cf5d41f5080ee0b`.
+- Все 47 audit checks true в collection process и в отдельном `--audit-only`: artifact
+  bytes/SHA/rows, closed schemas, identities, dates, availability, series/boards, ISS
+  pages, exact HTML/CSV bodies и archive-code lists полностью replayed.
+- Artifacts: catalog 110 rows SHA `db92ebe2...`; ISS 9 997 SHA `a14cd7fa...`; public
+  archive 10 157 SHA `be29b06d...`; coverage 110 SHA `307018a5...`; raw 487 responses,
+  5 400 633 bytes, SHA `ccaba170...`.
+- Public archive содержит 8 887 reported-trade rows и покрывает 110/110 spreads; ISS
+  activity fields равны нулю при 9 997 settlement rows. Activity есть у 109 spreads;
+  единственный zero-activity `RIH2RIU2 / RTS-3.22-9.22` — сохранённый non-adjacent
+  exchange exception. Exact empty-ISS `BRF1BRG1` имеет одну archive/trade row.
+- Source disagreements сохранены, а не скрыты: overlap 9 968; ISS-only 29;
+  archive-only/outside-ISS 189; outside-series 85; last outside reported range 451;
+  crossed quote 0. Archive range `2021-01-04..2025-12-18`, protected rows 0.
+- Source verdict `COMPLETE_SOURCE_ONLY`. Ни returns, targets, signals, equity, PnL, ни
+  стратегия не вычислялись. Следующий допустимый шаг — отдельный sealed derived-source
+  panel, затем новый economic protocol; этот bundle immutable и не перезапускается.
 
 ## CALENDAR-SPREAD-SOURCE-V2: FAILED_CLOSED, no output
 

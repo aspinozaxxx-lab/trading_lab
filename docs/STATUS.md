@@ -68,8 +68,14 @@ computed ISS interval пуст (`2021-01-01..2020-12-30`), хотя public archi
 оставляет official board dates неизменными, делает 0 ISS requests/rows только для этой
 exact identity и обязан собрать её public archive; любой второй empty interval reject.
 V3 config SHA `3d89c51fe674f3b55282aba808ad6f0336cae502956681203f02b0218022f19c`, module SHA
-`3f344899...`; первым следующим действием должен быть V3 push seal, затем один immutable
-V3 collection/replay audit.
+`3f344899...`; seal `ed16ca3` был pushed, затем V3 один раз успешно собрал immutable
+bundle `data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v3/`.
+Manifest SHA `94d5fab4...`, raw SHA `ccaba170...`; все 47 checks true и независимый
+`--audit-only` повторён. Получено 9 997 ISS settlement rows и 10 157 public-archive rows,
+из них 8 887 с reported trades. Все 110 spread имеют archive rows, 109 — activity;
+единственный inactive — non-adjacent `RIH2RIU2`. Ноль protected rows. Returns/PnL ещё
+не считались; следующий шаг — source-derived admissibility/carry panel и отдельный
+pre-outcome economic seal.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -745,15 +751,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — новый market-neutral source family
 
-1. V1/V2 seals `293e54e`/`7c8d45a` уже pushed; оба collection завершились fail-closed
-   без output. V2 исправил только blank `ASSETCODE`, затем выявил exact empty ISS interval
-   `BRF1BRG1`. Push collection-only V3 seal SHA `3d89c51f...`; parents не менять.
-2. Один раз собрать immutable V3 official MOEX bundle за `2021-01-01..2025-12-31`:
-   отдельно ISS settlement/OI и public-archive trade/bid/ask, затем выполнить exact raw
-   replay, hashes, schema, coverage и protected-date audit. Непустой чужой ASSETCODE
-   обязан по-прежнему остановить collection. Только declared BR interval получает 0 ISS
-   rows без запроса; его public archive обязателен.
-3. Только после успешного source manifest отдельно запечатать economic target. Первый
+1. V1/V2 failures и V3 correction завершены без перезаписи parents. Canonical V3 source
+   готов: manifest SHA `94d5fab4...`, 47/47 checks, 110 spreads, 10 157 archive rows,
+   8 887 reported-trade rows, 0 protected rows. V3 не перезапускать и не overwrite.
+2. До первого return построить отдельный immutable derived-source panel: использовать
+   только regular-adjacent spreads, preserve `RIH2RIU2` как inactive/excluded metadata,
+   доказать factual activity, missing masks, expiry distance и availability. Не выбирать
+   liquidity threshold по будущему PnL.
+3. После derived manifest отдельно запечатать economic target. Первый
    кандидат — carry/convergence listed spread с market-neutral sizing, factual archive
    liquidity, next-session execution и 1x/2x/stress costs. Никаких returns, thresholds
    или PnL до этого seal; development 2021–2025 не называть независимым holdout.

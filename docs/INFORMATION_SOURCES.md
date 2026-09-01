@@ -28,7 +28,17 @@ ISS JSON архивируются, missing/zero/signed prices сохраняют
 непустой чужой код. После push `7c8d45a` V2 прошёл этот участок, но fail-closed выявил
 единственный пустой RFUD interval `BRF1BRG1`; output снова не создан. V3 SHA
 `3d89c51f...` сохраняет его official metadata, пропускает только невозможный ISS request
-и всё равно требует public archive. V1/V2 остаются неизменяемыми; V3 collection pending.
+и всё равно требует public archive. V1/V2 остаются неизменяемыми. После pre-collection
+push `ed16ca3` V3 успешно опубликован: manifest SHA `94d5fab4...`, raw SHA
+`ccaba170...`, 110 spreads, 9 997 ISS rows, 10 157 archive rows и 8 887 rows с reported
+trades; все 47 raw/schema/temporal checks true, protected rows 0. Source-only bundle
+immutable, returns/PnL не считались.
+
+Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
+interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed
+quotes нет. `RIH2RIU2` — единственный spread без reported activity и одновременно
+non-adjacent exchange exception. Эти факты допускают заранее заданный eligibility mask,
+но не разрешают подбирать его по будущему PnL.
 
 Источник current-vintage и не содержит historical order-time queue. EOD Bid/Ask не
 доказывает исполнимый spread в момент решения; исторические fees, IM и broker rules также
