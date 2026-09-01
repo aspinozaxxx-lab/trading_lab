@@ -43,6 +43,13 @@ locked quotes не удаляются, missing days не синтезируют�
 returns, targets, signals или PnL. После push seal `35ab387` D1 опубликован отдельно от
 raw source: manifest SHA `b5e15c2e...`; build и повторный audit дали 29/29 checks true.
 
+Economic EV1 SHA `e74dab97...` использует этот источник только после seal. Помимо
+собственной истории каждого spread он добавляет exact-date cross-asset состояние всех
+SI/RI/BR/MIX и causal expanding MLP; отсутствие соседнего актива сохраняется indicator,
+а не превращается в нулевую цену. Это проверка гипотезы, не новый источник и не лицензия
+на live. Для подтверждения исполнения по-прежнему нужны historical multileg trade/order
+reports, действовавшие contract specs, margin, tariffs и broker fees.
+
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed
 quotes нет. `RIH2RIU2` — единственный spread без reported activity и одновременно

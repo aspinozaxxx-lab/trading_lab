@@ -4,6 +4,32 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## CALENDAR-SPREAD-EV1: economic protocol sealed, outcomes pending
+
+- Config SHA `e74dab97ab65a28d4fc16f0061952545606ccccd1df7a8c677a8c8bc2af2b3bc`,
+  implementation SHA `f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282`.
+  Seal подготовлен после immutable D1 manifest `b5e15c2e...`, но до первого spread
+  change, return, target, strategy equity или PnL. Реальные outcomes ещё не читались.
+- Семейство ровно из 10 заранее заданных гипотез: четыре corridor mean-reversion
+  варианта, volatile breakout, 5-observation momentum, convergence-to-zero,
+  cross-asset residual fade, cross-sectional extremes и expanding causal MLP по всем
+  четырём активам. Primary заранее задан как `volatile_corridor_far_stop`; лучший из
+  десяти всегда exploratory и не может быть объявлен подтверждённым.
+- MLP предсказывает нормированное изменение midpoint через пять factual observations,
+  refit только раз в месяц. В train допускаются лишь метки с target-end строго раньше
+  refit/prediction date; missing cross-asset fields получают training-median и indicators,
+  но никогда zero. Architecture `[16,8]`, seed 1729, search отсутствует.
+- Decision после complete EOD archive, entry/exit не раньше следующего factual common
+  open обеих outright legs. Buy spread = long far + short near, количества строго равны;
+  PnL каждой ноги использует собственный session point value. Entry clip по минимуму
+  1% lagged-volume capacity обеих ног; exit требует полной pair capacity и causally
+  retry-ится. Gross cap 1,6x, pair target 0,4x, buffered margin 2x.
+- Costs фиксированы до outcome: primary 1 tick/leg + 1x fee, doubled 2 ticks + 2x fee,
+  stress 4 ticks + 2x fee. Development `2021–2023`; primary internal evaluation
+  `2024–2025`. Gate primary: CAGR >=10%, Sharpe >=1, MDD <=15%, 2/2 positive years,
+  stress positive, >=20 completed trades и complete execution. Это не independent
+  confirmation и никогда не разрешает live.
+
 ## CALENDAR-SPREAD-DERIVED-D1: completed source-only panel, no PnL
 
 - Source-derived config SHA

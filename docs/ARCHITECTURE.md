@@ -518,6 +518,23 @@ audit заново строит все таблицы и требует exact eq
 `b5e15c2e...`; initial build и отдельный replay дали 29/29 true. Экономика, execution
 и стратегии должны получить другой pre-outcome seal после manifest D1.
 
+### `market_lab.futures.calendar_spread_v1`
+
+Первый economic runner новой family читает byte-pinned D1 только после проверки seal.
+Он строит prior-only same-spread baselines 10/20/40 observations, exact-date cross-asset
+features и monthly expanding MLP. У neural train каждая five-observation label обязана
+закончиться строго раньше refit date; scaling и median-imputation fit-ятся только на
+этом прошлом, missing indicators сохраняются.
+
+Trade planner содержит ровно десять frozen rules и stateful take/stop/time/expiry exits.
+Ledger интерпретирует official spread как `far - near`: direction +1 означает long far,
+short near в строго одинаковом количестве. Decision исполняется не раньше следующего
+общего factual open, PnL ног и costs считаются раздельно, capacity равна минимуму 1%
+lagged volume ног, а full exit causally retry-ится. Три cost scenarios и внутренний
+2024–2025 evaluation фиксированы config SHA `e74dab97...`; implementation SHA
+`f8d0108e...`. Исторической multileg queue нет, поэтому это conservative synchronized-
+leg proxy и development test, не live evidence.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

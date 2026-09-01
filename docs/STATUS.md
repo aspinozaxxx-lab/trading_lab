@@ -82,8 +82,12 @@ regular-adjacent spreads с совпадающей
 неотрицательным days-to-near по asset/date. Canonical immutable build содержит 8 281
 candidate и 4 366 active rows; locked quotes сохранены flags, обе ноги соединены только
 с causally prior spec proxy. Manifest SHA `b5e15c2e...`; build и отдельный replay дали
-29/29 checks true. Это всё ещё source-only без returns/PnL. Следующий шаг — отдельный
-pre-outcome economic seal для market-neutral carry/corridor hypotheses.
+29/29 checks true. Это всё ещё source-only без returns/PnL. Отдельный economic EV1 уже
+запечатан до outcomes: config SHA `e74dab97...`, implementation SHA `f8d0108e...`.
+Он фиксирует 10 стратегий, primary volatile corridor с дальним stop, causal monthly
+cross-asset MLP, equal-quantity long-far/short-near accounting, 1% capacity, gross 1,6x
+и costs 1/2/4 ticks. Внутренняя evaluation — 2024–2025; best-of-ten не считается
+подтверждением. Следующий шаг — push seal, затем один immutable run и полный аудит.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA

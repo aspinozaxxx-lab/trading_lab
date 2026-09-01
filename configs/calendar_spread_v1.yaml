@@ -1,0 +1,308 @@
+﻿protocol_id: calendar_spread_economic_v1
+protocol_version: 1
+status: predeclared_before_first_spread_change_return_target_signal_or_pnl
+declared_at_utc: "2026-09-01T12:30:00Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    Exchange-listed same-root calendar spreads may contain a market-neutral carry,
+    convergence, volatility-corridor or short-horizon timing premium after conservative
+    two-leg costs. A fixed family of ten rules, including a causal cross-asset MLP, is
+    evaluated without choosing parameters from calendar-spread returns.
+  primary_strategy: volatile_corridor_far_stop
+  primary_comparison: flat_cash_zero_return
+  family_size: 10
+  best_of_family_is_exploratory_only: true
+  no_strategy_selection_on_2024_2025: true
+
+dates:
+  source_minimum: "2021-01-04"
+  source_maximum: "2025-12-18"
+  development_start: "2021-01-04"
+  development_end: "2023-12-31"
+  evaluation_start: "2024-01-01"
+  evaluation_end: "2025-12-31"
+  execution_market_maximum: "2025-12-30"
+  protected_from: "2026-01-01"
+  timezone: Europe/Moscow
+
+inputs:
+  derived_manifest:
+    path: data/processed/info_radar/moex-calendar-spread-derived-2021-2025-v1/manifest.json
+    sha256: b5e15c2ef846ab051db6d78c4074db2e03f56faa9aac71ae86bcf3d82034b234
+    bytes: 7625
+  active_spreads:
+    path: data/processed/info_radar/moex-calendar-spread-derived-2021-2025-v1/active.parquet
+    sha256: fc9257ad6be435de563d1fe574ba71cf5a8688a11559acc1d20a764f74f7fb71
+    bytes: 743482
+    rows: 4366
+    minimum_timestamp: "2021-01-04"
+    maximum_timestamp: "2025-12-18"
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+
+information_set:
+  spread_price_definition: far_futures_price_minus_near_futures_price
+  buy_spread_legs: long_far_short_near_equal_contract_quantity
+  decision: after_completed_public_archive_EOD_row
+  archive_available_at: next_calendar_day_midnight_Europe_Moscow
+  execution_not_before: first_later_factual_common_open_of_both_legs
+  signal_price: EOD_arithmetic_bid_ask_midpoint
+  baseline: prior_observations_of_same_spread_only
+  cross_asset_features: exact_same_trade_date_only
+  missing_cross_asset_policy: training_median_imputation_with_missing_indicators
+  zero_imputation: forbidden
+  protected_market_values: any_timestamp_on_or_after_2026_01_01_forbidden
+
+features:
+  baseline_windows_observations: [10, 20, 40]
+  spread_change_scale_window: 20
+  volatility_window: 10
+  volatility_regime_prior_median_window: 20
+  momentum_horizon_observations: 5
+  cross_asset_minimum_assets: 3
+  cross_sectional_range_entry: 2.5
+  quote_width_maximum_change_sigma: 2.0
+  new_entry_requires_strict_positive_quote_width: true
+  minimum_days_to_near_expiration_for_entry: 12
+  forced_exit_days_to_near_expiration: 4
+  new_entries_on_last_source_row: forbidden_as_terminal_test_boundary
+  last_outside_reported_range_is_not_a_filter: true
+
+strategies:
+  - id: volatile_corridor_far_stop
+    family: mean_reversion
+    score: z20
+    scale: std20
+    direction: fade
+    entry_abs: 1.50
+    exit_abs: 0.35
+    stop_abs: 4.00
+    maximum_holding_observations: 10
+    high_volatility_only: true
+    cross_sectional_extreme_only: false
+  - id: all_regime_corridor_20
+    family: mean_reversion
+    score: z20
+    scale: std20
+    direction: fade
+    entry_abs: 1.50
+    exit_abs: 0.35
+    stop_abs: 4.00
+    maximum_holding_observations: 10
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: fast_corridor_10
+    family: mean_reversion
+    score: z10
+    scale: std10
+    direction: fade
+    entry_abs: 1.75
+    exit_abs: 0.25
+    stop_abs: 3.75
+    maximum_holding_observations: 6
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: slow_corridor_40
+    family: mean_reversion
+    score: z40
+    scale: std40
+    direction: fade
+    entry_abs: 1.50
+    exit_abs: 0.50
+    stop_abs: 4.50
+    maximum_holding_observations: 15
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: volatile_breakout_20
+    family: breakout
+    score: z20
+    scale: std20
+    direction: follow
+    entry_abs: 2.00
+    exit_abs: 0.75
+    stop_abs: 3.00
+    maximum_holding_observations: 10
+    high_volatility_only: true
+    cross_sectional_extreme_only: false
+  - id: momentum_5
+    family: momentum
+    score: momentum5
+    scale: std20
+    direction: follow
+    entry_abs: 1.00
+    exit_abs: 0.15
+    stop_abs: 3.00
+    maximum_holding_observations: 5
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: curve_convergence_to_zero
+    family: structural_convergence
+    score: zero_convergence_score
+    scale: std20
+    direction: fade
+    entry_abs: 2.00
+    exit_abs: 0.50
+    stop_abs: 6.00
+    maximum_holding_observations: 10
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: cross_asset_residual_fade
+    family: cross_asset_mean_reversion
+    score: cross_asset_residual
+    scale: std20
+    direction: fade
+    entry_abs: 1.25
+    exit_abs: 0.25
+    stop_abs: 3.50
+    maximum_holding_observations: 10
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+  - id: cross_sectional_extremes
+    family: cross_sectional_mean_reversion
+    score: cross_asset_residual
+    scale: std20
+    direction: fade
+    entry_abs: 1.25
+    exit_abs: 0.25
+    stop_abs: 3.50
+    maximum_holding_observations: 10
+    high_volatility_only: false
+    cross_sectional_extreme_only: true
+  - id: mlp_cross_asset_5d
+    family: causal_neural_timing
+    score: mlp_prediction
+    scale: std20
+    direction: follow
+    entry_abs: 0.25
+    exit_abs: 0.05
+    stop_abs: 3.00
+    maximum_holding_observations: 5
+    high_volatility_only: false
+    cross_sectional_extreme_only: false
+
+neural_model:
+  implementation: sklearn_MLPRegressor_CPU
+  target: same_spread_future_5_observation_midpoint_change_divided_by_current_prior_std20
+  target_horizon_observations: 5
+  target_clip: [-3.0, 3.0]
+  training: expanding_window
+  refit_schedule: first_factual_prediction_date_each_calendar_month
+  target_availability: target_end_trade_date_strictly_before_refit_prediction_date
+  minimum_training_samples: 250
+  hidden_layer_sizes: [16, 8]
+  activation: tanh
+  solver: adam
+  alpha: 0.01
+  learning_rate_init: 0.001
+  maximum_iterations: 300
+  random_state: 1729
+  shuffle: false
+  early_stopping: false
+  feature_imputation: training_median_plus_missing_indicators
+  feature_scaling: training_standard_scaler
+  hyperparameter_search: false
+
+portfolio:
+  initial_cash_rub: 1000000.0
+  equal_contract_quantity_per_spread_leg: true
+  target_pair_gross_fraction_of_current_cash: 0.40
+  maximum_total_gross_notional_multiple: 1.60
+  initial_margin_buffer_multiple: 2.0
+  simultaneous_asset_order: [SI, RI, BR, MIX]
+  same_asset_overlapping_positions: forbidden
+  position_size: floor_current_cash_times_pair_fraction_divided_by_sum_lagged_leg_notionals
+  capacity_clip: minimum_of_desired_and_both_leg_capacities
+
+execution:
+  implementation: custom_equal_quantity_two_leg_daily_variation_margin_ledger_v1
+  entry: first_later_factual_common_leg_open_then_clip_or_skip
+  exit: first_later_factual_common_leg_open_with_full_both_leg_capacity
+  exit_retry: daily_until_full_pair_exit_or_terminal_failure
+  atomicity: both_legs_of_one_calendar_spread
+  maximum_participation_each_leg: 0.01
+  participation_denominator: immediately_prior_factual_volume_of_same_contract
+  pnl: long_far_minus_short_near_with_session_specific_accounting_point_values
+  intraday_entry_mark: entry_open_to_same_session_settlement
+  subsequent_mark: prior_factual_settlement_to_current_factual_settlement
+  exit_mark: prior_factual_settlement_to_exit_open
+  missing_factual_pair_mark: preserve_and_count_never_zero_impute
+  terminal_policy: force_decision_on_last_source_row_then_require_factual_exit_before_protected_boundary
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+
+validation:
+  primary_period: "2024-01-01..2025-12-31"
+  development_period_reported_separately: true
+  all_ten_strategies_and_all_three_cost_scenarios_reported: true
+  primary_strategy_only_can_reach_gate: true
+  minimum_evaluation_CAGR: 0.10
+  minimum_evaluation_sharpe: 1.00
+  maximum_evaluation_drawdown: 0.15
+  minimum_positive_evaluation_years: 2
+  stress_evaluation_total_return_must_be_positive: true
+  minimum_completed_evaluation_trades: 20
+  execution_must_be_complete: true
+  independent_confirmation_required: true
+
+output:
+  directory: runs/calendar_spread_economic_2021_2025_v1
+  immutable: true
+  overwrite_allowed: false
+  artifacts:
+    - metrics.json
+    - report.md
+    - plans.parquet
+    - model_predictions.parquet
+    - daily.parquet
+    - trades.parquet
+    - audit.json
+    - manifest.json
+    - manifest.sha256
+
+limitations:
+  development_family_and_internal_2024_2025_split_are_not_independent_confirmation: true
+  source_is_current_vintage: true
+  archive_quotes_are_EOD_not_order_time: true
+  execution_uses_synchronized_leg_open_proxy_not_historical_spread_order_queue: true
+  historical_exchange_specs_fees_margin_and_point_values_are_approximate: true
+  missing_original_daily_vintages: true
+  ten_hypotheses_create_multiple_testing_risk: true
+  neural_sample_is_small_and_nonstationary: true
+  guaranteed_future_return: false
+  live_trading_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/calendar_spread_v1.py: f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282
+  src/market_lab/futures/moex_calendar_spread_derived_v1.py: d04f7d8f23ec5fce45d7b8879d41c130201e93695bceb3ca8891e6bd465c6f11
+  src/market_lab/futures/execution_dataset.py: fc83cbf1f08fb38084488a41e618cc103c0ba27b0563b0d12293eca15548c663
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+forbidden_after_seal:
+  - changing_any_strategy_threshold_horizon_or_direction_after_viewing_results
+  - selecting_the_best_of_ten_as_confirmed_without_new_unseen_data
+  - using_target_end_dates_not_strictly_before_each_neural_refit_date
+  - unequal_contract_quantities_between_spread_legs
+  - entering_on_locked_or_zero_width_archive_quotes
+  - using_same_day_open_before_archive_availability
+  - ignoring_leg_specific_point_values_costs_capacity_or_margin
+  - reading_any_market_value_timestamp_on_or_after_2026_01_01
+  - overwriting_the_canonical_run
+  - live_trading_or_claiming_guaranteed_profit
