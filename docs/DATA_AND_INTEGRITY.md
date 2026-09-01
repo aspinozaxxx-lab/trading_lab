@@ -37,13 +37,16 @@ manifest-bound loader, который физически отклоняет time
 ## Запечатанный источник MOEX 2012–2017
 
 `configs/moex_pre2018_core4_source_v3.yaml` (SHA `0b86cda4...`) наследует sealed V1 и
-фиксирует до первого price response exact 155 expired BR/MIX/RI/SI contracts, только
-RFUD, закрытые metadata/
+был pushed до первого price response и фиксирует exact 155 expired BR/MIX/RI/SI
+contracts, только RFUD, закрытые metadata/
 daily schemas и exact cursor pagination. Collector обязан сохранить raw responses и
 normalized discovery/contracts/boards/segments/daily/coverage во внешнем immutable
 bundle. До появления и аудита manifest этот источник не входит в разрешённые strategy
 inputs; после source audit для любого return/PnL всё равно нужен отдельный sealed V28.
 Raw archive нельзя публиковать без проверки актуальных прав MOEX.
+Canonical bundle завершён: 30 059 rows `2012-01-03..2017-12-21`; manifest SHA
+`e60d0bca...`, daily SHA `00a9a872...`, raw SHA `b7d10f99...`. Он разрешён только как
+source для следующего заранее запечатанного research protocol, не как live evidence.
 
 ## Основные разрешённые development artifacts
 
@@ -55,6 +58,9 @@ identity и должен проверяться перед чтением.
 | 30-stock daily panel | `data/processed/daily_v4/development_panel.parquet` | `a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe` |
 | Daily panel manifest | `data/processed/daily_v4/panel_manifest.json` | `873916a268dae55c3ac6537d1a02f7d773ea7f0276c7377389c494d7996e492f` |
 | Futures 10m top manifest | `data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json` | `f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01` |
+| Pre-2018 core-four daily | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/daily.parquet` | `00a9a872557d1450c38ace291449ab6a1de17679c8fc12d57bf3b1738cd50e38` |
+| Pre-2018 core-four manifest | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/manifest.json` | `e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6` |
+| Pre-2018 core-four raw archive | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/official_moex_iss_responses.jsonl.gz` | `b7d10f9949e65f330f738f789e6fcb69262a0fe9f549252323c6f18ec666e464` |
 | Active-contract map | `data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet` | `40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823` |
 | Futures spec proxy | `data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet` | `8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682` |
 | CBR PIT daily | `data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet` | `bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d` |

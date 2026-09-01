@@ -40,9 +40,12 @@ finder; V2 после исправления обнаружил все 155 alias
 FRSTTRADE/LSTDELDATE и один RFUD segment есть у 155/155, LSTTRADE есть у 91 и missing
 у 64. V3 сохраняет missing, а обязательный LSTDELDATE использует как request end. Exact
 set 155 contracts (BR/MIX/RI/SI = 71/24/24/36), dates, daily schema/cursor и raw archive
-не менялись. Output V1/V2 отсутствует; price/economic outcomes ещё не читались.
-До V3 commit/push history с ценовыми полями не запрашивается; после seal следует только
-source coverage audit, без PnL.
+не менялись. V3 был pushed commit `38fc63a` до первого daily response и успешно собрал
+immutable bundle: 30 059 rows `2012-01-03..2017-12-21`, 544 raw requests, manifest SHA
+`e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6`. Exact replay
+подтвердил 18 finder + 155 description/boards + 371 daily pages и все 30 059 raw rows.
+Стратегия, returns и PnL ещё не рассчитывались; следующий этап — derived source panel/
+spec proxy и отдельный V28 seal.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -677,12 +680,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    просмотренный legacy 2026 нельзя переименовывать в holdout. Повторный metadata-only
    audit нашёл официальный `/iss/history/.../RFUD/securities` и expired-security search:
    в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
-   aliases. Цены этого периода ещё не читались; сначала нужен отдельный source seal.
-3. Запечатать и pushed source-only collector 2012–2017, затем проверить доступность и
-   полноту official daily EOD. Это может дать независимую проверку frozen trend/capital/
-   execution path. Главный `>=20%` governor здесь не активируется: официальный максимум
-   key rate был 17%, а historical specs/fees/IM всё ещё proxy. Licensed MOEX/broker
-   archive остаётся обязательным для broker-exact и live evidence.
+   aliases. Source V3 уже sealed/pushed и собрал 30 059 official daily rows; raw replay,
+   hashes, exact identities и граница `<=2017-12-21` проверены.
+3. Построить immutable causal active panel/spec proxy и старые bounded STLFSI4/CBR
+   monetary sources без strategy outcomes, затем запечатать V28. Период может независимо
+   проверить frozen trend/capital/execution path, но главный `>=20%` governor не
+   активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё
+   proxy; licensed MOEX/broker archive обязателен для broker-exact и live evidence.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
    capacity cancels и деградацию trend edge.

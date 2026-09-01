@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-S3: official core-four daily source — sealed, pending collection
+## MOEX-PRE2018-S3: official core-four daily source — completed
 
 - Source-only protocol:
   [`configs/moex_pre2018_core4_source_v3.yaml`](../configs/moex_pre2018_core4_source_v3.yaml)
@@ -29,8 +29,21 @@
   daily history, raw responses, normalized tables, coverage и hashes в immutable external
   bundle. Missing не zero; gap/roll returns не строятся; стратегии и PnL отсутствуют.
 - До protocol/code commit и push реальный daily endpoint с price fields не вызывается.
-  Synthetic source tests: `7 passed`; Ruff clean. Следующее действие после seal —
-  один collection/coverage audit, а не стратегия.
+  Synthetic source tests: `7 passed`; Ruff clean.
+- Pre-price commit `38fc63a` был pushed до первого daily response. Canonical source:
+  `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/`.
+  Manifest SHA-256:
+  `e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6`.
+- Source counts: 155 contracts/segments, 30 059 daily rows, 544 raw requests. By asset:
+  BR `71/6 842`, MIX `24/6 684`, RTS `24/8 134`, Si `36/8 399` contracts/rows.
+  Daily range `2012-01-03..2017-12-21`; every contract non-empty, maximum calendar gap
+  11 days, 21 355 trade rows, 30 059 settlement rows, 91 activity rows with missing OHLC.
+- Integrity audit recomputed manifest payload/sidecar and every artifact bytes/SHA/rows,
+  replayed 18 finder + 155 description/boards + 371 exact-cursor daily responses and
+  matched all 30 059 unique raw daily identities. All checks true.
+- No return, target, label, strategy equity or PnL was calculated. Next allowed action:
+  immutable source-derived active panel/spec proxy plus bounded macro sources, then a
+  separately sealed V28 validation. Raw redistribution and live use remain forbidden.
 
 ## V27-R1: frozen path-robustness audit — completed
 

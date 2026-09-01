@@ -407,11 +407,13 @@ actual retrieval/publication time; boundary/age/partial scale по 2021–2025 �
 contracts в 2012–2017: BR 71, MIX 24, RI 24 и SI 36. Per-security description/boards
 возвращают исторические `FRSTTRADE`, `LSTTRADE`/`LSTDELDATE` и RFUD board history.
 
-Цены, returns, targets и PnL 2012–2017 ещё не читались. До первого price request должен
-быть committed/pushed отдельный source-only protocol: exact discovery filters, interval,
-pagination, raw archive, hashes, missing policy и temporal ceiling. Если anonymous daily
-history действительно полон, этот период можно использовать как новую независимую
-проверку byte-identical V27 trend/capital/execution path. Он не проверит уникальное
+До первого price request был committed/pushed source-only V3 protocol с exact discovery
+filters, interval, pagination, raw archive, hashes, missing policy и temporal ceiling.
+Official bundle содержит 30 059 daily rows по 155 contracts, manifest SHA `e60d0bca...`;
+raw cursor replay и maximum date `2017-12-21` проверены. Returns, targets и PnL ещё не
+считались. После отдельного derived-source и V28 seal этот период можно использовать как
+новую независимую проверку byte-identical V27 trend/capital/execution path. Он не
+проверит уникальное
 действие monetary governor: официальная key rate не достигала 20% (maximum 17% в 2014).
 
 [MOEX Historical Data](https://fs.moex.com/f/3431/available-data-types.pdf) и отдельные

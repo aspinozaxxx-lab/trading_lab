@@ -589,9 +589,9 @@ holdout; запрещено выбирать block/gate или менять V27 
 ### Sealed MOEX 2012–2017 source collection
 
 Source V3 config SHA `0b86cda4...`, implementation SHA `7dd25e01...`. V1/V2 metadata
-preflight failures зафиксированы без daily price response и без output. До V3 commit/push
-разрешены только metadata и synthetic tests; первый вызов daily history с price fields
-выполняется лишь после подтверждённого push:
+preflight failures зафиксированы без daily price response. V3 был pushed commit
+`38fc63a`, collection завершён; следующую команду не повторять, потому что output
+immutable:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
@@ -605,9 +605,10 @@ preflight failures зафиксированы без daily price response и б�
 
 Default output:
 `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/`.
-Collector не перезаписывает существующий каталог. После collection сначала проверяй
-manifest/raw hashes, exact 155 contracts, per-asset/session coverage и maximum date; не
-считай return/PnL до отдельного V28 config SHA и pre-outcome push.
+Manifest SHA `e60d0bca...`: 155 contracts, 30 059 rows, 544 requests, maximum date
+`2017-12-21`. Collector не перезаписывает существующий каталог. Integrity audit уже
+сверил manifest/raw hashes, exact identities и cursor rows. Не считай return/PnL до
+отдельного V28 config SHA и pre-outcome push.
 
 ## 5. Новый эксперимент
 
