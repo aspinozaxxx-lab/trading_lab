@@ -49,6 +49,9 @@ family — только defined-risk premium, без naked short.
 23:55 UTC+3 с `StartWhenAvailable`, `IgnoreNew` и timeout 10 минут. Source-date probe
 предотвращает повтор одной торговой даты. Независимый manual task run дал result `0` и
 не увеличил snapshot count (`1`), то есть operational loop фактически проверен.
+Read-only readiness monitor повторно проиграл raw responses и подтвердил `1` valid unique
+date, `0` invalid, current phase `discovery`, remaining `59` до разрешения seal
+экономического protocol. Повреждённый snapshot теперь не блокирует immutable replacement.
 
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 

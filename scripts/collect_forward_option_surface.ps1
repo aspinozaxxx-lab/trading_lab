@@ -40,8 +40,18 @@ if (Test-Path -LiteralPath $OutputRoot -PathType Container) {
         $manifest = Get-Content -LiteralPath $manifestPath -Raw -Encoding UTF8 |
             ConvertFrom-Json
         if (@($manifest.counts.source_dates) -contains $sourceDate) {
-            Write-Output "SKIP source_date=$sourceDate already captured at $manifestPath"
-            exit 0
+            $snapshotPath = Split-Path -Parent $manifestPath
+            $auditOutput = & $python -m market_lab.futures.moex_forward_option_surface_source `
+                --audit-directory $snapshotPath
+            $auditExitCode = $LASTEXITCODE
+            if ($auditExitCode -eq 0) {
+                $audit = $auditOutput | Out-String | ConvertFrom-Json
+                if ($audit.all_true -eq $true) {
+                    Write-Output "SKIP source_date=$sourceDate already captured and audited at $manifestPath"
+                    exit 0
+                }
+            }
+            Write-Warning "Existing source_date=$sourceDate failed replay audit; collecting an immutable replacement"
         }
     }
 }

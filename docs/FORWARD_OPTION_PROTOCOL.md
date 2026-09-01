@@ -62,3 +62,7 @@ Windows task `TradingLabForwardOptionSurface` запускает
 новая — единственный полный snapshot. Task использует `StartWhenAvailable`, запрещает
 параллельные экземпляры и останавливает зависший run через 10 минут. Состояние task и
 число уникальных source dates нужно проверять при каждом продолжении исследования.
+Проверка выполняется модулем `market_lab.futures.forward_option_readiness`: он повторяет
+raw replay audit, исключает invalid/duplicate dates из прогресса и держит явные gates
+`economic_protocol_may_be_sealed`, `calibration_complete` и
+`unseen_evaluation_complete`. Даже последний gate не разрешает live trading автоматически.

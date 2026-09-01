@@ -1070,6 +1070,18 @@ Europe/Istanbul, interactive user, `StartWhenAvailable`, `IgnoreNew`, timeout 10
 Manual verification завершилась `Last Result: 0` и сохранила snapshot count `1`, то
 есть duplicate-date guard сработал.
 
+Полный replay-аудит всех накопленных snapshot и точный gate 60/20/40:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.forward_option_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1
+```
+
+Монитор считает только valid unique `source_date`. На `2026-09-02`: `1/60` discovery,
+`0/20` calibration, `0/40` unseen evaluation, invalid `0`, поэтому создание
+экономического protocol пока заблокировано. Wrapper пропускает существующую дату только
+после успешного replay-аудита; повреждённый immutable snapshot не мешает записать замену.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что
