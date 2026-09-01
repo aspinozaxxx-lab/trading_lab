@@ -1,0 +1,106 @@
+﻿protocol_id: moex_volatility_curve_features_v1
+protocol_version: 1
+status: sealed_before_first_curve_feature_value
+declared_at_utc: "2026-09-01T19:00:00Z"
+scope: source_derived_no_market_returns_no_strategy_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_separate_strategy:
+  statement: >-
+    Constant-maturity option-implied level, skew, curvature and cross-market context may
+    distinguish trend, crash and mean-reversion regimes and improve stability or entry
+    timing beyond futures-only signals.
+  this_protocol_reads_future_returns_or_computes_pnl: false
+  pilot_purpose: formula_causality_interpolation_and_coverage_only
+
+source:
+  source_id: official-moex-volatility-curve-core4-pilot-2021-01-v3
+  directory: data/processed/options/moex-volatility-curve-pilot-2021-01-v3
+  manifest_path: manifest.json
+  manifest_bytes: 3568
+  manifest_sha256: 992f34b6345dc0fee767d16c3148ad1cc7b6405966305f85223fc7f8d7c20b48
+  processed_path: volatility_curve_core4.parquet
+  processed_bytes: 4275141
+  processed_sha256: 2c0e435eff3493ebf0f1a682666b214e7db78d74975875bee1617389857bcfea
+  processed_rows: 76999
+  maximum_event_at: "2021-01-29T23:50:37.797000+03:00"
+  protected_from: "2026-01-01"
+
+universe:
+  exact_order: [RI, MIX, SI, BR]
+  all_assets_visible_in_each_output_row: true
+
+formula:
+  official_methodology: https://fs.moex.com/files/17331
+  official_2017_change_notice: https://www.moex.com/n15089
+  regime: post_2017_02_27
+  x: log_strike_divided_by_futures_price_divided_by_sqrt_T
+  y: x_minus_s_divided_by_sqrt_T
+  curve: a_plus_b_times_1_minus_exp_minus_c_y2_plus_d_times_atan_e_y_div_e
+  e_equals_zero_limit: d_times_y
+  analytic_point: forward_ATM_x_equals_zero
+  outputs: [atm_volatility_pct, atm_skew_per_x, atm_curvature_per_x2]
+  nonpositive_or_nonfinite_T: missing_and_ineligible
+
+decision_grid:
+  timezone: Europe/Moscow
+  source_event_dates_only: true
+  start: "10:10:00"
+  end: "23:50:00"
+  frequency_minutes: 10
+  expected_points_per_date: 83
+  maximum_source_freshness_minutes: 20
+  admission: available_at_not_after_decision_at
+  latest_per_full_name: true
+  overnight_stale_state: masked_by_freshness
+  effective_T: source_T_minus_elapsed_calendar_year_fraction
+
+constant_maturity:
+  target_calendar_days: [30, 90]
+  method: linear_in_effective_years_to_expiry
+  extrapolation: forbidden_missing
+  nonpositive_T: ineligible
+  same_asset_only: true
+  term_spread: volatility_90d_minus_volatility_30d
+
+cross_asset_context:
+  exact_assets: [RI, MIX, SI, BR]
+  wide_columns_for_each_asset:
+    [volatility_30d, skew_30d, curvature_30d, volatility_90d, skew_90d,
+     curvature_90d, term_spread_90d_minus_30d]
+  aggregates: [volatility_30d_count, volatility_30d_median,
+               volatility_30d_dispersion, skew_30d_median]
+  missing_policy: preserve_nan_and_count
+
+quality_gates:
+  exact_source_events: 76999
+  exact_event_dates: 18
+  exact_panel_rows: 5976
+  duplicate_decision_asset_zero: true
+  future_available_or_observed_zero: true
+  maximum_freshness_minutes: 20
+  interpolation_extrapolation_zero: true
+  minimum_overall_complete_30d_90d_fraction: 0.85
+  minimum_each_asset_complete_30d_90d_fraction: 0.80
+  forbidden_outcome_columns_zero: true
+
+output:
+  directory: data/processed/options/moex-volatility-curve-features-pilot-2021-01-v1
+  immutable: true
+  overwrite_allowed: false
+  data_in_git: false
+
+forbidden_after_build:
+  - reading_or_joining_market_returns_targets_labels_or_pnl
+  - changing_formula_grid_freshness_maturities_or_interpolation_after_feature_values
+  - choosing_asset_series_time_or_feature_by_future_returns
+  - using_nonpositive_T_or_extrapolating_a_curve
+  - overwriting_the_feature_output
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_volatility_curve_source_v3.py: a1fd38af0cdc97230d4cdd71f0c42b9ae160491857c6cea61f2d3a1fb936d437
+  src/market_lab/futures/moex_volatility_curve_features.py: 1342c83830408edc9fe61b3672fdf14482197747066a97f17416810b6847efec
