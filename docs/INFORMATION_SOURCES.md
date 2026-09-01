@@ -54,8 +54,12 @@ EV2 показал, что closing Bid/Ask нельзя использовать
 условие width `<=2` prior spread sigma прошло 16/19/0/0/0 строк по годам, хотя reported
 Last менялся существенно чаще. Это согласуется с ограничением источника: archive Bid/Ask
 — финальный EOD snapshot, а EV2 исполняется по следующему synchronized outright open.
-Последующая версия должна явно отделить factual traded Last для signal от lagged outright
-volume для capacity; это adaptive development correction, не новая независимая проверка.
+EV3 отделил factual traded Last для signal от lagged outright volume для capacity, но
+primary и stress оказались отрицательными. EV4 затем заранее потребовал expected move
+не меньше 2x stress round-trip cost: evaluation primary вырос до `+0,3095%` на 38
+сделках, однако stress остался `−0,1664%`, development `−1,2291%`. Поэтому дальнейший
+same-history threshold tuning закрыт; главный неизвестный теперь — exact multileg
+execution, а не ещё один фильтр EOD proxy.
 
 Официальная страница synthetic matching прямо перечисляет более точные вечерние отчёты:
 `multilegf04_XXYY.csv` (сделки участника), `multileg_deal.csv` (все spread trades),
@@ -65,6 +69,21 @@ volume для capacity; это adaptive development correction, не новая 
 на странице выглядят как sample-файлы; доказанного бесплатного исторического архива
 2021–2025 пока нет. Это P0 источник для licensed/member access: он нужен, чтобы заменить
 synchronized next-open proxy фактической spread price, leg allocation, queue и fees.
+
+Текущая спецификация уточняет границы: `multilegordlog_XXYY` — действия собственных
+заявок участника/брокерской фирмы и не доказанная full-market queue. Публичный shortened
+Type A sample за `2024-10-01` содержит outright `fut/opt` deal/order files; exact поиск
+четырёх listed BR/MIX/RI/SI spread symbols дал 0 совпадений. Поэтому у MOEX надо отдельно
+запросить market-wide multileg order history. Зато `multilegf04` содержит participant
+fill/order IDs и fees, а `f04.ID_MULT` связывает fill с technical leg trades; TWIME для
+того же события возвращает один multileg и два single execution reports.
+
+До первого licensed archive sealed локальный parser: config SHA `464cce7a...`, module
+SHA `5e64ba6a...`. Он не скачивает данные, запрещает undated/2026+ package до чтения,
+поддерживает пять раздельных schemas, удаляет participant identifiers и требует exact
+leg/deal links. Synthetic build/replay прошёл, но canonical source отсутствует. Сначала
+запрашивается January 2021 pilot только для schema/coverage; точный список и шаблон — в
+[MOEX_MULTILEG_DATA.md](MOEX_MULTILEG_DATA.md).
 
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed

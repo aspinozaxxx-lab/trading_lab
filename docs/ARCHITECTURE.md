@@ -581,6 +581,25 @@ Promotion использует неизменные числовые gates V1, �
 наследует V2 empty-schema и V3 Last/width corrections, подменяет resolved config/report
 и полностью восстанавливает globals. Config SHA `b7ddc0ac...`, module SHA `17351808...`.
 
+Canonical V4 manifest SHA `e9b4e301...`; replay checks полностью true. Cost hurdle
+сохранил 38 evaluation trades и небольшой primary плюс, но development и stress остались
+отрицательными. Verdict `NO_GO`; этот wrapper остаётся аудируемым отрицательным
+экспериментом, а не основой для дальнейшей подстройки threshold или leverage.
+
+### `market_lab.futures.moex_multileg_execution_source`
+
+Локальный source-only ingestion для licensed/member MOEX reports. Discovery извлекает
+единственную package date из имени до открытия CSV/ZIP и fail-closed запрещает undated,
+outside-period и protected `2026+` objects. Parser разделяет market-wide trades/
+dictionary, participant fills/actions и technical leg deals; schema не выпускает user,
+clearing codes или comments. Missing IDs/fees/prices не заменяются нулём.
+
+`event_at_moscow` предназначен только для replay решения, принятого раньше события.
+Сам report считается доступным для feature engineering лишь с 00:00 мск следующего дня.
+Full build требует exact two-leg dictionary, unique market trade identity, совместное
+core date coverage и exact participant fill→2 legs linkage. Config SHA `464cce7a...`,
+module SHA `5e64ba6a...`; synthetic build/audit прошёл, licensed canonical ещё не создан.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -104,14 +104,27 @@ rules, risks/costs/gates неизменны. Seal `58ba05c` был pushed; canon
 `a7de7e04...`, audits 37/37 и 29/29 true. Экспозиция восстановлена до 1 666 plans, но
 primary evaluation `−0,2160%`, stress `−0,4818%`: `NO_GO`. Exploratory cross-sectional
 extremes дал `+0,2074%` и 2/2 positive years, но stress `−0,3174%`, development
-`−1,1892%`; это лишь слабый gross edge до costs. Следующий допустимый шаг — отдельный
-post-selection cost-aware seal либо новый exact multileg execution source.
+`−1,1892%`; это лишь слабый gross edge до costs.
 
-Cost-aware V4 подготовлен до новых outcomes: config SHA `b7ddc0ac...`, module SHA
-`17351808...`. Post-selected candidate — cross-sectional extremes; единственная новая
-admission требует causal expected remaining move не меньше 2x полной stress round-trip
-стоимости одного pair contract. Ни asset/year filter, ни leverage, thresholds, MLP,
-capacity, costs или gates не меняются. Даже pass будет только adaptive lead.
+Cost-aware V4 был sealed/pushed commit `a6929ce` до outcomes: config SHA `b7ddc0ac...`,
+module SHA `17351808...`. Он выбрал post-selected `cross_sectional_extremes` и допустил
+entry только при causal expected remaining move не меньше 2x полной stress round-trip
+стоимости. Canonical manifest SHA `e9b4e301...`, metrics SHA `0b683ce0...`; все audit
+checks true. Из 1 029 plans selected primary сохранил 38 evaluation trades и дал
+`+0,3095%`, CAGR `+0,1528%`, Sharpe `0,3416`, оба года положительны. Но doubled costs
+оставили только `+0,0675%` и 1/2 positive years, stress дал `−0,1664%`; development
+`−1,2291%`, full `−0,9234%`. Verdict `NO_GO`: hurdle не прошёл CAGR, Sharpe и
+stress gates. Same-history V5 tuning и увеличение плеча закрыты; следующий шаг — exact
+historical multileg trades/order actions/specs либо новый unseen период.
+
+Для этого следующего шага до первого licensed byte подготовлен source-only parser V1:
+config SHA `464cce7a...`, module SHA `5e64ba6a...`. Он fail-closed различает market-wide
+`multileg_deal`/`multileg_dict`, participant fills/order actions и `f04.ID_MULT` legs,
+отбрасывает participant identifiers из processed schema и запрещает undated/2026+
+packages до чтения содержимого. Synthetic end-to-end build/replay прошёл; canonical
+output отсутствует, потому что лицензированного архива ещё нет. Сначала нужен January
+2021 pilot только для schema/coverage preflight, затем полный 2021–2025 archive. Полные
+требования и шаблон запроса — [MOEX_MULTILEG_DATA.md](MOEX_MULTILEG_DATA.md).
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -787,19 +800,22 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — новый market-neutral source family
 
-1. V1/V2 failures и V3 correction завершены без перезаписи parents. Canonical V3 source
-   готов: manifest SHA `94d5fab4...`, 47/47 checks, 110 spreads, 10 157 archive rows,
-   8 887 reported-trade rows, 0 protected rows. V3 не перезапускать и не overwrite.
-2. До первого return построить отдельный immutable derived-source panel: использовать
-   только regular-adjacent spreads, preserve `RIH2RIU2` как inactive/excluded metadata,
-   доказать factual activity, missing masks, expiry distance и availability. Не выбирать
-   liquidity threshold по будущему PnL.
-3. После derived manifest отдельно запечатать economic target. Первый
-   кандидат — carry/convergence listed spread с market-neutral sizing, factual archive
-   liquidity, next-session execution и 1x/2x/stress costs. Никаких returns, thresholds
-   или PnL до этого seal; development 2021–2025 не называть независимым holdout.
-4. Historical bid/ask архива остаётся EOD field, а не order-time quote. Для live evidence
-   всё равно нужны licensed order book/trade log, historical fees, IM и broker rules.
+1. Canonical V3 public source и D1 derived panel завершены без перезаписи parents:
+   manifests `94d5fab4...`/`b5e15c2e...`, audits полностью true. Не overwrite.
+2. EV1 fail-closed без output; EV2 восстановил reporter, но имел нулевую evaluation
+   exposure; EV3 восстановил 1 666 plans, но primary/stress отрицательны. EV4 cost hurdle
+   дал только `+0,3095%` primary и `−0,1664%` stress; verdict `NO_GO`. Не создавать V5
+   с новым threshold, leverage, asset/year filter или stop по тем же outcomes.
+3. Source-only multileg parser V1 sealed SHA `464cce7a...` до licensed bytes. Сначала
+   получить January 2021 pilot `multileg_deal` + `multileg_dict`; если доступен member
+   archive, добавить `multilegf04`, `multilegordlog`, `f04.ID_MULT`. Pilot — только
+   preflight, без PnL и canonical publication.
+4. Письменно подтвердить у MOEX, входит ли multileg history в Type C и существует ли
+   historical full-market multileg order log. Participant `multilegordlog_XXYY` не
+   считать полной очередью; публичный Type A sample listed spreads не содержал.
+5. Только после полного 2021–2025 source manifest отдельно запечатать новый execution
+   replay. Historical specs, tick values, IM, exchange/clearing tariffs и broker fees
+   должны быть point-in-time; результат остаётся adaptive и не разрешает live.
 
 ### P0 — независимо подтвердить V27, не подгоняя его
 
@@ -966,7 +982,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 Канонические код и документация находятся в `D:\Projects\trading_lab`; canonical `data`,
 `runs` и модели остаются вне Git в `D:\Projects\trading_lab_data`. Любая сохранившаяся
 копия под `D:\Projects\Trading` является только recovery source, а не рабочим репозиторием.
-Проверка 2026-08-31:
+Миграционная проверка начата 2026-08-31; полный suite повторён 2026-09-01:
 
 - в старом source/config/test дереве не было old-only файлов: 274 файла совпали
   побайтово, 10 имеют ожидаемые migration-изменения в актуальной копии, 8 добавлены уже
@@ -976,7 +992,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - восстановлены ошибочно исключённые общим `.gitignore` Python-пакеты
   `market_lab.data` и `market_lab.models`; root external paths теперь anchored как
   `/data`, `/runs`, `/models`, `/checkpoints`;
-- полный CPU suite: **642 passed, 7 skipped, 2 failed**;
+- полный CPU suite: **880 passed, 7 skipped, 2 failed**;
 - два failure относятся только к sealed V8 `context_run`: его старый anti-symlink guard
   намеренно не принимает external NTFS junction. Старый byte-sealed код нельзя менять
   задним числом; нужен новый migration-compatible loader/code identity;

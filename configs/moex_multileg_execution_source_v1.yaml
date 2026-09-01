@@ -1,0 +1,105 @@
+﻿protocol_id: moex_multileg_execution_source_v1
+protocol_version: 1
+status: predeclared_before_first_licensed_archive_read
+declared_at_utc: "2026-09-01T14:10:00Z"
+scope: source_only_no_returns_targets_signals_or_pnl
+research_only: true
+sealed_before_first_licensed_archive_read: true
+live_trading_allowed: false
+
+period:
+  start: "2021-01-01"
+  end: "2025-12-31"
+  protected_from: "2026-01-01"
+
+source:
+  directory: data/raw/info_radar/moex-multileg-licensed-2021-2025-v1
+  network_download: false
+  license_or_member_archive_required: true
+  redistribution_review_required: true
+  accepted_containers: [dated_csv, zip]
+  unsupported_container_policy: reject_7z_until_extracted_to_dated_directory
+  maximum_uncompressed_member_bytes: 2147483648
+  accepted_report_kinds:
+    - multileg_dict
+    - multileg_deal
+    - participant_multileg_deal
+    - participant_multileg_order_log
+    - participant_leg_deal
+
+report_semantics:
+  multileg_dict: official_two_leg_composition_and_signed_quantities
+  multileg_deal: market_wide_reported_spread_trades
+  participant_multileg_deal: participant_fills_order_ids_and_exchange_clearing_fees
+  participant_multileg_order_log: participant_order_lifecycle_not_full_market_queue
+  participant_leg_deal: technical_leg_trades_linked_by_id_mult
+  full_market_queue: not_claimed_and_requires_separate_MOEX_confirmation_or_feed
+
+temporal_safety:
+  dated_container_required_before_open: true
+  package_date_source: exact_single_YYYYMMDD_in_relative_container_path
+  package_and_member_date_mismatch: reject
+  row_date_must_equal_package_date: true
+  protected_package_rejected_before_read: true
+  protected_row_rejected: true
+  same_day_signal_use_forbidden: true
+  execution_replay_only: true
+  report_available_at: next_calendar_day_00_00_Europe_Moscow
+  missing_value_policy: preserve_missing_never_zero_fill
+
+privacy:
+  publish_participant_codes_users_comments: false
+  publish_only_closed_non_sensitive_schema: true
+  raw_files_remain_in_external_licensed_storage: true
+
+integrity_gates:
+  full_bundle_requires:
+    - both_market_core_report_kinds_present
+    - equal_multileg_dict_and_multileg_deal_package_date_sets
+    - first_core_date_within_14_days_of_period_start
+    - last_core_date_within_14_days_of_period_end
+    - maximum_core_package_gap_14_calendar_days
+    - exactly_two_distinct_signed_unit_legs_per_spread_date
+    - unique_market_trade_id_per_date
+    - every_market_trade_has_same_day_dictionary
+    - exact_two_leg_link_for_every_participant_fill_when_participant_reports_present
+    - participant_technical_legs_match_same_day_spread_dictionary
+    - participant_fill_order_ids_exist_in_participant_order_log
+    - participant_fill_has_reported_fee_field
+    - no_protected_market_rows
+    - no_sensitive_or_outcome_columns
+  pilot_month_policy: preflight_only_no_canonical_publication
+  failed_gate_policy: no_output
+
+output:
+  directory: data/processed/info_radar/moex-multileg-execution-2021-2025-v1
+  bundle_id: moex-multileg-execution-2021-2025-v1
+  immutable: true
+  overwrite_allowed: false
+  raw_bytes_copied: false
+
+limitations:
+  - licensed_or_member_files_are_not_yet_available_and_no_canonical_bundle_exists
+  - public_2014_examples_validate_format_only_and_are_not_research_history
+  - participant_order_log_describes_own_orders_not_a_proven_full_market_queue
+  - standard_Type_A_2024_sample_did_not_contain_listed_calendar_spread_symbols
+  - schema_variants_outside_the_closed_core_fail_instead_of_being_guessed
+  - historical_report_delivery_timestamp_is_not_known_more_precisely_than_next_day_proxy
+  - historical_specs_margin_tariffs_and_broker_fees_still_require_separate_PIT_sources
+  - no_strategy_return_target_signal_equity_or_pnl_is_computed
+  - guaranteed_future_return_is_false
+  - live_trading_is_forbidden
+
+implementation_dependencies:
+  src/market_lab/futures/moex_multileg_execution_source.py: 5e64ba6a305d74ff37bcb67a7d4500057f65a066c0ae390ba693747d116a26df
+
+forbidden_after_seal:
+  - opening_any_undated_market_value_file
+  - opening_any_package_dated_2026_01_01_or_later
+  - treating_participant_order_log_as_full_market_queue
+  - using_report_rows_as_same_day_signal_features
+  - filling_missing_price_fee_id_or_time_with_zero
+  - publishing_participant_identifiers_or_raw_licensed_bytes
+  - computing_returns_targets_signals_equity_or_pnl
+  - overwriting_canonical_output
+  - live_trading_or_claiming_guaranteed_profit

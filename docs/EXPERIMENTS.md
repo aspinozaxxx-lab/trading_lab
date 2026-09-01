@@ -4,7 +4,31 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-EV4: post-selection cost-aware candidate sealed, outcomes pending
+## MOEX-MULTILEG-SOURCE-V1: parser sealed, licensed bytes pending
+
+- Source-only config SHA
+  `464cce7af683cea260d658dfc20d92c2b8ddf650886c7adbc366b929f2d9c462`, module SHA
+  `5e64ba6a305d74ff37bcb67a7d4500057f65a066c0ae390ba693747d116a26df`.
+  Он зафиксирован до чтения первого licensed/member archive и не содержит network
+  downloader, return, target, signal или PnL engine.
+- До открытия bytes обязателен ровно один package `YYYYMMDD` в относительном пути.
+  Дата вне `2021-01-01..2025-12-31`, особенно `>=2026-01-01`, reject-ится до CSV/ZIP
+  open. Undated flat files и 7z без предварительной распаковки в dated directory также
+  reject-ятся.
+- Market-wide `multileg_deal`/`multileg_dict`, participant `multilegf04`/
+  `multilegordlog` и linked `f04.ID_MULT` разделены по пяти closed schemas. Participant
+  users/codes/comments не публикуются; отрицательные spread prices и missing values
+  сохраняются. Order log участника явно не называется full-market queue.
+- Full canonical build требует совместное core coverage всего 2021–2025, maximum gap
+  14 дней, exact две разные signed legs `−1/+1`, unique deal IDs, same-day dictionary и
+  две linked technical legs на participant fill, если member reports присутствуют.
+  Pilot month допускается только к preflight без canonical и без economic verdict.
+- Synthetic ZIP проверил все пять parsers, privacy/temporal gates, atomic build и exact
+  replay. Реальных licensed bytes пока нет, intended output
+  `data/processed/info_radar/moex-multileg-execution-2021-2025-v1/` не создан. Следующий
+  внешний шаг описан в [MOEX_MULTILEG_DATA.md](MOEX_MULTILEG_DATA.md).
+
+## CALENDAR-SPREAD-EV4: completed post-selection cost-aware test, NO_GO
 
 - Config SHA `b7ddc0ac977c61d7c4547ce978182d2a178422ee694ce1178d4d2d5c174677b9`,
   module SHA `173518088542f64658d3e734720504b2cb68eef2d1831fc6315a27fb070e5e2d`.
@@ -21,8 +45,28 @@
   не retry-ится и не ищет другой threshold.
 - Signal/MLP/thresholds/exits/holding, split, equal quantities, 1% two-leg capacity,
   1,6x gross, 2x margin buffer, actual three cost ledgers и numeric gates не меняются.
-  Успех может дать лишь `ADAPTIVE_LEAD_REQUIRES_NEW_UNSEEN_MULTILEG_VALIDATION`; live
-  остаётся запрещён. Intended output `runs/calendar_spread_economic_2021_2025_v4/`.
+  Успех мог дать лишь `ADAPTIVE_LEAD_REQUIRES_NEW_UNSEEN_MULTILEG_VALIDATION`; live
+  остаётся запрещён.
+- Seal commit `a6929ce` был pushed до outcomes. Canonical path
+  `runs/calendar_spread_economic_2021_2025_v4/`; manifest SHA
+  `e9b4e3016a65fa96c868fafa5cd36688135d07b7f226384635453a913612fefc`, metrics SHA
+  `0b683ce0e3620f8d7ead42457b0a5e73a88571c75ba633935767354e577c54a9`. Получено
+  1 029 plans и 3 734 causal MLP predictions; initial audit и отдельный replay,
+  включая exact cost-hurdle checks, полностью true.
+- Selected primary `cross_sectional_extremes` сохранил 38 evaluation trades. Primary
+  2024–2025: total `+0,3095%`, CAGR `+0,1528%`, Sharpe `0,3416`, MDD `0,4463%`,
+  2024 `+0,2014%`, 2025 `+0,1078%`, profit factor `1,2857`. При doubled costs total
+  лишь `+0,0675%` и один положительный год; stress total `−0,1664%`, CAGR
+  `−0,0823%`, Sharpe `−0,1776`, тоже только один положительный год.
+- Development 2021–2023 отрицателен: primary total `−1,2291%`, Sharpe `−0,8059`,
+  0/3 positive years; full 2021–2025 total `−0,9234%`, stress `−1,7505%`.
+  Execution complete во всех cost scenarios: 64 completed trades, 22 zero-capacity
+  skips, 9 exit retries, 0 terminal/missing entry dates. Promotion прошёл MDD, trade
+  count и оба evaluation years, но провалил CAGR, Sharpe и positive stress return.
+- Verdict `NO_GO`: cost-aware admission не превратил слабый gross edge в устойчивую
+  доходность. Порог hurdle, leverage, asset/year filters или exits по этим же outcomes
+  больше не подбирать. Следующий допустимый шаг — новый exact multileg trade/order source
+  либо действительно unseen период, а не V5 threshold tweak.
 
 ## CALENDAR-SPREAD-EV3: completed adaptive test, NO_GO
 
