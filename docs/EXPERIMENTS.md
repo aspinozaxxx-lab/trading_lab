@@ -4,7 +4,25 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V27-R1: frozen path-robustness audit — sealed, pending
+## MOEX-PRE2018-S1: official core-four daily source — sealed, pending collection
+
+- Source-only protocol:
+  [`configs/moex_pre2018_core4_source.yaml`](../configs/moex_pre2018_core4_source.yaml)
+- Config SHA-256:
+  `5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000`.
+- Implementation SHA-256:
+  `015f51b460b79bd7635566dbb3b13094c45b08aa3c3f3084db625090797529e6`.
+- Metadata-only discovery зафиксировал exact 155 contracts expiring 2012–2017:
+  BR 71, MIX 24, RTS/RI 24, Si 36. Expected month sets записаны в config, поэтому
+  collector не может заменить исчезнувший alias похожей строкой или ручным guess.
+- Collector сохраняет closed-schema discovery/descriptions/RFUD boards, exact-cursor
+  daily history, raw responses, normalized tables, coverage и hashes в immutable external
+  bundle. Missing не zero; gap/roll returns не строятся; стратегии и PnL отсутствуют.
+- До protocol/code commit и push реальный daily endpoint с price fields не вызывается.
+  Synthetic source tests: `6 passed`; Ruff clean. Следующее действие после seal —
+  один collection/coverage audit, а не стратегия.
+
+## V27-R1: frozen path-robustness audit — completed
 
 - Протокол:
   [`configs/futures_v27_robustness.yaml`](../configs/futures_v27_robustness.yaml)
@@ -17,7 +35,25 @@
   DSR sensitivity для 27/100 trials и отдельные критерии поддержки 20%/50%.
 - Resampling frequency объявлена descriptive, не calibrated forecast. Даже положительный
   verdict разрешает только новый unseen/PIT validation и никогда live trading.
-- Synthetic/encoding tests до первого audit: `8 passed`; canonical run пока отсутствует.
+- Synthetic/encoding tests до первого audit: `8 passed`; seal commit `4bbf2bd` был
+  pushed до первого чтения daily curves.
+- Canonical run:
+  `runs/v27_robustness_20260901T054810Z_a8d6ed42/`.
+- Metrics SHA-256:
+  `e5c5851f912d4ac06189dbf220ad20369dc8fa1b8d6076209f910128a208e743`.
+
+Все 49 checks true; 8 parent artifacts повторно сверены по bytes/SHA/rows. Audit
+содержит 180 000 bootstrap paths и 3 063 rolling windows, maximum date `2025-12-30`.
+Худший stress-result по block lengths: joint frequency `CAGR >=20%` и `MDD <=30%`
+**65,70%**, для `CAGR >=50%` и `MDD <=30%` **4,33%**, minimum q05 CAGR **8,13%**.
+Rolling 252-session stress: minimum CAGR **−17,32%**, q05 **−9,96%**, median
+**24,41%**; positive **87,95%**, `>=20%` **57,00%**, `>=50%` **22,82%**. Stress
+leave-one-year-out CAGR: **24,21%/18,13%/26,44%/31,47%/35,81%** при исключении
+2021/2022/2023/2024/2025. DSR probability для 27/100 trials: **0,746/0,554**.
+
+Verdict: `INTERNAL_ROBUSTNESS_SUPPORTS_UNSEEN_VALIDATION`. Minimum-20 internal support
+gate true, aspirational-50 false. Это post-selection descriptive audit: он не доказывает
+20% в каждом будущем году, не является independent validation и не разрешает live.
 
 ## V27: official CBR key-rate extreme governor — GO to unseen validation
 

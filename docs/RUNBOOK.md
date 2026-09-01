@@ -578,10 +578,35 @@ V27-R1 не пересчитывает signal или execution и читает �
   --output-root D:\Projects\trading_lab_data\runs
 ```
 
-Он сохраняет 180 000 bootstrap paths (3 scenarios × 3 block lengths × 20 000), rolling
-252-session windows, leave-one-year-out и trial-count sensitivity. Результат не является
-forward probability или independent holdout; запрещено выбирать block/gate или менять
-V27 после просмотра audit.
+Canonical audit уже выполнен и повторно запускаться не должен:
+`runs/v27_robustness_20260901T054810Z_a8d6ed42/`, metrics SHA `e5c5851f...`.
+Он сохранил 180 000 bootstrap paths (3 scenarios × 3 block lengths × 20 000), 3 063
+rolling 252-session windows, leave-one-year-out и trial-count sensitivity; 49/49 checks
+true. Verdict `INTERNAL_ROBUSTNESS_SUPPORTS_UNSEEN_VALIDATION`: minimum-20 support true,
+aspirational-50 false. Результат не является forward probability или independent
+holdout; запрещено выбирать block/gate или менять V27 после просмотра audit.
+
+### Sealed MOEX 2012–2017 source collection
+
+Source config SHA `5e9e5454...`, implementation SHA `015f51b4...`. До commit/push
+разрешены только metadata и synthetic tests; первый вызов daily history с price fields
+выполняется лишь после подтверждённого push:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_moex_pre2018_core4_source.py tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/moex_pre2018_core4_source.py `
+  tests/test_moex_pre2018_core4_source.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_source `
+  --config .\configs\moex_pre2018_core4_source.yaml
+```
+
+Default output:
+`data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/`.
+Collector не перезаписывает существующий каталог. После collection сначала проверяй
+manifest/raw hashes, exact 155 contracts, per-asset/session coverage и maximum date; не
+считай return/PnL до отдельного V28 config SHA и pre-outcome push.
 
 ## 5. Новый эксперимент
 

@@ -1,0 +1,195 @@
+﻿protocol_id: moex_pre2018_core4_daily_source_v1
+protocol_version: 1
+status: predeclared_before_first_2012_2017_price_request
+declared_at_utc: "2026-09-01T06:07:41Z"
+scope: source_only_no_strategy_no_outcomes
+research_only: true
+sealed_before_price_data: true
+live_trading_allowed: false
+relationship_to_prior_work: >-
+  Metadata-only discovery after V27-R1 found the official MOEX expired-security route
+  and exactly 155 old BR/MIX/RI/SI aliases that the current statistics series catalog
+  omits. No 2012-2017 price, return, target, label, equity, or PnL value was read before
+  this protocol and implementation were sealed and pushed.
+
+hypothesis:
+  statement: >-
+    Official anonymous MOEX ISS daily history can provide a complete auditable source
+    bundle for the exact 155 predeclared core-four contracts expiring in 2012-2017,
+    without inventing aliases, bridging missing dates, or reading any strategy outcome.
+  source_success_requires:
+    - every_exact_predeclared_shortname_is_discovered_once
+    - every_contract_description_identity_and_date_order_is_valid
+    - every_contract_has_a_dated_RFUD_board_segment
+    - every_intersecting_segment_has_nonempty_exact_cursor_daily_history
+    - no_daily_row_escapes_2012_01_01_through_2017_12_31
+    - raw_requests_and_all_normalized_tables_are_byte_hashed
+  source_failure_does_not_authorize:
+    - inventing_missing_contract_aliases
+    - switching_to_an_unsealed_price_endpoint
+    - narrowing_dates_or_assets_after_viewing_price_coverage
+    - filling_missing_prices_returns_volume_or_open_interest_with_zero
+
+dates:
+  source_start: "2012-01-01"
+  source_end: "2017-12-31"
+  pre2018_ceiling: "2018-01-01"
+  protected_from: "2026-01-01"
+  timezone: Europe/Moscow
+
+implementation:
+  path: src/market_lab/futures/moex_pre2018_core4_source.py
+  sha256: 015f51b460b79bd7635566dbb3b13094c45b08aa3c3f3084db625090797529e6
+
+network:
+  provider: MOEX ISS
+  user_agent: market-lab-pre2018-core4-source/1.0
+  timeout_seconds: 60.0
+  attempts: 5
+  retry_backoff_seconds: 0.25
+  minimum_request_interval_seconds: 0.05
+  anonymous_http_access_is_not_redistribution_permission: true
+
+discovery:
+  endpoint: https://iss.moex.com/iss/securities.json
+  group_by: type
+  group_by_filter: futures
+  required_group: futures_forts
+  required_type: futures
+  columns: [SECID, SHORTNAME, GROUP, TYPE]
+  page_size: 100
+  stop_rule: first_page_shorter_than_page_size
+  maximum_pages_per_query: 20
+  expected_total_contracts: 155
+  assets:
+    - logical_symbol: BR
+      asset_code: BR
+      search_query: BR
+      shortname_prefix: BR
+      expected_contract_count: 71
+      expected_months_by_year:
+        2012: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2013: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2014: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2015: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2016: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2017: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    - logical_symbol: MIX
+      asset_code: MIX
+      search_query: MIX
+      shortname_prefix: MIX
+      expected_contract_count: 24
+      expected_months_by_year:
+        2012: [3, 6, 9, 12]
+        2013: [3, 6, 9, 12]
+        2014: [3, 6, 9, 12]
+        2015: [3, 6, 9, 12]
+        2016: [3, 6, 9, 12]
+        2017: [3, 6, 9, 12]
+    - logical_symbol: RI
+      asset_code: RTS
+      search_query: RTS
+      shortname_prefix: RTS
+      expected_contract_count: 24
+      expected_months_by_year:
+        2012: [3, 6, 9, 12]
+        2013: [3, 6, 9, 12]
+        2014: [3, 6, 9, 12]
+        2015: [3, 6, 9, 12]
+        2016: [3, 6, 9, 12]
+        2017: [3, 6, 9, 12]
+    - logical_symbol: SI
+      asset_code: Si
+      search_query: Si
+      shortname_prefix: Si
+      expected_contract_count: 36
+      expected_months_by_year:
+        2012: [3, 6, 7, 8, 9, 10, 11, 12]
+        2013: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2014: [3, 6, 9, 12]
+        2015: [3, 6, 9, 12]
+        2016: [3, 6, 9, 12]
+        2017: [3, 6, 9, 12]
+
+contract_metadata:
+  endpoint_template: https://iss.moex.com/iss/securities/{secid}.json
+  description_columns: [name, value]
+  required_description_fields: [SECID, SHORTNAME, FRSTTRADE, LSTTRADE, LSTDELDATE]
+  boards_columns:
+    - secid
+    - boardid
+    - history_from
+    - history_till
+    - listed_from
+    - listed_till
+    - is_primary
+    - is_traded
+    - engine
+    - market
+  expiration_identity: LSTDELDATE
+  require_every_contract: true
+
+daily_history:
+  endpoint_template: >-
+    https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/
+    {board_id}/securities/{secid}.json
+  primary_board: RFUD
+  columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - OPENPOSITIONVALUE
+    - SETTLEPRICE
+    - WAPRICE
+    - NUMTRADES
+    - ASSETCODE
+  pagination: history_cursor_exact_total
+  page_limit: 100
+  maximum_pages_per_segment: 20
+  request_clip: max_source_start_contract_start_board_start_to_min_source_end_expiry_board_end
+  require_nonempty_each_segment: true
+  preserve_settlement_only_rows: true
+  preserve_missing_values: true
+  zero_imputation: forbidden
+  gap_return_bridge: forbidden
+  roll_return_bridge: forbidden
+
+information_boundary:
+  source_contains_prices_after_seal: true
+  source_contains_returns_targets_labels_or_pnl: false
+  strategy_calculation_in_this_protocol: forbidden
+  price_request_before_protocol_commit_and_push: forbidden
+  future_use_requires_completed_trade_date_before_decision: true
+  execution_requires_next_factual_open_under_separate_sealed_protocol: true
+
+output:
+  default_relative_directory: >-
+    data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+  artifacts:
+    - discovery.parquet
+    - contracts.parquet
+    - boards.parquet
+    - segments.parquet
+    - daily.parquet
+    - coverage.parquet
+    - official_moex_iss_responses.jsonl.gz
+    - manifest.json
+    - manifest.sha256
+  raw_redistribution_allowed: false
+
+limitations:
+  current_vintage_historical_snapshot: true
+  historical_specs_ticks_fees_margin_exact: false
+  bid_ask_spread_queue_and_order_book_exact: false
+  v27_key_rate_20_percent_governor_activates_in_2012_2017: false
+  independent_validation_claim_before_separate_V28_seal: false
+  live_promotion_possible: false

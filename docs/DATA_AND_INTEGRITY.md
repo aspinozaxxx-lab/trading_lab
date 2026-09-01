@@ -34,6 +34,16 @@ Legacy `data/processed/sequence_10m` и ряд top-level equity файлов и�
 с maturity 2026 могут содержать допустимую историю, но использовать их можно только через
 manifest-bound loader, который физически отклоняет timestamps `>= 2026-01-01`.
 
+## Запечатанный источник MOEX 2012–2017
+
+`configs/moex_pre2018_core4_source.yaml` (SHA `5e9e5454...`) фиксирует до первого
+price request exact 155 expired BR/MIX/RI/SI contracts, только RFUD, закрытые metadata/
+daily schemas и exact cursor pagination. Collector обязан сохранить raw responses и
+normalized discovery/contracts/boards/segments/daily/coverage во внешнем immutable
+bundle. До появления и аудита manifest этот источник не входит в разрешённые strategy
+inputs; после source audit для любого return/PnL всё равно нужен отдельный sealed V28.
+Raw archive нельзя публиковать без проверки актуальных прав MOEX.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

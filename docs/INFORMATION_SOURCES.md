@@ -398,23 +398,27 @@ V27 был sealed/pushed до PnL и прошёл development gates, но rule �
 adaptive research, не для независимого live evidence. Требуется forward archive с
 actual retrieval/publication time; boundary/age/partial scale по 2021–2025 не менять.
 
-### Unseen validation audit — почему бесплатного pre-2018 backfill недостаточно
+### Unseen validation audit — официальный metadata route к 2012–2017
 
-После V27 был прочитан только текущий official ISS contract catalog, без price/PnL.
-Для expiries `2012–2017` он структурно неполон: у MIX нет 2014 contracts, у BR отсутствует
-большой участок после июля 2013 до марта 2015, у SI/RI в 2014 видны только H/M. Поэтому
-существующий strict downloader не сможет доказать continuous common-session core-four
-panel, а ручное придумывание отсутствующих contracts запрещено. Официальная CBR history
-также показывает maximum key rate 17% в декабре 2014, то есть pre-2018 period вообще не
-активирует V27 boundary `>=20%`.
+Первичная проверка текущего `/statistics/.../series` catalog была ложно-пессимистичной:
+этот listing неполон для старых expiries. Повторный metadata-only audit без price/PnL
+нашёл официальный `/iss/history/engines/futures/markets/forts/boards/RFUD/securities`
+и expired-security search. Exact contract-name filters обнаружили 155 core-four
+contracts в 2012–2017: BR 71, MIX 24, RI 24 и SI 36. Per-security description/boards
+возвращают исторические `FRSTTRADE`, `LSTTRADE`/`LSTDELDATE` и RFUD board history.
 
-Авторитетный путь — [MOEX Historical Data](https://fs.moex.com/f/3431/available-data-types.pdf):
-официально доступны End-of-Day, trade log, top/full order book. Архивный доступ и право
-на individual/non-display use регулируются отдельными
-[тарифами/условиями MOEX](https://www.moex.com/files/4qp9vgzvtcvj33w14js8gxd3n3).
-Покупка/подписка не выполнялась: это требует отдельного решения пользователя. До
-получения лицензированного архива независимый V27 market validation остаётся P0, а не
-заменяется неполным бесплатным backfill.
+Цены, returns, targets и PnL 2012–2017 ещё не читались. До первого price request должен
+быть committed/pushed отдельный source-only protocol: exact discovery filters, interval,
+pagination, raw archive, hashes, missing policy и temporal ceiling. Если anonymous daily
+history действительно полон, этот период можно использовать как новую независимую
+проверку byte-identical V27 trend/capital/execution path. Он не проверит уникальное
+действие monetary governor: официальная key rate не достигала 20% (maximum 17% в 2014).
+
+[MOEX Historical Data](https://fs.moex.com/f/3431/available-data-types.pdf) и отдельные
+[тарифы/условия MOEX](https://www.moex.com/files/4qp9vgzvtcvj33w14js8gxd3n3) остаются
+авторитетным путём к broker/exchange-exact EOD, trade log, order book, historical specs,
+fees и IM. Анонимный HTTP-доступ сам по себе не доказывает право на перераспределение и
+не заменяет licensed data для live admission.
 
 ### Уже использованные источники
 

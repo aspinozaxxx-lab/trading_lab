@@ -13,18 +13,30 @@ Primary combined CAGR **28,3752%**, Sharpe **1,2119**, MDD **−20,7138%**; stre
 **27,3643%**, MDD **−21,0511%**. Все sealed gates пройдены. Текущий общий статус:
 **GO TO NEW UNSEEN VALIDATION, но NO-GO for live trading**.
 
-Отдельный post-selection audit **V27-R1** подготовлен до чтения дневной equity curve.
+Отдельный post-selection audit **V27-R1** был запечатан и pushed до чтения дневной
+equity curve, затем выполнен ровно один раз.
 Config SHA `a8d6ed420593aeb26e0bf537b402a6edba6b40ab7dd64d48947dc2a936ec8b10`
 фиксирует circular block bootstrap по 5/21/63 сессии, 20 000 повторов на каждый из трёх
 cost scenarios, rolling 252-session windows, leave-one-year-out и deflated-Sharpe
-sensitivity. Он отдельно проверяет внутреннюю поддержку порогов 20% и 50%, но не может
-стать independent validation или разрешить live. Реальный audit пока не запускался.
+sensitivity. Все 49 checks true. В stress minimum bootstrap-frequency совместного
+`CAGR >=20%` и `MDD <=30%` равна **65,70%**, а для `CAGR >=50%` — только **4,33%**;
+5-й процентиль CAGR падает до **8,13%**. В rolling 252-session stress-окнах **87,95%**
+положительны, но лишь **57,00%** достигают 20%, minimum CAGR **−17,32%**. Поэтому audit
+поддерживает переход к unseen validation, но прямо отвергает трактовку V27 как уже
+доказанного «предсказуемого 20% ежегодно» и не поддерживает цель 50%.
 
 V26 был необходимым промежуточным прорывом: 2x V25 + RUONIA + `cancel_and_clip` дал
 primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAGR
 **23,0255%**. Он устранил 8 critical events V15, но strict MDD `<=30%` не прошёл;
 verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
 причинный режим риска и снизил MDD на **12,8523 п.п.**.
+
+Новый source-only protocol для официального MOEX EOD 2012–2017 подготовлен до первого
+price request: config SHA `5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000`,
+implementation SHA `015f51b4...`. Он требует exact set из 155 contracts
+(BR/MIX/RI/SI = 71/24/24/36), RFUD board history, exact cursor totals, raw archive и
+immutable external bundle. Пока protocol не committed/pushed, history с ценовыми полями
+не запрашивается; после seal следует только source coverage audit, без PnL.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -656,22 +668,23 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    boundary `>=20%`/7-day age, максимум 2x, RUONIA haircut/buffer, universe, capacity и
    execution costs. Не выбирать partial scale или новый threshold по 2021–2025.
 2. Получить новый действительно unseen период либо независимый PIT рынок. Уже
-   просмотренный legacy 2026 нельзя переименовывать в holdout.
-   Source-only feasibility audit текущего anonymous ISS показал, что бесплатный catalog
-   не покрывает core-four непрерывно до 2018: MIX не имеет 2014 contracts, BR имеет
-   большой 2013–2015 gap, у SI/RI нет второй половины 2014. Key rate в 2013–2017 не
-   достигала V27 boundary 20% (официальный максимум 17% в декабре 2014). Такой backfill
-   не подтвердит главный governor и не является полноценным V27 holdout.
-3. До следующего PnL получить licensed MOEX Historical Data или broker archive с полным
-   contract/EOD либо order-book history, historical specs, fee/IM schedules и
-   spread/order-book evidence хотя бы для BR/MIX/RI/SI.
+   просмотренный legacy 2026 нельзя переименовывать в holdout. Повторный metadata-only
+   audit нашёл официальный `/iss/history/.../RFUD/securities` и expired-security search:
+   в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
+   aliases. Цены этого периода ещё не читались; сначала нужен отдельный source seal.
+3. Запечатать и pushed source-only collector 2012–2017, затем проверить доступность и
+   полноту official daily EOD. Это может дать независимую проверку frozen trend/capital/
+   execution path. Главный `>=20%` governor здесь не активируется: официальный максимум
+   key rate был 17%, а historical specs/fees/IM всё ещё proxy. Licensed MOEX/broker
+   archive остаётся обязательным для broker-exact и live evidence.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
    capacity cancels и деградацию trend edge.
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
-6. Выполнить уже sealed V27-R1 robustness audit ровно один раз. Его resampling frequency
-   не называть вероятностью будущей прибыли и не менять V27 по результатам.
+6. V27-R1 уже выполнен ровно один раз: 180 000 bootstrap paths, 3 063 rolling windows,
+   49/49 checks. Его resampling frequency не называть вероятностью будущей прибыли и не
+   менять V27 по результатам.
 
 ### P1 — новая информация для intraday timing и устойчивости
 

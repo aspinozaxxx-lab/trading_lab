@@ -378,7 +378,19 @@ ledgers и отдельно воспроизводит исходные metrics.
 sensitivity и circular moving-block bootstrap для 5/21/63-session blocks. Все bootstrap
 samples и summaries сохраняются во внешнем immutable run. Его частоты описывают только
 повторную выборку уже увиденной истории и не являются independent validation или
-калиброванным прогнозом.
+калиброванным прогнозом. Canonical V27-R1 завершён: 180 000 bootstrap paths, 3 063
+rolling windows и verdict `INTERNAL_ROBUSTNESS_SUPPORTS_UNSEEN_VALIDATION`; 20% получил
+только внутреннюю поддержку, 50% — нет.
+
+### `market_lab.futures.moex_pre2018_core4_source`
+
+Отдельный source-only collector для ранее не просмотренного периода 2012–2017. Он
+исчерпывает официальный expired-security finder, но допускает только exact shortname set
+из config (155 BR/MIX/RI/SI contracts), затем проверяет description dates и RFUD board
+history. Daily EOD запрашивается закрытой схемой и только с exact `history.cursor`;
+каждый segment обязан быть non-empty. Raw responses, discovery/contracts/boards/segments,
+daily observations и coverage атомарно сохраняются во внешнем immutable bundle. Модуль
+не вычисляет returns, targets, labels или PnL; V28 потребует отдельного protocol seal.
 
 ### `market_lab.futures.futoi_intraday_source`
 
