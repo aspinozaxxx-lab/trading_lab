@@ -4,11 +4,17 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V21: CBR next-year macro revision breadth — SEALED, OUTCOME PENDING
+## V21: CBR next-year macro revision breadth — NO-GO
 
 - Протокол: [`configs/futures_v21_cbr_macro_revision_breadth.yaml`](../configs/futures_v21_cbr_macro_revision_breadth.yaml)
 - Config SHA-256:
   `5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`.
+- Pre-outcome commit: `5414251`; config, implementation, tests и pending-status docs были
+  pushed до первого чтения SI/RI/BR/MIX outcomes.
+- Canonical run:
+  `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/`
+- Metrics SHA-256:
+  `cfc704e757393760cabcddeb6f3d1614f43df8ee8523b46db0fccd0ac8b92c0e`.
 - Новый официальный current-vintage source: 11 787 non-missing записей макроопроса ЦБ,
   37 survey months, 17 indicators; до protected boundary причинно доступны 36 releases.
 - Используется только медиана прогноза следующего календарного года. Revision всегда
@@ -31,8 +37,29 @@
   положительный результат будет adaptive development evidence и потребует нового unseen
   или forward-vintage подтверждения; live trading запрещён.
 
-Статус: протокол, код и source-only counts готовы к pre-outcome commit/push. Market
-outcome, ledger и verdict ещё не читались; запуск разрешён только после фиксации commit.
+Из 35 scored releases 32 получили полную prior-60-session volatility; три выпуска
+весны 2022 уснули из-за отсутствующей истории RI/MIX после остановки рынка. Получено
+32 source decisions и 34 дополнительных causal roll decisions, 264 target rows.
+Coverage ненулевых зависимостей — 200/202: на `2022-03-24` у RI и MIX отсутствовал
+доказуемый lagged volume. Portfolio-atomic rebalance был отклонён с
+`unknown_lagged_volume`; каждый scenario имеет 2 critical failures
+(`unknown_liquidity_count=1` плюс `atomic_rejection_count=1`) и incomplete ledger.
+
+| Scenario | Mechanical total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | −3,1730% | −0,6429% | −0,0788 | −18,7868% | 3/5 | 4 501,83 | no |
+| doubled | −3,9029% | −0,7932% | −0,1076 | −19,1190% | 3/5 | 8 868,22 | no |
+| stress | −4,4273% | −0,9017% | −0,1264 | −19,5327% | 3/5 | 13 070,06 | no |
+
+Primary годы: 2021 **+1,68%**, 2022 **−1,27%**, 2023 **+0,79%**,
+2024 **+2,03%**, 2025 **−6,21%**. Mechanical метрики приведены только для forensic
+полноты и недействительны для promotion из-за critical execution failures.
+
+Verdict: `NO_GO`. Даже механический ledger отрицателен во всех cost scenarios и не
+проходит CAGR/Sharpe/positive-years gates. Не инвертировать signs, не выбирать magnitude
+thresholds, другие indicators/oil priority, risk/expiry или blend с V12 на этих же
+outcomes. Macro-survey source сохраняется для forward vintages и иных вопросов, заранее
+обоснованных новой информацией, но это семейство direct revisions закрыто.
 
 ## V20: Minfin OFZ-PD prior-rank demand strength — NO-GO
 

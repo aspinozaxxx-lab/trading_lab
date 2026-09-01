@@ -419,19 +419,22 @@ December 2025 недоступен до protected boundary.
 
 ### V21 CBR next-year macro revision breadth
 
-Config SHA должен быть
-`5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`. До первого
-запуска проверь source-only tests и обязательно push pre-outcome commit. После этого
-создай ровно один immutable run:
+Config SHA должен оставаться
+`5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`. Pre-outcome
+commit `5414251` был pushed, затем ровно один canonical run создан командой:
 
 ```powershell
 .\.venv\Scripts\python.exe -m market_lab.futures_v21_cbr_macro_revision_breadth `
   --output-root D:\Projects\trading_lab_data\runs
 ```
 
-До появления outcome запрещено менять sealed config. После него запрещены sign flip,
-magnitude thresholds, новые indicators, другая oil priority, cross-series bridge,
-risk/expiry tuning и blend с V12 на тех же 2021–2025 outcomes.
+Canonical run:
+`runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/`; metrics SHA
+`cfc704e7...`. Verdict `NO_GO`: mechanical total return −3,17%, Sharpe −0,08,
+MDD −18,79%; coverage 200/202 и 2 critical failures делают ledger incomplete. Replay
+создаёт новый immutable directory, но не разрешает sign flip, magnitude thresholds,
+новые indicators, другую oil priority, cross-series bridge, risk/expiry tuning или blend
+с V12 на тех же 2021–2025 outcomes.
 
 ## 5. Новый эксперимент
 

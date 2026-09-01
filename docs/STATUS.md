@@ -86,12 +86,12 @@ records, 37 survey months и 17 indicators. Processed SHA `a139ead8...`, manifes
 contract допускает до границы 2026 только 36 releases. Источник готов для одного
 predeclared development test revisions ожиданий, но не для независимого подтверждения.
 
-V21 для этого источника теперь заранее запечатан, но market outcome ещё не читался.
-Config SHA `5d97fd51...`: только next-year median revisions, fixed direct signs для
-SI/RI/MIX/BR, fixed oil priority без cross-series bridge, 1/4 risk budget на asset без
-перераспределения missing-компонента и 70-day expiry. Source-only инварианты: 35 scored
-releases (`4/8/8/8/7`) и 102 ненулевых asset revisions. Следующий шаг — pre-outcome
-commit/push, затем ровно один immutable run.
+V21 был запечатан и pushed до outcome, затем выполнен ровно один раз. Direct next-year
+median revisions дали механический total return **−3,1730%**, CAGR **−0,6429%**,
+Sharpe **−0,0788**, MDD **−18,7868%** и 3/5 положительных лет. Coverage 200/202:
+у RI/MIX на `2022-03-24` не было lagged volume, portfolio-atomic rebalance отклонён,
+поэтому все ledger incomplete с двумя critical failures. Verdict **NO_GO**; знаки,
+indicators, oil priority, thresholds, risk/expiry и blend по этому outcome не подбирать.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -110,7 +110,7 @@ commit/push, затем ровно один immutable run.
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
-| V21 CBR next-year macro revisions | Outcome ещё не читался; 35 sealed source releases, 102 nonzero asset revisions | SEALED/PENDING; запуск только после pre-outcome push |
+| V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -121,6 +121,35 @@ commit/push, затем ровно один immutable run.
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V21 CBR macro revisions — отрицательный и execution-incomplete результат
+
+V21 был запечатан и pushed commit `5414251` до первого чтения market outcomes.
+
+- config SHA:
+  `5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`;
+- metrics SHA:
+  `cfc704e757393760cabcddeb6f3d1614f43df8ee8523b46db0fccd0ac8b92c0e`;
+- canonical run:
+  `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/`;
+- 11 787 source records дали 36 causal releases, 1 warmup и 35 scored releases;
+  component counts: SI 34, RI 28, MIX 28 и BR 12 ненулевых revisions;
+- 32 mapped source decisions, три skipped signals весны 2022 без полной prior volatility,
+  34 roll decisions и 264 target rows;
+- coverage **200/202**: RI и MIX на `2022-03-24` не имели lagged volume;
+- каждый cost scenario имеет один `unknown_lagged_volume` atomic rejection,
+  `critical_failure_count=2`, 0 unresolved и `execution_complete=false`;
+- primary/doubled/stress mechanical return **−3,17%/−3,90%/−4,43%**;
+- primary CAGR **−0,64%**, Sharpe **−0,079**, MDD **−18,79%**, costs
+  **4 501,83 RUB**, maximum participation **0,06402%**;
+- годы: 2021 **+1,68%**, 2022 **−1,27%**, 2023 **+0,79%**,
+  2024 **+2,03%**, 2025 **−6,21%**;
+- все 87 input/source/temporal/runtime checks true; все 17 declared run artifacts
+  повторно сверены по bytes/SHA, цены/returns/targets/PnL 2026 не читались.
+
+Verdict `NO_GO`: signal не проходит return gates даже механически, а incomplete
+execution дополнительно запрещает promotion. Same-history sign/indicator/threshold/oil-
+priority/risk/expiry tuning и blend с V12 закрыты.
 
 ## V20 Minfin OFZ demand strength — валидный отрицательный результат
 
@@ -438,10 +467,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Sharpe −0,63, MDD −6,19%, 504/504 dependencies complete. Не менять rank window,
    basket signs, expiry, threshold или включённые event kinds по этому outcome.
 10. CBR macro-survey bundle готов: 11 787 records, 37 months, 17 indicators, processed
-    SHA `a139ead8...`, manifest SHA `faae8927...`. V21 revisions protocol запечатан SHA
-    `5d97fd51...`: 35 scored releases и 102 nonzero asset revisions, fixed signs/oil
-    priority/risk/expiry. Сначала commit/push, затем ровно один immutable PnL run;
-    December 2025 исключён по `available_at >= 2026-01-01`.
+    SHA `a139ead8...`, manifest SHA `faae8927...`. V21 завершён `NO_GO`: mechanical
+    total return −3,17%, Sharpe −0,08, MDD −18,79%, 200/202 coverage и 2 critical.
+    Direct revisions family закрыт; не менять signs/indicators/oil priority/thresholds,
+    risk/expiry или blend по этому outcome. December 2025 остаётся исключён.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -500,6 +529,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v18_cbr_liquidity_forecast_20260901T002046Z_ee2d7fd7/metrics.json`
 - `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/metrics.json`
 - `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/metrics.json`
+- `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

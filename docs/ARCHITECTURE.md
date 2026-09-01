@@ -249,7 +249,9 @@ Sealed V20 run завершён `NO_GO`; этот модуль сохраняе�
 BR; разные oil sheets не склеиваются, а missing-компонент оставляет свой 1/4 budget
 неиспользованным. Консервативный `available_at` отображается на первую factual decision
 session, исполнение наследует next-open active-contract mapper и portfolio-atomic ledger
-V12. Протокол SHA `5d97fd51...` запечатан до outcome; run пока не выполнен.
+V12. Протокол SHA `5d97fd51...` был запечатан до outcome. Canonical run завершён
+`NO_GO`: mechanical return отрицателен, а RI/MIX roll `2022-03-24` не имел доказуемого
+lagged volume, поэтому portfolio-atomic ledger честно остался incomplete.
 
 ### `market_lab.futures.futoi_intraday_source`
 

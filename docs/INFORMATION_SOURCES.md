@@ -238,9 +238,10 @@ raw всё равно остаётся вне Git. Первый bundle `...-v1` 
   месяца; 36 из 37 выпусков доступны до protected boundary, December 2025 — уже нет.
 
 Это development-only источник. Он не может дать независимое подтверждение без forward
-versioned snapshots. Единственный тест V21 уже запечатан SHA `5d97fd51...`: same-target-
-year next-year median revisions, fixed direct signs и oil priority без cross-series
-bridge; market outcome пока не читался.
+versioned snapshots. Единственный тест V21 был заранее запечатан SHA `5d97fd51...`:
+same-target-year next-year median revisions, fixed direct signs и oil priority без
+cross-series bridge. Он завершён `NO_GO`: mechanical return −3,17%, Sharpe −0,08 и
+200/202 execution coverage с двумя critical failures. Direct revisions family закрыт.
 
 ### Уже использованные источники
 
@@ -324,8 +325,8 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    rank window, expiry и failed/PK/IN по этому outcome;
 7. CBR macro-survey source готов: 37 survey months, 17 indicators, 11 787 records,
    processed SHA `a139ead8...`, manifest SHA `faae8927...`; только 36 releases causal до
-   2026. V21 заранее объявляет 35 scored same-target-year median revisions, fixed signs,
-   oil priority, risk и expiry; после pre-outcome push разрешён ровно один run;
+   2026. V21 direct revisions завершён `NO_GO`: −3,17%, Sharpe −0,08, 2 critical;
+   same-history signs/indicators/oil priority/threshold/risk/expiry tuning закрыт;
 8. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.
