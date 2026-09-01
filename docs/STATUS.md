@@ -47,6 +47,13 @@ immutable bundle: 30 059 rows `2012-01-03..2017-12-21`, 544 raw requests, manife
 Стратегия, returns и PnL ещё не рассчитывались; следующий этап — derived source panel/
 spec proxy и отдельный V28 seal.
 
+Derived-source protocol D1 уже подготовлен, но ещё не запускался: config SHA
+`a633883d4d930906c171559d73051e020beef3ab1ca1359f2ba98136765ffff3`, implementation
+SHA `0c54c232...`. Он byte-pins исходный manifest и все модули causal roll/spec
+transformation, сохраняет participant OI как missing и аварийно запрещает outcome-
+колонки. Первый build разрешён только после commit/push этого seal; он всё ещё не будет
+считать returns, signal или PnL.
+
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
 **40,8019%**, при stress — **41,7324%**. Это conservative research proxy, а не
@@ -682,8 +689,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
    aliases. Source V3 уже sealed/pushed и собрал 30 059 official daily rows; raw replay,
    hashes, exact identities и граница `<=2017-12-21` проверены.
-3. Построить immutable causal active panel/spec proxy и старые bounded STLFSI4/CBR
-   monetary sources без strategy outcomes, затем запечатать V28. Период может независимо
+3. Derived-source D1 для immutable causal active panel/spec proxy подготовлен с SHA
+   `a633883d...`; сначала commit/push, затем один immutable build. После этого собрать
+   старые bounded STLFSI4/CBR monetary sources без strategy outcomes и запечатать V28.
+   Период может независимо
    проверить frozen trend/capital/execution path, но главный `>=20%` governor не
    активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё
    proxy; licensed MOEX/broker archive обязателен для broker-exact и live evidence.

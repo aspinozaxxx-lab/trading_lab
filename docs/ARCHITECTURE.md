@@ -392,6 +392,16 @@ history. Daily EOD запрашивается закрытой схемой и �
 daily observations и coverage атомарно сохраняются во внешнем immutable bundle. Модуль
 не вычисляет returns, targets, labels или PnL; V28 потребует отдельного protocol seal.
 
+### `market_lab.futures.moex_pre2018_core4_derived`
+
+Source-only преобразование byte-pinned MOEX bundle 2012–2017 в common factual-session
+panel, causal active-contract map, contract observations и lag-1 conservative spec proxy.
+Оно использует существующие frozen roll defaults, не переписывает прошлое при roll,
+сохраняет отсутствующий participant OI как missing и проверяет, что ни одна выходная
+таблица не содержит return/target/label/signal/strategy/equity/PnL columns. Protocol D1
+SHA `a633883d...`; output immutable и находится во внешнем хранилище. Это всё ещё source,
+а не strategy validation.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

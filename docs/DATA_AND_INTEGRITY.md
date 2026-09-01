@@ -48,6 +48,13 @@ Canonical bundle завершён: 30 059 rows `2012-01-03..2017-12-21`; manifes
 `e60d0bca...`, daily SHA `00a9a872...`, raw SHA `b7d10f99...`. Он разрешён только как
 source для следующего заранее запечатанного research protocol, не как live evidence.
 
+Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
+`a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
+Его единственный допустимый output —
+`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1/`; overwrite,
+outcome columns, zero-imputation и return bridge через gap/roll запрещены. Даже после
+сборки эти таблицы не разрешают считать PnL без отдельного pre-outcome V28 seal.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

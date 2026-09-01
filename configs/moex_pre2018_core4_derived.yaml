@@ -1,0 +1,96 @@
+﻿protocol_id: moex_pre2018_core4_derived_source_v1
+protocol_version: 1
+status: predeclared_before_first_derived_table_build
+declared_at_utc: "2026-09-01T06:50:00Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_derived_tables: true
+live_trading_allowed: false
+
+purpose: >-
+  Transform the immutable official-MOEX 2012-2017 core-four daily source into the
+  same causal active-contract panel and lagged specification proxy used by the
+  later research stack. This bundle contains prices and availability metadata but
+  no returns, targets, labels, strategy decisions, equity, or PnL.
+
+source:
+  directory: data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1
+  manifest_sha256: e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6
+  daily_sha256: 00a9a872557d1450c38ace291449ab6a1de17679c8fc12d57bf3b1738cd50e38
+  raw_replay_sha256: b7d10f9949e65f330f738f789e6fcb69262a0fe9f549252323c6f18ec666e464
+  daily_rows: 30059
+  contracts: 155
+  minimum_price_date: "2012-01-03"
+  maximum_price_date: "2017-12-21"
+  protected_from: "2018-01-01"
+
+output:
+  directory: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1
+  immutable: true
+  overwrite_allowed: false
+  files:
+    - panel.parquet
+    - active_contract_map.parquet
+    - contract_observations.parquet
+    - spec_proxy.parquet
+    - audit.json
+    - manifest.json
+    - manifest.sha256
+
+causal_roll:
+  confirmation_days: 2
+  hard_fallback_sessions: 5
+  dominance_ratio: 1.0
+  overlap_price_column: settle
+  execution_price_column: open
+  historical_rewrite: forbidden
+  adjustment: forward_only_after_observed_roll
+  missing_open_policy: preserve_missing
+  missing_settle_policy: preserve_missing
+  gap_or_roll_return_bridge: forbidden
+
+participant_open_interest:
+  available_in_parent_source: false
+  policy: preserve_all_fields_as_missing
+  zero_imputation: forbidden
+
+specification_proxy:
+  method: existing_causal_lag1_proxy
+  same_session_spec_use: forbidden
+  unknown_spec_policy: sizing_unusable
+  historical_exchange_exact: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2018_core4_derived.py: 0c54c2325fd925835ac72a528c495942cb4d04f0116f1792875cecbf60d851c0
+  src/market_lab/futures/panel.py: ae52d9c71c0b38e35cbe72e993d1823d6fa57b4b960fa91549a465add6edfd30
+  src/market_lab/futures/roll.py: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+  src/market_lab/futures/spec_proxy.py: 213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  maximum_allowed_session: "2017-12-31"
+  protected_2018_and_later_read: forbidden_for_this_build
+  signal_or_strategy_computation: forbidden
+  returns_targets_labels_equity_or_pnl_computation: forbidden
+  future_columns_forbidden:
+    - future_return
+    - target
+    - label
+    - prediction
+    - strategy_weight
+    - pnl
+
+limitations:
+  current_vintage_source: true
+  point_in_time_exchange_revision_history: unavailable
+  participant_open_interest: unavailable
+  exact_historical_specs_fees_margin_and_borrow: unavailable
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_parent_source_or_its_bytes
+  - changing_roll_rules_after_inspecting_derived_returns_or_outcomes
+  - filling_unknown_observations_with_zero
+  - bridging_missing_sessions_or_contract_rolls_with_returns
+  - overwriting_the_output_bundle

@@ -610,6 +610,28 @@ Manifest SHA `e60d0bca...`: 155 contracts, 30 059 rows, 544 requests, maximum da
 сверил manifest/raw hashes, exact identities и cursor rows. Не считай return/PnL до
 отдельного V28 config SHA и pre-outcome push.
 
+### Sealed MOEX 2012–2017 causal derived source
+
+Protocol D1 config SHA `a633883d...`, implementation SHA `0c54c232...`. Он строит только
+causal panel/active map/contract observations/spec proxy и блокирует outcome columns.
+До первого запуска config, implementation и tests должны быть committed и pushed:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_moex_pre2018_core4_derived.py tests/test_futures_panel.py `
+  tests/test_futures_spec_proxy.py tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/moex_pre2018_core4_derived.py `
+  tests/test_moex_pre2018_core4_derived.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_derived `
+  --config .\configs\moex_pre2018_core4_derived.yaml
+```
+
+Default immutable output:
+`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1/`. После сборки
+сверь все artifact SHA/rows и maximum session; returns/PnL по-прежнему запрещены до
+отдельного V28 seal.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

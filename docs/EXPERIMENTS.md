@@ -4,6 +4,18 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## MOEX-PRE2018-D1: causal panel/spec source — sealed, build pending
+
+- Это не стратегия и не просмотр outcome. Protocol
+  `configs/moex_pre2018_core4_derived.yaml`, SHA `a633883d...`, byte-pin-ит canonical
+  source manifest `e60d0bca...` и transformation implementation `0c54c232...`.
+- Frozen rules: common factual-session intersection, existing default causal roll,
+  forward-only adjustment, lag-1 spec proxy, participant OI missing without zero fill.
+- Output schema fail-closed запрещает return/target/label/prediction/signal/strategy/
+  equity/PnL columns. Immutable output будет создан только после pre-build push.
+- Следующий шаг: один build и full source audit, затем отдельные macro-source seals и
+  отдельный V28 pre-outcome protocol.
+
 ## MOEX-PRE2018-S3: official core-four daily source — completed
 
 - Source-only protocol:
