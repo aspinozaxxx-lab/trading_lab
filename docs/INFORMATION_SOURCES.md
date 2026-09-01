@@ -624,10 +624,12 @@ timestamped forward microstructure collector:
   неавторизованный ISS — данные с задержкой 15 дней. Для causal forward feature нужно
   сохранять raw response, exchange `SYSTIME`, retrieval time и entitlement; delayed
   history нельзя выдавать за original-vintage replay;
-- [MOEX futures tradestats](https://moexalgo.github.io/docs/api/get-fo-tradestats/) и
-  [MOEX real-time fields](https://moexalgo.github.io/docs/description/realtime/) дают
-  агрегаты потока сделок и `OPENPOSITION`. Это перспективный источник order-flow/
-  crowding для выбора момента, но до подписки и собственного forward archive он sleeping;
+- [MOEX futures tradestats](https://moexalgo.github.io/docs/api/get-fo-tradestats/),
+  [futures obstats](https://moexalgo.github.io/docs/api/get-fo-obstats) и
+  [описание Super Candles](https://moexalgo.github.io/docs/description/supercandles)
+  дают пятиминутные агрегаты агрессивных buy/sell trades, OI/IM, spreads и глубину
+  стакана. Для фьючерсов документированы `tradestats` и `obstats`, но не `orderstats`.
+  Без подписки оба endpoint недоступны; с bearer token обновляются в real time;
 - [CBR statistical REST API](https://cbr.ru/statistics/data-service/apidocumentation/)
   возвращает JSON и публикует OpenAPI 3.0. Он подходит для автоматического macro state,
   но dataset date не доказывает historical publication vintage — collector обязан
@@ -645,6 +647,16 @@ timestamped forward microstructure collector:
 spec/order-book/multileg archive для проверки fills, (3) release-vintage CBR/EIA.
 Любой новый economic join получает отдельный source manifest и seal; V32 после outcome
 этими данными не «исправляется».
+
+Forward collector `market_lab.futures.moex_forward_microstructure_source` реализует этот
+P1-контур без доступа к protected prices: FUTOI запрашивается с closed schema позиций,
+а subscribed `tradestats/obstats` — только с flow/OI/depth/spread columns, без absolute
+price/VWAP. Каждый one-shot snapshot хранит gzip raw response, request URL, SHA/bytes,
+exchange `SYSTIME`, actual retrieval и causal `available_at = max(SYSTIME+1m,
+retrieval_at)`. Bearer token читается только из `MOEX_ALGOPACK_TOKEN` и никогда не
+попадает в manifest/raw. Public FUTOI маркируется как `public_15_day_delayed`; его нельзя
+использовать для same-day timing. Для real-time timing нужны ALGOPACK entitlement и
+явные active-contract mappings.
 
 ### Уже использованные источники
 

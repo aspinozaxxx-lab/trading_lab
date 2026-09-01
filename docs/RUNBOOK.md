@@ -945,6 +945,37 @@ Canonical path `runs/v34_relative_corridor_20260901T213656Z_eece2650/`, metrics 
 `−1,3634%`, Sharpe `−1,0445`, MDD `4,5066%`, zero unresolved, verdict `NO_GO`.
 Параметры V34 после результата не менять и run не повторять.
 
+### MOEX forward FUTOI/tradestats/obstats snapshots
+
+Collector сохраняет только target-free positioning/flow/depth; absolute price, return,
+target и PnL не запрашиваются. Без `MOEX_ALGOPACK_TOKEN` он получает только официальный
+public FUTOI с 15-дневной задержкой. Для real-time FUTOI и subscribed futures
+`tradestats/obstats` задай token в environment и exact active contracts:
+
+```powershell
+$env:MOEX_ALGOPACK_TOKEN = '<token-is-never-written-to-disk>'
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_microstructure_source `
+  --source-date <YYYY-MM-DD> `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-microstructure-v1 `
+  --contract SI=<SECID> --contract RI=<SECID> `
+  --contract BR=<SECID> --contract MIX=<SECID>
+```
+
+Запускать one-shot каждые пять минут внешним scheduler. Каждый каталог `snapshot_*`
+immutable; повтор того же retrieval timestamp запрещён. Проверка:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_microstructure_source `
+  --source-date <YYYY-MM-DD> `
+  --audit-directory <snapshot-path>
+```
+
+Public delayed snapshot пригоден только для проверки pipeline/архива. Neural timing
+остаётся sleeping до накопления собственного real-time forward периода и отдельно
+запечатанного label/evaluation protocol.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

@@ -44,6 +44,12 @@ Fixed corridor полностью исполнил 118 pair trades / 472 legs, u
 `NO_GO`, все 20%/50% claims false, live trading запрещён. V34 thresholds/horizon/gates
 не менять на этой history; нужна новая mechanism/source family.
 
+Следующий источник реализован как `moex_forward_microstructure_source`: immutable
+one-shot FUTOI + subscribed futures `tradestats/obstats` с actual retrieval timestamp,
+closed target-free schema и без сохранения bearer token. Public FUTOI задержан на 15
+дней и не годится для intraday решения; настоящий новый timing experiment начнётся
+только после ALGOPACK entitlement и накопления unseen real-time snapshots.
+
 ## Предыдущий результат: V33 full-horizon economic NO-GO
 
 После отрицательной независимой проверки V31 открыта принципиально новая family, а не
