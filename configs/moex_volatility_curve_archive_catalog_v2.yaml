@@ -1,0 +1,98 @@
+﻿protocol_id: moex_volatility_curve_archive_catalog_v2
+protocol_version: 2
+status: sealed_schema_correction_before_canonical_catalog
+declared_at_utc: "2026-09-01T21:30:00Z"
+scope: source_schema_and_causal_coverage_only
+research_only: true
+live_trading_allowed: false
+
+parent_v1:
+  config_path: configs/moex_volatility_curve_archive_catalog_v1.yaml
+  config_sha256: 198e4206bd02f3bf045758c778088e514a2d8ebc1eb47993d03a663ace064c51
+  module_path: src/market_lab/futures/moex_volatility_curve_archive_catalog.py
+  module_sha256: 636d8c011272f10eeea7ba95c44eeb5c99f301231e8527f1c56262e5dc743020
+  canonical_output_created: false
+  failure_before_output: duplicate_legacy_event_series_key
+
+only_changed_behavior:
+  exact_duplicate_policy: collapse_to_one_for_coverage
+  conflicting_duplicate_policy: exclude_every_row_of_the_ambiguous_key_from_coverage
+  conflicting_duplicate_order_assumption: none
+  combined_schema_policy: preserve_and_report_but_no_maturity_coverage_without_T_or_expiry_join
+  combined_SETTLEMENT_PRICE_OPEN_used: false
+  coverage_grid_threshold_or_archive_list_changed: false
+  market_outcome_used_for_correction: false
+
+sealed_duplicate_audit:
+  "201801":
+    duplicate_observations: 70348
+    identical_duplicate_observations: 69937
+    conflicting_duplicate_observations: 411
+    conflicting_keys: 8
+    conflicting_rows_removed: 419
+    conflicting_T_keys: 0
+  "201901":
+    duplicate_observations: 39340
+    identical_duplicate_observations: 38988
+    conflicting_duplicate_observations: 352
+    conflicting_keys: 8
+    conflicting_rows_removed: 360
+    conflicting_T_keys: 0
+  "202006":
+    duplicate_observations: 0
+    identical_duplicate_observations: 0
+    conflicting_duplicate_observations: 0
+    conflicting_keys: 0
+    conflicting_rows_removed: 0
+    conflicting_T_keys: 0
+  "202101":
+    duplicate_observations: 0
+    identical_duplicate_observations: 0
+    conflicting_duplicate_observations: 0
+    conflicting_keys: 0
+    conflicting_rows_removed: 0
+    conflicting_T_keys: 0
+  "202108":
+    duplicate_observations: 0
+    identical_duplicate_observations: 0
+    conflicting_duplicate_observations: 0
+    conflicting_keys: 0
+    conflicting_rows_removed: 0
+    conflicting_T_keys: 0
+
+combined_schema:
+  archive_id: "202108_202405"
+  exact_columns:
+    [SESS_ID, A, B, C, D, E, S, OPTION_SERIES_ID, FUT_ISIN_ID, ISIN,
+     SETTLEMENT_PRICE_OPEN, BEGIN]
+  missing_for_constant_maturity: [T, official_series_expiry_join]
+  event_at: BEGIN_Europe_Moscow
+  price_field_ignored: SETTLEMENT_PRICE_OPEN
+
+sealed_combined_audit:
+  archive_rows: 191197
+  core_rows: 25172
+  minimum_event_at: "2021-09-01T10:00:00+03:00"
+  maximum_event_at: "2024-05-21T10:00:00+03:00"
+
+output:
+  directory: data/processed/options/moex-volatility-curve-archive-catalog-v2
+  immutable: true
+  overwrite_allowed: false
+  raw_archives_in_git: false
+  processed_values_in_git: false
+
+forbidden_after_catalog:
+  - selecting_first_or_last_conflicting_coefficient_revision
+  - deriving_T_from_contract_text_without_official_expiry_metadata
+  - using_SETTLEMENT_PRICE_OPEN_in_this_source_coverage_protocol
+  - carrying_a_snapshot_beyond_the_parent_20_minute_freshness_window
+  - changing_archive_selection_by_market_returns_or_strategy_pnl
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_volatility_curve_source_v2.py: 8eeb28525c5a951a7791df2ab6f61e0294c5019ec9fdcd91183c86e93da042fc
+  src/market_lab/futures/moex_volatility_curve_archive_catalog.py: 636d8c011272f10eeea7ba95c44eeb5c99f301231e8527f1c56262e5dc743020
+  src/market_lab/futures/moex_volatility_curve_archive_catalog_v2.py: e8d07ca829946e2fb2d4f0ba1e1015a77ea3f00c1f797f05b45a251010bb4627
