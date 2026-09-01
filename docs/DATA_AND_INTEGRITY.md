@@ -173,8 +173,11 @@ module SHA `ce2ee2605b5dc62cba2bc34d54716025afa924fc781427decdfc446c3abbab95`
 pin-ит V30-D2 и pre-2012 D3. До seal разрешены и прочитаны только bytes/hashes,
 Parquet schemas, dates/calendar, availability/reason/bool masks и causal timestamps.
 Preflight 86/86 true; price/settle/roll-yield values, returns, targets, equity и PnL
-2008–2011 не читались. После commit/push разрешён один immutable economic run; его
-нельзя повторять или менять по результату.
+2008–2011 до seal не читались. Seal `370b4d8` был pushed, затем выполнен один immutable
+run `runs/v31_pre2012_temporal_20260901T145938Z_6dcb6dab/`: metrics SHA
+`d6d1284279e111001b7d90ea59b3fad01a9036191cd62d5191de3125bdfb6d93`, identity SHA
+`9e98428eb96629c3b57234822500b70ff46c2d081bb72cc2b0eeb0eb974a1052`; audit 35/35
+artifacts и 122/122 checks exact. Output не повторять и не перезаписывать.
 
 ## Основные разрешённые development artifacts
 
@@ -183,6 +186,7 @@ identity и должен проверяться перед чтением.
 
 | Роль | Path | SHA-256 |
 |---|---|---|
+| V31 canonical unseen metrics | `runs/v31_pre2012_temporal_20260901T145938Z_6dcb6dab/metrics.json` | `d6d1284279e111001b7d90ea59b3fad01a9036191cd62d5191de3125bdfb6d93` |
 | V30-D2 canonical development metrics | `runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/metrics.json` | `e5aeb7d1af12c861af3c81003d31bcc10cafed17665547b3f302255aed4ad054` |
 | 30-stock daily panel | `data/processed/daily_v4/development_panel.parquet` | `a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe` |
 | Daily panel manifest | `data/processed/daily_v4/panel_manifest.json` | `873916a268dae55c3ac6537d1a02f7d773ea7f0276c7377389c494d7996e492f` |

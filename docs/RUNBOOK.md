@@ -819,9 +819,10 @@ rolling/bootstrap/leave-one-year-out; independent audit 33/33 exact. Форму�
 ### V31 one-shot unseen pre-2012 temporal validation
 
 V31 config SHA `6dcb6dab...`, module SHA `ce2ee260...` pin-ит canonical V30-D2 и
-pre-2012 D3. Metadata-only preflight 86/86 не читает market values. До commit/push
-разрешено выполнять только проверки ниже; команду без `--preflight-only` запускать
-запрещено:
+pre-2012 D3. Seal `370b4d8` был pushed до market-value read. Единственный canonical run
+уже выполнен: `runs/v31_pre2012_temporal_20260901T145938Z_6dcb6dab/`, metrics SHA
+`d6d12842...`, verdict `UNSEEN_TEMPORAL_NO_GO_20`. Все команды ниже сохранены только
+для provenance; повторно их не выполнять:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
@@ -836,7 +837,7 @@ pre-2012 D3. Metadata-only preflight 86/86 не читает market values. До
   market_lab.futures_v31_pre2012_temporal_validation --preflight-only
 ```
 
-Только после подтверждённого push seal выполнить ровно один run:
+Команда единственного выполненного run:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `

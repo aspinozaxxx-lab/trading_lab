@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V31: one-shot unseen 2008–2011 temporal validation — sealed protocol, run pending
+## V31: one-shot unseen 2008–2011 temporal validation — canonical NO-GO
 
 - V31 byte-pin-ит canonical V30-D2 config/module/metrics/identity и не меняет signal,
   equal component weights, 20% final-risk restoration, cap 2x, V29 risk-first ledger или
@@ -22,9 +22,25 @@
   для 252-session trend, поэтому backfill и синтетический сигнал запрещены. Для 727
   post-initial zero rows causal adapter присваивает только предыдущую factual decision
   date, чтобы полный four-asset mapper перенёс flat; contract/price/signal не создаются.
-- До economic read code/config/tests/docs должны быть committed и pushed. После этого
-  разрешён ровно один immutable run. Нельзя менять формулу или повторять V31 по
-  увиденному результату; 20%/50% gates отчётны отдельно, live trading запрещён.
+- Seal commit `370b4d8` был pushed до первого economic read. Единственный immutable run:
+  `runs/v31_pre2012_temporal_20260901T145938Z_6dcb6dab/`; metrics SHA
+  `d6d1284279e111001b7d90ea59b3fad01a9036191cd62d5191de3125bdfb6d93`, identity SHA
+  `9e98428eb96629c3b57234822500b70ff46c2d081bb72cc2b0eeb0eb974a1052`.
+- Read-only audit: 35/35 artifact bytes/hashes/Parquet rows exact, directory set exact,
+  source/signal/target/execution checks 122/122 true, parent copies exact и все шесть
+  ledger CAGR/Sharpe/MDD/annual-return replays exact.
+- Baseline 1x primary: total `−10,7243%`, CAGR `−5,1096%`, Sharpe `−0,6464`, MDD
+  `15,9385%`. Selected primary: total `−14,0346%`, CAGR `−6,7528%`, Sharpe `−0,4630`,
+  MDD `26,9631%`; doubled CAGR `−7,0119%`; stress CAGR `−7,1594%`, Sharpe `−0,4958`,
+  MDD `27,3717%`. Все ledgers complete, coverage 193/193, critical/unresolved 0.
+- Primary segments: 2009 `−3,7877%`, 2010 `0,0000%`, 2011 `−10,6502%`; 0/3 positive.
+  Stress rolling positive fraction `57,09%`, ни одно 252-window не достигло 20% CAGR;
+  bootstrap joint 20%-CAGR/30%-MDD minimum `0,10%`, LOYO minimum CAGR `−13,5540%`.
+- 2010 cash объясняется не имитацией нулевой доходности: strict 252-session signal не
+  имел ни одной finite строки после сохранённых missing observations. Формулу нельзя
+  повторять с shorter window/gap fill на этом уже открытом периоде.
+- Verdict `UNSEEN_TEMPORAL_NO_GO_20`; supports 20%/50% false. V30/V31 family закрыта,
+  V31 не повторять и не tune-ить; live trading запрещён.
 
 ## V30-D2: canonical development run complete
 
@@ -52,12 +68,14 @@
   для блоков 5/21/63 дней. Verdict
   `DEVELOPMENT_CANDIDATE_READY_FOR_SEPARATE_PRE2012_SEAL`: development gate 20% пройден,
   50% нет; устойчивые 20% этим результатом не доказаны. V30-D2 не повторять и не
-  подбирать по нему параметры. Следующий economic read — только V31/2008–2011 после seal.
+  подбирать по нему параметры. Последующий sealed V31/2008–2011 уже дал independent
+  `UNSEEN_TEMPORAL_NO_GO_20`; V30 family закрыта.
 
 ## V30-V1: equal trend/carry/relative sleeves — sealed, failed before ledger/output
 
 - Это development selection после полного просмотра V29/2012–2017, не independent
-  validation. Outcomes 2008–2011 не читались. Config SHA
+  validation. На момент V30 seal outcomes 2008–2011 не читались; позже их один раз
+  открыл sealed V31 и получил NO-GO. Config SHA
   `2e191a82f1a6145667f640d565541de49e69e5bee6081b06764074344c43ce8a`, module SHA
   `b642afe2cd7b112a2f69c6854fcf47e28bd566c065dd39b7412a0ba04df3c9e7`.
 - Target экономически отличен от V27/V29: arithmetic equal thirds из frozen V12

@@ -546,6 +546,11 @@ weekly decision `2009-10-16` и первый fill `2009-10-19`. Metadata-only pr
 только hashes, schemas, dates и masks и проходит 86/86; economic loader вызывается лишь
 после отдельного commit/push seal. Output содержит те же шесть scenario views, exact
 ledger/coverage и заранее зафиксированные rolling/bootstrap/leave-year-out gates.
+Seal `370b4d8` предшествует единственному canonical run
+`v31_pre2012_temporal_20260901T145938Z_6dcb6dab`. Read-only audit подтвердил 35/35
+artifacts, 122/122 checks и exact шесть metric replays. Verdict
+`UNSEEN_TEMPORAL_NO_GO_20`: execution complete, но frozen V30 economics не перенеслась.
+V31 теперь immutable отрицательное evidence; повтор с другим window/sign/period запрещён.
 
 ### `market_lab.futures.moex_calendar_spread_source`
 

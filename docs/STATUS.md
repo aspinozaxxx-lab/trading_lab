@@ -43,24 +43,24 @@ replay дал 27/27 true, а дополнительное strict-dtype срав�
 
 ## Короткий ответ
 
-Новый текущий кандидат — **V30**, выбранный на открытом 2012–2017 development. Он
-равными долями объединяет bounded multi-horizon trend, знак фьючерсного carry и clipped
-cross-sectional relative trend, а затем причинно восстанавливает ожидаемую
-волатильность итогового портфеля к 20% с потолком 2x. Canonical D2 run
-`runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/` дал для
-primary/doubled/stress CAGR `22,9090%/22,2659%/21,4113%`, Sharpe
-`1,1216/1,0985/1,0634`, MDD `27,7870%/27,8878%/28,4707%`; четыре из пяти лет
-положительны. Artifact replay exact 33/33, checks 86/86, assessment 13/13; metrics SHA
-`e5aeb7d1...`, identity SHA `acc03e16...`. Это canonical development evidence, но не
-независимый результат: 2012–2017 уже использован для выбора, а прибыль 2014 года
-`+75,40%` существенно влияет на итог. Stress bootstrap имеет q05 CAGR только
-`0,25–2,92%` в зависимости от блока, поэтому 20% нельзя считать предсказуемым.
-V30 V1 seal `271c7db` остановился до ledger/output на polarity служебного boolean;
-узкий D2 seal `aea34e4` изменил только positive proof и завершён. Outcomes 2008–2011
-всё ещё не прочитаны. Отдельный V31 protocol уже подготовлен: config SHA `6dcb6dab...`,
-module SHA `ce2ee260...`, outcome-free preflight 86/86. Он механически начинает fills
-`2009-10-19` после 253-session warmup и сохраняет 727 pre-listing MIX rows как flat.
-Сначала обязателен commit/push seal, затем ровно один temporal test.
+На текущий момент **ни одна стратегия не доказала требуемые устойчивые 20% годовых**.
+V30 выглядел сильным на открытом 2013–2017 development: primary/stress CAGR
+`22,9090%/21,4113%`, Sharpe `1,1216/1,0634`, MDD `27,7870%/28,4707%`. Но отдельный
+V31 seal `370b4d8` заморозил ту же формулу до первого чтения 2008–2011, и единственный
+temporal run `runs/v31_pre2012_temporal_20260901T145938Z_6dcb6dab/` её опроверг.
+Primary/stress CAGR `−6,7528%/−7,1594%`, Sharpe `−0,4630/−0,4958`, MDD
+`26,9631%/27,3717%`, положительных календарных сегментов `0/3`. Baseline 1x тоже
+отрицателен: CAGR `−5,1096%`. Исполнение полное, coverage 193/193, critical/unresolved
+0, поэтому это экономический **NO-GO**, а не execution failure. Read-only audit:
+artifacts 35/35 exact, checks 122/122, все шесть ledger metric replays exact; metrics
+SHA `d6d12842...`, identity SHA `9e98428e...`. Gates 20% и 50% оба false; live trading
+запрещён. V30/V31 больше не tune-ить и не повторять.
+
+Дополнительный структурный вывод: строгий 252-session feature был finite в конце 2009 и
+в 2011, но полностью sleeping в 2010 после missing observations. Это не разрешает
+gap-imputation или shorter-window повтор на уже открытом holdout. Для новой family
+gap-tolerant multi-scale features можно разрабатывать только на всей теперь открытой
+history с nested walk-forward и подтверждать новым paper/forward периодом.
 
 Предыдущий главный lead **V27** прошёл same-history gates, но его независимая проверка
 не подтвердила экономику после исправления execution.
@@ -339,7 +339,7 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
-| V30 equal trend/carry/relative + final risk restoration, 2013–2017 | CAGR 22,91%, Sharpe 1,12, MDD −27,79%; stress CAGR 21,41%; 4/5 positive years | **Development candidate** к отдельному V31/2008–2011 test; не live |
+| V30/V31 equal trend/carry/relative + final risk restoration | Dev CAGR 22,91%; unseen primary CAGR −6,75%, Sharpe −0,46, MDD −26,96%; 0/3 positive segments | Independent temporal **NO-GO**; family closed, не live |
 | V29 risk-first roll, post-V28 2013–2017 | +24,87%, CAGR 4,61%, Sharpe 0,32, MDD −47,38%; execution complete | Execution fixed, economics unstable; **FAIL/NO-GO** |
 | V27 V26 + CBR key-rate `>=20%` cash governor | +248,61%, CAGR 28,38%, Sharpe 1,21, MDD −20,71%; stress CAGR 27,36% | Все sealed gates пройдены; **GO к новой unseen validation, не live** |
 | V26 2x V25 + causal RUONIA + capacity admission | +195,14%, CAGR 24,17%, Sharpe 0,98, MDD −33,57%; complete | Return/execution gates пройдены, MDD `>30%`; NO-GO |
@@ -868,18 +868,22 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    повторять и output не перезаписывать.
 3. D1 seal `45e55af` и D2 seal `fa61763` не менять. D2 rejected output не повторять и
    не перезаписывать. D3 seal `afaa278` и canonical suffix `-v3` завершены: manifest
-   SHA `ff9b2771...`, 27/27 replay checks и strict dtypes exact. Returns/PnL по-прежнему
-   запрещены; MIX до 2011 остаётся отсутствующим, gap/roll нельзя синтезировать.
+   SHA `ff9b2771...`, 27/27 replay checks и strict dtypes exact. Outcomes были открыты
+   только один раз после V31 seal; source не менять. MIX до 2011 остаётся отсутствующим,
+   gap/roll нельзя синтезировать.
 4. Принципиально новый V30 target на уже просмотренном 2012–2017 завершён. D2 seal
    `aea34e4`, immutable run `v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a`,
    metrics SHA `e5aeb7d1...`; exact audit 33/33. Формулу, параметры риска и costs по
    этому периоду больше не менять; V30 не называть holdout и run не перезаписывать.
-5. V31 strategy protocol подготовлен и byte-pin-ит V30-D2 + pre-2012 D3: config SHA
-   `6dcb6dab...`, module SHA `ce2ee260...`, metadata-only preflight 86/86. Commit/push
-   обязан предшествовать первому price/outcome read. Затем открыть outcomes ровно один
-   раз; формулу V30 и late-MIX flat mask не менять. Отчёт обязан
-   показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved
-   и отдельно gates 20%/50%; результат не разрешает live без PIT fees/specs/margin.
+5. V31 sealed/pushed `370b4d8` до outcome read и выполнен ровно один раз. Immutable run
+   `v31_pre2012_temporal_20260901T145938Z_6dcb6dab`, metrics SHA `d6d12842...`;
+   audit 35/35 artifacts, 122/122 checks, 6/6 metric replays. Verdict
+   `UNSEEN_TEMPORAL_NO_GO_20`; primary/stress CAGR `−6,75%/−7,16%`. Не повторять,
+   не менять start/window/sign/asset/cost/leverage и не использовать для live.
+6. Следующая family должна быть экономически иной и оцениваться по nested walk-forward
+   на всей открытой 2008–2025 history; независимое подтверждение теперь возможно только
+   в заранее запечатанном paper/forward периоде. Приоритет: причинные gap-tolerant
+   multi-scale features, cross-market regimes и новые original-vintage/intraday sources.
 
 ### P0 — новый market-neutral source family
 
