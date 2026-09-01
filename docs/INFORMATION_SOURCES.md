@@ -522,6 +522,8 @@ price/outcome фактов для correction не использовано. По
 immutable source-only output, но audit принял только 25/27 checks из-за двух
 serialization representations; market values совпали точно. D3 SHA
 `93b1d3fb...`/`438f2dd5...` заранее фиксирует только bool и JSON-list normalization.
+После pre-build seal `afaa278` canonical D3 manifest `ff9b2771...` прошёл 27/27 replay
+checks и отдельное строгое values+dtypes comparison всех frames.
 Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.

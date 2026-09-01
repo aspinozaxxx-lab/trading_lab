@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2012-DERIVED-D3: persistence-only correction prepared before build
+## MOEX-PRE2012-DERIVED-D3: canonical outcome-free source complete
 
 - D2 был sealed/pushed commit `fa61763` до загрузки market rows. Его отдельный immutable
   output создан, но rejected: exact audit дал 25/27 true. `active_contract_map`,
@@ -22,10 +22,17 @@
   Он pin-ит failed D2 bytes/diagnosis, приводит только два nonmissing flags к bool и
   month-code containers к JSON-native lists. Значения, prices, calendar, contract
   admission, availability, roll и spec rules не меняются.
-- Planned separate immutable output:
+- Seal commit `afaa278` был pushed до первого D3 build. Canonical separate immutable
+  output:
   `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/`.
-  D3 code/config/docs/tests должны быть committed/pushed до первого D3 build;
-  returns/targets/PnL остаются запрещены.
+  Manifest SHA `ff9b277166c4c50f8f95bc9a6b41b1c4678911bf4038425063dfc7bcd9c3923d`,
+  payload SHA `ac087463...`, panel SHA `390b1c8b...`; active/contract/spec SHAs остались
+  D2-identical. Build и отдельный replay дали 27/27 true. Дополнительное строгое
+  сравнение подтвердило values+dtypes exact для всех четырёх frames; оба normalized
+  flags сохранены и rebuilt как bool.
+- Canonical counts: 781 master sessions, 3 124 panel/active rows, 6 627 contract/spec
+  rows, successful rolls SI/RI/BR/MIX = 11/11/36/0, zero unresolved roll/exit.
+  Returns/targets/PnL не вычислялись и остаются запрещены до отдельного strategy seal.
 
 ## MOEX-PRE2012-DERIVED-D2: boundary correction built, audit rejected
 

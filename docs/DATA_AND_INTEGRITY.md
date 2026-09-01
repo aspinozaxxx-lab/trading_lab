@@ -90,7 +90,9 @@ D2 seal `fa61763` предшествовал market load. Отдельный imm
 tuple/list JSON round-trip. Diagnosis подтвердил zero market-value mismatches, zero
 unresolved roll/exit и неизменные counts. Manifest SHA `da7c922...`; output не
 перезаписывать. D3 config SHA `93b1d3fb...`, module SHA `438f2dd5...` нормализует только
-эти persistence representations и обязан быть pushed до отдельного suffix `-v3` build.
+эти persistence representations. Seal `afaa278` был pushed до отдельного suffix `-v3`
+build. Canonical manifest SHA `ff9b2771...`; 27/27 replay checks и дополнительное
+strict-dtype/value comparison всех frames true. Returns/PnL не вычислялись.
 
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
@@ -160,6 +162,11 @@ identity и должен проверяться перед чтением.
 | 30-stock daily panel | `data/processed/daily_v4/development_panel.parquet` | `a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe` |
 | Daily panel manifest | `data/processed/daily_v4/panel_manifest.json` | `873916a268dae55c3ac6537d1a02f7d773ea7f0276c7377389c494d7996e492f` |
 | Futures 10m top manifest | `data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json` | `f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01` |
+| Pre-2012 causal D3 manifest | `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/manifest.json` | `ff9b277166c4c50f8f95bc9a6b41b1c4678911bf4038425063dfc7bcd9c3923d` |
+| Pre-2012 causal D3 panel | `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/panel.parquet` | `390b1c8b8bee35712c5f537eeaad98e5b5a3775af751061c320238c8197ee6df` |
+| Pre-2012 causal D3 active map | `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/active_contract_map.parquet` | `222363055c9be598cc24677a19e9187b24d18e38e0499cb654a4fc8f5acc7f12` |
+| Pre-2012 causal D3 contract observations | `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/contract_observations.parquet` | `daebd47a9ead81e44ac27aabddf1bba87460bccb4297aa54e31459e7b0a7267b` |
+| Pre-2012 causal D3 spec proxy | `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/spec_proxy.parquet` | `02b211d31ebf028ca0c8f0e73b77bfef3b31d6974cc04bf17aa0308411f3a85c` |
 | Pre-2018 core-four daily | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/daily.parquet` | `00a9a872557d1450c38ace291449ab6a1de17679c8fc12d57bf3b1738cd50e38` |
 | Pre-2018 core-four manifest | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/manifest.json` | `e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6` |
 | Pre-2018 core-four raw archive | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/official_moex_iss_responses.jsonl.gz` | `b7d10f9949e65f330f738f789e6fcb69262a0fe9f549252323c6f18ec666e464` |

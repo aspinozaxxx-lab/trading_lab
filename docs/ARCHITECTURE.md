@@ -443,6 +443,8 @@ byte-pin-ит D2 config/module и rejected manifest, до записи пере�
 nonmissing flag columns в bool и admitted month-code containers в JSON-native lists.
 V3 не меняет market values, calendar, admission, availability, roll или spec semantics,
 публикует отдельный immutable suffix и заново сравнивает каждый frame/audit с rebuild.
+Seal `afaa278` предшествовал build; canonical manifest SHA `ff9b2771...`, 27/27 replay
+checks true. Отдельный strict-dtype audit подтвердил values+dtypes exact всех frames.
 
 ### `market_lab.futures.moex_pre2018_core4_derived`
 

@@ -649,9 +649,9 @@ bool/object и tuple/list persistence round-trips, zero market-value mismatch. D
 не повторять и output не перезаписывать.
 
 Persistence-only D3 config SHA `93b1d3fb...`, module SHA `438f2dd5...` pin-ит D2
-diagnosis и меняет только канонические типы хранения. До первого D3 build
-code/config/tests/docs должны быть committed и pushed. Затем build выполняется один раз,
-после него отдельно разрешён deterministic audit:
+diagnosis и меняет только канонические типы хранения. Он был sealed/pushed commit
+`afaa278` до build. Canonical build уже завершён; команду build ниже не повторять.
+Разрешены tests и deterministic `--audit-only`:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
@@ -662,15 +662,14 @@ code/config/tests/docs должны быть committed и pushed. Затем bui
 .\.venv\Scripts\ruff.exe check `
   src/market_lab/futures/moex_pre2012_core_derived_v3.py `
   tests/test_moex_pre2012_core_derived_v3.py
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v3
 .\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v3 --audit-only
 ```
 
 Default immutable output:
 `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/`.
-Build должен fail-closed при unresolved roll/exit, MIX backfill, nonmissing pre-listing
-market values, source/hash drift или outcome columns. Strategy returns/PnL после D1 всё
-ещё запрещены до отдельного strategy seal.
+Canonical manifest SHA `ff9b2771...`, panel SHA `390b1c8b...`; replay 27/27 и strict
+values+dtypes comparison exact. Output не перезаписывать. Strategy returns/PnL всё ещё
+запрещены до отдельного strategy seal.
 
 ### Sealed MOEX 2012–2017 causal derived sources
 
