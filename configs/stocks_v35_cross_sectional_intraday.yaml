@@ -1,0 +1,202 @@
+﻿protocol_name: stocks-v35-cross-sectional-intraday
+protocol_version: 35
+research_status: development_only_no_2026_no_live_trading
+
+objective:
+  hypothesis: >-
+    A synchronized thirty-stock state can identify temporary idiosyncratic dislocations
+    that mean-revert over the next sixty minutes. A neural timing gate should retain
+    only baskets whose expected reversion survives doubled transaction costs.
+  independence_from_prior_families: >-
+    This is an intraday thirty-stock dollar-neutral residual basket, not an absolute
+    futures-return forecast, RI-MIX pair barrier, daily market graph, or threshold-only
+    modification of V32-V34.
+  primary_comparison: full_all_stock_neural_vs_aggregate_only_neural_vs_fixed_rule
+
+source:
+  directory: data/processed/stocks_10m_pre2026_v1
+  manifest_path: data/processed/stocks_10m_pre2026_v1/manifest.json
+  manifest_sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042
+  manifest_bytes: 15515
+  protocol: stock-intraday-pre2026-source-v1
+  expected_rows: 4527436
+  expected_tickers: 30
+  minimum_timestamp_utc: '2018-01-03T06:50:00Z'
+  maximum_timestamp_utc: '2025-12-30T20:40:00Z'
+  protected_2026_read_allowed: false
+  required_columns: [open, high, low, close, volume, value, timestamp]
+
+universe:
+  tickers:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+  synchronization: exact_common_thirty_asset_timestamps
+  survivorship_disclosure: fixed_current_development_universe_not_point_in_time_constituents
+  missing_asset_policy: no_candidate
+
+timing:
+  timezone: Europe/Moscow
+  source_timestamp_semantics: ten_minute_bar_open
+  decision: after_source_bar_is_complete
+  decision_local_time_start: '10:10:00'
+  decision_local_time_end: '17:00:00'
+  decision_stride_minutes: 20
+  entry: next_exact_common_bar_open
+  holding_exact_bars: 6
+  exit: exact_common_open_sixty_minutes_after_entry
+  overnight_positions: forbidden
+  maximum_concurrent_baskets: 1
+  purge_sessions: 1
+
+features:
+  bar_return_requires_same_session_exact_previous_bar: true
+  market_return: equal_weight_complete_thirty_asset_log_return
+  beta_lookback_bars: 78
+  beta_minimum_bars: 52
+  residual_horizon_bars: 6
+  residual_scale_lookback_observations: 156
+  residual_scale_minimum_observations: 78
+  selected_long_count: 3
+  selected_short_count: 3
+  full_vector_blocks:
+    - clipped_thirty_asset_residual_z
+    - clipped_thirty_asset_one_bar_residual_z
+    - clipped_thirty_asset_beta
+    - thirty_asset_cross_sectional_log_value_rank
+  aggregate_blocks:
+    - selected_tail_statistics
+    - cross_sectional_dispersion_and_breadth
+    - market_return_and_volatility
+    - beta_and_liquidity_statistics
+    - causal_time_of_day_sine_cosine
+  normalization: train_fold_standard_scaler_only
+  clipping: 8.0
+
+candidate:
+  minimum_available_assets: 30
+  minimum_mean_absolute_selected_z: 1.50
+  minimum_top_minus_bottom_mean_z: 3.50
+  exact_long_short_equal_notional: true
+  sign: long_bottom_three_short_top_three
+
+target:
+  gross_basket_return: equal_notional_next_open_to_sixth_successor_open
+  neural_label: doubled_cost_net_return_strictly_positive
+  target_never_enters_inference_features: true
+  missing_entry_or_exit: unresolved_not_zero
+
+model:
+  family: sklearn_mlp_classifier_ensemble
+  full_hidden_layers: [48, 24]
+  aggregate_hidden_layers: [24, 12]
+  activation: relu
+  solver: adam
+  alpha: 0.0005
+  batch_size: 512
+  learning_rate_init: 0.0005
+  maximum_iterations: 80
+  early_stopping: true
+  validation_fraction: 0.15
+  no_improvement_iterations: 8
+  seeds: [1729, 2718]
+  ensemble: arithmetic_mean_without_seed_selection
+  probability_thresholds: [0.55, 0.65, 0.75]
+  threshold_selection: highest_calibration_stress_sharpe_then_return_then_higher_threshold
+  calibration_minimum_completed_trades: 20
+  insufficient_history_or_single_class: sleep
+
+folds:
+  expanding_oos_years: [2022, 2023, 2024, 2025]
+  first_core_start: '2020-02-20'
+  selector_core_end: end_of_year_two_years_before_oos
+  calibration: immediately_preceding_calendar_year
+  test: oos_calendar_year
+  final_test_model_training: all_history_through_prior_year_with_one_session_purge
+  oos_targets_unread_during_inference: true
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  target_basket_gross: 1.50
+  maximum_total_gross: 1.50
+  maximum_single_leg_absolute_weight: 0.25
+  signal_value_participation: 0.0025
+  factual_entry_exit_value_participation_limit: 0.01
+  capacity_sizing_source: completed_decision_bar_value
+  fractional_notional_proxy: true
+  historical_lot_size_and_short_locate_missing: true
+  one_way_commission_bps: 5.0
+  one_way_slippage_bps: 5.0
+  doubled_cost_multiplier: 2.0
+  stress_cost_multiplier: 3.5
+  annual_short_borrow_rate: 0.20
+  stress_annual_short_borrow_rate: 0.30
+  unresolved_capacity_policy: fail_closed_and_mark_run_invalid_for_live
+
+reporting:
+  scenarios: [primary, doubled, stress]
+  required_artifacts:
+    - candidates
+    - predictions
+    - trades
+    - equity
+    - fold_records
+    - metrics
+    - identity
+    - audit
+    - report
+  required_metrics:
+    - candidate_count
+    - prediction_count
+    - completed_trades
+    - unresolved_count
+    - coverage
+    - total_return
+    - cagr
+    - sharpe
+    - maximum_drawdown
+    - yearly_returns
+    - turnover
+    - costs_rub
+    - maximum_participation
+  gates:
+    primary_cagr_minimum: 0.20
+    doubled_cagr_minimum: 0.20
+    primary_sharpe_minimum: 1.0
+    primary_maximum_drawdown_ceiling: 0.30
+    minimum_positive_oos_years: 3
+    aspirational_cagr: 0.50
+  live_promotion_allowed: false
+  reason: missing_historical_short_locates_lot_sizes_and_independent_forward_confirmation
+
+post_outcome_rules:
+  rerun_same_protocol: forbidden
+  change_threshold_sign_horizon_universe_cost_or_leverage_on_same_history: forbidden
+  failed_result_action: new_mechanism_or_new_forward_information_only
