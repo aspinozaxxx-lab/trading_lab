@@ -1,0 +1,49 @@
+﻿protocol_id: moex_option_series_calendar_probe_v1
+protocol_version: 1
+status: sealed_before_first_response_byte
+declared_at_utc: "2026-09-01T22:30:00Z"
+scope: historical_static_metadata_schema_only
+research_only: true
+live_trading_allowed: false
+
+request:
+  url: https://iss.moex.com/iss/calendars/futures/securities.json?from=2021-09-01&till=2021-09-01&iss.meta=off
+  date: "2021-09-01"
+  block: options
+  iss_meta: false
+  official_documentation: https://fs.moex.com/files/26408
+  response_transport: windows_system_TLS_local_cache
+
+schema_question:
+  required_mapping: option_series_id_to_expiration_date
+  documented_columns: [asset_code, series_name, expiration_date]
+  numeric_identifier_candidates: [option_series_id, series_id, id]
+  combined_curve_archive_field: OPTION_SERIES_ID
+  price_return_target_or_pnl_used: false
+  result_is_source_feasibility_not_strategy_economics: true
+
+temporal_contract:
+  static_contract_metadata: true
+  query_date: "2021-09-01"
+  retrieved_current_vintage: true
+  original_publication_vintage_proved: false
+  protected_market_outcome_from: "2026-01-01"
+
+output:
+  directory: data/processed/options/moex-option-series-calendar-probe-2021-09-01-v1
+  immutable: true
+  overwrite_allowed: false
+  raw_response_in_git: false
+  processed_metadata_in_git: false
+
+forbidden_after_probe:
+  - requesting_marketdata_prices_quotes_returns_targets_or_pnl
+  - treating_series_name_as_numeric_option_series_id
+  - inferring_expiry_from_contract_text_if_numeric_mapping_is_absent
+  - claiming_the_combined_curve_archive_is_unlocked_without_exact_ID_mapping
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_option_series_calendar_probe.py: 803be39237f9cb0c4dc7c718dec99f71a412b9a0c2bd9535b9e199adb0feb0cf
