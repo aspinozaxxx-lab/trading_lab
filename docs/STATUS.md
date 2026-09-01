@@ -76,12 +76,14 @@ Manifest SHA `94d5fab4...`, raw SHA `ccaba170...`; все 47 checks true и не
 единственный inactive — non-adjacent `RIH2RIU2`. Ноль protected rows. Returns/PnL ещё
 не считались. Source-derived protocol D1 уже зафиксирован до первого build: config SHA
 `657fd42b472797028f5b0194c7b159ac1538ddab5caea8f9c416f0a403e34cd0`, implementation
-SHA `d04f7d8f...`. Он заранее выбирает только regular-adjacent spreads с совпадающей
+SHA `d04f7d8f...`; seal commit `35ab387` был pushed до build. Он заранее выбирает только
+regular-adjacent spreads с совпадающей
 датой near expiry, reported activity, complete uncrossed EOD quote и минимальным
-неотрицательным days-to-near по asset/date. Ожидаются 8 281 candidate и 4 366 active
-rows; locked quotes сохраняются flags, обе ноги соединяются только с causally prior
-spec proxy. Следующий шаг — один immutable source-only build/audit, затем отдельный
-pre-outcome economic seal.
+неотрицательным days-to-near по asset/date. Canonical immutable build содержит 8 281
+candidate и 4 366 active rows; locked quotes сохранены flags, обе ноги соединены только
+с causally prior spec proxy. Manifest SHA `b5e15c2e...`; build и отдельный replay дали
+29/29 checks true. Это всё ещё source-only без returns/PnL. Следующий шаг — отдельный
+pre-outcome economic seal для market-neutral carry/corridor hypotheses.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA

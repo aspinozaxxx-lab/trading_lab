@@ -40,7 +40,8 @@ Active выбирается только по минимальному неот�
 locked quotes не удаляются, missing days не синтезируются. Near/far legs соединяются с
 лагированным spec proxy раздельно: их point value совпадает лишь в 1 218 случаях из
 4 366, поэтому последующий PnL обязан считать ноги отдельно. D1 всё ещё не содержит
-returns, targets, signals или PnL и будет опубликован отдельно от raw source.
+returns, targets, signals или PnL. После push seal `35ab387` D1 опубликован отдельно от
+raw source: manifest SHA `b5e15c2e...`; build и повторный audit дали 29/29 checks true.
 
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed

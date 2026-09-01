@@ -514,8 +514,9 @@ minimum days-to-near; tie аварийно запрещён, locked quote сох
 observation. Point values не усредняются и не считаются одинаковыми. Closed schema
 запрещает return/target/signal/strategy/equity/PnL fields; build атомарный и immutable,
 audit заново строит все таблицы и требует exact equality. Config SHA `657fd42b...`
-зафиксирован до первого build. Экономика, execution и стратегии должны получить другой
-pre-outcome seal после публикации manifest D1.
+зафиксирован push commit `35ab387` до первого build. Canonical manifest SHA
+`b5e15c2e...`; initial build и отдельный replay дали 29/29 true. Экономика, execution
+и стратегии должны получить другой pre-outcome seal после manifest D1.
 
 ### `market_lab.futures.futoi_intraday_source`
 
