@@ -176,6 +176,11 @@ Verdict `NO_GO`: return, CAGR, Sharpe, active-year и cost gates провале�
 инвертировать signs, выбирать один household ряд, вводить thresholds, торговать mixed
 states или подбирать risk/expiry/blend на том же outcome.
 
+Новый независимый FRED/Cboe VIX/VIX3M source V2 собран без MOEX outcome: 2 087 grid rows,
+2 011 complete pairs, 76 missing сохранены, 174 backwardation и 1 837 contango. Processed
+SHA `6ffe7daa...`, manifest SHA `0aecc29fd...`; оба bounded raw CSV не содержат 2026 и
+точно воспроизводят processed frame. V24 ещё не запечатан и не запускался.
+
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
 V22 использует новую official release-specific информацию и не меняет провалившиеся
@@ -573,6 +578,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     14 mixed source confirmations после warmup до collision handling. V23 завершён
     `NO_GO`: −5,35%, Sharpe −0,16, MDD −13,62%, downstream ledger complete, но 3
     confirmed states fail-closed не mapped. Same-history household tuning закрыт.
+13. FRED/Cboe VIX/VIX3M V2 готов: 2 087 grid rows, 2 011 complete pairs, processed SHA
+    `6ffe7daa...`, manifest SHA `0aecc29fd...`; 2 010 pairs causal до границы 2026,
+    включая 174 backwardation. V24 ещё не sealed: сначала зафиксировать один structural
+    governor frozen V12, missing rule, execution и gates, затем commit/push.
 
 ### P2 — разблокировать широкий structural exact execution
 

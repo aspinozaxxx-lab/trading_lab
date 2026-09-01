@@ -79,6 +79,10 @@ identity и должен проверяться перед чтением.
 | CBR household inflation/sentiment coverage | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/coverage.parquet` | `dd4444e2af0bfee1b4685fb2f8fde5b3ffa6245d93341096999da4facb1dad87` |
 | CBR household inflation/sentiment manifest | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/manifest.json` | `b132a45ee8170fc07c92dbf5be4c7b70833d07754c7abfd5d5ccc7ac6c3dce92` |
 | CBR household inflation/sentiment raw responses | `data/processed/info_radar/cbr-inflation-expectations-release-pages-2022-2025-v1/official_cbr_inflation_expectations_responses.jsonl.gz` | `fa2ecf58cc70588cb29089e96e47204f4bad1012aca131a809e5874cd0cd1c11` |
+| FRED/Cboe VIX term structure | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/cboe_vix_term_structure.parquet` | `6ffe7daa623d01c4fd23562e05d317e6b5a778d32838db37f25b562a170ab567` |
+| FRED/Cboe VIX term-structure coverage | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/coverage.parquet` | `a57e863cbe22734c59f410d9d66b0f0dc4af424f1a7db99edde9f4c3ac2bfc38` |
+| FRED/Cboe VIX term-structure manifest | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/manifest.json` | `0aecc29fdc9181a0af6941fa4f3778487ba0b5d6dedce07aa843b1b0eb32b2d1` |
+| FRED/Cboe VIX term-structure raw responses | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/official_fred_cboe_responses.jsonl.gz` | `d11aa63712a9f4c85f1c6801c4821fcec058af6f617e48cc6c751076a9d247ef` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -152,6 +156,12 @@ identity и должен проверяться перед чтением.
   точные значения только из release-specific XLSX; one-decimal HTML endpoints нужны для
   cross-check. Missing не превращается в zero, а current-retrieved historical files
   остаются development-only до накопления собственных forward vintages.
+- FRED-distributed Cboe close допускается только после `23:59:59 America/Chicago`
+  observation day и при `available_at <= decision_at`. VIX и VIX3M должны одновременно
+  присутствовать на одной exact date; missing pair нельзя forward-fill. Raw queries
+  server-bounded через `coed=2025-12-31`; пара 2025-12-31 консервативно доступна уже в
+  2026 и поэтому исключается из development decisions. Current-vintage history остаётся
+  development-only, а copyrighted raw нельзя публиковать без отдельного права.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

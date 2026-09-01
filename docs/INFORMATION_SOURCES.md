@@ -312,7 +312,39 @@ component, exact-decimal, sign, risk/expiry или blend selection.
 `available_at` — конец московского дня более поздней из header publication date и footer
 last-updated date. Исторические release-specific файлы получены сейчас, поэтому это один
 development challenger, а не независимое подтверждение: для validation нужны собственные
-forward snapshots. До запечатывания V23 рыночные outcomes с этим источником не читались.
+forward snapshots. Sealed V23 завершён `NO_GO`: −5,35%, Sharpe −0,16, MDD −13,62%; эта
+family закрыта для same-history sign/single-series/threshold/mixed-state tuning.
+
+### Cboe VIX/VIX3M — глобальный forward-volatility term structure
+
+FRED распространяет официальные Cboe daily closes `VIXCLS` и `VXVCLS` и позволяет
+серверно ограничить CSV датой 2025. Это даёт независимый глобальный risk-state для
+регулирования frozen V12 без подбора magnitude threshold: structural inversion проходит
+ровно при `VIX/VIX3M > 1`.
+
+- canonical path:
+  `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/`;
+- 2 087 exact shared-grid rows, 2 011 complete pairs и 76 preserved missing pairs;
+- complete pairs по годам: `251/252/253/252/251/250/252/250` за 2018–2025;
+- processed: 71 840 bytes, SHA-256
+  `6ffe7daa623d01c4fd23562e05d317e6b5a778d32838db37f25b562a170ab567`;
+- coverage: 7 545 bytes, SHA-256
+  `a57e863cbe22734c59f410d9d66b0f0dc4af424f1a7db99edde9f4c3ac2bfc38`;
+- manifest: 4 223 bytes, SHA-256
+  `0aecc29fdc9181a0af6941fa4f3778487ba0b5d6dedce07aa843b1b0eb32b2d1`;
+- два bounded raw CSV: 25 013 bytes, SHA-256
+  `d11aa63712a9f4c85f1c6801c4821fcec058af6f617e48cc6c751076a9d247ef`;
+- 174 backwardation, 1 837 contango, 0 exact flat; до protected availability допускаются
+  2 010 pairs: 174 backwardation и 1 836 contango;
+- максимум gap complete pairs — 4 календарных дня; missing не заполнены;
+- V1 superseded из-за timestamp-unit replay mismatch. V2 повторно разобран из raw и
+  точно совпал с processed frame; raw не содержит строк 2026.
+
+Availability консервативно равна концу Chicago observation day. Поэтому для московского
+решения используется только уже завершившийся US close; 2025-12-31 становится доступен
+в 2026 и исключается. Ряды current-vintage и copyrighted/citation-required: bundle
+пригоден для одного development challenger, не для независимой validation или raw
+redistribution. MOEX outcomes с этим источником ещё не читались.
 
 ### Уже использованные источники
 
@@ -341,6 +373,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR macro survey | Forward consensus revisions для SI/BR/RI/MIX | Current-vintage, historical release time неизвестен | Только конец месяца после survey month; original vintages нужны для confirmation |
 | P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | CBR household inflation/sentiment | Согласованный потребительский risk-on/off regime для RI/MIX/SI | Release files retrieved сейчас; нужен sealed test и forward vintages | Конец max(publication, last-update) day; collision оставляет latest release month |
+| P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | Bundle готов; current-vintage/copyrighted, V24 ещё не sealed | Только complete pair после Chicago day-end и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -362,6 +395,10 @@ RUONIA использована в V15. Её причинная часть V16 �
   датированные страницы и PDF индекса бизнес-климата;
 - [CBR inflation expectations archive](https://www.cbr.ru/analytics/dkp/inflationary_expectations/) —
   датированные страницы, PDF и статистические XLSX ожиданий и настроений домохозяйств;
+- [Cboe VIX term structure](https://www.cboe.com/tradable-products/vix/term-structure/),
+  [VIX historical data](https://www.cboe.com/tradable-products/vix/vix-historical-data),
+  [FRED VIXCLS](https://fred.stlouisfed.org/series/VIXCLS) и
+  [FRED VXVCLS](https://fred.stlouisfed.org/series/VXVCLS);
 - [CBR liquidity forecast](https://www.cbr.ru/eng/statistics/pffl/),
   [daily liquidity-factor definitions](https://www.cbr.ru/statistics/flikvid/definitions/)
   и [historical publication-schedule notice](https://www.cbr.ru/eng/press/pr/?file=120516_104301eng_liq-ind.htm);
@@ -414,6 +451,10 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    inflation down + sentiment up = risk-on, обратная согласованная пара = risk-off,
    mixed = cash. Canonical result `NO_GO`: −5,35%, Sharpe −0,16, MDD −13,62%; не
    инвертировать signs, не выбирать один ряд и не торговать mixed states post-hoc;
-10. любой следующий PnL начинается только после source manifest, `available_at` audit и
+10. Cboe VIX/VIX3M V2 bundle готов: 2 087 rows, 2 011 complete pairs, processed SHA
+    `6ffe7daa...`, manifest SHA `0aecc29f...`; 174 structural backwardation days до
+    protected boundary. V24 может проверить один predeclared backwardation governor
+    frozen V12, но market outcome нельзя читать до protocol seal и push;
+11. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

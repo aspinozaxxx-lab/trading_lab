@@ -463,6 +463,20 @@ gates. Canonical run
 `33614e39...`, verdict `NO_GO`: primary return −5,35%, Sharpe −0,16, MDD −13,62%.
 После outcome replay не разрешает same-history selection этих параметров.
 
+### FRED/Cboe VIX term-structure source
+
+Canonical V2 хранится вне Git. Новый immutable snapshot обязан иметь другой directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.cboe_vix_term_structure_source `
+  --output D:\Projects\trading_lab_data\data\processed\info_radar\fred-cboe-vix-term-structure-<new-id>
+```
+
+Collector запрашивает только `2018-01-01..2025-12-31`, сохраняет два bounded CSV и не
+forward-fill missing pairs. V1 не использовать: parquet timestamp unit не проходила
+strict replay. Canonical V2 processed SHA `6ffe7daa...`, manifest SHA `0aecc29fd...`.
+Raw значения copyrighted/citation-required и остаются во внешнем хранилище.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

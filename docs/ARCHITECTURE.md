@@ -300,6 +300,17 @@ volatility, 45-day expiry, next factual open и portfolio-atomic ledger. Config 
 всех cost scenarios и `NO_GO`; 3 confirmed releases fail-closed остались cash из-за
 недоступной prior-60-session volatility. Модуль сохраняется только для воспроизводимости.
 
+### `market_lab.futures.cboe_vix_term_structure_source`
+
+Собирает два официальных Cboe daily-close ряда, распространяемых FRED: 30-day `VIXCLS`
+и 3-month `VXVCLS`. URL серверно ограничены `2018-01-01..2025-12-31`, поэтому raw bytes
+физически не содержат наблюдений 2026. Missing значения сохраняются, общий ряд создаётся
+только на точной общей date grid, а structural state равен backwardation строго при
+`VIX/VIX3M > 1`. Conservative availability — `23:59:59 America/Chicago` observation day;
+при московском join это запрещает использовать ещё не закрывшуюся американскую сессию.
+Canonical V2 содержит 2 087 grid rows и 2 011 complete pairs. V1 superseded только из-за
+нерепродуцируемой parquet timestamp unit; V2 raw replay совпадает точно.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical
