@@ -1,5 +1,25 @@
 ﻿# Реестр экспериментов
 
+## FX cash-and-carry V1 — NO-GO
+
+- Protocol SHA `4b3ca33e...`, seal `7ddc677`; runner commits `a6d945b`/`4b4b5a2`
+  были pushed до canonical basis/PnL.
+- Canonical: `runs/fx_cash_carry_v1_20260901T233224Z_4b3ca33e/`; metrics SHA
+  `3f638a7b...`, identity `432b25fb...`, audit `65a9ee95...`; replay 11/11 и все
+  execution/source checks true.
+- Механика: fixed quarterly long `USD000UTSTOM`/short SI, entry около 60 DTE,
+  same-session opens, 5 bps half-spread + 1 bp commission per leg/side, full spot
+  principal + 30% margin + 10% buffer, USD yield zero, admission только `>=2%`
+  annualized excess over causal RUONIA. Stress использует 10 bps.
+- Development 2018–2022: 1/20 trade; primary total `+1,7449%`, CAGR `0,3471%`,
+  Sharpe `0,3470`, MDD `1,0063%`; RUONIA CAGR `7,2699%`. Stress total `+1,6150%`.
+- Evaluation 2023–2025: 0/12 trades, CAGR `0%`, RUONIA CAGR `16,5405%`; 6 entries
+  below hurdle и 6 без complete fixed schedule. После `2024-06-12` source содержит
+  398 zero-price/zero-trade rows из-за прекращения on-exchange USD/RUB spot trading.
+- Verdict `NO_GO`: 6/8 promotion gates false. Не ослаблять hurdle/capital/costs и не
+  подбирать alternate dates на этой истории. Reverse carry остаётся запрещён без
+  доказанного USD borrow.
+
 Этот файл фиксирует научную память проекта. `Canonical` означает выбранный для аудита
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.

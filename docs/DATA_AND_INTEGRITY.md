@@ -375,6 +375,12 @@ values считаются доступными только после торг�
 original historical vintage. Bundle запрещён старым experiments и не разрешает
 basis/return/PnL без отдельного заранее pushed economic protocol.
 
+В economic V1 обнаружилась важная сохранённая семантика: ровно 398 строк
+`2024-06-13..2025-12-30` имеют одновременно zero open/close и zero NUMTRADES. Source не
+исправляется и не forward-fill-ится; runner держит даты в evaluation calendar, но
+исключает их из execution calendar. Canonical run SHA: metrics `3f638a7b...`, identity
+`432b25fb...`, audit `65a9ee95...`, artifact manifest `d550e605...`; audit 11/11.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

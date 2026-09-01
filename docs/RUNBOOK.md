@@ -1096,6 +1096,17 @@ collector второй раз в этот path. Source не содержит bas
 разрешает экономическую проверку: сначала нужен отдельный config/code seal с exact SI,
 cost, margin и RUONIA assumptions.
 
+Economic V1 уже immutable:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.fx_cash_carry_v1 `
+  --audit-directory D:\Projects\trading_lab_data\runs\fx_cash_carry_v1_20260901T233224Z_4b3ca33e
+```
+
+Ожидание: audit 11/11, verdict `NO_GO`, evaluation trades `0`, CAGR `0%`. Run не
+повторять и параметры не менять: отсутствие executable USD spot после июня 2024 —
+структурная причина закрытия ветки, а не повод подобрать другой historical threshold.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что

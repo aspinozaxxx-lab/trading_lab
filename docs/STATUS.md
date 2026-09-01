@@ -61,6 +61,14 @@ OHLC полны, WAPRICE missing 398. Basis/PnL ещё не считались: 
 отдельно sealed long-spot/short-SI protocol с next-session execution, costs, margin и
 RUONIA opportunity cost. Это новый механизм дохода, но пока не результат.
 
+Экономический V1 уже завершён и закрыт как `NO_GO`: canonical
+`runs/fx_cash_carry_v1_20260901T233224Z_4b3ca33e/`, metrics `3f638a7b...`, replay
+11/11. Development дал лишь одну сделку и CAGR `0,3471%` против RUONIA `7,2699%`;
+evaluation — 0 сделок, CAGR `0%` против RUONIA `16,5405%`. 398 zero-price/zero-trade
+spot rows начинаются после `2024-06-12`, поэтому USD/RUB cash-and-carry через MOEX
+spot не является рабочей веткой для 2025. Threshold/date tuning запрещён; следующий
+relative-value screen должен использовать реально продолжающий торговаться spot.
+
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
 V35 проверила принципиально иной механизм: после каждого второго завершённого

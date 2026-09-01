@@ -754,6 +754,15 @@ Protected ceiling `2026-01-01`, security/board/date identity, artifact bytes и 
 проверяются повторным audit. Модуль запрещает basis/return/label/target/PnL; экономическая
 long-spot/short-SI логика должна жить в отдельном заранее sealed runner.
 
+### `market_lab.futures.fx_cash_carry_v1`
+
+Economic runner механически соединяет один quarterly SI с `USD000UTSTOM`, causal
+RUONIA и fixed entry/exit schedule. Обе ноги исполняются по stressed same-session open;
+размер integer, spot principal/margin/buffer полностью резервируются, USD/cash yield не
+кредитуется. Daily ledger переоценивает обе ноги и проверяет margin loss. Нулевые
+zero-trade spot rows остаются в evaluation calendar, но никогда не являются fills.
+Canonical V1 operationally complete и economic `NO_GO`.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily
