@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V34: RI–MIX relative-corridor barrier — sealed, canonical outcome pending
+## V34: RI–MIX relative-corridor barrier — canonical NO-GO
 
 - Новая family после V33 economic NO-GO: barrier meta-label вместо absolute-return
   regression. Relative residual `RI - beta*MIX`, rolling beta `132/min66`, residual
@@ -28,8 +28,17 @@
 - Metadata-only preflight 8/8, targeted V32–V34 tests `25/25`, scoped Ruff clean. Full
   suite: `976 passed, 7 skipped`; only the two pre-existing V8 anti-junction failures
   remain because external data intentionally resolves outside Git root.
-- Economic outcomes have not been read. Run only once after the seal commit is pushed;
-  then append immutable path, metrics/identity SHA, coverage and verdict here.
+- Seal commit `12b48dc` был pushed до первого outcome. Единственный canonical run:
+  `runs/v34_relative_corridor_20260901T213656Z_eece2650/`; metrics SHA `1db3bc1a...`,
+  identity SHA `687c1328...`, independent audit 62/62 exact.
+- Candidate coverage: 389 rows / 156 source-event days; evaluation 323, positive barrier
+  targets 133. Все 26 monthly folds у обеих MLP спали: maximum calibration event days
+  33 `<` sealed 40, поэтому curve/market MLP trades = 0. Это coverage failure, не
+  разрешение ослабить gate post-outcome.
+- Fixed corridor: 118 completed pairs / 472 filled legs, zero unresolved, six exit-retry
+  trades, costs 27 624,64 RUB. Total `−2,9293%`, CAGR `−1,3634%`, Sharpe `−1,0445`,
+  MDD `4,5066%`; years `2022 +0,7919%`, `2023 −4,0636%`, `2024 +0,3874%`.
+  Exit split: 52 TP, 11 distant stop, 55 time exit. Verdict `NO_GO`; family закрыта.
 
 ## V33: V32 target-preserving liquidity execution repair — canonical NO-GO
 

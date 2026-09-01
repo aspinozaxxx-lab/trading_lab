@@ -931,16 +931,19 @@ V34 config SHA `eece2650...`, core SHA `f3e86c52...`, runner SHA `e8ad7882...`.
   market_lab.futures_v34_relative_corridor_barrier --preflight-only
 ```
 
-После commit+push sealed family допускает ровно один canonical запуск:
+Seal commit `12b48dc` был pushed до outcomes. Единственный canonical запуск уже выполнен;
+команда ниже сохранена только для provenance и **не должна повторяться**:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
   market_lab.futures_v34_relative_corridor_barrier --output-root .\runs
 ```
 
-Затем обязательно выполнить `--audit-run <exact-run-path>` и записать metrics SHA,
-identity SHA, результаты всех пяти ledgers, число candidates/active signals/trades,
-unresolved и итоговый verdict. Параметры V34 после просмотра результата не менять.
+Canonical path `runs/v34_relative_corridor_20260901T213656Z_eece2650/`, metrics SHA
+`1db3bc1a...`, identity SHA `687c1328...`; audit 62/62 exact. Обе MLP сделали ноль
+сделок из-за insufficient nested-history gate. Fixed corridor: 118 pairs, CAGR
+`−1,3634%`, Sharpe `−1,0445`, MDD `4,5066%`, zero unresolved, verdict `NO_GO`.
+Параметры V34 после результата не менять и run не повторять.
 
 ## 5. Новый эксперимент
 

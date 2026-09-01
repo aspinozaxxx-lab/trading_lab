@@ -3,7 +3,7 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V34 гипотез защищены и не используются.
 
-## Текущая работа: V34 sealed relative-corridor barrier, outcome ещё не читался
+## Последний результат: V34 relative-corridor barrier NO-GO
 
 После закрытия absolute-return regression подготовлена отдельная family V34. Она
 торгует только относительное отклонение RI–MIX: beta оценивается по 132 последним exact
@@ -25,10 +25,26 @@ core SHA `f3e86c52b5199b2e6844326cb771cbef9a075c0420f71c74d8f7d8906908b8f6`, run
 `e8ad78828ba89e535978c4db27434382c82ccac34da6181122e05c7e47f7bcfc`.
 Metadata-only preflight 8/8 совпал с V32 source identities; V32–V34 scoped tests
 `25/25`, full suite `976 passed, 7 skipped` плюс те же два известные V8 anti-junction
-failures. До commit+push запрещено запускать economic command; после push разрешён ровно
-один canonical read 2022-04..2024-05. Результат и claim о доходности пока отсутствуют.
+failures. Seal commit `12b48dc` был pushed и подтверждён remote до outcome.
 
-## Последний результат: V33 full-horizon economic NO-GO
+Единственный canonical run
+`runs/v34_relative_corridor_20260901T213656Z_eece2650/`: metrics SHA
+`1db3bc1a92759e9e2940df5a93387b0d3556301ad18b9a58929400cad09b2ee3`, identity SHA
+`687c13284403d358eca913a6d723893a6c7316de15f954c775fce185d2a202d3`; audit 62/62.
+Получено 389 candidates на 156 event days, из них 323 в evaluation и 133 positive
+barrier targets. Но все 52 model-fold records (`26 x 2`) получили
+`sleep_insufficient_nested_history`: maximum calibration source days только 33 против
+sealed minimum 40. Поэтому full и market-only MLP сделали ноль сделок; gates нельзя
+ослаблять после outcome.
+
+Fixed corridor полностью исполнил 118 pair trades / 472 legs, unresolved 0, costs
+27 624,64 RUB. Total return `−2,9293%`, CAGR `−1,3634%`, Sharpe `−1,0445`, MDD
+`4,5066%`; calendar `2022 +0,7919%`, `2023 −4,0636%`, `2024 +0,3874%`. Из 52 TP
+все прибыльны, но 11 distant stops и 55 time exits дали отрицательный итог. Verdict
+`NO_GO`, все 20%/50% claims false, live trading запрещён. V34 thresholds/horizon/gates
+не менять на этой history; нужна новая mechanism/source family.
+
+## Предыдущий результат: V33 full-horizon economic NO-GO
 
 После отрицательной независимой проверки V31 открыта принципиально новая family, а не
 ещё одна настройка старого weekly trend. V32 делает решение после каждого завершённого
