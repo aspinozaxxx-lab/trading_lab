@@ -421,7 +421,9 @@ quarter cycle для Si/RTS/MIX и month cycle для BR, а
 ноль unresolved roll/exit. Его preflight не опубликовал output только из-за слишком
 строгого ожидания непрерывного SI roll: source причинно закрывает позицию в декабре 2016,
 остаётся flat до первой строки 2017 и затем re-enters. D3 отдельно pin-ит exact gap dates
-и запрещает синтетически переносить через них return.
+и запрещает синтетически переносить через них return. Canonical D3 завершён с manifest
+SHA `3ab20092...`: 1 479 common sessions, exact 22/23/70/23 roll и ноль unresolved
+roll/exit; strategy outcome не читался.
 
 После успешного D3 derived-source и отдельного V28 seal этот период можно использовать
 как новую независимую проверку byte-identical V27 trend/capital/execution path. Он не

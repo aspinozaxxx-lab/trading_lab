@@ -59,7 +59,11 @@ admitted 2017 SI observation до `2017-01-03`; planner остаётся flat п
 re-enters `2017-01-04`, не создавая return bridge. D3 подготовлен до build: config SHA
 `d21dd650...`, implementation SHA `c04d8224...`. Он наследует D2 byte-identical, требует
 exact action counts, 22/23/70/23 roll для SI/RI/BR/MIX, exact flat-gap dates и ноль
-unfilled roll/exit. Запуск D3 разрешён только после commit/push.
+unfilled roll/exit. D3 был pushed commit `8877b75` до build и успешно опубликован:
+manifest SHA `3ab20092dbe4fd8a58211d11db1b6dcd6a8335f98051146da76a0f3c0c82fa71`,
+1 479 common sessions `2012-01-03..2017-12-01`, 5 916 panel rows, 28 797 contract/spec
+rows, все exact action gates true, unresolved roll/exit = 0. Ни returns, ни PnL пока не
+считались. Следующий этап — bounded STLFSI4/RUONIA/key-rate source и отдельный V28 seal.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -696,11 +700,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
    aliases. Source V3 уже sealed/pushed и собрал 30 059 official daily rows; raw replay,
    hashes, exact identities и граница `<=2017-12-21` проверены.
-3. D1 выявил serial-contract failure; D2 official-cycle preflight остановился без output
-   на неверно ожидавшемся SI roll через фактический source gap. D3 с exact flat/sleep
-   semantics подготовлен с SHA `d21dd650...`; сначала commit/push, затем один immutable
-   fail-closed build. После этого собрать bounded STLFSI4/CBR monetary sources без
-   strategy outcomes и запечатать V28.
+3. D1 выявил serial-contract failure; D2 остановился без output на неверном ожидании
+   непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
+   Теперь собрать bounded STLFSI4/RUONIA/key-rate sources без strategy outcomes и
+   запечатать byte-identical V28.
    Период может независимо
    проверить frozen trend/capital/execution path, но главный `>=20%` governor не
    активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё

@@ -4,15 +4,19 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-D3: gap-aware official-cycle source — sealed, build pending
+## MOEX-PRE2018-D3: gap-aware official-cycle source — completed
 
 - Config SHA `d21dd650...`, implementation SHA `c04d8224...`; полностью наследует
   source/admission/roll/spec D2 и меняет только source quality gate до strategy outcome.
 - Exact SI discontinuity: factual exit `2016-12-09`, flat sessions
   `2016-12-12..2016-12-15` и `2017-01-03`, causal re-entry `2017-01-04`. Gap return не
   создаётся, неизвестные наблюдения не становятся нулями.
+- Seal был pushed commit `8877b75` до единственного build. Canonical manifest SHA
+  `3ab20092...`; panel/active rows 5 916, contract/spec rows 28 797, calendar
+  `2012-01-03..2017-12-01`.
 - Required rolls SI/RI/BR/MIX = 22/23/70/23, все action counts exact, unresolved
-  roll/exit = 0. Первый D3 build разрешён только после commit/push.
+  roll/exit = 0, spec lag strict, outcome columns absent. Следующий этап — macro sources
+  и отдельный V28 seal; D3 не является strategy result или live evidence.
 
 ## MOEX-PRE2018-D2: official-cycle causal source — failed, no output
 

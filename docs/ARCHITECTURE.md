@@ -411,7 +411,8 @@ daily/roll counts и ноль unresolved roll/exit до atomic publication. Prot
 опубликовал output, потому что source имеет clean SI flat gap между декабрём 2016 и
 первой строкой 2017, а gate ожидал непрерывный roll. V3 SHA `d21dd650...` наследует D2,
 но pin-ит exact exit/flat/re-entry dates и action counts; gap всегда cash и никогда не
-превращается в synthetic return.
+превращается в synthetic return. Canonical D3 manifest SHA `3ab20092...`; все exact
+gates прошли, unresolved roll/exit отсутствуют.
 
 ### `market_lab.futures.futoi_intraday_source`
 

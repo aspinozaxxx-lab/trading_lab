@@ -640,6 +640,8 @@ Default immutable D3 output:
 `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/`. Build должен
 сам остановиться при любом unresolved roll/exit. После сборки сверить все artifact
 SHA/rows, exact rolls и maximum session; returns/PnL запрещены до отдельного V28 seal.
+Canonical D3 уже завершён: manifest SHA `3ab20092...`, 5 916 panel rows, 28 797
+contract/spec rows, unresolved roll/exit = 0. Команду build повторно не запускать.
 
 ## 5. Новый эксперимент
 

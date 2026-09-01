@@ -63,8 +63,10 @@ D3 SHA `d21dd650...` сохраняет D2 byte-identical и pin-ит единс
 `2016-12-09`, пять exact flat sessions, re-entry `2017-01-04`, без return bridge. Его
 единственный output —
 `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/`; publication
-требует exact action counts и ноль unresolved roll/exit. Outcome columns,
-zero-imputation и PnL до отдельного V28 seal запрещены.
+требует exact action counts и ноль unresolved roll/exit. Build завершён: manifest SHA
+`3ab20092...`, panel SHA `d1043ea7...`, active-map SHA `b3ce75f9...`, spec SHA
+`d7cecd86...`; 1 479 common sessions и 16 explicitly invalid/masked active rows.
+Outcome columns, zero-imputation и PnL до отдельного V28 seal запрещены.
 
 ## Основные разрешённые development artifacts
 
@@ -79,6 +81,10 @@ identity и должен проверяться перед чтением.
 | Pre-2018 core-four daily | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/daily.parquet` | `00a9a872557d1450c38ace291449ab6a1de17679c8fc12d57bf3b1738cd50e38` |
 | Pre-2018 core-four manifest | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/manifest.json` | `e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6` |
 | Pre-2018 core-four raw archive | `data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1/official_moex_iss_responses.jsonl.gz` | `b7d10f9949e65f330f738f789e6fcb69262a0fe9f549252323c6f18ec666e464` |
+| Pre-2018 causal D3 manifest | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/manifest.json` | `3ab20092dbe4fd8a58211d11db1b6dcd6a8335f98051146da76a0f3c0c82fa71` |
+| Pre-2018 causal D3 panel | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/panel.parquet` | `d1043ea73a1f4f86e7477c2a3664d08b409148d879435de2889560a1c2a8579c` |
+| Pre-2018 causal D3 active map | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/active_contract_map.parquet` | `b3ce75f9f7a67a2176741ebb7491ebc760070ef03c9ec3cf28a076542a7f728f` |
+| Pre-2018 causal D3 spec proxy | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/spec_proxy.parquet` | `d7cecd862229d6564bd5657d96e867c3e9984c6fd47ed671d0121293cef2ab2a` |
 | Active-contract map | `data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet` | `40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823` |
 | Futures spec proxy | `data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet` | `8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682` |
 | CBR PIT daily | `data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet` | `bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d` |
