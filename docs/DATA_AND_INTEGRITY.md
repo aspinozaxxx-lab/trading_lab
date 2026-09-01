@@ -55,11 +55,16 @@ Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derive
 unfilled exit. D1 не перезаписывать и не использовать для PnL.
 
 D2 config SHA `7b60afbf...` pin-ит D1 diagnosis и фиксирует official-cycle admission:
-H/M/U/Z для SI/RI/MIX, месячный BR; 143 contracts и 29 026 source rows. Новый immutable
-output `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v2/` может быть
-опубликован только при exact 23/23/23/70 roll и нуле unresolved roll/exit. Outcome
-columns, zero-imputation и return bridge через gap/roll остаются запрещены. Даже
-успешный D2 не разрешает PnL без отдельного pre-outcome V28 seal.
+H/M/U/Z для SI/RI/MIX, месячный BR; 143 contracts и 29 026 source rows. D2 build был
+fail-closed и не опубликовал output: clean SI exit/flat/re-entry source gap дал 22 roll
+вместо ошибочно ожидавшихся 23, при этом unresolved roll/exit уже были нулевыми.
+
+D3 SHA `d21dd650...` сохраняет D2 byte-identical и pin-ит единственный gap: exit
+`2016-12-09`, пять exact flat sessions, re-entry `2017-01-04`, без return bridge. Его
+единственный output —
+`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/`; publication
+требует exact action counts и ноль unresolved roll/exit. Outcome columns,
+zero-imputation и PnL до отдельного V28 seal запрещены.
 
 ## Основные разрешённые development artifacts
 

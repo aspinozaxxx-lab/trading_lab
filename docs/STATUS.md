@@ -52,10 +52,14 @@ Derived-source D1 был pushed commit `ce22460` до единственного
 Si contracts, и nearest-expiry planner после трёх успешных roll получил 9
 `carry_unfilled_roll`, затем 1 276 `carry_unfilled_exit`. Returns, signal и PnL не
 считались. D1 сохранён immutable с manifest SHA `73ffe4c3...` как честный failed source
-derivation. D2 подготовлен до нового build: config SHA `7b60afbf...`, implementation SHA
-`7ce4b0a9...`. Он допускает официальный квартальный H/M/U/Z cycle для SI/RI/MIX и
-месячный cycle для BR и fail-closed требует ровно 23/23/23/70 успешных roll, ноль
-unfilled roll/exit. D2 можно запускать только после commit/push.
+derivation. D2 с official-cycle filter был sealed/pushed commit `b858d54`, но его build
+правильно остановился без output: SI дал 22, а не ошибочно ожидавшиеся 23 roll. Source-
+only diagnosis показал единственный bounded gap: после factual exit `2016-12-09` нет
+admitted 2017 SI observation до `2017-01-03`; planner остаётся flat пять сессий и
+re-enters `2017-01-04`, не создавая return bridge. D3 подготовлен до build: config SHA
+`d21dd650...`, implementation SHA `c04d8224...`. Он наследует D2 byte-identical, требует
+exact action counts, 22/23/70/23 roll для SI/RI/BR/MIX, exact flat-gap dates и ноль
+unfilled roll/exit. Запуск D3 разрешён только после commit/push.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -692,11 +696,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
    aliases. Source V3 уже sealed/pushed и собрал 30 059 official daily rows; raw replay,
    hashes, exact identities и граница `<=2017-12-21` проверены.
-3. D1 immutable build выявил operational failure Si serial contracts без просмотра
-   strategy outcome. D2 с official quarterly SI/RI/MIX и monthly BR cycle подготовлен с
-   SHA `7b60afbf...`; сначала commit/push, затем один immutable fail-closed build. После
-   этого собрать старые bounded STLFSI4/CBR monetary sources без strategy outcomes и
-   запечатать V28.
+3. D1 выявил serial-contract failure; D2 official-cycle preflight остановился без output
+   на неверно ожидавшемся SI roll через фактический source gap. D3 с exact flat/sleep
+   semantics подготовлен с SHA `d21dd650...`; сначала commit/push, затем один immutable
+   fail-closed build. После этого собрать bounded STLFSI4/CBR monetary sources без
+   strategy outcomes и запечатать V28.
    Период может независимо
    проверить frozen trend/capital/execution path, но главный `>=20%` governor не
    активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё

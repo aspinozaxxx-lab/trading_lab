@@ -616,24 +616,28 @@ D1 config SHA `a633883d...` был pushed до build, но его immutable outp
 использовать: manifest `73ffe4c3...` зафиксировал persistent unfilled SI roll/exit после
 попадания в serial-month contracts. D1 не повторять и не перезаписывать.
 
-D2 config SHA `7b60afbf...`, implementation SHA `7ce4b0a9...` фиксирует official-cycle
-filter и exact roll gates. До первого D2 build code/config/tests должны быть committed и
-pushed:
+D2 config SHA `7b60afbf...` был pushed, но build не опубликовал output: SI exact roll
+count оказался 22 из-за bounded clean flat gap, а gate требовал 23. D2 не повторять.
+
+D3 config SHA `d21dd650...`, implementation SHA `c04d8224...` наследует official-cycle
+filter и фиксирует exact gap/action gates. До первого D3 build code/config/tests должны
+быть committed и pushed:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
   tests/test_moex_pre2018_core4_derived.py `
   tests/test_moex_pre2018_core4_derived_v2.py `
+  tests/test_moex_pre2018_core4_derived_v3.py `
   tests/test_futures_panel.py tests/test_futures_spec_proxy.py tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures/moex_pre2018_core4_derived_v2.py `
-  tests/test_moex_pre2018_core4_derived_v2.py
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_derived_v2 `
-  --config .\configs\moex_pre2018_core4_derived_v2.yaml
+  src/market_lab/futures/moex_pre2018_core4_derived_v3.py `
+  tests/test_moex_pre2018_core4_derived_v3.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_derived_v3 `
+  --config .\configs\moex_pre2018_core4_derived_v3.yaml
 ```
 
-Default immutable D2 output:
-`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v2/`. Build должен
+Default immutable D3 output:
+`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/`. Build должен
 сам остановиться при любом unresolved roll/exit. После сборки сверить все artifact
 SHA/rows, exact rolls и maximum session; returns/PnL запрещены до отдельного V28 seal.
 

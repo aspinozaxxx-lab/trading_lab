@@ -4,17 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-D2: official-cycle causal source — sealed, build pending
+## MOEX-PRE2018-D3: gap-aware official-cycle source — sealed, build pending
+
+- Config SHA `d21dd650...`, implementation SHA `c04d8224...`; полностью наследует
+  source/admission/roll/spec D2 и меняет только source quality gate до strategy outcome.
+- Exact SI discontinuity: factual exit `2016-12-09`, flat sessions
+  `2016-12-12..2016-12-15` и `2017-01-03`, causal re-entry `2017-01-04`. Gap return не
+  создаётся, неизвестные наблюдения не становятся нулями.
+- Required rolls SI/RI/BR/MIX = 22/23/70/23, все action counts exact, unresolved
+  roll/exit = 0. Первый D3 build разрешён только после commit/push.
+
+## MOEX-PRE2018-D2: official-cycle causal source — failed, no output
 
 - Config SHA `7b60afbf...`, implementation SHA `7ce4b0a9...`; это source-only correction
   после D1 operational audit, не стратегия и не outcome selection.
 - Structural admission до любого return/PnL: SI/RI/MIX только квартальные H/M/U/Z,
   BR — все месяцы. Exact expected contracts: 24/24/24/71; 12 serial SI contracts
   исключаются, 29 026 parent daily rows остаются.
-- Roll/execution неизменны. Build обязан получить SI/RI/MIX/BR = 23/23/23/70 успешных
-  roll и ноль `carry_unfilled_roll`/`carry_unfilled_exit`, иначе output не публикуется.
-- Первый D2 build разрешён только после pre-build push. Затем нужен полный source audit,
-  macro-source seals и отдельный V28 pre-outcome protocol.
+- Seal был pushed commit `b858d54` до build. D2 правильно не опубликовал output: exact
+  rolls BR/MIX/RI = 70/23/23, SI = 22 вместо predeclared 23.
+- Source-only diagnosis без return/PnL доказал clean SI flat transition, а не unfilled
+  execution: нет admitted 2017 contract до `2017-01-03`, поэтому exit `2016-12-09`,
+  пять flat sessions и re-entry `2017-01-04`. Correction перенесена в отдельный D3 seal.
 
 ## MOEX-PRE2018-D1: causal panel/spec source — completed, unusable
 

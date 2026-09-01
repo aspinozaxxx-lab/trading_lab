@@ -418,9 +418,12 @@ search включил 12 старых serial-month Si contracts, и nearest-expi
 quarter cycle для Si/RTS/MIX и month cycle для BR, а
 [спецификация кодов](https://www.moex.com/s1085) подтверждает month codes. Поэтому D2
 до любого strategy outcome фиксирует H/M/U/Z для SI/RI/MIX и все месяцы для BR и требует
-ноль unresolved roll/exit.
+ноль unresolved roll/exit. Его preflight не опубликовал output только из-за слишком
+строгого ожидания непрерывного SI roll: source причинно закрывает позицию в декабре 2016,
+остаётся flat до первой строки 2017 и затем re-enters. D3 отдельно pin-ит exact gap dates
+и запрещает синтетически переносить через них return.
 
-После успешного D2 derived-source и отдельного V28 seal этот период можно использовать
+После успешного D3 derived-source и отдельного V28 seal этот период можно использовать
 как новую независимую проверку byte-identical V27 trend/capital/execution path. Он не
 проверит уникальное
 действие monetary governor: официальная key rate не достигала 20% (maximum 17% в 2014).

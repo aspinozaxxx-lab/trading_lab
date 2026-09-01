@@ -1,0 +1,95 @@
+﻿protocol_id: moex_pre2018_core4_derived_source_v3
+protocol_version: 3
+status: predeclared_after_failed_D2_source_build_before_D3_build
+declared_at_utc: "2026-09-01T07:01:00Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_D3_derived_tables: true
+live_trading_allowed: false
+
+parent_D2_protocol:
+  path: configs/moex_pre2018_core4_derived_v2.yaml
+  sha256: 7b60afbf9aa0c9c9dc5bffa9918c6e113dd414049c4f38b8d826b75d68fc496b
+  inheritance:
+    - exact_parent_MOEX_source_bytes_and_temporal_ceiling
+    - official_cycle_contract_admission
+    - exact_143_admitted_contracts_and_29026_daily_rows
+    - existing_causal_roll_defaults_and_forward_adjustment
+    - missing_participant_OI_and_lag1_spec_proxy
+    - no_outcome_columns_and_no_zero_or_gap_return_bridge
+
+failed_D2_build:
+  config_sha256: 7b60afbf9aa0c9c9dc5bffa9918c6e113dd414049c4f38b8d826b75d68fc496b
+  implementation_sha256: 7ce4b0a97af9c73fb90f51629a227de3117d2180c3dda0e3d5ba4d159351f46f
+  attempted_after_commit_and_push: true
+  output_published: false
+  returns_targets_labels_predictions_signals_equity_or_pnl_observed: false
+  strategy_outcomes_observed: false
+  failure: expected_SI_23_successful_rolls_observed_22
+  source_only_diagnosis: >-
+    The parent source has no admitted 2017 SI contract observation before 2017-01-03.
+    The causal planner therefore closes SiZ6 on the 2016-12-09 effective session using
+    a factual exit open, remains flat for five common sessions, and re-enters SiH7 on
+    2017-01-04 from the 2017-01-03 completed observation. This is a bounded source gap,
+    not an unresolved roll or exit, and no return may be bridged across it.
+
+quality_gate_correction:
+  changed_from_D2: only_expected_SI_roll_count_and_exact_controlled_flat_gap_identity
+  economic_or_strategy_parameter_changed: false
+  returns_or_pnl_used: false
+  required_successful_rolls: {SI: 22, RI: 23, BR: 70, MIX: 23}
+  required_action_counts:
+    SI: {hold: 1448, roll: 22, flat: 6, enter: 2, flat_skip: 1}
+    RI: {hold: 1454, roll: 23, enter: 1, flat: 1}
+    BR: {hold: 1402, roll: 70, flat: 5, enter: 1, flat_skip: 1}
+    MIX: {hold: 1453, roll: 23, flat: 1, enter: 1, carry_missing_mark: 1}
+  maximum_unresolved_rolls: 0
+  maximum_unresolved_exits: 0
+  SI_exit_effective_date: "2016-12-09"
+  SI_exit_reason: hard_fallback_without_next_contract
+  SI_flat_session_dates:
+    - "2016-12-12"
+    - "2016-12-13"
+    - "2016-12-14"
+    - "2016-12-15"
+    - "2017-01-03"
+  SI_reentry_effective_date: "2017-01-04"
+  SI_gap_position: flat_cash
+  missing_return_bridge_allowed: false
+
+output:
+  directory: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3
+  immutable: true
+  overwrite_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2018_core4_derived_v3.py: c04d822461ef705ed507e97100e5fcd51534e8e2450d4f5fc567ca456e11f74c
+  src/market_lab/futures/moex_pre2018_core4_derived_v2.py: 7ce4b0a97af9c73fb90f51629a227de3117d2180c3dda0e3d5ba4d159351f46f
+  src/market_lab/futures/moex_pre2018_core4_derived.py: 0c54c2325fd925835ac72a528c495942cb4d04f0116f1792875cecbf60d851c0
+  src/market_lab/futures/panel.py: ae52d9c71c0b38e35cbe72e993d1823d6fa57b4b960fa91549a465add6edfd30
+  src/market_lab/futures/roll.py: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+  src/market_lab/futures/spec_proxy.py: 213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  maximum_allowed_session: "2017-12-31"
+  protected_2018_and_later_read: forbidden_for_this_build
+  returns_targets_labels_predictions_signals_equity_or_pnl: forbidden
+  missing_values: preserve_never_zero_fill
+  SI_source_gap: explicit_flat_never_bridge
+
+limitations:
+  current_vintage_source: true
+  point_in_time_exchange_revision_history: unavailable
+  participant_open_interest: unavailable
+  exact_historical_specs_fees_margin_and_borrow: unavailable
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_D2_source_contract_admission_or_roll_rules
+  - changing_exact_action_counts_or_gap_dates
+  - converting_the_SI_flat_gap_to_a_return_bridge
+  - accepting_any_unresolved_roll_or_exit
+  - filling_unknown_observations_with_zero
+  - overwriting_the_output_bundle

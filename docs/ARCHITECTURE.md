@@ -407,7 +407,11 @@ serial-month contracts попали в nearest-expiry chain. D1 остаётся
 artifact. `market_lab.futures.moex_pre2018_core4_derived_v2` добавляет только structural
 cycle admission: H/M/U/Z для SI/RI/MIX, все месяцы для BR. Код требует exact contract/
 daily/roll counts и ноль unresolved roll/exit до atomic publication. Protocol D2 SHA
-`7b60afbf...`; никакие strategy outcomes для correction не использовались.
+`7b60afbf...`; никакие strategy outcomes для correction не использовались. D2 не
+опубликовал output, потому что source имеет clean SI flat gap между декабрём 2016 и
+первой строкой 2017, а gate ожидал непрерывный roll. V3 SHA `d21dd650...` наследует D2,
+но pin-ит exact exit/flat/re-entry dates и action counts; gap всегда cash и никогда не
+превращается в synthetic return.
 
 ### `market_lab.futures.futoi_intraday_source`
 
