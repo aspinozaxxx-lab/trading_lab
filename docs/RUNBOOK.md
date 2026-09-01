@@ -1027,6 +1027,30 @@ Config SHA `156f573c...`, metrics SHA `9812a1fd...`, identity SHA `c193c7cf...`,
 лучше с CAGR `8,1551%`. Verdict `NO_GO`. Не менять expert signs/horizons, eta/decay,
 cash/risk/leverage/costs или boundary bridge на этой history.
 
+### Forward MOEX option surfaces
+
+Один immutable public-delayed snapshot SI/RI/BR/MIX:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_option_surface_source
+```
+
+Read-only audit:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_option_surface_source `
+  --audit-directory <snapshot-path>
+```
+
+Каждый запуск создаёт новый каталог под
+`data/forward/moex-options-surface-v1/`; overwrite и historical backfill запрещены.
+Собирать один EOD snapshot на торговую дату. Первый реальный snapshot —
+`snapshot_20260901T230311250639Z`, 2 062 rows, audit 17/17. До 60 discovery + 20
+calibration + 40 unseen evaluation snapshots экономический protocol не запускать; см.
+[FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что

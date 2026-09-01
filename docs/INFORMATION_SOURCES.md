@@ -12,6 +12,22 @@ rows (FIZ/YUR для SI/RI/BR/MIX), audit 11/11. Все `available_at` равн�
 target-free flag true. Это официальный 15-day-delayed режим и не same-day signal;
 authenticated `tradestats/obstats` не собирались, потому что token отсутствует.
 
+Forward option-surface source теперь также активен. Bulk historical January-2021 pilot
+по ранее sealed URL корректно остановился без output: MOEX вернул subscriber-only HTML
+14 350 bytes вместо catalog-declared ZIP 4 347 140 bytes. Исторический архив не
+подменяется анонимным backfill. Отдельный forward-only collector был sealed/pushed
+commit `f9dba15` до первого persisted snapshot и использует текущий public-delayed ISS
+с server-side `assets=Si/RTS/BR/MIX`.
+
+Первый immutable snapshot:
+`data/forward/moex-options-surface-v1/snapshot_20260901T230311250639Z/`; 2 062 rows,
+source date `2026-09-01`, SI/RI/BR/MIX `946/460/356/300`, двусторонние положительные
+quotes `312/115/65/40`, settlement и underlying settlement 2 062/2 062. Manifest SHA
+`a4040403...`, processed SHA `579211bb...`, audit SHA `5954d258...`; 17/17 checks.
+Источник содержит цены, но не returns/labels/targets/PnL, и физически отделён от всех
+pre-2026 experiments. Evaluation order зафиксирован в
+[FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

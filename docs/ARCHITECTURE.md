@@ -736,6 +736,15 @@ Closed target-free schema сохраняет trade/order/depth flow, но зап
 price/VWAP/outcome fields. Три raw response архивируются gzip с SHA; причинная
 доступность никогда не раньше actual retrieval. Token читается только из environment.
 
+### `market_lab.futures.moex_forward_option_surface_source`
+
+Forward-only one-shot collector current MOEX option chains for Si/RTS/BR/MIX. Он
+архивирует четыре original JSON response, соединяет securities/marketdata строго по
+SECID+BOARDID и сохраняет strike/expiry/underlying, bid/offer, settlement, volume, OI
+и fees. Availability равна actual retrieval, historical backfill запрещён. Audit
+повторно распаковывает raw bytes и требует exact normalized values. Source содержит
+цены, но никогда не вычисляет return/label/target/PnL.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

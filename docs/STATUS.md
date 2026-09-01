@@ -38,6 +38,14 @@ Verdict `NO_GO`: online allocator не превзошёл статическую
 repair не менять по этому outcome. Следующий исторический тест обязан добавлять
 независимый механизм дохода или новый point-in-time источник; live trading запрещён.
 
+Новый независимый source уже запущен: `moex_forward_option_surface_source` был
+sealed/pushed `f9dba15` до persistence и сохранил первый public-delayed SI/RI/BR/MIX
+snapshot `snapshot_20260901T230311250639Z`. В нём 2 062 контракта, 532 положительных
+двусторонних quotes, полные settlement/underlying settlement и audit 17/17. Исторический
+monthly ZIP оказался subscriber-only и не подменялся. До накопления последовательности
+60 discovery + 20 calibration + 40 unseen evaluation опционный PnL запрещён; будущая
+family — только defined-risk premium, без naked short.
+
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
 V35 проверила принципиально иной механизм: после каждого второго завершённого
