@@ -610,27 +610,32 @@ Manifest SHA `e60d0bca...`: 155 contracts, 30 059 rows, 544 requests, maximum da
 сверил manifest/raw hashes, exact identities и cursor rows. Не считай return/PnL до
 отдельного V28 config SHA и pre-outcome push.
 
-### Sealed MOEX 2012–2017 causal derived source
+### Sealed MOEX 2012–2017 causal derived sources
 
-Protocol D1 config SHA `a633883d...`, implementation SHA `0c54c232...`. Он строит только
-causal panel/active map/contract observations/spec proxy и блокирует outcome columns.
-До первого запуска config, implementation и tests должны быть committed и pushed:
+D1 config SHA `a633883d...` был pushed до build, но его immutable output нельзя
+использовать: manifest `73ffe4c3...` зафиксировал persistent unfilled SI roll/exit после
+попадания в serial-month contracts. D1 не повторять и не перезаписывать.
+
+D2 config SHA `7b60afbf...`, implementation SHA `7ce4b0a9...` фиксирует official-cycle
+filter и exact roll gates. До первого D2 build code/config/tests должны быть committed и
+pushed:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
-  tests/test_moex_pre2018_core4_derived.py tests/test_futures_panel.py `
-  tests/test_futures_spec_proxy.py tests/test_encoding.py
+  tests/test_moex_pre2018_core4_derived.py `
+  tests/test_moex_pre2018_core4_derived_v2.py `
+  tests/test_futures_panel.py tests/test_futures_spec_proxy.py tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures/moex_pre2018_core4_derived.py `
-  tests/test_moex_pre2018_core4_derived.py
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_derived `
-  --config .\configs\moex_pre2018_core4_derived.yaml
+  src/market_lab/futures/moex_pre2018_core4_derived_v2.py `
+  tests/test_moex_pre2018_core4_derived_v2.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_derived_v2 `
+  --config .\configs\moex_pre2018_core4_derived_v2.yaml
 ```
 
-Default immutable output:
-`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1/`. После сборки
-сверь все artifact SHA/rows и maximum session; returns/PnL по-прежнему запрещены до
-отдельного V28 seal.
+Default immutable D2 output:
+`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v2/`. Build должен
+сам остановиться при любом unresolved roll/exit. После сборки сверить все artifact
+SHA/rows, exact rolls и maximum session; returns/PnL запрещены до отдельного V28 seal.
 
 ## 5. Новый эксперимент
 

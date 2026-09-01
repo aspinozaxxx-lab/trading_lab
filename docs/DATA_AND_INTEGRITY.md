@@ -50,10 +50,16 @@ source для следующего заранее запечатанного res
 
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
-Его единственный допустимый output —
-`data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1/`; overwrite,
-outcome columns, zero-imputation и return bridge через gap/roll запрещены. Даже после
-сборки эти таблицы не разрешают считать PnL без отдельного pre-outcome V28 seal.
+Его immutable output с manifest SHA `73ffe4c3...` прошёл byte/causality checks, но
+запрещён как V28 input: old serial-month SI chain породил 9 unfilled roll и 1 276
+unfilled exit. D1 не перезаписывать и не использовать для PnL.
+
+D2 config SHA `7b60afbf...` pin-ит D1 diagnosis и фиксирует official-cycle admission:
+H/M/U/Z для SI/RI/MIX, месячный BR; 143 contracts и 29 026 source rows. Новый immutable
+output `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v2/` может быть
+опубликован только при exact 23/23/23/70 roll и нуле unresolved roll/exit. Outcome
+columns, zero-imputation и return bridge через gap/roll остаются запрещены. Даже
+успешный D2 не разрешает PnL без отдельного pre-outcome V28 seal.
 
 ## Основные разрешённые development artifacts
 

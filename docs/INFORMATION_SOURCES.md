@@ -411,8 +411,17 @@ contracts в 2012–2017: BR 71, MIX 24, RI 24 и SI 36. Per-security descriptio
 filters, interval, pagination, raw archive, hashes, missing policy и temporal ceiling.
 Official bundle содержит 30 059 daily rows по 155 contracts, manifest SHA `e60d0bca...`;
 raw cursor replay и maximum date `2017-12-21` проверены. Returns, targets и PnL ещё не
-считались. После отдельного derived-source и V28 seal этот период можно использовать как
-новую независимую проверку byte-identical V27 trend/capital/execution path. Он не
+считались. Первый immutable derived-source D1 выявил purely operational defect: exact
+search включил 12 старых serial-month Si contracts, и nearest-expiry chain застрял на
+неисполненном roll/exit. Официальные
+[параметры срочного рынка](https://www.moex.com/en/derivatives/parameters.aspx) задают
+quarter cycle для Si/RTS/MIX и month cycle для BR, а
+[спецификация кодов](https://www.moex.com/s1085) подтверждает month codes. Поэтому D2
+до любого strategy outcome фиксирует H/M/U/Z для SI/RI/MIX и все месяцы для BR и требует
+ноль unresolved roll/exit.
+
+После успешного D2 derived-source и отдельного V28 seal этот период можно использовать
+как новую независимую проверку byte-identical V27 trend/capital/execution path. Он не
 проверит уникальное
 действие monetary governor: официальная key rate не достигала 20% (maximum 17% в 2014).
 

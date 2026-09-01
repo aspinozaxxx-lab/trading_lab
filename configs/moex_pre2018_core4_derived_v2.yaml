@@ -1,0 +1,131 @@
+﻿protocol_id: moex_pre2018_core4_derived_source_v2
+protocol_version: 2
+status: predeclared_after_D1_source_audit_before_D2_build
+declared_at_utc: "2026-09-01T06:49:10Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_D2_derived_tables: true
+live_trading_allowed: false
+
+relationship_to_D1: >-
+  D1 was committed and pushed before its only immutable source build. Its byte and
+  temporal audits passed, but source-only roll diagnostics found that SI entered old
+  illiquid serial-month contracts and then produced 9 unfilled rolls followed by 1276
+  unfilled exits. No return, signal, strategy equity, or PnL was calculated or observed.
+  D2 changes only structural contract admission before any strategy outcome: SI, RI and
+  MIX use the official quarterly H/M/U/Z cycle and BR uses its official monthly cycle.
+  Every roll/execution rule remains byte-identical to D1.
+
+official_structural_references:
+  derivatives_parameters: https://www.moex.com/en/derivatives/parameters.aspx
+  contract_code_specification: https://www.moex.com/s1085
+  declared_meaning:
+    SI: fourth_settlement_day_in_quarter_cycle
+    RI: fourth_settlement_day_in_quarter_cycle
+    MIX: second_settlement_day_in_quarter_cycle
+    BR: second_settlement_day_in_month_cycle
+  historical_exactness_limitation: >-
+    The current official page is structural corroboration, not an original-vintage
+    historical specification archive; exact expired SECIDs and dates remain pinned by
+    the parent MOEX source itself.
+
+previous_derived_attempt:
+  directory: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v1
+  config_sha256: a633883d4d930906c171559d73051e020beef3ab1ca1359f2ba98136765ffff3
+  implementation_sha256: 0c54c2325fd925835ac72a528c495942cb4d04f0116f1792875cecbf60d851c0
+  manifest_sha256: 73ffe4c3c0a53c034fcd286f2afd6d3b5025f8f9fe598b5f8b8e2d7ecffaa72f
+  audit_sha256: 1f375f877e2646d6c2f31b72dcc1e5c290fdfde7dfa109ea299030822b2409c8
+  verdict: OPERATIONALLY_UNUSABLE_SOURCE_DERIVATION
+  source_checks_passed: true
+  strategy_outcomes_observed: false
+  diagnostic:
+    SI_successful_rolls: 3
+    SI_carry_unfilled_roll: 9
+    SI_carry_unfilled_exit: 1276
+    first_persistent_failure_effective_date: "2012-10-17"
+
+source:
+  directory: data/processed/futures_pre2018/moex-core4-daily-current-vintage-2012-2017-v1
+  manifest_sha256: e60d0bcacff17af0229d150552a70ac235e821c2d271970ea2567c212a5f3da6
+  daily_sha256: 00a9a872557d1450c38ace291449ab6a1de17679c8fc12d57bf3b1738cd50e38
+  raw_replay_sha256: b7d10f9949e65f330f738f789e6fcb69262a0fe9f549252323c6f18ec666e464
+  daily_rows: 30059
+  contracts: 155
+  minimum_price_date: "2012-01-03"
+  maximum_price_date: "2017-12-21"
+  protected_from: "2018-01-01"
+
+contract_admission:
+  decision_basis: official_contract_cycle_and_continuity_with_frozen_V27_core_roots
+  returns_signals_strategy_equity_or_pnl_used: false
+  admitted_month_codes:
+    SI: [H, M, U, Z]
+    RI: [H, M, U, Z]
+    BR: [F, G, H, J, K, M, N, Q, U, V, X, Z]
+    MIX: [H, M, U, Z]
+  expected_contracts: {SI: 24, RI: 24, BR: 71, MIX: 24}
+  expected_excluded_contracts: 12
+  excluded_contract_policy: only_SI_serial_months
+  expected_admitted_daily_rows: 29026
+  required_successful_rolls: {SI: 23, RI: 23, BR: 70, MIX: 23}
+  maximum_unresolved_rolls: 0
+  maximum_unresolved_exits: 0
+
+output:
+  directory: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v2
+  immutable: true
+  overwrite_allowed: false
+
+causal_roll:
+  confirmation_days: 2
+  hard_fallback_sessions: 5
+  dominance_ratio: 1.0
+  overlap_price_column: settle
+  execution_price_column: open
+  historical_rewrite: forbidden
+  adjustment: forward_only_after_observed_roll
+  missing_open_policy: preserve_missing
+  missing_settle_policy: preserve_missing
+  gap_or_roll_return_bridge: forbidden
+
+participant_open_interest:
+  available_in_parent_source: false
+  policy: preserve_all_fields_as_missing
+  zero_imputation: forbidden
+
+specification_proxy:
+  method: existing_causal_lag1_proxy
+  same_session_spec_use: forbidden
+  unknown_spec_policy: sizing_unusable
+  historical_exchange_exact: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2018_core4_derived_v2.py: 7ce4b0a97af9c73fb90f51629a227de3117d2180c3dda0e3d5ba4d159351f46f
+  src/market_lab/futures/moex_pre2018_core4_derived.py: 0c54c2325fd925835ac72a528c495942cb4d04f0116f1792875cecbf60d851c0
+  src/market_lab/futures/panel.py: ae52d9c71c0b38e35cbe72e993d1823d6fa57b4b960fa91549a465add6edfd30
+  src/market_lab/futures/roll.py: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+  src/market_lab/futures/spec_proxy.py: 213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  maximum_allowed_session: "2017-12-31"
+  protected_2018_and_later_read: forbidden_for_this_build
+  returns_targets_labels_predictions_signals_equity_or_pnl: forbidden
+  missing_values: preserve_never_zero_fill
+
+limitations:
+  current_vintage_source: true
+  point_in_time_exchange_revision_history: unavailable
+  participant_open_interest: unavailable
+  exact_historical_specs_fees_margin_and_borrow: unavailable
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_contract_cycles_or_expected_counts
+  - changing_parent_source_or_its_bytes
+  - changing_roll_rules_after_inspecting_derived_returns_or_outcomes
+  - accepting_any_unfilled_roll_or_exit
+  - filling_unknown_observations_with_zero
+  - bridging_missing_sessions_or_contract_rolls_with_returns
+  - overwriting_the_output_bundle

@@ -4,17 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-D1: causal panel/spec source — sealed, build pending
+## MOEX-PRE2018-D2: official-cycle causal source — sealed, build pending
 
-- Это не стратегия и не просмотр outcome. Protocol
-  `configs/moex_pre2018_core4_derived.yaml`, SHA `a633883d...`, byte-pin-ит canonical
-  source manifest `e60d0bca...` и transformation implementation `0c54c232...`.
-- Frozen rules: common factual-session intersection, existing default causal roll,
-  forward-only adjustment, lag-1 spec proxy, participant OI missing without zero fill.
-- Output schema fail-closed запрещает return/target/label/prediction/signal/strategy/
-  equity/PnL columns. Immutable output будет создан только после pre-build push.
-- Следующий шаг: один build и full source audit, затем отдельные macro-source seals и
-  отдельный V28 pre-outcome protocol.
+- Config SHA `7b60afbf...`, implementation SHA `7ce4b0a9...`; это source-only correction
+  после D1 operational audit, не стратегия и не outcome selection.
+- Structural admission до любого return/PnL: SI/RI/MIX только квартальные H/M/U/Z,
+  BR — все месяцы. Exact expected contracts: 24/24/24/71; 12 serial SI contracts
+  исключаются, 29 026 parent daily rows остаются.
+- Roll/execution неизменны. Build обязан получить SI/RI/MIX/BR = 23/23/23/70 успешных
+  roll и ноль `carry_unfilled_roll`/`carry_unfilled_exit`, иначе output не публикуется.
+- Первый D2 build разрешён только после pre-build push. Затем нужен полный source audit,
+  macro-source seals и отдельный V28 pre-outcome protocol.
+
+## MOEX-PRE2018-D1: causal panel/spec source — completed, unusable
+
+- Protocol SHA `a633883d...` и implementation SHA `0c54c232...` были pushed commit
+  `ce22460` до единственного immutable build. Manifest SHA `73ffe4c3...`, audit SHA
+  `1f375f87...`; hashes, row counts, causality and maximum date all passed.
+- D1 не фильтровал old SI serial-month contracts. Nearest-expiry planner получил только
+  3 успешных SI roll, 9 `carry_unfilled_roll` и с `2012-10-17` ещё 1 276
+  `carry_unfilled_exit`; operational verdict `OPERATIONALLY_UNUSABLE_SOURCE_DERIVATION`.
+- Ни return, target, signal, strategy equity, ни PnL не рассчитывались. D1 нельзя
+  использовать в V28 и нельзя перезаписывать; он остаётся failed source evidence.
 
 ## MOEX-PRE2018-S3: official core-four daily source — completed
 

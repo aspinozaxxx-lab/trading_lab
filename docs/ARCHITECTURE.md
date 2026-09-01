@@ -402,6 +402,13 @@ panel, causal active-contract map, contract observations и lag-1 conservative s
 SHA `a633883d...`; output immutable и находится во внешнем хранилище. Это всё ещё source,
 а не strategy validation.
 
+D1 source audit обнаружил persistent SI `carry_unfilled_exit`, потому что старые
+serial-month contracts попали в nearest-expiry chain. D1 остаётся immutable failed
+artifact. `market_lab.futures.moex_pre2018_core4_derived_v2` добавляет только structural
+cycle admission: H/M/U/Z для SI/RI/MIX, все месяцы для BR. Код требует exact contract/
+daily/roll counts и ноль unresolved roll/exit до atomic publication. Protocol D2 SHA
+`7b60afbf...`; никакие strategy outcomes для correction не использовались.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical
