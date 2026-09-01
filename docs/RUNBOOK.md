@@ -1051,6 +1051,25 @@ Read-only audit:
 calibration + 40 unseen evaluation snapshots экономический protocol не запускать; см.
 [FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
 
+Автоматический wrapper сначала делает source-date-only SI probe и не вызывает collector,
+если эта торговая дата уже сохранена:
+
+```powershell
+.\scripts\collect_forward_option_surface.ps1
+```
+
+Регистрация/воспроизводимое обновление Windows Task Scheduler:
+
+```powershell
+.\scripts\register_forward_option_surface_task.ps1
+schtasks.exe /Query /TN "TradingLabForwardOptionSurface" /V /FO LIST
+```
+
+На `2026-09-02` task `TradingLabForwardOptionSurface` active/Ready: Mon–Fri 23:55
+Europe/Istanbul, interactive user, `StartWhenAvailable`, `IgnoreNew`, timeout 10 минут.
+Manual verification завершилась `Last Result: 0` и сохранила snapshot count `1`, то
+есть duplicate-date guard сработал.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что

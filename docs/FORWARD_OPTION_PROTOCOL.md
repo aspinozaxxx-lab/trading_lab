@@ -53,3 +53,12 @@ audit SHA `5954d258...`, 17/17 checks true. Двусторонние полож�
 
 Экономический код/параметры нельзя создавать до завершения discovery window; этот файл
 фиксирует порядок и предотвращает преждевременное чтение будущих labels/PnL.
+
+## Автоматическое накопление
+
+Windows task `TradingLabForwardOptionSurface` запускает
+`scripts/collect_forward_option_surface.ps1` Mon–Fri в 23:55 UTC+3. Wrapper сначала
+запрашивает только текущую `TRADE_SESSION_DATE`; существующая дата означает clean skip,
+новая — единственный полный snapshot. Task использует `StartWhenAvailable`, запрещает
+параллельные экземпляры и останавливает зависший run через 10 минут. Состояние task и
+число уникальных source dates нужно проверять при каждом продолжении исследования.

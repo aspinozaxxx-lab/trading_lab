@@ -45,6 +45,10 @@ snapshot `snapshot_20260901T230311250639Z`. В нём 2 062 контракта, 
 monthly ZIP оказался subscriber-only и не подменялся. До накопления последовательности
 60 discovery + 20 calibration + 40 unseen evaluation опционный PnL запрещён; будущая
 family — только defined-risk premium, без naked short.
+Сбор больше не ручной: task `TradingLabForwardOptionSurface` зарегистрирован на Mon–Fri
+23:55 UTC+3 с `StartWhenAvailable`, `IgnoreNew` и timeout 10 минут. Source-date probe
+предотвращает повтор одной торговой даты. Независимый manual task run дал result `0` и
+не увеличил snapshot count (`1`), то есть operational loop фактически проверен.
 
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
