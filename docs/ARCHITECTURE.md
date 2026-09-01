@@ -500,6 +500,23 @@ SHA `94d5fab4...`, raw SHA `ccaba170...`. Source disagreements остаются 
 flags; outcome columns отсутствуют. Downstream обязан использовать новый immutable
 derived artifact и отдельный SHA, а не добавлять strategy fields в source bundle.
 
+### `market_lab.futures.moex_calendar_spread_derived_v1`
+
+Source-only D1 byte-проверяет canonical V3 и lag-1 conservative spec proxy, затем строит
+три отдельные таблицы: все admissible candidates, единственный active spread на
+asset/date и coverage с явными source gaps. В catalog допускаются только regular
+adjacent legs, у которых near expiration совпадает с официальной датой последней
+торговли spread; row требует reported activity, нахождение внутри series interval,
+полный uncrossed Bid/Ask и неотрицательное время до near expiry. Active выбирается как
+minimum days-to-near; tie аварийно запрещён, locked quote сохраняется флагом.
+
+Обе ноги получают собственный canonical contract id и только strictly-prior sizing
+observation. Point values не усредняются и не считаются одинаковыми. Closed schema
+запрещает return/target/signal/strategy/equity/PnL fields; build атомарный и immutable,
+audit заново строит все таблицы и требует exact equality. Config SHA `657fd42b...`
+зафиксирован до первого build. Экономика, execution и стратегии должны получить другой
+pre-outcome seal после публикации manifest D1.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

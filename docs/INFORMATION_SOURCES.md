@@ -7,7 +7,7 @@
 
 ## Что уже есть
 
-### MOEX calendar spreads — sealed source, collection pending
+### MOEX calendar spreads — source complete, derived panel sealed
 
 Официальные календарные спреды дают новую relative-value family, экономически отличную
 от directional trend. [MOEX описывает](https://www.moex.com/en/spreads) покупку одного
@@ -33,6 +33,14 @@ push `ed16ca3` V3 успешно опубликован: manifest SHA `94d5fab4.
 `ccaba170...`, 110 spreads, 9 997 ISS rows, 10 157 archive rows и 8 887 rows с reported
 trades; все 47 raw/schema/temporal checks true, protected rows 0. Source-only bundle
 immutable, returns/PnL не считались.
+
+Следующий source-only D1 seal SHA `657fd42b...` заранее фиксирует 98 regular-adjacent
+и date-consistent spreads, 8 281 eligible candidate rows и 4 366 active asset/date rows.
+Active выбирается только по минимальному неотрицательному времени до near expiry; две
+locked quotes не удаляются, missing days не синтезируются. Near/far legs соединяются с
+лагированным spec proxy раздельно: их point value совпадает лишь в 1 218 случаях из
+4 366, поэтому последующий PnL обязан считать ноги отдельно. D1 всё ещё не содержит
+returns, targets, signals или PnL и будет опубликован отдельно от raw source.
 
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed

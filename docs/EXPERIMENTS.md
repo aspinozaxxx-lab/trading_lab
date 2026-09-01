@@ -4,6 +4,31 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## CALENDAR-SPREAD-DERIVED-D1: sealed, build pending, no PnL
+
+- Source-derived config SHA
+  `657fd42b472797028f5b0194c7b159ac1538ddab5caea8f9c416f0a403e34cd0`, implementation
+  SHA `d04f7d8f23ec5fce45d7b8879d41c130201e93695bceb3ca8891e6bd465c6f11`. Protocol
+  фиксируется и будет pushed до первого derived build и до любого spread change,
+  return, target, signal, equity или PnL.
+- Inputs byte-pinned: calendar source V3 manifest SHA `94d5fab4...`; causal spec proxy
+  manifest SHA `b1cada60...`, parquet SHA `8494235f...`, 66 052 rows, только strictly
+  prior sizing observation. Все historical exchange/broker exact flags false: proxy
+  остаётся приближённым и не разрешает live admission.
+- Structural mask задан до outcomes: regular-adjacent catalog row, near expiration
+  совпадает с spread last-trade date, reported activity, row внутри official series,
+  complete uncrossed Bid/Ask и неотрицательный days-to-near. Active row — уникальный
+  minimum days-to-near по asset/date; tie — reject. Last outside reported range не
+  фильтруется, locked/zero quote сохраняется и flag-ится, missing не заполняется.
+- Source-only preflight counts sealed: clean spreads SI/RI/BR/MIX `16/13/51/18`;
+  candidate rows `1 986/1 994/3 096/1 205` (8 281); active rows
+  `1 129/918/1 200/1 119` (4 366); ties 0; zero/locked 2; strict-positive width 4 364;
+  обе leg specs usable и causally prior 4 366/4 366; equal point value лишь 1 218.
+- Intended immutable path:
+  `data/processed/info_radar/moex-calendar-spread-derived-2021-2025-v1/`. Этот protocol
+  вычисляет только eligibility, quote geometry и leg-specific sizing metadata. Для
+  первого изменения цены и PnL обязателен новый отдельный economic config+SHA.
+
 ## CALENDAR-SPREAD-SOURCE-V3: completed source bundle, no PnL
 
 - V2 seal `7c8d45a` был pushed до resumed bulk history. Blank-ASSETCODE correction прошла,

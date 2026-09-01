@@ -1,0 +1,114 @@
+﻿protocol_id: moex_calendar_spread_derived_source_v1
+protocol_version: 1
+status: predeclared_before_first_derived_build_and_before_any_return_or_pnl
+declared_at_utc: "2026-09-01T11:48:00Z"
+scope: source_derived_no_returns_targets_or_pnl
+research_only: true
+sealed_before_first_return_or_pnl: true
+live_trading_allowed: false
+
+calendar_spread_source:
+  directory: data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v3
+  protocol_sha256: 3d89c51fe674f3b55282aba808ad6f0336cae502956681203f02b0218022f19c
+  manifest_sha256: 94d5fab4b799ac9a73b359c7350df7ccd30572e6dba8b9ae8cf5d41f5080ee0b
+  catalog_rows: 110
+  archive_rows: 10157
+  required_parent_audit: all_checks_true
+  protected_from: "2026-01-01"
+
+causal_spec_proxy:
+  directory: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4
+  manifest_sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+  parquet_sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+  rows: 66052
+  requested_end: "2025-12-31"
+  protected_from: "2026-01-01"
+  sizing_lag_sessions: 1
+  historical_exchange_exact: false
+  broker_exact: false
+
+structural_rules:
+  catalog_filter: regular_adjacent_and_near_expiration_matches_spread_last_trade
+  row_filter: reported_activity_and_inside_series_and_complete_uncrossed_quote
+  nonnegative_days_to_near_expiration_required: true
+  active_selection: minimum_nonnegative_days_to_near_expiration_per_asset_date
+  tie_policy: reject
+  locked_or_zero_quote_policy: preserve_and_flag
+  last_outside_range_policy: preserve_not_a_filter
+  quote_midpoint: arithmetic_bid_ask_midpoint_feature_only
+  quote_width: ask_minus_bid_feature_only
+  spec_join: same_session_contract_id_with_strictly_prior_sizing_observation
+  contract_id: official_asset_code_colon_secid_colon_expiration_date
+  sizing_requirement: both_legs_usable
+  missing_policy: preserve_never_zero_impute
+  outcomes_computed: false
+
+source_only_preflight:
+  clean_spreads_by_asset: {SI: 16, RI: 13, BR: 51, MIX: 18}
+  candidate_rows: 8281
+  candidate_rows_by_asset: {SI: 1986, RI: 1994, BR: 3096, MIX: 1205}
+  active_rows: 4366
+  active_rows_by_asset: {SI: 1129, RI: 918, BR: 1200, MIX: 1119}
+  active_minimum_date: "2021-01-04"
+  active_maximum_date: "2025-12-18"
+  active_tie_rows: 0
+  zero_locked_active_rows: 2
+  strict_positive_width_active_rows: 4364
+  near_spec_missing_active_rows: 0
+  far_spec_missing_active_rows: 0
+  both_sizing_usable_active_rows: 4366
+  strictly_prior_spec_active_rows: 4366
+  point_values_equal_active_rows: 1218
+  approximate_specs_both_legs_rows: 4366
+  historical_exchange_exact_both_legs_rows: 0
+  broker_exact_both_legs_rows: 0
+  returns_targets_signals_or_pnl_observed: false
+
+output:
+  directory: data/processed/info_radar/moex-calendar-spread-derived-2021-2025-v1
+  immutable: true
+  overwrite_allowed: false
+  artifacts:
+    - candidates.parquet
+    - active.parquet
+    - coverage.parquet
+    - audit.json
+    - manifest.json
+    - manifest.sha256
+
+downstream_requirements:
+  separate_economic_protocol_and_SHA_before_first_spread_change_or_return: true
+  active_locked_quotes_not_executable_without_separate_rule: true
+  next_factual_execution_only: true
+  two_leg_accounting_with_leg_specific_point_values: true
+  exact_cost_scenarios_required: [primary, doubled, stress]
+  factual_lagged_capacity_required: true
+  no_live_promotion_from_current_vintage_EOD_source: true
+
+limitations:
+  source_is_current_vintage_not_original_daily_files: true
+  public_archive_bid_ask_are_EOD_not_order_time_quotes: true
+  all_spec_rows_are_approximate: true
+  historical_exchange_specs_exact: false
+  historical_broker_fees_margin_and_execution_exact: false
+  active_panel_has_source_gaps_and_does_not_fabricate_calendar_rows: true
+  development_period_is_not_independent_holdout: true
+  guaranteed_future_return: false
+  live_trading_allowed: false
+
+implementation_dependencies:
+  configs/moex_calendar_spread_source_v3.yaml: 3d89c51fe674f3b55282aba808ad6f0336cae502956681203f02b0218022f19c
+  src/market_lab/futures/moex_calendar_spread_source.py: db2174889a4fc3baa08e39bfa4685b7cfdaaf01adf370760b27546b5ef5c261d
+  src/market_lab/futures/moex_calendar_spread_source_v2.py: d0c865a45369e13bf118842d045f32fd58d0188879e987986b1ce9bfbad1e30d
+  src/market_lab/futures/moex_calendar_spread_source_v3.py: 3f344899db1aa6da4e1312319461992df76e0b6f96d9ab28354da5016d36c8e1
+  src/market_lab/futures/moex_calendar_spread_derived_v1.py: d04f7d8f23ec5fce45d7b8879d41c130201e93695bceb3ca8891e6bd465c6f11
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+forbidden_after_seal:
+  - changing_structural_filters_or_active_selection_after_viewing_returns
+  - dropping_zero_locked_or_source_gap_rows_silently
+  - using_same_session_spec_observations
+  - computing_any_spread_change_return_target_signal_equity_or_pnl_in_this_protocol
+  - requesting_or_reading_market_values_at_or_after_2026_01_01
+  - overwriting_parent_or_derived_bundle
+  - live_trading_or_claiming_guaranteed_profit

@@ -74,7 +74,13 @@ Manifest SHA `94d5fab4...`, raw SHA `ccaba170...`; все 47 checks true и не
 `--audit-only` повторён. Получено 9 997 ISS settlement rows и 10 157 public-archive rows,
 из них 8 887 с reported trades. Все 110 spread имеют archive rows, 109 — activity;
 единственный inactive — non-adjacent `RIH2RIU2`. Ноль protected rows. Returns/PnL ещё
-не считались; следующий шаг — source-derived admissibility/carry panel и отдельный
+не считались. Source-derived protocol D1 уже зафиксирован до первого build: config SHA
+`657fd42b472797028f5b0194c7b159ac1538ddab5caea8f9c416f0a403e34cd0`, implementation
+SHA `d04f7d8f...`. Он заранее выбирает только regular-adjacent spreads с совпадающей
+датой near expiry, reported activity, complete uncrossed EOD quote и минимальным
+неотрицательным days-to-near по asset/date. Ожидаются 8 281 candidate и 4 366 active
+rows; locked quotes сохраняются flags, обе ноги соединяются только с causally prior
+spec proxy. Следующий шаг — один immutable source-only build/audit, затем отдельный
 pre-outcome economic seal.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
