@@ -3,7 +3,7 @@
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V33 гипотез защищены и не используются.
 
-## Активная работа: V32 execution-incomplete, V33 repair sealed до outcome
+## Последний результат: V33 full-horizon economic NO-GO
 
 После отрицательной независимой проверки V31 открыта принципиально новая family, а не
 ещё одна настройка старого weekly trend. V32 делает решение после каждого завершённого
@@ -46,11 +46,26 @@ reversal close-first, затем open на остатке capacity; flat 18:30 �
 шести exact buckets. Это консервативно сохраняет mark-to-market незакрытой позиции.
 Config SHA `615d7b8e...`, module SHA `3ad113cc...`; tests V32+V33+encoding `21/21`,
 preflight 10/10 проверил parent audit, пять stop records, три target artifacts,
-24 542 timestamps и 538 flat days. Первый V33 economic run ещё не выполнен: сначала
-обязателен commit/push этого exact seal. Даже прохождение all-cost CAGR `>=20%`, Sharpe
-`>=1`, MDD `<=25%`, трёх положительных сегментов и ablation advantage будет только
-adaptive lead для нового forward/paper test; live trading запрещён. Исторический archive
-coefficients current-vintage и не доказывает original live delivery timestamps.
+24 542 timestamps и 538 flat days. Seal commit `8c180e9` был pushed до outcomes.
+Canonical run `runs/v33_curve_regime_liquidity_20260901T183357Z_615d7b8e/`, metrics SHA
+`17d9602a...`, identity SHA `d0b5b436...`; audit 35/35 exact.
+
+Execution repair сработал: full-MLP primary/doubled/stress дошли до `2024-05-21`,
+unresolved 0; всего по пяти ledgers 7 824 filled legs, 10 partial fills и 21 zero-capacity
+retry. Но экономика отрицательна: full-MLP primary total `−3,6783%`, CAGR `−1,7374%`,
+Sharpe `−0,2471`, MDD `17,0343%`; doubled CAGR `−4,0113%`; stress total `−13,9154%`,
+CAGR `−6,7677%`, Sharpe `−1,1212`, MDD `22,5476%`. Market-only primary тоже отрицателен:
+CAGR `−2,8398%`. Full MLP торговал только в апреле–мае 2022: последующие 24 месяца
+calibration gate оставил cash; calendar returns `2022 −3,6783%`, `2023 0%`, `2024 0%`.
+Все 20%/50% gates false, verdict `NO_GO`, live trading запрещён.
+
+OOS diagnosis закрывает направление absolute 60m return regression: full-MLP IC
+`0,0622` в 2022 стал около `−0,005` в 2023–2024; у active 2022 predictions средний
+signed gross всего `0,198 bp` против `8,981 bp` stress round-trip cost. Threshold/sign/
+horizon этой family больше не tune-ить. Следующая новая гипотеза должна моделировать
+execution-aware barrier outcome — вероятность take-profit в относительном corridor раньше
+дальнего stop — и снижать turnover; original coefficient delivery vintage всё равно
+требует отдельного forward collector/paper confirmation.
 
 После провала V29 открыт новый, ещё не просмотренный рыночный период 2008–2011.
 Metadata-only audit без daily endpoint нашёл ровно 81 официальный expired contract:

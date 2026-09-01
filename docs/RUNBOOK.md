@@ -885,7 +885,7 @@ capacity, поэтому V32 не повторять и не менять thresh
 ### V33 target-preserving liquidity execution repair
 
 V33 config SHA `615d7b8e...`, module SHA `3ad113cc...`. Он читает exact V32 targets и
-меняет только partial de-risk/reversal/flat-retry execution. До первого economic run:
+меняет только partial de-risk/reversal/flat-retry execution. Выполненный preflight:
 
 ```powershell
 .\.venv\Scripts\ruff.exe check `
@@ -898,17 +898,20 @@ V33 config SHA `615d7b8e...`, module SHA `3ad113cc...`. Он читает exact 
   market_lab.futures_v33_curve_regime_liquidity_execution --preflight-only
 ```
 
-Preflight должен дать 10/10 checks, три exact target artifacts по 98 168 rows,
+Preflight дал 10/10 checks, три exact target artifacts по 98 168 rows,
 24 542 timestamps, 2 152 forced-flat rows/538 days и ровно пять parent unresolved
-`insufficient_exit_capacity`. После commit/push разрешён один run:
+`insufficient_exit_capacity`. Seal `8c180e9` был pushed до единственного run; команда
+ниже сохранена только для provenance:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
   market_lab.futures_v33_curve_regime_liquidity_execution --output-root .\runs
 ```
 
-Сразу выполнить `--audit-run <path>`. V33 post-outcome adaptive: даже pass не independent
-и требует нового forward/paper периода; повтор/tuning на этой history запрещён.
+Canonical path `runs/v33_curve_regime_liquidity_20260901T183357Z_615d7b8e/`, metrics SHA
+`17d9602a...`; audit 35/35 exact. Execution complete, но primary/stress CAGR
+`−1,7374%/−6,7677%`, verdict `NO_GO`. V33 не повторять; threshold/sign/horizon/retry
+tuning на этой history запрещён. Следующая family должна менять сам target/mechanism.
 
 ## 5. Новый эксперимент
 

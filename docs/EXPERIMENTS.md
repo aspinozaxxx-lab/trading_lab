@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V33: V32 target-preserving liquidity execution repair — sealed, outcome pending
+## V33: V32 target-preserving liquidity execution repair — canonical NO-GO
 
 - Это post-outcome adaptive correction после V32 execution halt, не новая model search
   и не independent confirmation. Exact V32 run/metrics/identity и три targets byte-pin-ятся.
@@ -21,8 +21,20 @@
   unresolved. V32+V33+encoding tests `21/21`, scoped Ruff clean.
 - Config SHA `615d7b8e...`, module SHA `3ad113cc...`. Preflight `10/10` и parent audit
   exact: пять V32 unresolved records имеют только `insufficient_exit_capacity`; три
-  parent target hashes/rows/timestamps/flat days совпали. V33 economics ещё не читалась;
-  сначала обязателен commit/push exact seal.
+  parent target hashes/rows/timestamps/flat days совпали. Seal `8c180e9` был pushed до
+  outcomes. Canonical run `runs/v33_curve_regime_liquidity_20260901T183357Z_615d7b8e/`,
+  metrics SHA `17d9602a...`, identity SHA `d0b5b436...`; audit 35/35 exact.
+- Full-MLP primary/doubled/stress execution complete, unresolved 0; repair действительно
+  прошёл весь горизонт. Primary total `−3,6783%`, CAGR `−1,7374%`, Sharpe `−0,2471`,
+  MDD `17,0343%`; doubled CAGR `−4,0113%`; stress total `−13,9154%`, CAGR `−6,7677%`,
+  Sharpe `−1,1212`, MDD `22,5476%`. Market-only CAGR `−2,8398%`. Ridge baseline отдельно
+  invalid на missing exact mark successor, но complete market-only уже достаточен для
+  отрицательного comparison.
+- Full MLP имел signals только в двух первых test months: 5 932 active rows в 2022 и
+  zero в 2023/2024; 24/26 monthly folds уснули на calibration gate. Active signed gross
+  `0,198 bp` против `8,981 bp` stress cost; 2022/2023/2024 returns `−3,6783%/0%/0%`.
+  Это economic `NO_GO`, не execution failure. V32/V33 threshold/sign/horizon/weight/
+  retry больше не менять; следующая family обязана иметь новый target/mechanism.
 
 ## V32: continuous curve-regime cross-asset intraday — execution-incomplete NO-GO
 
