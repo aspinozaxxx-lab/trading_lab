@@ -1,0 +1,143 @@
+﻿protocol_id: futures_v36_online_expert_ensemble_v1
+protocol_version: 36
+status: predeclared_multi_era_development_before_v36_outcomes
+research_only: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    A causal discounted exponential-weights allocator can improve temporal stability by
+    shifting only after realized prior-week evidence among fixed trend, carry, relative,
+    confirmation and cash experts, while retaining exact next-open futures execution.
+  independent_mechanism: online_expert_allocation_not_epoch_threshold_selection
+  comparisons: [online_expert, static_equal_active_experts, frozen_three_sleeve]
+
+dates:
+  source_start: '2008-10-08'
+  warmup_end: '2012-12-31'
+  evaluation_start: '2013-01-01'
+  evaluation_end: '2025-12-30'
+  forbidden_from: '2026-01-01'
+
+inputs:
+  panels:
+    - path: data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/panel.parquet
+      sha256: 390b1c8b8bee35712c5f537eeaad98e5b5a3775af751061c320238c8197ee6df
+      bytes: 154897
+      rows: 3124
+    - path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/panel.parquet
+      sha256: d1043ea73a1f4f86e7477c2a3664d08b409148d879435de2889560a1c2a8579c
+      bytes: 336575
+      rows: 5916
+    - path: data/processed/futures_v5/development_panel_2018_2025.parquet
+      sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+      bytes: 633616
+      rows: 8100
+  execution_eras:
+    - active_map:
+        path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/active_contract_map.parquet
+        sha256: b3ce75f9f7a67a2176741ebb7491ebc760070ef03c9ec3cf28a076542a7f728f
+        bytes: 372390
+        rows: 5916
+      observations:
+        path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/contract_observations.parquet
+        sha256: 7f6fb372335e55919fd300070366447d7088c9c35ad9a707ef2a7508607da5c0
+        bytes: 1198041
+        rows: 28797
+      specs:
+        path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/spec_proxy.parquet
+        sha256: d7cecd862229d6564bd5657d96e867c3e9984c6fd47ed671d0121293cef2ab2a
+        bytes: 2526262
+        rows: 28797
+    - active_map:
+        path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+        sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+        bytes: 500949
+        rows: 8100
+      observations:
+        path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+        sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+        bytes: 1873470
+        rows: 66052
+      specs:
+        path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+        sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+        bytes: 6218382
+        rows: 66052
+
+universe:
+  exact_order: [SI, RI, BR, MIX]
+  prelisting_or_missing_asset: flat_mask_never_backfill
+
+features:
+  return: log_adjusted_close_difference_only_across_gap_at_most_7_calendar_days
+  gap_tolerant_history: last_finite_observations_without_return_bridge
+  volatility_lookback: 60
+  volatility_floor_annualized: 0.05
+  momentum_horizons: [21, 63, 126, 252]
+  score_clip: [-1.0, 1.0]
+  schedule: last_factual_session_of_W_SUN_week
+
+experts:
+  ordered:
+    - trend_21
+    - trend_63
+    - trend_126
+    - trend_252
+    - multi_horizon_trend
+    - curve_carry
+    - trend_carry_confirmation
+    - cross_asset_relative_trend
+    - horizon_consensus_trend
+    - cash
+  initial_weights: uniform
+  update_return: prior_week_signal_times_subsequent_finite_log_returns
+  update_proxy_one_way_cost_bps: 5.0
+  update_return_clip: [-0.10, 0.10]
+  log_wealth_decay: 0.98
+  learning_rate: 8.0
+  missing_expert_update: zero
+  update_before_current_decision: true
+  future_labels_or_epoch_selection: forbidden
+
+portfolio:
+  constructor: frozen_v12_causal_covariance
+  base_annual_target_volatility: 0.20
+  base_gross_cap: 1.0
+  turnover_sleeves: 5
+  restored_annual_target_volatility: 0.25
+  maximum_risk_multiplier: 2.0
+  online_cash_weight_applied_after_risk_restoration: true
+
+execution:
+  engine: V29_risk_first_roll_with_V26_integer_capacity_ledger
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  maximum_participation: 0.01
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  collateral_interest: omitted
+  terminal_policy: carry_with_exit_reserve_reported
+  scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+
+reporting:
+  required_years: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  gates:
+    all_scenario_cagr_minimum: 0.20
+    primary_and_stress_sharpe_minimum: 1.0
+    all_scenario_mdd_maximum: 0.30
+    primary_positive_years_minimum: 10
+    primary_worst_year_minimum: -0.20
+    online_primary_cagr_must_beat_both_static_comparisons: true
+    zero_critical_or_unresolved: true
+    aspirational_all_scenario_cagr: 0.50
+  independent_confirmation: false
+  live_promotion_allowed: false
+
+post_outcome_rules:
+  rerun_or_parameter_change_on_2008_2025: forbidden
+  sign_horizon_eta_decay_cash_rule_leverage_or_cost_tuning: forbidden
+  positive_result_requires_new_forward_confirmation: true
