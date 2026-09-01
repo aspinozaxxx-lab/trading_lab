@@ -1,0 +1,389 @@
+﻿protocol_id: futures_v26_stlfsi_levered_ruonia_capacity_v1
+protocol_version: 1
+status: predeclared_before_v26_oos_outcomes
+declared_at_utc: "2026-09-01T05:02:43Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+relationship_to_prior_work: >-
+  Adaptive same-period capital-efficiency hypothesis declared after V15 and V25
+  outcomes were observed. V26 preserves the sealed V25 weekly STLFSI4-governed
+  signal, doubles its governed target weights exactly once, adds the sealed V15
+  conservative causal RUONIA collateral treatment, and uses the already-tested core
+  ledger cancel-and-clip capacity policy. It does not use the invalidated V16 FUTOI
+  signal and is not independent holdout confirmation.
+
+parent_v25:
+  protocol_sha256: dd8b60513de7261aa051c12bd5598fffd880c90c98489a5becac820b7597416b
+  metrics_sha256: c2518d17b4e945ef921fa8dbaa8bd330645131acddd73fc01a45c44c0aacfa86
+  primary_reference:
+    total_return: 0.490720124866874
+    cagr: 0.08313666849961998
+    sharpe: 0.8177496477975039
+    maximum_drawdown: 0.14226187896737108
+    positive_years: 4
+    worst_year: -0.022575414621381795
+    total_cost_rub: 13835.173808167034
+
+infrastructure_parent_v15:
+  protocol_sha256: 8cbcf30712684607e16cde27a9bca333e4740bd3bdb119646890d0b28d00a50d
+  metrics_sha256: 3f882e0b74e1b58fced362c3f4713f6c7641e7577964b51625d1b18d471298c4
+  primary_combined_reference:
+    total_return: 1.6287025663069512
+    cagr: 0.21327167662258972
+    sharpe: 0.8826497601427579
+    maximum_drawdown: 0.34482347022508963
+    positive_years: 4
+    worst_year: -0.15253455335968313
+    total_cost_rub: 51931.216387763736
+    critical_failure_count: 8
+
+hypothesis:
+  statement: >-
+    Two-times sealed V25 risk plus conservatively haircutted, causally available
+    RUONIA on genuinely unencumbered collateral can retain at least 20 percent CAGR
+    under all three fixed cost scenarios, while the causal cancel-and-clip admission
+    policy removes V15 critical execution failures and keeps maximum drawdown within
+    30 percent.
+  economic_mechanism:
+    - V25_removes_selected_above_average_financial_stress_weeks_before_leverage
+    - futures_require_margin_rather_than_full_notional_funding
+    - unused_collateral_can_earn_short_term_ruble_income
+    - one_fixed_2x_multiplier_uses_existing_trend_edge_without_parameter_search
+    - known_open_and_lagged_volume_capacity_is_enforced_before_order_submission
+  primary_comparison: sealed_v25_stability_parent_and_failed_v15_capital_efficiency_parent
+  reject_if:
+    - any_input_identity_raw_replay_schema_temporal_availability_or_accrual_check_fails
+    - sealed_weekly_STLFSI4_state_counts_do_not_match
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - any_primary_doubled_or_stress_combined_cagr_is_below_0_20
+    - any_primary_doubled_or_stress_combined_maximum_drawdown_exceeds_0_30
+    - primary_combined_sharpe_is_below_sealed_V25_primary
+    - primary_combined_worst_year_is_below_minus_0_15
+    - primary_combined_positive_years_are_below_4_of_5
+    - any_order_time_gross_participation_or_margin_limit_is_breached
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - changing_leverage_haircut_buffer_day_count_or_capacity_policy
+    - reducing_the_2x_modeled_margin_buffer
+    - changing_STLFSI4_zero_boundary_maximum_age_or_weekly_state
+    - charging_interest_on_margin_or_negative_free_collateral
+    - reinvesting_interest_into_contract_sizing_post_hoc
+    - accepting_less_than_20_percent_after_observing_a_near_miss
+    - treating_v26_as_independent_holdout_or_live_evidence
+
+dates:
+  source_start: "2018-01-01"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  decision_timezone: Europe/Moscow
+  stlfsi_source_timezone: America/Chicago
+
+inputs:
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    decision_minimum_timestamp: "2018-01-03"
+    decision_maximum_timestamp: "2025-12-29"
+    effective_maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  panel_audit:
+    path: data/processed/futures_v5/development_panel_2018_2025_audit.json
+    sha256: 4e7e00870910d54a9aadb17a4b4cf082880211ab5e5de4cc36dfe2bf7e2ea64b
+    bytes: 4543
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+  spec_manifest:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/manifest.json
+    sha256: b1cada60c44296641062bb6ca7c45d12fa4c5b261810e4bb100edae458eb20d3
+    bytes: 105211
+  cbr_panel:
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    bytes: 102901
+    rows: 5951
+    allowed_columns:
+      - source
+      - series_id
+      - observation_date
+      - publication_date
+      - available_at
+      - value
+      - availability_rule
+  cbr_manifest:
+    path: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+    bytes: 4609
+  stlfsi:
+    path: data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/stlfsi4.parquet
+    sha256: 4937b6862e864c0a09202182e09ebe28b8f2eacc40fe0ebc435cca40f054a09c
+    bytes: 15427
+    rows: 417
+    allowed_columns:
+      - observation_date
+      - stress_index
+      - available_at
+      - complete
+      - stress_state
+      - retrieved_at_utc
+      - source_current_vintage
+      - methodology_version
+  stlfsi_coverage:
+    path: data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/coverage.parquet
+    sha256: ec5e3aeb0850664906c9ce8a16e3336a539243dc9f8e2c7f6165ab0d6077d9be
+    bytes: 6876
+    rows: 1
+    allowed_columns:
+      - series_id
+      - url
+      - response_bytes
+      - response_sha256
+      - rows
+      - nonmissing_rows
+      - missing_rows
+      - minimum_observation_date
+      - maximum_observation_date
+  stlfsi_raw_response:
+    path: data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/official_fred_stlfsi4_response.jsonl.gz
+    sha256: d9ebef723a3d5f795fe1ce94f24f7721eba6e43fe18888b12f036b52eef5c3d1
+    bytes: 3670
+    decoded_response_sha256: 7ec82deedb96d8fbe95b96f8979bacce04315327ce521a262e654f98b6e5a16d
+    decoded_response_bytes: 7882
+  stlfsi_manifest:
+    path: data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/manifest.json
+    sha256: 1a992f64d9bf05d7bcb55cb2d31de9d0b16477cd1080f4d9da3df136576aa868
+    bytes: 4215
+  stlfsi_manifest_sidecar:
+    path: data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/manifest.sha256
+    sha256: 2f09ae478ae4cf0041be130ef54c26bb1468c080c7c62519fdf529d06a94ccb1
+    bytes: 83
+
+universe:
+  exact_order: [SI, RI, BR, MIX]
+  aliases: {Si: SI, RTS: RI, BR: BR, MIX: MIX}
+  membership: fixed_research_universe_not_historical_index_membership
+
+information_set:
+  decision: 23_59_59_Europe_Moscow_on_each_frozen_V12_weekly_decision_date
+  trend_price: causal_forward_additive_adjusted_close_available_at_D_close
+  stlfsi_selection: latest_row_with_available_at_less_than_or_equal_to_decision_at
+  stlfsi_source_availability: following_Thursday_23_59_59_America_Chicago
+  maximum_source_age_calendar_days: 14
+  ruonia_read_filter: parquet_predicate_series_id_equals_ruonia_only
+  ruonia_rate_for_interval: latest_available_at_or_before_accrual_start_00_00_Moscow
+  execution_not_before: active_contract_factual_open_on_effective_date_strictly_after_D
+  capacity_information: current_open_and_immediately_prior_factual_contract_volume_only
+  future_columns_forbidden: [future_STLFSI4, future_RUONIA, open_D_plus_1, settle_D_plus_1, return_D_plus_1, target, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: byte_identical_v12_core4_trend
+  log_momentum_horizons_sessions: [21, 63, 126, 252]
+  recent_skip_sessions: 0
+  volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  volatility_floor_annualized: 0.05
+  score_implementation: imported_frozen_v12
+  fit_or_training: none
+  hyperparameter_search: false
+
+risk_governor:
+  id: byte_identical_v25_weekly_stlfsi4_structural_zero_binary_global_cash
+  official_structural_boundary: 0.0
+  admitted_scale: 1.0
+  cash_scale: 0.0
+  maximum_source_age_calendar_days: 14
+  threshold_fit: none
+  scale_can_increase_v12_risk: false
+  sealed_state_counts:
+    all_2018_2025:
+      weekly_decisions: 418
+      pass_normal_or_below: 349
+      cash_above_average_stress: 68
+      cash_missing_or_stale: 1
+    oos_2021_2025:
+      weekly_decisions: 261
+      pass_normal_or_below: 237
+      cash_above_average_stress: 24
+      cash_missing_or_stale: 0
+
+capital_efficiency:
+  target_weight_multiplier_after_governor: 2.0
+  maximum_gross_notional_multiple: 2.0
+  annual_target_volatility_before_integer_constraints: 0.40
+  initial_margin_buffer_multiple: 2.0
+  variants_after_outcome: forbidden
+
+collateral_income:
+  benchmark: official_RUONIA_percent_per_annum
+  applied_rate_fraction: 0.50
+  haircut_interpretation: aggregate_tax_product_fee_tracking_liquidity_and_access_haircut
+  day_count: ACT_365_calendar_days
+  operational_buffer_fraction_of_conservative_equity: 0.10
+  conservative_equity: min_ending_cash_intraday_adverse_equity
+  encumbered_amount: 2_times_modeled_initial_margin
+  eligible_balance_formula: max_0_conservative_equity_minus_2x_margin_minus_10pct_buffer
+  interval: current_factual_session_to_next_factual_session_clipped_at_oos_start
+  final_session_interest: none
+  reinvested_into_contract_sizing: false
+  compounded_into_future_eligible_balance: false
+  principal_double_counted: false
+  missing_rate: fail_closed
+
+portfolio:
+  implementation: sealed_V25_governed_weights_then_exact_2x_multiplier
+  decision_schedule: frozen_V25_weekly_plus_causal_roll_decisions
+  base_annual_target_volatility_before_governor: 0.20
+  base_gross_cap_before_leverage: 1.0
+  maximum_gross_after_leverage: 2.0
+  turnover_sleeves: 5
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_then_risk_and_capacity_fit
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open_when_capacity_allows
+  execution_atomicity: asset
+  unexecutable_target_policy: cancel_and_clip
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 2.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  terminal_policy: carry_with_terminal_positions_and_cost_limitation_reported
+  missing_or_unprovable: reject_or_cancel_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    same_period_adaptive_selection: true
+    stlfsi_historical_revision_exact: false
+    stlfsi_methodology_version_historical_exact: false
+    collateral_product_and_tax_exact: false
+    ruonia_current_vintage: true
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+
+validation:
+  scheme: one_fixed_adaptive_development_oos_variant
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  number_of_oos_variants: 1
+  parameter_selection_on_oos: forbidden
+  protected_2026_market_read: forbidden
+
+reporting:
+  required_metrics:
+    - futures_only_and_combined_total_return_cagr_sharpe_mdd
+    - combined_annual_returns_positive_years_and_worst_year
+    - collateral_income_and_causal_accrual_coverage
+    - target_cancellations_and_participation_clips
+    - turnover_costs_participation_gross_margin
+    - execution_coverage_critical_failures_and_unresolved_halts
+    - deltas_against_sealed_V25_and_V15
+  artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - scores.parquet
+    - weekly_v12_weights.parquet
+    - weekly_v25_governed_weights.parquet
+    - weekly_v26_levered_weights.parquet
+    - stlfsi_governor.csv
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - collateral_primary.parquet
+    - combined_ledger_primary.parquet
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - collateral_doubled.parquet
+    - combined_ledger_doubled.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - collateral_stress.parquet
+    - combined_ledger_stress.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_raw_replay_source_temporal_and_accrual_check_true
+    - exact_sealed_weekly_STLFSI4_state_counts
+    - all_three_scenarios_execution_and_combined_metrics_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_doubled_and_stress_combined_CAGR_each_at_least_0_20
+    - primary_doubled_and_stress_combined_MDD_each_at_most_0_30
+    - primary_combined_Sharpe_at_least_sealed_V25
+    - primary_combined_worst_year_at_least_minus_0_15
+    - primary_combined_positive_years_at_least_4_of_5
+    - no_order_time_gross_participation_or_margin_breach
+  independent_confirmation_required: true
