@@ -7,6 +7,29 @@
 
 ## Что уже есть
 
+### MOEX calendar spreads — sealed source, collection pending
+
+Официальные календарные спреды дают новую relative-value family, экономически отличную
+от directional trend. [MOEX описывает](https://www.moex.com/en/spreads) покупку одного
+фьючерса и одновременную продажу другого как единую календарную spread transaction;
+[страница параметров](https://www.moex.com/en/derivatives/spreads/spreads_parameters.aspx)
+и [публичный архив](https://www.moex.com/en/derivatives/spreads/archive-spreads.aspx)
+содержат listed instruments и EOD archive.
+
+Подготовленный source-only seal SHA `72687539...` фиксирует 110 RFUD spreads SI/RI/BR/
+MIX и exact mapping в public archive через official leg names. Ordinary ISS history
+сохраняет settlement/OI, но bounded probe не отражает фактическую торговую активность;
+public archive CSV отдельно даёт Last, Bid, Ask, High, Low, Amount, Volume и Trades.
+Поэтому значения никогда не coalesce-ятся между источниками. Exact HTML/CSV bytes и
+ISS JSON архивируются, missing/zero/signed prices сохраняются, а расхождения официальных
+интервалов получают flags.
+
+Источник current-vintage и не содержит historical order-time queue. EOD Bid/Ask не
+доказывает исполнимый spread в момент решения; исторические fees, IM и broker rules также
+не доказаны. Он пригоден только для отдельного development test после manifest. Для
+live admission нужен [MOEX Historical Data](https://www.moex.com/a2863) либо broker
+archive с лицензией, order book/trade log и действовавшими параметрами.
+
 ### MOEX RVI — новый подготовленный источник
 
 Официальная история индекса волатильности RVI загружена 2026-08-31 из MOEX ISS только

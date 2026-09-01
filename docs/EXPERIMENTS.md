@@ -4,6 +4,37 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## CALENDAR-SPREAD-SOURCE-V1: sealed, bulk collection pending
+
+- Новая target family принципиально отделена от V12/V27: exchange-listed same-root
+  calendar-spread carry/convergence должен уменьшать общий directional beta и допускает
+  атомарное двухстороннее исполнение через отдельный биржевой инструмент. Источник сам
+  по себе не считается доказательством прибыли.
+- Source-only config SHA
+  `7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e`, implementation
+  SHA `db217488...`; period `2021-01-01..2025-12-31`, protected from `2026-01-01`.
+  Returns, targets, signals, equity и PnL запрещены схемой и именами колонок.
+- Metadata preflight обнаружил 110 dated RFUD spreads: SI/RI/BR/MIX = 16/15/59/20;
+  101 regular-adjacent и 103 exact near-expiry/date matches. Два metadata rows без дат
+  (`SiZ2SiH3`, `MXU2MXZ2`) сохраняются как exact excluded set; exchange exceptions не
+  исправляются догадками.
+- Archive code строится только из official names двух outright legs и проверяется через
+  official `ArchiveSpreads.asmx/GetSpreadList`: 110/110 exact matches, включая семь
+  нестандартных BR expiration-date cases, без manual aliases.
+- Bounded `MXZ4MXH5` probe показал дефект одного ISS слоя: шесть ordinary history rows,
+  но ноль reported activity. Public WebForms CSV даёт 71 unique dates
+  `2024-09-12..2024-12-19` и labels Last/Bid/Ask/High/Low/Amount/Volume/Trades.
+- Collector поэтому публикует два несмешанных artifacts: `iss_daily.parquet` для
+  settlement/OI и `public_archive_daily.parquet` для archive labels. Exact GET HTML и
+  Windows-1251 CSV bodies сохраняются в raw gzip; даты public archive вне ISS board/
+  series interval не отбрасываются молча, а flag-ятся. Любая CSV date `>=2026-01-01`
+  останавливает collection до публикации output.
+- Целевые tests 12/12, encoding 2/2, scoped Ruff clean. Полный baseline: 844 passed,
+  7 skipped и ровно две известные legacy V8 anti-junction failures из-за внешнего data
+  junction; repo-wide Ruff также имеет прежние несвязанные V8/V9 нарушения. Следующий
+  разрешённый шаг — commit/push этого seal, затем один immutable bulk collection и replay
+  audit. Economic protocol появится только после source manifest и будет отдельным SHA.
+
 ## V29: post-V28 risk-first roll-capacity correction — FAIL, execution fixed
 
 - Config SHA `d92f8cf2...`, implementation SHA `ea5aa37f...`; V29 создан только после

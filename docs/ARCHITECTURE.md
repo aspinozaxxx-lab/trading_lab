@@ -456,6 +456,24 @@ rejected legs, critical failures и unresolved равны нулю. Эконом
 `FAIL_POST_V28_20`: исправный execution показал низкий CAGR и высокую MDD, поэтому модуль
 остаётся reusable execution evidence, но не прибыльной стратегией.
 
+### `market_lab.futures.moex_calendar_spread_source`
+
+Source-only collector новой market-neutral family. Catalog строится из official MOEX
+futures series: SECID обязан разлагаться на два same-root outright, а человекочитаемый
+archive code выводится только из official leg names и сверяется с
+`ArchiveSpreads.asmx/GetSpreadList`. Для каждого из 110 выбранных spread collector
+сохраняет RFUD board/history JSON, exact ASP.NET page bytes и exact Windows-1251 CSV
+export bytes.
+
+Два источника не смешиваются: `iss_daily.parquet` хранит settlement/OI schema, а
+`public_archive_daily.parquet` — Last/Bid/Ask/High/Low/Amount/Volume/Trades по официальным
+archive labels. Public rows вне ISS board/series interval, last вне reported range и
+crossed closing quote сохраняются с flags. Parser сначала проверяет весь CSV и аварийно
+останавливается при любой market-value дате `>=2026-01-01`, затем нормализует только
+`2021–2025`. Bundle публикуется атомарно и immutable; audit byte-проверяет artifacts и
+полностью replay-ит series, boards, ISS pages, WebForms и CSV. Модуль не имеет кода
+returns/targets/PnL и не разрешает live trading.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

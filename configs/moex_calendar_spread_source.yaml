@@ -1,0 +1,245 @@
+﻿protocol_id: moex_calendar_spread_source_v1
+protocol_version: 1
+status: predeclared_after_metadata_preflight_before_bulk_history
+declared_at_utc: "2026-09-01T09:17:43Z"
+scope: source_only_no_returns_targets_or_pnl
+research_only: true
+sealed_before_bulk_history: true
+live_trading_allowed: false
+
+hypothesis_support:
+  future_target_family: market_neutral_calendar_spread_carry_and_convergence
+  purpose: >-
+    Preserve exchange-listed same-root calendar-spread history and factual liquidity so
+    that a later, separately sealed experiment can test a two-leg income source that is
+    economically distinct from directional V12/V27 trend.
+  strategy_tested_by_this_protocol: false
+  return_or_pnl_computed_by_this_protocol: false
+  economic_prior:
+    - carry_is_observable_before_future_returns
+    - near_far_relative_value_can_reduce_common_directional_beta
+    - exchange_spread_instrument_can_execute_two_legs_atomically
+  no_profit_assumption_from_source_availability: true
+
+period:
+  start: "2021-01-01"
+  end: "2025-12-31"
+  protected_from: "2026-01-01"
+  price_requests_at_or_after_protected_from: forbidden
+  instrument_metadata_for_far_2026_leg: allowed_without_market_values
+
+official_sources:
+  series:
+    template: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+    parameters: {show_expired: 1, iss.only: series}
+  boards:
+    template: https://iss.moex.com/iss/securities/{secid}.json
+    parameters: {iss.only: boards}
+  daily_history:
+    template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+    exact_cursor_required: true
+    requested_till_never_after: "2025-12-31"
+  archive_spread_list:
+    endpoint: https://www.moex.com/webservice/ArchiveSpreads.asmx/GetSpreadList
+    request: {knownCategoryValues: "Basis:{official_asset_code};", category: Spread}
+    require_every_selected_archive_code_present: true
+  public_archive:
+    page: https://www.moex.com/en/derivatives/spreads/archive-spreads.aspx?code={archive_code}
+    export_event_target: ctl00$PageContent$ctrlSpreads$lbExportToCsvComma
+    response_content_type_prefix: application/csv
+    response_encoding: windows-1251
+    exact_headers:
+      - moment
+      - isin
+      - small_name
+      - best_pk
+      - best_pr
+      - cena
+      - min_cena
+      - max_cena
+      - c_deal
+      - kol_cb
+      - sum_rub
+      - base_small_name
+      - ""
+    full_response_must_not_contain_date_at_or_after: "2026-01-01"
+  documentation:
+    parameters_page: https://www.moex.com/en/derivatives/spreads/spreads_parameters.aspx
+    synthetic_matching: https://www.moex.com/en/spreads
+    public_archive: https://www.moex.com/en/derivatives/spreads/archive-spreads.aspx
+  redistribution_review_required: true
+
+discovery:
+  logical_assets: [SI, RI, BR, MIX]
+  history_board: RFUD
+  spread_rule: exchange_listed_same_root_two_outright_codes_concatenated
+  secid_shape: root_month_digit_root_month_digit
+  allow_manual_aliases: false
+  require_both_outright_legs_in_same_official_series_response: true
+  canonical_identity: logical_asset_secid_near_expiration_far_expiration
+  archive_code_rule: official_asset_code_plus_official_near_and_far_leg_names
+  exact_spread_counts: {SI: 16, RI: 15, BR: 59, MIX: 20}
+  exact_archive_codes_resolved: 110
+  exact_missing_date_spreads:
+    SI: [SiZ2SiH3]
+    RI: []
+    BR: []
+    MIX: [MXU2MXZ2]
+  missing_date_policy: preserve_in_manifest_but_do_not_request_unbounded_history
+  exact_regular_adjacent_counts: {SI: 16, RI: 14, BR: 52, MIX: 19}
+  exact_near_date_match_counts: {SI: 16, RI: 13, BR: 56, MIX: 18}
+  preserve_exchange_exception_spreads: true
+  strategy_may_filter_exceptions_only_in_separate_preoutcome_protocol: true
+
+source_only_preflight:
+  completed_before_seal: true
+  exact_dated_spreads: 110
+  exact_missing_date_spreads: 2
+  exact_RFUD_board_segments_resolved: 110
+  exact_regular_adjacent_spreads: 101
+  exact_near_date_matches: 103
+  bounded_history_schema_probe:
+    secid: MXZ4MXH5
+    from: "2024-09-12"
+    till: "2024-09-20"
+    bounded_history_rows_observed: 6
+    columns_observed:
+      - BOARDID
+      - TRADEDATE
+      - SECID
+      - OPEN
+      - LOW
+      - HIGH
+      - CLOSE
+      - OPENPOSITIONVALUE
+      - VALUE
+      - VOLUME
+      - OPENPOSITION
+      - SETTLEPRICE
+      - SWAPRATE
+      - WAPRICE
+      - CHANGE
+      - QTY
+      - NUMTRADES
+      - SHORTNAME
+      - ASSETCODE
+  bounded_public_archive_probe:
+    archive_code: MIX-12.24-3.25
+    raw_csv_rows_observed: 71
+    minimum_trade_date_observed: "2024-09-12"
+    maximum_trade_date_observed: "2024-12-19"
+    protected_rows_observed: 0
+    exact_headers_observed:
+      - moment
+      - isin
+      - small_name
+      - best_pk
+      - best_pr
+      - cena
+      - min_cena
+      - max_cena
+      - c_deal
+      - kol_cb
+      - sum_rub
+      - base_small_name
+      - ""
+    ordinary_ISS_rows_in_matching_bounded_probe: 6
+    ordinary_ISS_reported_trade_rows_in_matching_bounded_probe: 0
+  market_values_printed_or_persisted: false
+  returns_targets_or_pnl_observed: false
+
+normalization:
+  signed_spread_prices_allowed: true
+  zero_spread_price_is_valid_not_missing: true
+  negative_volume_value_trades_or_open_interest: reject
+  incomplete_OHLC_with_activity: preserve_and_flag
+  public_archive_field_mapping:
+    last: cena
+    bid: best_pk
+    ask: best_pr
+    daily_low: min_cena
+    daily_high: max_cena
+    trades: c_deal
+    amount: kol_cb
+    volume: sum_rub
+  ISS_and_public_archive_values: preserve_in_separate_artifacts_never_coalesce
+  public_archive_rows_outside_ISS_board_interval: preserve_and_flag
+  public_archive_last_outside_reported_daily_range: preserve_and_flag
+  public_archive_crossed_closing_quote: preserve_and_flag
+  archive_response_interval: full_selected_spread_response
+  archive_normalized_interval: "2021-01-01..2025-12-31"
+  missing: preserve_never_zero_impute
+  availability_rule: trade_date_plus_one_calendar_day_00_00_Europe_Moscow
+  same_day_decision_use: forbidden
+  forbidden_output_column_fragments:
+    - return
+    - target
+    - label
+    - signal
+    - strategy
+    - equity
+    - pnl
+    - profit
+
+collection:
+  user_agent: market-lab-research/0.30 (MOEX calendar spreads)
+  timeout_seconds: 30
+  maximum_retries: 3
+  maximum_history_pages_per_spread: 50
+  require_stable_cursor_total: true
+  require_every_raw_page_archived: true
+  require_every_public_archive_page_and_csv_body_archived_exactly: true
+  public_archive_requests_per_spread: 2
+  allow_empty_history_for_listed_spread: true
+  output_publication: atomic
+
+output:
+  directory: data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v1
+  immutable: true
+  overwrite_allowed: false
+  artifacts:
+    - catalog.parquet
+    - iss_daily.parquet
+    - public_archive_daily.parquet
+    - coverage.parquet
+    - official_moex_responses.jsonl.gz
+    - manifest.json
+    - manifest.sha256
+
+downstream_requirements:
+  separate_strategy_protocol_and_SHA_before_first_return_or_pnl: true
+  dedicated_spread_volume_or_both_leg_capacity_required: true
+  next_factual_execution_only: true
+  atomic_two_leg_execution: true
+  exact_cost_scenarios_required: [primary, doubled, stress]
+  no_live_promotion_from_EOD_source: true
+
+limitations:
+  current_vintage_series_and_history: true
+  public_ISS_daily_has_no_historical_order_time_bid_ask_or_queue: true
+  public_archive_is_current_vintage_not_original_daily_files: true
+  public_archive_bid_ask_are_EOD_fields_not_decision_time_quotes: true
+  public_archive_internal_field_semantics_follow_visible_official_table_labels: true
+  spread_10m_candles_not_available_in_schema_preflight: true
+  daily_volume_does_not_prove_fill_at_decision_time: true
+  historical_spread_fees_margin_and_broker_rules_not_exact: true
+  source_period_already_used_for_other_directional_development: true
+  future_strategy_is_development_not_independent_holdout: true
+  guaranteed_future_return: false
+  live_trading_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_calendar_spread_source.py: db2174889a4fc3baa08e39bfa4685b7cfdaaf01adf370760b27546b5ef5c261d
+  src/market_lab/futures/iss.py: 902adedbc8d8cfbb7c229913d35bb5b647bba4aacf76ac9191758f001b74bed0
+  src/market_lab/futures/market_data.py: 5a47db78b9c9ea973cf5a51165c14f7c0799550bc065edcfdd0fedf6af0ab1e1
+  src/market_lab/futures/specs.py: eaef23abc7e4697943bfa0fd0e509c1e17a1d62df31dbfa47c20008b32ed53bf
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+forbidden_after_seal:
+  - changing_discovery_or_counts_after_viewing_bulk_history
+  - requesting_any_market_value_on_or_after_2026_01_01
+  - computing_spread_returns_targets_signals_equity_or_pnl_in_source_protocol
+  - inferring_missing_series_dates
+  - treating_zero_or_negative_spread_price_as_missing
+  - overwriting_the_source_bundle
+  - live_trading_or_claiming_guaranteed_profit

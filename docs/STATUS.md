@@ -49,6 +49,19 @@ stress CAGR `3,7117%`, MDD `−48,6822%`. Положителен только 20
 остальных года отрицательны. Verdict `FAIL_POST_V28_20`: V29 не поддерживает 20% или 50%,
 не является independent confirmation и запрещён для live.
 
+Следующее принципиально иное направление — exchange-listed календарные спреды, а не
+ещё один threshold directional trend. Source-only protocol запечатан до bulk collection:
+config SHA `7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e`,
+implementation SHA `db217488...`. Metadata preflight причинно связал все 110 RFUD
+спредов SI/RI/BR/MIX с официальными кодами публичного архива без ручных aliases.
+Обычный ISS probe дал шесть settlement rows и ноль reported trade rows, тогда как
+официальный CSV того же спреда содержит 71 уникальную дату и фактические поля
+Last/Bid/Ask/High/Low/Amount/Volume/Trades. Collector сохраняет ISS и public archive
+раздельно, архивирует exact HTML/CSV bytes, сохраняет и помечает расхождения интервалов,
+аварийно запрещает любую market-value дату `>=2026-01-01` и не считает returns/PnL.
+Bulk bundle ещё не собран; первым следующим действием должен быть push seal, затем один
+immutable collection/replay audit.
+
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
 `0b86cda4d3bddf72831075a771c3e7f6568a0a4ba2f78c64b0254c980c902b08`,
@@ -720,6 +733,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — новый market-neutral source family
+
+1. Push source-only calendar-spread seal SHA `72687539...` до bulk history.
+2. Один раз собрать immutable official MOEX bundle за `2021-01-01..2025-12-31`:
+   отдельно ISS settlement/OI и public-archive trade/bid/ask, затем выполнить exact raw
+   replay, hashes, schema, coverage и protected-date audit.
+3. Только после успешного source manifest отдельно запечатать economic target. Первый
+   кандидат — carry/convergence listed spread с market-neutral sizing, factual archive
+   liquidity, next-session execution и 1x/2x/stress costs. Никаких returns, thresholds
+   или PnL до этого seal; development 2021–2025 не называть независимым holdout.
+4. Historical bid/ask архива остаётся EOD field, а не order-time quote. Для live evidence
+   всё равно нужны licensed order book/trade log, historical fees, IM и broker rules.
 
 ### P0 — независимо подтвердить V27, не подгоняя его
 
