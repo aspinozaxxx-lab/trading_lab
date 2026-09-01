@@ -4,14 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## PRE2018-MACRO-S2: transport-only retry — sealed, collection pending
+## PRE2018-MACRO-S3: preserve unknown RUONIA timing — sealed, collection pending
+
+- Config SHA `ae575962...`, implementation SHA `5f2e4e09...`; наследует exact S2
+  requests, bounds, transport, STLFSI4/key-rate parsers и меняет только обработку
+  исторических RUONIA publication markers.
+- Source-only S2 diagnosis до любого market outcome зафиксировал exact 1 478 rows:
+  78 explicit publication dates и 1 400 unknown markers. S3 сохраняет для последних
+  `publication_date/available_at = missing`, не выводит дату косвенно и запрещает
+  credit collateral income при неизвестной доступности.
+- Первый S3 collection разрешён только после commit/push; output immutable V3 и обязан
+  содержать три exact raw responses, coverage неизвестного timing и outcome-free schema.
+
+## PRE2018-MACRO-S2: transport-only retry — failed parse, no output
 
 - Config SHA `4ad7f034...`, implementation SHA `0cf46a51...`; наследует все S1 source
   and temporal rules и меняет единственное поле HTTP User-Agent на `curl/8.10.1`.
 - Diagnostic после failed S1: research User-Agent timeout, curl User-Agent HTTP 200 and
   5 878 bytes на том же exact URL. Values/market outcomes не печатались, S1 output нет.
-- Первый S2 collection разрешён только после push; manifest обязан зафиксировать S1
-  failure lineage, exact three responses и отсутствие outcome columns.
+- Seal был pushed commit `5bec23f`. Все три responses были получены in-memory, но parser
+  fail-closed остановился на неизвестном historical RUONIA publication marker; output и
+  raw archive не опубликованы, market outcomes не читались. Parser correction вынесена
+  в отдельный S3 seal.
 
 ## PRE2018-MACRO-S1: STLFSI4/RUONIA/key rate — failed transport, no output
 

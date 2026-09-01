@@ -66,12 +66,13 @@ rows, все exact action gates true, unresolved roll/exit = 0. Ни returns, н
 считались. Следующий этап — bounded STLFSI4/RUONIA/key-rate source и отдельный V28 seal.
 
 Macro source S1 был pushed commit `9a5ff96`, но первый request трижды получил FRED read
-timeout с research User-Agent; ни один response не сохранён и output не создан. Network
-diagnostic того же bounded URL доказал transport-specific причину: тот же `requests`
-с `curl/8.10.1` получил HTTP 200/5 878 bytes, без печати values или market outcomes. S2
-подготовлен как transport-only correction: config SHA `4ad7f034...`, implementation SHA
-`0cf46a51...`; dates, URLs, methods, bodies, parsers, availability, coverage и запреты S1
-наследуются byte-identical. Collection S2 разрешён только после commit/push.
+timeout с research User-Agent; ни один response не сохранён и output не создан. S2
+transport-only correction был pushed commit `5bec23f` и получил все три responses, но
+fail-closed parser остановился до publication на старом RUONIA marker: из 1 478 rows
+только 78 имеют explicit publication date, для 1 400 timing неизвестен. Market outcomes
+не читались, S2 output отсутствует. S3 parser-only correction запечатан до collection:
+config SHA `ae575962...`, implementation SHA `5f2e4e09...`; unknown publication и
+`available_at` сохраняются missing, inference/zero-fill/collateral credit запрещены.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return

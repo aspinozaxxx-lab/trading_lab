@@ -71,9 +71,13 @@ Outcome columns, zero-imputation и PnL до отдельного V28 seal за�
 Macro source S1 `configs/pre2018_macro_source.yaml` (SHA `3daa3c40...`) фиксирует до
 первого HTTP request три bounded external series: FRED STLFSI4, CBR RUONIA и CBR key
 rate. S1 transport attempt завершился до response persistence и output отсутствует. S2
-SHA `4ad7f034...` наследует source rules и меняет только HTTP User-Agent; его immutable
-bundle — `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v2/`.
-Processed `available_at` обязан быть строго до `2018-01-01 Europe/Moscow`; raw bytes/hash
+SHA `4ad7f034...` изменил только HTTP User-Agent, получил три responses после seal, но
+fail-closed до publication: output отсутствует. Source-only audit показал 78 explicit и
+1 400 unknown RUONIA publication dates. S3 SHA `ae575962...` меняет только parser policy:
+unknown `publication_date/available_at` остаются missing и не дают collateral income.
+Его pending immutable bundle —
+`data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/`. Processed
+nonmissing `available_at` обязан быть строго до `2018-01-01 Europe/Moscow`; raw bytes/hash
 обязательны. Current-vintage STLFSI4 не является доказанным original historical vintage.
 Ни macro source, ни D3 не разрешены для PnL до отдельного V28 seal.
 

@@ -423,7 +423,11 @@ Parquet/manifest bundle. Processed availability физически ограни�
 fail-closed запрещает price/return/target/signal/equity/PnL columns. Protocol S1 SHA
 `3daa3c40...`; источник не является strategy outcome. S1 transport failed before any
 persisted response. `pre2018_macro_source_v2` wraps the same collector and changes only
-User-Agent to the empirically compatible `curl/8.10.1`; S2 SHA `4ad7f034...`.
+User-Agent to the empirically compatible `curl/8.10.1`; S2 SHA `4ad7f034...`. S2 fetched
+all responses but published nothing when historical RUONIA publication timing proved
+missing for 1 400/1 478 rows. `pre2018_macro_source_v3` inherits S2 byte-identical and
+only preserves those dates and `available_at` as missing; it never infers timing or
+credits collateral income. S3 SHA `ae575962...`.
 
 ### `market_lab.futures.futoi_intraday_source`
 
