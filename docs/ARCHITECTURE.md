@@ -763,6 +763,23 @@ RUONIA и fixed entry/exit schedule. Обе ноги исполняются по
 zero-trade spot rows остаются в evaluation calendar, но никогда не являются fills.
 Canonical V1 operationally complete и economic `NO_GO`.
 
+### `market_lab.futures.moex_cny_cash_carry_source`
+
+Source-only collector exact `CNYRUB_TOM` и 12 RFUD `CRH3..CRZ5`. Он byte-архивирует
+spot pages, contract descriptions и каждую futures page, проверяет asset/expiry/lot и
+raw replay. Nonpositive/zero-activity rows сохраняются, но не являются fills.
+
+### `market_lab.futures.cny_cash_carry_v1`
+
+Отдельный sealed runner адаптирует byte-pinned two-leg ledger к 1 000 CNY lot, не меняя
+cost/capital/RUONIA semantics. Он завершён как operationally valid economic `NO_GO`.
+
+### `market_lab.futures.moex_cny_perpetual_source`
+
+V1 source-only collector `CNYRUBF` с exchange `SWAPRATE`. V1 не опубликовал output на
+cursor-total mismatch. Sealed V2 наследует все поля и меняет только 764 на 937 для
+расширенного exact range; отдельная V2 implementation/build ещё требуются.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

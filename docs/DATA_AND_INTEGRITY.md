@@ -381,6 +381,18 @@ basis/return/PnL без отдельного заранее pushed economic prot
 исключает их из execution calendar. Canonical run SHA: metrics `3f638a7b...`, identity
 `432b25fb...`, audit `65a9ee95...`, artifact manifest `d550e605...`; audit 11/11.
 
+CNY quarterly source canonical: manifest
+`7b8c4a8dea06414c111ead70b808d456e5fd1b307da02c5585bb8d62b4e2be97`, spot
+`f9132e514ca77b6a4430a8015a197a3ad60e5954df29e7cf1a2e1eb5d4707c45`, futures
+`36c2af69e4f69cb5abbf0b0ba269cfe79f72ecd4b2ee4005da8ba2c11254e68f`, audit
+`ac371f8b838e4a343f4e241b19df5b5e68ee60673814ad2c183863b6800c4e6a`; 157/157.
+CNY economic run metrics `f1da93e6...`, identity `252fee8b...`, audit `da712d33...`,
+artifact manifest `fc96b608...`; no protected rows and no execution failures.
+
+Perpetual V1 output отсутствует: exact requested range дал cursor 937, а config ожидал
+764 от более позднего probe start. V2 config SHA `9dbf7e77...` фиксирует только эту
+разницу; до V2 implementation push запрещено читать price/SWAPRATE values.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

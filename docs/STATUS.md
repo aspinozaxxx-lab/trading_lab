@@ -69,6 +69,23 @@ spot rows начинаются после `2024-06-12`, поэтому USD/RUB c
 spot не является рабочей веткой для 2025. Threshold/date tuning запрещён; следующий
 relative-value screen должен использовать реально продолжающий торговаться spot.
 
+CNY screen завершил следующий шаг. Source commits `b217921`/`0149d4d` предшествовали
+первому price build; canonical bundle имеет 2 027 `CNYRUB_TOM` rows и 3 636 rows всех
+12 quarterly `CRH3..CRZ5`, 157/157 replay checks. Manifest `7b8c4a8d...`, spot
+`f9132e51...`, futures `36c2af69...`, audit `ac371f8b...`; в 2025 spot имеет 254
+positive-trade sessions и все четыре CR торгуются. Economic config/runner
+`0fef4c6`/`f17e1f6` были pushed до outcomes. Canonical
+`runs/cny_cash_carry_v1_20260901T234628Z_1b9406d9/` operationally complete, но
+`NO_GO`: 0/8 development и 0/4 evaluation entries перекрыли RUONIA+2% на полном
+spot/margin capital; evaluation CAGR `0%` против RUONIA `20,9377%`.
+
+Следующая капиталоэффективная ветка — futures/futures, без spot principal. `CNYRUBF`
+metadata подтверждает one-day auto-prolonged 1 000 CNY contract и history `SWAPRATE`.
+Source V1 правильно не создал output: probe `2023-01-01` дал 764 rows, а sealed range
+`2022-04-26..2025-12-31` — 937. Cursor-only V2 SHA `9dbf7e77...`, commit `2014593`,
+уже pushed; следующий шаг — отдельный V2 collector/build, затем sealed perpetual/CR
+spread economics без threshold/date/direction search.
+
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
 V35 проверила принципиально иной механизм: после каждого второго завершённого

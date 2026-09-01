@@ -20,6 +20,21 @@
   подбирать alternate dates на этой истории. Reverse carry остаётся запрещён без
   доказанного USD borrow.
 
+## CNY cash-and-carry V1 — NO-GO
+
+- Source-only bundle: 2 027 spot + 3 636 quarterly futures rows, 12 contracts, 157/157
+  replay checks; manifest `7b8c4a8d...`. Все четыре 2025 CR и CNY spot исполнимы.
+- Economic SHA `1b9406d9...`; config/runner commits `0fef4c6`/`f17e1f6` были pushed
+  до outcomes. Canonical `runs/cny_cash_carry_v1_20260901T234628Z_1b9406d9/`;
+  metrics `f1da93e6...`, identity `252fee8b...`, audit `da712d33...`, replay 12/12.
+- Fixed 60-DTE long spot/short CR, full spot principal + 30% margin + 10% buffer,
+  CNY yield zero, 5/10 bps spread scenarios и `>=RUONIA+2%` admission.
+- Development 2023–2024: 0/8 trades, CAGR `0%` vs RUONIA `14,3844%`. Evaluation
+  2025: 0/4, CAGR `0%` vs RUONIA `20,9377%`. Все 12 причины — hurdle not met.
+- Family conclusion: fully funded currency cash-and-carry не конкурентен дорогому RUB
+  cash. Не ослаблять capital/hurdle. Следующий допустимый mechanism — margin-only
+  perpetual/quarterly spread с observed prior-day SWAPRATE.
+
 Этот файл фиксирует научную память проекта. `Canonical` означает выбранный для аудита
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.

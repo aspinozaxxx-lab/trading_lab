@@ -40,6 +40,18 @@ checks true. OHLC/NUMTRADES полны, WAPRICE missing в 398 строках и
 spread stress, margin cash и RUONIA opportunity cost; reverse carry запрещён без
 доказанного USD borrow.
 
+Для продолжающегося после июня 2024 валютного рынка создан отдельный CNY bundle:
+`data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/`. Source seal/code
+`b217921`/`0149d4d` предшествовали ценам; 2 027 spot rows, 3 636 futures rows,
+`CRH3..CRZ5`, audit 157/157. Manifest `7b8c4a8d...`, spot `f9132e51...`, futures
+`36c2af69...`. Fully funded economic V1 дал zero admissions и закрыт, но dataset
+подтвердил пригодность CNY spot/quarterly execution.
+
+Отдельный metadata probe нашёл `CNYRUBF`: one-day auto-prolonged cash-settled futures,
+lot 1 000 CNY, история с exchange `SWAPRATE`. Source V1 не создал output из-за
+cursor-range mismatch 764/937. V2 SHA `9dbf7e77...` меняет только total для exact range
+`2022-04-26..2025-12-31`; prices/SWAPRATE ещё не читались и build pending.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

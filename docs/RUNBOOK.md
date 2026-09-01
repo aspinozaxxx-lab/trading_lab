@@ -1107,6 +1107,19 @@ Economic V1 уже immutable:
 повторять и параметры не менять: отсутствие executable USD spot после июня 2024 —
 структурная причина закрытия ветки, а не повод подобрать другой historical threshold.
 
+CNY quarterly source replay:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_cny_cash_carry_source --audit `
+  --output-root D:\Projects\trading_lab_data\data\processed\fx_basis\moex-cny-cash-carry-current-vintage-v1
+.\.venv\Scripts\python.exe -m market_lab.futures.cny_cash_carry_v1 `
+  --audit-directory D:\Projects\trading_lab_data\runs\cny_cash_carry_v1_20260901T234628Z_1b9406d9
+```
+
+Ожидание: source 157/157; economic audit 12/12 и `NO_GO`. Perpetual V1 output
+отсутствует. Продолжать только с `moex_cny_perpetual_source_v2` SHA `9dbf7e77...` и
+новым output suffix `-v2`; V1 config/code и failed attempt не переписывать.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что
