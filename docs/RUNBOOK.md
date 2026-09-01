@@ -311,6 +311,23 @@ Config SHA должен оставаться `1d8eee3f...`. Canonical run:
 `v17_eia_supply_demand_20260831T234157Z_1d8eee3f`; execution complete, но primary CAGR
 −7,74%, поэтому это отрицательный forensic/development result, не кандидат в live.
 
+### CBR dated liquidity-forecast source
+
+Canonical source-only bundle находится во внешнем хранилище. Для нового versioned
+snapshot используй отдельные output и resumable staging paths:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.cbr_liquidity_forecast_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\cbr-liquidity-forecast-<new-id> `
+  --staging-directory D:\Projects\trading_lab_data\data\processed\info_radar\.cbr-liquidity-forecast-<new-id>.staging `
+  --max-workers 4
+```
+
+Collector проверяет дату внутри record, а не доверяет query date, пробует holiday shifts
+и не читает market prices/outcomes. Raw CBR pages не распространять: пользовательское
+соглашение требует ссылку при цитировании, а отдельное право на raw redistribution не
+зафиксировано.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

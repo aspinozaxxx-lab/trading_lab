@@ -128,6 +128,39 @@ direction из семи raw changes дал CAGR −7,74%, Sharpe −0,19 и MDD 
 иная EIA-гипотеза требует point-in-time consensus/forecast для измерения surprise; простая
 инверсия signs, новый threshold или более ранний lag на тех же outcomes запрещены.
 
+### CBR weekly liquidity forecasts — release-keyed forward bundle
+
+Официальные датированные прогнозы факторов банковской ликвидности для недельного
+аукциона собраны без market prices/returns/targets/PnL:
+
+- path: `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/`;
+- 458 releases `2017-01-10..2025-12-30` из 470 календарных недель; 537 HTTP requests с
+  Tuesday-first и holiday fallback, maximum release gap 16 дней;
+- processed: 50 830 bytes, SHA-256
+  `a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07`;
+- coverage SHA-256:
+  `38ea35bfe8914a6a490245fff5bd8b327eb793b5c94c068bbef8665ea5a5681d`;
+- manifest SHA-256:
+  `8f452f2dd963752eab4183e8f80dd2a07398588f9f87124ae913dff6c2a88c9a`;
+- raw archive: 458 pages, SHA-256
+  `b01200fa2a827a1c0eb7708695a0cf1af6ace9bed3a2b81f8d9c3281839bd3a6`;
+- `available_at = 23:59:59 Europe/Moscow` дня, напечатанного внутри release record;
+  максимум `2025-12-30T20:59:59Z`;
+- источник содержит будущий forecast period и отдельно `government_accounts_change`,
+  куда по определению ЦБ входят операции Минфина с валютой.
+
+Критичный audit: на несуществующую дату сайт молча возвращает последний доступный
+выпуск. Collector поэтому не доверяет input/query и допускает страницу только если дата
+в строке аукциона совпадает с запросом. Один отсутствующий weekly record `2025-09-09`
+подтверждается разрывом страницы, хотя официальный repo-аукцион в этот день проводился;
+стратегия обязана sleep/carry только по явному protocol, а не выдумывать forecast.
+
+Это исторические records, выбранные по publication date, но retrieved сейчас: original
+response bytes и криптографическая неизменность с даты публикации не доказаны. Поэтому
+bundle допускается только к development challenger; независимое подтверждение требует
+forward collection. Raw не публикуется до отдельной проверки прав, ссылка на сайт ЦБ при
+цитировании обязательна.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -149,6 +182,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | MOEX RVI | Forward-looking risk regime для RI/MIX и общего gross | Current-vintage history; нужен один sealed test | Только предыдущая source date |
 | P1 | MOEX FUTOI daily-last | Forward crowding/risk regime для всех core-four | V16 INVALID; historical publication vintages не доказаны | Только `available_at <= decision_at`, source date недостаточно |
 | P1 | Полный MOEX FUTOI 5m | Будущий forward timing/момент сделки | Current-vintage, 1 000-row cap, offset игнорируется; historical PIT отсутствует | `max(SYSTIME + buffer, retrieval_at) <= decision_at` |
+| P1 | CBR weekly liquidity forecast | Заранее известный рублёвый liquidity/fiscal-flow regime для SI | Bundle готов; original response bytes не доказаны | Только дата внутри record и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -164,6 +198,9 @@ RUONIA использована в V15. Её причинная часть V16 �
 - [CBR publication schedule](https://www.cbr.ru/eng/calendar/),
   [key-rate calendar](https://www.cbr.ru/DKP/cal_mp/) и
   [RUONIA](https://www.cbr.ru/hd_base/ruonia/);
+- [CBR liquidity forecast](https://www.cbr.ru/eng/statistics/pffl/),
+  [daily liquidity-factor definitions](https://www.cbr.ru/statistics/flikvid/definitions/)
+  и [historical publication-schedule notice](https://www.cbr.ru/eng/press/pr/?file=120516_104301eng_liq-ind.htm);
 - [CFTC COT description](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm)
   и [release schedule](https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm);
 - [EIA WPSR schedule](https://www.eia.gov/petroleum/supply/weekly/schedule.php),
@@ -176,16 +213,17 @@ V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states �
 decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
 Current-vintage FUTOI bundle уже завершён и fail-closed закрыт для historical PnL. EIA
-release-vintage bundle прошёл source audit, но его market outcome ещё не читался.
+V17 завершён отрицательно. Новый CBR liquidity-forecast bundle прошёл source audit без
+чтения market outcomes.
 Следующие незаблокированные действия:
 
 1. запросить у MOEX licensed original-vintage/bulk history либо начать отдельный forward
    collector, который timestamp-ит получение каждого нового 5m response в реальном
    времени; до этого FUTOI timing sleeping;
 2. не публиковать raw FUTOI до проверки лицензии, несмотря на анонимный HTTP 200;
-3. до чтения BR outcomes запечатать один EIA supply-demand composite: только семь заранее
-   названных строк, prior-only normalization, conservative release availability и exact
-   next-open execution; threshold/component search по результату запрещён;
+3. до чтения SI outcomes запечатать один CBR forecast test: `sign` будущего изменения
+   government accounts, экономический знак purchase/liquidity regime, prior-only SI
+   volatility, exact next-open execution и без threshold search;
 4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 5. любой следующий PnL начинается только после source manifest, `available_at` audit и

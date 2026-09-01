@@ -58,6 +58,9 @@ identity и должен проверяться перед чтением.
 | EIA WPSR Table 1 release vintages | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/eia_wpsr_table1.parquet` | `5fccfa968ac88f04806df87bd7179a992f0f7c57137ba46db049d67350b54f3e` |
 | EIA WPSR source manifest | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/manifest.json` | `aac389628b61df446616cd171084af81482d09a7d4b403337a8332b5373c142b` |
 | EIA WPSR raw release archive | `data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2/official_eia_wpsr_table1_releases.jsonl.gz` | `dce96ee233ed5cac153ab086f514a69688f28830749c4dc223dc66c79454b297` |
+| CBR dated liquidity forecasts | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/cbr_liquidity_forecasts.parquet` | `a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07` |
+| CBR liquidity forecast manifest | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/manifest.json` | `8f452f2dd963752eab4183e8f80dd2a07398588f9f87124ae913dff6c2a88c9a` |
+| CBR liquidity forecast raw archive | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/official_cbr_pffl_releases.jsonl.gz` | `b01200fa2a827a1c0eb7708695a0cf1af6ace9bed3a2b81f8d9c3281839bd3a6` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -98,6 +101,13 @@ identity и должен проверяться перед чтением.
   `available_at <= decision_at`. `available_at` задан концом официальной даты выпуска в
   `America/New_York`; issue `2019-07-03` помечен stale и не входит в processed rows.
   `Last-Modified` не является временем публикации и для join запрещён.
+- CBR liquidity forecast допускается только по дате, напечатанной внутри конкретной
+  forecast/auction record, и при `available_at <= decision_at`; query date сама по себе
+  не доказательство, потому что сайт возвращает последний выпуск для отсутствующей даты.
+  В source bundle availability равна `23:59:59 Europe/Moscow` дня публикации. Это
+  release-keyed forecast будущего периода, но исходные байты времени публикации не
+  сохранились и их неизменность не доказана: источник годится для development, не для
+  независимого подтверждения без forward vintage collection.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

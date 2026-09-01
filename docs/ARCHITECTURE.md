@@ -58,6 +58,13 @@ runs -> external junction ignored by Git
 хранилище, архивирует каждый исходный CSV, отделяет `release_date` от `available_at`,
 сохраняет revisions и fail-closed исключает stale/non-increasing issue files.
 
+`market_lab.futures.cbr_liquidity_forecast_source` перебирает датированные недельные
+прогнозы факторов банковской ликвидности ЦБ. Историческая страница на несуществующую
+дату молча возвращает последний выпуск, поэтому collector сверяет дату внутри строки
+аукциона с запрошенной датой, проверяет будущий период прогноза и только затем допускает
+record. Availability консервативно ставится на конец московского дня публикации; raw
+страницы, coverage и hashes остаются во внешнем хранилище.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.

@@ -58,6 +58,13 @@ CAGR **−7,7373%**, Sharpe **−0,1893**, MDD **−48,8033%**, только д�
 объясняется исполнением. Raw delayed EIA balance не является доходным сигналом; signs,
 компоненты, lag и thresholds по этому результату не инвертировать и не подбирать.
 
+Следующий независимый source family уже собран без чтения outcomes: 458 датированных
+недельных прогнозов факторов банковской ликвидности ЦБ за `2017-01-10..2025-12-30`.
+Это forward-looking forecast, а не реализованный поток; `available_at` консервативно
+равен концу московского дня публикации. Следующий допустимый шаг — один pre-outcome
+sealed тест экономического знака forecast government-account flow для SI, без threshold
+search и без доверия query date.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -307,7 +314,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 4. EIA v2 source audit завершён, но sealed V17 raw-change composite убыточен и закрыт.
    Не инвертировать его signs и не сокращать lag; искать point-in-time consensus surprise
    либо принципиально другой независимый source family.
-5. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
+5. Новый CBR release-keyed liquidity-forecast bundle готов: 458 releases, 537 requests,
+   12 недель без record, maximum release gap 16 дней, processed SHA `a8faab04...`.
+   До outcomes запечатать ровно один direct SI test: знак forecast government-account
+   flow, следующий factual open, prior-only volatility sizing, без порога и перебора.
+6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 
 ### P2 — разблокировать широкий structural exact execution
