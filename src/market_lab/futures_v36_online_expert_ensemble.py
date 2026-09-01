@@ -98,7 +98,11 @@ def preflight(config: dict[str, Any]) -> dict[str, Any]:
 
 
 def _read_inputs(config: dict[str, Any]) -> tuple[pd.DataFrame, ...]:
-    panels = [pd.read_parquet(PROJECT_ROOT / item["path"]) for item in config["inputs"]["panels"]]
+    panel_columns = ["trade_date", "asset_code", "close", "roll_yield", "curve_valid"]
+    panels = [
+        pd.read_parquet(PROJECT_ROOT / item["path"], columns=panel_columns)
+        for item in config["inputs"]["panels"]
+    ]
     panel = pd.concat(panels, ignore_index=True).sort_values(
         ["trade_date", "asset_code"], kind="stable", ignore_index=True
     )
@@ -106,12 +110,42 @@ def _read_inputs(config: dict[str, Any]) -> tuple[pd.DataFrame, ...]:
     observation_parts = []
     spec_parts = []
     for era in config["inputs"]["execution_eras"]:
-        active_parts.append(pd.read_parquet(PROJECT_ROOT / era["active_map"]["path"]))
-        observation_parts.append(pd.read_parquet(PROJECT_ROOT / era["observations"]["path"]))
+        active_parts.append(
+            pd.read_parquet(
+                PROJECT_ROOT / era["active_map"]["path"],
+                columns=[
+                    "decision_date",
+                    "effective_date",
+                    "observed_through",
+                    "asset_code",
+                    "contract_id",
+                    "plan_tradable",
+                    "roll",
+                ],
+            )
+        )
+        observation_parts.append(
+            pd.read_parquet(
+                PROJECT_ROOT / era["observations"]["path"],
+                columns=[
+                    "trade_date",
+                    "logical_asset",
+                    "canonical_contract_id",
+                    "open",
+                    "high",
+                    "low",
+                    "close",
+                    "settle",
+                    "volume",
+                ],
+            )
+        )
         spec_parts.append(pd.read_parquet(PROJECT_ROOT / era["specs"]["path"]))
     active = pd.concat(active_parts, ignore_index=True)
     observations = pd.concat(observation_parts, ignore_index=True)
     specs = pd.concat(spec_parts, ignore_index=True)
+    if any(frame.columns.duplicated().any() for frame in (panel, active, observations, specs)):
+        raise ValueError("V36 source projection produced duplicate columns")
     return panel, active, observations, specs
 
 

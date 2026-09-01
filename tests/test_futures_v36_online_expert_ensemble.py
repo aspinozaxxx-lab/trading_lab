@@ -90,3 +90,14 @@ def test_preflight_verifies_all_declared_eras_without_price_decode() -> None:
     result = runner.preflight(runner.load_config())
     assert all(result["checks"].values())
     assert len(result["metadata"]) == 9
+
+
+def test_source_projection_has_unique_execution_columns() -> None:
+    panel, active, observations, specs = runner._read_inputs(runner.load_config())
+
+    assert not panel.columns.duplicated().any()
+    assert not active.columns.duplicated().any()
+    assert not observations.columns.duplicated().any()
+    assert not specs.columns.duplicated().any()
+    assert "logical_asset" in observations
+    assert "asset_code" not in observations
