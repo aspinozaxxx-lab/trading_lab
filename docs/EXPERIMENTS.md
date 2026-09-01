@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V25: weekly STLFSI4 stress governor — SEALED, OUTCOME PENDING
+## V25: weekly STLFSI4 stress governor — NO-GO by strict MDD gate
 
 - Протокол:
   [`configs/futures_v25_stlfsi_stress_governor.yaml`](../configs/futures_v25_stlfsi_stress_governor.yaml)
@@ -24,14 +24,43 @@
   hysteresis, partial scale, sign inversion и комбинация с V24 запрещены.
 - Source/calendar-only seal до PnL: все `2018–2025` — 418 weekly decisions, 349 pass,
   68 stress-cash, 1 missing/stale; OOS `2021–2025` — 261 decisions, `237/24/0`.
-- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; первый market/PnL run
-  запрещён до commit и push этой записи.
+- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; implementation,
+  protocol и pending-status были committed/pushed как `74c5461` до market/PnL.
 - Promotion: CAGR `>=5%`, Sharpe не ниже V12 `0,7624`, MDD не хуже V12 `14,1526%`,
   не менее 4/5 positive years, positive doubled/stress, complete execution и no breaches.
 
-STLFSI4 — current-vintage Version 4, которая не существовала в точном виде на всей
-истории; V25 является adaptive development test, а не независимой PIT validation. После
-первого outcome same-history threshold/age/state/scaling/combination tuning запрещён.
+- Canonical run:
+  `runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/`.
+- Metrics SHA-256:
+  `c2518d17b4e945ef921fa8dbaa8bd330645131acddd73fc01a45c44c0aacfa86`.
+
+Все 82 input/raw-replay/source/calendar/runtime checks true; 18 declared artifacts плюс
+metrics/identity прошли bytes/SHA/row audit. Execution complete: 1 016/1 016 nonzero
+dependencies, primary 438 filled legs, 0 rejected/critical/unresolved и no capacity/
+gross/margin breaches. Maximum participation **0,11287%**.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | +49,0720% | +8,3137% | 0,8177 | −14,2262% | 4/5 | 13 835,17 | yes |
+| doubled | +47,1768% | +8,0368% | 0,7932 | −14,4163% | 4/5 | 27 605,96 | yes |
+| stress | +46,8571% | +7,9898% | 0,7913 | −14,1659% | 4/5 | 41 154,16 | yes |
+
+Primary годы: 2021 **+17,53%**, 2022 **+14,01%**, 2023 **+12,08%**,
+2024 **+1,54%**, 2025 **−2,26%**. Terminal positions carry; primary exit reserve
+178,40 RUB оставляет post-reserve return **+49,05%**.
+
+Против V12 V25 улучшил total return на **3,96 п.п.**, CAGR на **0,58 п.п.**, Sharpe на
+**0,0553**, worst year на **0,37 п.п.** при costs всего на 447,89 RUB выше. Семь stress
+episodes дали 24 cash weeks. Equity V25 ни в одной из 1 272 ledger sessions не была ниже
+V12; после первого отличия 2023-03-27 она выше 707 sessions и заканчивает на 39 606 RUB
+выше. Но MDD **14,2262%** хуже V12 **14,1526%** на **0,0736 п.п.**: peak/trough dates
+совпадают (`2024-11-26 → 2025-03-03`), а V25 имеет более высокие и peak, и trough.
+
+Verdict остаётся `NO_GO`: единственный обязательный MDD gate false, ослаблять его после
+outcome нельзя. STLFSI4 — current-vintage Version 4, которая не существовала в точном
+виде на всей истории; V25 является сильным adaptive development lead, но не независимой
+PIT validation и не live-системой. Same-history threshold/age/state/scaling/combination
+tuning запрещён.
 
 ## V24: daily Cboe VIX/VIX3M risk governor — NO-GO
 

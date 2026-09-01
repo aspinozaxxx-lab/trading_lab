@@ -131,6 +131,7 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 | V22 CBR printed BCI regime | +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86%; complete | Положительный, но нестабильный и ниже gates; NO-GO |
 | V23 CBR household confirmation | −5,35%, CAGR −1,09%, Sharpe −0,16, MDD −13,62%; ledger complete | Отрицателен во всех cost scenarios; NO-GO |
 | V24 daily VIX/VIX3M governor | +38,89%, CAGR 6,79%, Sharpe 0,74, MDD −14,28%; complete | Прибыльный, но stability и costs хуже V12; NO-GO |
+| V25 weekly STLFSI4 governor | +49,07%, CAGR 8,31%, Sharpe 0,82, MDD −14,23%; complete | Return/Sharpe лучше V12, MDD хуже на 0,074 п.п.; strict NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -141,6 +142,30 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V25 STLFSI4 weekly governor — сильнейший challenger, strict NO-GO
+
+Source commit `cdfe674` и protocol commit `74c5461` были pushed до первого outcome.
+Config SHA `dd8b60513de7261aa051c12bd5598fffd880c90c98489a5becac820b7597416b`
+фиксирует official zero, following-Thursday availability, 14-day age, binary global
+scale и OOS states `237 pass / 24 stress-cash / 0 missing`. Canonical run:
+`runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/`; metrics SHA
+`c2518d17b4e945ef921fa8dbaa8bd330645131acddd73fc01a45c44c0aacfa86`.
+
+- 82/82 checks true; raw CSV exact replay; 20/20 run files прошли SHA/row audit;
+- 1 016/1 016 dependencies, 438 primary filled legs, 0 rejected/critical/unresolved;
+- primary/doubled/stress return **+49,07%/+47,18%/+46,86%**;
+- primary CAGR **8,31%**, Sharpe **0,818**, MDD **−14,226%**, costs 13 835,17 RUB;
+- годы: **+17,53%/+14,01%/+12,08%/+1,54%/−2,26%**;
+- maximum participation **0,11287%**, no order-time gross/margin breach;
+- market artifacts заканчиваются `2025-12-30`.
+
+V25 улучшил V12 total return на 3,96 п.п., CAGR на 0,58 п.п., Sharpe на 0,0553 и worst
+year на 0,37 п.п.; equity ни в одной ledger session не ниже V12. MDD gate, однако,
+false: `14,2262% > 14,1526%`. Обе кривые имеют тот же peak/trough interval
+`2024-11-26 → 2025-03-03`; V25 имеет более высокий trough в RUB, но также более высокий
+peak, поэтому относительная просадка хуже на 0,0736 п.п. Verdict `NO_GO` менять нельзя.
+Практический статус — приоритетный кандидат для новой forward/PIT validation, не live.
 
 ## V24 Cboe VIX/VIX3M daily governor — прибыльный, но хуже V12
 
@@ -211,6 +236,14 @@ total **+38,8855%**, CAGR **6,7910%**, Sharpe **0,7394**, MDD **−14,2777%**, �
 scenarios положительны и execution complete. Но он оказался хуже frozen V12 и по Sharpe,
 и по MDD, а costs выросли на 12,62 тыс. RUB. Verdict **NO_GO**; boundary, freshness,
 binary scale и state mapping на этой истории больше не менять.
+
+V25 с независимым weekly STLFSI4 оказался наиболее сильным challenger: total
+**+49,0720%**, CAGR **8,3137%**, Sharpe **0,8177**, четыре положительных года и все cost
+scenarios profitable при полном исполнении. Он улучшил V12 return/Sharpe/worst year и
+ни в одной ledger session не имел equity ниже V12. Но MDD **−14,2262%** оказался на
+**0,0736 п.п.** хуже строгой границы V12. Поэтому официальный verdict — **NO_GO** по
+единственному MDD gate; результат перспективен только для новой forward/PIT validation,
+а current-vintage STLFSI4 Version 4 не разрешает live claim.
 
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
@@ -616,9 +649,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     V12 и costs выше. Same-history VIX boundary/freshness/scaling tuning закрыт.
 14. Source-only screen отверг NFCI/ANFCI: 0 above-zero OOS weeks означают тождественный
     V12. STLFSI4 bundle готов: 417 weekly rows, 416 causal до 2026, processed SHA
-    `4937b686...`, manifest SHA `1a992f64...`, strict raw replay exact. V25 запечатан SHA
-    `dd8b6051...`: weekly states OOS `237 pass / 24 stress-cash / 0 missing`; первый
-    market outcome разрешён только после pre-outcome commit/push.
+    `4937b686...`, manifest SHA `1a992f64...`, strict raw replay exact. V25 был sealed и
+    pushed до outcome; +49,07%, Sharpe 0,818 и worst year лучше V12, execution complete,
+    но MDD хуже на 0,0736 п.п., поэтому strict `NO_GO`. Следующий шаг — только новая
+    forward/PIT validation; same-history STLFSI tuning закрыт.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -681,6 +715,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/metrics.json`
 - `runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/metrics.json`
 - `runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/metrics.json`
+- `runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

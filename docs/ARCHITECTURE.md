@@ -345,7 +345,9 @@ weekly weights. Latest STLFSI4 выбирается backward `merge_asof` по
 missing или старше 14 дней — scale 0. V12 next-open mapper сам добавляет необходимые roll
 decisions. Перед market outcomes runner проверяет все source SHA, manifest/sidecar,
 декодирует raw CSV и требует exact replay processed/coverage. Config SHA `dd8b6051...`
-фиксирует один вариант и weekly counts до PnL.
+фиксирует один вариант и weekly counts до PnL. Pre-outcome commit `74c5461` был pushed.
+Canonical result улучшил V12 return и Sharpe, но MDD хуже на 0,0736 п.п.; strict verdict
+`NO_GO`. Модуль сохраняется для exact replay и будущей forward/PIT validation.
 
 ### `market_lab.futures.futoi_intraday_source`
 

@@ -536,6 +536,12 @@ Pre-outcome state seal: all `418 = 349/68/1`, OOS `261 = 237/24/0` для
 pass/stress-cash/missing-cash. Несовпадение останавливает run. После outcome нельзя
 менять official zero, 14-day age, binary scale или смешивать V24/V25 по результатам.
 
+Canonical run выполнен один раз:
+`runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/`, metrics SHA `c2518d17...`.
+Primary +49,07%, CAGR 8,31%, Sharpe 0,818, MDD −14,226%; execution complete. Единственный
+false gate — MDD хуже V12 на 0,0736 п.п., поэтому verdict `NO_GO`. Команду не повторять
+для selection на той же истории; следующий допустимый шаг — новая forward/PIT validation.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

@@ -374,6 +374,11 @@ Version 4 применена ретроспективно, original historical v
 не доказаны; источник допускается только для adaptive development. NFCI и ANFCI были
 отсеяны source-only: оба дали 0 above-zero weeks в OOS и потому не меняли бы V12.
 
+Sealed V25 был pushed до outcome и дал +49,07%, CAGR 8,31%, Sharpe 0,818 при complete
+execution. Return/Sharpe/worst year лучше V12, но MDD хуже на 0,0736 п.п.; strict verdict
+`NO_GO`. Version 4 current-vintage limitation остаётся главным барьером: следующий тест
+возможен только на новой forward/PIT history, без изменения zero/age/state mapping.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -402,7 +407,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | CBR household inflation/sentiment | Согласованный потребительский risk-on/off regime для RI/MIX/SI | Release files retrieved сейчас; нужен sealed test и forward vintages | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | V24 NO-GO; новый тест только forward/unseen, source current-vintage/copyrighted | Только complete pair после Chicago day-end и `available_at <= decision_at` |
-| P1 | STLFSI4 via FRED | Редкий broad financial-stress switch для frozen V12 | Bundle и sealed V25 готовы; Version 4/current-vintage, outcome pending | Только после following-Thursday Chicago end и `available_at <= decision_at` |
+| P1 | STLFSI4 via FRED | Редкий broad financial-stress switch для frozen V12 | V25 strong but strict NO-GO; только forward/PIT, Version 4 current-vintage | Только после following-Thursday Chicago end и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
