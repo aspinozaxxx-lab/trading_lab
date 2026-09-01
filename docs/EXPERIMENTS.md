@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V30-D2: boolean-only pre-execution correction — prepared, run pending
+## V30-D2: canonical development run complete
 
 - V30 V1 был sealed/pushed commit `271c7db` до canonical attempt. Попытка остановилась
   до первого ledger и без output: 85/86 aggregated checks true, единственный false —
@@ -17,8 +17,20 @@
   Он pin-ит V1 bytes/failure и заменяет только non-assertion на positive proof
   `pre2012_outcomes_not_read_by_V30=True`. Signal, targets, risk, execution, costs,
   bootstrap seeds и gates наследуются byte-identical.
-- Synthetic/encoding tests: 10 passed; source/signal/target preflight: 86/86 true.
-  D2 code/config/docs должны быть committed/pushed до отдельного immutable suffix-v2 run.
+- D2 был sealed/pushed commit `aea34e4` до economic read. Canonical immutable output:
+  `runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/`; metrics SHA
+  `e5aeb7d1af12c861af3c81003d31bcc10cafed17665547b3f302255aed4ad054`, identity SHA
+  `acc03e16e71d9209028589f92ceaf9a8954570549fde6e73cddcf51e78923448`.
+- Independent read-only audit: artifact hashes/bytes/Parquet row counts 33/33 exact,
+  checks 86/86 true, assessment 13/13 true, metrics identity exact. Primary CAGR
+  `22,9090%`, Sharpe `1,121648`, MDD `27,78698%`; doubled `22,26594%/1,09846/27,88775%`;
+  stress `21,41126%/1,063413/28,47069%`. Все ledgers complete, critical/unresolved 0.
+- Четыре из пяти лет положительны, но 2014 дал `+75,4006%`, а stress rolling q05 CAGR
+  `−15,930%`. Stress circular-block bootstrap q05 CAGR равен `2,922%/1,962%/0,249%`
+  для блоков 5/21/63 дней. Verdict
+  `DEVELOPMENT_CANDIDATE_READY_FOR_SEPARATE_PRE2012_SEAL`: development gate 20% пройден,
+  50% нет; устойчивые 20% этим результатом не доказаны. V30-D2 не повторять и не
+  подбирать по нему параметры. Следующий economic read — только V31/2008–2011 после seal.
 
 ## V30-V1: equal trend/carry/relative sleeves — sealed, failed before ledger/output
 

@@ -533,6 +533,11 @@ source: причинный front/next curve carry и одновременный 
 Она сознательно не добавляет current-vintage macro governor: V28/V29 показали плохую
 переносимость и неполный PIT timing. Любой новый внешний macro/positioning/news source
 для 2008–2011 должен быть отдельно запечатан до чтения его значений и outcomes.
+Canonical V30-D2 подтвердил development CAGR `22,91%` (stress `21,41%`), но не
+стабильность: stress rolling q05 отрицателен, а bootstrap q05 лишь `0,25–2,92%`.
+Поэтому V31 обязан проверить frozen market-only formula без добавления внешних данных;
+новые sources относятся уже к следующей заранее сформулированной family, а не к
+исправлению результата V31.
 
 ### Unseen validation audit — официальный metadata route к 2012–2017
 

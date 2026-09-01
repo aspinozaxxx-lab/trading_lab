@@ -526,7 +526,11 @@ rolling 252, circular-block bootstrap и leave-one-year-out. V30 явно select
 pre-execution failure. Он byte-pin-ит V1 config/module, наследует все source/signal/
 target/risk/execution/robustness функции и меняет только отрицательно сформулированный
 служебный факт на positive proof `pre2012_outcomes_not_read_by_V30=True`. V1 не создал
-output и не запускал ledger; V2 публикует отдельный immutable suffix.
+output и не запускал ledger; V2 публикует отдельный immutable suffix. Seal `aea34e4`
+предшествует canonical run `v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a`.
+Read-only replay подтвердил 33/33 artifacts, 86/86 checks и 13/13 assessment. V2 теперь
+является frozen development parent: любой 2008–2011 economic read обязан идти через
+новый wrapper/protocol V31, который pin-ит его bytes и не меняет economics.
 
 ### `market_lab.futures.moex_calendar_spread_source`
 

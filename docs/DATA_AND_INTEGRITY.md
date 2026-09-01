@@ -161,7 +161,12 @@ causality conditions до price load; новый 2008–2011 D3 разрешён
 V30 V1 seal `271c7db` остановился до ledger/output на polarity служебного boolean; 85/86
 checks true. D2 SHA `8b41f58a...`/`20de599e...` pin-ит failure и меняет только proof key
 на `pre2012_outcomes_not_read_by_V30=True`; preflight 86/86. Ни V1 attempt, ни D2
-preflight не читали pre-2012 price values, returns или PnL.
+preflight не читали pre-2012 price values, returns или PnL. D2 seal `aea34e4` выполнен
+до canonical development run
+`runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/`: metrics SHA
+`e5aeb7d1af12c861af3c81003d31bcc10cafed17665547b3f302255aed4ad054`, identity SHA
+`acc03e16e71d9209028589f92ceaf9a8954570549fde6e73cddcf51e78923448`; independent
+artifact audit 33/33 exact. Output immutable и не является unseen validation.
 
 ## Основные разрешённые development artifacts
 
@@ -170,6 +175,7 @@ identity и должен проверяться перед чтением.
 
 | Роль | Path | SHA-256 |
 |---|---|---|
+| V30-D2 canonical development metrics | `runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/metrics.json` | `e5aeb7d1af12c861af3c81003d31bcc10cafed17665547b3f302255aed4ad054` |
 | 30-stock daily panel | `data/processed/daily_v4/development_panel.parquet` | `a8759c2c9d1670c667d1d22125c6fd423f4b57c55103530ee44d542a253c0bbe` |
 | Daily panel manifest | `data/processed/daily_v4/panel_manifest.json` | `873916a268dae55c3ac6537d1a02f7d773ea7f0276c7377389c494d7996e492f` |
 | Futures 10m top manifest | `data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json` | `f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01` |

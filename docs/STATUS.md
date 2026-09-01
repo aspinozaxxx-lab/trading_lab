@@ -43,20 +43,21 @@ replay дал 27/27 true, а дополнительное strict-dtype срав�
 
 ## Короткий ответ
 
-Новый текущий кандидат — **V30**, пока только как выбранная на открытом 2012–2017
-development-гипотеза. Он равными долями объединяет bounded multi-horizon trend, знак
-фьючерсного carry и clipped cross-sectional relative trend, а затем причинно
-восстанавливает ожидаемую волатильность итогового портфеля к 20% с потолком 2x. В
-предварительной точной диагностике primary/doubled/stress CAGR составил примерно
-`22,9%/22,3%/21,4%`, Sharpe `1,12/1,10/1,06`, MDD `27,8–28,5%`; четыре из пяти лет
-положительны. Это не canonical и не независимый результат: 2012–2017 уже использован
-для выбора. V30 V1 config SHA `2e191a82...`, implementation SHA `b642afe2...` был
-sealed/pushed `271c7db`, но canonical attempt остановился до ledger/output: служебный
-факт `pre2012_outcomes_read_by_V30=False` ошибочно попал в `all(checks)` как будто обязан
-быть true. Все остальные 85/86 checks были true. Узкий D2 меняет только его полярность
-на positive proof `pre2012_outcomes_not_read_by_V30=True`; config SHA `8b41f58a...`,
-wrapper SHA `20de599e...`, preflight 86/86. До V2 run обязателен новый commit/push.
-Outcomes 2008–2011 всё ещё не прочитаны.
+Новый текущий кандидат — **V30**, выбранный на открытом 2012–2017 development. Он
+равными долями объединяет bounded multi-horizon trend, знак фьючерсного carry и clipped
+cross-sectional relative trend, а затем причинно восстанавливает ожидаемую
+волатильность итогового портфеля к 20% с потолком 2x. Canonical D2 run
+`runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/` дал для
+primary/doubled/stress CAGR `22,9090%/22,2659%/21,4113%`, Sharpe
+`1,1216/1,0985/1,0634`, MDD `27,7870%/27,8878%/28,4707%`; четыре из пяти лет
+положительны. Artifact replay exact 33/33, checks 86/86, assessment 13/13; metrics SHA
+`e5aeb7d1...`, identity SHA `acc03e16...`. Это canonical development evidence, но не
+независимый результат: 2012–2017 уже использован для выбора, а прибыль 2014 года
+`+75,40%` существенно влияет на итог. Stress bootstrap имеет q05 CAGR только
+`0,25–2,92%` в зависимости от блока, поэтому 20% нельзя считать предсказуемым.
+V30 V1 seal `271c7db` остановился до ledger/output на polarity служебного boolean;
+узкий D2 seal `aea34e4` изменил только positive proof и завершён. Outcomes 2008–2011
+всё ещё не прочитаны; следующий шаг — отдельный V31 seal и ровно один temporal test.
 
 Предыдущий главный lead **V27** прошёл same-history gates, но его независимая проверка
 не подтвердила экономику после исправления execution.
@@ -335,6 +336,7 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
+| V30 equal trend/carry/relative + final risk restoration, 2013–2017 | CAGR 22,91%, Sharpe 1,12, MDD −27,79%; stress CAGR 21,41%; 4/5 positive years | **Development candidate** к отдельному V31/2008–2011 test; не live |
 | V29 risk-first roll, post-V28 2013–2017 | +24,87%, CAGR 4,61%, Sharpe 0,32, MDD −47,38%; execution complete | Execution fixed, economics unstable; **FAIL/NO-GO** |
 | V27 V26 + CBR key-rate `>=20%` cash governor | +248,61%, CAGR 28,38%, Sharpe 1,21, MDD −20,71%; stress CAGR 27,36% | Все sealed gates пройдены; **GO к новой unseen validation, не live** |
 | V26 2x V25 + causal RUONIA + capacity admission | +195,14%, CAGR 24,17%, Sharpe 0,98, MDD −33,57%; complete | Return/execution gates пройдены, MDD `>30%`; NO-GO |
@@ -865,13 +867,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    не перезаписывать. D3 seal `afaa278` и canonical suffix `-v3` завершены: manifest
    SHA `ff9b2771...`, 27/27 replay checks и strict dtypes exact. Returns/PnL по-прежнему
    запрещены; MIX до 2011 остаётся отсутствующим, gap/roll нельзя синтезировать.
-4. Принципиально новый V30 target на уже просмотренном 2012–2017 подготовлен: equal
-   trend/carry/relative sleeves + causal 20% final-risk restoration, cap 2x. V1 seal
-   `271c7db` остановился до ledger/output на boolean polarity. V1 не менять. D2 config
-   SHA `8b41f58a...`, wrapper SHA `20de599e...` проходит 86/86 preflight checks; сначала
-   commit/push, затем один immutable suffix-v2 run с 1x/hard-2x, тремя costs и
-   rolling/bootstrap/leave-one-year-out. Не называть его holdout.
-5. Только после push strategy seal открыть 2008–2011 outcomes один раз. Отчёт обязан
+4. Принципиально новый V30 target на уже просмотренном 2012–2017 завершён. D2 seal
+   `aea34e4`, immutable run `v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a`,
+   metrics SHA `e5aeb7d1...`; exact audit 33/33. Формулу, параметры риска и costs по
+   этому периоду больше не менять; V30 не называть holdout и run не перезаписывать.
+5. Создать и push-нуть отдельный V31 strategy seal, byte-pin-ящий V30-D2 и pre-2012 D3,
+   затем открыть 2008–2011 outcomes ровно один раз. Отчёт обязан
    показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved
    и отдельно gates 20%/50%; результат не разрешает live без PIT fees/specs/margin.
 

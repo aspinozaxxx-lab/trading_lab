@@ -792,9 +792,10 @@ factual 1% capacity; new entry отдельно clip-ится или замен�
 V30 выбран на уже открытом 2012–2017 development и не является holdout. V1 config SHA
 `2e191a82...`, implementation SHA `b642afe2...` был sealed/pushed `271c7db`, но attempt
 остановился до ledger/output на boolean polarity; V1 не повторять. D2 config SHA
-`8b41f58a...`, wrapper SHA `20de599e...` меняет только positive proof. До первого D2
-canonical run code/config/sidecar/tests/docs должны быть committed/pushed. Затем
-выполнить ровно один run:
+`8b41f58a...`, wrapper SHA `20de599e...` меняет только positive proof. Seal `aea34e4`
+был pushed до первого D2 economic read. Единственный canonical run уже выполнен:
+`runs/v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a/`, metrics SHA `e5aeb7d1...`.
+Команды ниже сохранены только для provenance; повторно их не выполнять:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
@@ -809,10 +810,11 @@ canonical run code/config/sidecar/tests/docs должны быть committed/pus
   --output-root .\runs
 ```
 
-Run обязан сохранить source/signal/target checks, 1x baseline, selected risk-restored
+Run сохранил source/signal/target checks, 1x baseline, selected risk-restored
 primary/doubled/stress, hard-2x sensitivity, exact orders/positions/coverage и
-rolling/bootstrap/leave-one-year-out. После результата формулу на 2012–2017 не менять;
-следующий economic read — только отдельный pushed seal для 2008–2011.
+rolling/bootstrap/leave-one-year-out; independent audit 33/33 exact. Формулу на
+2012–2017 не менять; следующий economic read — только отдельный pushed V31 seal для
+2008–2011.
 
 ## 5. Новый эксперимент
 
