@@ -4,6 +4,27 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## MOEX-PRE2012-SOURCE-V1: sealed design, collection pending
+
+- Metadata-only audit без daily market endpoint нашёл exact 81 expired contracts
+  2008–2011: BR 38, MIX 1, RI 16, SI 26. FRSTTRADE/LSTDELDATE и ровно один overlapping
+  RFUD segment есть у 81/81; LSTTRADE отсутствует у всех и не восстанавливается из цен.
+- Source-only config SHA
+  `92c7f3249e4bd0363a65af78fccd3871929ea04e2ec7d187c8b6522a8fc71997`, wrapper SHA
+  `55965d9cb068a23c4d9310c91e03e95e7f65dedeec4ec06d247d3958613dfb4e`, reused parent
+  SHA `7dd25e01d28303988190123fc57c70fd3d93d938c207d219a03e837484833fc7`.
+  Код/config должны быть pushed до первого daily response.
+- Wrapper pin-ит exact names/months, RFUD, closed daily schema, cursor pagination,
+  `2008-01-01..2011-12-31`, protected boundary, immutable external output и обе code
+  identities. Он сохраняет exact raw responses и требует, чтобы replay заново построил
+  все шесть Parquet tables; outcome-like columns запрещены.
+- Planned external path:
+  `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1/`.
+  Canonical manifest пока отсутствует; дневные prices, returns и PnL до seal не читались.
+- После source/replay нужен отдельный derived-source seal, затем новая strategy family
+  должна разрабатываться только на уже открытом 2012–2017. 2008–2011 outcomes остаются
+  закрыты до отдельного pre-outcome push и будут открыты ровно один раз.
+
 ## MOEX-MULTILEG-SOURCE-V1: parser sealed, licensed bytes pending
 
 - Source-only config SHA

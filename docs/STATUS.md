@@ -3,6 +3,18 @@
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V29 гипотез защищены и не используются.
 
+После провала V29 открыт новый, ещё не просмотренный рыночный период 2008–2011.
+Metadata-only audit без daily endpoint нашёл ровно 81 официальный expired contract:
+BR/MIX/RI/SI = 38/1/16/26, с FRSTTRADE/LSTDELDATE и единственным RFUD segment у каждого;
+LSTTRADE отсутствует у 81/81 и сохраняется missing. Source-only protocol
+`moex_pre2012_core_daily_source_v1` подготовлен до первого daily price response:
+config SHA `92c7f3249e4bd0363a65af78fccd3871929ea04e2ec7d187c8b6522a8fc71997`,
+wrapper SHA `55965d9cb068a23c4d9310c91e03e95e7f65dedeec4ec06d247d3958613dfb4e`,
+parent SHA `7dd25e01...`. Сначала этот seal нужно commit/push, затем один раз собрать и
+raw-replay проверить immutable EOD bundle. До отдельного strategy seal запрещено читать
+2008–2011 returns/PnL: этот кризисно-восстановительный отрезок сохраняется как будущий
+честный holdout, а не очередной период для подбора параметров.
+
 ## Короткий ответ
 
 Новый главный research lead — **V27**, но только для новой независимой валидации.
@@ -797,6 +809,22 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — сохранить новый 2008–2011 holdout до просмотра outcomes
+
+1. Commit/push source-only config SHA `92c7f324...`, wrapper SHA `55965d9c...` и тесты
+   до первого daily response; metadata не содержит price/return/PnL.
+2. Один раз собрать 81 exact contract во внешний immutable каталог
+   `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1/`,
+   затем независимо выполнить `--audit-only`; любые empty segment, hash/replay mismatch
+   или дата вне `2008-01-01..2011-12-31` означают fail-closed без смены universe.
+3. Построить отдельный source-derived active-contract/spec panel без returns/PnL.
+   MIX до 2011 должен оставаться фактически отсутствующим; gap/roll нельзя синтезировать.
+4. На уже просмотренном 2012–2017 development разработать принципиально новый
+   portfolio target, а не V27/V29 threshold tweak, и зафиксировать его code/config/SHA.
+5. Только после push strategy seal открыть 2008–2011 outcomes один раз. Отчёт обязан
+   показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved
+   и отдельно gates 20%/50%; результат не разрешает live без PIT fees/specs/margin.
 
 ### P0 — новый market-neutral source family
 

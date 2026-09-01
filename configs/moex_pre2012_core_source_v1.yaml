@@ -1,0 +1,207 @@
+﻿protocol_id: moex_pre2012_core_daily_source_v1
+protocol_version: 1
+status: predeclared_after_metadata_only_audit_before_first_daily_price_response
+declared_at_utc: "2026-09-01T00:00:00Z"
+scope: source_only_no_strategy_no_outcomes
+research_only: true
+sealed_before_first_daily_price_response: true
+live_trading_allowed: false
+
+relationship_to_prior_work: >-
+  A metadata-only MOEX ISS audit discovered 81 exact expired BR, MIX, RTS and Si
+  futures aliases whose expirations cover 2008-2011. The audit read security-search,
+  description and board metadata only. It did not call the daily history endpoint or
+  read a price, return, target, label, signal, equity or PnL value. This source protocol
+  is therefore sealed before the first daily price response. It reuses the already
+  byte-sealed pre-2018 collector while pinning both wrapper and parent implementations.
+
+hypothesis:
+  statement: >-
+    Official anonymous MOEX ISS daily history can supply an immutable, replay-auditable
+    source bundle for the exact 81 predeclared contracts expiring in 2008-2011 without
+    choosing coverage after seeing prices or strategy outcomes.
+  source_success_requires:
+    - all_81_exact_predeclared_shortnames_are_discovered_once
+    - every_contract_has_FRSTTRADE_and_LSTDELDATE
+    - absent_LSTTRADE_is_preserved_as_missing_for_all_81_contracts
+    - every_contract_has_exactly_one_overlapping_RFUD_segment
+    - every_intersecting_segment_has_nonempty_exact_cursor_daily_history
+    - no_daily_row_escapes_2008_01_01_through_2011_12_31
+    - raw_requests_rebuild_every_normalized_table_exactly
+  source_failure_does_not_authorize:
+    - changing_the_exact_contract_list_after_price_access
+    - narrowing_dates_or_assets_after_viewing_coverage
+    - inventing_contract_aliases_or_trade_dates
+    - filling_missing_prices_volume_open_interest_or_returns_with_zero
+    - reading_2008_2011_strategy_outcomes_before_a_separate_strategy_seal
+
+dates:
+  source_start: "2008-01-01"
+  source_end: "2011-12-31"
+  protected_from: "2026-01-01"
+  timezone: Europe/Moscow
+
+network:
+  provider: MOEX ISS
+  timeout_seconds: 60.0
+  attempts: 5
+  retry_backoff_seconds: 0.25
+  minimum_request_interval_seconds: 0.05
+  anonymous_http_access_is_not_redistribution_permission: true
+
+discovery:
+  endpoint: https://iss.moex.com/iss/securities.json
+  group_by: type
+  group_by_filter: futures
+  required_group: futures_forts
+  required_type: futures
+  columns: [SECID, SHORTNAME, GROUP, TYPE]
+  page_size: 100
+  stop_rule: first_page_shorter_than_page_size
+  maximum_pages_per_query: 20
+  expected_total_contracts: 81
+  assets:
+    - logical_symbol: BR
+      asset_code: BR
+      search_query: BR
+      shortname_prefix: BR
+      expected_contract_count: 38
+      expected_months_by_year:
+        2008: [11, 12]
+        2009: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2010: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        2011: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    - logical_symbol: MIX
+      asset_code: MIX
+      search_query: MIX
+      shortname_prefix: MIX
+      expected_contract_count: 1
+      expected_months_by_year:
+        2011: [12]
+    - logical_symbol: RI
+      asset_code: RTS
+      search_query: RTS
+      shortname_prefix: RTS
+      expected_contract_count: 16
+      expected_months_by_year:
+        2008: [3, 6, 9, 12]
+        2009: [3, 6, 9, 12]
+        2010: [3, 6, 9, 12]
+        2011: [3, 6, 9, 12]
+    - logical_symbol: SI
+      asset_code: Si
+      search_query: Si
+      shortname_prefix: Si
+      expected_contract_count: 26
+      expected_months_by_year:
+        2008: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12]
+        2009: [3, 4, 5, 6, 7, 8, 9, 12]
+        2010: [3, 6, 9, 12]
+        2011: [3, 6, 9, 12]
+
+contract_metadata:
+  endpoint_template: https://iss.moex.com/iss/securities/{secid}.json
+  description_columns: [name, value]
+  required_description_fields: [SECID, SHORTNAME, FRSTTRADE, LSTDELDATE]
+  optional_description_fields: [LSTTRADE]
+  boards_columns:
+    - secid
+    - boardid
+    - history_from
+    - history_till
+    - listed_from
+    - listed_till
+    - is_primary
+    - is_traded
+    - engine
+    - market
+  expiration_identity: LSTDELDATE
+  request_end_identity: LSTDELDATE
+  missing_LSTTRADE_policy: preserve_as_missing_never_infer_from_prices
+  require_every_contract: true
+
+metadata_audit_record:
+  exact_contracts: 81
+  FRSTTRADE_present: 81
+  LSTDELDATE_present: 81
+  LSTTRADE_present: 0
+  LSTTRADE_missing: 81
+  exact_one_overlapping_RFUD_segment: 81
+  minimum_FRSTTRADE: "2007-03-15"
+  maximum_LSTDELDATE: "2011-12-16"
+  metadata_requests: 99
+  security_search_requests: 18
+  detail_requests: 81
+  daily_price_endpoint_reached_before_seal: false
+  output_bundle_created_before_seal: false
+  returns_targets_labels_equity_or_pnl_observed: false
+
+daily_history:
+  endpoint_template: >-
+    https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/
+    {board_id}/securities/{secid}.json
+  primary_board: RFUD
+  columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - OPENPOSITIONVALUE
+    - SETTLEPRICE
+    - WAPRICE
+    - NUMTRADES
+    - ASSETCODE
+  pagination: history_cursor_exact_total
+  page_limit: 100
+  maximum_pages_per_segment: 20
+  request_clip: max_source_start_contract_start_board_start_to_min_source_end_expiry_board_end
+  require_nonempty_each_segment: true
+  preserve_settlement_only_rows: true
+  preserve_missing_values: true
+  zero_imputation: forbidden
+  gap_return_bridge: forbidden
+  roll_return_bridge: forbidden
+
+information_boundary:
+  source_contains_prices_after_seal: true
+  source_contains_returns_targets_labels_signals_equity_or_pnl: false
+  strategy_calculation_in_this_protocol: forbidden
+  price_request_before_protocol_commit_and_push: forbidden
+  future_use_requires_completed_trade_date_before_decision: true
+  execution_requires_next_factual_open_under_separate_sealed_protocol: true
+
+output:
+  default_relative_directory: >-
+    data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+  artifacts:
+    - discovery.parquet
+    - contracts.parquet
+    - boards.parquet
+    - segments.parquet
+    - daily.parquet
+    - coverage.parquet
+    - official_moex_iss_responses.jsonl.gz
+    - manifest.json
+    - manifest.sha256
+  raw_redistribution_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2012_core_source.py: 55965d9cb068a23c4d9310c91e03e95e7f65dedeec4ec06d247d3958613dfb4e
+  src/market_lab/futures/moex_pre2018_core4_source.py: 7dd25e01d28303988190123fc57c70fd3d93d938c207d219a03e837484833fc7
+
+limitations:
+  current_vintage_historical_snapshot: true
+  historical_specs_ticks_fees_margin_exact: false
+  bid_ask_spread_queue_and_order_book_exact: false
+  MIX_available_only_from_2011_contract_set: true
+  source_collection_is_not_strategy_validation: true
+  independent_holdout_requires_strategy_seal_before_outcome_access: true
+  live_promotion_possible: false

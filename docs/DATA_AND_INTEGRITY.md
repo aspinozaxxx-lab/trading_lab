@@ -48,6 +48,20 @@ Canonical bundle завершён: 30 059 rows `2012-01-03..2017-12-21`; manifes
 `e60d0bca...`, daily SHA `00a9a872...`, raw SHA `b7d10f99...`. Он разрешён только как
 source для следующего заранее запечатанного research protocol, не как live evidence.
 
+## Ещё не открытый источник MOEX 2008–2011
+
+`configs/moex_pre2012_core_source_v1.yaml` (SHA `92c7f324...`) фиксирует до первого
+daily response exact 81 contracts BR/MIX/RI/SI = 38/1/16/26 и физические границы
+`2008-01-01..2011-12-31`. Metadata-only audit прочитал только finder/description/boards:
+FRSTTRADE/LSTDELDATE и один RFUD segment есть у каждого, LSTTRADE отсутствует у 81/81 и
+остаётся missing. Wrapper SHA `55965d9c...` и parent SHA `7dd25e01...` pin-ятся вместе.
+
+Planned bundle находится только через внешний `data` junction и должен быть immutable.
+Он обязан хранить exact raw request log, шесть normalized tables, artifact hashes и
+полный offline replay. До отдельного strategy seal запрещено вычислять или даже
+просматривать 2008–2011 returns/PnL; collection coverage сама по себе не является
+валидацией и не разрешает менять exact contract set.
+
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
 Его immutable output с manifest SHA `73ffe4c3...` прошёл byte/causality checks, но

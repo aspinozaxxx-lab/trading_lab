@@ -488,6 +488,23 @@ V27 был sealed/pushed до PnL и прошёл development gates, но rule �
 adaptive research, не для независимого live evidence. Требуется forward archive с
 actual retrieval/publication time; boundary/age/partial scale по 2021–2025 не менять.
 
+### Новый закрытый holdout — официальный metadata route к 2008–2011
+
+После отрицательной проверки 2012–2017 выполнен новый metadata-only поиск, не
+обращавшийся к daily history. Exact shortname filters нашли 81 expired contract с
+экспирациями 2008–2011: BR 38, MIX 1, RTS 16 и Si 26. Все 81 descriptions содержат
+FRSTTRADE/LSTDELDATE, ни одно не содержит LSTTRADE; для каждого найден ровно один
+пересекающий период RFUD. Всего audit сделал 18 finder и 81 detail request. Минимальный
+FRSTTRADE — `2007-03-15`, максимальный LSTDELDATE — `2011-12-16`; это metadata, не
+market outcome.
+
+До первого daily response подготовлены exact source rules и replay wrapper: config SHA
+`92c7f324...`, wrapper SHA `55965d9c...`, reused parent SHA `7dd25e01...`. После
+commit/push разрешена только source collection и offline raw replay без returns/PnL.
+Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
+стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
+новая strategy family будет разработана на 2012–2017 и отдельно запечатана.
+
 ### Unseen validation audit — официальный metadata route к 2012–2017
 
 Первичная проверка текущего `/statistics/.../series` catalog была ложно-пессимистичной:

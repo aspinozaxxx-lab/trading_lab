@@ -392,6 +392,20 @@ history. Daily EOD запрашивается закрытой схемой и �
 daily observations и coverage атомарно сохраняются во внешнем immutable bundle. Модуль
 не вычисляет returns, targets, labels или PnL; V28 потребует отдельного protocol seal.
 
+### `market_lab.futures.moex_pre2012_core_source`
+
+Source-only fail-closed wrapper над byte-pinned pre-2018 collector для exact 81
+контракта 2008–2011. Wrapper задаёт более ранние границы, exact BR/MIX/RI/SI aliases,
+проверяет metadata-audit invariants и pin-ит собственный и parent module SHA. Нормализует
+те же discovery/contracts/boards/segments/daily/coverage tables, но публикует их только
+после exact contract/date/schema checks во внешний immutable каталог.
+
+Каждый HTTP response архивируется с exact URL и retrieval timestamp. Встроенный replay
+подменяет сеть последовательностью raw records, повторяет discovery, metadata и cursor
+pagination и сравнивает все восстановленные таблицы с Parquet artifacts. Модуль не
+содержит strategy/return/PnL engine. Даже после успешной collection 2008–2011 цены нельзя
+использовать до отдельного derived-source и strategy seal.
+
 ### `market_lab.futures.moex_pre2018_core4_derived`
 
 Source-only преобразование byte-pinned MOEX bundle 2012–2017 в common factual-session
