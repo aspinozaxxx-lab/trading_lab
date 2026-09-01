@@ -1,0 +1,82 @@
+﻿protocol_id: moex_cny_perpetual_source_v1
+protocol_version: 1
+status: declared_after_schema_cursor_and_identity_probe_before_price_or_swap_read
+scope: historical_source_only_no_signal_no_return_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol:
+  statement: >-
+    The exchange-published SWAPRATE and price of CNYRUBF may permit a capital-efficient
+    market-neutral relative-value sleeve against quarterly CR futures without funding
+    a full CNY spot position.
+  this_protocol_computes_signal_return_or_pnl: false
+  economic_protocol_requires_separate_seal: true
+
+source:
+  provider: MOEX_ISS
+  access_mode: public_historical_current_vintage
+  history_endpoint: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/CNYRUBF.json
+  description_endpoint: https://iss.moex.com/iss/securities/CNYRUBF.json
+  security: CNYRUBF
+  board: RFUD
+  asset_code: CNYRUBTOM
+  first_trade: '2022-04-26'
+  declared_last_trade: '2100-01-01'
+  lot_size_cny: 1000
+  execution_type: cash_settled
+  contract_name: one_day_futures_with_automatic_prolongation
+  from: '2022-04-26'
+  till: '2025-12-31'
+  page_size_observed: 100
+  total_rows_observed: 764
+  official_interface: https://www.moex.com/a8531
+
+required_history_columns:
+  - BOARDID
+  - TRADEDATE
+  - SECID
+  - OPEN
+  - LOW
+  - HIGH
+  - CLOSE
+  - VOLUME
+  - OPENPOSITION
+  - SETTLEPRICE
+  - SWAPRATE
+  - WAPRICE
+  - NUMTRADES
+  - ASSETCODE
+
+temporal_semantics:
+  current_vintage_not_original_historical_vintage: true
+  price_and_swaprate_available_only_after_trade_date: true
+  protected_ceiling_exclusive: '2026-01-01'
+  same_day_swaprate_use: forbidden
+
+quality_gates:
+  exact_security_board_asset_lot_and_contract_type: true
+  exact_cursor_total_and_page_size: true
+  unique_trade_date: true
+  raw_replay_exact: true
+  swaprate_preserved_without_imputation: true
+  nonpositive_price_or_zero_activity_preserved_but_never_fill: true
+  protected_rows_zero: true
+
+output:
+  root: data/processed/fx_basis/moex-cny-perpetual-current-vintage-v1
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [signal, basis, return, returns, label, target, prediction, pnl, profit, equity]
+
+future_economic_protocol_requirements:
+  pair_only_with_byte_pinned_quarterly_CR_source: true
+  both_futures_legs_and_margin_modeled_separately: true
+  prior_day_swaprate_only: true
+  fixed_quarterly_schedule: true
+  stressed_simultaneous_execution: true
+  no_spot_principal_credit: true
+  compare_full_capital_return_against_causal_RUONIA: true
+  no_same_history_threshold_date_or_direction_search: true
