@@ -83,6 +83,27 @@ def test_capacity_aware_settings_are_fail_closed() -> None:
         v26.CapacityAwareLeveredLedgerConfig(maximum_participation=0.02)
 
 
+def test_execution_mapping_applies_leverage_only_after_base_normalization(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    governed = _governed_weights()
+    sentinel = v26.v12.TargetBuild(
+        targets=pd.DataFrame(),
+        decision_audit=pd.DataFrame(),
+        weekly_decisions=1,
+        roll_decisions=0,
+    )
+
+    def fake_builder(weights: pd.DataFrame, active: pd.DataFrame) -> v26.v12.TargetBuild:
+        assert weights["target_weight"].abs().max() <= 1.0
+        assert active.empty
+        return sentinel
+
+    monkeypatch.setattr(v26.v15, "build_levered_execution_targets", fake_builder)
+
+    assert v26.build_execution_targets(governed, pd.DataFrame()) is sentinel
+
+
 def _scenario(*, cagr: float = 0.21, mdd: float = 0.29) -> dict[str, object]:
     return {
         "futures_only": {

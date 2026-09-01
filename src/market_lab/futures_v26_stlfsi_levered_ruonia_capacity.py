@@ -213,6 +213,13 @@ def build_levered_governed_weights(governed_weights: pd.DataFrame) -> pd.DataFra
     return output.sort_values(["decision_date", "asset"], kind="mergesort", ignore_index=True)
 
 
+def build_execution_targets(
+    governed_weights: pd.DataFrame, active_map: pd.DataFrame
+) -> v12.TargetBuild:
+    """Map admissible V25 weights first and apply the sealed 2x multiplier afterward."""
+    return v15.build_levered_execution_targets(governed_weights, active_map)
+
+
 def _comparison(primary: dict[str, Any]) -> dict[str, Any]:
     combined = primary["combined"]
     futures = primary["futures_only"]
@@ -402,7 +409,7 @@ def run_experiment(output_root: Path) -> Path:
     governed = v25.apply_weekly_governor(weekly_v12, stlfsi)
     checks.update(governed.checks)
     levered = build_levered_governed_weights(governed.weights)
-    target_build = v12.build_execution_targets(levered, active)
+    target_build = build_execution_targets(governed.weights, active)
     mapped_gross = target_build.targets.groupby("effective_date")["target_weight"].apply(
         lambda values: values.abs().sum()
     )
