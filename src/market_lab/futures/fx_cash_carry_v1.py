@@ -110,6 +110,7 @@ def load_inputs(
         ],
     )
     spot["trade_date"] = pd.to_datetime(spot["trade_date"])
+    nonexecuting_spot = spot["open"].le(0) | spot["close"].le(0)
     checks.update(
         {
             "spot_rows_exact": len(spot) == int(spot_cfg["rows"]),
@@ -117,7 +118,10 @@ def load_inputs(
             == {spot_cfg["security_id"]}
             and set(spot["board_id"].astype(str)) == {spot_cfg["board_id"]},
             "spot_dates_unique": not spot["trade_date"].duplicated().any(),
-            "spot_prices_positive": bool((spot[["open", "close"]].min(axis=1) > 0).all()),
+            "spot_has_positive_execution_rows": bool((~nonexecuting_spot).any()),
+            "spot_nonpositive_rows_are_zero_activity": bool(
+                spot.loc[nonexecuting_spot, "number_of_trades"].le(0).all()
+            ),
         }
     )
 
@@ -376,6 +380,11 @@ def simulate_period(
     start_text, end_text = protocol["periods"][period_name]
     start, end = pd.Timestamp(start_text), pd.Timestamp(end_text)
     period_spot = spot.loc[spot["trade_date"].between(start, end)].copy()
+    execution_spot = period_spot.loc[
+        period_spot["open"].gt(0)
+        & period_spot["close"].gt(0)
+        & period_spot["number_of_trades"].gt(0)
+    ].copy()
     dates = pd.DatetimeIndex(period_spot["trade_date"])
     if dates.empty:
         raise ValueError(f"empty spot period: {period_name}")
@@ -401,7 +410,7 @@ def simulate_period(
         item for item in contracts if start <= item["expiration_date"] <= end
     ]
     for contract in sorted(selected, key=lambda item: item["expiration_date"]):
-        candidate = _candidate(period_spot, contract, ruonia, protocol, scenario)
+        candidate = _candidate(execution_spot, contract, ruonia, protocol, scenario)
         if candidate is None:
             trade_rows.append(
                 {
@@ -435,7 +444,7 @@ def simulate_period(
                 reason = "integer_capacity_zero"
         if candidate["admitted"]:
             frame = contract["frame"].set_index("trade_date")
-            spot_indexed = period_spot.set_index("trade_date")
+            spot_indexed = execution_spot.set_index("trade_date")
             mark_dates = dates[
                 (dates >= candidate["entry_date"]) & (dates <= candidate["exit_date"])
             ]
@@ -547,6 +556,9 @@ def simulate_period(
     strategy_metrics["causal_failure_count"] = causal_failures
     strategy_metrics["stale_futures_mark_days"] = stale_mark_days
     strategy_metrics["benchmark_missing_rate_intervals"] = missing_benchmark
+    strategy_metrics["nonexecuting_spot_rows_rejected"] = int(
+        len(period_spot) - len(execution_spot)
+    )
     return pd.DataFrame(trade_rows), daily, strategy_metrics, checks
 
 

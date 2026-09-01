@@ -23,6 +23,7 @@ def _spot() -> pd.DataFrame:
             "trade_date": dates,
             "open": 70.0,
             "close": 70.0,
+            "number_of_trades": 100,
         }
     )
 
@@ -117,3 +118,18 @@ def test_fixed_hurdle_rejects_negative_basis() -> None:
     assert not trades["admitted"].any()
     assert metrics["admitted_trade_count"] == 0
     assert metrics["ending_equity_rub"] == 1_000_000.0
+
+
+def test_zero_activity_spot_rows_remain_calendar_but_never_execute() -> None:
+    spot = _spot()
+    spot[["open", "close", "number_of_trades"]] = 0.0
+
+    trades, daily, metrics, checks = carry.simulate_period(
+        spot, [_contract()], _ruonia(), _protocol(), "development", "primary"
+    )
+
+    assert not trades["admitted"].any()
+    assert metrics["nonexecuting_spot_rows_rejected"] == len(spot)
+    assert metrics["ending_equity_rub"] == 1_000_000.0
+    assert len(daily) == len(spot)
+    assert all(checks.values())
