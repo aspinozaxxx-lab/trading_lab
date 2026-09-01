@@ -362,6 +362,19 @@ identity и должен проверяться перед чтением.
   de-risk на latest target. Reversal обязан сначала стать flat. Scheduled flat имеет
   bounded exact retry window; остаток после него — unresolved, не overnight zero-fill.
 
+## MOEX USD/RUB TOM current-vintage source 2018–2025
+
+Source-only config `configs/moex_fx_spot_source_v1.yaml` SHA `15af78e5...` и collector
+были pushed commits `bd7f138`/`a049b51` до чтения цен. Immutable external bundle:
+`data/processed/fx_basis/moex-usdrub-tom-current-vintage-2018-2025-v1/`. Manifest SHA
+`59f1d02656af65794de62244c83f274c38372e206348dbfabc863c67c8d4b119`, Parquet SHA
+`e83f562f98f00791070fa8877432bdfeb63b9a75173d1bad7740a0d40550b863`, audit SHA
+`408cc22c4da6761ff1f302a21f4a1681f53f953c2c2093e815ee0edf0a2e8a64`. Получены 2 027
+unique dates, 21 cursor pages, protected rows `>=2026` zero, audit 51/51. EOD market
+values считаются доступными только после торгового дня; current-vintage не выдаётся за
+original historical vintage. Bundle запрещён старым experiments и не разрешает
+basis/return/PnL без отдельного заранее pushed economic protocol.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

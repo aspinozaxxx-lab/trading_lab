@@ -1082,6 +1082,20 @@ Manual verification завершилась `Last Result: 0` и сохранил�
 экономического protocol пока заблокировано. Wrapper пропускает существующую дату только
 после успешного replay-аудита; повреждённый immutable snapshot не мешает записать замену.
 
+### MOEX USD/RUB TOM source for future cash-and-carry
+
+Canonical source уже создан и immutable. Повторный read-only replay audit:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_fx_spot_source --audit `
+  --output-root D:\Projects\trading_lab_data\data\processed\fx_basis\moex-usdrub-tom-current-vintage-2018-2025-v1
+```
+
+Ожидание: 2 027 rows, 21 pages, `2018-01-03..2025-12-30`, 51/51 checks. Не запускать
+collector второй раз в этот path. Source не содержит basis/return/PnL и сам по себе не
+разрешает экономическую проверку: сначала нужен отдельный config/code seal с exact SI,
+cost, margin и RUONIA assumptions.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что

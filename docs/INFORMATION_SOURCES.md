@@ -28,6 +28,18 @@ quotes `312/115/65/40`, settlement и underlying settlement 2 062/2 062. Manifes
 pre-2026 experiments. Evaluation order зафиксирован в
 [FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
 
+Вторая новая family — USD/RUB cash-and-carry. После schema/cursor-only probe source
+config `moex_fx_spot_source_v1` был sealed/pushed (`bd7f138`), а collector — отдельным
+commit `a049b51`, до чтения market values. Canonical public MOEX ISS bundle содержит
+2 027 unique `USD000UTSTOM` sessions `2018-01-03..2025-12-30`, 21 exact raw page;
+manifest SHA `59f1d026...`, processed SHA `e83f562f...`, audit SHA `408cc22c...`, 51/51
+checks true. OHLC/NUMTRADES полны, WAPRICE missing в 398 строках и не может быть
+обязательным execution input. Это current-vintage EOD source, а не original vintage и
+не доказанный bid/offer. Basis/returns/PnL пока не вычислялись. Отдельный economic seal
+обязан моделировать long USD spot + short exact SI, next-session fills, обе комиссии,
+spread stress, margin cash и RUONIA opportunity cost; reverse carry запрещён без
+доказанного USD borrow.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

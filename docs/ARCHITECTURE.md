@@ -745,6 +745,15 @@ SECID+BOARDID и сохраняет strike/expiry/underlying, bid/offer, settlem
 повторно распаковывает raw bytes и требует exact normalized values. Source содержит
 цены, но никогда не вычисляет return/label/target/PnL.
 
+### `market_lab.futures.moex_fx_spot_source`
+
+Sealed source-only collector публичной current-vintage истории `USD000UTSTOM`. Он
+обходит exact MOEX ISS cursor, архивирует 21 original JSON page, нормализует EOD OHLC,
+NUMTRADES/WAPRICE и назначает консервативную доступность только после trade date.
+Protected ceiling `2026-01-01`, security/board/date identity, artifact bytes и raw replay
+проверяются повторным audit. Модуль запрещает basis/return/label/target/PnL; экономическая
+long-spot/short-SI логика должна жить в отдельном заранее sealed runner.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

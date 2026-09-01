@@ -53,6 +53,14 @@ Read-only readiness monitor повторно проиграл raw responses и �
 date, `0` invalid, current phase `discovery`, remaining `59` до разрешения seal
 экономического protocol. Повреждённый snapshot теперь не блокирует immutable replacement.
 
+Параллельно открыта принципиально другая relative-value ветка: USD/RUB cash-and-carry.
+Source config/code commits `bd7f138`/`a049b51` были pushed до market read. Canonical
+`USD000UTSTOM` source содержит 2 027 unique dates `2018-01-03..2025-12-30`, 21 raw page,
+51/51 replay checks; manifest `59f1d026...`, Parquet `e83f562f...`, audit `408cc22c...`.
+OHLC полны, WAPRICE missing 398. Basis/PnL ещё не считались: следующий допустимый шаг —
+отдельно sealed long-spot/short-SI protocol с next-session execution, costs, margin и
+RUONIA opportunity cost. Это новый механизм дохода, но пока не результат.
+
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
 V35 проверила принципиально иной механизм: после каждого второго завершённого
