@@ -1,0 +1,52 @@
+﻿protocol_id: futures_v30_three_sleeve_risk_restoration_v2
+protocol_version: 2
+status: pre_execution_boolean_correction_before_canonical_development_run
+declared_at_utc: "2026-09-01T14:12:00Z"
+research_only: true
+live_trading_allowed: false
+
+parent_V1:
+  path: configs/futures_v30_three_sleeve_risk_restoration.yaml
+  sha256: 2e191a82f1a6145667f640d565541de49e69e5bee6081b06764074344c43ce8a
+  module_path: src/market_lab/futures_v30_three_sleeve_risk_restoration.py
+  module_sha256: b642afe2cd7b112a2f69c6854fcf47e28bd566c065dd39b7412a0ba04df3c9e7
+  seal_commit: 271c7dbf4707f527645501aac4ac6ebeb4d5637f
+  immutable: true
+
+failed_V1_attempt:
+  attempted_after_parent_seal_push: true
+  failure_stage: pre_execution_check_aggregation
+  total_aggregated_checks: 86
+  true_checks: 85
+  only_false_key: pre2012_outcomes_read_by_V30
+  only_false_value: false
+  output_published: false
+  ledger_execution_started: false
+  strategy_outcomes_computed: false
+  pre2012_prices_returns_or_pnl_read: false
+  source_signal_target_or_execution_diagnosis_changed: false
+
+only_changed_behavior:
+  old_non_assertion_fact: pre2012_outcomes_read_by_V30_equals_false
+  old_aggregation_error: false_fact_was_included_in_all_checks_must_be_true
+  new_positive_proof: pre2012_outcomes_not_read_by_V30_equals_true
+  source_signal_target_risk_execution_costs_or_gates_changed: false
+  parent_development_selection_and_limitations_inherited: true
+  output_suffix_changed: true
+
+implementation_dependencies:
+  src/market_lab/futures_v30_three_sleeve_risk_restoration_v2.py: 20de599e5bdcace2fae4f8ea37f58cb53e5310609ec5720f2a1b42323ce6ed66
+  src/market_lab/futures_v30_three_sleeve_risk_restoration.py: b642afe2cd7b112a2f69c6854fcf47e28bd566c065dd39b7412a0ba04df3c9e7
+
+output:
+  root: runs
+  run_prefix: v30_three_sleeve_risk_v2
+  immutable: true
+  overwrite_allowed: false
+
+forbidden_after_seal:
+  - changing_any_parent_signal_component_weight_risk_target_execution_cost_or_gate
+  - relabeling_the_failed_V1_attempt_as_a_strategy_result
+  - reading_2008_2011_returns_or_pnl_before_a_separate_strategy_protocol_push
+  - overwriting_any_V30_output
+  - live_trading_or_claiming_guaranteed_profit

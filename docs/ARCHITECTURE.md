@@ -522,6 +522,12 @@ weekly covariance/turnover constructor, сначала отображает 1x �
 rolling 252, circular-block bootstrap и leave-one-year-out. V30 явно selected на уже
 открытом 2012–2017 и может только породить отдельный pre-2008 strategy seal, не live.
 
+`market_lab.futures_v30_three_sleeve_risk_restoration_v2` — узкий wrapper после V1
+pre-execution failure. Он byte-pin-ит V1 config/module, наследует все source/signal/
+target/risk/execution/robustness функции и меняет только отрицательно сформулированный
+служебный факт на positive proof `pre2012_outcomes_not_read_by_V30=True`. V1 не создал
+output и не запускал ledger; V2 публикует отдельный immutable suffix.
+
 ### `market_lab.futures.moex_calendar_spread_source`
 
 Source-only collector новой market-neutral family. Catalog строится из official MOEX

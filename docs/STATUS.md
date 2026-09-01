@@ -50,8 +50,13 @@ development-гипотеза. Он равными долями объединя�
 предварительной точной диагностике primary/doubled/stress CAGR составил примерно
 `22,9%/22,3%/21,4%`, Sharpe `1,12/1,10/1,06`, MDD `27,8–28,5%`; четыре из пяти лет
 положительны. Это не canonical и не независимый результат: 2012–2017 уже использован
-для выбора. V30 config SHA `2e191a82...`, implementation SHA `b642afe2...` подготовлены;
-до canonical run обязательны commit/push. Outcomes 2008–2011 всё ещё не прочитаны.
+для выбора. V30 V1 config SHA `2e191a82...`, implementation SHA `b642afe2...` был
+sealed/pushed `271c7db`, но canonical attempt остановился до ledger/output: служебный
+факт `pre2012_outcomes_read_by_V30=False` ошибочно попал в `all(checks)` как будто обязан
+быть true. Все остальные 85/86 checks были true. Узкий D2 меняет только его полярность
+на positive proof `pre2012_outcomes_not_read_by_V30=True`; config SHA `8b41f58a...`,
+wrapper SHA `20de599e...`, preflight 86/86. До V2 run обязателен новый commit/push.
+Outcomes 2008–2011 всё ещё не прочитаны.
 
 Предыдущий главный lead **V27** прошёл same-history gates, но его независимая проверка
 не подтвердила экономику после исправления execution.
@@ -861,9 +866,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    SHA `ff9b2771...`, 27/27 replay checks и strict dtypes exact. Returns/PnL по-прежнему
    запрещены; MIX до 2011 остаётся отсутствующим, gap/roll нельзя синтезировать.
 4. Принципиально новый V30 target на уже просмотренном 2012–2017 подготовлен: equal
-   trend/carry/relative sleeves + causal 20% final-risk restoration, cap 2x. Config SHA
-   `2e191a82...`, module SHA `b642afe2...`; tests/preflight clean. Commit/push seal,
-   затем выполнить один immutable canonical development run с 1x/hard-2x, тремя costs,
+   trend/carry/relative sleeves + causal 20% final-risk restoration, cap 2x. V1 seal
+   `271c7db` остановился до ledger/output на boolean polarity. V1 не менять. D2 config
+   SHA `8b41f58a...`, wrapper SHA `20de599e...` проходит 86/86 preflight checks; сначала
+   commit/push, затем один immutable suffix-v2 run с 1x/hard-2x, тремя costs и
    rolling/bootstrap/leave-one-year-out. Не называть его holdout.
 5. Только после push strategy seal открыть 2008–2011 outcomes один раз. Отчёт обязан
    показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved

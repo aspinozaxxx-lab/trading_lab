@@ -789,19 +789,23 @@ factual 1% capacity; new entry отдельно clip-ится или замен�
 
 ### V30 equal three-sleeve target with causal risk restoration
 
-V30 выбран на уже открытом 2012–2017 development и не является holdout. Config SHA
-`2e191a82...`, implementation SHA `b642afe2...`. До первого canonical run code/config,
-sidecar, tests и docs должны быть committed/pushed. Затем выполнить ровно один run:
+V30 выбран на уже открытом 2012–2017 development и не является holdout. V1 config SHA
+`2e191a82...`, implementation SHA `b642afe2...` был sealed/pushed `271c7db`, но attempt
+остановился до ledger/output на boolean polarity; V1 не повторять. D2 config SHA
+`8b41f58a...`, wrapper SHA `20de599e...` меняет только positive proof. До первого D2
+canonical run code/config/sidecar/tests/docs должны быть committed/pushed. Затем
+выполнить ровно один run:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v30_three_sleeve_risk_restoration_v2.py `
   tests/test_futures_v30_three_sleeve_risk_restoration.py `
   tests/test_futures_v29_risk_first_roll.py tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures_v30_three_sleeve_risk_restoration.py `
-  tests/test_futures_v30_three_sleeve_risk_restoration.py
-.\.venv\Scripts\python.exe -m market_lab.futures_v30_three_sleeve_risk_restoration `
-  --config .\configs\futures_v30_three_sleeve_risk_restoration.yaml `
+  src/market_lab/futures_v30_three_sleeve_risk_restoration_v2.py `
+  tests/test_futures_v30_three_sleeve_risk_restoration_v2.py
+.\.venv\Scripts\python.exe -m market_lab.futures_v30_three_sleeve_risk_restoration_v2 `
+  --config .\configs\futures_v30_three_sleeve_risk_restoration_v2.yaml `
   --output-root .\runs
 ```
 

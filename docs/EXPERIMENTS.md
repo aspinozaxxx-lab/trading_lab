@@ -4,7 +4,23 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V30: equal trend/carry/relative sleeves — protocol prepared, run pending
+## V30-D2: boolean-only pre-execution correction — prepared, run pending
+
+- V30 V1 был sealed/pushed commit `271c7db` до canonical attempt. Попытка остановилась
+  до первого ledger и без output: 85/86 aggregated checks true, единственный false —
+  корректный служебный факт `pre2012_outcomes_read_by_V30=False`, который ошибочно был
+  включён в `all(checks)` как assertion. Strategy outcomes не вычислялись; pre-2012
+  prices/returns/PnL не читались. V1 code/config не менять и не повторять.
+- D2 config SHA
+  `8b41f58a17d757b56f4e88a26515416e4e519d98cad915277e1fee18a20cc2ae`, wrapper SHA
+  `20de599e5bdcace2fae4f8ea37f58cb53e5310609ec5720f2a1b42323ce6ed66`.
+  Он pin-ит V1 bytes/failure и заменяет только non-assertion на positive proof
+  `pre2012_outcomes_not_read_by_V30=True`. Signal, targets, risk, execution, costs,
+  bootstrap seeds и gates наследуются byte-identical.
+- Synthetic/encoding tests: 10 passed; source/signal/target preflight: 86/86 true.
+  D2 code/config/docs должны быть committed/pushed до отдельного immutable suffix-v2 run.
+
+## V30-V1: equal trend/carry/relative sleeves — sealed, failed before ledger/output
 
 - Это development selection после полного просмотра V29/2012–2017, не independent
   validation. Outcomes 2008–2011 не читались. Config SHA
@@ -23,8 +39,8 @@
   примерно `21,4–22,9%`, Sharpe `1,06–1,12`, MDD `27,8–28,5%`, но это не canonical.
 - Preflight: 62 source, 14 signal и 6 target checks true; 4 550 finite component rows,
   254 weekly + 50 roll decisions, 1 216 mapped rows, mean multiplier 1,496x. Следующий
-  шаг — commit/push, затем один immutable V30 run с baseline 1x, selected risk-restored,
-  hard 2x sensitivity и predeclared rolling/bootstrap/leave-one-year-out gates.
+  V1 attempt был fail-closed на aggregation polarity; canonical economics переносится
+  только в D2, V1 не повторять.
 
 ## MOEX-PRE2012-DERIVED-D3: canonical outcome-free source complete
 

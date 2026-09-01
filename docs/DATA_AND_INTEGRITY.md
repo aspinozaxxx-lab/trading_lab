@@ -158,6 +158,11 @@ D3 market artifacts 2012–2017 и не читает macro bundle. Период 
 causality conditions до price load; новый 2008–2011 D3 разрешён только будущему
 отдельному strategy protocol после push, его returns/PnL для V30 запрещены.
 
+V30 V1 seal `271c7db` остановился до ledger/output на polarity служебного boolean; 85/86
+checks true. D2 SHA `8b41f58a...`/`20de599e...` pin-ит failure и меняет только proof key
+на `pre2012_outcomes_not_read_by_V30=True`; preflight 86/86. Ни V1 attempt, ни D2
+preflight не читали pre-2012 price values, returns или PnL.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical
