@@ -1,0 +1,112 @@
+﻿protocol_id: cny_cash_carry_v1
+protocol_version: 1
+status: sealed_before_cny_basis_return_or_pnl_read
+research_only: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    Fixed-schedule long CNYRUB_TOM and short quarterly CR may monetize an executable
+    futures premium while retaining lower directional exposure than outright forecasts.
+  mechanism_is_new: true
+  evaluation_market_was_visible_to_other_unrelated_lab_work: true
+  one_year_evaluation_is_insufficient_for_live_promotion: true
+  reverse_carry_without_proven_cny_borrow: forbidden
+
+periods:
+  development: ['2023-01-01', '2024-12-31']
+  evaluation: ['2025-01-01', '2025-12-31']
+  protected_ceiling_exclusive: '2026-01-01'
+
+inputs:
+  cny_source:
+    manifest: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/manifest.json
+    manifest_sha256: 7b8c4a8dea06414c111ead70b808d456e5fd1b307da02c5585bb8d62b4e2be97
+    spot: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/spot.parquet
+    spot_sha256: f9132e514ca77b6a4430a8015a197a3ad60e5954df29e7cf1a2e1eb5d4707c45
+    spot_rows: 2027
+    futures: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/futures.parquet
+    futures_sha256: 36c2af69e4f69cb5abbf0b0ba269cfe79f72ecd4b2ee4005da8ba2c11254e68f
+    futures_rows: 3636
+    futures_contracts: 12
+    spot_security: CNYRUB_TOM
+    futures_asset_code: CNY
+    lot_size_cny: 1000.0
+  ruonia:
+    manifest: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    manifest_sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+    parquet: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    parquet_sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    series_id: ruonia
+    availability: latest_available_at_at_or_before_entry_session_start
+
+candidate_schedule:
+  one_candidate_per_quarterly_contract: true
+  target_calendar_days_before_expiration: 60
+  entry_session: first_common_positive_trade_session_on_or_after_target
+  entry_max_calendar_days_before_expiration: 75
+  entry_min_calendar_days_before_expiration: 45
+  exit_session: last_common_positive_trade_session_strictly_before_expiration
+  no_retry_after_rejected_entry: true
+  positions_may_not_overlap: true
+
+execution:
+  entry_prices: {spot: fixed_entry_session_open, futures: same_session_open}
+  exit_prices: {spot: fixed_exit_session_open, futures: same_session_open}
+  conditional_ioc_is_modeled_at_entry_open: true
+  spot_side: long
+  futures_side: short
+  primary_half_spread_bps_each_leg_each_side: 5.0
+  stress_half_spread_bps_each_leg_each_side: 10.0
+  explicit_commission_bps_each_leg_each_side: 1.0
+  cny_interest_percent: 0.0
+  futures_point_value_rub: 1.0
+  missing_or_zero_open_mark_or_activity: reject_never_fill
+
+capital:
+  initial_equity_rub: 1000000.0
+  spot_principal: stressed_spot_entry_times_1000
+  modeled_initial_margin_fraction_of_futures_notional: 0.30
+  operational_cash_buffer_fraction_of_futures_notional: 0.10
+  maximum_entry_equity_utilization: 0.90
+  integer_contracts_only: true
+  residual_cash_yield_percent: 0.0
+  cross_collateral_credit: 0.0
+  margin_call_rule: invalidate_if_futures_variation_loss_exceeds_margin_plus_buffer
+
+admission:
+  formula: >-
+    annualized stressed convergence yield on full spot plus margin plus buffer minus
+    latest causal RUONIA and all estimated entry and exit costs
+  minimum_excess_over_ruonia_percent: 2.0
+  estimated_exit_basis: zero
+  raw_entry_basis_must_be_positive: true
+
+accounting:
+  daily_mark: long spot close times 1000 plus short futures close variation
+  exit_realization: stressed_same_session_open_both_legs
+  day_count: ACT_365
+  benchmark: full_causal_RUONIA_on_initial_equity
+  cny_interest_credit_percent: 0.0
+  no_credit_for_unknown_ruonia: true
+
+scenarios:
+  primary: 5bps_half_spread_plus_1bps_commission
+  stress: 10bps_half_spread_plus_1bps_commission
+  forbidden: [threshold_search, alternate_entry_days, contract_subset_search, reverse_carry]
+
+promotion_gates:
+  evaluation_cagr_minimum_percent: 20.0
+  evaluation_sharpe_minimum: 0.8
+  evaluation_max_drawdown_maximum_percent: 20.0
+  evaluation_positive_years_minimum: 1
+  evaluation_excess_over_ruonia_cagr_minimum_percent: 5.0
+  stress_evaluation_cagr_minimum_percent: 15.0
+  minimum_evaluation_trades: 3
+  execution_and_identity_checks_all_true: true
+  live_promotion_requires_future_multiyear_confirmation_even_if_all_numeric_gates_pass: true
+
+output:
+  root: runs/cny_cash_carry_v1
+  immutable_timestamped: true
+  required: [config_snapshot, identity, audit, trades, daily_equity, metrics, report]
