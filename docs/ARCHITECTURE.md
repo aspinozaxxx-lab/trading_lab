@@ -544,6 +544,12 @@ leg proxy и development test, не live evidence.
 globals, включая exception; resolved protocol и immutable output получают отдельную V2
 identity. Ни signals/MLP, ни ledger/execution/costs/gates wrapper не меняет.
 
+Canonical V2 manifest SHA `facc159f...`; initial и повторный audits полностью true.
+Run технически complete, но economic evaluation пуста: EOD width filter оставил только
+13 plans 2021–2022 и ноль в 2024–2025, несмотря на 3 734 causal MLP predictions. Verdict
+`NO_GO_NO_EVALUATION_EXPOSURE`; любые дальнейшие изменения помечаются post-outcome
+adaptive и обязаны получить новую protocol/output identity.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

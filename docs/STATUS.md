@@ -90,8 +90,13 @@ cross-asset MLP, equal-quantity long-far/short-near accounting, 1% capacity, gro
 подтверждением. Seal commit `ee7e311` был pushed, но V1 run остановился до output и до
 любого напечатанного результата на пустой `net_pnl` schema одной strategy. V1 сохранён.
 V2 меняет только empty-Series adapter: config SHA `e9865302...`, module SHA
-`9d96dfe3...`; все economics byte-identical, output отдельный. Следующий шаг — push V2
-seal, затем resumed immutable run и полный аудит.
+`9d96dfe3...`; seal `e1a519d` был pushed, canonical manifest `facc159f...`, audits
+37/37 и 29/29 true. Economic verdict `NO_GO_NO_EVALUATION_EXPOSURE`: 3 734 MLP
+predictions превратились лишь в 13 plans 2021–2022 и ноль сделок 2024–2025. Primary
+development дал `+0,3602%` на одной сделке, что статистически бесполезно. Причина
+изолирована: abs-z сигналов достаточно, но EOD `quote_width <= 2 sigma` имел pass counts
+16/19/0/0/0 по 2021–2025. Следующий V3 допустим только как post-outcome adaptive
+source-semantics correction без изменения thresholds/ledger/costs/gates.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA

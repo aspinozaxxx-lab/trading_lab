@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-EV2: empty-trade metric correction sealed, outcomes pending
+## CALENDAR-SPREAD-EV2: completed, NO_GO_NO_EVALUATION_EXPOSURE
 
 - V1 seal commit `ee7e311` был pushed до первого outcome computation. Первый run
   остановился до создания canonical или temporary output: у одной strategy не было
@@ -18,7 +18,24 @@
   MLP, signals, thresholds, splits, ledger, costs и gates наследуются byte-identical.
 - V2 output отдельный и immutable:
   `runs/calendar_spread_economic_2021_2025_v2/`. Новый seal должен быть pushed до
-  resumed run; V2 также не является independent confirmation и не разрешает live.
+  resumed run; seal commit `e1a519d` был pushed. Canonical manifest SHA
+  `facc159f6c8aa063d2cdd584de414f3cf28970c7c6fc8e63b231ded39cb9ed88`, metrics SHA
+  `c43a3f0b...`; initial audit 37/37 true, отдельный artifact audit 29/29 true.
+- Получено 3 734 causal MLP predictions, но всего 13 plans за всю историю и ни одного
+  entry decision в 2023–2025. Поэтому у всех десяти evaluation 2024–2025 return/CAGR/
+  Sharpe/MDD и trades равны нулю; primary gate закономерно `NO_GO`. Это отсутствие
+  экспозиции, а не доказательство нулевого или отрицательного edge.
+- Development 2021–2022 слишком мал для вывода: primary corridor одна сделка и
+  `+0,3602%`; exploratory slow corridor две сделки `+0,7793%`; fast одна `+0,4028%`;
+  MLP три `−0,2584%`, breakout одна `−0,5200%`, momentum одна filled `−0,6220%`.
+  Все primary strategy scenarios execution-complete, но minimum trades и year gates
+  не пройдены. V2 не является independent confirmation и не разрешает live.
+- Post-run signal-only diagnosis: abs(z20)>=1,5 встречался 112/181/117/139/135 раз по
+  2021–2025, но `quote_width <= 2*prior spread sigma` прошёл лишь 16/19/0/0/0 строк.
+  Именно non-execution EOD closing-width filter уничтожил 2023–2025 exposure. Следующая
+  версия может быть только явно adaptive source-semantics correction: signal от factual
+  reported Last и без использования stale closing width как proxy будущего leg-open fill;
+  thresholds, ledger, costs и gates менять нельзя.
 
 ## CALENDAR-SPREAD-EV1: FAILED_CLOSED before output
 

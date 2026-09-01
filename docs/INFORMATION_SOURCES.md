@@ -50,6 +50,13 @@ SI/RI/BR/MIX и causal expanding MLP; отсутствие соседнего а
 на live. Для подтверждения исполнения по-прежнему нужны historical multileg trade/order
 reports, действовавшие contract specs, margin, tariffs и broker fees.
 
+EV2 показал, что closing Bid/Ask нельзя использовать как универсальный liquidity gate:
+условие width `<=2` prior spread sigma прошло 16/19/0/0/0 строк по годам, хотя reported
+Last менялся существенно чаще. Это согласуется с ограничением источника: archive Bid/Ask
+— финальный EOD snapshot, а EV2 исполняется по следующему synchronized outright open.
+Последующая версия должна явно отделить factual traded Last для signal от lagged outright
+volume для capacity; это adaptive development correction, не новая независимая проверка.
+
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed
 quotes нет. `RIH2RIU2` — единственный spread без reported activity и одновременно
