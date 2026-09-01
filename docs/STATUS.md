@@ -1,9 +1,9 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V32 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V33 гипотез защищены и не используются.
 
-## Активная работа: V32 continuous cross-asset curve-regime — sealed, outcome pending
+## Активная работа: V32 execution-incomplete, V33 repair sealed до outcome
 
 После отрицательной независимой проверки V31 открыта принципиально новая family, а не
 ещё одна настройка старого weekly trend. V32 делает решение после каждого завершённого
@@ -19,7 +19,7 @@ Outcome-free tests прошли `13/13`. Metadata-only preflight, не чита�
 target/PnL, подтвердил 218 raw artifacts, 8 064 causal effective-date plans, 683 209
 active bars, 169 644 exact common-four buckets, 686 curve events и 29 810 решений на
 670 event days; все 10 checks true.
-Полная регрессия проекта: `962 passed, 7 skipped`; два старых V8 anti-junction tests
+Полная регрессия проекта после V33: `970 passed, 7 skipped`; два старых V8 anti-junction tests
 ожидаемо падают, потому что внешний `data/` намеренно resolve-ится за Git root. Это тот
 же известный инфраструктурный конфликт, новых V32 failures нет.
 
@@ -30,11 +30,27 @@ calibration может выбрать только один из заранее 
 asset `<=0,6`; integer next-open ledger проверяет 0,25% causal signal volume, 1% factual
 capacity, 2x margin buffer и costs `1tick/1fee`, `2/2`, `4/2`.
 
-Первый economic run ещё **не выполнен**. До commit/push seal запрещено читать его
-результаты. Даже прохождение all-cost CAGR `>=20%`, Sharpe `>=1`, MDD `<=25%`, трёх
-положительных календарных сегментов и преимущества над обеими ablation даст только
-`REQUIRES_NEW_FORWARD_VALIDATION`; live trading остаётся запрещён. Исторический archive
-coefficients получен current-vintage и не доказывает original live delivery timestamps.
+V32 seal commit `936e3e0` был pushed до outcomes. Canonical run
+`runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/` имеет metrics SHA
+`f4adf509...`; независимый audit проверил 47/47 artifact/check identities. Но все пять
+ledger остановились слишком рано: full MLP/Ridge — `2022-04-26 11:00 UTC` на BR,
+market-only — `2022-05-13 11:00 UTC` на MIX. В обоих случаях оставался ровно один
+контракт, а factual bucket volume `79/97` дал `floor(1% * volume) = 0`. Причина одна —
+`insufficient_exit_capacity`. Напечатанные partial-2022 CAGR/Sharpe не являются
+экономическим evidence; V32 verdict `NO_GO`, full-horizon stability не проверена.
+
+V33 — отдельная post-outcome adaptive execution correction. Она byte-pin-ит все три
+V32 target artifacts по 98 168 rows и **не** меняет feature/model/seed/split/threshold/
+sign/weight/risk/cost/gate. Единственная новая семантика: de-risk partial-fill и carry,
+reversal close-first, затем open на остатке capacity; flat 18:30 повторяется максимум в
+шести exact buckets. Это консервативно сохраняет mark-to-market незакрытой позиции.
+Config SHA `615d7b8e...`, module SHA `3ad113cc...`; tests V32+V33+encoding `21/21`,
+preflight 10/10 проверил parent audit, пять stop records, три target artifacts,
+24 542 timestamps и 538 flat days. Первый V33 economic run ещё не выполнен: сначала
+обязателен commit/push этого exact seal. Даже прохождение all-cost CAGR `>=20%`, Sharpe
+`>=1`, MDD `<=25%`, трёх положительных сегментов и ablation advantage будет только
+adaptive lead для нового forward/paper test; live trading запрещён. Исторический archive
+coefficients current-vintage и не доказывает original live delivery timestamps.
 
 После провала V29 открыт новый, ещё не просмотренный рыночный период 2008–2011.
 Metadata-only audit без daily endpoint нашёл ровно 81 официальный expired contract:

@@ -1,0 +1,139 @@
+﻿protocol_id: futures_v33_curve_regime_liquidity_execution_v1
+protocol_version: 1
+status: sealed_after_v32_execution_halt_before_v33_economics
+declared_at_utc: "2026-09-01T18:22:15Z"
+post_outcome_adaptive: true
+research_only: true
+independent_confirmation: false
+live_trading_allowed: false
+signals_models_and_target_weights_changed: false
+
+outcome_boundary:
+  V32_outcome_seen_before_design: true
+  V32_fact_used: one_contract_derisk_halted_when_floor_one_percent_bucket_volume_was_zero
+  V33_price_return_equity_or_pnl_seen_before_seal: false
+  allowed_change: execution_capacity_carry_reversal_order_and_bounded_daily_flat_retry_only
+  forbidden_changes:
+    - features
+    - labels
+    - model_architecture_or_seeds
+    - train_calibration_test_splits
+    - threshold_candidates_or_selected_thresholds
+    - signal_sign
+    - target_weights
+    - risk_target_or_caps
+    - costs
+    - promotion_gates
+  one_canonical_V33_economic_read_after_commit_and_push: true
+
+implementation:
+  module_path: src/market_lab/futures_v33_curve_regime_liquidity_execution.py
+  module_sha256: 3ad113cc929198b0c2f8bf5e9600020bffe76b7bec079538d75ee78e4cca545f
+
+parent_v32:
+  run_path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45
+  seal_commit: 936e3e08f7b248a54b193110e9a4dfecfef6cb70
+  protocol_sha256: c7da1d45bee19a7e386df1bd2cec6d5b4ac335ba64eb9f0118a3d8fa42743d54
+  config:
+    path: configs/futures_v32_curve_regime_intraday.yaml
+    bytes: 5957
+    sha256: c7da1d45bee19a7e386df1bd2cec6d5b4ac335ba64eb9f0118a3d8fa42743d54
+  config_sidecar:
+    path: configs/futures_v32_curve_regime_intraday.sha256
+    bytes: 108
+    sha256: 48661eebc44bed4e16fe87d06fbdb7055bf9e065761574e4fc804c00d310463c
+  core:
+    path: src/market_lab/futures/curve_regime_intraday.py
+    bytes: 57180
+    sha256: 45bffa212eeb57ec2c6527acba033795553e6454186ca3f176913e27ad2cb305
+  runner:
+    path: src/market_lab/futures_v32_curve_regime_intraday.py
+    bytes: 40423
+    sha256: 9f70fa3c21dc3b0c525e92d1bc334debd78e4f4728ffc687d49b11c06181b53b
+  metrics:
+    path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/metrics.json
+    bytes: 14501
+    sha256: f4adf509790687c85f83f1e9cd394635a5c96b16b36023997231dab6043cf9b3
+  identity:
+    path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/identity.json
+    bytes: 1999
+    sha256: 03d58636fd59ca940d3e4b88e327a895c59e99e7fd6f3a3a3fe7817a203dff31
+
+target_artifacts:
+  curve_market_mlp:
+    path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/targets_curve_market_mlp.parquet
+    bytes: 1178080
+    sha256: 2e502be924a8205fd5fe37a77cf1ae0b91c410d28db95079cbac9832d5449223
+    rows: 98168
+  market_only_mlp:
+    path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/targets_market_only_mlp.parquet
+    bytes: 1140863
+    sha256: 620bd69d0452d98e5e0fbb8116c8f38936b68c54aeb93b6f911b5033f9112212
+    rows: 98168
+  curve_market_ridge:
+    path: runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/targets_curve_market_ridge.parquet
+    bytes: 1189596
+    sha256: 1fbf757e2c63e1d7e10ff63ea12a3ee3a2286d006cd960e277fc1d8156647816
+    rows: 98168
+
+v32_failure_diagnosis:
+  record_count: 5
+  common_reason: insufficient_exit_capacity
+  full_and_ridge_event: {timestamp: "2022-04-26T11:00:00+00:00", asset: BR}
+  market_only_event: {timestamp: "2022-05-13T11:00:00+00:00", asset: MIX}
+  unresolved_artifacts:
+    - unresolved_curve_market_mlp_primary.parquet
+    - unresolved_curve_market_mlp_doubled.parquet
+    - unresolved_curve_market_mlp_stress.parquet
+    - unresolved_curve_market_ridge_primary.parquet
+    - unresolved_market_only_mlp_primary.parquet
+
+pre_outcome_metadata_seal:
+  target_rows_each: 98168
+  target_timestamps_each: 24542
+  forced_flat_rows_each: 2152
+  forced_flat_days_each: 538
+
+hypothesis:
+  statement: >-
+    The V32 signal family can be evaluated over its full horizon without weakening the
+    one-percent factual participation constraint if de-risking orders are partially
+    filled and carried causally, reversals close before opening the opposite side, and
+    a scheduled daily flat is retried for at most six exact ten-minute buckets.
+  economic_hypothesis_changed_from_V32: false
+  execution_hypothesis_changed_from_V32: true
+  rationale: >-
+    A one-contract position cannot trade in a bucket with volume below 100 under an
+    integer one-percent cap, but the next exact bucket can have capacity. Halting the
+    entire multi-year ledger is not a realistic representation of a resting de-risking
+    instruction; carrying exposure and marking every intervening open is conservative.
+
+retry:
+  maximum_flat_retry_bars: 6
+  de_risk_capacity_policy: partial_fill_then_carry
+  reversal_policy: close_first_then_open_with_remaining_capacity
+  risk_increase_capacity_policy: partial_fill_no_queue
+
+execution:
+  initial_cash_rub: 1000000.0
+  signal_participation: 0.0025
+  factual_participation_cap: 0.01
+  maximum_gross: 1.60
+  margin_buffer_multiple: 2.0
+  collateral_interest: omitted_no_credit
+  scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+
+promotion_rule:
+  minimum_cagr: 0.20
+  aspirational_cagr: 0.50
+  minimum_sharpe: 1.0
+  maximum_drawdown: 0.25
+  minimum_positive_calendar_segments: 3
+  minimum_filled_order_legs: 200
+  minimum_cagr_advantage_over_baseline: 0.02
+  minimum_sharpe_advantage_over_baseline: 0.10
+  positive_result_requires_new_sealed_forward_validation: true
+  live_trading_remains_forbidden: true

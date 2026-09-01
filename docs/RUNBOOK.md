@@ -853,7 +853,7 @@ asset/year filter, sign inversion, leverage/cost/gate change или повтор
 ### V32 continuous curve-regime intraday
 
 V32 config SHA `c7da1d45...`, core SHA `45bffa21...`, runner SHA `9f70fa3c...`.
-До economic run разрешены только tests и outcome-free metadata preflight:
+Ниже сохранены выполненные tests и outcome-free metadata preflight:
 
 ```powershell
 .\.venv\Scripts\ruff.exe check `
@@ -870,16 +870,45 @@ Preflight должен вернуть exact 683 209 active bars, 169 644 common-
 686 curve events, 670 admitted event days, 29 810 decisions и 10/10 checks. Он не имеет
 права загрузить OHLCV, return, target, equity или PnL.
 
-Ровно после commit/push byte-identical code/config допускается первый canonical run:
+Seal `936e3e0` был pushed до единственного canonical run. Команда сохранена только для
+provenance и больше не выполняется:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
   market_lab.futures_v32_curve_regime_intraday --output-root .\runs
 ```
 
-Полученный path сразу проверить отдельным `--audit-run <path>`. V32 не повторять и не
-менять thresholds/sign/model/risk по увиденному результату; положительный verdict лишь
-открывает новый sealed forward collector/paper test, но не live trading.
+Canonical path `runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/`, metrics SHA
+`f4adf509...`; audit exact. Все ledgers incomplete из-за one-contract zero integer
+capacity, поэтому V32 не повторять и не менять thresholds/sign/model/risk.
+
+### V33 target-preserving liquidity execution repair
+
+V33 config SHA `615d7b8e...`, module SHA `3ad113cc...`. Он читает exact V32 targets и
+меняет только partial de-risk/reversal/flat-retry execution. До первого economic run:
+
+```powershell
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures_v33_curve_regime_liquidity_execution.py `
+  tests/test_futures_v33_curve_regime_liquidity_execution.py
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v33_curve_regime_liquidity_execution.py `
+  tests/test_futures_v32_curve_regime_intraday.py tests/test_encoding.py
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v33_curve_regime_liquidity_execution --preflight-only
+```
+
+Preflight должен дать 10/10 checks, три exact target artifacts по 98 168 rows,
+24 542 timestamps, 2 152 forced-flat rows/538 days и ровно пять parent unresolved
+`insufficient_exit_capacity`. После commit/push разрешён один run:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v33_curve_regime_liquidity_execution --output-root .\runs
+```
+
+Сразу выполнить `--audit-run <path>`. V33 post-outcome adaptive: даже pass не independent
+и требует нового forward/paper периода; повтор/tuning на этой history запрещён.
 
 ## 5. Новый эксперимент
 

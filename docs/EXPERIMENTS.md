@@ -4,7 +4,27 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V32: continuous curve-regime cross-asset intraday — sealed, outcome pending
+## V33: V32 target-preserving liquidity execution repair — sealed, outcome pending
+
+- Это post-outcome adaptive correction после V32 execution halt, не новая model search
+  и не independent confirmation. Exact V32 run/metrics/identity и три targets byte-pin-ятся.
+  Каждый target artifact содержит 98 168 rows, 24 542 timestamps и 538 flat days.
+- Feature, label, MLP/Ridge, seeds, folds, selected monthly threshold, signal sign,
+  covariance target weights, gross/asset caps, costs и promotion gates не пересчитываются
+  и не меняются. Config явно фиксирует `signals_models_and_target_weights_changed: false`.
+- Единственная correction: capacity applies одинаково к increase и de-risk; неполный
+  de-risk исполняется до integer 1% capacity и остаток переносится с factual marks.
+  Reversal разбит на close-first/open-second с общей bucket capacity. Daily 18:30 flat
+  получает шесть exact 10m retries и затем fail-closed `flat_retry_exhausted`.
+- Synthetic tests доказали: volume `<100` не создаёт fill, следующий bucket закрывает
+  один контракт; reversal не пересекает zero до close; exhausted retries дают explicit
+  unresolved. V32+V33+encoding tests `21/21`, scoped Ruff clean.
+- Config SHA `615d7b8e...`, module SHA `3ad113cc...`. Preflight `10/10` и parent audit
+  exact: пять V32 unresolved records имеют только `insufficient_exit_capacity`; три
+  parent target hashes/rows/timestamps/flat days совпали. V33 economics ещё не читалась;
+  сначала обязателен commit/push exact seal.
+
+## V32: continuous curve-regime cross-asset intraday — execution-incomplete NO-GO
 
 - Новая family после закрытия V30/V31. Она не меняет знак/плечо старой стратегии, а
   обучает отдельный прогноз следующих 60 минут после каждого completed 10m bucket на
@@ -37,8 +57,15 @@
 - Config SHA `c7da1d45...`; core SHA `45bffa21...`; runner SHA `9f70fa3c...`.
   Outcome-free unit/encoding tests `13/13`; metadata-only preflight `10/10`: 218 raw
   artifacts, 683 209 active bars, 169 644 common-four buckets, 686 source events,
-  670 event days and 29 810 structural decisions. Economic output does not yet exist;
-  first run is allowed only after this exact code/config is committed and pushed.
+  670 event days and 29 810 structural decisions. Seal commit `936e3e0` был pushed до
+  outcomes. Canonical run `runs/v32_curve_regime_intraday_20260901T181223Z_c7da1d45/`,
+  metrics SHA `f4adf509...`; independent artifact audit полностью true.
+- Economic horizon не завершён. Full MLP primary/doubled/stress и Ridge остановились
+  `2022-04-26 11:00 UTC` на одном BR contract при bucket volume 79; market-only —
+  `2022-05-13 11:00 UTC` на одном MIX contract при volume 97. Integer 1% capacity в
+  обоих случаях равна zero, а V32 policy сразу делала весь run unresolved. Все пять
+  ledgers incomplete, поэтому partial-2022 CAGR/Sharpe статистически и экономически
+  невалидны. Verdict `NO_GO`; V32 не повторять и не переписывать.
 
 ## V31: one-shot unseen 2008–2011 temporal validation — canonical NO-GO
 

@@ -732,6 +732,21 @@ atomic immutable run directory; `--audit-run` повторно проверяе�
 Неполная exit capacity остаётся explicit unresolved и economic NO-GO, но не ломает
 целостность опубликованного отрицательного run.
 
+### `market_lab.futures_v33_curve_regime_liquidity_execution`
+
+Execution-only adapter над byte-pinned V32 target Parquet. Он никогда не вызывает
+training/feature builder: parent target weights проверяются по metrics/artifact SHA и
+подаются в новый integer ledger буквально. `_order_phases` разбивает reversal на
+de-risk phase 0 и risk-increase phase 1; phase 1 не может начаться, пока factual position
+не flat. Одна bucket capacity расходуется обеими фазами.
+
+Нулевая/неполная capacity создаёт order record с residual, а позиция продолжает получать
+factual open marks. На каждом следующем V32 decision latest target пересчитывает нужный
+delta из фактической позиции. Scheduled flat расширяется шестью известными заранее exact
+10m zero-target rows; остаток после шестой попытки — explicit unresolved. Runner отдельно
+pin-ит V32 execution diagnosis, parent targets и post-outcome adaptive disclosure,
+публикует новый atomic run и не изменяет V32 artifacts.
+
 ### `market_lab.filings`
 
 Содержит schema, revision logic, extraction и source research для корпоративной

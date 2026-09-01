@@ -357,6 +357,10 @@ identity и должен проверяться перед чтением.
 - Missing open/exit/spec/settle/volume означает sleep или unresolved, не zero return.
 - Same-bar TP/SL в corridor трактуется stop-first.
 - Participation, integer quantity, gross cap и costs применяются до признания сделки.
+- Integer 1% capacity может быть zero при factual volume `<100`; это не разрешает
+  synthetic fill. V33 сохраняет позицию, marks каждый следующий factual open и повторяет
+  de-risk на latest target. Reversal обязан сначала стать flat. Scheduled flat имеет
+  bounded exact retry window; остаток после него — unresolved, не overnight zero-fill.
 
 ## Protocol seals
 
