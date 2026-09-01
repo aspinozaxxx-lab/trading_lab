@@ -528,6 +528,12 @@ checks и отдельное строгое values+dtypes comparison всех fr
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.
 
+V30 development family использует дополнительную информацию уже внутри canonical market
+source: причинный front/next curve carry и одновременный cross-asset trend snapshot.
+Она сознательно не добавляет current-vintage macro governor: V28/V29 показали плохую
+переносимость и неполный PIT timing. Любой новый внешний macro/positioning/news source
+для 2008–2011 должен быть отдельно запечатан до чтения его значений и outcomes.
+
 ### Unseen validation audit — официальный metadata route к 2012–2017
 
 Первичная проверка текущего `/statistics/.../series` catalog была ложно-пессимистичной:

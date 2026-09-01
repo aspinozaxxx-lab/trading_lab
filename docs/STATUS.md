@@ -43,7 +43,18 @@ replay дал 27/27 true, а дополнительное strict-dtype срав�
 
 ## Короткий ответ
 
-Новый главный research lead — **V27**, но только для новой независимой валидации.
+Новый текущий кандидат — **V30**, пока только как выбранная на открытом 2012–2017
+development-гипотеза. Он равными долями объединяет bounded multi-horizon trend, знак
+фьючерсного carry и clipped cross-sectional relative trend, а затем причинно
+восстанавливает ожидаемую волатильность итогового портфеля к 20% с потолком 2x. В
+предварительной точной диагностике primary/doubled/stress CAGR составил примерно
+`22,9%/22,3%/21,4%`, Sharpe `1,12/1,10/1,06`, MDD `27,8–28,5%`; четыре из пяти лет
+положительны. Это не canonical и не независимый результат: 2012–2017 уже использован
+для выбора. V30 config SHA `2e191a82...`, implementation SHA `b642afe2...` подготовлены;
+до canonical run обязательны commit/push. Outcomes 2008–2011 всё ещё не прочитаны.
+
+Предыдущий главный lead **V27** прошёл same-history gates, но его независимая проверка
+не подтвердила экономику после исправления execution.
 Он объединяет frozen V12/V25 trend, неизменный максимум 2x, консервативный доход RUONIA,
 capacity-aware исполнение и новый binary cash governor: latest causally available
 официальная ключевая ставка ЦБ `>=20%`. Все правила были committed/pushed до PnL.
@@ -849,8 +860,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    не перезаписывать. D3 seal `afaa278` и canonical suffix `-v3` завершены: manifest
    SHA `ff9b2771...`, 27/27 replay checks и strict dtypes exact. Returns/PnL по-прежнему
    запрещены; MIX до 2011 остаётся отсутствующим, gap/roll нельзя синтезировать.
-4. На уже просмотренном 2012–2017 development разработать принципиально новый
-   portfolio target, а не V27/V29 threshold tweak, и зафиксировать его code/config/SHA.
+4. Принципиально новый V30 target на уже просмотренном 2012–2017 подготовлен: equal
+   trend/carry/relative sleeves + causal 20% final-risk restoration, cap 2x. Config SHA
+   `2e191a82...`, module SHA `b642afe2...`; tests/preflight clean. Commit/push seal,
+   затем выполнить один immutable canonical development run с 1x/hard-2x, тремя costs,
+   rolling/bootstrap/leave-one-year-out. Не называть его holdout.
 5. Только после push strategy seal открыть 2008–2011 outcomes один раз. Отчёт обязан
    показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved
    и отдельно gates 20%/50%; результат не разрешает live без PIT fees/specs/margin.

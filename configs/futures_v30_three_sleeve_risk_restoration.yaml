@@ -1,0 +1,294 @@
+﻿protocol_id: futures_v30_three_sleeve_risk_restoration_v1
+protocol_version: 1
+status: selected_on_open_2012_2017_before_pre2012_strategy_outcomes
+declared_at_utc: "2026-09-01T13:56:04Z"
+research_only: true
+live_trading_allowed: false
+
+development_selection:
+  2012_2017_outcomes_observed_before_formula_freeze: true
+  2008_2011_returns_or_pnl_observed: false
+  independent_validation: false
+  relationship_to_prior_work: >-
+    V29 proved exact risk-first execution but the frozen V27 economics failed on
+    2013-2017. V30 is a new target family selected on that now-open development period,
+    not a threshold correction and not an independent result. It removes the macro cash
+    governors, combines three bounded market mechanisms equally, and restores the final
+    causal portfolio risk toward the original 20-percent target with a hard 2x ceiling.
+  development_diagnostics_already_seen:
+    - V29 per-asset and per-year exact PnL attribution
+    - V12 one-times and two-times no-macro execution
+    - bounded comparison of trend, carry, relative, breakout, consensus and corridor targets
+    - leverage and final-volatility sensitivity
+    - preliminary rolling, bootstrap and leave-one-year-out summaries
+  corridor_result: >-
+    The volatile-range corridor sleeve reduced development CAGR and Sharpe and was not
+    retained. It remains a recorded negative result rather than a tunable V30 component.
+  selection_bias_disclosed: true
+
+hypothesis:
+  statement: >-
+    Equal exposure to absolute multi-horizon trend, the sign of the contemporaneously
+    observable futures-curve carry, and cross-asset relative trend should diversify the
+    single-regime dependence seen in V29. Restoring the already constructed portfolio's
+    final expected volatility toward 20 percent, capped at 2x, should use quiet-state
+    capacity without applying unconditional leverage in high-risk states.
+  economic_mechanisms:
+    - time_series_trend_captures_persistent_directional_risk_premia
+    - curve_carry_captures_backwardation_or_contango_compensation
+    - relative_trend_uses_the_full_cross_asset_snapshot_and_removes_common_direction
+    - final_risk_restoration_is_continuous_causal_and_never_exceeds_2x
+  primary_comparison: V12_1x_no_macro_replayed_on_same_open_development_period
+  reject_if:
+    - any_source_identity_causality_or_execution_check_is_false
+    - any_main_cost_scenario_CAGR_is_below_20_percent
+    - any_main_cost_scenario_MDD_exceeds_30_percent
+    - primary_or_stress_Sharpe_is_below_1
+    - fewer_than_four_primary_calendar_years_are_positive
+    - robustness_gates_fail
+  aspirational_50_percent_is_a_separate_reported_gate: true
+
+dates:
+  source_start: "2012-01-03"
+  warmup_start: "2012-01-03"
+  warmup_end: "2012-12-31"
+  validation_start: "2013-01-01"
+  validation_end: "2017-12-01"
+  final_year_is_partial_through: "2017-12-01"
+  protected_from: "2018-01-01"
+  next_unseen_source_period: "2008-10-08..2011-12-15"
+  decision_timezone: Europe/Moscow
+
+inputs:
+  market_manifest:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/manifest.json
+    bytes: 9284
+    sha256: 3ab20092dbe4fd8a58211d11db1b6dcd6a8335f98051146da76a0f3c0c82fa71
+  market_manifest_sidecar:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/manifest.sha256
+    bytes: 83
+    sha256: e3690797135fd41fe23105ebb7d99315ad9f45b9e737fb3ace201a67c579cff3
+  market_panel:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/panel.parquet
+    bytes: 336575
+    sha256: d1043ea73a1f4f86e7477c2a3664d08b409148d879435de2889560a1c2a8579c
+    rows: 5916
+    read_columns:
+      - trade_date
+      - asset_code
+      - close
+      - curve_observed_through
+      - curve_available_at
+      - front_settle
+      - next_settle
+      - front_expiration_date
+      - next_expiration_date
+      - roll_yield
+      - curve_valid
+  active_contract_map:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/active_contract_map.parquet
+    bytes: 372390
+    sha256: b3ce75f9f7a67a2176741ebb7491ebc760070ef03c9ec3cf28a076542a7f728f
+    rows: 5916
+    read_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/contract_observations.parquet
+    bytes: 1198041
+    sha256: 7f6fb372335e55919fd300070366447d7088c9c35ad9a707ef2a7508607da5c0
+    rows: 28797
+    read_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  spec_proxy:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/spec_proxy.parquet
+    bytes: 2526262
+    sha256: d7cecd862229d6564bd5657d96e867c3e9984c6fd47ed671d0121293cef2ab2a
+    rows: 28797
+    read_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+  market_audit:
+    path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/audit.json
+    bytes: 6072
+    sha256: e98b0c9e72eed532bd99241d6d0859f08d093cd7fc190a0e0e20bbf97a963c86
+
+universe:
+  exact_order: [SI, RI, BR, MIX]
+  variable_availability_supported_for_future_pre2012_validation: true
+  unavailable_asset_policy: missing_signal_flat_target_never_backfill
+
+information_set:
+  decision: 23_59_59_Europe_Moscow_on_last_factual_session_of_W_SUN_week
+  trend_price: causal_forward_additive_adjusted_close_through_decision_session
+  curve: simultaneous_front_next_settles_known_at_decision_close
+  relative_snapshot: finite_same_decision_cross_asset_trend_scores_only
+  execution_not_before: next_factual_effective_date_open_strictly_after_decision
+  roll_scale: last_known_weekly_risk_multiplier_carried_to_causal_roll_decision
+  no_zero_price_or_return_imputation: true
+  no_gap_or_roll_return_bridge: true
+  future_columns_forbidden: [future_price, future_return, target, label, pnl]
+
+signal:
+  id: equal_bounded_trend_carry_relative_v1
+  component_order: [time_series_trend, curve_carry, relative_trend]
+  component_weights:
+    - 0.3333333333333333
+    - 0.3333333333333333
+    - 0.3333333333333333
+  time_series_trend:
+    implementation: frozen_V12_multi_horizon_score
+    log_momentum_horizons_sessions: [21, 63, 126, 252]
+    volatility_lookback_sessions: 60
+    annualization_sessions: 252
+    volatility_floor_annualized: 0.05
+    bounded: [-1.0, 1.0]
+  curve_carry:
+    formula: sign_of_annualized_front_settle_over_next_settle_roll_yield
+    requires_curve_valid: true
+    bounded_values: [-1.0, 0.0, 1.0]
+    original_historical_contract_curve_required: true
+  relative_trend:
+    formula: time_series_score_minus_finite_cross_asset_mean
+    minimum_finite_assets: 2
+    bounded_by_clipping: [-1.0, 1.0]
+  relative_trend_transform: time_series_score_minus_finite_cross_asset_mean_clipped_minus1_plus1
+  missing_carry_policy: carry_sleeve_zero_only
+  missing_trend_policy: whole_asset_signal_missing_and_flat
+  fit_or_training: none
+  hyperparameter_search: false
+
+portfolio:
+  implementation: frozen_V12_causal_covariance_constructor
+  ewma_volatility_span_sessions: 20
+  covariance_lookback_sessions: 60
+  pre_restoration_annual_target_volatility: 0.20
+  pre_restoration_gross_cap: 1.0
+  turnover_sleeves: 5
+  weekly_schedule: last_factual_session_of_W_SUN_week
+
+risk_restoration:
+  formula: min_2x_final_target_volatility_divided_by_causal_expected_volatility
+  final_expected_annual_volatility: 0.20
+  maximum_multiplier: 2.0
+  minimum_multiplier: 0.0
+  zero_or_missing_expected_volatility: cash
+  application_order: after_1x_next_open_and_roll_mapping
+  scale_information: last_known_weekly_expected_volatility_at_or_before_decision
+  may_increase_pre_restoration_weight: true
+  may_exceed_two_times_weight_or_gross: false
+  hard_exact_2x_reported_as_sensitivity_not_selected_main: true
+
+execution:
+  implementation: V29_risk_first_roll_with_V26_integer_capacity_ledger
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  execution_atomicity: asset
+  integer_quantity: truncate_toward_zero_then_risk_and_capacity_fit
+  unexecutable_target_policy: risk_first_roll_then_cancel_and_clip
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume_per_leg
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  collateral_interest: omitted_no_credit
+  terminal_policy: carry_with_terminal_exit_cost_reserve_reported
+  cost_scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+  scale_views_reported:
+    - unscaled_1x_primary
+    - selected_risk_restored_primary_doubled_stress
+    - hard_2x_primary_and_stress_sensitivity
+
+validation:
+  period_role: open_development_selection_not_holdout
+  next_unseen_period: 2008_2011_separate_future_seal
+  parameter_selection_on_2012_2017: already_occurred_and_disclosed
+  parameter_selection_on_2008_2011: forbidden
+  rolling_window_sessions: 252
+  bootstrap_replications_per_block_scenario: 20000
+  bootstrap_block_sessions: [5, 21, 63]
+  bootstrap_seeds:
+    primary: {"5": 300005, "21": 300021, "63": 300063}
+    stress: {"5": 301005, "21": 301021, "63": 301063}
+  leave_one_year_out_years: [2013, 2014, 2015, 2016, 2017]
+  promotion_gates:
+    all_main_cost_scenario_CAGR_minimum: 0.20
+    all_main_cost_scenario_MDD_maximum: 0.30
+    primary_and_stress_sharpe_minimum: 1.0
+    primary_positive_years_minimum: 4
+    primary_worst_year_minimum: -0.15
+    stress_worst_year_minimum: -0.20
+    minimum_stress_bootstrap_joint_20_CAGR_30_MDD_frequency: 0.40
+    minimum_stress_leave_one_year_out_CAGR: 0.08
+    minimum_stress_rolling_positive_fraction: 0.75
+    maximum_stress_rolling_window_MDD: 0.30
+  aspirational_all_main_cost_scenario_CAGR: 0.50
+
+limitations:
+  selected_on_same_development_period: true
+  number_of_development_formulas_and_scales_screened_is_greater_than_one: true
+  independent_holdout_result: false
+  pre2012_outcomes_still_unread: true
+  late_pre2012_MIX_availability_requires_flat_mask: true
+  historical_exchange_specs_exact: false
+  historical_broker_fees_margin_spread_and_queue_exact: false
+  daily_open_does_not_prove_intraday_fill_quality: true
+  live_trading_allowed: false
+  guaranteed_future_return: false
+
+implementation_dependencies:
+  src/market_lab/futures_v30_three_sleeve_risk_restoration.py: b642afe2cd7b112a2f69c6854fcf47e28bd566c065dd39b7412a0ba04df3c9e7
+  src/market_lab/futures_v12_core4_correlation_trend.py: 27ca77002391df82edca57a2bfc02e2a0b1971693f7be37b190945b1fd512275
+  src/market_lab/futures_v13_trend_carry_confirmation.py: 4ef1bf89942f3384a0fecbaf87796b3f69d2dcdeb025074facac4626796c9cb6
+  src/market_lab/futures_v15_levered_ruonia_collateral.py: 4f6474423cc08fba7a1333b80301ab1ae37197af2e65b8e92b5984615ade97a6
+  src/market_lab/futures_v26_stlfsi_levered_ruonia_capacity.py: 8ffe540f99dccf30106af426da7d3e98b435d244b66a040c4ade56c5cc5a0718
+  src/market_lab/futures_v27_robustness.py: 795bb570090bb44db5eeaba487b696f5149bc2d86f3f11bde29703c02b7022a0
+  src/market_lab/futures_v29_risk_first_roll.py: ea5aa37fd261b8065fcd7e6c2d1ab8b6635922444afadba7adbbe5c62b5dc9fa
+  src/market_lab/futures/portfolio_construction.py: 01a90cf236e7fc9d27fcddab847d258e19a8a1333f62900cc912ca287015ece1
+  src/market_lab/futures/execution_dataset.py: fc83cbf1f08fb38084488a41e618cc103c0ba27b0563b0d12293eca15548c663
+  src/market_lab/futures/portfolio_ledger.py: 2b93564e13a006b4a1c4b1270a42064681e8286749c128c885cb5d89972ac9c2
+
+output:
+  root: runs
+  run_prefix: v30_three_sleeve_risk
+  immutable: true
+  overwrite_allowed: false
+
+forbidden_after_canonical_development_run:
+  - treating_V30_as_independent_validation_or_live_evidence
+  - changing_component_weights_clipping_risk_target_or_execution_on_2012_2017
+  - choosing_bootstrap_seeds_or_gates_after_the_canonical_run
+  - reading_2008_2011_returns_or_pnl_before_a_separate_strategy_protocol_push
+  - weakening_cost_MDD_or_robustness_gates_after_results
+  - overwriting_the_canonical_V30_run
+  - claiming_guaranteed_profit

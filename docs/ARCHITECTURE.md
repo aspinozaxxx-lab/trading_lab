@@ -510,6 +510,18 @@ rejected legs, critical failures и unresolved равны нулю. Эконом
 `FAIL_POST_V28_20`: исправный execution показал низкий CAGR и высокую MDD, поэтому модуль
 остаётся reusable execution evidence, но не прибыльной стратегией.
 
+### `market_lab.futures_v30_three_sleeve_risk_restoration`
+
+Новая development target family поверх outcome-free D3 2012–2017. Модуль строит три
+равно взвешенных bounded компонента: frozen V12 absolute trend, sign причинного
+front/next roll yield и cross-sectional demeaned trend с clipping. Затем reuse-ит V12
+weekly covariance/turnover constructor, сначала отображает 1x веса и roll events на
+следующий factual open, и только потом применяет последний известный multiplier
+`min(2, 0.20 / expected_vol)`. Exact V29 risk-first roll/capacity ledger остаётся
+исполнителем. Canonical output включает 1x и hard-2x sensitivity, три main cost ledgers,
+rolling 252, circular-block bootstrap и leave-one-year-out. V30 явно selected на уже
+открытом 2012–2017 и может только породить отдельный pre-2008 strategy seal, не live.
+
 ### `market_lab.futures.moex_calendar_spread_source`
 
 Source-only collector новой market-neutral family. Catalog строится из official MOEX

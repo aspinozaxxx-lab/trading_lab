@@ -787,6 +787,29 @@ Artifact audit 26/26, checks 139/139; execution complete, но verdict
 factual 1% capacity; new entry отдельно clip-ится или заменяется cash. Если old exit
 недоказуем, новый ledger обязан остаться invalid.
 
+### V30 equal three-sleeve target with causal risk restoration
+
+V30 выбран на уже открытом 2012–2017 development и не является holdout. Config SHA
+`2e191a82...`, implementation SHA `b642afe2...`. До первого canonical run code/config,
+sidecar, tests и docs должны быть committed/pushed. Затем выполнить ровно один run:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v30_three_sleeve_risk_restoration.py `
+  tests/test_futures_v29_risk_first_roll.py tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures_v30_three_sleeve_risk_restoration.py `
+  tests/test_futures_v30_three_sleeve_risk_restoration.py
+.\.venv\Scripts\python.exe -m market_lab.futures_v30_three_sleeve_risk_restoration `
+  --config .\configs\futures_v30_three_sleeve_risk_restoration.yaml `
+  --output-root .\runs
+```
+
+Run обязан сохранить source/signal/target checks, 1x baseline, selected risk-restored
+primary/doubled/stress, hard-2x sensitivity, exact orders/positions/coverage и
+rolling/bootstrap/leave-one-year-out. После результата формулу на 2012–2017 не менять;
+следующий economic read — только отдельный pushed seal для 2008–2011.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

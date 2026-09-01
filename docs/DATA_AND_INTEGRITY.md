@@ -152,6 +152,12 @@ identity SHA `ca97579d...`, artifact audit 26/26 и checks 139/139. Все ledge
 critical/unresolved отсутствуют. Это post-V28 correction без новой temporal границы и не
 independent holdout; экономический verdict `FAIL_POST_V28_20` не разрешает live use.
 
+V30 config SHA `2e191a82...`, module SHA `b642afe2...` использует только byte-pinned
+D3 market artifacts 2012–2017 и не читает macro bundle. Период уже открыт и явно
+помечен development selection. Source preflight проверяет 62 identity/schema/date/
+causality conditions до price load; новый 2008–2011 D3 разрешён только будущему
+отдельному strategy protocol после push, его returns/PnL для V30 запрещены.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

@@ -4,6 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V30: equal trend/carry/relative sleeves — protocol prepared, run pending
+
+- Это development selection после полного просмотра V29/2012–2017, не independent
+  validation. Outcomes 2008–2011 не читались. Config SHA
+  `2e191a82f1a6145667f640d565541de49e69e5bee6081b06764074344c43ce8a`, module SHA
+  `b642afe2cd7b112a2f69c6854fcf47e28bd566c065dd39b7412a0ba04df3c9e7`.
+- Target экономически отличен от V27/V29: arithmetic equal thirds из frozen V12
+  time-series trend, same-close front/next carry sign и clipped cross-asset demeaned
+  trend. Missing carry усыпляет только carry sleeve; missing trend оставляет asset flat.
+  Macro cash governors и collateral credit не используются.
+- После causal 1x covariance/turnover construction последний известный expected-vol
+  восстанавливается к тем же 20% формулой `min(2, 0.20 / expected_vol)`. Mapping на
+  factual next open выполняется до multiplier; roll получает последний известный scale.
+- Open development diagnostics до protocol freeze сравнили ограниченный набор trend,
+  carry, relative, breakout, consensus и volatile-corridor targets. Corridor ухудшил
+  CAGR/Sharpe и закрыт. Выбранный bounded composite предварительно дал all-cost CAGR
+  примерно `21,4–22,9%`, Sharpe `1,06–1,12`, MDD `27,8–28,5%`, но это не canonical.
+- Preflight: 62 source, 14 signal и 6 target checks true; 4 550 finite component rows,
+  254 weekly + 50 roll decisions, 1 216 mapped rows, mean multiplier 1,496x. Следующий
+  шаг — commit/push, затем один immutable V30 run с baseline 1x, selected risk-restored,
+  hard 2x sensitivity и predeclared rolling/bootstrap/leave-one-year-out gates.
+
 ## MOEX-PRE2012-DERIVED-D3: canonical outcome-free source complete
 
 - D2 был sealed/pushed commit `fa61763` до загрузки market rows. Его отдельный immutable
