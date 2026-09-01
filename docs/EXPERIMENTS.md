@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V29: post-V28 risk-first roll-capacity correction — sealed, outcome unread
+## V29: post-V28 risk-first roll-capacity correction — FAIL, execution fixed
 
 - Config SHA `d92f8cf2...`, implementation SHA `ea5aa37f...`; V29 создан только после
   наблюдения execution failure V28, поэтому это post-V28 adaptive correction, а не
@@ -23,8 +23,24 @@
 - Synthetic и связанные tests: `20 passed`; encoding/V29 slice: `8 passed`; Ruff и
   py_compile clean. Расширенный futures baseline: `832 passed, 7 skipped`, плюс две
   известные legacy V8 ошибки anti-junction guard, не затрагивающие V29.
-- Первый V29 run разрешён только после commit/push этого кода, config, sidecar, tests и
-  документации. Любой результат остаётся research-only; live trading запрещён.
+- Seal commit `478a246` был pushed до первого V29 outcome. Canonical immutable run:
+  `runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/`; metrics SHA
+  `1c0e2dd79ce4ece79271c1e27e5919bcf30e684384ec8c972e88fb2b706bbd0c`, identity SHA
+  `ca97579d2472e8463a758c007916eac06e08205d5b97a900c2636684d4dfc4d5`.
+- Execution correction сработала: 639/639 nonzero targets covered, primary 527 filled
+  legs, 15 capacity clips, `0` cancelled rolls, rejected legs, critical failures и
+  unresolved. Проблемный roll `2014-05-12` factual закрыл 14 BRK4 и открыл только один
+  BRM4; `2014-05-19` позиция причинно расширилась до 25 после появления capacity.
+- Экономика цель не подтвердила. Primary combined total return `+24,8749%`, CAGR
+  `4,6133%`, Sharpe `0,3191`, MDD `−47,3846%`; doubled/stress CAGR
+  `3,9907%/3,7117%`, stress MDD `−48,6822%`. Costs primary/stress
+  `44 774,83/120 908,94 RUB`.
+- По годам primary: 2013 `−2,8109%`, 2014 `+90,9463%`, 2015 `−17,0900%`,
+  2016 `−1,0636%`, 2017 `−17,9680%`. Положителен только 1/5 лет; worst year,
+  Sharpe, MDD и all-scenario CAGR gates провалены. Ни 20%, ни 50% не поддерживаются.
+- Artifact audit 26/26, checks 139/139. Verdict `FAIL_POST_V28_20`; это полезное
+  исправление ledger, но не стабильный edge. V29 не перезапускать и не подбирать на
+  2013–2017 signal/governor/leverage/capacity. Live trading запрещён.
 
 ## V28: frozen V27 economics on unseen 2013–2017 — FAIL/INVALID
 

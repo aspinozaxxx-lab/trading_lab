@@ -100,9 +100,11 @@ false, critical failures 5 129. Не исправлять V28 in-place и не �
 equity curve за чистый unseen economic verdict.
 
 V29 config SHA `d92f8cf2...` pin-ит V28 config/metrics, все V28 inputs и implementation
-closure. Это post-V28 correction только для risk-first roll admission; новые данные и
-новая temporal граница не добавляются. До pre-outcome commit/push V29 run запрещён. V29
-не может восстановить статус independent holdout, даже если execution станет complete.
+closure. Seal commit `478a246` предшествует canonical run
+`runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/`: metrics SHA `1c0e2dd7...`,
+identity SHA `ca97579d...`, artifact audit 26/26 и checks 139/139. Все ledgers complete,
+critical/unresolved отсутствуют. Это post-V28 correction без новой temporal границы и не
+independent holdout; экономический verdict `FAIL_POST_V28_20` не разрешает live use.
 
 ## Основные разрешённые development artifacts
 

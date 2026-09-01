@@ -719,9 +719,12 @@ config, sidecar, tests и docs должны быть committed и pushed:
   --output-root .\runs
 ```
 
-V29 нельзя перезапускать ради настройки. Full old exit обязан уложиться в factual 1%
-capacity; new entry отдельно clip-ится или заменяется cash. Если old exit недоказуем,
-ledger должен остаться invalid. После run сохранить exact path/hashes и verdict.
+V29 выполнен после seal commit `478a246`. Canonical run:
+`runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/`, metrics SHA `1c0e2dd7...`.
+Artifact audit 26/26, checks 139/139; execution complete, но verdict
+`FAIL_POST_V28_20`. Команду больше не запускать. Full old exit обязан уложиться в
+factual 1% capacity; new entry отдельно clip-ится или заменяется cash. Если old exit
+недоказуем, новый ledger обязан остаться invalid.
 
 ## 5. Новый эксперимент
 

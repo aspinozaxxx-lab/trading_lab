@@ -41,11 +41,13 @@ capacity-cancelled atomic rolls оставили expired old contracts; с `2014
 полным тестом signal economics. Следующий отдельный V29 должен проверить risk-first
 roll: full executable old-leg exit, independently capacity-clipped new entry/cash.
 
-V29 теперь подготовлен и запечатан до outcome: config SHA `d92f8cf2...`, implementation
-SHA `ea5aa37f...`. Он меняет только admission ролла: доказуемый полный old-leg exit имеет
-приоритет, новый вход отдельно clip-ится к прежнему 1% capacity или cash. V29 является
-post-V28 adaptive correction, не независимым подтверждением. Outcome ещё не читался;
-первый run разрешён только после commit/push seal.
+V29 был sealed/pushed commit `478a246`, затем выполнен ровно один раз. Исправление
+полностью устранило execution trap: 639/639 coverage, 527 filled legs, 15 clips и ноль
+roll cancellations/rejected/critical/unresolved. Но стабильной прибыли нет: primary
+total `+24,8749%` за пять лет, CAGR лишь `4,6133%`, Sharpe `0,3191`, MDD `−47,3846%`;
+stress CAGR `3,7117%`, MDD `−48,6822%`. Положителен только 2014 (`+90,9463%`), четыре
+остальных года отрицательны. Verdict `FAIL_POST_V28_20`: V29 не поддерживает 20% или 50%,
+не является independent confirmation и запрещён для live.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -202,6 +204,7 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 | Направление | Главный development-результат 2021–2025 | Решение |
 |---|---:|---|
+| V29 risk-first roll, post-V28 2013–2017 | +24,87%, CAGR 4,61%, Sharpe 0,32, MDD −47,38%; execution complete | Execution fixed, economics unstable; **FAIL/NO-GO** |
 | V27 V26 + CBR key-rate `>=20%` cash governor | +248,61%, CAGR 28,38%, Sharpe 1,21, MDD −20,71%; stress CAGR 27,36% | Все sealed gates пройдены; **GO к новой unseen validation, не live** |
 | V26 2x V25 + causal RUONIA + capacity admission | +195,14%, CAGR 24,17%, Sharpe 0,98, MDD −33,57%; complete | Return/execution gates пройдены, MDD `>30%`; NO-GO |
 | V12 core-four correlation trend | +45,11%, CAGR 7,73%, Sharpe 0,76, MDD −14,15% | GO к новой unseen validation; не live |
@@ -730,11 +733,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
    S1 transport failed без output; S2 failed parse без output; S3 успешно собран и
    replayed. V28 завершён с отрицательным и execution-invalid outcome; не повторять.
-   V29 risk-first roll correction запечатан SHA `d92f8cf2...` до outcome: old leg exit
-   отделён от clipped/cancelled new entry без изменения signal/governors/leverage/costs.
-   После pre-outcome push выполнить V29 ровно один раз и записать verdict. Главный
-   `>=20%` governor в этом периоде не активируется. Historical specs/fees/IM всё ещё
-   proxy; licensed MOEX/broker archive обязателен для live evidence.
+   V29 risk-first correction выполнен один раз после pre-outcome push. Execution стал
+   полным, но CAGR `3,71–4,61%`, MDD `47,38–48,68%` и только 1/5 positive years дают
+   `FAIL_POST_V28_20`. V29 не повторять и не tune-ить на 2013–2017. Следующий PnL —
+   только новая независимая информация/target family либо forward collection; historical
+   specs/fees/IM всё ещё proxy, licensed MOEX/broker archive обязателен для live evidence.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
    capacity cancels и деградацию trend edge.
@@ -872,6 +875,8 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v25_stlfsi_governor_20260901T045542Z_dd8b6051/metrics.json`
 - `runs/v26_stlfsi_levered_ruonia_capacity_20260901T051200Z_2b085890/metrics.json`
 - `runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/metrics.json`
+- `runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/metrics.json`
+- `runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

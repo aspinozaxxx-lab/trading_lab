@@ -451,6 +451,11 @@ ledger остаётся fail-closed. Подмена admission выполняет
 post-outcome adaptive correction, а не independent validation; output immutable и live
 trading запрещён.
 
+Canonical V29 подтвердил сам механизм: все три ledgers complete, roll cancellations,
+rejected legs, critical failures и unresolved равны нулю. Экономический verdict при этом
+`FAIL_POST_V28_20`: исправный execution показал низкий CAGR и высокую MDD, поэтому модуль
+остаётся reusable execution evidence, но не прибыльной стратегией.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical
