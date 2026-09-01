@@ -4,19 +4,24 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-S2: official core-four daily source — sealed, pending collection
+## MOEX-PRE2018-S3: official core-four daily source — sealed, pending collection
 
 - Source-only protocol:
-  [`configs/moex_pre2018_core4_source_v2.yaml`](../configs/moex_pre2018_core4_source_v2.yaml)
+  [`configs/moex_pre2018_core4_source_v3.yaml`](../configs/moex_pre2018_core4_source_v3.yaml)
 - Config SHA-256:
-  `40765db14c7574a8bc272709cb359b9060175e2d93b4ad7a31edb529d500205a`.
+  `0b86cda4d3bddf72831075a771c3e7f6568a0a4ba2f78c64b0254c980c902b08`.
 - Implementation SHA-256:
-  `221dd948ef702bdbc1c260a8b2487f6431149080f6093ecaf8a66166dedc16ec`.
+  `7dd25e01d28303988190123fc57c70fd3d93d938c207d219a03e837484833fc7`.
 - V1 config SHA `5e9e5454...` и implementation SHA `015f51b4...` были pushed commit
   `9802f12`. Первый collection attempt остановился на первой metadata-only finder page:
   uppercase `securities.columns` дал empty columns array при 100 rows. Contract detail
   и daily history не вызывались, price/economic outcomes не прочитаны, output отсутствует.
   V2 наследует V1 byte-sealed через parent SHA и исправляет только lowercase query names.
+- V2 config SHA `40765db1...` затем exact-discovered 155/155 aliases, но остановился на
+  metadata description до daily price endpoint: `LSTTRADE` отсутствует у части истории.
+  Full metadata-only audit: FRSTTRADE/LSTDELDATE 155/155, one overlapping RFUD 155/155,
+  LSTTRADE 91 present/64 missing. V3 сохраняет missing LSTTRADE и использует обязательный
+  LSTDELDATE как expiration/request end; остальные inherited source rules неизменны.
 - Metadata-only discovery зафиксировал exact 155 contracts expiring 2012–2017:
   BR 71, MIX 24, RTS/RI 24, Si 36. Expected month sets записаны в config, поэтому
   collector не может заменить исчезнувший alias похожей строкой или ручным guess.
@@ -24,7 +29,7 @@
   daily history, raw responses, normalized tables, coverage и hashes в immutable external
   bundle. Missing не zero; gap/roll returns не строятся; стратегии и PnL отсутствуют.
 - До protocol/code commit и push реальный daily endpoint с price fields не вызывается.
-  Synthetic source tests: `6 passed`; Ruff clean. Следующее действие после seal —
+  Synthetic source tests: `7 passed`; Ruff clean. Следующее действие после seal —
   один collection/coverage audit, а не стратегия.
 
 ## V27-R1: frozen path-robustness audit — completed

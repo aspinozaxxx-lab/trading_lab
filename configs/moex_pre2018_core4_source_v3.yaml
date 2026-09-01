@@ -1,0 +1,72 @@
+﻿protocol_id: moex_pre2018_core4_daily_source_v3
+protocol_version: 3
+status: predeclared_after_full_metadata_audit_before_first_daily_price_response
+declared_at_utc: "2026-09-01T06:20:20Z"
+scope: source_only_no_strategy_no_outcomes
+research_only: true
+sealed_before_price_data: true
+live_trading_allowed: false
+
+parent_protocol:
+  path: configs/moex_pre2018_core4_source.yaml
+  sha256: 5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000
+
+supersedes_metadata_preflight:
+  path: configs/moex_pre2018_core4_source_v2.yaml
+  sha256: 40765db14c7574a8bc272709cb359b9060175e2d93b4ad7a31edb529d500205a
+  implementation_sha256: 221dd948ef702bdbc1c260a8b2487f6431149080f6093ecaf8a66166dedc16ec
+
+relationship_to_prior_work: >-
+  V2 corrected only lowercase security-finder query names and then discovered all 155
+  exact contracts. Its collection attempt stopped during contract metadata, before any
+  daily price response, because old MOEX descriptions omit LSTTRADE for some contracts.
+  A metadata-only audit of all 155 exact aliases found FRSTTRADE and LSTDELDATE for every
+  contract, LSTTRADE for 91 and missing LSTTRADE for 64, plus exactly one overlapping
+  dated RFUD segment for every contract. V3 preserves every V1 source rule and the V2
+  lowercase finder fix. It makes LSTTRADE optional and preserves it as missing; required
+  LSTDELDATE remains the exact expiration and daily request-end identity.
+
+implementation:
+  path: src/market_lab/futures/moex_pre2018_core4_source.py
+  sha256: 7dd25e01d28303988190123fc57c70fd3d93d938c207d219a03e837484833fc7
+
+contract_metadata:
+  endpoint_template: https://iss.moex.com/iss/securities/{secid}.json
+  description_columns: [name, value]
+  required_description_fields: [SECID, SHORTNAME, FRSTTRADE, LSTDELDATE]
+  optional_description_fields: [LSTTRADE]
+  boards_columns:
+    - secid
+    - boardid
+    - history_from
+    - history_till
+    - listed_from
+    - listed_till
+    - is_primary
+    - is_traded
+    - engine
+    - market
+  expiration_identity: LSTDELDATE
+  request_end_identity: LSTDELDATE
+  missing_LSTTRADE_policy: preserve_as_missing_never_infer_from_prices
+  require_every_contract: true
+
+metadata_audit_record:
+  exact_contracts: 155
+  FRSTTRADE_present: 155
+  LSTDELDATE_present: 155
+  LSTTRADE_present: 91
+  LSTTRADE_missing: 64
+  exact_one_overlapping_RFUD_segment: 155
+  daily_price_endpoint_reached_before_v3_seal: false
+  output_bundle_created_before_v3_seal: false
+  returns_targets_labels_equity_or_pnl_observed: false
+
+forbidden_v3_changes:
+  - source_dates
+  - exact_expected_contract_names_or_counts
+  - FRSTTRADE_or_LSTDELDATE_requirements
+  - RFUD_board_requirement
+  - daily_price_columns_or_cursor_contract
+  - missing_gap_roll_or_zero_imputation_policy
+  - output_or_live_limitations

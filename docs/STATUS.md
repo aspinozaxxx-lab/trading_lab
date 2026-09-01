@@ -31,17 +31,18 @@ primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAG
 verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
 причинный режим риска и снизил MDD на **12,8523 п.п.**.
 
-Новый source-only protocol V2 для официального MOEX EOD 2012–2017 подготовлен до
-первого price response: config SHA
-`40765db14c7574a8bc272709cb359b9060175e2d93b4ad7a31edb529d500205a`,
-implementation SHA `221dd948...`. V1 был pushed как commit `9802f12`, но первый запуск
-остановился на metadata-only finder: uppercase query дал пустой columns array при 100
-строках. Ни description, ни daily price endpoint достигнуты не были; output отсутствует.
-V2 меняет только case query names на подтверждённый lowercase. Он сохраняет exact set
-из 155 contracts (BR/MIX/RI/SI = 71/24/24/36), RFUD board history, exact cursor totals,
-raw archive и
-immutable external bundle. До V2 commit/push history с ценовыми полями не запрашивается;
-после seal следует только source coverage audit, без PnL.
+Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
+первого daily price response: config SHA
+`0b86cda4d3bddf72831075a771c3e7f6568a0a4ba2f78c64b0254c980c902b08`,
+implementation SHA `7dd25e01...`. V1 metadata preflight выявил lowercase-sensitive
+finder; V2 после исправления обнаружил все 155 aliases, но остановился до daily history
+на отсутствующем у старых descriptions `LSTTRADE`. Полный metadata-only audit показал:
+FRSTTRADE/LSTDELDATE и один RFUD segment есть у 155/155, LSTTRADE есть у 91 и missing
+у 64. V3 сохраняет missing, а обязательный LSTDELDATE использует как request end. Exact
+set 155 contracts (BR/MIX/RI/SI = 71/24/24/36), dates, daily schema/cursor и raw archive
+не менялись. Output V1/V2 отсутствует; price/economic outcomes ещё не читались.
+До V3 commit/push history с ценовыми полями не запрашивается; после seal следует только
+source coverage audit, без PnL.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return

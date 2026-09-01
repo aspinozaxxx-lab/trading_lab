@@ -66,17 +66,24 @@ def _finder_payload(rows: list[list[object]]) -> dict[str, object]:
     return {"securities": {"columns": list(source.SEARCH_COLUMNS), "data": rows}}
 
 
-def _detail_payload(secid: str, shortname: str) -> dict[str, object]:
+def _detail_payload(
+    secid: str,
+    shortname: str,
+    *,
+    include_last_trade: bool = True,
+) -> dict[str, object]:
+    description_rows: list[list[object]] = [
+        ["SECID", secid],
+        ["SHORTNAME", shortname],
+        ["FRSTTRADE", "2011-12-01"],
+        ["LSTDELDATE", "2012-03-15"],
+    ]
+    if include_last_trade:
+        description_rows.insert(3, ["LSTTRADE", "2012-03-15"])
     return {
         "description": {
             "columns": list(source.DESCRIPTION_COLUMNS),
-            "data": [
-                ["SECID", secid],
-                ["SHORTNAME", shortname],
-                ["FRSTTRADE", "2011-12-01"],
-                ["LSTTRADE", "2012-03-15"],
-                ["LSTDELDATE", "2012-03-15"],
-            ],
+            "data": description_rows,
         },
         "boards": {
             "columns": list(source.BOARD_COLUMNS),
@@ -246,6 +253,36 @@ def test_metadata_builds_canonical_contract_and_exact_rfud_segment() -> None:
     assert contracts.loc[0, "canonical_contract_id"] == "RTS:RIH2:2012-03-15"
     assert boards.loc[0, "boardid"] == "RFUD"
     assert segments.loc[0, "canonical_contract_id"] == "RTS:RIH2:2012-03-15"
+
+
+def test_metadata_preserves_absent_last_trade_as_missing() -> None:
+    protocol = _small_protocol()
+    discovery = pd.DataFrame(
+        [
+            {
+                "logical_symbol": "RI",
+                "asset_code": "RTS",
+                "secid": "RIH2_2012",
+                "shortname": "RTS-3.12",
+                "group": "futures_forts",
+                "type": "futures",
+            }
+        ]
+    )
+    session = QueueSession(
+        [_detail_payload("RIH2_2012", "RTS-3.12", include_last_trade=False)]
+    )
+
+    contracts, _, _ = source.fetch_contract_metadata(
+        protocol,
+        discovery,
+        session,
+        [],
+        _clock,
+    )
+
+    assert pd.isna(contracts.loc[0, "last_trade_date"])
+    assert contracts.loc[0, "expiration_date"] == pd.Timestamp("2012-03-15")
 
 
 def test_daily_history_uses_exact_cursor_and_preserves_source_fields() -> None:

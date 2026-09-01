@@ -30,7 +30,7 @@ from market_lab.futures.specs import FuturesAssetSpec, canonical_contract_id
 from market_lab.io_utils import atomic_write_bytes, atomic_write_text, write_json
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG: Final[Path] = PROJECT_ROOT / "configs/moex_pre2018_core4_source_v2.yaml"
+DEFAULT_CONFIG: Final[Path] = PROJECT_ROOT / "configs/moex_pre2018_core4_source_v3.yaml"
 SEARCH_ENDPOINT: Final[str] = "https://iss.moex.com/iss/securities.json"
 DETAIL_ENDPOINT: Final[str] = "https://iss.moex.com/iss/securities/{secid}.json"
 HISTORY_ENDPOINT: Final[str] = (
@@ -69,7 +69,7 @@ DAILY_COLUMNS: Final[tuple[str, ...]] = (
     "ASSETCODE",
 )
 REQUIRED_DESCRIPTION_FIELDS: Final[frozenset[str]] = frozenset(
-    {"SECID", "SHORTNAME", "FRSTTRADE", "LSTTRADE", "LSTDELDATE"}
+    {"SECID", "SHORTNAME", "FRSTTRADE", "LSTDELDATE"}
 )
 CONTRACT_COLUMNS: Final[tuple[str, ...]] = (
     "canonical_contract_id",
@@ -244,7 +244,7 @@ def load_source_protocol(config_path: Path = DEFAULT_CONFIG) -> SourceProtocol:
     declared_payload = yaml.safe_load(content.decode("utf-8-sig"))
     if not isinstance(declared_payload, Mapping):
         raise ValueError("source protocol must be a YAML object")
-    if declared_payload.get("protocol_id") != "moex_pre2018_core4_daily_source_v2":
+    if declared_payload.get("protocol_id") != "moex_pre2018_core4_daily_source_v3":
         raise ValueError("unexpected source protocol id")
     parent = declared_payload.get("parent_protocol")
     if not isinstance(parent, Mapping):
@@ -277,13 +277,16 @@ def load_source_protocol(config_path: Path = DEFAULT_CONFIG) -> SourceProtocol:
     dates = payload.get("dates")
     network = payload.get("network")
     discovery = payload.get("discovery")
+    metadata = payload.get("contract_metadata")
     daily = payload.get("daily_history")
     output = payload.get("output")
-    if not all(isinstance(item, Mapping) for item in (dates, network, discovery, daily, output)):
+    sections = (dates, network, discovery, metadata, daily, output)
+    if not all(isinstance(item, Mapping) for item in sections):
         raise ValueError("source protocol has an invalid section")
     assert isinstance(dates, Mapping)
     assert isinstance(network, Mapping)
     assert isinstance(discovery, Mapping)
+    assert isinstance(metadata, Mapping)
     assert isinstance(daily, Mapping)
     assert isinstance(output, Mapping)
     source_start = date.fromisoformat(str(dates["source_start"]))
@@ -295,6 +298,12 @@ def load_source_protocol(config_path: Path = DEFAULT_CONFIG) -> SourceProtocol:
         raise ValueError("source range crosses protected boundary")
     if list(discovery.get("columns", [])) != list(SEARCH_COLUMNS):
         raise ValueError("discovery columns differ from the sealed closed schema")
+    if set(metadata.get("required_description_fields", [])) != REQUIRED_DESCRIPTION_FIELDS:
+        raise ValueError("required contract description fields changed")
+    if list(metadata.get("optional_description_fields", [])) != ["LSTTRADE"]:
+        raise ValueError("optional contract description fields changed")
+    if metadata.get("request_end_identity") != "LSTDELDATE":
+        raise ValueError("contract request-end identity changed")
     if list(daily.get("columns", [])) != list(DAILY_COLUMNS):
         raise ValueError("daily columns differ from the sealed closed schema")
     if daily.get("pagination") != "history_cursor_exact_total":
@@ -575,11 +584,16 @@ def fetch_contract_metadata(
         if str(values["SECID"]) != secid or str(values["SHORTNAME"]) != str(row["shortname"]):
             raise ValueError(f"description identity mismatch for {secid}")
         start_date = pd.Timestamp(values["FRSTTRADE"]).normalize()
-        last_trade_date = pd.Timestamp(values["LSTTRADE"]).normalize()
+        raw_last_trade = values.get("LSTTRADE")
+        last_trade_date = (
+            pd.NaT
+            if raw_last_trade in (None, "")
+            else pd.Timestamp(raw_last_trade).normalize()
+        )
         expiration_date = pd.Timestamp(values["LSTDELDATE"]).normalize()
-        if pd.isna(start_date) or pd.isna(last_trade_date) or pd.isna(expiration_date):
+        if pd.isna(start_date) or pd.isna(expiration_date):
             raise ValueError(f"missing contract dates for {secid}")
-        if not start_date <= last_trade_date <= expiration_date:
+        if not pd.isna(last_trade_date) and not start_date <= last_trade_date <= expiration_date:
             raise ValueError(f"invalid contract date ordering for {secid}")
         if not protocol.source_start.year <= expiration_date.year <= protocol.source_end.year:
             raise ValueError(f"contract expiry escaped sealed years for {secid}")
