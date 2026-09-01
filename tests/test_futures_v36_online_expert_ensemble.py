@@ -86,6 +86,33 @@ def test_risk_restoration_applies_online_cash_after_multiplier() -> None:
     assert restored["target_weight"].abs().sum() == 0.625
 
 
+def test_restoration_is_applied_only_after_base_mapping() -> None:
+    date = pd.Timestamp("2020-01-03")
+    mapped = pd.DataFrame(
+        {
+            "decision_date": [date] * 4,
+            "effective_date": [date + pd.Timedelta(days=3)] * 4,
+            "asset_code": list(core.ASSETS),
+            "contract_id": ["A", "B", "C", "D"],
+            "target_weight": [0.5, -0.5, 0.0, 0.0],
+            "provenance": ["base"] * 4,
+        }
+    )
+    risk = pd.DataFrame(
+        {
+            "decision_date": [date],
+            "risk_multiplier": [2.0],
+            "active_fraction": [0.5],
+        }
+    )
+
+    restored = core.restore_mapped_targets(mapped, risk)
+
+    assert restored["pre_restoration_target_weight"].abs().sum() == 1.0
+    assert restored["target_weight"].abs().sum() == 1.0
+    assert restored["provenance"].str.contains("V36_post_map_risk").all()
+
+
 def test_preflight_verifies_all_declared_eras_without_price_decode() -> None:
     result = runner.preflight(runner.load_config())
     assert all(result["checks"].values())

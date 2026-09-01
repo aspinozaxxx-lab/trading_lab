@@ -250,29 +250,30 @@ def run(config: dict[str, Any], output_root: Path) -> Path:
         weekly = v12.build_weekly_weights(panel, scores)
         restored, risk = core.restore_weekly_weights(weekly, scores, config)
         target_build = v12.build_execution_targets(
-            restored,
+            weekly,
             active,
             oos_start=evaluation_start,
             oos_end=evaluation_end,
         )
-        coverage = v12.execution_coverage(execution_market, target_build.targets)
+        mapped_targets = core.restore_mapped_targets(target_build.targets, risk)
+        coverage = v12.execution_coverage(execution_market, mapped_targets)
         artifacts[f"scores_{variant}"] = scores
         artifacts[f"weekly_{variant}"] = restored
         artifacts[f"risk_{variant}"] = risk
-        artifacts[f"targets_{variant}"] = target_build.targets
+        artifacts[f"targets_{variant}"] = mapped_targets
         artifacts[f"coverage_{variant}"] = coverage
         metrics[variant] = {}
         target_counts[variant] = {
             "weekly_decisions": target_build.weekly_decisions,
             "roll_decisions": target_build.roll_decisions,
-            "target_rows": len(target_build.targets),
-            "nonzero_targets": int(target_build.targets["target_weight"].abs().gt(1e-12).sum()),
+            "target_rows": len(mapped_targets),
+            "nonzero_targets": int(mapped_targets["target_weight"].abs().gt(1e-12).sum()),
             "covered_nonzero_targets": int(coverage["execution_dependencies_complete"].sum()),
         }
         for scenario, settings in scenario_settings.items():
             result = v29.run_risk_first_portfolio_ledger(
                 execution_market,
-                target_build.targets,
+                mapped_targets,
                 v26.CapacityAwareLeveredLedgerConfig(
                     slippage_ticks=int(settings["slippage_ticks"]),
                     fee_multiplier=float(settings["fee_multiplier"]),

@@ -290,3 +290,41 @@ def restore_weekly_weights(
     if gross.gt(cap + 1e-12).any():
         raise ValueError("V36 restored weekly gross exceeded cap")
     return restored, risk
+
+
+def restore_mapped_targets(mapped: pd.DataFrame, risk: pd.DataFrame) -> pd.DataFrame:
+    """Apply the last causal weekly multiplier only after safe 1x next-open mapping."""
+    ordered = mapped.sort_values("decision_date", kind="stable").copy()
+    causal = risk.loc[
+        :, ["decision_date", "risk_multiplier", "active_fraction"]
+    ].sort_values("decision_date", kind="stable")
+    restored = pd.merge_asof(
+        ordered,
+        causal,
+        on="decision_date",
+        direction="backward",
+        allow_exact_matches=True,
+    )
+    if restored[["risk_multiplier", "active_fraction"]].isna().any().any():
+        raise ValueError("V36 mapped target lacks causal risk/cash state")
+    restored["pre_restoration_target_weight"] = restored["target_weight"].astype(float)
+    restored["target_weight"] = (
+        restored["pre_restoration_target_weight"]
+        * restored["risk_multiplier"]
+        * restored["active_fraction"]
+    )
+    restored["provenance"] = (
+        restored["provenance"].astype("string")
+        + "|V36_post_map_risk="
+        + restored["risk_multiplier"].map(lambda value: f"{float(value):.12g}")
+        + "|active="
+        + restored["active_fraction"].map(lambda value: f"{float(value):.12g}")
+    )
+    gross = restored.groupby("effective_date")["target_weight"].apply(
+        lambda values: values.abs().sum()
+    )
+    if gross.gt(2.0 + 1e-12).any():
+        raise ValueError("V36 mapped restored gross exceeded 2x")
+    return restored.sort_values(
+        ["effective_date", "asset_code"], kind="stable", ignore_index=True
+    )
