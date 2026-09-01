@@ -532,6 +532,21 @@ Read-only replay подтвердил 33/33 artifacts, 86/86 checks и 13/13 ass
 является frozen development parent: любой 2008–2011 economic read обязан идти через
 новый wrapper/protocol V31, который pin-ит его bytes и не меняет economics.
 
+### `market_lab.futures_v31_pre2012_temporal_validation`
+
+One-shot temporal wrapper для outcome-free D3 2008–2011. Он byte-pin-ит V30-D2
+config/module/canonical metrics/identity и наследует signal, risk, execution и costs без
+refit. Единственная source-semantic адаптация разрешает missing `curve_available_at`
+только для exact 727 строк MIX с причиной `asset_not_yet_available`; эти строки остаются
+flat и не backfill-ятся. Отдельный adapter добавляет к 727 post-initial flat rows только
+предыдущую factual decision date, необходимую полному four-asset mapper; contract,
+tradability, price и signal остаются missing/false. Master calendar SI/RI/BR даёт
+253-ю observation `2009-10-13`,
+weekly decision `2009-10-16` и первый fill `2009-10-19`. Metadata-only preflight читает
+только hashes, schemas, dates и masks и проходит 86/86; economic loader вызывается лишь
+после отдельного commit/push seal. Output содержит те же шесть scenario views, exact
+ledger/coverage и заранее зафиксированные rolling/bootstrap/leave-year-out gates.
+
 ### `market_lab.futures.moex_calendar_spread_source`
 
 Source-only collector новой market-neutral family. Catalog строится из official MOEX

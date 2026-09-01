@@ -538,6 +538,9 @@ Canonical V30-D2 подтвердил development CAGR `22,91%` (stress `21,41%`
 Поэтому V31 обязан проверить frozen market-only formula без добавления внешних данных;
 новые sources относятся уже к следующей заранее сформулированной family, а не к
 исправлению результата V31.
+V31 seal подготовлен с config SHA `6dcb6dab...` и outcome-free preflight 86/86. До его
+первого immutable run внешние macro/positioning/news значения не присоединяются: иначе
+проверялся бы уже другой information set, выбранный после открытия temporal boundary.
 
 ### Unseen validation audit — официальный metadata route к 2012–2017
 

@@ -168,6 +168,14 @@ preflight не читали pre-2012 price values, returns или PnL. D2 seal `
 `acc03e16e71d9209028589f92ceaf9a8954570549fde6e73cddcf51e78923448`; independent
 artifact audit 33/33 exact. Output immutable и не является unseen validation.
 
+V31 config SHA `6dcb6dab554137525015c4408393141388f883ccf580f6d0425e255b0e445fd9`,
+module SHA `ce2ee2605b5dc62cba2bc34d54716025afa924fc781427decdfc446c3abbab95`
+pin-ит V30-D2 и pre-2012 D3. До seal разрешены и прочитаны только bytes/hashes,
+Parquet schemas, dates/calendar, availability/reason/bool masks и causal timestamps.
+Preflight 86/86 true; price/settle/roll-yield values, returns, targets, equity и PnL
+2008–2011 не читались. После commit/push разрешён один immutable economic run; его
+нельзя повторять или менять по результату.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

@@ -57,7 +57,10 @@ primary/doubled/stress CAGR `22,9090%/22,2659%/21,4113%`, Sharpe
 `0,25–2,92%` в зависимости от блока, поэтому 20% нельзя считать предсказуемым.
 V30 V1 seal `271c7db` остановился до ledger/output на polarity служебного boolean;
 узкий D2 seal `aea34e4` изменил только positive proof и завершён. Outcomes 2008–2011
-всё ещё не прочитаны; следующий шаг — отдельный V31 seal и ровно один temporal test.
+всё ещё не прочитаны. Отдельный V31 protocol уже подготовлен: config SHA `6dcb6dab...`,
+module SHA `ce2ee260...`, outcome-free preflight 86/86. Он механически начинает fills
+`2009-10-19` после 253-session warmup и сохраняет 727 pre-listing MIX rows как flat.
+Сначала обязателен commit/push seal, затем ровно один temporal test.
 
 Предыдущий главный lead **V27** прошёл same-history gates, но его независимая проверка
 не подтвердила экономику после исправления execution.
@@ -871,8 +874,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    `aea34e4`, immutable run `v30_three_sleeve_risk_v2_20260901T141802Z_8b41f58a`,
    metrics SHA `e5aeb7d1...`; exact audit 33/33. Формулу, параметры риска и costs по
    этому периоду больше не менять; V30 не называть holdout и run не перезаписывать.
-5. Создать и push-нуть отдельный V31 strategy seal, byte-pin-ящий V30-D2 и pre-2012 D3,
-   затем открыть 2008–2011 outcomes ровно один раз. Отчёт обязан
+5. V31 strategy protocol подготовлен и byte-pin-ит V30-D2 + pre-2012 D3: config SHA
+   `6dcb6dab...`, module SHA `ce2ee260...`, metadata-only preflight 86/86. Commit/push
+   обязан предшествовать первому price/outcome read. Затем открыть outcomes ровно один
+   раз; формулу V30 и late-MIX flat mask не менять. Отчёт обязан
    показать 1x/2x/stress costs, CAGR/Sharpe/MDD, каждый год, trades, coverage/unresolved
    и отдельно gates 20%/50%; результат не разрешает live без PIT fees/specs/margin.
 

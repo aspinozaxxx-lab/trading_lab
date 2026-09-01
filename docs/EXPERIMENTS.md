@@ -4,6 +4,28 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V31: one-shot unseen 2008–2011 temporal validation — sealed protocol, run pending
+
+- V31 byte-pin-ит canonical V30-D2 config/module/metrics/identity и не меняет signal,
+  equal component weights, 20% final-risk restoration, cap 2x, V29 risk-first ledger или
+  primary/doubled/stress costs. Config SHA
+  `6dcb6dab554137525015c4408393141388f883ccf580f6d0425e255b0e445fd9`, module SHA
+  `ce2ee2605b5dc62cba2bc34d54716025afa924fc781427decdfc446c3abbab95`.
+- До seal прочитаны только exact hashes/bytes/schemas, dates, asset masks и причинные
+  non-price timestamps. Preflight 86/86 true; values `close/open/settle/roll_yield`,
+  returns, targets, equity и PnL 2008–2011 не читались.
+- 253-я master-сессия механически приходится на `2009-10-13`; первая последующая
+  weekly decision — `2009-10-16`, первый допустимый next-open fill — `2009-10-19`.
+  Evaluation заканчивается `2011-12-15`: 525 sessions, плюс predecessor = 526.
+- MIX отсутствует 727 master-сессий и допускается только как exact
+  `asset_not_yet_available` flat mask. Единственный контракт появляется слишком поздно
+  для 252-session trend, поэтому backfill и синтетический сигнал запрещены. Для 727
+  post-initial zero rows causal adapter присваивает только предыдущую factual decision
+  date, чтобы полный four-asset mapper перенёс flat; contract/price/signal не создаются.
+- До economic read code/config/tests/docs должны быть committed и pushed. После этого
+  разрешён ровно один immutable run. Нельзя менять формулу или повторять V31 по
+  увиденному результату; 20%/50% gates отчётны отдельно, live trading запрещён.
+
 ## V30-D2: canonical development run complete
 
 - V30 V1 был sealed/pushed commit `271c7db` до canonical attempt. Попытка остановилась

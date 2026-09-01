@@ -816,6 +816,39 @@ rolling/bootstrap/leave-one-year-out; independent audit 33/33 exact. Форму�
 2012–2017 не менять; следующий economic read — только отдельный pushed V31 seal для
 2008–2011.
 
+### V31 one-shot unseen pre-2012 temporal validation
+
+V31 config SHA `6dcb6dab...`, module SHA `ce2ee260...` pin-ит canonical V30-D2 и
+pre-2012 D3. Metadata-only preflight 86/86 не читает market values. До commit/push
+разрешено выполнять только проверки ниже; команду без `--preflight-only` запускать
+запрещено:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v31_pre2012_temporal_validation.py `
+  tests/test_futures_v30_three_sleeve_risk_restoration_v2.py `
+  tests/test_futures_v30_three_sleeve_risk_restoration.py `
+  tests/test_futures_v29_risk_first_roll.py tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures_v31_pre2012_temporal_validation.py `
+  tests/test_futures_v31_pre2012_temporal_validation.py
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v31_pre2012_temporal_validation --preflight-only
+```
+
+Только после подтверждённого push seal выполнить ровно один run:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v31_pre2012_temporal_validation `
+  --config .\configs\futures_v31_pre2012_temporal_validation.yaml `
+  --output-root .\runs
+```
+
+Canonical output не перезаписывать. После просмотра результата запрещены новый start,
+asset/year filter, sign inversion, leverage/cost/gate change или повтор V31. Любая новая
+информация — отдельная будущая family и новый ещё не просмотренный/forward period.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
