@@ -22,6 +22,15 @@ SHA `e8a97876...`: 8 381 rows, 81 contracts, 224 requests, даты
 2008–2011 returns/PnL: этот кризисно-восстановительный отрезок сохраняется как будущий
 честный holdout, а не период для подбора параметров.
 
+До первого price-bearing derived build подготовлен D1: config SHA `8f5737bc...`, module
+SHA `d0c22df7...`. Metadata-only calendar audit зафиксировал official-cycle admission
+SI/RI/BR/MIX = 16/16/38/1 contracts и 8 011 source rows. Master — exact intersection
+SI/RI/BR: 781 сессия `2008-10-08..2011-12-15`; MIX доступен только в последних 54,
+поэтому первые 727 строк заранее определены как `asset_not_yet_available`, flat/masked,
+без цен и backfill. D1 требует zero unresolved roll/exit, outcome columns запрещены.
+Сначала code/config/tests/docs должны быть commit/pushed, затем допускается один build и
+отдельный deterministic audit.
+
 ## Короткий ответ
 
 Новый главный research lead — **V27**, но только для новой независимой валидации.
@@ -826,8 +835,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`,
    manifest SHA `e06fd978...`; отдельный `--audit-only` дал 41/41 true. Collection не
    повторять и output не перезаписывать.
-3. Следующий активный шаг: построить отдельный source-derived active-contract/spec panel
-   без returns/PnL.
+3. Source-derived D1 подготовлен: config SHA `8f5737bc...`, module SHA `d0c22df7...`.
+   Commit/push до build, затем один раз построить immutable
+   `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1/`
+   и отдельно выполнить `--audit-only`. Returns/PnL по-прежнему запрещены.
    MIX до 2011 должен оставаться фактически отсутствующим; gap/roll нельзя синтезировать.
 4. На уже просмотренном 2012–2017 development разработать принципиально новый
    portfolio target, а не V27/V29 threshold tweak, и зафиксировать его code/config/SHA.

@@ -416,6 +416,19 @@ reuse-ит V1 serialization во временном каталоге, добав
 Canonical V2 manifest SHA `e06fd978...`: 8 381 rows, 81 contracts, 224 requests и две
 inert identities. Встроенный и отдельный replay дали 41/41 checks true.
 
+### `market_lab.futures.moex_pre2012_core_derived_v1`
+
+Outcome-free transformation source V2 в variable-availability causal panel. Сначала
+official month-code filter исключает только десять serial SI contracts. Shared panel
+builder вызывается в exception-safe scoped contexts: отдельно для SI/RI/BR и отдельно
+для позднего MIX, после чего исходный global universe обязательно восстанавливается.
+
+Master calendar — пересечение factual SI/RI/BR dates. До первой factual MIX session
+модуль создаёт только explicit flat/mask rows: contract, curve, price, volume и OI
+missing; backfill и zero return невозможны. Actual contract observations остаются
+source-only, spec proxy использует строго lag-1 session, roll adjustment только forward.
+Persistence атомарна, а `--audit-only` заново строит все четыре таблицы и сравнивает их.
+
 ### `market_lab.futures.moex_pre2018_core4_derived`
 
 Source-only преобразование byte-pinned MOEX bundle 2012–2017 в common factual-session

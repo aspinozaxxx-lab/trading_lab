@@ -639,6 +639,29 @@ Canonical manifest SHA `e06fd978...`: 8 381 daily rows, 81 contracts, 224 reques
 разрешён только `--audit-only`. Manifest/coverage можно аудировать, но returns/PnL
 2008–2011 запрещены до отдельного derived-source и strategy seal.
 
+### Sealed MOEX 2008–2011 causal variable-availability derived source
+
+D1 config SHA `8f5737bc...`, module SHA `d0c22df7...`. До первого build code/config/
+tests/docs должны быть committed и pushed. Затем build выполняется один раз, после него
+отдельно разрешён deterministic audit:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_moex_pre2012_core_derived_v1.py `
+  tests/test_futures_panel.py tests/test_futures_spec_proxy.py tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/moex_pre2012_core_derived_v1.py `
+  tests/test_moex_pre2012_core_derived_v1.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v1
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_derived_v1 --audit-only
+```
+
+Default immutable output:
+`data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1/`.
+Build должен fail-closed при unresolved roll/exit, MIX backfill, nonmissing pre-listing
+market values, source/hash drift или outcome columns. Strategy returns/PnL после D1 всё
+ещё запрещены до отдельного strategy seal.
+
 ### Sealed MOEX 2012–2017 causal derived sources
 
 D1 config SHA `a633883d...` был pushed до build, но его immutable output нельзя

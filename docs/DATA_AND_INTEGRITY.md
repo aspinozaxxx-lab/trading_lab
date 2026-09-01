@@ -71,6 +71,14 @@ strategy seal запрещено вычислять или даже просма
 collection coverage сама по себе не является валидацией и не разрешает менять exact
 contract set.
 
+Derived D1 `configs/moex_pre2012_core_derived_v1.yaml` SHA `8f5737bc...`, module SHA
+`d0c22df7...` подготовлен до первого price-bearing build. Он pin-ит source manifest,
+daily/raw bytes и exact transformation modules. Metadata-only preflight задаёт 781
+master session по factual SI/RI/BR и 54 поздних MIX sessions; 727 pre-listing MIX rows
+обязаны быть flat/masked со всеми market values missing. D1 не содержит и не допускает
+return/target/signal/equity/PnL columns; zero unresolved roll/exit требуется до atomic
+publication.
+
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
 Его immutable output с manifest SHA `73ffe4c3...` прошёл byte/causality checks, но

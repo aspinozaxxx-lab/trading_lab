@@ -1,0 +1,132 @@
+﻿protocol_id: moex_pre2012_core_derived_source_v1
+protocol_version: 1
+status: predeclared_after_metadata_only_calendar_audit_before_first_derived_price_build
+declared_at_utc: "2026-09-01T00:00:00Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_first_derived_price_build: true
+live_trading_allowed: false
+
+relationship_to_source: >-
+  Source V2 was sealed and collected without returns or PnL. A metadata-only preflight
+  projected only contract identities, month codes, dates and source validity flags; it
+  did not load OHLC, settlement, WAP, volume, open interest, returns or outcomes. The
+  preflight established structural-cycle counts and factual date availability needed to
+  define a variable-universe panel before its first price-bearing derived build.
+
+source:
+  source_id: official-moex-core3-plus-mix-daily-current-vintage-2008-2011-v2
+  directory: >-
+    data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2
+  manifest_sha256: e06fd978d7382a36be760e5d4bbee517a5e7a4d28c7fae8acf0112de4f43ff0b
+  manifest_payload_sha256: 521ac82bdf3d47ac1d5d5c593672b8244dd85b1ba3f738de9fd794ebf8ff6fbd
+  daily_sha256: 1c5eee452994f6fb58096ccaa22fad4dc06ec752b61aa7e436d1aee7e0cabfb7
+  coverage_sha256: 9d46db0272b661200a59108fc4e4f468f3ad5e3ad597bbba83f889514e6cf965
+  raw_sha256: e8a97876b62cb327fb4cbed98257e0311ba94be12bda1c53624a75112b104911
+  daily_rows: 8381
+  contracts: 81
+  requests: 224
+  minimum_price_date: "2008-01-09"
+  maximum_price_date: "2011-12-16"
+  protected_from: "2012-01-01"
+  exact_inert_identities:
+    - {secid: RIM9_2009, trade_date: "2008-09-12"}
+    - {secid: SiU9_2009, trade_date: "2008-09-12"}
+
+contract_admission:
+  decision_basis: official_structural_cycle_before_derived_prices_or_outcomes
+  returns_signals_strategy_equity_or_pnl_used: false
+  admitted_month_codes:
+    SI: [H, M, U, Z]
+    RI: [H, M, U, Z]
+    BR: [F, G, H, J, K, M, N, Q, U, V, X, Z]
+    MIX: [H, M, U, Z]
+  expected_contracts: {SI: 16, RI: 16, BR: 38, MIX: 1}
+  expected_daily_rows: {SI: 3397, RI: 2390, BR: 2170, MIX: 54}
+  expected_total_daily_rows: 8011
+  expected_excluded_SI_contracts: 10
+  excluded_contract_policy: only_nonquarterly_SI_serial_contracts
+
+variable_availability_calendar:
+  master_policy: intersection_of_factual_SI_RI_BR_source_dates
+  master_assets: [SI, RI, BR]
+  expected_master_sessions: 781
+  expected_master_start: "2008-10-08"
+  expected_master_end: "2011-12-15"
+  expected_panel_assets: [SI, RI, BR, MIX]
+  expected_panel_rows: 3124
+  expected_active_contract_rows: 3124
+  MIX_expected_first_source_session: "2011-09-30"
+  MIX_expected_last_source_session: "2011-12-15"
+  expected_MIX_sessions: 54
+  expected_MIX_unavailable_sessions: 727
+  MIX_unavailable_policy: explicit_flat_mask_never_backfill
+  MIX_unavailable_market_values: missing
+  source_inert_rows_before_master_calendar: 2
+  source_inert_row_policy: exclude_before_master_without_bridge
+  business_sessions_fabricated: 0
+  missing_return_bridge_allowed: false
+
+causal_roll:
+  confirmation_days: 2
+  hard_fallback_sessions: 5
+  dominance_ratio: 1.0
+  overlap_price_column: settle
+  execution_price_column: open
+  historical_rewrite: forbidden
+  adjustment: forward_only_after_observed_roll
+  missing_open_policy: preserve_missing
+  missing_settle_policy: preserve_missing
+  gap_or_roll_return_bridge: forbidden
+  maximum_unresolved_rolls: 0
+  maximum_unresolved_exits: 0
+  exact_roll_counts_selected_before_build: false
+
+participant_open_interest:
+  available_in_parent_source: false
+  policy: preserve_all_fields_as_missing
+  zero_imputation: forbidden
+
+specification_proxy:
+  method: existing_causal_lag1_proxy
+  same_session_spec_use: forbidden
+  unknown_spec_policy: sizing_unusable
+  historical_exchange_exact: false
+
+output:
+  directory: >-
+    data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2012_core_derived_v1.py: d0c22df731b64c32211f1b92b771ff1d61b7892f31ff6385856ea8649f9c0e33
+  src/market_lab/futures/moex_pre2018_core4_derived.py: 0c54c2325fd925835ac72a528c495942cb4d04f0116f1792875cecbf60d851c0
+  src/market_lab/futures/panel.py: ae52d9c71c0b38e35cbe72e993d1823d6fa57b4b960fa91549a465add6edfd30
+  src/market_lab/futures/roll.py: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+  src/market_lab/futures/spec_proxy.py: 213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  maximum_allowed_session: "2011-12-31"
+  protected_2012_and_later_read: forbidden_for_this_build
+  returns_targets_labels_predictions_signals_equity_or_pnl: forbidden
+  missing_values: preserve_never_zero_fill
+
+limitations:
+  current_vintage_source: true
+  point_in_time_exchange_revision_history: unavailable
+  participant_open_interest: unavailable
+  exact_historical_specs_fees_margin_and_borrow: unavailable
+  MIX_history_before_2011_09_30: unavailable
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_contract_cycles_or_expected_counts_after_derived_prices
+  - changing_master_calendar_or_backfilling_MIX
+  - accepting_any_unresolved_roll_or_exit
+  - filling_unknown_observations_with_zero
+  - bridging_missing_listing_or_roll gaps_with_returns
+  - adding_strategy_return_target_label_signal_equity_or_pnl_columns
+  - overwriting_the_output_bundle

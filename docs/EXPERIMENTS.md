@@ -4,6 +4,26 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## MOEX-PRE2012-DERIVED-D1: sealed design, build pending
+
+- Source-only config SHA
+  `8f5737bc44b21a8777b55de037da7ad7cf925f652e3b715115e46d4765b1f959`, module SHA
+  `d0c22df731b64c32211f1b92b771ff1d61b7892f31ff6385856ea8649f9c0e33`.
+  Он pin-ит source manifest/daily/raw и panel/roll/spec/io implementations; до первого
+  derived build читались только contract IDs, dates и validity flags, не price values.
+- Official-cycle admission заранее оставляет SI/RI/BR/MIX = 16/16/38/1 contracts,
+  daily rows = 3 397/2 390/2 170/54; исключаются только 10 nonquarterly SI serials.
+- Master calendar — factual intersection SI/RI/BR: exact 781 sessions
+  `2008-10-08..2011-12-15`. MIX имеет exact 54 source sessions
+  `2011-09-30..2011-12-15`; первые 727 master sessions публикуются как explicit
+  `asset_not_yet_available`, flat/masked, market fields missing. Backfill запрещён.
+- Две parent inert rows лежат до master start и не создают gap/return bridge. Roll
+  defaults byte-identical existing panel; publication требует zero unresolved roll/exit,
+  rectangular 3 124-row panel/active map и отсутствие outcome columns.
+- Planned immutable output:
+  `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v1/`.
+  Code/config должны быть pushed до первого build; canonical manifest пока отсутствует.
+
 ## MOEX-PRE2012-SOURCE-V2: canonical source complete, replay exact
 
 - V1 был sealed/pushed commit `49467bc` до первого daily response, но collection
