@@ -4,6 +4,40 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V36-R1: multi-era online expert ensemble — canonical NO-GO
+
+- Fixed 10-expert family на `2008-10-08..2025-12-30`: trend 21/63/126/252,
+  multi-trend, carry, confirmation, relative, consensus и cash. Online weights —
+  prior-week-only discounted exponential wealth (`decay=0,98`, `eta=8`), без epoch или
+  future-label selection. Evaluation `2013..2025`; comparisons заранее фиксированы как
+  static equal active experts и frozen three-sleeve.
+- V36 config SHA `cb391e44...` был sealed/pushed до outcomes. Первый immutable run
+  `runs/v36_online_expert_20260901T223514Z_cb391e44/` имеет metrics SHA `3fa9e454...`,
+  но invalid: pre-2018 derived execution оборвался `2017-12-01` с тремя открытыми Z7,
+  дал 6 161 missing contract rows, 555 atomic rejects и нулевой 2018–2025 PnL. Этот
+  результат не является economic test и не перезаписывается.
+- R1 — только source-boundary repair. Из уже sealed official parent daily SHA
+  `00a9a872...` выбраны независимо от позиций/PnL все quarterly Z7 SI/RI/MIX: 45 rows
+  с lag seed, из них 42 factual execution rows / 14 sessions `2017-12-04..2017-12-21`.
+  На известном expiry open `2017-12-21` добавлен exact flat всех assets; re-entry только
+  из original causal targets. Signal, expert weights, risk, 2x cap и `1/1, 2/2, 4/2`
+  costs не менялись.
+- R1 config SHA `156f573cd52b0f648f7c1c33c203a0ff021c1d99dd55b4d186b01bb16df2a801`,
+  runner SHA `7a1c18b9...`, core SHA `51633026...`; seal `aea629f` pushed до corrected
+  outcome. Tests `14/14`, preflight base+bridge fully true.
+- Canonical `runs/v36r1_online_expert_20260901T224722Z_156f573c/`: metrics SHA
+  `9812a1fdce5db12908d92f35a863742fb1a7a957743e562626cb2d2ac11096fc`, identity SHA
+  `c193c7cf0a839094ecf34c97692dc5184f66074758834da0a6c92f40abbbbbbd`, audit SHA
+  `d97aaa829cda7294a7882ec0dd6417d53acef18312e227ecccc23022fab65805`; 11/11 true.
+- Online primary: total `+124,78%`, CAGR `6,4262%`, Sharpe `0,3989`, MDD `40,7292%`,
+  7/13 positive years, worst `2020 −25,937%`, costs `154 148,20 RUB`, 2 255 filled
+  legs. Doubled/stress CAGR `5,1407%/4,8394%`; all execution complete, zero critical/
+  unresolved. Static equal primary лучше: `8,1551%/0,4566/39,3230%`; frozen three
+  primary `6,6055%/0,3949/48,7712%`.
+- Verdict `NO_GO`, 20%/50% claims false. Online allocation не улучшила static ensemble;
+  V36/R1 parameters и bridge не tune-ить. Следующий test — только новый independent
+  return mechanism/source либо настоящий forward/PIT period.
+
 ## V35: thirty-stock cross-sectional intraday — canonical NO-GO
 
 - Source-only protocol `stock-intraday-pre2026-source-v1`, config SHA `ba1934d6...`,

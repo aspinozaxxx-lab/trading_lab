@@ -1,7 +1,42 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V35 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V36 гипотез защищены и не используются.
+
+## Последний результат: V36-R1 multi-era online expert ensemble NO-GO
+
+V36 проверила на одной причинной шкале `2008-10-08..2025-12-30` десять заранее
+фиксированных экспертов: четыре trend horizon, multi-horizon trend, curve carry,
+trend/carry confirmation, cross-asset relative trend, horizon consensus и cash.
+Discounted exponential weights обновлялись только раз в неделю по уже завершившейся
+предыдущей неделе; сравнения — static equal active experts и frozen three-sleeve.
+Evaluation `2013..2025`, exact next-open integer execution, 1% participation и три
+сценария costs; 2026 не читался.
+
+Первый immutable V36
+`runs/v36_online_expert_20260901T223514Z_cb391e44/` оказался технически невалиден:
+derived pre-2018 execution заканчивался `2017-12-01`, хотя три Z7-контракта оставались
+открыты. Это породило 6 161 missing contract rows и ложный нулевой PnL 2018–2025.
+Каталог не изменён. R1 до исправленного PnL запечатал parent daily SHA `00a9a872...`,
+ровно 42 официальные строки SI/RI/MIX за `2017-12-04..2017-12-21` и детерминированный
+flat на factual expiry open `2017-12-21`; сигнал, eta/decay, риск, leverage и costs не
+менялись. Config SHA `156f573c...`, runner SHA `7a1c18b9...`, seal `aea629f` pushed до
+outcome; outcome-free tests `14/14`.
+
+Canonical R1:
+`runs/v36r1_online_expert_20260901T224722Z_156f573c/`; metrics SHA `9812a1fd...`,
+identity SHA `c193c7cf...`, audit SHA `d97aaa82...`; independent audit 11/11. Все
+ledgers complete, critical/unresolved `0`, 3 159/3 159 nonzero targets covered.
+Online primary/doubled/stress CAGR `6,4262%/5,1407%/4,8394%`, primary Sharpe `0,3989`,
+MDD `40,7292%`, positive years `7/13`, worst year `−25,937%`. Static equal primary
+лучше: CAGR `8,1551%`, Sharpe `0,4566`, MDD `39,3230%`; frozen three-sleeve primary
+`6,6055%/0,3949/48,7712%`.
+
+Verdict `NO_GO`: online allocator не превзошёл статическую смесь и не поддерживает ни
+20%, ни 50%. Веса запаздывают за режимами; новый способ смешивания тех же сигналов не
+является новым edge. V36 horizons/signs/eta/decay/cash/risk/leverage/costs и boundary
+repair не менять по этому outcome. Следующий исторический тест обязан добавлять
+независимый механизм дохода или новый point-in-time источник; live trading запрещён.
 
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 

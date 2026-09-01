@@ -736,6 +736,30 @@ Closed target-free schema сохраняет trade/order/depth flow, но зап
 price/VWAP/outcome fields. Три raw response архивируются gzip с SHA; причинная
 доступность никогда не раньше actual retrieval. Token читается только из environment.
 
+### `market_lab.futures.online_expert_ensemble`
+
+Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily
+panel 2008–2025 и обновляет их simplex weights только по завершившейся предыдущей
+неделе. Он также формирует static-equal и frozen-three comparisons, а после безопасного
+1x contract mapping восстанавливает risk multiplier и online cash fraction. Ни epochs,
+ни future labels, ни подбор по calendar segments не используются.
+
+### `market_lab.futures_v36_online_expert_ensemble`
+
+Первичный byte-sealed V36 runner объединяет три panel era и две execution era, запускает
+V29/V26 integer ledger и сохраняет девять сценарных ledgers. Его canonical output
+неизменяем, но economic metrics invalid: derived 2017 execution закончился с открытыми
+Z7 и навсегда заблокировал три assets с 2018 года.
+
+### `market_lab.futures_v36r1_online_expert_boundary`
+
+Исполнение-only boundary correction поверх неизменных V36 economics. Runner byte-
+проверяет official parent daily, outcome-independently выбирает три quarterly Z7,
+восстанавливает 42 factual observation/spec rows за 4–21 декабря 2017 и добавляет один
+детерминированный expiry-flat на open 21 декабря. Signal/model/risk/cost parameters не
+меняются. Identity pin-ит config, R1 runner, V36 parent runner, expert core, spec-proxy
+и все artifacts; corrected canonical ledgers complete, но verdict economic `NO_GO`.
+
 ### `market_lab.futures.curve_regime_intraday`
 
 Outcome-agnostic V32 core. Он строит gap-tolerant признаки четырёх рынков только из

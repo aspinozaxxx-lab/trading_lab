@@ -998,6 +998,35 @@ Source manifest SHA `5a7a4873...`, V35 config SHA `257422c0...`, seal commits
 trades, fixed CAGR `−12,6519%`. Порог, знак, horizon, universe, costs и leverage V35
 не менять на этой history.
 
+### V36 / V36-R1 multi-era online expert ensemble
+
+Оба canonical run уже выполнены и **не должны повторяться**. Исходный V36 invalid из-за
+разрыва execution source, но каталог сохраняется для диагноза:
+
+```text
+runs/v36_online_expert_20260901T223514Z_cb391e44/
+```
+
+R1 был sealed/pushed commit `aea629f` до corrected outcome. Он добавляет только
+официальный December-2017 bridge и deterministic expiry flat, не меняя economics:
+
+```text
+runs/v36r1_online_expert_20260901T224722Z_156f573c/
+```
+
+Read-only audit разрешён:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v36r1_online_expert_boundary `
+  --audit-run .\runs\v36r1_online_expert_20260901T224722Z_156f573c
+```
+
+Config SHA `156f573c...`, metrics SHA `9812a1fd...`, identity SHA `c193c7cf...`, audit
+11/11. Online primary CAGR `6,4262%`, Sharpe `0,3989`, MDD `40,7292%`; static equal
+лучше с CAGR `8,1551%`. Verdict `NO_GO`. Не менять expert signs/horizons, eta/decay,
+cash/risk/leverage/costs или boundary bridge на этой history.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что
