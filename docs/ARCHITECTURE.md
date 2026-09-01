@@ -230,6 +230,8 @@ short SI, weakness — симметрично наоборот, BR zero; три 
 prior 60-session volatility sizing. Date-only source допускается в конце московского дня,
 fill выполняется на следующем factual open, state истекает через семь календарных дней.
 Failed/corrected/supplemental events и ОФЗ-ПК/ИН не получают synthetic zero.
+Sealed V20 run завершён `NO_GO`; этот модуль сохраняется для воспроизводимости, а не как
+основание перебирать знак, thresholds, rank window или expiry на той же истории.
 
 ### `market_lab.futures.futoi_intraday_source`
 

@@ -4,11 +4,17 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V20: Minfin OFZ-PD prior-rank demand strength — sealed, outcome не прочитан
+## V20: Minfin OFZ-PD prior-rank demand strength — NO-GO
 
 - Протокол: [`configs/futures_v20_minfin_ofz_demand_strength.yaml`](../configs/futures_v20_minfin_ofz_demand_strength.yaml)
 - Config SHA-256:
   `788fadbd9c499483c560488a5a3d9d2e95f7e95496e5736ed4465eca889341ed`.
+- Pre-outcome commit: `4e52378`; config, implementation, tests и pending-status docs были
+  pushed до первого чтения RI/MIX/SI outcomes.
+- Canonical run:
+  `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/`
+- Metrics SHA-256:
+  `cbfa0c8803e631697400813d3fb4ba8a2ba2eda00a38cc5114dd652472d33d78`.
 - Новый официальный current-vintage source: 410 Minfin events, 364 primary results и
   283 successful fixed-coupon ОФЗ-ПД rows; processed SHA
   `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480`.
@@ -24,8 +30,28 @@
   factual open. Score живёт до следующего score или семь календарных дней, затем zero.
 - Corrections, failed/cancelled, supplemental, announcement, ОФЗ-ПК и ОФЗ-ИН исключены
   до outcomes. Current-vintage pages не являются original publication vintages.
-- Статус: sealed pre-outcome; 77/77 source/input preflight checks true. До pre-outcome
-  commit/push реальные targets, RI/MIX/SI outcomes и PnL не читать.
+- Source сформировал 179 aggregated auction days: 13 warmup и 166 scored
+  (`28/13/40/37/48` по годам), из них 82 positive, 76 negative и 8 zero. Добавлено
+  29 causal expiry states и 10 roll decisions; 504/504 nonzero execution dependencies
+  полны.
+- Все 86 input/temporal/runtime checks true. Все три ledger complete, 0 critical и
+  unresolved; primary содержит 128 filled legs, costs 1 409,28 RUB, maximum participation
+  0,01358% и maximum gross notional 470 109,58 RUB.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | −5,3468% | −1,0931% | −0,6313 | −6,1937% | 1/5 | 1 409,28 | yes |
+| doubled | −5,4877% | −1,1226% | −0,6473 | −6,2418% | 1/5 | 2 818,57 | yes |
+| stress | −5,4430% | −1,1132% | −0,6434 | −6,1057% | 1/5 | 4 139,14 | yes |
+
+Primary годы: 2021 **−0,01%**, 2022 **−3,95%**, 2023 **−0,29%**,
+2024 **+0,78%**, 2025 **−1,93%**.
+
+Verdict: `NO_GO`. Prior-rank bid-to-cover плюс placed volume не дали cross-asset edge;
+маленькая MDD объясняется умеренным gross, а не положительным expectation. Не
+инвертировать asset signs, не выбирать extreme scores, другой rank window/expiry и не
+добавлять failed/PK/IN по увиденному результату. Source остаётся полезным для иных новых
+заранее обоснованных вопросов и forward vintages, но это семейство score закрыто.
 
 ## V19: CBR-reported Minfin FX-flow persistence для SI — NO-GO
 

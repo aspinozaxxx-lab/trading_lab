@@ -290,9 +290,10 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
 5. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 6. официальный Minfin OFZ corpus собран: 410 events, 364 primary results, все primary
-   fields полны, processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`. V20 уже
-   запечатал один causal OFZ-PD demand-strength test: prior-only ranks, без threshold,
-   outcome не прочитан;
+   fields полны, processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`. V20 causal
+   OFZ-PD demand-strength test завершён `NO_GO`: total return −5,35%, CAGR −1,09%,
+   Sharpe −0,63, MDD −6,19% при полном исполнении. Не подбирать sign, extremes,
+   rank window, expiry и failed/PK/IN по этому outcome;
 7. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

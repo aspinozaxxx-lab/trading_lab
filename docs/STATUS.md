@@ -72,12 +72,13 @@ execution dependencies покрыты, 0 critical/unresolved. Verdict **NO_GO**:
 **+33,97%** в 2025 не компенсирует убытки трёх лет и не разрешает post-outcome отбор
 amount/change days, smoothing, lag или sign flip.
 
-V20 запечатал новый source family без чтения рыночного результата: 283 successful
-ОФЗ-ПД rows агрегируются в 179 auction days, из которых 13 — causal warmup и 166 получают
-prior-only demand-strength score. Высокий bid-to-cover вместе с большим placed volume —
-long RI/MIX и short SI, слабость — обратная корзина; threshold отсутствует, expiry семь
-календарных дней. Config SHA `788fadbd...`, source/input preflight 77/77; outcome ещё не
-прочитан.
+V20 проверил новый Minfin OFZ source family после pre-outcome seal. 283 successful
+ОФЗ-ПД rows дали 166 prior-only scored auction days; demand-strength basket long RI/MIX и
+short SI получил total return **−5,3468%**, CAGR **−1,0931%**, Sharpe **−0,6313%** и
+MDD **−6,1937%**. Все 504 nonzero dependencies покрыты, 0 critical/unresolved. Verdict
+**NO_GO**: низкая просадка при maximum gross 47% не превращает отрицательный expectation
+в стабильный edge. Signs, extreme-score threshold, rank window, expiry и event kinds по
+этому outcome не подбирать.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -95,7 +96,7 @@ long RI/MIX и short SI, слабость — обратная корзина; t
 | V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
-| V20 Minfin OFZ-PD demand strength | Outcome не прочитан; 166 prior-only scored auction days | Sealed; выполнить один run только после pre-outcome push |
+| V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -106,6 +107,33 @@ long RI/MIX и short SI, слабость — обратная корзина; t
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V20 Minfin OFZ demand strength — валидный отрицательный результат
+
+V20 был запечатан и pushed commit `4e52378` до первого чтения RI/MIX/SI outcomes.
+
+- config SHA:
+  `788fadbd9c499483c560488a5a3d9d2e95f7e95496e5736ed4465eca889341ed`;
+- metrics SHA:
+  `cbfa0c8803e631697400813d3fb4ba8a2ba2eda00a38cc5114dd652472d33d78`;
+- canonical run:
+  `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/`;
+- 283 successful ОФЗ-ПД rows агрегированы в 179 auction days: 13 causal warmup и
+  166 scored; 82 positive, 76 negative и 8 zero scores;
+- 29 expiry-to-zero states и 10 roll decisions; 504/504 nonzero execution dependencies
+  complete;
+- primary/doubled/stress total return **−5,35%/−5,49%/−5,44%**;
+- primary CAGR **−1,09%**, Sharpe **−0,631**, MDD **−6,19%**, costs
+  **1 409,28 RUB**, maximum participation **0,01358%**;
+- годы: 2021 **−0,01%**, 2022 **−3,95%**, 2023 **−0,29%**,
+  2024 **+0,78%**, 2025 **−1,93%**;
+- все 86 input/temporal/runtime checks true; все три ledger complete,
+  0 rejected/critical/unresolved.
+
+Последняя source publication — `2025-12-24`; последняя mapped market session —
+`2025-12-30`. Ни price/return/target/PnL 2026 не читались. Прямой prior-rank score
+bid-to-cover плюс placed volume закрыт. Signs, extreme-score threshold, rank window,
+expiry и event kinds нельзя выбирать по увиденному результату.
 
 ## V19 CBR Minfin FX persistence — валидный отрицательный результат
 
@@ -392,9 +420,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 8. Официальный Minfin OFZ source готов: 410 events, 364 primary results, 283 ОФЗ-ПД,
    processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`; все карточки классифицированы
    и primary fields полны. Availability консервативно равна концу publication day.
-9. V20 prior-only demand-strength protocol запечатан: config SHA `788fadbd...`, 77/77
-   preflight true. После pre-outcome push выполнить ровно один canonical run; не менять
-   rank window, basket signs, expiry, threshold или включённые event kinds по outcome.
+9. V20 prior-only demand-strength test завершён `NO_GO`: total return −5,35%,
+   Sharpe −0,63, MDD −6,19%, 504/504 dependencies complete. Не менять rank window,
+   basket signs, expiry, threshold или включённые event kinds по этому outcome.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -452,6 +480,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v17_eia_supply_demand_20260831T234157Z_1d8eee3f/metrics.json`
 - `runs/v18_cbr_liquidity_forecast_20260901T002046Z_ee2d7fd7/metrics.json`
 - `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/metrics.json`
+- `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

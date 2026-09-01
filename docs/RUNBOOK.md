@@ -387,17 +387,19 @@ Canonical V2 содержит 410 events и 364 primary results; manifest SHA н
 
 ### V20 Minfin OFZ-PD prior-rank demand strength
 
-Только после pre-outcome commit/push один immutable run создаётся командой:
+Pre-outcome commit `4e52378` был pushed, после чего один immutable run создан командой:
 
 ```powershell
 .\.venv\Scripts\python.exe -m market_lab.futures_v20_minfin_ofz_demand_strength `
   --output-root D:\Projects\trading_lab_data\runs
 ```
 
-Config SHA должен оставаться `788fadbd...`. До результата запрещено менять prior window
-26/minimum 13, score formula, RI/MIX/SI signs, equal risk budget, seven-day expiry или
-набор successful ОФЗ-ПД. После результата запрещены sign flip, threshold/extreme-only и
-добавление failed/PK/IN на тех же 2021–2025 outcomes.
+Canonical run:
+`runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/`; metrics SHA
+`cbfa0c88...`. Verdict `NO_GO`: primary total return −5,35%, CAGR −1,09%, Sharpe −0,63,
+MDD −6,19%, 504/504 dependencies complete. Config SHA остаётся `788fadbd...`; запрещены
+sign flip, threshold/extreme-only, другой rank window/expiry и добавление failed/PK/IN на
+тех же 2021–2025 outcomes.
 
 ## 5. Новый эксперимент
 
