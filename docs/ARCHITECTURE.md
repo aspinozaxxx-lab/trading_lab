@@ -326,6 +326,17 @@ DataFrame equality. Config SHA `f81b5aaa...` фиксирует один вар�
 commit `34023c1` был pushed до canonical run. V24 дал +38,89%, но Sharpe 0,739 и MDD
 −14,28% оба хуже frozen V12, поэтому verdict `NO_GO`; модуль сохраняется для exact replay.
 
+### `market_lab.futures.stlfsi_source`
+
+Скачивает один server-bounded FRED CSV `STLFSI4` за `2018-01-01..2025-12-31`, сохраняет
+raw response в gzip/base64 с SHA и строит weekly processed frame без заполнения missing.
+Официальная structural boundary равна нулю: positive означает above-average financial
+stress, zero/negative — normal-or-below. Friday-ending observation получает
+консервативный `available_at` только в конец следующего Thursday Chicago, на день позже
+обычного Wednesday update. Canonical V1 содержит 417 rows, 416 доступны до protected
+boundary; raw replay exact. Источник current-vintage и использует нынешнюю Version 4 на
+всей истории, поэтому не является independent PIT confirmation.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

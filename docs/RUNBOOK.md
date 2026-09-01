@@ -503,6 +503,21 @@ Verdict `NO_GO`: primary +38,89%, CAGR 6,79%, Sharpe 0,739, MDD −14,28%; execu
 complete, но Sharpe/MDD хуже V12 и costs выше. Команду выше не повторять для подбора
 вариантов на той же истории.
 
+### FRED STLFSI4 source
+
+Canonical V1 хранится вне Git. Для нового immutable forward snapshot используй новый id:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.stlfsi_source `
+  --output D:\Projects\trading_lab_data\data\processed\info_radar\fred-stlfsi4-<new-id>
+```
+
+Canonical processed SHA `4937b686...`, manifest SHA `1a992f64...`, raw archive SHA
+`d9ebef72...`. Bundle содержит 417 Friday-ending rows, 416 причинно доступны до 2026;
+raw replay exact и не содержит observations 2026. Availability намеренно отложена до
+конца следующего Thursday Chicago. Values copyrighted/citation-required; Version 4
+current-vintage history нельзя называть независимым PIT holdout.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

@@ -83,6 +83,10 @@ identity и должен проверяться перед чтением.
 | FRED/Cboe VIX term-structure coverage | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/coverage.parquet` | `a57e863cbe22734c59f410d9d66b0f0dc4af424f1a7db99edde9f4c3ac2bfc38` |
 | FRED/Cboe VIX term-structure manifest | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/manifest.json` | `0aecc29fdc9181a0af6941fa4f3778487ba0b5d6dedce07aa843b1b0eb32b2d1` |
 | FRED/Cboe VIX term-structure raw responses | `data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2/official_fred_cboe_responses.jsonl.gz` | `d11aa63712a9f4c85f1c6801c4821fcec058af6f617e48cc6c751076a9d247ef` |
+| FRED STLFSI4 financial stress | `data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/stlfsi4.parquet` | `4937b6862e864c0a09202182e09ebe28b8f2eacc40fe0ebc435cca40f054a09c` |
+| FRED STLFSI4 coverage | `data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/coverage.parquet` | `ec5e3aeb0850664906c9ce8a16e3336a539243dc9f8e2c7f6165ab0d6077d9be` |
+| FRED STLFSI4 manifest | `data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/manifest.json` | `1a992f64d9bf05d7bcb55cb2d31de9d0b16477cd1080f4d9da3df136576aa868` |
+| FRED STLFSI4 raw response | `data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/official_fred_stlfsi4_response.jsonl.gz` | `d9ebef723a3d5f795fe1ce94f24f7721eba6e43fe18888b12f036b52eef5c3d1` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -162,6 +166,10 @@ identity и должен проверяться перед чтением.
   server-bounded через `coed=2025-12-31`; пара 2025-12-31 консервативно доступна уже в
   2026 и поэтому исключается из development decisions. Current-vintage history остаётся
   development-only, а copyrighted raw нельзя публиковать без отдельного права.
+- STLFSI4 Friday-ending observation допускается только после `23:59:59 America/Chicago`
+  следующего четверга, то есть через шесть календарных дней и после обычного Wednesday
+  update. State выше/не выше нуля берётся буквально из определения источника; missing не
+  zero. Version 4 и retrieved history current-vintage, original vintages не доказаны.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

@@ -347,6 +347,33 @@ Availability консервативно равна концу Chicago observatio
 redistribution. Единственный sealed V24 дал +38,89%, но не улучшил V12 Sharpe/MDD и
 завершён `NO_GO`; same-history boundary/freshness/scaling tuning закрыт.
 
+### STLFSI4 — недельный глобальный financial-stress state
+
+ФРБ Сент-Луиса описывает STLFSI4 как агрегат 18 weekly series: семь interest-rate,
+шесть yield-spread и пять других финансовых индикаторов. Среднее индекса по истории
+сконструировано равным нулю: positive означает стресс выше среднего, zero — normal,
+negative — ниже среднего. Это даёт structural threshold без calibration по MOEX.
+
+- canonical path:
+  `data/processed/info_radar/fred-stlfsi4-current-vintage-2018-2025-v1/`;
+- 417 Friday-ending rows `2018-01-05..2025-12-26`, missing 0;
+- 416 rows доступны до protected boundary; последняя допустимая observation
+  `2025-12-19`, available `2025-12-26T05:59:59Z`;
+- processed: 15 427 bytes, SHA `4937b686...`;
+- coverage: 6 876 bytes, SHA `ec5e3aeb...`;
+- manifest: 4 215 bytes, SHA `1a992f64...`;
+- raw gzip: 3 670 bytes, SHA `d9ebef72...`; decoded CSV 7 882 bytes, SHA
+  `7ec82dee...`, строк 2026 нет;
+- 66 above-average и 351 normal-or-below rows; OOS 24 positive weeks:
+  20 в 2022, две в 2023 и две в 2025;
+- strict raw decode/hash/parse/build совпадает с processed DataFrame точно.
+
+Availability — конец следующего Thursday Chicago, через шесть дней после Friday-ending
+observation и с однодневным запасом после обычного Wednesday update. Current STLFSI4
+Version 4 применена ретроспективно, original historical vintages и неизменность history
+не доказаны; источник допускается только для adaptive development. NFCI и ANFCI были
+отсеяны source-only: оба дали 0 above-zero weeks в OOS и потому не меняли бы V12.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -375,6 +402,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | CBR household inflation/sentiment | Согласованный потребительский risk-on/off regime для RI/MIX/SI | Release files retrieved сейчас; нужен sealed test и forward vintages | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | V24 NO-GO; новый тест только forward/unseen, source current-vintage/copyrighted | Только complete pair после Chicago day-end и `available_at <= decision_at` |
+| P1 | STLFSI4 via FRED | Редкий broad financial-stress switch для frozen V12 | Bundle готов; Version 4/current-vintage, V25 ещё не sealed | Только после following-Thursday Chicago end и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |

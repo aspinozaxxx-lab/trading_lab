@@ -614,6 +614,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     включая 174 backwardation. V24 был запечатан/pushed до outcome и завершён `NO_GO`:
     +38,89%, Sharpe 0,739, MDD −14,28%, complete execution, но оба stability gates хуже
     V12 и costs выше. Same-history VIX boundary/freshness/scaling tuning закрыт.
+14. Source-only screen отверг NFCI/ANFCI: 0 above-zero OOS weeks означают тождественный
+    V12. STLFSI4 bundle готов: 417 weekly rows, 416 causal до 2026, processed SHA
+    `4937b686...`, manifest SHA `1a992f64...`, strict raw replay exact. В OOS есть 24
+    above-average-stress weeks; V25 ещё не sealed и не имеет права читать MOEX outcome.
 
 ### P2 — разблокировать широкий structural exact execution
 
