@@ -1,0 +1,55 @@
+﻿protocol_id: calendar_spread_economic_v2
+protocol_version: 2
+status: predeclared_after_V1_empty_trade_metric_failure_before_any_reported_outcome
+declared_at_utc: "2026-09-01T13:05:00Z"
+research_only: true
+sealed_before_any_reported_outcome: true
+live_trading_allowed: false
+
+parent_V1:
+  config_path: configs/calendar_spread_v1.yaml
+  config_sha256: e74dab97ab65a28d4fc16f0061952545606ccccd1df7a8c677a8c8bc2af2b3bc
+  implementation_path: src/market_lab/futures/calendar_spread_v1.py
+  implementation_sha256: f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282
+  seal_commit: ee7e311
+  inherited_hypotheses_features_models_splits_portfolio_execution_costs_and_gates: byte_identical
+
+V1_failure:
+  stage: metrics_serialization_after_internal_scenario_computation_before_output_creation
+  exception: AttributeError_numpy_float64_has_no_attribute_loc
+  cause: no_completed_trade_schema_made_DataFrame_get_net_pnl_return_scalar_nan
+  canonical_output_created: false
+  temporary_output_created: false
+  metric_or_return_value_printed: false
+  market_value_printed: false
+  only_exception_and_stack_trace_observed: true
+
+only_delta:
+  scope: empty_trade_metric_schema_adapter
+  behavior: ensure_status_and_net_pnl_are_empty_typed_Series_before_parent_metric_function
+  nonempty_trade_behavior: byte_identical_parent_function
+  signals_changed: false
+  model_changed: false
+  thresholds_or_horizons_changed: false
+  execution_or_accounting_changed: false
+  sizing_capacity_margin_or_costs_changed: false
+  validation_gates_changed: false
+
+output:
+  directory: runs/calendar_spread_economic_2021_2025_v2
+  immutable: true
+  overwrite_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/calendar_spread_v2.py: 9d96dfe361f519fe5311751c7b0c3237db802e54a18e9bc6097e8bb61e29468e
+  src/market_lab/futures/calendar_spread_v1.py: f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282
+  configs/calendar_spread_v1.yaml: e74dab97ab65a28d4fc16f0061952545606ccccd1df7a8c677a8c8bc2af2b3bc
+
+forbidden_after_seal:
+  - modifying_parent_V1_bytes
+  - changing_any_hypothesis_feature_model_threshold_horizon_or_direction
+  - changing_execution_sizing_capacity_margin_costs_or_validation_gates
+  - treating_V2_as_independent_confirmation
+  - reading_any_market_value_timestamp_on_or_after_2026_01_01
+  - overwriting_V1_or_V2_output
+  - live_trading_or_claiming_guaranteed_profit

@@ -535,6 +535,15 @@ lagged volume ног, а full exit causally retry-ится. Три cost scenario
 `f8d0108e...`. Исторической multileg queue нет, поэтому это conservative synchronized-
 leg proxy и development test, не live evidence.
 
+### `market_lab.futures.calendar_spread_v2`
+
+Минимальный wrapper после fail-closed V1 без output. Он загружает и byte-проверяет V1,
+временно подменяет только `_period_metrics`: если completed trades отсутствуют, создаёт
+пустые typed `status` и `net_pnl` Series вместо scalar NaN. Для непустого trade frame
+вызывается исходная V1 функция без изменения. Context всегда восстанавливает parent
+globals, включая exception; resolved protocol и immutable output получают отдельную V2
+identity. Ни signals/MLP, ни ledger/execution/costs/gates wrapper не меняет.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -4,7 +4,23 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-EV1: economic protocol sealed, outcomes pending
+## CALENDAR-SPREAD-EV2: empty-trade metric correction sealed, outcomes pending
+
+- V1 seal commit `ee7e311` был pushed до первого outcome computation. Первый run
+  остановился до создания canonical или temporary output: у одной strategy не было
+  completed trades, поэтому `DataFrame.get("net_pnl")` вернул scalar NaN и metrics
+  reporter завершился с `AttributeError`. В stdout не было ни metric/return, ни market
+  value — только exception и stack trace. V1 bytes не изменяются и run не повторяется.
+- V2 config SHA `e986530265ab6c87c39fbb6315dcb39d1eb80b971ff58d8614bff5966bb4a1eb`,
+  correction module SHA `9d96dfe361f519fe5311751c7b0c3237db802e54a18e9bc6097e8bb61e29468e`.
+  Единственная delta — добавить typed empty `status`/`net_pnl` Series перед parent
+  metric function. При непустых trades функция exact parent-identical; hypotheses,
+  MLP, signals, thresholds, splits, ledger, costs и gates наследуются byte-identical.
+- V2 output отдельный и immutable:
+  `runs/calendar_spread_economic_2021_2025_v2/`. Новый seal должен быть pushed до
+  resumed run; V2 также не является independent confirmation и не разрешает live.
+
+## CALENDAR-SPREAD-EV1: FAILED_CLOSED before output
 
 - Config SHA `e74dab97ab65a28d4fc16f0061952545606ccccd1df7a8c677a8c8bc2af2b3bc`,
   implementation SHA `f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282`.
@@ -29,6 +45,9 @@
   `2024–2025`. Gate primary: CAGR >=10%, Sharpe >=1, MDD <=15%, 2/2 positive years,
   stress positive, >=20 completed trades и complete execution. Это не independent
   confirmation и никогда не разрешает live.
+- Seal commit `ee7e311` был pushed, затем V1 остановился на пустой trade-metric schema
+  до любого output или напечатанного результата. V1 immutable; operational correction
+  вынесена только в V2.
 
 ## CALENDAR-SPREAD-DERIVED-D1: completed source-only panel, no PnL
 

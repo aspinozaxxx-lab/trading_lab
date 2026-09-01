@@ -87,7 +87,11 @@ candidate и 4 366 active rows; locked quotes сохранены flags, обе �
 Он фиксирует 10 стратегий, primary volatile corridor с дальним stop, causal monthly
 cross-asset MLP, equal-quantity long-far/short-near accounting, 1% capacity, gross 1,6x
 и costs 1/2/4 ticks. Внутренняя evaluation — 2024–2025; best-of-ten не считается
-подтверждением. Следующий шаг — push seal, затем один immutable run и полный аудит.
+подтверждением. Seal commit `ee7e311` был pushed, но V1 run остановился до output и до
+любого напечатанного результата на пустой `net_pnl` schema одной strategy. V1 сохранён.
+V2 меняет только empty-Series adapter: config SHA `e9865302...`, module SHA
+`9d96dfe3...`; все economics byte-identical, output отдельный. Следующий шаг — push V2
+seal, затем resumed immutable run и полный аудит.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
