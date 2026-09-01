@@ -1,0 +1,74 @@
+﻿protocol_id: moex_fx_spot_source_v1
+protocol_version: 1
+status: declared_after_schema_and_cursor_probe_before_first_price_read
+scope: historical_source_only_no_signal_no_label_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol:
+  statement: >-
+    A simultaneously executable USD/RUB spot and SI futures basis, net of conservative
+    funding, fees, spread stress and margin capital, may provide a lower-directionality
+    cash-and-carry sleeve that is economically independent of trend forecasts.
+  this_protocol_computes_returns_targets_or_pnl: false
+  reverse_carry_without_proven_usd_borrow: forbidden
+  economic_protocol_requires_separate_commit_before_price_read: true
+
+source:
+  provider: MOEX_ISS
+  endpoint: https://iss.moex.com/iss/history/engines/currency/markets/selt/boards/CETS/securities/USD000UTSTOM.json
+  board: CETS
+  security: USD000UTSTOM
+  from: '2018-01-01'
+  till: '2025-12-31'
+  query: {iss.meta: 'off', start: 0}
+  page_size_observed_in_transport_probe: 100
+  total_rows_observed_in_transport_probe: 2027
+  access_mode: public_historical_current_vintage
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+
+temporal_semantics:
+  protected_ceiling_exclusive: '2026-01-01'
+  row_market_values_available_only_after_that_trading_day: true
+  economic_decisions_may_not_use_same_day_close_low_high_or_waprice: true
+  current_vintage_not_original_historical_vintage: true
+
+required_history_columns:
+  - BOARDID
+  - TRADEDATE
+  - SHORTNAME
+  - SECID
+  - OPEN
+  - LOW
+  - HIGH
+  - CLOSE
+  - NUMTRADES
+  - WAPRICE
+
+quality_gates:
+  exact_board_and_security: true
+  exact_cursor_pagination_no_missing_or_duplicate_index: true
+  unique_trade_date: true
+  all_dates_inside_declared_range_and_before_2026: true
+  raw_replay_exact: true
+  forbidden_derived_columns_absent: true
+
+output:
+  root: data/processed/fx_basis/moex-usdrub-tom-current-vintage-2018-2025-v1
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [return, returns, label, target, prediction, pnl, profit, equity, basis]
+
+future_economic_protocol_requirements:
+  separate_seal_before_reading_market_values: true
+  pair_with_exact_SI_contract_and_maturity: true
+  use_next_session_execution_only: true
+  include_spot_and_futures_fees: true
+  include_bid_offer_stress: true
+  include_margin_and_operational_cash: true
+  compare_against_causal_RUONIA_opportunity_cost: true
+  forbid_unproven_USD_interest_income: true
+  report_capacity_and_conversion_constraints: true
