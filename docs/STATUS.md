@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V21 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V22 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -111,6 +111,7 @@ indicators, oil priority, thresholds, risk/expiry и blend по этому outco
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
+| V22 CBR printed BCI regime | Config SHA `97b2aa74...`; outcome ещё не читался | SEALED; commit/push обязателен до единственного запуска |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -121,6 +122,22 @@ indicators, oil priority, thresholds, risk/expiry и blend по этому outco
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V22 CBR Business Climate Index — запечатан, outcome не читался
+
+V22 использует новую official release-specific информацию и не меняет провалившиеся
+V20/V21 families. Config SHA
+`97b2aa74416eae4ebbce28d018a460f98ade4993cfb086487d28515976c18fbe` фиксирует:
+
+- только знак sequential delta printed one-decimal composite BCI;
+- improvement = long RI/MIX и short SI, decline = обратный знак, BR = zero;
+- 44 releases, 1 warmup, 43 scored, 117 nonzero asset directions;
+- risk budget 1/3 для SI/RI/MIX, prior 60d vol, target 20%, floor 10%, gross `<=1`;
+- 45-day expiry, next factual open, portfolio-atomic execution и costs 1×/2×/stress;
+- exact chart decimals, component selection, thresholds, training и blend запрещены.
+
+Первый market run ещё не создавался. До него implementation/config/tests/pending docs
+должны быть committed и pushed; после просмотра результата параметры менять нельзя.
 
 ## V21 CBR macro revisions — отрицательный и execution-incomplete результат
 
@@ -480,8 +497,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     risk/expiry или blend по этому outcome. December 2025 остаётся исключён.
 11. CBR Business Climate Index bundle готов: 44 releases, 90 raw responses, processed
     SHA `b312f4e5...`, manifest SHA `99ad128b...`; 21 positive, 18 negative и 4 zero
-    sequential changes. До outcome запечатать один V22 direct regime: printed BCI delta,
-    RI/MIX direct и SI inverse, без thresholds или component selection.
+    sequential changes. V22 direct regime уже запечатан SHA `97b2aa74...`; следующий
+    шаг — commit/push без outcomes, затем ровно один canonical run и полный audit.
 
 ### P2 — разблокировать широкий structural exact execution
 

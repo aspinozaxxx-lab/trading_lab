@@ -1,0 +1,304 @@
+﻿protocol_id: futures_v22_cbr_business_climate_regime_v1
+protocol_version: 1
+status: sealed_before_any_v22_market_outcome_read
+declared_at_utc: "2026-09-01T02:50:00Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+parent_v12_protocol_sha256: 0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53
+source_commit_before_protocol: 7fee819
+relationship_to_prior_work: >-
+  New release-specific information family from the official Bank of Russia Business
+  Climate Index. Market outcomes for 2021-2025 were seen in unrelated experiments, and
+  the historical pages were retrieved currently rather than archived at publication;
+  V22 is development evidence and never independent holdout confirmation.
+
+hypothesis:
+  statement: >-
+    A month-to-month improvement in the printed composite Business Climate Index is a
+    domestic risk-on and ruble-strength regime: long RI and MIX and short SI. A decline
+    takes the symmetric direction. The composite is used because it combines current
+    output/demand assessments with expectations and is published as a leading indicator.
+  economic_mechanism:
+    - improving_business_climate_maps_directly_to_RI_and_MIX
+    - improving_business_climate_maps_inversely_to_USD_RUB_futures_SI
+    - composite_printed_release_value_avoids_post_hoc_component_selection
+    - signal_persists_until_next_release_or_fixed_expiry
+  primary_comparison: flat_cash_zero_return
+  contextual_comparison_only: frozen_V12_is_not_changed_or_combined_in_this_run
+  reject_if:
+    - any_source_identity_schema_raw_or_temporal_check_fails
+    - any_release_is_used_before_its_conservative_available_at
+    - same_timestamp_collision_does_not_keep_the_latest_release_month
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - primary_total_return_is_not_positive
+    - doubled_or_stress_total_return_is_not_positive
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - inverting_any_asset_sign
+    - selecting_BCI_magnitude_thresholds_or_scaling
+    - selecting_current_assessments_or_expectations_after_v22_metrics
+    - using_chart_exact_decimals_instead_of_printed_one_decimal_labels
+    - changing_risk_budgets_volatility_target_floor_or_expiry
+    - changing_to_same_day_fill_or_earlier_release_availability
+    - combining_with_V12_or_other_signals_based_on_v22_metrics
+    - presenting_currently_retrieved_pages_as_original_publication_bytes
+
+dates:
+  cbr_source_start: "2022-05-01"
+  cbr_source_end: "2025-12-01"
+  market_source_start: "2018-01-03"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  active_signal_years: [2022, 2023, 2024, 2025]
+  forbidden_from: "2026-01-01"
+  source_timezone: Europe/Moscow
+  market_timezone: Europe/Moscow
+
+inputs:
+  cbr_bci_releases:
+    path: data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/cbr_business_climate_releases.parquet
+    sha256: b312f4e5ed0b0c7cdac2e2112068a5046a8bab4c272aa6f5edda7f03bf026de4
+    bytes: 17471
+    rows: 44
+    allowed_columns:
+      - release_month
+      - release_key
+      - publication_date
+      - last_updated_date
+      - availability_date
+      - available_at
+      - observation_month
+      - bci_value
+      - bci_chart_exact
+      - current_assessments_value
+      - current_assessments_chart_exact
+      - expectations_value
+      - expectations_chart_exact
+      - page_url
+      - pdf_url
+      - retrieved_at_utc
+      - release_specific_current_vintage
+      - modified_after_publication
+  cbr_bci_manifest:
+    path: data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/manifest.json
+    sha256: 99ad128b930b713cdda7988daa25f5dc763005eea768ccd4bd56ef89500835c8
+    bytes: 4216
+  cbr_bci_coverage:
+    path: data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/coverage.parquet
+    sha256: 742e5a5a825952e28c4507b5d248aa5c4044e99ecce3c1cf253ec36312e131e8
+    bytes: 15597
+    rows: 44
+    allowed_columns:
+      - release_month
+      - observation_month
+      - publication_date
+      - last_updated_date
+      - available_at
+      - release_key
+      - page_url
+      - page_bytes
+      - page_sha256
+      - pdf_url
+      - pdf_bytes
+      - pdf_sha256
+      - modified_after_publication
+  cbr_bci_raw_responses:
+    path: data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/official_cbr_business_climate_responses.jsonl.gz
+    sha256: e362918e5554cf4e9ddb25c4378113dadc6129ffaa3b1dbfcb28af06468c2286
+    bytes: 56153797
+    records: 90
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+
+information_set:
+  source_availability: 23_59_59_Europe_Moscow_on_max_publication_and_last_update_date
+  release_join: available_at_must_be_less_than_or_equal_to_decision_at
+  selected_value: printed_one_decimal_composite_BCI_endpoint_only
+  chart_exact_decimals: audit_only_forbidden_in_signal
+  component_values: archived_but_forbidden_in_v22_signal
+  revision_history: immediately_previous_release_month_printed_composite_value
+  observation_month: preserved_separately_may_be_release_or_immediately_prior_month
+  decision_at: end_of_first_factual_MOEX_decision_session_on_or_after_available_local_date
+  execution_not_before: exact_active_contract_open_on_next_factual_effective_date
+  state_between_releases: carry_latest_snapshot_until_next_score_or_45_calendar_day_expiry
+  same_available_at_collision: keep_latest_release_month
+  same_decision_session_collision: keep_latest_causally_available_signal_or_expiry
+  future_columns_forbidden: [open_D_plus_1, return_D_plus_1, target, label, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: cbr_printed_business_climate_sequential_delta_sign
+  formula: current_printed_composite_BCI_minus_immediately_previous_release_printed_composite_BCI
+  directions:
+    SI: {economic_sign: -1, interpretation: improving_BCI_strengthens_RUB}
+    RI: {economic_sign: 1, interpretation: improving_BCI_is_domestic_risk_on}
+    MIX: {economic_sign: 1, interpretation: improving_BCI_is_domestic_risk_on}
+    BR: {economic_sign: 0, interpretation: no_direct_BCI_oil_hypothesis}
+  transform: sign_only_in_negative_zero_positive
+  magnitude_scaling: none
+  threshold: none
+  fit_or_outcome_training: none
+  hyperparameter_search: false
+  expiry_calendar_days: 45
+  sealed_source_counts:
+    releases: 44
+    warmup_releases: 1
+    scored_releases: 43
+    scored_by_release_year: {2022: 7, 2023: 12, 2024: 12, 2025: 12}
+    positive_BCI_deltas: 21
+    negative_BCI_deltas: 18
+    zero_BCI_deltas: 4
+    nonzero_asset_directions: 117
+    source_only_expiry_states: 2
+    prior_month_observation_endpoints: 3
+    modified_after_publication_pages: 1
+    same_available_at_collision_rows: 2
+
+portfolio:
+  universe_exact_order: [SI, RI, BR, MIX]
+  active_signal_assets: [SI, RI, MIX]
+  equal_absolute_risk_budget_each_active_asset: 0.3333333333333333
+  BR_target_always_zero: true
+  daily_volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  annualized_volatility_floor: 0.10
+  annual_target_volatility_each_asset: 0.20
+  maximum_absolute_weight_each_active_asset: 0.3333333333333333
+  target_formula: signal_times_one_third_times_min_1_and_0_20_divided_by_max_prior_60d_vol_and_0_10
+  mandatory_additional_decisions: any_known_active_contract_change_for_nonzero_held_target
+  gross_cap: 1.0
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_weight_times_current_cash_over_lagged_notional
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open
+  execution_atomicity: portfolio
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 1.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  collateral_yield: 0.0
+  terminal_policy: carry_with_terminal_exit_reserve_reported
+  missing_or_unprovable: reject_or_unresolved_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+    cbr_original_historical_response_bytes: unavailable
+    cbr_exact_intraday_publication_times: unavailable
+    cbr_historical_content_immutability: not_cryptographically_proved
+
+validation:
+  scheme: fixed_development_OOS_after_source_only_causal_warmup
+  source_history: "2022-05..2025-12_release_specific_current_retrieval"
+  signal_warmup: first_release_has_no_position
+  market_warmup: "2018-01-03..2020-12-31"
+  oos: "2021-01-01..2025-12-31"
+  active_signal_years: "2022..2025"
+  model_training: none
+  parameter_selection_on_oos: forbidden
+  protected_2026_price_or_outcome_read: forbidden
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_and_temporal_check_true
+    - exactly_43_scored_releases_and_117_nonzero_asset_directions
+    - all_three_scenarios_execution_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_cagr_at_least_0_05
+    - primary_sharpe_at_least_0_75
+    - primary_maximum_drawdown_at_most_0_20
+    - primary_positive_active_years_at_least_3_of_4
+    - doubled_total_return_positive
+    - stress_total_return_positive
+    - no_gross_participation_or_margin_breach
+  independent_confirmation_required: true
+
+reporting:
+  required_artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - source_releases.parquet
+    - source_signals.parquet
+    - source_decisions.parquet
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md

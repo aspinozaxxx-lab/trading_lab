@@ -261,6 +261,17 @@ V12. Протокол SHA `5d97fd51...` был запечатан до outcome. 
 `NO_GO`: mechanical return отрицателен, а RI/MIX roll `2022-03-24` не имел доказуемого
 lagged volume, поэтому portfolio-atomic ledger честно остался incomplete.
 
+### `market_lab.futures_v22_cbr_business_climate_regime`
+
+Проверяет один заранее объявленный regime: знак изменения printed composite BCI между
+последовательными release months. Improvement задаёт long RI/MIX и short SI; decline —
+обратные направления, BR zero. В signal запрещены exact chart decimals и отдельный выбор
+current-assessment/expectations. Даты publication/revision схлопываются только через
+консервативный `available_at`; same-time collision оставляет последний release month.
+Три active legs имеют по 1/3 risk budget, prior 60-session volatility и 45-day expiry;
+next-open mapper и portfolio-atomic ledger унаследованы от frozen V12 infrastructure.
+Config SHA `97b2aa74...` запечатан до первого V22 outcome.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -4,6 +4,38 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V22: CBR printed Business Climate Index regime — SEALED, OUTCOME NOT READ
+
+- Протокол:
+  [`configs/futures_v22_cbr_business_climate_regime.yaml`](../configs/futures_v22_cbr_business_climate_regime.yaml)
+- Config SHA-256:
+  `97b2aa74416eae4ebbce28d018a460f98ade4993cfb086487d28515976c18fbe`.
+- Source был независимо собран и pushed commit `7fee819` до создания протокола: 44
+  release-specific страницы и PDF за `2022-05..2025-12`, processed SHA `b312f4e5...`,
+  manifest SHA `99ad128b...`, 90/90 raw responses прошли byte/SHA/reparse audit.
+- На момент этого seal ни RI/MIX/SI outcomes V22, ни canonical run не читались и не
+  создавались. Первый запуск запрещён до отдельного commit/push implementation, config,
+  tests и этого pending-status.
+- Единственный signal — знак последовательного изменения one-decimal composite BCI,
+  напечатанного на endpoint страницы конкретного выпуска. Chart exact decimals, текущие
+  оценки и ожидания сохранены для аудита, но исключены из V22 signal.
+- Улучшение BCI заранее означает long RI/MIX и short SI; ухудшение — симметрично наоборот,
+  exact zero — cash. BR всегда zero. Threshold, magnitude scaling, fitting и search нет.
+- Source-only seal: 44 releases, 1 warmup, 43 scored (`7/12/12/12`), 21 positive,
+  18 negative и 4 zero delta, 117 nonzero asset directions и два expiry states.
+- Availability — конец московского дня более поздней из publication/last-update dates.
+  Две строки с одинаковым `available_at` `2022-11-24` обязаны оставить November release;
+  три prior-month chart endpoints хранятся отдельно от release month.
+- Три active legs имеют фиксированный risk budget 1/3, prior 60-session volatility,
+  target 20%, floor 10%, gross `<=1`. State живёт до следующего release или 45 дней.
+  Fill — только следующий factual active-contract open; ledger portfolio-atomic.
+- Promotion требует complete execution во всех cost scenarios, 0 critical/unresolved,
+  CAGR `>=5%`, Sharpe `>=0,75`, MDD `<=20%`, 3/4 positive active years и положительный
+  doubled/stress result. Даже GO разрешит только новую unseen validation, не live.
+
+Forbidden after outcome: sign inversion, BCI threshold/magnitude tuning, component
+selection, exact-decimal use, risk/expiry changes и blend с V12 на этой же истории.
+
 ## V21: CBR next-year macro revision breadth — NO-GO
 
 - Протокол: [`configs/futures_v21_cbr_macro_revision_breadth.yaml`](../configs/futures_v21_cbr_macro_revision_breadth.yaml)
