@@ -1,0 +1,85 @@
+﻿protocol_id: moex_curve_coefficient_regime_source_v1
+protocol_version: 1
+status: sealed_before_first_coefficient_aggregate_value
+declared_at_utc: "2026-09-01T23:30:00Z"
+scope: source_derived_no_prices_no_T_no_returns_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_separate_economic_test:
+  statement: >-
+    Robust cross-series distributions and changes of raw MOEX curve coefficients across
+    RI, MIX, SI and BR may identify joint risk regimes that improve a gap-tolerant market
+    strategy without requiring an unverifiable maturity mapping.
+  this_protocol_computes_returns_targets_strategy_or_pnl: false
+  this_protocol_claims_ATM_or_constant_maturity_volatility: false
+
+parent_catalog:
+  source_id: official-moex-volatility-curve-archive-catalog-v2
+  directory: data/processed/options/moex-volatility-curve-archive-catalog-v2
+  manifest_path: manifest.json
+  manifest_bytes: 2841
+  manifest_sha256: 5d6e97b575dd0e97ebcf59c3101d2ede65efc0076ec20b985decdf6a8ae05630
+  catalog_path: archive_coverage.json
+  catalog_bytes: 15445
+  catalog_sha256: add6c5d519ab06e0123af941ce4806de0eb5bf5c3a3baa9ce6cecbdccabb1cd3
+  raw_archive_path: raw/202108_202405.zip
+  raw_archive_bytes: 5258970
+  raw_archive_sha256: 67a33666902a14e1c8ee6ceac01f1980021890087fb0a3271c5d2060fab51794
+  raw_member_name: "volat coeffs 08 2021 - 05 2024.csv"
+  raw_member_bytes: 22351469
+  raw_member_crc32: 86e389a4
+
+source_semantics:
+  exact_columns_read: [SESS_ID, A, B, C, D, E, S, OPTION_SERIES_ID, FUT_ISIN_ID, ISIN, BEGIN]
+  explicitly_not_read: SETTLEMENT_PRICE_OPEN
+  event_at: BEGIN_Europe_Moscow
+  available_at: event_at_plus_one_minute
+  source_is_historical_archive: true
+  original_live_delivery_vintage_proved: false
+  one_late_event_preserved: "2023-09-13T13:30:00+03:00"
+
+transform:
+  asset_order: [RI, MIX, SI, BR]
+  coefficients: [s, a, b, c, d, e]
+  robust_statistics: [median, q25, q75, iqr, mad]
+  quantile_interpolation: linear
+  delta: current_median_minus_previous_source_event_median
+  series_counts: [series_count, underlying_isin_count, series_count_delta]
+  cross_asset_context: all_four_assets_wide_plus_cross_asset_median_and_dispersion
+  maturity_interpretation: forbidden
+  price_field_used: false
+  missing_policy: preserve_first_delta_as_missing_no_zero_fill
+
+quality_gates:
+  exact_archive_rows: 191197
+  exact_core_rows: 25172
+  exact_events: 686
+  exact_long_rows: 2744
+  exact_wide_rows: 686
+  each_asset_has_all_events: true
+  duplicate_event_series_zero: true
+  missing_or_nonfinite_coefficients_zero: true
+  forbidden_price_T_outcome_columns_zero: true
+  all_events_before: "2026-01-01"
+
+output:
+  directory: data/processed/options/moex-curve-coefficient-regime-2021-2024-v1
+  immutable: true
+  overwrite_allowed: false
+  data_in_git: false
+
+forbidden_after_build:
+  - interpreting_raw_coefficients_as_ATM_or_constant_maturity_volatility
+  - loading_or_using_SETTLEMENT_PRICE_OPEN
+  - deriving_T_or_expiry_from_contract_text
+  - choosing_statistics_assets_dates_or_changes_by_market_returns_or_pnl
+  - changing_the_transform_after_viewing_aggregate_values
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_volatility_curve_archive_catalog.py: 636d8c011272f10eeea7ba95c44eeb5c99f301231e8527f1c56262e5dc743020
+  src/market_lab/futures/moex_volatility_curve_archive_catalog_v2.py: e8d07ca829946e2fb2d4f0ba1e1015a77ea3f00c1f797f05b45a251010bb4627
+  src/market_lab/futures/moex_curve_coefficient_regime_source.py: 0307baf84a71fc6e96bb6a79d464296e9566e97b2b6e5e4743e9431781c56b40
