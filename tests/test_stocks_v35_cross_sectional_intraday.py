@@ -130,3 +130,21 @@ def test_source_preflight_reads_only_metadata_contract() -> None:
     assert all(result["checks"].values())
     assert result["ticker_count"] == 30
     assert result["maximum_timestamp"].startswith("2025-12-30")
+
+
+def test_parquet_timestamp_may_decode_as_pandas_index(tmp_path: Path) -> None:
+    path = tmp_path / "indexed.parquet"
+    frame = pd.DataFrame(
+        {
+            "open": [1.0],
+            "close": [1.0],
+            "value": [1000.0],
+        },
+        index=pd.DatetimeIndex([pd.Timestamp("2025-12-30T10:00:00Z")], name="timestamp"),
+    )
+    frame.to_parquet(path)
+
+    decoded = pd.read_parquet(path, columns=["timestamp", "open", "close", "value"])
+
+    assert "timestamp" not in decoded.columns
+    assert decoded.index.name == "timestamp"

@@ -156,7 +156,13 @@ def load_panel(config: dict[str, Any], project_root: Path) -> StockPanel:
         if sha256_file(path) != item["sha256"]:
             raise ValueError(f"V35 data SHA mismatch for {ticker}")
         frame = pd.read_parquet(path, columns=["timestamp", "open", "close", "value"])
-        timestamp = pd.DatetimeIndex(pd.to_datetime(frame.pop("timestamp"), utc=True))
+        if "timestamp" in frame.columns:
+            timestamp_values = frame.pop("timestamp")
+        elif frame.index.name == "timestamp":
+            timestamp_values = frame.index
+        else:
+            raise ValueError(f"timestamp missing after Parquet decode for {ticker}")
+        timestamp = pd.DatetimeIndex(pd.to_datetime(timestamp_values, utc=True))
         if len(timestamp) and timestamp.max() >= PROTECTED_BOUNDARY:
             raise ValueError("protected timestamp decoded by V35")
         if timestamp.has_duplicates or not timestamp.is_monotonic_increasing:
