@@ -4,6 +4,17 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## PRE2018-MACRO-S1: STLFSI4/RUONIA/key rate — sealed, collection pending
+
+- Config SHA `3daa3c40...`, implementation SHA `6fcb5318...`; source-only collector не
+  имеет доступа к MOEX outcomes.
+- Exact bounded requests `2012-01-01..2017-12-31`: official FRED STLFSI4 CSV, official
+  CBR RUONIA HTML with publication dates, official CBR KeyRateXML SOAP.
+- Conservative availability byte-identical по смыслу V25/V27/V15; rows available from
+  2018 onward excluded, missing preserved, raw response bytes/hashes mandatory.
+- Первый HTTP request и immutable output разрешены только после pre-source push. После
+  collection нужен raw replay audit и отдельный V28 pre-outcome seal.
+
 ## MOEX-PRE2018-D3: gap-aware official-cycle source — completed
 
 - Config SHA `d21dd650...`, implementation SHA `c04d8224...`; полностью наследует

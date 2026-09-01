@@ -68,6 +68,14 @@ D3 SHA `d21dd650...` сохраняет D2 byte-identical и pin-ит единс
 `d7cecd86...`; 1 479 common sessions и 16 explicitly invalid/masked active rows.
 Outcome columns, zero-imputation и PnL до отдельного V28 seal запрещены.
 
+Macro source S1 `configs/pre2018_macro_source.yaml` (SHA `3daa3c40...`) фиксирует до
+первого HTTP request три bounded external series: FRED STLFSI4, CBR RUONIA и CBR key
+rate. Processed `available_at` обязан быть строго до `2018-01-01 Europe/Moscow`; raw
+bytes/hash сохраняются во внешнем immutable bundle
+`data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v1/`. Current-vintage
+STLFSI4 не является доказанным original historical vintage. Ни macro source, ни D3 не
+разрешены для PnL до отдельного V28 seal.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

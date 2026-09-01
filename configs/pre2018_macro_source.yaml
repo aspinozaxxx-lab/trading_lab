@@ -1,0 +1,112 @@
+﻿protocol_id: pre2018_macro_source_v1
+protocol_version: 1
+status: predeclared_after_D3_before_first_macro_HTTP_request
+declared_at_utc: "2026-09-01T07:38:46Z"
+scope: source_only_no_market_outcomes
+research_only: true
+sealed_before_source_responses: true
+live_trading_allowed: false
+
+purpose: >-
+  Acquire the exact external information required to replay frozen V27 on the new
+  2012-2017 market period: current-vintage STLFSI4, official RUONIA with publication
+  dates, and official CBR key-rate history. The collector cannot read MOEX prices,
+  returns, targets, labels, strategy decisions, equity, or PnL.
+
+request_bounds:
+  from: "2012-01-01"
+  through: "2017-12-31"
+  protected_from: "2018-01-01"
+  server_side_bounded: true
+  processed_available_at_must_be_before_protected_from: true
+
+sources:
+  stlfsi4:
+    provider: Federal Reserve Bank of St. Louis via FRED
+    series_id: STLFSI4
+    url: >-
+      https://fred.stlouisfed.org/graph/fredgraph.csv?id=STLFSI4&cosd=2012-01-01&coed=2017-12-31
+    method: GET
+    expected_frequency: weekly_ending_Friday
+    current_vintage: true
+  ruonia:
+    provider: Bank of Russia
+    url: >-
+      https://www.cbr.ru/hd_base/ruonia/dynamics/?UniDbQuery.From=01.01.2012&UniDbQuery.Posted=True&UniDbQuery.To=31.12.2017
+    method: GET
+    expected_schema_columns: 11
+  key_rate:
+    provider: Bank of Russia
+    url: https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx
+    method: POST
+    soap_action: http://web.cbr.ru/KeyRateXML
+    request_body_bytes: 374
+    request_body_sha256: 22193155200bf3676bd93ce33d05345866f483050dd48238a405d581c84358d0
+
+minimum_coverage:
+  stlfsi_complete_rows: 300
+  ruonia_rows: 1200
+  key_rate_rows: 800
+  exact_counts_selected_after_response: forbidden
+
+availability:
+  STLFSI4: Thursday_23_59_59_America_Chicago_after_Friday_plus_6_calendar_days
+  RUONIA: publication_date_plus_one_calendar_day_00_00_Europe_Moscow
+  key_rate: effective_date_plus_one_calendar_day_00_00_Europe_Moscow
+  admissible_join: latest_available_at_less_than_or_equal_to_decision_at
+  same_day_assumption: forbidden
+  missing_or_stale_policy: preserve_for_later_frozen_V27_cash_rule
+
+value_semantics:
+  STLFSI4_structural_boundary: 0.0
+  STLFSI4_above_zero: above_average_financial_market_stress
+  STLFSI4_at_or_below_zero: normal_or_below_average_stress
+  RUONIA_units: percent_per_annum
+  key_rate_units: percent_per_annum
+  strategy_threshold_fit: none
+
+output:
+  directory: data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v1
+  immutable: true
+  overwrite_allowed: false
+  artifacts:
+    - stlfsi4.parquet
+    - cbr_monetary.parquet
+    - coverage.parquet
+    - official_macro_responses.jsonl.gz
+    - manifest.json
+    - manifest.sha256
+
+implementation_dependencies:
+  src/market_lab/futures/pre2018_macro_source.py: 6fcb531825522d3196612d22adc83f92fd1ffc9e692f26292f15e9ff7883673a
+  src/market_lab/futures/info_radar.py: f155c276ba7bd77475e2e4775a74181f9f4912ba6b28b2fe90cf62c51ed349a6
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_and_content_contract:
+  raw_request_observation_end: "2017-12-31"
+  processed_available_at_end_exclusive: "2018-01-01 Europe/Moscow"
+  missing_values_are_zero: false
+  current_vintage_flag_required: true
+  raw_response_bytes_and_hashes_required: true
+  contains_MOEX_prices_returns_targets_labels_or_pnl: false
+
+limitations:
+  STLFSI4_original_historical_vintage_available: false
+  STLFSI4_methodology_revision_risk: true
+  CBR_exact_intraday_publication_timestamp_available: false
+  CBR_conservative_calendar_lag_used: true
+  independent_market_period_but_not_original_macro_vintage: true
+  broker_or_exchange_execution_evidence: false
+  live_admission_possible: false
+
+rights:
+  FRED_series_copyright_and_citation_apply: true
+  CBR_source_citation_required: true
+  raw_archive_outside_git: true
+  redistribution_authorized_by_this_protocol: false
+
+forbidden_after_seal:
+  - changing_dates_series_threshold_or_availability_after_source_or_market_outcome
+  - adding_any_market_price_return_target_label_signal_equity_or_pnl_input
+  - filling_missing_macro_values_with_zero
+  - overwriting_the_output_bundle

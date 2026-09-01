@@ -425,6 +425,13 @@ quarter cycle для Si/RTS/MIX и month cycle для BR, а
 SHA `3ab20092...`: 1 479 common sessions, exact 22/23/70/23 roll и ноль unresolved
 roll/exit; strategy outcome не читался.
 
+Для frozen governors/collateral подготовлен отдельный bounded macro collector:
+[FRED STLFSI4](https://fred.stlouisfed.org/series/STLFSI4),
+[CBR RUONIA dynamics](https://www.cbr.ru/hd_base/ruonia/dynamics/) и official CBR
+KeyRateXML. S1 SHA `3daa3c40...` фиксирует request bounds, raw archive и conservative
+availability до HTTP. Ограничение существенное: STLFSI4 — current-vintage history, а не
+архив оригинальных weekly vintages; это нужно явно учитывать в verdict V28.
+
 После успешного D3 derived-source и отдельного V28 seal этот период можно использовать
 как новую независимую проверку byte-identical V27 trend/capital/execution path. Он не
 проверит уникальное

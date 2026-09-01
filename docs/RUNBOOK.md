@@ -643,6 +643,27 @@ SHA/rows, exact rolls и maximum session; returns/PnL запрещены до о
 Canonical D3 уже завершён: manifest SHA `3ab20092...`, 5 916 panel rows, 28 797
 contract/spec rows, unresolved roll/exit = 0. Команду build повторно не запускать.
 
+### Sealed pre-2018 macro source
+
+S1 config SHA `3daa3c40...`, implementation SHA `6fcb5318...`. До первого HTTP request
+code/config/tests должны быть committed и pushed:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_pre2018_macro_source.py tests/test_futures_info_radar.py `
+  tests/test_encoding.py
+.\.venv\Scripts\ruff.exe check `
+  src/market_lab/futures/pre2018_macro_source.py `
+  tests/test_pre2018_macro_source.py
+.\.venv\Scripts\python.exe -m market_lab.futures.pre2018_macro_source `
+  --config .\configs\pre2018_macro_source.yaml
+```
+
+Default immutable output:
+`data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v1/`. После collection
+replay all three raw records, hashes, bounds and availability; не читать strategy
+returns/PnL до отдельного V28 seal.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

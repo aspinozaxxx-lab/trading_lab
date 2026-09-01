@@ -414,6 +414,15 @@ daily/roll counts и ноль unresolved roll/exit до atomic publication. Prot
 превращается в synthetic return. Canonical D3 manifest SHA `3ab20092...`; все exact
 gates прошли, unresolved roll/exit отсутствуют.
 
+### `market_lab.futures.pre2018_macro_source`
+
+Отдельный source-only collector внешних режимов для unseen 2012–2017. Он server-bounds
+FRED STLFSI4 и official CBR RUONIA/KeyRateXML, архивирует три exact raw responses,
+пересчитывает conservative `available_at`, сохраняет missing и публикует immutable
+Parquet/manifest bundle. Processed availability физически ограничена до 2018; schema
+fail-closed запрещает price/return/target/signal/equity/PnL columns. Protocol S1 SHA
+`3daa3c40...`; источник не является strategy outcome.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical
