@@ -93,6 +93,14 @@ Sharpe **−0,0788**, MDD **−18,7868%** и 3/5 положительных ле
 поэтому все ledger incomplete с двумя critical failures. Verdict **NO_GO**; знаки,
 indicators, oil priority, thresholds, risk/expiry и blend по этому outcome не подбирать.
 
+V22 проверил новый release-specific Business Climate Index после pre-outcome commit
+`eb0891a`. Результат впервые после серии V17–V21 положителен во всех cost scenarios:
+primary total **+13,3661%**, CAGR **2,5411%**, Sharpe **0,3569**, MDD **−8,8570%**.
+Но положительны только 2023/2024, а 2024 дал почти всю прибыль; sealed CAGR/Sharpe/3-of-4
+year gates не пройдены. Execution полностью доказан: 153/153 dependencies, 0 rejected,
+critical и unresolved. Verdict **NO_GO**; BCI thresholds, components, exact decimals,
+signs, risk/expiry и blend по этому outcome не подбирать.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -111,7 +119,7 @@ indicators, oil priority, thresholds, risk/expiry и blend по этому outco
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
-| V22 CBR printed BCI regime | Config SHA `97b2aa74...`; outcome ещё не читался | SEALED; commit/push обязателен до единственного запуска |
+| V22 CBR printed BCI regime | +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86%; complete | Положительный, но нестабильный и ниже gates; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -123,7 +131,7 @@ indicators, oil priority, thresholds, risk/expiry и blend по этому outco
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
 
-## V22 CBR Business Climate Index — запечатан, outcome не читался
+## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
 V22 использует новую official release-specific информацию и не меняет провалившиеся
 V20/V21 families. Config SHA
@@ -136,8 +144,22 @@ V20/V21 families. Config SHA
 - 45-day expiry, next factual open, portfolio-atomic execution и costs 1×/2×/stress;
 - exact chart decimals, component selection, thresholds, training и blend запрещены.
 
-Первый market run ещё не создавался. До него implementation/config/tests/pending docs
-должны быть committed и pushed; после просмотра результата параметры менять нельзя.
+Pre-outcome commit `eb0891a`; canonical run
+`runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/`, metrics SHA
+`10d7b0bf1b84d46b7cfe6fac784ba8e279bd22bd277fa76c2c8f51238f274214`.
+
+- 43 mapped signal/expiry states, одна корректная October/November collision и 13 rolls;
+- 224 target rows, 153/153 nonzero dependencies complete;
+- primary/doubled/stress return **+13,37%/+12,88%/+11,96%**;
+- primary CAGR **2,54%**, Sharpe **0,357**, MDD **−8,86%**, costs **4 873,13 RUB**;
+- годы: 2021 **0,00%**, 2022 **−3,78%**, 2023 **+1,52%**,
+  2024 **+20,84%**, 2025 **−3,96%**;
+- все 91 checks true, все 17 declared artifacts повторно сверены, market outputs
+  заканчиваются `2025-12-30`.
+
+Verdict `NO_GO`: execution и costs выдержаны, но CAGR/Sharpe/positive-active-years нет.
+После просмотра результата параметры менять нельзя; новый тест требует нового источника
+или forward history.
 
 ## V21 CBR macro revisions — отрицательный и execution-incomplete результат
 
@@ -173,7 +195,8 @@ release-specific страницы и 44 PDF за `2022-05..2025-12`, processed S
 manifest SHA `99ad128b...`. Сохранены сводный BCI, текущие оценки и ожидания; 90/90 raw
 responses повторно прошли byte/SHA audit. Availability использует конец более поздней из
 publication/last-update dates, а same-time collision оставляет более новый release month.
-Источник готов для одного predeclared V22, но не для независимого подтверждения.
+Sealed V22 direct-delta уже завершён положительным, но слабым `NO_GO`; источник остаётся
+development-only и требует forward snapshots для независимого подтверждения.
 
 ## V20 Minfin OFZ demand strength — валидный отрицательный результат
 
@@ -497,8 +520,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     risk/expiry или blend по этому outcome. December 2025 остаётся исключён.
 11. CBR Business Climate Index bundle готов: 44 releases, 90 raw responses, processed
     SHA `b312f4e5...`, manifest SHA `99ad128b...`; 21 positive, 18 negative и 4 zero
-    sequential changes. V22 direct regime уже запечатан SHA `97b2aa74...`; следующий
-    шаг — commit/push без outcomes, затем ровно один canonical run и полный audit.
+    sequential changes. V22 direct regime завершён `NO_GO`: +13,37%, Sharpe 0,36,
+    MDD −8,86%, complete execution. Не подбирать threshold/components/sign/risk/expiry;
+    следующий PnL допускается только с новой независимой информацией или forward period.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -558,6 +582,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/metrics.json`
 - `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/metrics.json`
 - `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/metrics.json`
+- `runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

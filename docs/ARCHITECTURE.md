@@ -270,7 +270,9 @@ current-assessment/expectations. Даты publication/revision схлопыва�
 консервативный `available_at`; same-time collision оставляет последний release month.
 Три active legs имеют по 1/3 risk budget, prior 60-session volatility и 45-day expiry;
 next-open mapper и portfolio-atomic ledger унаследованы от frozen V12 infrastructure.
-Config SHA `97b2aa74...` запечатан до первого V22 outcome.
+Config SHA `97b2aa74...` был запечатан до outcome. Canonical V22 полностью исполним и
+положителен после costs, но CAGR 2,54%, Sharpe 0,36 и только 2/4 positive active years
+дали `NO_GO`; модуль сохраняется для воспроизводимости, а не для threshold tuning.
 
 ### `market_lab.futures.futoi_intraday_source`
 

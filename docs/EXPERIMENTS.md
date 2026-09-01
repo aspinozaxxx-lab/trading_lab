@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V22: CBR printed Business Climate Index regime — SEALED, OUTCOME NOT READ
+## V22: CBR printed Business Climate Index regime — NO-GO
 
 - Протокол:
   [`configs/futures_v22_cbr_business_climate_regime.yaml`](../configs/futures_v22_cbr_business_climate_regime.yaml)
@@ -13,9 +13,12 @@
 - Source был независимо собран и pushed commit `7fee819` до создания протокола: 44
   release-specific страницы и PDF за `2022-05..2025-12`, processed SHA `b312f4e5...`,
   manifest SHA `99ad128b...`, 90/90 raw responses прошли byte/SHA/reparse audit.
-- На момент этого seal ни RI/MIX/SI outcomes V22, ни canonical run не читались и не
-  создавались. Первый запуск запрещён до отдельного commit/push implementation, config,
-  tests и этого pending-status.
+- Pre-outcome commit: `eb0891a`; implementation, config, tests и pending-status были
+  pushed до первого чтения RI/MIX/SI outcomes.
+- Canonical run:
+  `runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/`.
+- Metrics SHA-256:
+  `10d7b0bf1b84d46b7cfe6fac784ba8e279bd22bd277fa76c2c8f51238f274214`.
 - Единственный signal — знак последовательного изменения one-decimal composite BCI,
   напечатанного на endpoint страницы конкретного выпуска. Chart exact decimals, текущие
   оценки и ожидания сохранены для аудита, но исключены из V22 signal.
@@ -35,6 +38,29 @@
 
 Forbidden after outcome: sign inversion, BCI threshold/magnitude tuning, component
 selection, exact-decimal use, risk/expiry changes и blend с V12 на этой же истории.
+
+Все 91 input/source/temporal/runtime checks true. Из 43 scored releases получено 43
+mapped states; October 2022 корректно superseded November при одинаковом availability,
+terminal expiry 2026 остался `no_future_active_decision_session`. Добавлено 13 causal
+roll decisions, 224 target rows и 153 nonzero dependencies; coverage **153/153**.
+Все три ledger complete, 147 filled legs, 0 rejected, 0 critical/unresolved. Maximum
+participation **0,12048%**, maximum gross notional **938 731,05 RUB**.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | +13,3661% | 2,5411% | 0,3569 | −8,8570% | 2/5 | 4 873,13 | yes |
+| doubled | +12,8788% | 2,4528% | 0,3454 | −8,9610% | 2/5 | 9 746,26 | yes |
+| stress | +11,9558% | 2,2846% | 0,3248 | −9,1829% | 2/5 | 15 090,51 | yes |
+
+Primary годы: 2021 **0,00%**, 2022 **−3,78%**, 2023 **+1,52%**,
+2024 **+20,84%**, 2025 **−3,96%**. Terminal carry reserve **34,65 RUB** оставляет
+post-reserve total return **+13,3627%**.
+
+Verdict: `NO_GO`. Сигнал положителен во всех cost scenarios и заметно ограничивает MDD,
+но не проходит sealed CAGR, Sharpe и 3/4 positive-active-years gates; результат слишком
+сильно сосредоточен в 2024. Это полезнее отрицательных V17–V21, но ещё не стабильный
+доход. Direct printed-BCI delta family закрыта для same-history tuning; продолжение
+требует нового forward периода или заранее иной независимой информации.
 
 ## V21: CBR next-year macro revision breadth — NO-GO
 

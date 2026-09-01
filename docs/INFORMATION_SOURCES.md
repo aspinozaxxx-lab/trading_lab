@@ -275,7 +275,10 @@ cross-series bridge. Он завершён `NO_GO`: mechanical return −3,17%, 
 поздней из header publication date и footer last-updated date. Исторические страницы
 получены сейчас, original bytes времени публикации не доказаны, поэтому источник годится
 только для одного заранее запечатанного development challenger; независимое подтверждение
-потребует forward snapshots.
+потребует forward snapshots. Единственный sealed V22 direct-delta test уже завершён
+`NO_GO`: total return +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86% при полном execution.
+Положительный результат сосредоточен в 2024 и не разрешает same-history threshold,
+component, exact-decimal, sign, risk/expiry или blend selection.
 
 ### Уже использованные источники
 
@@ -365,9 +368,9 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    2026. V21 direct revisions завершён `NO_GO`: −3,17%, Sharpe −0,08, 2 critical;
    same-history signs/indicators/oil priority/threshold/risk/expiry tuning закрыт;
 8. CBR Business Climate Index bundle готов: 44 versioned releases, 90 raw responses,
-   processed SHA `b312f4e5...`, manifest SHA `99ad128b...`. Следующий новый PnL — один
-   predeclared V22 по последовательному изменению printed BCI; exact chart decimals и
-   текущие оценки/ожидания не использовать для post-hoc отбора;
+   processed SHA `b312f4e5...`, manifest SHA `99ad128b...`. V22 direct printed-delta
+   завершён `NO_GO`: +13,37%, CAGR 2,54%, Sharpe 0,36, 2/4 positive active years при
+   полном execution. Exact decimals/components/signs/risk/expiry не подбирать;
 9. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.
