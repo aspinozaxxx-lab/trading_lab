@@ -477,6 +477,26 @@ forward-fill missing pairs. V1 не использовать: parquet timestamp 
 strict replay. Canonical V2 processed SHA `6ffe7daa...`, manifest SHA `0aecc29fd...`.
 Raw значения copyrighted/citation-required и остаются во внешнем хранилище.
 
+### Sealed V24 daily VIX/VIX3M governor
+
+Protocol SHA `f81b5aaa...` разрешает ровно один adaptive development run. До запуска
+убедись, что protocol commit уже pushed, а source bundle V2 не изменён:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest `
+  tests/test_futures_v24_cboe_vix_term_structure_governor.py `
+  tests/test_cboe_vix_term_structure_source.py tests/test_encoding.py -q
+git status --short --branch
+.\.venv\Scripts\python.exe -m market_lab.futures_v24_cboe_vix_term_structure_governor `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Ожидаемый pre-outcome state seal: all `2 024` decisions = `1 785` pass, `167`
+backwardation cash, `72` missing/stale cash; OOS `1270` = `1170/53/47`. Любое
+несовпадение останавливает run. После первого результата нельзя менять ratio boundary,
+четырёхдневную freshness, binary scale или добавлять VIX level/percentile variants на
+той же истории.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

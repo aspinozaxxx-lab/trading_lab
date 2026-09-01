@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V23 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V24 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -179,7 +179,11 @@ states или подбирать risk/expiry/blend на том же outcome.
 Новый независимый FRED/Cboe VIX/VIX3M source V2 собран без MOEX outcome: 2 087 grid rows,
 2 011 complete pairs, 76 missing сохранены, 174 backwardation и 1 837 contango. Processed
 SHA `6ffe7daa...`, manifest SHA `0aecc29fd...`; оба bounded raw CSV не содержат 2026 и
-точно воспроизводят processed frame. V24 ещё не запечатан и не запускался.
+точно воспроизводят processed frame. V24 запечатан config SHA `f81b5aaa...`, но ещё не
+запускался: ежедневный governor пропускает frozen V12 только при causally available
+contango, а backwardation/missing/stale переводит весь портфель в cash. Source/calendar
+seal фиксирует OOS counts `1170/53/47`; первый outcome разрешён только после pre-outcome
+commit и push.
 
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
@@ -580,8 +584,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     confirmed states fail-closed не mapped. Same-history household tuning закрыт.
 13. FRED/Cboe VIX/VIX3M V2 готов: 2 087 grid rows, 2 011 complete pairs, processed SHA
     `6ffe7daa...`, manifest SHA `0aecc29fd...`; 2 010 pairs causal до границы 2026,
-    включая 174 backwardation. V24 ещё не sealed: сначала зафиксировать один structural
-    governor frozen V12, missing rule, execution и gates, затем commit/push.
+    включая 174 backwardation. V24 запечатан SHA `f81b5aaa...`: один binary structural
+    governor frozen V12, four-day freshness, fail-closed missing rule, execution и gates.
+    Pre-outcome commit/push обязателен до единственного canonical run.
 
 ### P2 — разблокировать широкий structural exact execution
 

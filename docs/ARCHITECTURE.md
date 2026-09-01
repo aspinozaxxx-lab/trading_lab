@@ -311,6 +311,19 @@ volatility, 45-day expiry, next factual open и portfolio-atomic ledger. Config 
 Canonical V2 содержит 2 087 grid rows и 2 011 complete pairs. V1 superseded только из-за
 нерепродуцируемой parquet timestamp unit; V2 raw replay совпадает точно.
 
+### `market_lab.futures_v24_cboe_vix_term_structure_governor`
+
+Сохраняет frozen V12 без изменения и разворачивает последний weekly target на каждую
+factual active-contract decision date. На `23:59:59 Europe/Moscow` модуль делает
+`merge_asof` только назад по `available_at`; complete свежий Cboe pair в contango
+пропускает V12 с scale 1, а backwardation, flat, missing/incomplete или возраст более
+четырёх календарных дней дают global scale 0. Следующий factual active-contract open,
+integer sizing, asset-atomic ledger, gross/capacity/margin и costs импортированы из V12.
+Перед чтением market outcomes runner проверяет SHA всех source artifacts, sidecar и
+manifest payload, декодирует два raw CSV, повторяет parse/combine и требует exact
+DataFrame equality. Config SHA `f81b5aaa...` фиксирует один вариант и state counts до
+первого PnL; current-vintage источник не является независимым holdout.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

@@ -4,6 +4,38 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V24: daily Cboe VIX/VIX3M risk governor — SEALED, OUTCOME PENDING
+
+- Протокол:
+  [`configs/futures_v24_cboe_vix_term_structure_governor.yaml`](../configs/futures_v24_cboe_vix_term_structure_governor.yaml)
+- Config SHA-256:
+  `f81b5aaa666346fa049b550e5dfc92c24ecf6ef2790a2cb00fb83235f24c064c`.
+- Parent неизменяем: frozen V12 signal, weekly portfolio, 20% target volatility, gross
+  `<=1`, exact active-contract next-open execution и три cost scenarios.
+- Один governor: на каждой factual MOEX decision date последняя строка с
+  `available_at <= 23:59:59 Europe/Moscow` допускает frozen V12 weights только при
+  complete pair и строгом contango `VIX/VIX3M < 1`. Backwardation, exact flat,
+  incomplete/missing и возраст старше четырёх календарных дней переводят все assets в
+  cash. Scale только `1` или `0` и никогда не увеличивает V12 risk.
+- Четыре дня — заранее наблюдаемый maximum complete-pair gap source bundle, а граница
+  `1` — определение term-structure inversion. VIX levels, percentiles, smoothing,
+  hysteresis, partial scale и asset exceptions запрещены.
+- Source-only/calendar-only seal до OOS PnL: все `2018–2025` — 2 024 decisions,
+  1 785 contango pass, 167 backwardation cash, 72 missing/stale cash; OOS `2021–2025` —
+  1 270 decisions, 1 170/53/47 соответственно, exact flat 0.
+- Canonical V2 source: 2 087 grid rows, 2 011 complete pairs, 76 missing; processed SHA
+  `6ffe7daa...`, raw SHA `d11aa637...`. Два bounded raw CSV точно воспроизводят parquet,
+  не содержат observations 2026 и консервативно доступны только после Chicago day-end.
+- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; первый market/PnL
+  run запрещён до commit и push этой записи.
+- Promotion требует CAGR `>=5%`, Sharpe не ниже V12 `0,7624`, MDD не хуже V12
+  `14,1526%`, не менее 4/5 положительных лет, positive doubled/stress, complete
+  execution и отсутствие breaches. Даже GO разрешит только новую unseen validation.
+
+Это один adaptive same-history stability test, не независимое подтверждение. После первого
+outcome запрещено менять boundary/age, инвертировать state, добавлять levels/thresholds,
+сглаживание или выбирать asset-specific исключения на 2021–2025.
+
 ## V23: CBR household inflation/sentiment confirmation — NO-GO
 
 - Протокол:
