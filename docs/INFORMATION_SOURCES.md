@@ -503,8 +503,11 @@ market outcome.
 `7dd25e01...`. V1 остановился без output на identity-only NULL row
 `RIM9_2009/2008-09-12`; значения не печатались, outcomes не считались. Parser-only V2
 SHA `74847dd3...`/`acc547f5...` сохраняет такие source rows missing с false flags,
-ничего не меняя в universe/dates/endpoints/raw. После V2 commit/push разрешена только
-source collection и offline raw replay без returns/PnL.
+ничего не меняя в universe/dates/endpoints/raw. После push `617ce72` V2 collection
+завершена: 8 381 rows, 81 contracts, 224 requests, `2008-01-09..2011-12-16`; manifest
+SHA `e06fd978...`, raw SHA `e8a97876...`, 41/41 audit checks true. Вторая inert identity
+оказалась `SiU9_2009/2008-09-12`; точное число заранее не выбиралось. Returns/PnL не
+читались и остаются закрыты до отдельного strategy seal.
 Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.

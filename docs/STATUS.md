@@ -14,9 +14,13 @@ V1 collection остановилась fail-closed без output на офици
 печатались, returns/PnL не считались. Узкая V2 correction сохраняет такую строку missing
 с false market/execution flags, оставляет raw bytes, exact universe/dates/endpoints и
 все остальные parser rules неизменными. V2 config SHA `74847dd3...`, module SHA
-`acc547f5...`; его нужно commit/push до повторной collection. До отдельного strategy
-seal запрещено читать 2008–2011 returns/PnL: этот кризисно-восстановительный отрезок
-сохраняется как будущий честный holdout, а не период для подбора параметров.
+`acc547f5...` был pushed commit `617ce72`, затем collection и отдельный offline replay
+успешно завершены. Immutable manifest SHA `e06fd978...`, daily SHA `1c5eee45...`, raw
+SHA `e8a97876...`: 8 381 rows, 81 contracts, 224 requests, даты
+`2008-01-09..2011-12-16`, все 41 audit checks true. Ровно две inert identities —
+`RIM9_2009` и `SiU9_2009` на `2008-09-12`. До отдельного strategy seal запрещено читать
+2008–2011 returns/PnL: этот кризисно-восстановительный отрезок сохраняется как будущий
+честный holdout, а не период для подбора параметров.
 
 ## Короткий ответ
 
@@ -817,12 +821,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. V1 seal `49467bc` не менять и не повторять: collection остановилась без output на
    exact NULL-placeholder `RIM9_2009/2008-09-12`. Commit/push parser-only V2 config SHA
-   `74847dd3...`, module SHA `acc547f5...`; universe/dates/endpoints остаются V1.
-2. Один раз собрать V2 для 81 exact contract во внешний immutable каталог
+   `74847dd3...`, module SHA `acc547f5...` выполнены commit `617ce72`.
+2. V2 для 81 exact contract собран во внешний immutable каталог
    `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`,
-   затем независимо выполнить `--audit-only`; любые empty segment, hash/replay mismatch
-   или дата вне `2008-01-01..2011-12-31` означают fail-closed без смены universe.
-3. Построить отдельный source-derived active-contract/spec panel без returns/PnL.
+   manifest SHA `e06fd978...`; отдельный `--audit-only` дал 41/41 true. Collection не
+   повторять и output не перезаписывать.
+3. Следующий активный шаг: построить отдельный source-derived active-contract/spec panel
+   без returns/PnL.
    MIX до 2011 должен оставаться фактически отсутствующим; gap/roll нельзя синтезировать.
 4. На уже просмотренном 2012–2017 development разработать принципиально новый
    portfolio target, а не V27/V29 threshold tweak, и зафиксировать его code/config/SHA.

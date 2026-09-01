@@ -62,11 +62,14 @@ identity-only daily row `RIM9_2009/2008-09-12`. V2 SHA `74847dd3...`/`acc547f5..
 missing с false flags, не как zero return/бар. Exact universe, dates, requests и raw
 payload не меняются. V1 output не создан; V2 использует отдельный suffix `-v2`.
 
-Planned V2 bundle находится только через внешний `data` junction и должен быть immutable.
-Он обязан хранить exact raw request log, шесть normalized tables, artifact hashes и
-полный offline replay. До отдельного strategy seal запрещено вычислять или даже
-просматривать 2008–2011 returns/PnL; collection coverage сама по себе не является
-валидацией и не разрешает менять exact contract set.
+V2 bundle завершён только через внешний `data` junction и immutable: manifest SHA
+`e06fd978...`, daily SHA `1c5eee45...`, coverage SHA `9d46db02...`, raw SHA
+`e8a97876...`. Получено 8 381 rows, 81 contracts, 224 requests, factual date coverage
+`2008-01-09..2011-12-16`; все 41 replay/hash/schema checks true. Две inert rows
+`RIM9_2009`/`SiU9_2009` на `2008-09-12` остаются missing/nonexecuting. До отдельного
+strategy seal запрещено вычислять или даже просматривать 2008–2011 returns/PnL;
+collection coverage сама по себе не является валидацией и не разрешает менять exact
+contract set.
 
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.

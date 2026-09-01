@@ -413,6 +413,8 @@ NULL-price + NULL/zero-activity строка остаётся в daily table с 
 missing values и false flags; она не становится баром или zero return. Persistence
 reuse-ит V1 serialization во временном каталоге, добавляет V2 parser contract/counts,
 пересчитывает manifest identity и только затем атомарно публикует отдельный V2 output.
+Canonical V2 manifest SHA `e06fd978...`: 8 381 rows, 81 contracts, 224 requests и две
+inert identities. Встроенный и отдельный replay дали 41/41 checks true.
 
 ### `market_lab.futures.moex_pre2018_core4_derived`
 

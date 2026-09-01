@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2012-SOURCE-V2: parser-only correction sealed, collection pending
+## MOEX-PRE2012-SOURCE-V2: canonical source complete, replay exact
 
 - V1 был sealed/pushed commit `49467bc` до первого daily response, но collection
   остановилась без output на `RIM9_2009/2008-09-12`. В строке присутствовали identity,
@@ -19,10 +19,21 @@
   VALUE/VOLUME/NUMTRADES сохраняется с identity/missing values и всеми market/trade/
   execution flags false. Она не является баром, fill или zero return. Все остальные
   строки проходят исходный byte-pinned parser.
-- Planned immutable path:
+- Seal commit `617ce72` был pushed до V2 collection. Canonical immutable path:
   `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`.
-  Exact total inert rows заранее не выбирался; manifest обязан его раскрыть и raw replay
-  обязан воспроизвести все source rows. Collection разрешена только после V2 push.
+  Manifest file SHA `e06fd978d7382a36be760e5d4bbee517a5e7a4d28c7fae8acf0112de4f43ff0b`,
+  payload SHA `521ac82b...`, daily SHA `1c5eee45...`, coverage SHA `9d46db02...`, raw
+  SHA `e8a97876...`.
+- Собрано 8 381 daily rows по 81 contracts и 224 raw requests; source coverage
+  `2008-01-09..2011-12-16`, maximum per-contract calendar gap 12 дней. By asset rows:
+  BR 2 170, MIX 54, RI 2 390, SI 3 767.
+- Exact total inert rows заранее не выбирался и фактически равен двум:
+  `RIM9_2009/2008-09-12` и `SiU9_2009/2008-09-12`. Обе строки missing/nonexecuting;
+  RI/SI inert counts 1/1, BR/MIX 0/0.
+- Встроенный и отдельный offline replay потребили все raw records и дали 41/41 true:
+  manifest/config/implementation/raw identities, source checks и все шесть Parquet
+  tables exact. Returns/PnL не вычислялись. Collection не повторять; следующий шаг —
+  отдельный causal derived-source seal без outcome columns.
 
 ## MOEX-PRE2012-SOURCE-V1: sealed, collection failed without output
 

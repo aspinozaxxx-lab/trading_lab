@@ -616,9 +616,9 @@ V1 config SHA `92c7f324...`, wrapper SHA `55965d9c...`, parent collector SHA
 `7dd25e01...` был pushed commit `49467bc`. V1 collection fail-closed остановилась без
 output на identity-only NULL row `RIM9_2009/2008-09-12`; V1 не повторять. Parser-only
 V2 config SHA `74847dd3...`, module SHA `acc547f5...` сохраняет строку missing с false
-market/execution flags и не меняет universe/dates/requests. Сначала V2 code/config/tests/
-docs обязаны быть committed и pushed. После этого V2 collection выполняется один раз,
-а затем отдельно повторяется только offline audit:
+market/execution flags и не меняет universe/dates/requests. V2 был pushed commit
+`617ce72`, collection и отдельный offline audit уже выполнены; команды ниже служат для
+аудита, но network collection повторять нельзя:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
@@ -634,9 +634,10 @@ docs обязаны быть committed и pushed. После этого V2 colle
 
 Default immutable output:
 `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`.
-Любой request/date/schema/replay mismatch — fail-closed; exact universe не менять после
-daily access. Manifest/coverage можно аудировать, но returns/PnL 2008–2011 запрещены до
-отдельного derived-source и strategy seal.
+Canonical manifest SHA `e06fd978...`: 8 381 daily rows, 81 contracts, 224 requests,
+две inert identities и 41/41 replay checks. Строку network collection выше не запускать;
+разрешён только `--audit-only`. Manifest/coverage можно аудировать, но returns/PnL
+2008–2011 запрещены до отдельного derived-source и strategy seal.
 
 ### Sealed MOEX 2012–2017 causal derived sources
 
