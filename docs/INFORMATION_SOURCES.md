@@ -412,7 +412,8 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    146 raw responses, processed SHA `70711272...`, manifest SHA `b132a45e...`. V23
    запечатан SHA `2a8a35a8...` и проверяет только один confirmation regime: expected
    inflation down + sentiment up = risk-on, обратная согласованная пара = risk-off,
-   mixed = cash. Source/config tests прошли, market outcome ещё не запускался;
+   mixed = cash. Canonical result `NO_GO`: −5,35%, Sharpe −0,16, MDD −13,62%; не
+   инвертировать signs, не выбирать один ряд и не торговать mixed states post-hoc;
 10. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

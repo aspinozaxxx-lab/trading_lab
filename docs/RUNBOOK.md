@@ -450,7 +450,7 @@ snapshot всегда получает другой directory:
 Collector сохраняет release-specific page/PDF/XLSX и две archive snapshots, разбирает
 точные ряды XLSX и сверяет их с one-decimal HTML endpoints. Raw не распространять без
 отдельной проверки прав. Sealed V23 имеет config SHA `2a8a35a8...`; после обязательного
-pre-outcome commit/push ровно один immutable run создаётся командой:
+pre-outcome commit/push immutable replay создаётся командой:
 
 ```powershell
 .\.venv\Scripts\python.exe -m market_lab.futures_v23_cbr_household_confirmation_regime `
@@ -458,7 +458,10 @@ pre-outcome commit/push ровно один immutable run создаётся к�
 ```
 
 До первого run нельзя изменять signs, two-series confirmation, cash rule, risk/expiry или
-gates. После outcome replay не разрешает same-history selection этих параметров.
+gates. Canonical run
+`runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/`, metrics SHA
+`33614e39...`, verdict `NO_GO`: primary return −5,35%, Sharpe −0,16, MDD −13,62%.
+После outcome replay не разрешает same-history selection этих параметров.
 
 ## 5. Новый эксперимент
 

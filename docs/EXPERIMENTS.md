@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V23: CBR household inflation/sentiment confirmation — SEALED, NOT RUN
+## V23: CBR household inflation/sentiment confirmation — NO-GO
 
 - Протокол:
   [`configs/futures_v23_cbr_household_confirmation_regime.yaml`](../configs/futures_v23_cbr_household_confirmation_regime.yaml)
@@ -25,11 +25,37 @@
 - Promotion gates: complete execution во всех cost scenarios, 0 critical/unresolved,
   CAGR `>=5%`, Sharpe `>=0,75`, MDD `<=20%`, 3/4 positive active years и положительные
   doubled/stress results. Даже GO разрешит только новую unseen validation, не live.
-- Pre-outcome source/config/semantic/synthetic tests: `6 passed`; market PnL ещё не
-  запускался и canonical run отсутствует.
+- Pre-outcome source/config/semantic/synthetic tests: `6 passed`; implementation и
+  pending-status были pushed commit `4ac40df` до первого market outcome.
+- Canonical run:
+  `runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/`.
+- Metrics SHA-256:
+  `33614e391a547a636ed3ef1a2df44653d05669c24495aacb43f73125cbc9b839`.
 
 После первого outcome запрещены sign inversion, single-series selection, thresholds,
 trading mixed states, risk/expiry changes и post-hoc blend на тех же 2021–2025 данных.
+
+Все 92 input/source/temporal/runtime checks true, 19/19 run files повторно прошли
+bytes/SHA/row audit. Из 47 scored releases было 33 confirmations; одинаковые September/
+October 2022 states корректно оставили October. Три confirmed releases `2022-03..05`
+fail-closed не получили targets из-за недоступной prior-60-session volatility во время
+рыночного разрыва. Поэтому mapped confirmed states — 29/32 после collision; downstream
+ledger для сформированных targets полностью исполнен: 111/111 dependencies, 109 filled
+legs, 0 rejected/critical/unresolved. Maximum participation **0,03956%**, maximum gross
+notional **830 572,84 RUB**.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | −5,3484% | −1,0935% | −0,1589 | −13,6190% | 1/5 | 2 775,79 | ledger yes |
+| doubled | −5,6260% | −1,1515% | −0,1685 | −13,8318% | 1/5 | 5 551,59 | ledger yes |
+| stress | −5,9180% | −1,2128% | −0,1787 | −14,0594% | 1/5 | 8 471,18 | ledger yes |
+
+Primary годы: 2021 **0,00%**, 2022 **−3,77%**, 2023 **−2,42%**,
+2024 **−1,19%**, 2025 **+2,01%**. Terminal position отсутствует.
+
+Verdict: `NO_GO`. Return, CAGR, Sharpe, active-year и cost-robustness gates провалены;
+единственный положительный active year — 2025. Household confirmation family закрыта для
+same-history sign/single-series/threshold/mixed-state/risk/expiry/blend tuning.
 
 ## V22: CBR printed Business Climate Index regime — NO-GO
 

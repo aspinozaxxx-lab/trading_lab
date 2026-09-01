@@ -106,8 +106,9 @@ release-specific выпусков ЦБ по инфляционным ожида�
 включая HTML/PDF/XLSX и 146 сохранённых официальных ответов. Processed SHA
 `70711272...`, manifest SHA `b132a45e...`; все 48 HTML endpoints подтверждают XLSX после
 округления. V23 запечатан SHA `2a8a35a8...`: единственный confirmation regime, cash rule,
-risk, expiry и promotion gates уже неизменяемы. Source/config/synthetic tests прошли;
-market outcome ещё не запускался и canonical run отсутствует.
+risk, expiry и promotion gates были неизменяемы до outcome. Canonical run дал primary
+**−5,3484%**, CAGR **−1,0935%**, Sharpe **−0,1589**, MDD **−13,6190%**; doubled/stress
+тоже отрицательны. Verdict **NO_GO**, same-history tuning этой family закрыт.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -128,7 +129,7 @@ market outcome ещё не запускался и canonical run отсутст�
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
 | V22 CBR printed BCI regime | +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86%; complete | Положительный, но нестабильный и ниже gates; NO-GO |
-| V23 CBR household confirmation | Protocol SHA `2a8a35a8...`; outcome ещё не читался | SEALED, ожидает один canonical development run |
+| V23 CBR household confirmation | −5,35%, CAGR −1,09%, Sharpe −0,16, MDD −13,62%; ledger complete | Отрицателен во всех cost scenarios; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -140,7 +141,7 @@ market outcome ещё не запускался и canonical run отсутст�
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
 
-## V23 CBR household confirmation — SEALED, outcome не запущен
+## V23 CBR household confirmation — валидный отрицательный NO-GO
 
 V23 использует новую household source family и не изменяет увиденные BCI outcomes V22.
 Config SHA
@@ -155,8 +156,25 @@ Config SHA
 - CAGR/Sharpe/MDD/year gates и запрет данных/метрик `>=2026-01-01`.
 
 Source commit `3d18a03` уже pushed до protocol. Pre-outcome тесты прошли (`6 passed`),
-включая полный replay 146 raw responses и synthetic expiry/collision. Следующий шаг —
-отдельный commit/push этой реализации, только затем ровно один immutable run.
+включая полный replay 146 raw responses и synthetic expiry/collision. Реализация была
+pushed commit `4ac40df` до outcome. Canonical run:
+`runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/`, metrics SHA
+`33614e391a547a636ed3ef1a2df44653d05669c24495aacb43f73125cbc9b839`.
+
+- 92/92 checks true; 19/19 artifacts сверены по bytes/SHA/rows;
+- 33 confirmations до collision; September/October 2022 оставили October;
+- три confirmed states `2022-03..05` fail-closed остались cash из-за отсутствия causal
+  prior-60-session volatility: mapped 29/32 distinct confirmed states после collision;
+- сформированный ledger complete: 111/111 nonzero dependencies, 109 filled legs,
+  0 rejected/critical/unresolved, maximum participation **0,03956%**;
+- primary/doubled/stress return **−5,35%/−5,63%/−5,92%**;
+- primary CAGR **−1,09%**, Sharpe **−0,159**, MDD **−13,62%**, costs **2 775,79 RUB**;
+- годы: 2021 **0,00%**, 2022 **−3,77%**, 2023 **−2,42%**,
+  2024 **−1,19%**, 2025 **+2,01%**; terminal position отсутствует.
+
+Verdict `NO_GO`: return, CAGR, Sharpe, active-year и cost gates провалены. Нельзя
+инвертировать signs, выбирать один household ряд, вводить thresholds, торговать mixed
+states или подбирать risk/expiry/blend на том же outcome.
 
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
@@ -552,9 +570,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     следующий PnL допускается только с новой независимой информацией или forward period.
 12. CBR household inflation/sentiment bundle готов: 48 releases, 146 raw responses,
     processed SHA `70711272...`, manifest SHA `b132a45e...`; 16 risk-on, 17 risk-off и
-    14 mixed source confirmations после warmup до collision handling. V23 запечатан SHA
-    `2a8a35a8...`, tests прошли; market outcome пока не запускался. Следующий шаг —
-    pre-outcome commit/push, затем один canonical run без изменения протокола.
+    14 mixed source confirmations после warmup до collision handling. V23 завершён
+    `NO_GO`: −5,35%, Sharpe −0,16, MDD −13,62%, downstream ledger complete, но 3
+    confirmed states fail-closed не mapped. Same-history household tuning закрыт.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -615,6 +633,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v20_minfin_ofz_demand_strength_20260901T014359Z_788fadbd/metrics.json`
 - `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/metrics.json`
 - `runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/metrics.json`
+- `runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

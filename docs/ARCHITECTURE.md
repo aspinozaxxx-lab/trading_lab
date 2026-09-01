@@ -296,7 +296,9 @@ mixed/zero release переводит все legs в cash, BR всегда zero.
 causal state/volatility mapper V22, но полностью заменяет BCI signal и provenance.
 Параметры исполнения остаются заранее фиксированными: по 1/3 risk budget, prior 60-day
 volatility, 45-day expiry, next factual open и portfolio-atomic ledger. Config SHA
-`2a8a35a8...` запечатан; market outcome V23 ещё не запускался.
+`2a8a35a8...` был запечатан до outcome. Canonical run дал отрицательный результат во
+всех cost scenarios и `NO_GO`; 3 confirmed releases fail-closed остались cash из-за
+недоступной prior-60-session volatility. Модуль сохраняется только для воспроизводимости.
 
 ### `market_lab.futures.futoi_intraday_source`
 
