@@ -5,6 +5,13 @@
 схемы, `available_at` и отдельного sealed-протокола. Техническая доступность API не
 означает право на перераспространение данных.
 
+Фактический public pipeline-check выполнен один раз:
+`data/forward/moex-microstructure-v1/snapshot_20260901T214719330521Z/`. Source date
+`2026-08-18`, retrieval `2026-09-01T21:47:19Z`, 4 raw requests, 8 normalized FUTOI
+rows (FIZ/YUR для SI/RI/BR/MIX), audit 11/11. Все `available_at` равны actual retrieval,
+target-free flag true. Это официальный 15-day-delayed режим и не same-day signal;
+authenticated `tradestats/obstats` не собирались, потому что token отсутствует.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed
@@ -657,6 +664,19 @@ retrieval_at)`. Bearer token читается только из `MOEX_ALGOPACK_T
 попадает в manifest/raw. Public FUTOI маркируется как `public_15_day_delayed`; его нельзя
 использовать для same-day timing. Для real-time timing нужны ALGOPACK entitlement и
 явные active-contract mappings.
+
+После V35 добавлен отдельный equity collector
+`market_lab.stocks.moex_forward_equity_microstructure_source`. Официальные страницы
+[equity TradeStats](https://moexalgo.github.io/docs/api/get-eq-tradestats-for-ticker),
+[OrderStats](https://moexalgo.github.io/docs/api/get-eq-orderstats-for-ticker) и
+[OBStats](https://moexalgo.github.io/docs/api/get-eq-obstats-for-ticker) указывают
+real-time обновление каждые пять минут для authorized `apim`; неавторизованным эти
+наборы недоступны. Collector делает три full-universe `latest=1` запроса и затем
+оставляет frozen 30-ticker universe. Closed schemas включают только trade flow,
+put/cancel flow, spreads, depth и imbalances; все `pr_*`, `*_vwap*`, return, label,
+target и PnL запрещены. Raw gzip, response URL, `SYSTIME`, actual retrieval,
+`available_at`, bytes/SHA и entitlement mode сохраняются; bearer token — никогда.
+Synthetic audit готов, но настоящий snapshot sleeping до `MOEX_ALGOPACK_TOKEN`.
 
 ### Уже использованные источники
 

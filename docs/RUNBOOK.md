@@ -976,6 +976,54 @@ Public delayed snapshot пригоден только для проверки pi
 остаётся sleeping до накопления собственного real-time forward периода и отдельно
 запечатанного label/evaluation protocol.
 
+Фактический проверочный snapshot уже существует и не должен перезаписываться:
+`D:\Projects\trading_lab_data\data\forward\moex-microstructure-v1\snapshot_20260901T214719330521Z`;
+source date `2026-08-18`, 8 rows, audit 11/11, access mode `public_15_day_delayed`.
+
+### V35 thirty-stock cross-sectional intraday
+
+Pre-2026 source bundle и canonical V35 уже построены; команды ниже сохраняются только
+для provenance и **не должны повторяться**:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.stocks.intraday_pre2026_source
+.\.venv\Scripts\python.exe -m `
+  market_lab.stocks_v35_cross_sectional_intraday --output-root .\runs
+```
+
+Source manifest SHA `5a7a4873...`, V35 config SHA `257422c0...`, seal commits
+`95fad8a`/`fac5625`, loader-only pre-outcome fix `df207d1`. Canonical run:
+`runs/v35_cross_sectional_intraday_20260901T220621Z_257422c0/`, metrics SHA
+`8c9820cf...`, identity SHA `18b48fba...`, audit 16/16. Verdict `NO_GO`; обе MLP zero
+trades, fixed CAGR `−12,6519%`. Порог, знак, horizon, universe, costs и leverage V35
+не менять на этой history.
+
+### Forward equity TradeStats/OrderStats/OBStats
+
+Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что
+официальные equity endpoints доступны только подписчикам. Token не пишется в raw,
+requests или manifest.
+
+```powershell
+$env:MOEX_ALGOPACK_TOKEN = '<token-is-never-written-to-disk>'
+.\.venv\Scripts\python.exe -m `
+  market_lab.stocks.moex_forward_equity_microstructure_source `
+  --source-date <YYYY-MM-DD> `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-equity-microstructure-v1
+```
+
+Запускать внешним scheduler каждые пять минут. Каждый `snapshot_*` immutable. Audit:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.stocks.moex_forward_equity_microstructure_source `
+  --audit-directory <snapshot-path>
+```
+
+Snapshot target-free: абсолютные цены/VWAP, returns, labels, targets и PnL исключены
+из request schema. Экономический label нельзя проектировать до заранее заданного
+forward accumulation window и отдельного sealed paper protocol.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

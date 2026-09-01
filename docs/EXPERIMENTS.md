@@ -4,6 +4,47 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V35: thirty-stock cross-sectional intraday — canonical NO-GO
+
+- Source-only protocol `stock-intraday-pre2026-source-v1`, config SHA `ba1934d6...`,
+  code SHA `0d2d55e2...`, seal `95fad8a`. Immutable external bundle
+  `data/processed/stocks_10m_pre2026_v1/`: 30 tickers, 4 527 436 source OHLCV rows,
+  maximum `2025-12-30`, manifest SHA `5a7a4873...`, 12/12 audit. Никакие return/label/
+  target/PnL в source build не вычислялись.
+- V35 config `configs/stocks_v35_cross_sectional_intraday.yaml`, SHA
+  `257422c0ce2824e3a12252f1759e01fdee29c321f11190bd3b09d9a2b4984388`; core SHA
+  `f31e0b80...`, runner SHA `b7dce2d8...`. Seal `fac5625` pushed до outcomes.
+  Loader-only pandas-index fix `df207d1` также pushed до первого economic calculation;
+  failed attempt не вычислила outcomes и не создала output.
+- Mechanism: exact common 30-stock panel; completed-bar residuals to equal-weight market,
+  causal rolling beta/scale; long bottom-3 and short top-3 residual z. Decision every
+  20 minutes, next exact open entry, exact 60-minute exit, maximum one concurrent basket.
+  Primary/doubled/stress one-way costs are 10/20/35 bp plus 20%/20%/30% annual short
+  borrow. Gross target 1,5, known signal-value participation 0,25%, factual cap 1%.
+- Full `[48,24]` MLP sees 30-stock residual-z, one-bar residual, beta and value-rank
+  vectors plus 20 aggregates. `[24,12]` ablation sees only aggregates. Two fixed seeds;
+  annual expanding 2022–2025, prior-year nested calibration and one-session purge.
+- Canonical run `runs/v35_cross_sectional_intraday_20260901T220621Z_257422c0/`.
+  Metrics SHA `8c9820cf4da133cc915f0e2fd9529015eb7f301e73f6aff724d2f8e5e53e67bc`,
+  identity SHA `18b48fbaf42e1ce5bf91bad18a6ac57da76def955210dad9b005e43b4181d70f`,
+  audit SHA `dbfb13057280eac93565c5bb460ae8b6e0e9ee6c1cd4d1fa15937b2e6d1737a9`;
+  independent audit 16/16 exact.
+- Counts: 96 005 exact common timestamps, 11 297 candidates, 9 024 evaluation candidates,
+  420 doubled-cost-positive labels, 18 048 OOS predictions. Все 8 fold/variant records
+  `sleep_insufficient_calibration`; обе MLP имеют 0 signals/trades. Gate не ослаблять.
+- Fixed primary: 2 965 trades, 867 unresolved capacity, costs 447 585,40 RUB including
+  borrow. Gross profit only 29 706,79 RUB, net `−417 878,61`; total `−41,7879%`, CAGR
+  `−12,6519%`, Sharpe `−8,9863`, MDD `41,7928%`, positive years 0/4. Calendar returns:
+  2022 `−2,7500%`, 2023 `−9,7048%`, 2024 `−15,2270%`, 2025 `−21,8009%`.
+  Doubled CAGR `−38,1944%`; stress total nearly `−100%`.
+- Verdict `NO_GO`, 20%/50% claims false, live forbidden. Экономическая причина — mean
+  executed gross edge `0,858 bp` против 20 bp primary round trip. Capacity, current-
+  universe survivorship, absent short-locate/lot records are additional blockers. Не
+  менять V35 threshold/sign/horizon/universe/cost/leverage на этой history.
+- После source extension целевые tests `23/23`, scoped Ruff clean. Full regression:
+  `997 passed, 7 skipped`, плюс те же два заранее документированные V8 anti-junction
+  failures; новых V35/equity-source regressions нет.
+
 ## V34: RI–MIX relative-corridor barrier — canonical NO-GO
 
 - Новая family после V33 economic NO-GO: barrier meta-label вместо absolute-return

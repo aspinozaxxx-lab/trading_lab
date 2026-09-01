@@ -1,7 +1,62 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V34 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V35 гипотез защищены и не используются.
+
+## Последний результат: V35 thirty-stock intraday residual basket NO-GO
+
+V35 проверила принципиально иной механизм: после каждого второго завершённого
+10-минутного бара синхронное состояние всех 30 акций определяет три наиболее
+отрицательных residual-z для long и три наиболее положительных для short. Вход — на
+следующем exact common open, выход через 60 минут, одновременно только одна
+dollar-neutral корзина. Full MLP видит четыре 30-мерных блока и агрегаты; ablation MLP —
+только агрегаты; fixed rule торгует каждый кандидат. Threshold `0,55/0,65/0,75`
+выбирается исключительно на предшествующем календарном году под doubled costs.
+
+До economic read source-only seal `95fad8a` создал физически изолированный bundle
+`data/processed/stocks_10m_pre2026_v1/`: 30 Parquet, 4 527 436 rows,
+`2018-01-03..2025-12-30`, manifest SHA `5a7a4873...`, audit 12/12. V35 config SHA
+`257422c0ce2824e3a12252f1759e01fdee29c321f11190bd3b09d9a2b4984388`, core SHA
+`f31e0b80...`, runner SHA `b7dce2d8...`. Seal `fac5625` был pushed до первого
+economic calculation. Первая попытка остановилась до returns/labels/PnL и без output
+на pandas-index representation `timestamp`; loader-only fix `df207d1` был tested и
+pushed до повторного economic start, не меняя config/economics.
+
+Единственный canonical run
+`runs/v35_cross_sectional_intraday_20260901T220621Z_257422c0/`: metrics SHA
+`8c9820cf...`, identity SHA `18b48fba...`, audit SHA `dbfb1305...`; audit 16/16.
+96 005 common timestamps дали 11 297 candidates, 9 024 evaluation candidates и 18 048
+neural predictions. Positive doubled-cost labels только 420. Все восемь annual
+model-folds получили `sleep_insufficient_calibration`, поэтому обе MLP сделали ноль
+сделок. Пороги после outcome не ослаблять.
+
+Fixed rule исполнил 2 965 primary trades. Gross profit всего 29 706,79 RUB против
+436 751,84 RUB trading costs и 10 833,56 RUB borrow; gross win rate `52,82%`, но net
+win rate `14,77%`. Primary total `−41,7879%`, CAGR `−12,6519%`, Sharpe `−8,9863`,
+MDD `41,7928%`; годы 2022/2023/2024/2025 = `−2,7500%/−9,7048%/−15,2270%/−21,8009%`.
+Doubled CAGR `−38,1944%`, stress почти полная потеря. Fixed execution также выявил
+867 primary capacity-unresolved: historical bar value недостаточен как доказательство
+fill, short locate/lot history отсутствуют. Это усиливает live-запрет, но не меняет
+экономический вывод: gross edge на исполненных primary trades был лишь `0,858 bp` в
+среднем при 20 bp round trip. Verdict `NO_GO`; V35 sign/horizon/threshold/universe/
+cost/leverage больше не tune-ить.
+
+После добавления equity forward collector целевые source/V35/encoding tests `23/23`,
+scoped Ruff clean. Полный suite штатной командой `python -m pytest`: `997 passed,
+7 skipped, 2 failed`; оба failure — прежний sealed V8 anti-junction guard, который не
+принимает внешний NTFS `data/`, новых failures нет. Standalone `pytest.exe` отдельно
+не является штатным entry point: он не добавляет root в import path и останавливается
+на трёх legacy collection imports.
+
+Следующее независимое направление — forward equity microstructure: official MOEX
+stock `tradestats/orderstats/obstats`, реальные spread/depth, aggressive flow и order
+cancel imbalance, дополненные broker short-locate/borrow и lot-size records. До
+накопления original-vintage snapshots новый neural PnL по этому направлению sleeping.
+
+Public delayed futures source уже фактически проверен:
+`data/forward/moex-microstructure-v1/snapshot_20260901T214719330521Z/`, source date
+`2026-08-18`, 8 normalized FUTOI rows, audit 11/11. Он target-free, но задержка 15 дней
+не позволяет использовать его для same-day timing; `MOEX_ALGOPACK_TOKEN` отсутствует.
 
 ## Последний результат: V34 relative-corridor barrier NO-GO
 
@@ -967,6 +1022,26 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — forward equity microstructure вместо повторной настройки V35
+
+1. V35 canonical `NO_GO`; immutable run и source bundle не повторять. Не ослаблять
+   probability `0,55/0,65/0,75`, не менять mean-reversion sign, 60-minute horizon,
+   universe, leverage или costs на уже просмотренном 2020–2025 panel.
+2. Реализовать target-free one-shot collector официальных MOEX equity
+   `tradestats/orderstats/obstats`: только aggressive-flow, order-add/cancel imbalance,
+   spread/depth и timestamps; raw bytes, `SYSTIME`, retrieval, entitlement и
+   `available_at=max(SYSTIME+buffer,retrieval)` обязательны. Absolute price/return/
+   target/PnL в feature snapshot не сохранять.
+3. Получить ALGOPACK entitlement и запускать collector каждые пять минут на заранее
+   фиксированном liquid universe. Public delayed data годятся лишь для pipeline test,
+   не для same-day prediction.
+4. Отдельно получить у брокера timestamped short-locate availability, borrow rate,
+   historical/current lot size, commission и actual fills. Без locate нельзя считать
+   short legs V35 исполнимыми; без order log нельзя доказывать fill по candle value.
+5. До накопления заранее заданного forward периода не считать PnL. Затем sealed paper
+   protocol должен сравнить flow/depth neural gate с price-only baseline при same
+   next-open execution; реальный капитал запрещён.
 
 ### P0 — сохранить новый 2008–2011 holdout до просмотра outcomes
 

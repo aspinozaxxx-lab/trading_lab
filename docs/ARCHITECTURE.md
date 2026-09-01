@@ -714,6 +714,28 @@ Raw coefficients S/A/B/C/D/E не трактуются как конкретны
 median, IQR, median delta, series count и одновременная cross-asset dispersion. Источник
 не содержит settlement/price/return/target/PnL и имеет отдельный immutable manifest.
 
+### `market_lab.stocks.intraday_pre2026_source`
+
+Source-only boundary adapter для старых 30-stock 10m Parquet. Он byte-проверяет исходный
+manifest и каждый artifact, применяет Arrow predicate `timestamp < 2026-01-01` до
+materialization, сохраняет только исходные OHLCV/value columns и публикует физически
+отдельный immutable bundle. Returns/features/labels/PnL этот модуль не вычисляет.
+
+### `market_lab.stocks.cross_sectional_intraday`
+
+Outcome-agnostic V35 core: exact common 30-stock timestamps, causal rolling market beta,
+residual z, bottom-3/top-3 dollar-neutral baskets, nested annual MLP timing и
+capacity/cost/borrow ledger. Protected boundary проверяется и manifest, и после decode.
+Runner `market_lab.stocks_v35_cross_sectional_intraday` byte-seal-ит config, сохраняет
+candidate/prediction/fold/trade/equity/features artifacts и выполняет immutable audit.
+
+### `market_lab.stocks.moex_forward_equity_microstructure_source`
+
+Authenticated one-shot forward collector трёх official ALGOPACK equity datasets.
+Closed target-free schema сохраняет trade/order/depth flow, но запрещает absolute
+price/VWAP/outcome fields. Три raw response архивируются gzip с SHA; причинная
+доступность никогда не раньше actual retrieval. Token читается только из environment.
+
 ### `market_lab.futures.curve_regime_intraday`
 
 Outcome-agnostic V32 core. Он строит gap-tolerant признаки четырёх рынков только из
