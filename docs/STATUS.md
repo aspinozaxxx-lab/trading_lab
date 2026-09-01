@@ -1041,7 +1041,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    short legs V35 исполнимыми; без order log нельзя доказывать fill по candle value.
 5. До накопления заранее заданного forward периода не считать PnL. Затем sealed paper
    protocol должен сравнить flow/depth neural gate с price-only baseline при same
-   next-open execution; реальный капитал запрещён.
+   next-open execution; реальный капитал запрещён. Полная последовательность и source
+   gates записаны в [FORWARD_EQUITY_PROTOCOL.md](FORWARD_EQUITY_PROTOCOL.md).
 
 ### P0 — сохранить новый 2008–2011 holdout до просмотра outcomes
 

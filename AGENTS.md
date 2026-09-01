@@ -18,6 +18,8 @@
    point-in-time данные собирать дальше.
 8. [Точные multileg-данные MOEX](docs/MOEX_MULTILEG_DATA.md) — какие market/member
    reports нужны для следующей проверки календарных спредов и как их безопасно принять.
+9. [Forward equity protocol](docs/FORWARD_EQUITY_PROTOCOL.md) — как собирать новый
+   TradeStats/OrderStats/OBStats период после V35 и какие gates нужны до paper PnL.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
