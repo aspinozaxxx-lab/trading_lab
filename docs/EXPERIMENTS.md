@@ -4,6 +4,24 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V28: frozen V27 economics on unseen 2013–2017 — sealed, outcome pending
+
+- Config SHA `4f9e6663...`, implementation SHA `b9c290f6...`; это первое использование
+  D3 prices/returns в strategy experiment. До seal прочитаны только hashes, schemas,
+  calendars и external macro states, но не `open/close/settle`, returns или PnL.
+- Период `2012-01-03..2012-12-31` — warm-up frozen V12, validation
+  `2013-01-01..2017-12-01`. Signal, weekly schedule, V25 STLFSI4, V27 key-rate boundary,
+  exact 2x, V26 `cancel_and_clip`, margin/capacity и три cost scenarios не меняются.
+- Source-only counts запечатаны: 254 validation weeks = 147 pass + 70 STLFSI4 cash +
+  37 missing/stale key-rate cash + 0 key-rate >=20% cash. Порог 20% в этом периоде
+  не испытывается и не может считаться независимо подтверждённым.
+- RUONIA publication timing доказан только для 56/1 224 accrual intervals (79 calendar
+  days). Остальные 1 168 intervals сохраняют missing rate/timing и получают no credit,
+  без zero-imputation.
+- Отдельные gates требуют во всех cost scenarios CAGR `>=20%` или, для aspirational
+  support, `>=50%`, MDD `<=30%`, primary Sharpe `>=0.80`, 4/5 positive years, worst year
+  `>=-15%`, complete execution и no breaches. Даже pass остаётся research-only.
+
 ## PRE2018-MACRO-S3: preserve unknown RUONIA timing — completed
 
 - Config SHA `ae575962...`, implementation SHA `5f2e4e09...`; наследует exact S2

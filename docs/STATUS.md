@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V27 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V28 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -30,6 +30,15 @@ primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAG
 **23,0255%**. Он устранил 8 critical events V15, но strict MDD `<=30%` не прошёл;
 verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
 причинный режим риска и снизил MDD на **12,8523 п.п.**.
+
+Следующая decisive проверка **V28** подготовлена, но outcome ещё не читался. Config SHA
+`4f9e6663...`, implementation SHA `b9c290f6...`; frozen V27 economics переносится на
+неиспользованный market period `2013-01-01..2017-12-01` после warm-up 2012. До seal
+использованы только source identities/calendars/macro states. Exact validation states:
+254 weeks = 147 pass, 70 STLFSI cash, 37 missing/stale key-rate cash, 0 rate>=20 cash.
+RUONIA credit допустим только на 56/1 224 intervals; 1 168 unknown-timing intervals
+получают no credit без подстановки нуля. После commit/push разрешён ровно один immutable
+run с отдельной оценкой поддержки 20% и 50%; live trading остаётся запрещён.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -707,17 +716,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 1. Заморозить byte-identical V27 целиком: V12 signal, V25 STLFSI4 zero/age, key-rate
    boundary `>=20%`/7-day age, максимум 2x, RUONIA haircut/buffer, universe, capacity и
    execution costs. Не выбирать partial scale или новый threshold по 2021–2025.
-2. Получить новый действительно unseen период либо независимый PIT рынок. Уже
-   просмотренный legacy 2026 нельзя переименовывать в holdout. Повторный metadata-only
-   audit нашёл официальный `/iss/history/.../RFUD/securities` и expired-security search:
-   в 2012–2017 обнаружены 155 exact core-four contracts, включая ранее отсутствовавшие
-   aliases. Source V3 уже sealed/pushed и собрал 30 059 official daily rows; raw replay,
-   hashes, exact identities и граница `<=2017-12-21` проверены.
+2. Новый unseen market period получен: official MOEX 2012–2017 source V3 содержит
+   30 059 daily rows по 155 contracts; D3 причинно построил common calendar/roll/spec
+   без synthetic gap return. Raw replay, hashes и границы проверены.
 3. D1 выявил serial-contract failure; D2 остановился без output на неверном ожидании
    непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
-   S1 transport failed без output; S2 меняет только User-Agent и prepared с SHA
-   `4ad7f034...`. Сначала commit/push, затем immutable collection/audit без strategy
-   outcomes и byte-identical V28 seal.
+   S1 transport failed без output; S2 failed parse без output; S3 успешно собран и
+   replayed. V28 config SHA `4f9e6663...` теперь фиксирует frozen economics и exact
+   source-only states. Следующий шаг: commit/push seal, затем один immutable V28 run.
    Период может независимо
    проверить frozen trend/capital/execution path, но главный `>=20%` governor не
    активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё

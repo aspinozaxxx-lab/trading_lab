@@ -430,6 +430,15 @@ only preserves those dates and `available_at` as missing; it never infers timing
 credits collateral income. S3 SHA `ae575962...`; canonical manifest SHA `949bc7bf...`,
 raw replay and every artifact/temporal/schema check passed.
 
+### `market_lab.futures_v28_pre2018_unseen_validation`
+
+Одноразовая external-period validation frozen V27 economics на D3 2012–2017. Модуль
+reuse-ит V12 trend/portfolio, V26 capacity-aware 2x ledger и exact cost scenarios, но
+имеет отдельные pre-2018 governors, annual metrics и collateral evaluator. Последний
+credit-ит только RUONIA с explicit causal `available_at`; неизвестный timing остаётся
+NaN и даёт tagged no-credit interval. Output immutable во внешнем `runs/`; verdict
+разделяет поддержку CAGR 20% и 50%, но никогда не включает live admission.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

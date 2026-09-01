@@ -87,6 +87,12 @@ SHA `343c7636...`, CBR monetary SHA `bf18a53c...`, coverage SHA `db32971e...`, r
 nonmissing availability before 2018 прошли audit. Bundle теперь разрешён только как
 input отдельного запечатанного V28 research protocol.
 
+V28 config SHA `4f9e6663...` pin-ит D3/S3 manifests и каждый читаемый artifact. До его
+seal разрешены только identity/schema/date/macro-state checks; первый `open/close/settle`,
+return или PnL 2013–2017 можно читать только после commit/push. Protocol сохраняет
+1 400 RUONIA unknown availability rows missing: 1 168 validation intervals явно
+`no_credit_unknown_availability`, а не zero-filled yield.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

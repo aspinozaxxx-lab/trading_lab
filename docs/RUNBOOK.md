@@ -673,6 +673,30 @@ returns/PnL до отдельного V28 seal.
 S3 уже выполнен после push `1f9c343`: manifest SHA `949bc7bf...`, raw archive SHA
 `8109f157...`; replay и все checks прошли. Команду collection повторно не запускать.
 
+### Sealed V28 unseen pre-2018 validation
+
+Config SHA `4f9e6663...`, implementation SHA `b9c290f6...`. До первого запуска код,
+config, sidecar, tests и docs должны быть committed и pushed. Не выполнять preflight,
+который читает market price columns; разрешены только sealed tests и source metadata:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_futures_v28_pre2018_unseen_validation.py `
+  tests/test_futures_v12_core4_correlation_trend.py `
+  tests/test_futures_v26_stlfsi_levered_ruonia_capacity.py `
+  tests/test_encoding.py
+.\.venv\Scripts\python.exe -m ruff check `
+  src/market_lab/futures_v28_pre2018_unseen_validation.py `
+  tests/test_futures_v28_pre2018_unseen_validation.py
+.\.venv\Scripts\python.exe -m market_lab.futures_v28_pre2018_unseen_validation `
+  --config .\configs\futures_v28_pre2018_unseen.yaml `
+  --output-root .\runs
+```
+
+Запуск разрешён ровно один раз после push. Затем зафиксировать canonical path, metrics
+SHA, все artifacts/counts, execution failures, годовые результаты и независимые verdict
+для 20%/50%. Не менять V28 по увиденному результату; любая correction — новый protocol.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
