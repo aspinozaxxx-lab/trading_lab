@@ -4,7 +4,25 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-SOURCE-V1: sealed, bulk collection pending
+## CALENDAR-SPREAD-SOURCE-V2: parser-only seal, collection pending
+
+- V1 seal commit `293e54e` был pushed до bulk history. Первый collection остановился
+  fail-closed без canonical output на `SiZ5SiH6`: expected `Si`, official page содержал
+  только классы `NULL` и empty string в `ASSETCODE`. Market values не печатались и не
+  сохранялись, returns/targets/PnL не вычислялись; temporary output удалён.
+- V1 config SHA `72687539...` и module SHA `db217488...` остаются byte-identical.
+  Отдельный V2 config SHA
+  `be770102469677a3d5b88c79e976799298072aa77c45c405b31387a9fb809173`, correction
+  module SHA `d0c865a4...`, новый immutable output path оканчивается на `-v2`.
+- Единственная parser delta: blank/whitespace `ASSETCODE` копируется в missing перед
+  parent parser, после чего действует прежний catalog fill. Exact raw JSON не мутируется;
+  NULL policy не меняется, любой непустой mismatched code всё ещё reject. Discovery,
+  counts, archive mapping, cursors, dates, WebForms/CSV, schemas и protected boundary
+  полностью наследуются V1.
+- Source tests V1+V2 18/18, encoding 2/2, scoped Ruff clean. Следующий разрешённый шаг —
+  commit/push V2 seal, затем один resumed immutable collection и exact replay audit.
+
+## CALENDAR-SPREAD-SOURCE-V1: FAILED_CLOSED, no output
 
 - Новая target family принципиально отделена от V12/V27: exchange-listed same-root
   calendar-spread carry/convergence должен уменьшать общий directional beta и допускает
@@ -32,8 +50,9 @@
 - Целевые tests 12/12, encoding 2/2, scoped Ruff clean. Полный baseline: 844 passed,
   7 skipped и ровно две известные legacy V8 anti-junction failures из-за внешнего data
   junction; repo-wide Ruff также имеет прежние несвязанные V8/V9 нарушения. Следующий
-  разрешённый шаг — commit/push этого seal, затем один immutable bulk collection и replay
-  audit. Economic protocol появится только после source manifest и будет отдельным SHA.
+  V1 seal commit `293e54e` был pushed до bulk history. Первый collection затем остановился
+  без output на blank `ASSETCODE`; V1 не менять и не повторять, correction только в V2.
+  Economic protocol появится только после source manifest и будет отдельным SHA.
 
 ## V29: post-V28 risk-first roll-capacity correction — FAIL, execution fixed
 

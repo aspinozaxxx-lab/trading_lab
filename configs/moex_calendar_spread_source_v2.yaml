@@ -1,0 +1,73 @@
+﻿protocol_id: moex_calendar_spread_source_v2
+protocol_version: 2
+status: predeclared_parser_only_correction_before_resumed_bulk_history
+declared_at_utc: "2026-09-01T10:42:00Z"
+scope: source_only_no_returns_targets_or_pnl
+research_only: true
+sealed_before_resumed_bulk_history: true
+live_trading_allowed: false
+
+parent_protocol:
+  config: configs/moex_calendar_spread_source.yaml
+  config_sha256: 7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e
+  implementation_sha256: db2174889a4fc3baa08e39bfa4685b7cfdaaf01adf370760b27546b5ef5c261d
+  collection_rules: byte_identical_except_declared_parser_delta
+  economic_rules: none_source_only
+
+observed_v1_failure:
+  canonical_output_created: false
+  temporary_output_removed: true
+  exception: calendar-spread history returned another asset code
+  logical_asset: SI
+  secid: SiZ5SiH6
+  expected_assetcode: Si
+  returned_assetcode_classes: ["null", empty_string]
+  returned_nonblank_values: []
+  market_values_printed_or_persisted: false
+  returns_targets_or_pnl_observed: false
+
+parser_only_correction:
+  only_change: strip_blank_ASSETCODE_to_missing_before_parent_parser
+  raw_payload_mutated: false
+  exact_raw_response_archived: true
+  null_policy: parent_catalog_fill_unchanged
+  empty_or_whitespace_policy: normalize_to_null_then_parent_catalog_fill
+  nonblank_mismatch_policy: reject_unchanged
+  all_other_parent_rules: byte_identical
+  discovery_counts_codes_dates_cursors_and_bounds: inherited_unchanged
+  archive_WebForms_and_CSV_parser: inherited_unchanged
+  protected_date_gate: inherited_unchanged
+
+period:
+  start: "2021-01-01"
+  end: "2025-12-31"
+  protected_from: "2026-01-01"
+
+output:
+  directory: data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v2
+  immutable: true
+  overwrite_allowed: false
+  artifact_schema: inherited_byte_identical_from_parent
+
+limitations:
+  - all_parent_V1_limitations_apply
+  - public_archive_is_current_vintage
+  - public_archive_bid_ask_are_EOD_not_order_time_quotes
+  - historical_fees_margin_and_broker_rules_not_exact
+  - future_strategy_is_development_not_independent_holdout
+  - guaranteed_future_return_is_false
+  - live_trading_is_forbidden
+
+implementation_dependencies:
+  configs/moex_calendar_spread_source.yaml: 7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e
+  src/market_lab/futures/moex_calendar_spread_source.py: db2174889a4fc3baa08e39bfa4685b7cfdaaf01adf370760b27546b5ef5c261d
+  src/market_lab/futures/moex_calendar_spread_source_v2.py: d0c865a45369e13bf118842d045f32fd58d0188879e987986b1ce9bfbad1e30d
+
+forbidden_after_seal:
+  - editing_or_overwriting_parent_V1
+  - normalizing_any_nonblank_mismatched_ASSETCODE
+  - changing_any_parent_discovery_archive_or_temporal_rule
+  - requesting_or_accepting_market_values_at_or_after_2026_01_01
+  - computing_returns_targets_signals_equity_or_pnl
+  - overwriting_V1_or_V2_output
+  - live_trading_or_claiming_guaranteed_profit

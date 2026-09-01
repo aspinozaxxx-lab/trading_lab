@@ -474,6 +474,16 @@ crossed closing quote сохраняются с flags. Parser сначала п�
 полностью replay-ит series, boards, ISS pages, WebForms и CSV. Модуль не имеет кода
 returns/targets/PnL и не разрешает live trading.
 
+### `market_lab.futures.moex_calendar_spread_source_v2`
+
+Минимальный wrapper над byte-pinned V1 после его fail-closed collection без output.
+Wrapper делает shallow structural copy raw ISS payload и заменяет только пустой или
+whitespace `ASSETCODE` на missing перед V1 parser. Исходный raw object и сохраняемые bytes
+не мутируются; nonblank mismatch, все cursor/schema/date/archive gates и atomic output
+остаются V1. На время collect/audit parent parser подменяется context manager и всегда
+восстанавливается, включая exception. V2 имеет отдельный config SHA и output `-v2`,
+поэтому V1 seal и возможный forensic replay не перезаписываются.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

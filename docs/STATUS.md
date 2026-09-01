@@ -50,7 +50,7 @@ stress CAGR `3,7117%`, MDD `−48,6822%`. Положителен только 20
 не является independent confirmation и запрещён для live.
 
 Следующее принципиально иное направление — exchange-listed календарные спреды, а не
-ещё один threshold directional trend. Source-only protocol запечатан до bulk collection:
+ещё один threshold directional trend. Source-only V1 был запечатан до bulk collection:
 config SHA `7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e`,
 implementation SHA `db217488...`. Metadata preflight причинно связал все 110 RFUD
 спредов SI/RI/BR/MIX с официальными кодами публичного архива без ручных aliases.
@@ -59,8 +59,13 @@ implementation SHA `db217488...`. Metadata preflight причинно связа
 Last/Bid/Ask/High/Low/Amount/Volume/Trades. Collector сохраняет ISS и public archive
 раздельно, архивирует exact HTML/CSV bytes, сохраняет и помечает расхождения интервалов,
 аварийно запрещает любую market-value дату `>=2026-01-01` и не считает returns/PnL.
-Bulk bundle ещё не собран; первым следующим действием должен быть push seal, затем один
-immutable collection/replay audit.
+Seal `293e54e` был pushed, затем V1 collection корректно остановился без output:
+`SiZ5SiH6` вернул `ASSETCODE = NULL/empty string`, а V1 принимал только NULL.
+Parser-only V2 сохраняет V1 byte-identical, raw payload не меняет и нормализует только
+blank/whitespace в missing; любой nonblank mismatch всё ещё reject. V2 config SHA
+`be770102469677a3d5b88c79e976799298072aa77c45c405b31387a9fb809173`, module SHA
+`d0c865a4...`; первым следующим действием должен быть V2 push seal, затем один immutable
+V2 collection/replay audit.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -736,10 +741,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — новый market-neutral source family
 
-1. Push source-only calendar-spread seal SHA `72687539...` до bulk history.
-2. Один раз собрать immutable official MOEX bundle за `2021-01-01..2025-12-31`:
+1. V1 seal `293e54e` уже pushed; первый collection завершился fail-closed без output на
+   blank `ASSETCODE` у `SiZ5SiH6`. Push отдельный parser-only V2 seal SHA `be770102...`
+   до возобновления bulk history; V1 config/module не менять.
+2. Один раз собрать immutable V2 official MOEX bundle за `2021-01-01..2025-12-31`:
    отдельно ISS settlement/OI и public-archive trade/bid/ask, затем выполнить exact raw
-   replay, hashes, schema, coverage и protected-date audit.
+   replay, hashes, schema, coverage и protected-date audit. Непустой чужой ASSETCODE
+   обязан по-прежнему остановить collection.
 3. Только после успешного source manifest отдельно запечатать economic target. Первый
    кандидат — carry/convergence listed spread с market-neutral sizing, factual archive
    liquidity, next-session execution и 1x/2x/stress costs. Никаких returns, thresholds

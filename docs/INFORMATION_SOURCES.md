@@ -16,13 +16,16 @@
 и [публичный архив](https://www.moex.com/en/derivatives/spreads/archive-spreads.aspx)
 содержат listed instruments и EOD archive.
 
-Подготовленный source-only seal SHA `72687539...` фиксирует 110 RFUD spreads SI/RI/BR/
+Source-only V1 seal SHA `72687539...` фиксирует 110 RFUD spreads SI/RI/BR/
 MIX и exact mapping в public archive через official leg names. Ordinary ISS history
 сохраняет settlement/OI, но bounded probe не отражает фактическую торговую активность;
 public archive CSV отдельно даёт Last, Bid, Ask, High, Low, Amount, Volume и Trades.
 Поэтому значения никогда не coalesce-ятся между источниками. Exact HTML/CSV bytes и
 ISS JSON архивируются, missing/zero/signed prices сохраняются, а расхождения официальных
-интервалов получают flags.
+интервалов получают flags. После pre-collection push `293e54e` V1 корректно остановился
+без output: последний Si spread вернул blank `ASSETCODE`. Отдельный V2 seal SHA
+`be770102...` меняет только parser blank-to-missing, не мутирует raw и не допускает
+непустой чужой код. V1 остаётся неизменяемым; V2 collection ещё не выполнялся.
 
 Источник current-vintage и не содержит historical order-time queue. EOD Bid/Ask не
 доказывает исполнимый spread в момент решения; исторические fees, IM и broker rules также
