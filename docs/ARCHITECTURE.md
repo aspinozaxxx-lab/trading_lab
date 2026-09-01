@@ -322,7 +322,9 @@ integer sizing, asset-atomic ledger, gross/capacity/margin и costs импорт
 Перед чтением market outcomes runner проверяет SHA всех source artifacts, sidecar и
 manifest payload, декодирует два raw CSV, повторяет parse/combine и требует exact
 DataFrame equality. Config SHA `f81b5aaa...` фиксирует один вариант и state counts до
-первого PnL; current-vintage источник не является независимым holdout.
+первого PnL; current-vintage источник не является независимым holdout. Pre-outcome
+commit `34023c1` был pushed до canonical run. V24 дал +38,89%, но Sharpe 0,739 и MDD
+−14,28% оба хуже frozen V12, поэтому verdict `NO_GO`; модуль сохраняется для exact replay.
 
 ### `market_lab.futures.futoi_intraday_source`
 

@@ -130,6 +130,7 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 | V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
 | V22 CBR printed BCI regime | +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86%; complete | Положительный, но нестабильный и ниже gates; NO-GO |
 | V23 CBR household confirmation | −5,35%, CAGR −1,09%, Sharpe −0,16, MDD −13,62%; ledger complete | Отрицателен во всех cost scenarios; NO-GO |
+| V24 daily VIX/VIX3M governor | +38,89%, CAGR 6,79%, Sharpe 0,74, MDD −14,28%; complete | Прибыльный, но stability и costs хуже V12; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -140,6 +141,31 @@ risk, expiry и promotion gates были неизменяемы до outcome. Ca
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V24 Cboe VIX/VIX3M daily governor — прибыльный, но хуже V12
+
+V24 не меняет frozen V12 signal/risk/execution. Config SHA
+`f81b5aaa666346fa049b550e5dfc92c24ecf6ef2790a2cb00fb83235f24c064c`
+заранее зафиксировал daily binary global scale: causally available complete contango
+`VIX/VIX3M < 1` пропускает V12, backwardation/flat/missing/stale переводит всё в cash.
+Source/calendar-only counts `1785/167/72` all и `1170/53/47` OOS были sealed до PnL.
+Pre-outcome commit `34023c1` pushed до canonical run
+`runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/`; metrics SHA
+`1da1b995fd432c938f62745abcc71f7e85af5a5d20735b9a98631a41d21d2f98`.
+
+- 83/83 checks true; strict replay двух raw CSV точно восстановил processed source;
+- 3 722/3 722 dependencies, primary 774 filled legs, 0 rejected/critical/unresolved;
+- primary/doubled/stress return **+38,89%/+37,13%/+33,54%**;
+- primary CAGR **6,79%**, Sharpe **0,739**, MDD **−14,28%**, costs **26 009,44 RUB**;
+- годы: **+16,56%/+8,66%/+7,62%/+10,50%/−7,80%**;
+- maximum participation **0,13643%**, maximum post-mark gross leverage **0,9443**;
+- все 20 run files прошли bytes/SHA/row audit, market timestamps `<=2025-12-30`.
+
+V24 прошёл CAGR, 4/5 years и положительные doubled/stress gates, но проиграл V12 по
+Sharpe на `0,0231` и по MDD на `0,125 п.п.`. Сто cash sessions создали 67 episodes и
+133 scale transitions; filled legs выросли с 429 до 774, costs — на 12 622,16 RUB.
+Verdict `NO_GO`: не ретюнить ratio boundary, freshness, levels, smoothing, hysteresis,
+partial scale или asset exceptions на 2021–2025.
 
 ## V23 CBR household confirmation — валидный отрицательный NO-GO
 
@@ -179,11 +205,12 @@ states или подбирать risk/expiry/blend на том же outcome.
 Новый независимый FRED/Cboe VIX/VIX3M source V2 собран без MOEX outcome: 2 087 grid rows,
 2 011 complete pairs, 76 missing сохранены, 174 backwardation и 1 837 contango. Processed
 SHA `6ffe7daa...`, manifest SHA `0aecc29fd...`; оба bounded raw CSV не содержат 2026 и
-точно воспроизводят processed frame. V24 запечатан config SHA `f81b5aaa...`, но ещё не
-запускался: ежедневный governor пропускает frozen V12 только при causally available
-contango, а backwardation/missing/stale переводит весь портфель в cash. Source/calendar
-seal фиксирует OOS counts `1170/53/47`; первый outcome разрешён только после pre-outcome
-commit и push.
+точно воспроизводят processed frame. V24 был запечатан config SHA `f81b5aaa...` и pushed
+commit `34023c1` до единственного outcome. Daily contango governor сохранил прибыль:
+total **+38,8855%**, CAGR **6,7910%**, Sharpe **0,7394**, MDD **−14,2777%**, все cost
+scenarios положительны и execution complete. Но он оказался хуже frozen V12 и по Sharpe,
+и по MDD, а costs выросли на 12,62 тыс. RUB. Verdict **NO_GO**; boundary, freshness,
+binary scale и state mapping на этой истории больше не менять.
 
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
@@ -584,9 +611,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     confirmed states fail-closed не mapped. Same-history household tuning закрыт.
 13. FRED/Cboe VIX/VIX3M V2 готов: 2 087 grid rows, 2 011 complete pairs, processed SHA
     `6ffe7daa...`, manifest SHA `0aecc29fd...`; 2 010 pairs causal до границы 2026,
-    включая 174 backwardation. V24 запечатан SHA `f81b5aaa...`: один binary structural
-    governor frozen V12, four-day freshness, fail-closed missing rule, execution и gates.
-    Pre-outcome commit/push обязателен до единственного canonical run.
+    включая 174 backwardation. V24 был запечатан/pushed до outcome и завершён `NO_GO`:
+    +38,89%, Sharpe 0,739, MDD −14,28%, complete execution, но оба stability gates хуже
+    V12 и costs выше. Same-history VIX boundary/freshness/scaling tuning закрыт.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -648,6 +675,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v21_cbr_macro_revision_breadth_20260901T022038Z_5d97fd51/metrics.json`
 - `runs/v22_cbr_business_climate_20260901T025910Z_97b2aa74/metrics.json`
 - `runs/v23_cbr_household_confirmation_20260901T034927Z_2a8a35a8/metrics.json`
+- `runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

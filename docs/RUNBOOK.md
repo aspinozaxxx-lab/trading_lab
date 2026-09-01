@@ -497,6 +497,12 @@ backwardation cash, `72` missing/stale cash; OOS `1270` = `1170/53/47`. Любо
 четырёхдневную freshness, binary scale или добавлять VIX level/percentile variants на
 той же истории.
 
+Canonical run уже выполнен ровно один раз:
+`runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/`, metrics SHA `1da1b995...`.
+Verdict `NO_GO`: primary +38,89%, CAGR 6,79%, Sharpe 0,739, MDD −14,28%; execution
+complete, но Sharpe/MDD хуже V12 и costs выше. Команду выше не повторять для подбора
+вариантов на той же истории.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

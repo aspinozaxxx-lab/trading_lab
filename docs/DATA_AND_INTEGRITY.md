@@ -22,7 +22,7 @@ SHA-256. Если external root отличается от sibling-каталог
 
 ## Защищённая временная граница
 
-Для текущих V8–V21 исследований `2026-01-01` — protected boundary. Запрещено:
+Для текущих V8–V24 исследований `2026-01-01` — protected boundary. Запрещено:
 
 - читать 2026 prices, returns, targets, labels или PnL;
 - выбирать universe, признаки, thresholds или execution assumptions по 2026;

@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V24: daily Cboe VIX/VIX3M risk governor — SEALED, OUTCOME PENDING
+## V24: daily Cboe VIX/VIX3M risk governor — NO-GO
 
 - Протокол:
   [`configs/futures_v24_cboe_vix_term_structure_governor.yaml`](../configs/futures_v24_cboe_vix_term_structure_governor.yaml)
@@ -26,15 +26,44 @@
 - Canonical V2 source: 2 087 grid rows, 2 011 complete pairs, 76 missing; processed SHA
   `6ffe7daa...`, raw SHA `d11aa637...`. Два bounded raw CSV точно воспроизводят parquet,
   не содержат observations 2026 и консервативно доступны только после Chicago day-end.
-- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; первый market/PnL
-  run запрещён до commit и push этой записи.
+- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; implementation,
+  protocol и pending-status были committed/pushed как `34023c1` до первого market/PnL.
 - Promotion требует CAGR `>=5%`, Sharpe не ниже V12 `0,7624`, MDD не хуже V12
   `14,1526%`, не менее 4/5 положительных лет, positive doubled/stress, complete
   execution и отсутствие breaches. Даже GO разрешит только новую unseen validation.
+- Canonical run:
+  `runs/v24_cboe_vix_governor_20260901T042913Z_f81b5aaa/`.
+- Metrics SHA-256:
+  `1da1b995fd432c938f62745abcc71f7e85af5a5d20735b9a98631a41d21d2f98`.
 
-Это один adaptive same-history stability test, не независимое подтверждение. После первого
-outcome запрещено менять boundary/age, инвертировать state, добавлять levels/thresholds,
-сглаживание или выбирать asset-specific исключения на 2021–2025.
+Все 83 input/raw-replay/source/calendar/runtime checks true. Все 18 declared artifacts
+плюс metrics/identity существуют и повторно прошли bytes/SHA/row audit; market-derived
+timestamps заканчиваются `2025-12-30`. Execution complete во всех сценариях:
+3 722/3 722 nonzero next-open dependencies, primary 774 filled legs, 0 rejected,
+critical/unresolved, capacity/gross/margin breaches. Maximum participation **0,13643%**,
+maximum post-mark gross leverage **0,9443**.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | +38,8855% | +6,7910% | 0,7394 | −14,2777% | 4/5 | 26 009,44 | yes |
+| doubled | +37,1342% | +6,5203% | 0,7163 | −14,4019% | 4/5 | 51 708,38 | yes |
+| stress | +33,5409% | +5,9561% | 0,6643 | −15,2709% | 4/5 | 74 152,75 | yes |
+
+Primary годы: 2021 **+16,56%**, 2022 **+8,66%**, 2023 **+7,62%**,
+2024 **+10,50%**, 2025 **−7,80%**. Terminal positions carry; conservative primary exit
+reserve 173,40 RUB оставляет post-reserve total return **+38,87%**.
+
+Относительно frozen V12 primary: total return ниже на **6,23 п.п.**, CAGR на
+**0,94 п.п.**, Sharpe на **0,0231**; MDD хуже на **0,125 п.п.**, worst year хуже на
+**5,16 п.п.**, costs выше на **12 622,16 RUB**. Сто cash sessions образовали 67 episodes
+и 133 scale transitions; filled legs выросли с 429 до 774. Governor помог 2024, но
+ухудшил 2021/2022/2023/2025.
+
+Verdict: `NO_GO`. CAGR, positive-year и cost-stress gates пройдены, но обязательные
+Sharpe и MDD improvements над V12 провалены. Это один adaptive same-history stability
+test, не независимое подтверждение. После outcome запрещено менять boundary/age,
+инвертировать state, добавлять levels/thresholds, smoothing/hysteresis/partial scale или
+выбирать asset-specific исключения на 2021–2025.
 
 ## V23: CBR household inflation/sentiment confirmation — NO-GO
 

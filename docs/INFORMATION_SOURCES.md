@@ -343,8 +343,9 @@ FRED распространяет официальные Cboe daily closes `VIXC
 Availability консервативно равна концу Chicago observation day. Поэтому для московского
 решения используется только уже завершившийся US close; 2025-12-31 становится доступен
 в 2026 и исключается. Ряды current-vintage и copyrighted/citation-required: bundle
-пригоден для одного development challenger, не для независимой validation или raw
-redistribution. MOEX outcomes с этим источником ещё не читались.
+пригоден для development challenger, не для независимой validation или raw
+redistribution. Единственный sealed V24 дал +38,89%, но не улучшил V12 Sharpe/MDD и
+завершён `NO_GO`; same-history boundary/freshness/scaling tuning закрыт.
 
 ### Уже использованные источники
 
@@ -373,7 +374,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR macro survey | Forward consensus revisions для SI/BR/RI/MIX | Current-vintage, historical release time неизвестен | Только конец месяца после survey month; original vintages нужны для confirmation |
 | P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P1 | CBR household inflation/sentiment | Согласованный потребительский risk-on/off regime для RI/MIX/SI | Release files retrieved сейчас; нужен sealed test и forward vintages | Конец max(publication, last-update) day; collision оставляет latest release month |
-| P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | Bundle и sealed V24 готовы; current-vintage/copyrighted, outcome pending | Только complete pair после Chicago day-end и `available_at <= decision_at` |
+| P1 | Cboe VIX/VIX3M via FRED | Глобальный structural stress governor для frozen V12 | V24 NO-GO; новый тест только forward/unseen, source current-vintage/copyrighted | Только complete pair после Chicago day-end и `available_at <= decision_at` |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -453,8 +454,8 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    инвертировать signs, не выбирать один ряд и не торговать mixed states post-hoc;
 10. Cboe VIX/VIX3M V2 bundle готов: 2 087 rows, 2 011 complete pairs, processed SHA
     `6ffe7daa...`, manifest SHA `0aecc29f...`; 174 structural backwardation days до
-    protected boundary. V24 запечатан SHA `f81b5aaa...`: один daily binary governor
-    frozen V12; market outcome нельзя читать до commit и push этого protocol;
+    protected boundary. V24 был запечатан/pushed до outcome и завершён `NO_GO`:
+    +38,89%, Sharpe 0,739, MDD −14,28%; same-history tuning запрещён;
 11. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.
