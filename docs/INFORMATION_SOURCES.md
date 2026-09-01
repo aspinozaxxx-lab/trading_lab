@@ -217,6 +217,29 @@ forward collection для независимого подтверждения. �
 raw всё равно остаётся вне Git. Первый bundle `...-v1` сохранён как superseded discovery:
 одна ошибочно помещённая в result group карточка announcement ещё имела класс `other`.
 
+### CBR macro survey — current-vintage ожидания аналитиков
+
+Официальный workbook агрегирует медиану и распределение прогнозов аналитиков, то есть
+добавляет forward-looking expectations, а не ещё один фактический flow:
+
+- path: `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/`;
+- 11 787 non-missing records, 37 выпусков `2021-05..2025-12`, по годам
+  `5/8/8/8/8`, 17 indicators и девять statistics;
+- processed: 78 291 bytes, SHA-256
+  `a139ead81d1e06495afcd680ff1cb7903f2a102165c9f7bd7a074577c7069d6a`;
+- manifest: 4 405 bytes, SHA-256
+  `faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe`;
+- raw XLSX: 294 970 bytes, SHA-256
+  `a715edf614799186278656970380aa0ba6abcfb801bfa2e92806cdc9fdb06944`;
+- ключевые непрерывные каналы: USD/RUB, CPI, key rate и GDP; oil sheets менялись во
+  времени, поэтому их нельзя бесшовно склеивать или считать пропуски нулями;
+- точные исторические release timestamps и original workbook vintages не опубликованы.
+  `available_at` намеренно отложен до `23:59:59 Europe/Moscow` последнего дня следующего
+  месяца; 36 из 37 выпусков доступны до protected boundary, December 2025 — уже нет.
+
+Это development-only источник. Он не может дать независимое подтверждение без forward
+versioned snapshots, но позволяет один заранее запечатанный тест revisions ожиданий.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -241,6 +264,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR weekly liquidity forecast | Заранее известный рублёвый liquidity/fiscal-flow regime для SI | Bundle готов; original response bytes не доказаны | Только дата внутри record и `available_at <= decision_at` |
 | P1 | CBR daily Minfin FX operations | Прямой persistent FX flow для SI и будущего intraday timing | Current-vintage revisions; original publication bytes отсутствуют | Следующий рабочий день, не раньше 10:31 мск |
 | P1 | Minfin OFZ auction results | Causal demand/liquidity shock для RI/MIX/SI | Date-only и current-vintage; нужен sealed test и forward vintages | Только конец publication day, затем следующий factual open |
+| P1 | CBR macro survey | Forward consensus revisions для SI/BR/RI/MIX | Current-vintage, historical release time неизвестен | Только конец месяца после survey month; original vintages нужны для confirmation |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -256,6 +280,8 @@ RUONIA использована в V15. Её причинная часть V16 �
 - [CBR publication schedule](https://www.cbr.ru/eng/calendar/),
   [key-rate calendar](https://www.cbr.ru/DKP/cal_mp/) и
   [RUONIA](https://www.cbr.ru/hd_base/ruonia/);
+- [CBR macroeconomic survey](https://www.cbr.ru/eng/statistics/ddkp/mo_br/) — медианы,
+  диапазоны и история прогнозов аналитиков;
 - [CBR liquidity forecast](https://www.cbr.ru/eng/statistics/pffl/),
   [daily liquidity-factor definitions](https://www.cbr.ru/statistics/flikvid/definitions/)
   и [historical publication-schedule notice](https://www.cbr.ru/eng/press/pr/?file=120516_104301eng_liq-ind.htm);
@@ -294,6 +320,10 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    OFZ-PD demand-strength test завершён `NO_GO`: total return −5,35%, CAGR −1,09%,
    Sharpe −0,63, MDD −6,19% при полном исполнении. Не подбирать sign, extremes,
    rank window, expiry и failed/PK/IN по этому outcome;
-7. любой следующий PnL начинается только после source manifest, `available_at` audit и
+7. CBR macro-survey source готов: 37 survey months, 17 indicators, 11 787 records,
+   processed SHA `a139ead8...`, manifest SHA `faae8927...`; только 36 releases causal до
+   2026. Следующий допустимый тест — заранее объявленные same-target-year median revisions,
+   без выбора показателей или знаков после outcome;
+8. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

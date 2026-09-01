@@ -80,6 +80,12 @@ MDD **−6,1937%**. Все 504 nonzero dependencies покрыты, 0 critical/u
 в стабильный edge. Signs, extreme-score threshold, rank window, expiry и event kinds по
 этому outcome не подбирать.
 
+Новый target-free CBR macro-survey source собран без чтения market outcomes: 11 787
+records, 37 survey months и 17 indicators. Processed SHA `a139ead8...`, manifest SHA
+`faae8927...`; original historical vintages отсутствуют. Консервативный month+1-end
+contract допускает до границы 2026 только 36 releases. Источник готов для одного
+predeclared development test revisions ожиданий, но не для независимого подтверждения.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -423,6 +429,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 9. V20 prior-only demand-strength test завершён `NO_GO`: total return −5,35%,
    Sharpe −0,63, MDD −6,19%, 504/504 dependencies complete. Не менять rank window,
    basket signs, expiry, threshold или включённые event kinds по этому outcome.
+10. CBR macro-survey bundle готов: 11 787 records, 37 months, 17 indicators, processed
+    SHA `a139ead8...`, manifest SHA `faae8927...`. До PnL запечатать один revisions
+    protocol; December 2025 исключается по `available_at >= 2026-01-01`.
 
 ### P2 — разблокировать широкий structural exact execution
 

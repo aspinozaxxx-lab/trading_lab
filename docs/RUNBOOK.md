@@ -401,6 +401,22 @@ MDD −6,19%, 504/504 dependencies complete. Config SHA остаётся `788fad
 sign flip, threshold/extreme-only, другой rank window/expiry и добавление failed/PK/IN на
 тех же 2021–2025 outcomes.
 
+### CBR macro-survey source
+
+Canonical source-only bundle находится во внешнем хранилище. Новый current-vintage
+snapshot всегда получает новый directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.cbr_macro_survey_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\cbr-macro-survey-<new-id>
+```
+
+Collector не использует Excel/market outcomes: cached XLSX values разбираются стандартной
+библиотекой, отсутствующие cells пропускаются, source cell сохраняется. Canonical V1:
+11 787 records, 37 months, processed SHA `a139ead8...`, manifest SHA `faae8927...`.
+Historical vintages не доказаны; availability равна концу следующего месяца, поэтому
+December 2025 недоступен до protected boundary.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

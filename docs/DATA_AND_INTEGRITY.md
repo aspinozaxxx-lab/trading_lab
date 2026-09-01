@@ -67,6 +67,10 @@ identity и должен проверяться перед чтением.
 | Minfin OFZ auction events, current-vintage | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/minfin_ofz_auction_events.parquet` | `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480` |
 | Minfin OFZ auction manifest | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/manifest.json` | `c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52` |
 | Minfin OFZ auction raw pages | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/official_minfin_ofz_auction_pages.jsonl.gz` | `f56af34a15a284e74f8364daf3abd6ae7d2978a01b22443e33ced079d72133c7` |
+| CBR macro-survey forecasts, current-vintage | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/cbr_macro_survey_forecasts.parquet` | `a139ead81d1e06495afcd680ff1cb7903f2a102165c9f7bd7a074577c7069d6a` |
+| CBR macro-survey manifest | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/manifest.json` | `faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe` |
+| CBR macro-survey raw workbook | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_current_vintage.xlsx` | `a715edf614799186278656970380aa0ba6abcfb801bfa2e92806cdc9fdb06944` |
+| CBR macro-survey raw page | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_page.html.gz` | `a5555e741cbb5185f21135464d97c32d819f134e95899b4593f54a8d94f630d3` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |

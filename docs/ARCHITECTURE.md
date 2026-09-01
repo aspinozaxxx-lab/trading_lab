@@ -80,6 +80,14 @@ cutoff/weighted price; yield обязателен кроме floating-rate ОФ�
 доступна только в `23:59:59 Europe/Moscow`; current-vintage history не считается
 independent/original-vintage evidence.
 
+`market_lab.futures.cbr_macro_survey_source` скачивает официальный aggregated XLSX
+макроопроса аналитиков и без `openpyxl` читает только cached values 17 именованных sheets.
+Каждая ненулевая ячейка становится tidy record с survey month, forecast period,
+statistic, indicator и source cell; отсутствующие ячейки не превращаются в zero.
+Исторические workbook vintages недоступны, поэтому current snapshot допускается только
+как development source. Чтобы не угадывать старое время публикации, `available_at`
+консервативно равен концу следующего московского месяца.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.
