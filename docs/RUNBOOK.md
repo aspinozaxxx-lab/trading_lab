@@ -355,6 +355,19 @@ manifest. Он выводит publication date как следующий дат�
 availability на 10:31 мск. Это current-vintage/revisable development source, не original
 historical vintages; raw не распространять без проверки прав.
 
+### V19 CBR-reported Minfin FX-flow persistence for SI
+
+Только после pre-outcome commit/push один immutable run создаётся командой:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v19_cbr_minfin_fx_persistence `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Config SHA должен оставаться `1340ffac...`. Replay не разрешает sign flip, magnitude
+threshold/scaling, smoothing, выбор только change days, более ранний timing или blend с
+V12/V18 по увиденному V19 result.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

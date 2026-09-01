@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V18 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V19 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -70,6 +70,11 @@ thresholds, lag и expiry по этому outcome не подбирать.
 содержать revisions, поэтому пригоден лишь для sealed development test и будущего
 forward-архива, не для независимого подтверждения.
 
+V19 уже запечатал один тест прямого persistence-знака: reported FX purchase = long SI,
+sale = short SI, zero = cash; availability 10:31 мск, решение после close и fill только
+на следующем factual open. Amount scaling, thresholds, smoothing и blend запрещены.
+Outcome ещё не прочитан; config SHA `1340ffac...`, real source/input preflight 71/71.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -85,6 +90,7 @@ forward-архива, не для независимого подтвержде�
 | V16 FUTOI crowding + capacity-aware 2x | Механически CAGR 22,01%, но 932/1 044 states были недоступны | **INVALID: FUTOI look-ahead**, метрики не использовать |
 | V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
+| V19 CBR reported Minfin FX persistence | Outcome не прочитан; config SHA `1340ffac...` | Sealed; выполнить один run только после pre-outcome push |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -351,8 +357,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 7. CBR daily-factors source собран: 1 238 admitted rows, processed SHA `88885d36...`,
-   manifest SHA `f1701ec3...`. До любого SI outcome запечатать единственный persistence
-   test прямого знака Minfin FX operations; без threshold, magnitude scaling и sign flip.
+   manifest SHA `f1701ec3...`. V19 persistence test уже запечатан, 71/71 preflight true:
+   после pre-outcome push выполнить один canonical run без threshold, amount scaling,
+   smoothing, blend или sign flip.
 
 ### P2 — разблокировать широкий structural exact execution
 

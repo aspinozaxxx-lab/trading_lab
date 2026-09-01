@@ -204,6 +204,15 @@ V17 технически завершён, но получил `NO_GO`: полн
 Остальные три asset target всегда равны нулю; sizing использует только prior 60-session
 SI volatility и frozen V12 execution mapper/ledger.
 
+### `market_lab.futures_v19_cbr_minfin_fx_persistence`
+
+Проверяет один direct-flow signal: официальный знак фактической операции Минфина с
+валютой, опубликованный только на следующий рабочий день. Source допускается после 10:31
+мск, решение принимается после закрытия factual session, fill выполняется на следующем
+open. Несколько публикаций, попавших в одну session после разрыва торгов, разрешаются
+только latest-known observation. Amount не масштабирует target; остальные assets zero,
+execution и risk sizing унаследованы от frozen V12.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

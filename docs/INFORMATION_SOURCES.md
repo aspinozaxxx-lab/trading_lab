@@ -253,9 +253,9 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
 3. V18 CBR forecast test завершён `NO_GO`: primary CAGR −10,31%, Sharpe −0,51,
    MDD −55,73%, 1/5 positive years при полном исполнении. Не создавать V18.1 с
    противоположным знаком, extreme-week threshold или другой строкой того же release;
-4. новый CBR daily-factors snapshot подготовлен source-only. Следующий допустимый sealed
-   тест — persistence прямого знака фактических операций Минфина для SI: published-next-
-   working-day, next factual open, без magnitude threshold и без связи с V18 sign;
+4. новый CBR daily-factors snapshot подготовлен source-only. V19 уже запечатал persistence
+   прямого знака фактических операций Минфина для SI: published-next-working-day,
+   next factual open, без magnitude threshold и без связи с V18 sign. Outcome не читался;
 5. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 6. любой следующий PnL начинается только после source manifest, `available_at` audit и

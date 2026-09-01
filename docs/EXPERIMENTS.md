@@ -4,6 +4,27 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V19: CBR-reported Minfin FX-flow persistence для SI — sealed, outcome не прочитан
+
+- Протокол: [`configs/futures_v19_cbr_minfin_fx_persistence.yaml`](../configs/futures_v19_cbr_minfin_fx_persistence.yaml)
+- Config SHA-256:
+  `1340ffacae93b514fe4605262d8946a6a87cbc4619c1748b48ac45b9a9b19946`.
+- Новый source: 1 238 current-vintage daily CBR factors `2021-01-11..2025-12-30`,
+  processed SHA
+  `88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864`.
+- Единственный сигнал: `sign(minfin_fx_operations_bln_rub)`; official positive FX
+  purchase = long SI, negative sale = short SI, exact zero = cash.
+- Observation day используется только после 10:31 мск следующего датированного рабочего
+  дня ЦБ; решение — close первой factual MOEX session после availability, fill — только
+  следующий factual active-contract open. Same-session collisions оставляют последний
+  доступный observation.
+- SI sizing: prior 60-session annual volatility, 20% target, floor 10%, absolute cap 1;
+  RI/BR/MIX всегда zero. Amount scaling, threshold, smoothing, training и blend отсутствуют.
+- Историческая таблица допускает revisions и не содержит original publication bytes:
+  даже положительный результат будет development-only и потребует forward vintages.
+- Статус: sealed pre-outcome; 71/71 real source/input preflight checks true. До
+  pre-outcome commit/push реальные targets, SI outcomes и PnL не читать.
+
 ## V18: CBR forward-liquidity forecast для SI — NO-GO
 
 - Протокол: [`configs/futures_v18_cbr_liquidity_forecast.yaml`](../configs/futures_v18_cbr_liquidity_forecast.yaml)
