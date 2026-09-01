@@ -93,6 +93,12 @@ return или PnL 2013–2017 можно читать только после co
 1 400 RUONIA unknown availability rows missing: 1 168 validation intervals явно
 `no_credit_unknown_availability`, а не zero-filled yield.
 
+V28 canonical run завершён после seal commit `4310bc3`: metrics SHA `73b614b8...`,
+identity SHA `d7210826...`, declared artifact audit 103/103. Run immutable и invalid
+для promotion: отменённый capacity roll оставил expired contract, execution complete
+false, critical failures 5 129. Не исправлять V28 in-place и не выдавать его частичную
+equity curve за чистый unseen economic verdict.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical

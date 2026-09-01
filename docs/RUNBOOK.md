@@ -693,9 +693,11 @@ config, sidecar, tests и docs должны быть committed и pushed. Не �
   --output-root .\runs
 ```
 
-Запуск разрешён ровно один раз после push. Затем зафиксировать canonical path, metrics
-SHA, все artifacts/counts, execution failures, годовые результаты и независимые verdict
-для 20%/50%. Не менять V28 по увиденному результату; любая correction — новый protocol.
+Canonical run уже выполнен ровно один раз:
+`runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/`, metrics SHA `73b614b8...`.
+Verdict `FAIL_UNSEEN_20`, execution invalid из-за expired-contract trap после
+capacity-cancelled roll. Команду не повторять. Любая risk-first roll correction — новый
+V29 protocol с новым code/config/output и обязательным pre-outcome push.
 
 ## 5. Новый эксперимент
 

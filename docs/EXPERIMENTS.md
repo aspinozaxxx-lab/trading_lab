@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V28: frozen V27 economics on unseen 2013–2017 — sealed, outcome pending
+## V28: frozen V27 economics on unseen 2013–2017 — FAIL/INVALID
 
 - Config SHA `4f9e6663...`, implementation SHA `b9c290f6...`; это первое использование
   D3 prices/returns в strategy experiment. До seal прочитаны только hashes, schemas,
@@ -21,6 +21,19 @@
 - Отдельные gates требуют во всех cost scenarios CAGR `>=20%` или, для aspirational
   support, `>=50%`, MDD `<=30%`, primary Sharpe `>=0.80`, 4/5 positive years, worst year
   `>=-15%`, complete execution и no breaches. Даже pass остаётся research-only.
+- Seal commit `4310bc3` был pushed до первого market outcome. Canonical run:
+  `runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/`; metrics SHA `73b614b8...`,
+  identity SHA `d7210826...`. Artifact audit 103/103, protocol/source checks 137/137.
+- Primary combined return `−11,3985%`, CAGR `−2,4271%`, Sharpe `−0,2682`, MDD
+  `−17,6953%`; doubled/stress CAGR `−2,5362%/−2,5950%`. Ни 20%, ни 50% не
+  поддерживаются.
+- Execution invalid: 5 capacity-cancelled atomic rolls оставили старые контракты;
+  первый необратимый trap — BRK4 после отменённого roll `2014-05-12`, затем contract
+  отсутствует с `2014-05-19`. Итог: 5 129 critical failures, 1 251 rejected legs,
+  execution incomplete. Метрики не разрешены для promotion.
+- Диагноз задаёт отдельную V29 hypothesis: на roll сначала полностью закрывать причинно
+  исполнимый old leg, а new entry независимо clip-ить к 1% capacity или cash. V28 не
+  менять и не перезапускать; V29 является post-V28 adaptive execution correction.
 
 ## PRE2018-MACRO-S3: preserve unknown RUONIA timing — completed
 

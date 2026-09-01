@@ -31,14 +31,15 @@ primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAG
 verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
 причинный режим риска и снизил MDD на **12,8523 п.п.**.
 
-Следующая decisive проверка **V28** подготовлена, но outcome ещё не читался. Config SHA
-`4f9e6663...`, implementation SHA `b9c290f6...`; frozen V27 economics переносится на
-неиспользованный market period `2013-01-01..2017-12-01` после warm-up 2012. До seal
-использованы только source identities/calendars/macro states. Exact validation states:
-254 weeks = 147 pass, 70 STLFSI cash, 37 missing/stale key-rate cash, 0 rate>=20 cash.
-RUONIA credit допустим только на 56/1 224 intervals; 1 168 unknown-timing intervals
-получают no credit без подстановки нуля. После commit/push разрешён ровно один immutable
-run с отдельной оценкой поддержки 20% и 50%; live trading остаётся запрещён.
+Decisive проверка **V28** выполнена один раз после push seal `4310bc3`. Canonical run
+`runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/`, metrics SHA `73b614b8...`.
+Результат плохой: primary combined CAGR **−2,4271%**, Sharpe **−0,2682**, MDD
+**−17,6953%**; stress CAGR **−2,5950%**. Но execution одновременно invalid: пять
+capacity-cancelled atomic rolls оставили expired old contracts; с `2014-05-19` BRK4
+не имеет factual rows, что породило 5 129 critical failures и 1 251 rejected legs.
+Поэтому V28 не поддерживает ни 20%, ни 50%, а его метрики нельзя считать валидным
+полным тестом signal economics. Следующий отдельный V29 должен проверить risk-first
+roll: full executable old-leg exit, independently capacity-clipped new entry/cash.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
@@ -722,12 +723,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 3. D1 выявил serial-contract failure; D2 остановился без output на неверном ожидании
    непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
    S1 transport failed без output; S2 failed parse без output; S3 успешно собран и
-   replayed. V28 config SHA `4f9e6663...` теперь фиксирует frozen economics и exact
-   source-only states. Следующий шаг: commit/push seal, затем один immutable V28 run.
-   Период может независимо
-   проверить frozen trend/capital/execution path, но главный `>=20%` governor не
-   активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё
-   proxy; licensed MOEX/broker archive обязателен для broker-exact и live evidence.
+   replayed. V28 завершён с отрицательным и execution-invalid outcome; не повторять.
+   Следующий шаг — отдельно запечатать V29 risk-first roll correction: old leg exit
+   независимо от clipped/cancelled new entry, без изменения signal/governors/leverage/
+   costs. Главный `>=20%` governor в этом периоде не активируется. Historical specs/
+   fees/IM всё ещё proxy; licensed MOEX/broker archive обязателен для live evidence.
 4. Провести заранее запечатанный paper/shadow forward test без реального капитала;
    отдельно мониторить key-rate/STLFSI availability, отрицательные недели, drawdown,
    capacity cancels и деградацию trend edge.
