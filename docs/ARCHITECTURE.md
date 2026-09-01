@@ -563,6 +563,12 @@ context подменяет ровно три parent hooks плюс resolved conf
 `c38a7356...`, module SHA `fb9b4e15...`; thresholds, MLP, ledger, costs и gates не
 меняются. Результат всегда adaptive development evidence и не может подтвердить live.
 
+Canonical V3 manifest SHA `a7de7e04...`; оба audits true. Source-semantics fix увеличил
+число plans с 13 до 1 666 и дал полноценную evaluation, но primary и stress отрицательны.
+Лучший exploratory cross-sectional sleeve слегка положителен только при primary costs и
+отрицателен на development/stress. V3 остаётся reusable evidence, что проблема EV2 была
+в admission, а не доказательством прибыльной стратегии.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

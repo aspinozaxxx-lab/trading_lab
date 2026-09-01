@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-EV3: adaptive source-semantics correction sealed, outcomes pending
+## CALENDAR-SPREAD-EV3: completed adaptive test, NO_GO
 
 - V3 config SHA `c38a7356385baeb75be7f0f206f757d49ff192284239630aed1aee72a79f8f57`,
   implementation SHA `fb9b4e1556ee848fa93f1173cf70e1ab92ac9b4cc628ee0956f793dcc6383f86`.
@@ -18,8 +18,25 @@
   common factual outright open, минимум 1% lagged-volume capacity обеих ног, buffered
   margin 2x и full-exit retries неизменны. Все 10 thresholds/horizons/directions,
   monthly MLP, split, 1,6x gross, costs и promotion gates byte-identical V1/V2.
-- Intended immutable path `runs/calendar_spread_economic_2021_2025_v3/`. V3 seal должен
-  быть pushed до первого V3 outcome; best-of-ten остаётся exploratory, live запрещён.
+- Canonical path `runs/calendar_spread_economic_2021_2025_v3/`; seal `58ba05c` был
+  pushed до V3 outcomes. Manifest SHA `a7de7e04333eb24a16f4c6862503d9a20a09095abc547305476326c2bab91adc`,
+  metrics SHA `665e13cb...`; initial 37/37 и повторный 29/29 audits true.
+- Source correction восстановила экспозицию: 1 666 plans, 3 734 MLP predictions;
+  strategy plan counts 86/160/287/64/66/172/167/166/114/384. Все primary-strategy
+  scenarios execution-complete, missing entry dates и terminal positions 0.
+- Predeclared primary `volatile_corridor_far_stop` провалился: evaluation 2024–2025
+  total `−0,2160%`, CAGR `−0,1068%`, Sharpe `−0,3495`, MDD `0,3680%`, 17 trades,
+  оба года отрицательны; stress total `−0,4818%`. Full total `−2,6506%`.
+- Exploratory best-of-ten — `cross_sectional_extremes`: evaluation total `+0,2074%`,
+  CAGR `+0,1024%`, Sharpe `0,2281`, MDD `0,4465%`, 38 trades и оба года positive;
+  однако stress `−0,3174%`, development `−1,1892%`, full `−0,9843%`. Второй
+  `slow_corridor_40`: evaluation `+0,1514%`, stress `−0,1077%`, development `−2,2133%`.
+  Ни один вариант не прошёл costs/stability gates; verdict `NO_GO`.
+- Post-run decomposition: cross-sectional evaluation gross `+5 448,55 ₽`, primary
+  trade costs `2 391,65 ₽`, net completed-trade sum `+3 056,90 ₽`; slow corridor gross
+  `+2 494,52 ₽`, costs `1 296,00 ₽`. Edge мал и нестабилен: у cross-sectional SI
+  положителен, RI в 2025 дал `−3 529,03 ₽` net. Следующий тест может быть только явно
+  adaptive cost-aware admission с новым seal; увеличение плеча не исправляет economics.
 
 ## CALENDAR-SPREAD-EV2: completed, NO_GO_NO_EVALUATION_EXPOSURE
 

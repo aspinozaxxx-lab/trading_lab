@@ -100,7 +100,12 @@ source-semantics correction без изменения thresholds/ledger/costs/ga
 зафиксирован: config SHA `c38a7356...`, module SHA `fb9b4e15...`. Он меняет только
 signal price midpoint → factual reported Last и исключает closing EOD width из admission;
 сам width остаётся MLP feature, strict-positive flag, two-leg 1% capacity, все десять
-rules, risks/costs/gates неизменны. Следующий шаг — push seal и единственный V3 run.
+rules, risks/costs/gates неизменны. Seal `58ba05c` был pushed; canonical manifest
+`a7de7e04...`, audits 37/37 и 29/29 true. Экспозиция восстановлена до 1 666 plans, но
+primary evaluation `−0,2160%`, stress `−0,4818%`: `NO_GO`. Exploratory cross-sectional
+extremes дал `+0,2074%` и 2/2 positive years, но stress `−0,3174%`, development
+`−1,1892%`; это лишь слабый gross edge до costs. Следующий допустимый шаг — отдельный
+post-selection cost-aware seal либо новый exact multileg execution source.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA

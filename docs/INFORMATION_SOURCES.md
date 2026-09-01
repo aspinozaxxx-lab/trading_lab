@@ -57,6 +57,15 @@ Last менялся существенно чаще. Это согласуетс
 Последующая версия должна явно отделить factual traded Last для signal от lagged outright
 volume для capacity; это adaptive development correction, не новая независимая проверка.
 
+Официальная страница synthetic matching прямо перечисляет более точные вечерние отчёты:
+`multilegf04_XXYY.csv` (сделки участника), `multileg_deal.csv` (все spread trades),
+`multilegordlog_XXYY.csv` (добавление/matching/снятие заявок) и `multileg_dict.csv`
+(состав ног). TWIME отдельно подтверждает, что filled multileg order порождает один
+`ExecutionMultilegReport` и два технических `ExecutionSingleReport`. Публичные ссылки
+на странице выглядят как sample-файлы; доказанного бесплатного исторического архива
+2021–2025 пока нет. Это P0 источник для licensed/member access: он нужен, чтобы заменить
+synchronized next-open proxy фактической spread price, leg allocation, queue и fees.
+
 Внутренние расхождения важны для следующего seal: 189 archive rows лежат вне ISS
 interval, 85 — вне series interval, 451 last не попадает в reported daily range, crossed
 quotes нет. `RIH2RIU2` — единственный spread без reported activity и одновременно
