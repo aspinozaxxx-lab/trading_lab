@@ -1,0 +1,39 @@
+﻿protocol_id: moex_cny_perpetual_source_v2
+protocol_version: 2
+status: cursor_only_correction_after_v1_failed_before_output
+scope: historical_source_only_no_signal_no_return_no_pnl
+research_only: true
+live_trading_allowed: false
+
+parent:
+  config: configs/moex_cny_perpetual_source_v1.yaml
+  config_sha256: 45d3c4ead342423fb9be033b97cbcc6d7b57adc1ef37ee68c2d083a91eb7b265
+  implementation: src/market_lab/futures/moex_cny_perpetual_source.py
+  failed_attempt_output_created: false
+  failed_before_history_normalization: true
+  failed_reason: cursor_total_expected_764_observed_937
+
+diagnosis:
+  v1_probe_from: '2023-01-01'
+  v1_probe_total: 764
+  sealed_collection_from: '2022-04-26'
+  sealed_collection_total: 937
+  cursor_page_size_unchanged: 100
+  price_swaprate_return_or_pnl_read_for_diagnosis: false
+
+exact_override:
+  path: source.total_rows_observed
+  old: 764
+  new: 937
+
+invariants:
+  all_parent_fields_except_exact_override_byte_semantically_inherited: true
+  source_range_unchanged: ['2022-04-26', '2025-12-31']
+  security_board_asset_lot_unchanged: true
+  required_history_columns_unchanged: true
+  temporal_and_forbidden_columns_unchanged: true
+  future_economic_requirements_unchanged: true
+
+output:
+  root: data/processed/fx_basis/moex-cny-perpetual-current-vintage-v2
+  immutable: true
