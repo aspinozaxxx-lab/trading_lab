@@ -1,0 +1,110 @@
+﻿protocol_id: calendar_spread_economic_v4
+protocol_version: 4
+status: post_V3_adaptive_cost_aware_candidate_predeclared_before_V4_outcomes
+declared_at_utc: "2026-09-01T14:05:00Z"
+research_only: true
+sealed_before_V4_outcomes: true
+post_selection_adaptive: true
+independent_confirmation: false
+live_trading_allowed: false
+
+parent_V3:
+  config_path: configs/calendar_spread_v3.yaml
+  config_sha256: c38a7356385baeb75be7f0f206f757d49ff192284239630aed1aee72a79f8f57
+  implementation_path: src/market_lab/futures/calendar_spread_v3.py
+  implementation_sha256: fb9b4e1556ee848fa93f1173cf70e1ab92ac9b4cc628ee0956f793dcc6383f86
+  seal_commit: 58ba05c
+  canonical_manifest_sha256: a7de7e04333eb24a16f4c6862503d9a20a09095abc547305476326c2bab91adc
+  canonical_metrics_sha256: 665e13cb7cc04173cc4d29a3d8f1e3c55a0fdeef45d196a9b10f8b8824529eb0
+  verdict: NO_GO
+  inheritance: byte_identical_except_declared_V4_delta
+
+observed_V3_diagnosis:
+  selected_candidate: cross_sectional_extremes
+  selection_is_post_outcome: true
+  evaluation_primary_total_return: 0.0020739257651412046
+  evaluation_primary_CAGR: 0.0010242263065527446
+  evaluation_primary_sharpe: 0.2280759987859253
+  evaluation_primary_MDD: 0.0044653870638886595
+  evaluation_primary_completed_trades: 38
+  evaluation_primary_positive_years: 2
+  evaluation_stress_total_return: -0.003174444752845229
+  development_primary_total_return: -0.011891965913419233
+  evaluation_completed_trade_gross_pnl_rub: 5448.554401
+  evaluation_completed_trade_primary_cost_rub: 2391.649450
+  conclusion: weak_gross_edge_is_not_robust_to_stress_costs
+
+V4_primary:
+  strategy_id: cross_sectional_extremes
+  numeric_promotion_gates: exact_V1_values
+  success_verdict: ADAPTIVE_LEAD_REQUIRES_NEW_UNSEEN_MULTILEG_VALIDATION
+  failure_verdict: NO_GO
+  best_of_family_still_exploratory: true
+
+cost_aware_admission:
+  applies_to_all_ten_reported_strategies: true
+  primary_interpretation_only_for_cross_sectional_extremes: true
+  source_fields_from_D1_strictly_prior_spec_proxy:
+    - near_sizing_point_value
+    - far_sizing_point_value
+    - near_tick_size
+    - far_tick_size
+    - near_conservative_fee_per_side
+    - far_conservative_fee_per_side
+  expected_remaining_move_points: max_abs_entry_score_minus_strategy_exit_abs_times_entry_scale
+  conservative_cash_value: minimum_near_far_sizing_point_value
+  expected_cash_opportunity_per_contract: expected_remaining_move_points_times_conservative_cash_value
+  stress_one_way_cost_per_contract: >-
+    4*(near_tick_size*near_point_value + far_tick_size*far_point_value)
+    + 2*(near_fee_per_side + far_fee_per_side)
+  stress_round_trip_cost_per_contract: 2_times_stress_one_way_cost
+  required_opportunity_to_stress_round_trip_ratio: 2.0
+  failure_policy: reject_entire_preplanned_interval_without_retry_or_threshold_change
+  missing_or_nonpositive_dependency_policy: reject_fail_closed
+  capacity_margin_and_actual_cost_accounting_after_admission: unchanged_V3
+
+inheritance_from_V3:
+  factual_reported_Last_signal_and_width_independent_admission: true
+  exact_ten_strategy_definitions: true
+  exact_cross_sectional_thresholds_exit_stop_and_holding: true
+  exact_monthly_MLP_and_cross_asset_features: true
+  exact_development_2021_2023_and_evaluation_2024_2025: true
+  exact_equal_quantity_long_far_short_near_ledger: true
+  exact_1_percent_two_leg_capacity_and_full_exit_retry: true
+  exact_1_6x_gross_2x_margin_buffer_and_position_sizing: true
+  exact_primary_doubled_stress_costs: true
+  exact_numeric_promotion_gates: true
+  no_asset_year_or_direction_filter: true
+  no_leverage_increase: true
+
+output:
+  directory: runs/calendar_spread_economic_2021_2025_v4
+  immutable: true
+  overwrite_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/calendar_spread_v4.py: 173518088542f64658d3e734720504b2cb68eef2d1831fc6315a27fb070e5e2d
+  src/market_lab/futures/calendar_spread_v3.py: fb9b4e1556ee848fa93f1173cf70e1ab92ac9b4cc628ee0956f793dcc6383f86
+  src/market_lab/futures/calendar_spread_v2.py: 9d96dfe361f519fe5311751c7b0c3237db802e54a18e9bc6097e8bb61e29468e
+  src/market_lab/futures/calendar_spread_v1.py: f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282
+  configs/calendar_spread_v3.yaml: c38a7356385baeb75be7f0f206f757d49ff192284239630aed1aee72a79f8f57
+
+limitations:
+  candidate_and_cost_hurdle_selected_after_V3_outcomes: true
+  same_2021_2025_history_reused: true
+  independent_confirmation: false
+  stress_cost_formula_uses_approximate_spec_proxy: true
+  actual_multileg_queue_leg_allocation_and_historical_fees_missing: true
+  family_multiple_testing_risk: true
+  guaranteed_future_return: false
+  live_trading_allowed: false
+
+forbidden_after_seal:
+  - changing_2x_cost_hurdle_or_selected_candidate_after_V4_results
+  - changing_any_signal_model_threshold_horizon_exit_stop_or_holding
+  - changing_asset_year_or_direction_membership
+  - changing_sizing_capacity_margin_cost_scenarios_or_numeric_gates
+  - treating_same_period_V4_success_as_confirmation
+  - reading_any_market_value_timestamp_on_or_after_2026_01_01
+  - overwriting_any_canonical_output
+  - live_trading_or_claiming_guaranteed_profit

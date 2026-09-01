@@ -107,6 +107,12 @@ extremes дал `+0,2074%` и 2/2 positive years, но stress `−0,3174%`, deve
 `−1,1892%`; это лишь слабый gross edge до costs. Следующий допустимый шаг — отдельный
 post-selection cost-aware seal либо новый exact multileg execution source.
 
+Cost-aware V4 подготовлен до новых outcomes: config SHA `b7ddc0ac...`, module SHA
+`17351808...`. Post-selected candidate — cross-sectional extremes; единственная новая
+admission требует causal expected remaining move не меньше 2x полной stress round-trip
+стоимости одного pair contract. Ни asset/year filter, ни leverage, thresholds, MLP,
+capacity, costs или gates не меняются. Даже pass будет только adaptive lead.
+
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA
 `0b86cda4d3bddf72831075a771c3e7f6568a0a4ba2f78c64b0254c980c902b08`,

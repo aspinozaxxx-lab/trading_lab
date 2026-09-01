@@ -569,6 +569,18 @@ Canonical V3 manifest SHA `a7de7e04...`; оба audits true. Source-semantics fi
 отрицателен на development/stress. V3 остаётся reusable evidence, что проблема EV2 была
 в admission, а не доказательством прибыльной стратегии.
 
+### `market_lab.futures.calendar_spread_v4`
+
+Post-selection wrapper добавляет к V3 causal cost hurdle. Он временно расширяет active
+schema шестью strictly-prior leg spec fields, вычисляет ожидаемую оставшуюся амплитуду
+до frozen exit и сравнивает её с полной stress round-trip стоимостью. Допуск требует
+ratio `>=2`; actual ledger всё равно повторно применяет исходные capacity/margin/costs.
+
+Promotion использует неизменные числовые gates V1, но к выбранному после V3
+`cross_sectional_extremes` и никогда не маркирует результат independent. Context также
+наследует V2 empty-schema и V3 Last/width corrections, подменяет resolved config/report
+и полностью восстанавливает globals. Config SHA `b7ddc0ac...`, module SHA `17351808...`.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

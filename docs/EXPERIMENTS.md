@@ -4,6 +4,26 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## CALENDAR-SPREAD-EV4: post-selection cost-aware candidate sealed, outcomes pending
+
+- Config SHA `b7ddc0ac977c61d7c4547ce978182d2a178422ee694ce1178d4d2d5c174677b9`,
+  module SHA `173518088542f64658d3e734720504b2cb68eef2d1831fc6315a27fb070e5e2d`.
+  Parent V3 config/code/manifest/metrics byte-pinned. Candidate
+  `cross_sectional_extremes` выбран после V3, поэтому V4 — post-selection adaptive,
+  а не новая confirmation.
+- Все десять rules остаются в отчёте, но каждый preplanned interval проходит один
+  новый fixed admission. Expected remaining points =
+  `max(|entry score| − strategy exit_abs, 0) * entry_scale`; cash proxy умножается на
+  `min(near, far)` causal sizing point value.
+- Stress round-trip заранее равен двум сторонам, каждая из которых включает 4 ticks на
+  обе ноги и 2x conservative fee обеих ног. Entry допускается только при opportunity /
+  stress round-trip `>=2,0`; missing/nonpositive dependency reject. Rejected interval
+  не retry-ится и не ищет другой threshold.
+- Signal/MLP/thresholds/exits/holding, split, equal quantities, 1% two-leg capacity,
+  1,6x gross, 2x margin buffer, actual three cost ledgers и numeric gates не меняются.
+  Успех может дать лишь `ADAPTIVE_LEAD_REQUIRES_NEW_UNSEEN_MULTILEG_VALIDATION`; live
+  остаётся запрещён. Intended output `runs/calendar_spread_economic_2021_2025_v4/`.
+
 ## CALENDAR-SPREAD-EV3: completed adaptive test, NO_GO
 
 - V3 config SHA `c38a7356385baeb75be7f0f206f757d49ff192284239630aed1aee72a79f8f57`,
