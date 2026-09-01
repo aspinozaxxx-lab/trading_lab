@@ -71,6 +71,10 @@ identity и должен проверяться перед чтением.
 | CBR macro-survey manifest | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/manifest.json` | `faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe` |
 | CBR macro-survey raw workbook | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_current_vintage.xlsx` | `a715edf614799186278656970380aa0ba6abcfb801bfa2e92806cdc9fdb06944` |
 | CBR macro-survey raw page | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_page.html.gz` | `a5555e741cbb5185f21135464d97c32d819f134e95899b4593f54a8d94f630d3` |
+| CBR business-climate releases | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/cbr_business_climate_releases.parquet` | `b312f4e5ed0b0c7cdac2e2112068a5046a8bab4c272aa6f5edda7f03bf026de4` |
+| CBR business-climate coverage | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/coverage.parquet` | `742e5a5a825952e28c4507b5d248aa5c4044e99ecce3c1cf253ec36312e131e8` |
+| CBR business-climate manifest | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/manifest.json` | `99ad128b930b713cdda7988daa25f5dc763005eea768ccd4bd56ef89500835c8` |
+| CBR business-climate raw responses | `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/official_cbr_business_climate_responses.jsonl.gz` | `e362918e5554cf4e9ddb25c4378113dadc6129ffaa3b1dbfcb28af06468c2286` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -133,6 +137,11 @@ identity и должен проверяться перед чтением.
   revision внутри точной пары indicator/forecast year. Different oil series не
   соединяются; missing component остаётся missing в source и лишь получает явный zero
   target без перераспределения риска. December 2025 доступен только в 2026 и исключён.
+- CBR business-climate release допускается только после `available_at`, равного концу
+  московского дня более поздней из напечатанной publication date и last-updated date.
+  При одинаковом `available_at` остаётся только максимальный `release_month`. Для сигнала
+  разрешена напечатанная one-decimal endpoint label; chart exact хранится только для
+  аудита. Три prior-month observation endpoints сохраняются как такие, без forward-fill.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

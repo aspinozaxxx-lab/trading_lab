@@ -243,6 +243,40 @@ same-target-year next-year median revisions, fixed direct signs и oil priority 
 cross-series bridge. Он завершён `NO_GO`: mechanical return −3,17%, Sharpe −0,08 и
 200/202 execution coverage с двумя critical failures. Direct revisions family закрыт.
 
+### CBR Business Climate Index — release-specific опережающий режим
+
+Официальный архив «Мониторинга предприятий» даёт отдельную датированную страницу и PDF
+для каждого выпуска. Сводный индекс объединяет текущие оценки выпуска/спроса и ожидания,
+поэтому это новая forward-looking информация для режима RI/MIX/SI, а не настройка
+провалившегося V21:
+
+- path:
+  `data/processed/info_radar/cbr-business-climate-release-pages-2022-2025-v1/`;
+- 44 release pages и 44 release-specific PDF за `2022-05..2025-12`, по годам
+  `8/12/12/12`; в каждой строке сохранены сводный BCI, текущие оценки и ожидания;
+- processed: 17 471 bytes, SHA-256
+  `b312f4e5ed0b0c7cdac2e2112068a5046a8bab4c272aa6f5edda7f03bf026de4`;
+- coverage: 15 597 bytes, SHA-256
+  `742e5a5a825952e28c4507b5d248aa5c4044e99ecce3c1cf253ec36312e131e8`;
+- manifest: 4 216 bytes, SHA-256
+  `99ad128b930b713cdda7988daa25f5dc763005eea768ccd4bd56ef89500835c8`;
+- 90 raw responses (две archive snapshots, 44 HTML и 44 PDF): 56 153 797 bytes,
+  SHA-256 `e362918e5554cf4e9ddb25c4378113dadc6129ffaa3b1dbfcb28af06468c2286`;
+- три первых выпуска имеют явно сохранённый prior-month chart endpoint; это не missing и
+  не искусственный сдвиг. Остальные 41 endpoint относятся к release month;
+- только страница октября 2022 была обновлена позже публикации. Её `available_at`
+  консервативно перенесён на конец `2022-11-24`, где она сталкивается с ноябрьским
+  выпуском; downstream обязан оставить более новый `release_month`;
+- source-only изменения сводного BCI: 21 positive, 18 negative и 4 zero после warmup.
+
+Для сигнала разрешена только подпись с одним десятичным знаком на endpoint графика
+конкретного выпуска. Более точное внутреннее значение Highcharts хранится лишь для
+аудита и не должно давать скрытый порог. `available_at` — конец московского дня более
+поздней из header publication date и footer last-updated date. Исторические страницы
+получены сейчас, original bytes времени публикации не доказаны, поэтому источник годится
+только для одного заранее запечатанного development challenger; независимое подтверждение
+потребует forward snapshots.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -268,6 +302,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | CBR daily Minfin FX operations | Прямой persistent FX flow для SI и будущего intraday timing | Current-vintage revisions; original publication bytes отсутствуют | Следующий рабочий день, не раньше 10:31 мск |
 | P1 | Minfin OFZ auction results | Causal demand/liquidity shock для RI/MIX/SI | Date-only и current-vintage; нужен sealed test и forward vintages | Только конец publication day, затем следующий factual open |
 | P1 | CBR macro survey | Forward consensus revisions для SI/BR/RI/MIX | Current-vintage, historical release time неизвестен | Только конец месяца после survey month; original vintages нужны для confirmation |
+| P1 | CBR Business Climate Index | Опережающий режим выпуска/спроса для RI/MIX и рубля | Release pages retrieved сейчас; original bytes не доказаны | Конец max(publication, last-update) day; collision оставляет latest release month |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -285,6 +320,8 @@ RUONIA использована в V15. Её причинная часть V16 �
   [RUONIA](https://www.cbr.ru/hd_base/ruonia/);
 - [CBR macroeconomic survey](https://www.cbr.ru/eng/statistics/ddkp/mo_br/) — медианы,
   диапазоны и история прогнозов аналитиков;
+- [CBR Business Monitoring archive](https://www.cbr.ru/analytics/dkp/monitoring/) —
+  датированные страницы и PDF индекса бизнес-климата;
 - [CBR liquidity forecast](https://www.cbr.ru/eng/statistics/pffl/),
   [daily liquidity-factor definitions](https://www.cbr.ru/statistics/flikvid/definitions/)
   и [historical publication-schedule notice](https://www.cbr.ru/eng/press/pr/?file=120516_104301eng_liq-ind.htm);
@@ -327,6 +364,10 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    processed SHA `a139ead8...`, manifest SHA `faae8927...`; только 36 releases causal до
    2026. V21 direct revisions завершён `NO_GO`: −3,17%, Sharpe −0,08, 2 critical;
    same-history signs/indicators/oil priority/threshold/risk/expiry tuning закрыт;
-8. любой следующий PnL начинается только после source manifest, `available_at` audit и
+8. CBR Business Climate Index bundle готов: 44 versioned releases, 90 raw responses,
+   processed SHA `b312f4e5...`, manifest SHA `99ad128b...`. Следующий новый PnL — один
+   predeclared V22 по последовательному изменению printed BCI; exact chart decimals и
+   текущие оценки/ожидания не использовать для post-hoc отбора;
+9. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

@@ -151,6 +151,13 @@ Verdict `NO_GO`: signal не проходит return gates даже механи
 execution дополнительно запрещает promotion. Same-history sign/indicator/threshold/oil-
 priority/risk/expiry tuning и blend с V12 закрыты.
 
+Новый target-free CBR Business Climate Index source собран без market outcomes: 44
+release-specific страницы и 44 PDF за `2022-05..2025-12`, processed SHA `b312f4e5...`,
+manifest SHA `99ad128b...`. Сохранены сводный BCI, текущие оценки и ожидания; 90/90 raw
+responses повторно прошли byte/SHA audit. Availability использует конец более поздней из
+publication/last-update dates, а same-time collision оставляет более новый release month.
+Источник готов для одного predeclared V22, но не для независимого подтверждения.
+
 ## V20 Minfin OFZ demand strength — валидный отрицательный результат
 
 V20 был запечатан и pushed commit `4e52378` до первого чтения RI/MIX/SI outcomes.
@@ -471,6 +478,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     total return −3,17%, Sharpe −0,08, MDD −18,79%, 200/202 coverage и 2 critical.
     Direct revisions family закрыт; не менять signs/indicators/oil priority/thresholds,
     risk/expiry или blend по этому outcome. December 2025 остаётся исключён.
+11. CBR Business Climate Index bundle готов: 44 releases, 90 raw responses, processed
+    SHA `b312f4e5...`, manifest SHA `99ad128b...`; 21 positive, 18 negative и 4 zero
+    sequential changes. До outcome запечатать один V22 direct regime: printed BCI delta,
+    RI/MIX direct и SI inverse, без thresholds или component selection.
 
 ### P2 — разблокировать широкий structural exact execution
 

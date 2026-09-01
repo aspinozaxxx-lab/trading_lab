@@ -88,6 +88,14 @@ statistic, indicator и source cell; отсутствующие ячейки н�
 как development source. Чтобы не угадывать старое время публикации, `available_at`
 консервативно равен концу следующего московского месяца.
 
+`market_lab.futures.cbr_business_climate_source` обнаруживает 44 versioned страницы
+«Мониторинга предприятий», архивирует каждую страницу и PDF и извлекает только
+подписанные endpoints сводного BCI, текущих оценок и ожиданий. Release month и
+observation month хранятся отдельно. Availability равна концу более поздней из
+publication/last-update dates; same-time collision downstream разрешается в пользу
+последнего release month. Exact chart decimals остаются audit-only, сигнал может видеть
+только напечатанную one-decimal label.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.
