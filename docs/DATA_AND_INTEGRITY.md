@@ -36,8 +36,9 @@ manifest-bound loader, который физически отклоняет time
 
 ## Запечатанный источник MOEX 2012–2017
 
-`configs/moex_pre2018_core4_source.yaml` (SHA `5e9e5454...`) фиксирует до первого
-price request exact 155 expired BR/MIX/RI/SI contracts, только RFUD, закрытые metadata/
+`configs/moex_pre2018_core4_source_v2.yaml` (SHA `40765db1...`) наследует sealed V1 и
+фиксирует до первого price response exact 155 expired BR/MIX/RI/SI contracts, только
+RFUD, закрытые metadata/
 daily schemas и exact cursor pagination. Collector обязан сохранить raw responses и
 normalized discovery/contracts/boards/segments/daily/coverage во внешнем immutable
 bundle. До появления и аудита manifest этот источник не входит в разрешённые strategy

@@ -30,7 +30,7 @@ from market_lab.futures.specs import FuturesAssetSpec, canonical_contract_id
 from market_lab.io_utils import atomic_write_bytes, atomic_write_text, write_json
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG: Final[Path] = PROJECT_ROOT / "configs/moex_pre2018_core4_source.yaml"
+DEFAULT_CONFIG: Final[Path] = PROJECT_ROOT / "configs/moex_pre2018_core4_source_v2.yaml"
 SEARCH_ENDPOINT: Final[str] = "https://iss.moex.com/iss/securities.json"
 DETAIL_ENDPOINT: Final[str] = "https://iss.moex.com/iss/securities/{secid}.json"
 HISTORY_ENDPOINT: Final[str] = (
@@ -241,11 +241,28 @@ def load_source_protocol(config_path: Path = DEFAULT_CONFIG) -> SourceProtocol:
     stated_sha = _parse_sidecar(path.with_suffix(".sha256"), path.name)
     if actual_sha != stated_sha:
         raise ValueError("source protocol SHA-256 mismatch")
-    payload = yaml.safe_load(content.decode("utf-8-sig"))
-    if not isinstance(payload, Mapping):
+    declared_payload = yaml.safe_load(content.decode("utf-8-sig"))
+    if not isinstance(declared_payload, Mapping):
         raise ValueError("source protocol must be a YAML object")
-    if payload.get("protocol_id") != "moex_pre2018_core4_daily_source_v1":
+    if declared_payload.get("protocol_id") != "moex_pre2018_core4_daily_source_v2":
         raise ValueError("unexpected source protocol id")
+    parent = declared_payload.get("parent_protocol")
+    if not isinstance(parent, Mapping):
+        raise ValueError("source protocol v2 lacks its sealed parent identity")
+    parent_path = _bounded_project_path(str(parent["path"]))
+    parent_bytes = parent_path.read_bytes()
+    parent_sha = hashlib.sha256(parent_bytes).hexdigest()
+    if parent_sha != str(parent["sha256"]).lower():
+        raise ValueError("parent source protocol SHA-256 mismatch")
+    if _parse_sidecar(parent_path.with_suffix(".sha256"), parent_path.name) != parent_sha:
+        raise ValueError("parent source protocol sidecar mismatch")
+    parent_payload = yaml.safe_load(parent_bytes.decode("utf-8-sig"))
+    if not isinstance(parent_payload, Mapping):
+        raise ValueError("parent source protocol must be a YAML object")
+    payload = dict(parent_payload)
+    payload.update(
+        {key: value for key, value in declared_payload.items() if key != "parent_protocol"}
+    )
     if payload.get("scope") != "source_only_no_strategy_no_outcomes":
         raise ValueError("source protocol scope is not source-only")
 
@@ -376,7 +393,7 @@ def search_url(rule: AssetDiscoveryRule, offset: int, page_size: int) -> str:
             "group_by_filter": "futures",
             "iss.meta": "off",
             "iss.only": "securities",
-            "securities.columns": ",".join(SEARCH_COLUMNS),
+            "securities.columns": ",".join(column.lower() for column in SEARCH_COLUMNS),
             "start": offset,
             "limit": page_size,
         }

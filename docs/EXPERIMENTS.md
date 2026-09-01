@@ -4,14 +4,19 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2018-S1: official core-four daily source — sealed, pending collection
+## MOEX-PRE2018-S2: official core-four daily source — sealed, pending collection
 
 - Source-only protocol:
-  [`configs/moex_pre2018_core4_source.yaml`](../configs/moex_pre2018_core4_source.yaml)
+  [`configs/moex_pre2018_core4_source_v2.yaml`](../configs/moex_pre2018_core4_source_v2.yaml)
 - Config SHA-256:
-  `5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000`.
+  `40765db14c7574a8bc272709cb359b9060175e2d93b4ad7a31edb529d500205a`.
 - Implementation SHA-256:
-  `015f51b460b79bd7635566dbb3b13094c45b08aa3c3f3084db625090797529e6`.
+  `221dd948ef702bdbc1c260a8b2487f6431149080f6093ecaf8a66166dedc16ec`.
+- V1 config SHA `5e9e5454...` и implementation SHA `015f51b4...` были pushed commit
+  `9802f12`. Первый collection attempt остановился на первой metadata-only finder page:
+  uppercase `securities.columns` дал empty columns array при 100 rows. Contract detail
+  и daily history не вызывались, price/economic outcomes не прочитаны, output отсутствует.
+  V2 наследует V1 byte-sealed через parent SHA и исправляет только lowercase query names.
 - Metadata-only discovery зафиксировал exact 155 contracts expiring 2012–2017:
   BR 71, MIX 24, RTS/RI 24, Si 36. Expected month sets записаны в config, поэтому
   collector не может заменить исчезнувший alias похожей строкой или ручным guess.

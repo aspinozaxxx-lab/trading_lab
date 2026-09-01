@@ -588,7 +588,8 @@ holdout; запрещено выбирать block/gate или менять V27 
 
 ### Sealed MOEX 2012–2017 source collection
 
-Source config SHA `5e9e5454...`, implementation SHA `015f51b4...`. До commit/push
+Source V2 config SHA `40765db1...`, implementation SHA `221dd948...`. V1 metadata
+preflight fail зафиксирован без price response и без output. До V2 commit/push
 разрешены только metadata и synthetic tests; первый вызов daily history с price fields
 выполняется лишь после подтверждённого push:
 
@@ -599,7 +600,7 @@ Source config SHA `5e9e5454...`, implementation SHA `015f51b4...`. До commit/p
   src/market_lab/futures/moex_pre2018_core4_source.py `
   tests/test_moex_pre2018_core4_source.py
 .\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2018_core4_source `
-  --config .\configs\moex_pre2018_core4_source.yaml
+  --config .\configs\moex_pre2018_core4_source_v2.yaml
 ```
 
 Default output:

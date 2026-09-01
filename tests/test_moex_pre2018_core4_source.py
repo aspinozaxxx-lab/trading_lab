@@ -168,6 +168,8 @@ def test_default_protocol_is_byte_sealed_and_declares_exact_155_contracts() -> N
     assert query["from"] == ["2012-01-01"]
     assert query["till"] == ["2012-03-15"]
     assert query["history.columns"] == [",".join(source.DAILY_COLUMNS)]
+    finder_query = parse_qs(urlparse(source.search_url(protocol.rules[0], 0, 100)).query)
+    assert finder_query["securities.columns"] == ["secid,shortname,group,type"]
 
 
 def test_discovery_exhausts_pages_and_admits_only_exact_shortnames() -> None:

@@ -1,0 +1,43 @@
+﻿protocol_id: moex_pre2018_core4_daily_source_v2
+protocol_version: 2
+status: predeclared_after_metadata_schema_preflight_before_first_price_response
+declared_at_utc: "2026-09-01T06:14:58Z"
+scope: source_only_no_strategy_no_outcomes
+research_only: true
+sealed_before_price_data: true
+live_trading_allowed: false
+
+parent_protocol:
+  path: configs/moex_pre2018_core4_source.yaml
+  sha256: 5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000
+
+relationship_to_prior_work: >-
+  V1 was committed and pushed before its first collection attempt. That attempt stopped
+  on the first metadata-only security-search response, before contract descriptions and
+  before any daily price request, because the finder treats securities.columns values as
+  lowercase-sensitive and returned an empty columns array for uppercase query names.
+  V2 inherits every source date, exact 155-contract set, metadata/daily schema, RFUD rule,
+  pagination limit, missing policy, output contract and limitation from V1. The only
+  implementation correction sends lowercase finder column names while continuing to
+  validate the same normalized closed schema.
+
+implementation:
+  path: src/market_lab/futures/moex_pre2018_core4_source.py
+  sha256: 221dd948ef702bdbc1c260a8b2487f6431149080f6093ecaf8a66166dedc16ec
+
+preflight_failure_record:
+  parent_attempt_reached_price_endpoint: false
+  parent_attempt_created_output_bundle: false
+  first_failure_stage: security_search_metadata_schema
+  observed_columns: []
+  observed_rows_on_first_page: 100
+  economic_or_price_information_observed: false
+  strategy_outcome_observed: false
+
+forbidden_v2_changes:
+  - source_dates
+  - exact_expected_contract_names_or_counts
+  - RFUD_board_requirement
+  - daily_price_columns_or_cursor_contract
+  - missing_gap_roll_or_zero_imputation_policy
+  - output_or_live_limitations

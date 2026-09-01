@@ -31,12 +31,17 @@ primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAG
 verdict **NO-GO**. V27 не менял плечо или costs, а добавил один новый официальный
 причинный режим риска и снизил MDD на **12,8523 п.п.**.
 
-Новый source-only protocol для официального MOEX EOD 2012–2017 подготовлен до первого
-price request: config SHA `5e9e54545a74fc89cb391186988b8f86430f976bd42174e1ece3d47844f0f000`,
-implementation SHA `015f51b4...`. Он требует exact set из 155 contracts
-(BR/MIX/RI/SI = 71/24/24/36), RFUD board history, exact cursor totals, raw archive и
-immutable external bundle. Пока protocol не committed/pushed, history с ценовыми полями
-не запрашивается; после seal следует только source coverage audit, без PnL.
+Новый source-only protocol V2 для официального MOEX EOD 2012–2017 подготовлен до
+первого price response: config SHA
+`40765db14c7574a8bc272709cb359b9060175e2d93b4ad7a31edb529d500205a`,
+implementation SHA `221dd948...`. V1 был pushed как commit `9802f12`, но первый запуск
+остановился на metadata-only finder: uppercase query дал пустой columns array при 100
+строках. Ни description, ни daily price endpoint достигнуты не были; output отсутствует.
+V2 меняет только case query names на подтверждённый lowercase. Он сохраняет exact set
+из 155 contracts (BR/MIX/RI/SI = 71/24/24/36), RFUD board history, exact cursor totals,
+raw archive и
+immutable external bundle. До V2 commit/push history с ценовыми полями не запрашивается;
+после seal следует только source coverage audit, без PnL.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
