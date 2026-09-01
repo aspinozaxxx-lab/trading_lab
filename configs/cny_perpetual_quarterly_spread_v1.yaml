@@ -1,0 +1,131 @@
+﻿protocol_id: cny_perpetual_quarterly_spread_v1
+protocol_version: 1
+status: sealed_before_swaprate_values_basis_return_or_pnl_read
+research_only: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    Short CNYRUBF may receive positive exchange funding while long quarterly CR hedges
+    CNY/RUB direction, producing a margin-only relative-value sleeve that can outperform
+    fully funded spot carry.
+  direction_basis: official_VM_formula_buyer_pays_positive_SwapRate_times_Lot
+  official_rules: https://www.moex.com/a8141
+  evaluation_market_seen_by_unrelated_prior_work: true
+  live_promotion_requires_future_multiyear_confirmation: true
+
+periods:
+  development: ['2023-01-01', '2024-12-31']
+  evaluation: ['2025-01-01', '2025-12-31']
+  protected_ceiling_exclusive: '2026-01-01'
+
+inputs:
+  perpetual:
+    manifest: data/processed/fx_basis/moex-cny-perpetual-current-vintage-v2/manifest.json
+    manifest_sha256: 1664a012c9fcb4195ad063ad816b09fe112176efb377d08ad44b7f05c39a3b3c
+    parquet: data/processed/fx_basis/moex-cny-perpetual-current-vintage-v2/perpetual.parquet
+    parquet_sha256: 3b1ee181d7d011e43189f3fa18e6cf682f0cb90bcdc341f8920b0b37b1eaf259
+    rows: 937
+    security_id: CNYRUBF
+    lot_size_cny: 1000.0
+    swaprate_nonmissing_rows: 784
+    swaprate_availability: after_source_trade_date
+  quarterly:
+    manifest: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/manifest.json
+    manifest_sha256: 7b8c4a8dea06414c111ead70b808d456e5fd1b307da02c5585bb8d62b4e2be97
+    parquet: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1/futures.parquet
+    parquet_sha256: 36c2af69e4f69cb5abbf0b0ba269cfe79f72ecd4b2ee4005da8ba2c11254e68f
+    rows: 3636
+    contracts: 12
+    asset_code: CNY
+    lot_size_cny: 1000.0
+  ruonia:
+    manifest: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    manifest_sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+    parquet: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    parquet_sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    series_id: ruonia
+    availability: latest_available_at_at_or_before_entry_session_start
+
+official_accounting:
+  buyer_daily_vm: (settle_today_minus_prior_settle)_times_point_value_minus_SwapRate_times_Lot
+  seller_funding_component: positive_SwapRate_times_Lot
+  perpetual_side: short
+  quarterly_side: long
+  point_value_rub_per_price_unit: 1.0
+  swaprate_lot_multiplier: 1000.0
+  realized_swaprate_only_no_imputation: true
+
+candidate_schedule:
+  one_candidate_per_quarterly_contract: true
+  target_calendar_days_before_expiration: 60
+  entry_session: first_common_positive_activity_session_on_or_after_target
+  entry_max_calendar_days_before_expiration: 75
+  entry_min_calendar_days_before_expiration: 45
+  exit_session: last_common_positive_activity_session_strictly_before_expiration
+  no_retry_after_rejected_entry: true
+  positions_may_not_overlap: true
+  missing_realized_swaprate_inside_holding_interval: reject_candidate
+
+admission:
+  causal_swaprate_lookback_sessions: 20
+  minimum_nonmissing_lookback_sessions: 15
+  estimator: arithmetic_mean_prior_observed_swaprate
+  estimated_funding: prior_mean_times_lot_times_planned_holding_sessions
+  estimated_convergence: perpetual_entry_minus_quarterly_entry
+  estimated_costs_included: entry_and_exit_spread_plus_commissions_both_legs
+  minimum_annualized_excess_over_ruonia_percent: 2.0
+  estimated_total_profit_must_be_positive: true
+  no_threshold_direction_lookback_or_date_search: true
+
+execution:
+  entry: simultaneous_fixed_session_open
+  exit: simultaneous_fixed_session_open
+  long_quarterly_entry: ask_stress
+  short_perpetual_entry: bid_stress
+  long_quarterly_exit: bid_stress
+  short_perpetual_exit: ask_stress
+  primary_half_spread_bps_each_leg_each_side: 5.0
+  stress_half_spread_bps_each_leg_each_side: 10.0
+  explicit_commission_bps_each_leg_each_side: 1.0
+  zero_or_missing_price_volume_or_trades: reject_never_fill
+
+capital:
+  initial_equity_rub: 1000000.0
+  quarterly_margin_fraction_of_notional: 0.30
+  perpetual_margin_fraction_of_notional: 0.30
+  operational_buffer_fraction_of_one_notional: 0.10
+  cross_margin_credit: 0.0
+  spot_principal: 0.0
+  maximum_entry_equity_utilization: 0.80
+  integer_pairs_only: true
+  residual_cash_yield_percent: 0.0
+  margin_failure: invalidate_if_pair_loss_exceeds_both_margins_plus_buffer
+
+accounting:
+  daily_pair_mark: long_quarterly_change_minus_perpetual_change_plus_cumulative_realized_short_funding
+  funding_dates: entry_session_inclusive_exit_session_exclusive
+  day_count: ACT_365
+  benchmark: full_causal_RUONIA_on_initial_equity
+  unknown_ruonia_credit: 0.0
+
+scenarios:
+  primary: 5bps_half_spread_plus_1bps_commission
+  stress: 10bps_half_spread_plus_1bps_commission
+  forbidden: [threshold_search, direction_flip, alternate_entry_days, contract_subset_search]
+
+promotion_gates:
+  evaluation_cagr_minimum_percent: 20.0
+  evaluation_sharpe_minimum: 0.8
+  evaluation_max_drawdown_maximum_percent: 20.0
+  evaluation_positive_years_minimum: 1
+  evaluation_excess_over_ruonia_cagr_minimum_percent: 5.0
+  stress_evaluation_cagr_minimum_percent: 15.0
+  minimum_evaluation_trades: 3
+  execution_and_identity_checks_all_true: true
+  numeric_go_is_not_live_without_forward_multiyear_confirmation: true
+
+output:
+  root: runs/cny_perpetual_quarterly_spread_v1
+  immutable_timestamped: true
+  required: [config_snapshot, identity, audit, trades, daily_equity, metrics, report]
