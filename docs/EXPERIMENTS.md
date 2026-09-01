@@ -4,6 +4,22 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V18: CBR forward-liquidity forecast для SI — sealed, outcome ещё не прочитан
+
+- Протокол: [`configs/futures_v18_cbr_liquidity_forecast.yaml`](../configs/futures_v18_cbr_liquidity_forecast.yaml)
+- Config SHA-256:
+  `ee2d7fd77037eccf15237f827ed357e0b8608c96fae1f393e8a3478945b8b10a`.
+- Новый source: 458 датированных CBR forecasts `2017-01-10..2025-12-30`, processed SHA
+  `a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07`.
+- Единственный сигнал: `sign(government_accounts_change_bln_rub)`; positive liquidity
+  contribution = long SI, negative = short SI, exact zero = cash.
+- Availability: конец напечатанного publication day Moscow; entry только следующий
+  factual open. Двадцать source intervals требуют явного expiry-to-zero, потому что
+  successor release появляется после напечатанного конца периода либо отсутствует.
+- SI sizing: prior 60-session annual volatility, 20% target, floor 10%, absolute cap 1;
+  RI/BR/MIX всегда zero. Threshold, normalization и outcome training отсутствуют.
+- Статус: sealed pre-outcome. До push config/code нельзя читать V18 market result.
+
 ## V17: EIA seven-component physical balance for BR — NO-GO
 
 - Протокол: [`configs/futures_v17_eia_supply_demand.yaml`](../configs/futures_v17_eia_supply_demand.yaml)

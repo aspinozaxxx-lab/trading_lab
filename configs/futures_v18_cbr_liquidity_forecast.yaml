@@ -1,0 +1,267 @@
+﻿protocol_id: futures_v18_cbr_liquidity_forecast_v1
+protocol_version: 1
+status: sealed_before_any_v18_market_outcome_read
+declared_at_utc: "2026-09-01T00:02:50Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+parent_v12_protocol_sha256: 0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53
+relationship_to_prior_work: >-
+  New release-keyed, forward-looking Bank of Russia liquidity forecasts. The SI market
+  outcomes for 2021-2025 have been seen in prior unrelated experiments, so a positive
+  V18 result is development evidence and not an independent holdout.
+
+hypothesis:
+  statement: >-
+    The sign of the Bank of Russia forecast for the coming-period change in general
+    government accounts and other items predicts SI futures direction: a positive
+    liquidity contribution pressures the ruble and is long SI, while a negative
+    contribution supports the ruble and is short SI.
+  economic_mechanism:
+    - positive_government_account_factor_means_ruble_liquidity_enters_the_banking_system
+    - the_official_definition_includes_Ministry_of_Finance_domestic_FX_operations
+    - additional_ruble_liquidity_and_FX_purchases_can_raise_the_ruble_price_of_foreign_currency
+    - the_forecast_is_published_before_the_future_period_not_after_realized_market_outcomes
+  primary_comparison: flat_cash_zero_return
+  contextual_comparison_only: frozen_V12_is_not_changed_or_combined_in_this_run
+  reject_if:
+    - any_source_identity_or_temporal_check_fails
+    - any_required_government_forecast_value_is_missing
+    - a_position_is_carried_beyond_the_printed_forecast_period_without_a_new_release
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - primary_total_return_is_not_positive
+    - doubled_or_stress_total_return_is_not_positive
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - inverting_the_economic_sign
+    - replacing_government_accounts_with_another_row_or_composite
+    - adding_a_magnitude_threshold_or_selecting_only_extreme_forecasts
+    - changing_the_information_lag_or_expiry_rule
+    - changing_volatility_target_lookback_floor_or_gross_cap
+    - selecting_holding_period_or_costs_by_v18_metrics
+    - presenting_this_development_result_as_independent_confirmation
+
+dates:
+  cbr_source_start: "2017-01-10"
+  market_source_start: "2018-01-03"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  source_timezone: Europe/Moscow
+  market_timezone: Europe/Moscow
+
+inputs:
+  cbr_liquidity_forecasts:
+    path: data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/cbr_liquidity_forecasts.parquet
+    sha256: a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07
+    bytes: 50830
+    rows: 458
+    minimum_publication_date: "2017-01-10"
+    maximum_publication_date: "2025-12-30"
+    maximum_available_at: "2025-12-30T20:59:59+00:00"
+    allowed_columns:
+      - publication_date
+      - available_at
+      - forecast_period_start
+      - forecast_period_end
+      - government_accounts_change_bln_rub
+      - source_schema
+      - raw_sha256
+      - release_keyed_historical_record
+  cbr_liquidity_coverage:
+    path: data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/coverage.parquet
+    sha256: 38ea35bfe8914a6a490245fff5bd8b327eb793b5c94c068bbef8665ea5a5681d
+    bytes: 38806
+    rows: 470
+    allowed_columns:
+      - week_start
+      - publication_date
+      - forecast_period_start
+      - forecast_period_end
+      - found
+      - attempt_count
+      - requested_dates
+      - admitted_raw_sha256
+  cbr_liquidity_manifest:
+    path: data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/manifest.json
+    sha256: 8f452f2dd963752eab4183e8f80dd2a07398588f9f87124ae913dff6c2a88c9a
+    bytes: 3490
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    decision_minimum_timestamp: "2018-01-03"
+    decision_maximum_timestamp: "2025-12-29"
+    effective_maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+
+information_set:
+  source_availability: 23:59:59_Europe_Moscow_on_the_date_printed_inside_the_release_record
+  query_date_is_not_evidence: true
+  release_join: available_at_must_be_less_than_or_equal_to_decision_at
+  decision_at: end_of_first_factual_MOEX_decision_session_on_or_after_local_available_date
+  execution_not_before: exact_active_contract_open_on_next_factual_effective_date
+  release_must_not_be_expired_at_decision: true
+  missing_week_policy: flatten_after_prior_printed_forecast_period_end
+  last_modified_forbidden_for_timing: true
+  future_columns_forbidden: [open_D_plus_1, return_D_plus_1, target, label, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: cbr_government_accounts_forward_liquidity_direction
+  value: government_accounts_change_bln_rub_from_that_dated_forecast
+  economic_sign_to_SI: 1
+  direction: sign_of_value_with_exact_zero_flat
+  normalization: none
+  trade_threshold: none
+  fit_or_outcome_training: none
+  hyperparameter_search: false
+  validity_start: printed_forecast_period_start
+  validity_end: printed_forecast_period_end
+  state_between_releases: carry_only_while_the_latest_printed_period_remains_valid
+  expiry_without_successor: zero_target_at_end_of_printed_period
+
+portfolio:
+  universe_exact_order: [SI, RI, BR, MIX]
+  non_SI_targets: zero
+  SI_daily_volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  annualized_volatility_floor: 0.10
+  annual_target_volatility: 0.20
+  SI_absolute_weight_cap: 1.0
+  target_formula: direction_times_min_1_and_0_20_divided_by_max_prior_60d_vol_and_0_10
+  mandatory_additional_decisions: any_known_SI_contract_change_for_nonzero_held_target
+  gross_cap: 1.0
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_weight_times_current_cash_over_lagged_notional
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open
+  execution_atomicity: asset
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 1.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  collateral_yield: 0.0
+  terminal_policy: carry_with_terminal_exit_reserve_reported
+  missing_or_unprovable: reject_or_unresolved_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+    cbr_original_release_bytes_at_publication: unavailable
+    cbr_historical_record_immutability: not_cryptographically_proved
+
+validation:
+  scheme: fixed_development_OOS_after_market_warmup
+  source_history: "2017-01-10..decision_release_inclusive"
+  market_warmup: "2018-01-03..2020-12-31"
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  parameter_selection_on_oos: forbidden
+  protected_2026_price_or_outcome_read: forbidden
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_and_temporal_check_true
+    - at_least_245_release_decisions_and_45_each_oos_year
+    - all_three_scenarios_execution_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_cagr_at_least_0_05
+    - primary_sharpe_at_least_0_75
+    - primary_maximum_drawdown_at_most_0_20
+    - primary_positive_years_at_least_4_of_5
+    - doubled_total_return_positive
+    - stress_total_return_positive
+    - no_gross_participation_or_margin_breach
+  independent_confirmation_required: true
+
+reporting:
+  required_artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - source_forecasts.parquet
+    - source_decisions.parquet
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md

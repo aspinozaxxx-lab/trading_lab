@@ -187,6 +187,16 @@ active-contract mapper/ledger исполняет следующий factual open
 V17 технически завершён, но получил `NO_GO`: полный ledger доказал, что отрицательный
 результат относится к сигналу, а не к missing execution.
 
+### `market_lab.futures_v18_cbr_liquidity_forecast`
+
+Проверяет один заранее зафиксированный forward-flow signal для SI: знак официального
+прогноза изменения government accounts, где положительное влияние на рублёвую
+ликвидность означает long SI, отрицательное — short SI. Release доступен только в конце
+московского дня, fill — следующий factual open. Если successor release отсутствует,
+отдельное нулевое решение завершает позицию по напечатанной дате конца forecast period.
+Остальные три asset target всегда равны нулю; sizing использует только prior 60-session
+SI volatility и frozen V12 execution mapper/ledger.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

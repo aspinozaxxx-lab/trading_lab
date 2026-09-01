@@ -221,9 +221,10 @@ V17 завершён отрицательно. Новый CBR liquidity-forecast
    collector, который timestamp-ит получение каждого нового 5m response в реальном
    времени; до этого FUTOI timing sleeping;
 2. не публиковать raw FUTOI до проверки лицензии, несмотря на анонимный HTTP 200;
-3. до чтения SI outcomes запечатать один CBR forecast test: `sign` будущего изменения
-   government accounts, экономический знак purchase/liquidity regime, prior-only SI
-   volatility, exact next-open execution и без threshold search;
+3. V18 CBR forecast test уже запечатан до outcomes: `sign` будущего изменения government
+   accounts, positive liquidity contribution = long SI, prior-only SI volatility,
+   explicit forecast expiry, exact next-open execution и без threshold search. После
+   pre-outcome push выполнить только этот вариант;
 4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 5. любой следующий PnL начинается только после source manifest, `available_at` audit и

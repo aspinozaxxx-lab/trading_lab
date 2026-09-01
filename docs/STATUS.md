@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V17 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V18 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -61,9 +61,9 @@ CAGR **−7,7373%**, Sharpe **−0,1893**, MDD **−48,8033%**, только д�
 Следующий независимый source family уже собран без чтения outcomes: 458 датированных
 недельных прогнозов факторов банковской ликвидности ЦБ за `2017-01-10..2025-12-30`.
 Это forward-looking forecast, а не реализованный поток; `available_at` консервативно
-равен концу московского дня публикации. Следующий допустимый шаг — один pre-outcome
-sealed тест экономического знака forecast government-account flow для SI, без threshold
-search и без доверия query date.
+равен концу московского дня публикации. V18 уже запечатал один тест экономического знака
+forecast government-account flow для SI, без threshold search и без доверия query date;
+outcome ещё не прочитан, config SHA `ee2d7fd7...`.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -316,8 +316,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    либо принципиально другой независимый source family.
 5. Новый CBR release-keyed liquidity-forecast bundle готов: 458 releases, 537 requests,
    12 недель без record, maximum release gap 16 дней, processed SHA `a8faab04...`.
-   До outcomes запечатать ровно один direct SI test: знак forecast government-account
-   flow, следующий factual open, prior-only volatility sizing, без порога и перебора.
+   V18 direct SI test запечатан: знак forecast government-account flow, следующий
+   factual open, prior-only volatility sizing, без порога и перебора. После pre-outcome
+   push выполнить ровно один canonical run и принять его результат без подгонки.
 6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 

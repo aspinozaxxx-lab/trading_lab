@@ -328,6 +328,18 @@ Collector проверяет дату внутри record, а не доверя�
 соглашение требует ссылку при цитировании, а отдельное право на raw redistribution не
 зафиксировано.
 
+### V18 CBR forward-liquidity direction for SI
+
+После pre-outcome commit/push один immutable run создаётся командой:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v18_cbr_liquidity_forecast `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Config SHA должен быть `ee2d7fd7...`. Replay не разрешает инвертировать знак, менять
+source row, добавлять magnitude threshold или переносить позицию за printed forecast end.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
