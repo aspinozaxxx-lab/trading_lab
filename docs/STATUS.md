@@ -30,9 +30,14 @@ SI/RI/BR: 781 сессия `2008-10-08..2011-12-15`; MIX доступен тол
 без цен и backfill. D1 требует zero unresolved roll/exit, outcome columns запрещены.
 D1 остановился до загрузки `daily.parquet` и без output: acquisition manifest имеет
 правильный `protected_from=2026-01-01`, а loader ошибочно ожидал там derived ceiling
-`2012-01-01`. Boundary-only D2 сохраняет весь D1 panel/roll/spec contract и раздельно
-проверяет source acquisition boundary 2026 и market rows `<2012`. D2 config SHA
-`f928e58b...`, module SHA `2e01c3fc...`; сначала commit/push, затем один build/audit.
+`2012-01-01`. Boundary-only D2 был sealed/pushed commit `fa61763`, затем построил
+отдельный immutable output, но не принят: 25/27 deterministic checks true. Единственные
+расхождения — Parquet bool против object для двух уже равных флагов и tuple против JSON
+list для тех же month codes; market-value mismatch count равен нулю. D2 зафиксировал
+3 124 panel rows, 6 627 contract/spec rows, source-only rolls SI/RI/BR/MIX = 11/11/36/0
+и zero unresolved roll/exit. Persistence-only D3 подготовлен до нового build: config SHA
+`93b1d3fb...`, module SHA `438f2dd5...`; он нормализует только эти представления, не
+меняя market values, calendar, admission, roll, spec или availability semantics.
 
 ## Короткий ответ
 
@@ -838,12 +843,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`,
    manifest SHA `e06fd978...`; отдельный `--audit-only` дал 41/41 true. Collection не
    повторять и output не перезаписывать.
-3. D1 seal `45e55af` не менять: build остановился до daily load/output на смешении
-   acquisition/derived boundaries. Boundary-only D2 config SHA `f928e58b...`, module
-   SHA `2e01c3fc...` должен быть commit/pushed, затем один раз построить immutable
-   `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2/`
-   и отдельно выполнить `--audit-only`. Returns/PnL по-прежнему запрещены.
-   MIX до 2011 должен оставаться фактически отсутствующим; gap/roll нельзя синтезировать.
+3. D1 seal `45e55af` и D2 seal `fa61763` не менять. D2 immutable output создан, но
+   отвергнут exact audit на двух persistence representations при нуле market mismatch;
+   25/27 checks true, поэтому D2 не повторять и не перезаписывать. Persistence-only D3
+   config SHA `93b1d3fb...`, module SHA `438f2dd5...` сначала commit/push, затем один
+   раз построить отдельный immutable suffix `-v3` и выполнить `--audit-only`.
+   Returns/PnL по-прежнему запрещены; MIX до 2011 остаётся отсутствующим, gap/roll
+   нельзя синтезировать.
 4. На уже просмотренном 2012–2017 development разработать принципиально новый
    portfolio target, а не V27/V29 threshold tweak, и зафиксировать его code/config/SHA.
 5. Только после push strategy seal открыть 2008–2011 outcomes один раз. Отчёт обязан

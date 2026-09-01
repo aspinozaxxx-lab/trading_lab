@@ -85,6 +85,13 @@ D1 seal `45e55af` остановился до source artifact load: acquisition 
 requests до конца 2011 и acquisition boundary 2026, затем каждая market row независимо
 reject-ится при дате `>=2012-01-01`. Остальные D1 gates неизменны.
 
+D2 seal `fa61763` предшествовал market load. Отдельный immutable D2 output создан, но
+не принят: 25/27 checks true; два false вызваны только bool/object Parquet round-trip и
+tuple/list JSON round-trip. Diagnosis подтвердил zero market-value mismatches, zero
+unresolved roll/exit и неизменные counts. Manifest SHA `da7c922...`; output не
+перезаписывать. D3 config SHA `93b1d3fb...`, module SHA `438f2dd5...` нормализует только
+эти persistence representations и обязан быть pushed до отдельного suffix `-v3` build.
+
 Derived-source D1 зафиксирован в `configs/moex_pre2018_core4_derived.yaml` (SHA
 `a633883d...`) и pin-ит source manifest/daily/raw плюс точные SHA модулей panel/roll/spec.
 Его immutable output с manifest SHA `73ffe4c3...` прошёл byte/causality checks, но

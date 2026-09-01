@@ -518,7 +518,10 @@ Master строится по SI/RI/BR (781 factual sessions), MIX маскиру
 D1 был pushed `45e55af`, но не дошёл до daily load: source `protected_from=2026` — это
 защита acquisition, не дата допустимого market row. D2 SHA `f928e58b...`/`2e01c3fc...`
 разделяет эти границы и по-прежнему требует все derived market dates `<2012`; никаких
-price/outcome фактов для correction не использовано.
+price/outcome фактов для correction не использовано. После seal `fa61763` D2 создал
+immutable source-only output, но audit принял только 25/27 checks из-за двух
+serialization representations; market values совпали точно. D3 SHA
+`93b1d3fb...`/`438f2dd5...` заранее фиксирует только bool и JSON-list normalization.
 Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.

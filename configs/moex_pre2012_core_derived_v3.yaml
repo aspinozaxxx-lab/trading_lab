@@ -1,0 +1,76 @@
+﻿protocol_id: moex_pre2012_core_derived_source_v3
+protocol_version: 3
+status: deterministic_persistence_only_correction_after_failed_D2_audit
+declared_at_utc: "2026-09-01T00:00:00Z"
+scope: source_derived_no_strategy_no_outcomes
+research_only: true
+sealed_before_D3_build: true
+live_trading_allowed: false
+
+parent_D2_protocol:
+  path: configs/moex_pre2012_core_derived_v2.yaml
+  sha256: f928e58b0bacce4d80c7d77fab7b399b3aba4650034bd3d518f45ef2f5c92c83
+  implementation_sha256: 2e01c3fcbfb2c9ff7043bc68f4f2345918600c6f9d0d17866fae777fc34983fe
+  seal_commit: fa61763
+
+failed_D2_audit:
+  directory: >-
+    data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2
+  manifest_sha256: da7c922ddd429fcd6b5c3d1070329574c742207a56617a7592020169dde88405
+  audit_sha256: f90b7fa9d68038f4f8c1ea48ede9d7c5b100919404dd9b2fca2204282c485f7b
+  output_published_but_accepted: false
+  passed_checks: 25
+  failed_checks: [panel_rebuild_exact, audit_exact]
+  panel_rows: 3124
+  panel_value_mismatch_columns: []
+  market_value_mismatch_count: 0
+  representation_mismatches:
+    - curve_valid_in_memory_object_vs_parquet_bool
+    - participant_snapshot_complete_in_memory_object_vs_parquet_bool
+    - admitted_month_code_tuples_vs_JSON_lists
+  active_contract_map_rebuild_exact: true
+  contract_observations_rebuild_exact: true
+  spec_proxy_rebuild_exact: true
+  unresolved_roll_count: 0
+  unresolved_exit_count: 0
+  returns_targets_labels_signals_equity_or_pnl_observed: false
+
+deterministic_persistence_correction:
+  changed_from_D2: only_two_boolean_dtypes_and_JSON_container_types
+  boolean_columns: [curve_valid, participant_snapshot_complete]
+  boolean_target_dtype: bool
+  boolean_values_changed: false
+  admitted_month_codes_container: JSON_native_lists
+  month_code_values_changed: false
+  panel_roll_spec_availability_rules_changed: false
+  market_values_changed: false
+  source_or_contract_admission_changed: false
+  master_calendar_or_MIX_mask_changed: false
+  action_or_roll_counts_changed: false
+
+output:
+  directory: >-
+    data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2012_core_derived_v3.py: 438f2dd5a5c99d5738e2b43822bb2539275e0bd348f30f681d912ed56c821c39
+  src/market_lab/futures/moex_pre2012_core_derived_v2.py: 2e01c3fcbfb2c9ff7043bc68f4f2345918600c6f9d0d17866fae777fc34983fe
+  src/market_lab/io_utils.py: ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0
+
+temporal_contract:
+  source_acquisition_boundary: "2026-01-01"
+  derived_market_ceiling: "2012-01-01"
+  returns_targets_labels_predictions_signals_equity_or_pnl: forbidden
+  missing_values: preserve_never_zero_fill
+
+limitations:
+  inherits_D1_D2_current_vintage_and_proxy_limitations: true
+  independent_strategy_validation_by_this_bundle_alone: false
+  live_admission_possible: false
+
+forbidden_after_seal:
+  - changing_any_market_value_or_D2_economic_semantics
+  - accepting_non_exact_rebuild
+  - overwriting_D1_D2_or_D3_output

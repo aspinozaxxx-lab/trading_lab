@@ -434,6 +434,15 @@ failure. Он раздельно интерпретирует source acquisition
 derived market ceiling (`<2012-01-01`), scoped подменяет только source verifier и output
 identity, затем восстанавливает D1 globals. Panel/roll/spec/availability build остаётся
 D1-identical. V2 публикуется через staging и добавляет explicit D1 failure lineage.
+Его immutable output был создан после seal `fa61763`, но acceptance audit дал 25/27:
+значения всех четырёх frames совпали, а два false checks вызвали только bool/object
+round-trip в panel и tuple/list JSON round-trip в audit; market mismatch отсутствует.
+
+`market_lab.futures.moex_pre2012_core_derived_v3` — persistence-only successor. Он
+byte-pin-ит D2 config/module и rejected manifest, до записи переводит только два
+nonmissing flag columns в bool и admitted month-code containers в JSON-native lists.
+V3 не меняет market values, calendar, admission, availability, roll или spec semantics,
+публикует отдельный immutable suffix и заново сравнивает каждый frame/audit с rebuild.
 
 ### `market_lab.futures.moex_pre2018_core4_derived`
 

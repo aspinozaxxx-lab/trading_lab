@@ -4,7 +4,30 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2012-DERIVED-D2: boundary-only correction sealed, build pending
+## MOEX-PRE2012-DERIVED-D3: persistence-only correction prepared before build
+
+- D2 был sealed/pushed commit `fa61763` до загрузки market rows. Его отдельный immutable
+  output создан, но rejected: exact audit дал 25/27 true. `active_contract_map`,
+  `contract_observations` и `spec_proxy` совпали полностью; у `panel` значения совпали,
+  но два boolean столбца прочитались из Parquet как bool вместо исходного object.
+  `audit.json` сохранил те же month codes как JSON lists вместо Python tuples.
+- Diagnosis зафиксировал zero market-value mismatches, 3 124 panel/active rows, 6 627
+  contract/spec rows, successful source-only rolls SI/RI/BR/MIX = 11/11/36/0 и zero
+  unresolved roll/exit. D2 manifest SHA
+  `da7c922ddd429fcd6b5c3d1070329574c742207a56617a7592020169dde88405`; D2 не
+  перезаписывать и не принимать как canonical.
+- D3 config SHA
+  `93b1d3fbe5c9f909dd204f140c0e902d63647173bdf12f22fb2638d3a926cfe7`, module SHA
+  `438f2dd5a5c99d5738e2b43822bb2539275e0bd348f30f681d912ed56c821c39`.
+  Он pin-ит failed D2 bytes/diagnosis, приводит только два nonmissing flags к bool и
+  month-code containers к JSON-native lists. Значения, prices, calendar, contract
+  admission, availability, roll и spec rules не меняются.
+- Planned separate immutable output:
+  `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v3/`.
+  D3 code/config/docs/tests должны быть committed/pushed до первого D3 build;
+  returns/targets/PnL остаются запрещены.
+
+## MOEX-PRE2012-DERIVED-D2: boundary correction built, audit rejected
 
 - D1 был sealed/pushed commit `45e55af`, но остановился до `daily.parquet` load и без
   output: source acquisition manifest правильно хранит `protected_from=2026-01-01`,
@@ -18,9 +41,11 @@
   `2026-01-01`; отдельно каждая loaded market row обязана быть `<2012-01-01`.
   Contract cycles/counts, 781-session master, 727 MIX masks, roll/spec rules и zero
   unresolved gates byte-identical D1.
-- Planned separate immutable output:
+- Separate immutable rejected output:
   `data/processed/futures_pre2012/moex-core3-late-mix-causal-derived-2008-2011-v2/`.
-  D2 code/config должны быть pushed до первого daily load.
+  Seal commit `fa61763` был pushed до первого daily load. Build завершил source-only
+  transformation, но final audit остановил acceptance на двух representation checks;
+  artifact не повторять и не перезаписывать.
 
 ## MOEX-PRE2012-DERIVED-D1: sealed, failed before daily load/output
 
