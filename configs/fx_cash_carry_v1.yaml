@@ -1,0 +1,118 @@
+﻿protocol_id: fx_cash_carry_v1
+protocol_version: 1
+status: sealed_before_basis_return_or_pnl_read
+research_only: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    A mechanically timed long USD000UTSTOM and short quarterly SI position may harvest
+    a positive executable RUB futures basis with lower directional risk than price
+    forecasting, after conservative capital, funding, spread, fee and margin treatment.
+  development_selection_acknowledged: true
+  market_holdout_is_not_independent_from_prior_lab_work: true
+  mechanism_and_spot_source_are_new: true
+  reverse_carry_without_proven_usd_borrow: forbidden
+
+periods:
+  development: ['2018-01-01', '2022-12-31']
+  evaluation: ['2023-01-01', '2025-12-31']
+  protected_ceiling_exclusive: '2026-01-01'
+
+inputs:
+  spot:
+    manifest: data/processed/fx_basis/moex-usdrub-tom-current-vintage-2018-2025-v1/manifest.json
+    manifest_sha256: 59f1d02656af65794de62244c83f274c38372e206348dbfabc863c67c8d4b119
+    parquet: data/processed/fx_basis/moex-usdrub-tom-current-vintage-2018-2025-v1/spot_history.parquet
+    parquet_sha256: e83f562f98f00791070fa8877432bdfeb63b9a75173d1bad7740a0d40550b863
+    rows: 2027
+    security_id: USD000UTSTOM
+    board_id: CETS
+  si:
+    manifest: data/processed/futures_v5/Si/manifest_2018-01-01_2025-12-31.json
+    manifest_sha256: 33ca19f15f76f805c648eb51cdbd6c6bb68b23dc2cd98bd3fdb99f97c0f0316e
+    manifest_bytes: 39282
+    asset_code: Si
+    logical_symbol: SI
+    board_id: RFUD
+    contract_cycle_month_codes: [H, M, U, Z]
+    contract_usd_notional: 1000.0
+    child_daily_artifacts_verified_from_manifest: true
+  ruonia:
+    manifest: data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json
+    manifest_sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c
+    parquet: data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet
+    parquet_sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d
+    series_id: ruonia
+    availability: latest_available_at_at_or_before_entry_session_start
+
+candidate_schedule:
+  one_candidate_per_quarterly_contract: true
+  target_calendar_days_before_expiration: 60
+  entry_session: first_common_spot_and_contract_session_on_or_after_target_date
+  entry_max_calendar_days_before_expiration: 75
+  entry_min_calendar_days_before_expiration: 45
+  exit_session: last_common_spot_and_contract_session_strictly_before_expiration
+  no_retry_after_rejected_entry: true
+  positions_may_not_overlap: true
+
+execution:
+  entry_prices: {spot: next_candidate_session_open, futures: same_session_open}
+  exit_prices: {spot: fixed_exit_session_open, futures: same_session_open}
+  conditional_ioc_is_modeled_at_entry_open: true
+  spot_side: long
+  futures_side: short
+  primary_half_spread_bps_each_leg_each_side: 5.0
+  stress_half_spread_bps_each_leg_each_side: 10.0
+  explicit_commission_bps_each_leg_each_side: 1.0
+  usd_interest_percent: 0.0
+  futures_point_value_rub: 1.0
+  missing_open_or_mark: reject_or_invalidate_never_fill
+
+capital:
+  initial_equity_rub: 1000000.0
+  spot_principal: stressed_spot_entry_times_1000
+  modeled_initial_margin_fraction_of_futures_notional: 0.30
+  operational_cash_buffer_fraction_of_futures_notional: 0.10
+  maximum_entry_equity_utilization: 0.90
+  integer_contracts_only: true
+  residual_cash_yield_percent: 0.0
+  spot_or_margin_cross_collateral_credit: 0.0
+  margin_call_rule: invalidate_if_futures_variation_loss_exceeds_margin_plus_buffer
+
+admission:
+  formula: >-
+    annualized stressed entry convergence yield on full spot plus margin plus buffer
+    minus latest causally available RUONIA and all entry/estimated-exit costs
+  minimum_excess_over_ruonia_percent: 2.0
+  estimated_exit_basis: zero
+  no_basis_sign_inversion: true
+
+accounting:
+  daily_mark: spot close times 1000 plus short futures close variation
+  exit_realization: stressed_same_session_open_both_legs
+  day_count: ACT_365
+  benchmark: full_causal_RUONIA_on_initial_equity
+  no_credit_for_unknown_ruonia: true
+  fees_and_spread_charged_on_entry_and_exit: true
+
+scenarios:
+  primary: 5bps_half_spread_plus_1bps_commission
+  stress: 10bps_half_spread_plus_1bps_commission
+  forbidden: [threshold_search, alternate_entry_days, asset_subset_search, reverse_carry]
+
+promotion_gates:
+  evaluation_cagr_minimum_percent: 20.0
+  evaluation_sharpe_minimum: 0.8
+  evaluation_max_drawdown_maximum_percent: 20.0
+  evaluation_positive_years_minimum: 3
+  evaluation_years_total: 3
+  evaluation_excess_over_ruonia_cagr_minimum_percent: 5.0
+  stress_evaluation_cagr_minimum_percent: 15.0
+  minimum_evaluation_trades: 8
+  execution_and_identity_checks_all_true: true
+
+output:
+  root: runs/fx_cash_carry_v1
+  immutable_timestamped: true
+  required: [config_snapshot, identity, audit, trades, daily_equity, metrics, report]
