@@ -61,6 +61,9 @@ identity и должен проверяться перед чтением.
 | CBR dated liquidity forecasts | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/cbr_liquidity_forecasts.parquet` | `a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07` |
 | CBR liquidity forecast manifest | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/manifest.json` | `8f452f2dd963752eab4183e8f80dd2a07398588f9f87124ae913dff6c2a88c9a` |
 | CBR liquidity forecast raw archive | `data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1/official_cbr_pffl_releases.jsonl.gz` | `b01200fa2a827a1c0eb7708695a0cf1af6ace9bed3a2b81f8d9c3281839bd3a6` |
+| CBR daily liquidity factors, current-vintage | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/cbr_liquidity_factors.parquet` | `88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864` |
+| CBR daily liquidity factors manifest | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/manifest.json` | `f1701ec330fce9813d75bd711de235744dd8a9daf5f192325efe64f16e98e61a` |
+| CBR daily liquidity factors raw snapshot | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/official_cbr_liquidity_factors_current_vintage.html.gz` | `96901a15619561118719f8b4635bde97f964b806d59c609be9d40c0110dae95f` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -108,6 +111,11 @@ identity и должен проверяться перед чтением.
   release-keyed forecast будущего периода, но исходные байты времени публикации не
   сохранились и их неизменность не доказана: источник годится для development, не для
   независимого подтверждения без forward vintage collection.
+- CBR daily liquidity factor допускается не раньше 10:31 мск следующего датированного
+  рабочего дня таблицы. Официально данные предыдущего рабочего дня публикуются до 10:30,
+  но сами исторические значения могут уточняться. Поэтому current-vintage snapshot не
+  доказывает исходные publication bytes и остаётся development-only; `Last-Modified` для
+  availability не используется.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

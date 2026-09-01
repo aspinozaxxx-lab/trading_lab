@@ -161,6 +161,33 @@ bundle допускается только к development challenger; незав
 forward collection. Raw не публикуется до отдельной проверки прав, ссылка на сайт ЦБ при
 цитировании обязательна.
 
+### CBR daily liquidity factors — current-vintage фактические валютные потоки
+
+Официальная дневная таблица ЦБ собрана отдельно от недельного forecast и без чтения
+market outcomes:
+
+- path: `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/`;
+- 1 238 admitted rows `2021-01-11..2025-12-30`; исходная таблица содержит 1 239 строк,
+  последняя исключена, потому что её публикация уже относится к 2026;
+- processed: 66 943 bytes, SHA-256
+  `88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864`;
+- manifest SHA-256:
+  `f1701ec330fce9813d75bd711de235744dd8a9daf5f192325efe64f16e98e61a`;
+- raw current-vintage snapshot SHA-256:
+  `96901a15619561118719f8b4635bde97f964b806d59c609be9d40c0110dae95f`;
+- 939 дней имеют ненулевые операции Минфина: 249 positive purchases, 690 negative sales,
+  299 zero; по годам nonzero `242/12/226/228/231`;
+- `publication_date` — следующий датированный рабочий день таблицы, `available_at` —
+  10:31 мск этого дня; maximum `2025-12-31T07:31:00Z`.
+
+ЦБ определяет положительный знак как покупку иностранной валюты, отрицательный — как
+продажу. Это даёт заранее фиксируемый причинный знак для SI, но не гарантирует прибыль:
+поток эндогенен нефтегазовым доходам и может быть заранее учтён рынком. Историческая
+таблица прямо допускает уточнения, original publication bytes отсутствуют, поэтому
+snapshot — только development source. Независимое подтверждение требует forward
+архивирования страницы после каждой публикации. Raw не распространяется без проверки
+прав; при цитировании нужна ссылка на ЦБ.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -183,6 +210,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | MOEX FUTOI daily-last | Forward crowding/risk regime для всех core-four | V16 INVALID; historical publication vintages не доказаны | Только `available_at <= decision_at`, source date недостаточно |
 | P1 | Полный MOEX FUTOI 5m | Будущий forward timing/момент сделки | Current-vintage, 1 000-row cap, offset игнорируется; historical PIT отсутствует | `max(SYSTIME + buffer, retrieval_at) <= decision_at` |
 | P1 | CBR weekly liquidity forecast | Заранее известный рублёвый liquidity/fiscal-flow regime для SI | Bundle готов; original response bytes не доказаны | Только дата внутри record и `available_at <= decision_at` |
+| P1 | CBR daily Minfin FX operations | Прямой persistent FX flow для SI и будущего intraday timing | Current-vintage revisions; original publication bytes отсутствуют | Следующий рабочий день, не раньше 10:31 мск |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -225,8 +253,11 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
 3. V18 CBR forecast test завершён `NO_GO`: primary CAGR −10,31%, Sharpe −0,51,
    MDD −55,73%, 1/5 positive years при полном исполнении. Не создавать V18.1 с
    противоположным знаком, extreme-week threshold или другой строкой того же release;
-4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
+4. новый CBR daily-factors snapshot подготовлен source-only. Следующий допустимый sealed
+   тест — persistence прямого знака фактических операций Минфина для SI: published-next-
+   working-day, next factual open, без magnitude threshold и без связи с V18 sign;
+5. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
-5. любой следующий PnL начинается только после source manifest, `available_at` audit и
+6. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

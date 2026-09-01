@@ -64,6 +64,12 @@ government-account flow для SI дал **−41,9547%**, CAGR **−10,3092%**, 
 execution dependencies покрыты, 0 critical/unresolved. Verdict **NO-GO**; знак,
 thresholds, lag и expiry по этому outcome не подбирать.
 
+Следующий source-only кандидат уже подготовлен: 1 238 фактических дневных факторов ЦБ
+`2021-01-11..2025-12-30`, включая 939 ненулевых операций Минфина с валютой. Они
+допускаются только с 10:31 мск следующего рабочего дня. Snapshot current-vintage и может
+содержать revisions, поэтому пригоден лишь для sealed development test и будущего
+forward-архива, не для независимого подтверждения.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -344,6 +350,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    следующий тест должен использовать новую заранее обоснованную информацию.
 6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
+7. CBR daily-factors source собран: 1 238 admitted rows, processed SHA `88885d36...`,
+   manifest SHA `f1701ec3...`. До любого SI outcome запечатать единственный persistence
+   test прямого знака Minfin FX operations; без threshold, magnitude scaling и sign flip.
 
 ### P2 — разблокировать широкий structural exact execution
 

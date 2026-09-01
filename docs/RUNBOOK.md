@@ -340,6 +340,21 @@ Collector проверяет дату внутри record, а не доверя�
 Config SHA должен быть `ee2d7fd7...`. Replay не разрешает инвертировать знак, менять
 source row, добавлять magnitude threshold или переносить позицию за printed forecast end.
 
+### CBR daily liquidity-factors source
+
+Canonical current-vintage snapshot находится во внешнем хранилище. Новый versioned
+snapshot всегда писать в новый directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.cbr_liquidity_factors_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\cbr-liquidity-factors-<new-id>
+```
+
+Collector читает одну официальную таблицу, сохраняет raw HTML, processed parquet и
+manifest. Он выводит publication date как следующий датированный рабочий день и ставит
+availability на 10:31 мск. Это current-vintage/revisable development source, не original
+historical vintages; raw не распространять без проверки прав.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

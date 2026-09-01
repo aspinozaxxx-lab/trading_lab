@@ -65,6 +65,13 @@ runs -> external junction ignored by Git
 record. Availability консервативно ставится на конец московского дня публикации; raw
 страницы, coverage и hashes остаются во внешнем хранилище.
 
+`market_lab.futures.cbr_liquidity_factors_source` сохраняет отдельную current-vintage
+таблицу фактических дневных факторов. Для observation day publication day выводится как
+следующий датированный рабочий день таблицы, а `available_at` ставится на 10:31 мск по
+официальному правилу «предыдущий рабочий день — до 10:30». Source помечает допустимость
+revisions и отсутствие original publication bytes; raw HTML, processed parquet и hashes
+хранятся вне Git.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.
