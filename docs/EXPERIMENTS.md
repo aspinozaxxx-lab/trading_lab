@@ -4,7 +4,26 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## CALENDAR-SPREAD-SOURCE-V2: parser-only seal, collection pending
+## CALENDAR-SPREAD-SOURCE-V3: exact empty-ISS correction, collection pending
+
+- V2 seal `7c8d45a` был pushed до resumed bulk history. Blank-ASSETCODE correction прошла,
+  затем parent collector остановился без output на единственном empty ISS interval:
+  `BR:BRF1BRG1:2020-12-31:2021-02-01`. Exact official metadata: series starts
+  `2020-12-14`, spread last trade `2021-01-04`, RFUD board ends `2020-12-30`; поэтому
+  sealed lower bound даёт `from=2021-01-01 > till=2020-12-30`.
+- Metadata-only scan 110/110 boards подтвердил exact empty count 1. Public archive code
+  `BR-1.21-2.21` остаётся отдельным официальным источником и не должен теряться из-за
+  отсутствия admissible ISS interval.
+- V3 config SHA
+  `3d89c51fe674f3b55282aba808ad6f0336cae502956681203f02b0218022f19c`, implementation
+  SHA `3f344899...`. Единственная delta: для exact pinned identity сохранить official
+  board dates, сделать 0 ISS requests/rows и обязательно продолжить обычный public archive
+  collection. Любой другой empty interval — fail-closed. V2 parser и все V1 gates
+  наследуются byte-identical; output отдельный `-v3`.
+- Source V1/V2/V3 + encoding tests 23/23, scoped Ruff clean. Следующий шаг — commit/push
+  V3 seal, затем один immutable V3 collection и full raw replay. PnL всё ещё запрещён.
+
+## CALENDAR-SPREAD-SOURCE-V2: FAILED_CLOSED, no output
 
 - V1 seal commit `293e54e` был pushed до bulk history. Первый collection остановился
   fail-closed без canonical output на `SiZ5SiH6`: expected `Si`, official page содержал
@@ -19,8 +38,9 @@
   NULL policy не меняется, любой непустой mismatched code всё ещё reject. Discovery,
   counts, archive mapping, cursors, dates, WebForms/CSV, schemas и protected boundary
   полностью наследуются V1.
-- Source tests V1+V2 18/18, encoding 2/2, scoped Ruff clean. Следующий разрешённый шаг —
-  commit/push V2 seal, затем один resumed immutable collection и exact replay audit.
+- Source tests V1+V2 18/18, encoding 2/2, scoped Ruff clean. Seal `7c8d45a` был pushed;
+  resumed collection прошёл parser correction, затем остановился на exact empty ISS
+  interval без output. V2 не менять и не повторять; operational correction только V3.
 
 ## CALENDAR-SPREAD-SOURCE-V1: FAILED_CLOSED, no output
 

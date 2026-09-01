@@ -1,0 +1,84 @@
+﻿protocol_id: moex_calendar_spread_source_v3
+protocol_version: 3
+status: predeclared_collection_only_correction_before_resumed_bulk_history
+declared_at_utc: "2026-09-01T11:07:00Z"
+scope: source_only_no_returns_targets_or_pnl
+research_only: true
+sealed_before_resumed_bulk_history: true
+live_trading_allowed: false
+
+parent_protocol:
+  config: configs/moex_calendar_spread_source_v2.yaml
+  config_sha256: be770102469677a3d5b88c79e976799298072aa77c45c405b31387a9fb809173
+  implementation_sha256: d0c865a45369e13bf118842d045f32fd58d0188879e987986b1ce9bfbad1e30d
+  parser_correction: inherited_byte_identical
+  economic_rules: none_source_only
+
+observed_v2_failure:
+  canonical_output_created: false
+  temporary_output_removed: true
+  exception: "empty calendar-spread ISS interval: BR:BRF1BRG1:2020-12-31:2021-02-01"
+  exact_empty_interval_count: 1
+  exact_empty_interval_secids: [BRF1BRG1]
+  exact_identity:
+    logical_asset: BR
+    secid: BRF1BRG1
+    archive_code: BR-1.21-2.21
+    series_start: "2020-12-14"
+    spread_last_trade: "2021-01-04"
+    board_history_from: "2020-12-14"
+    board_history_till: "2020-12-30"
+    computed_iss_from: "2021-01-01"
+    computed_iss_till: "2020-12-30"
+  market_values_printed_or_persisted: false
+  returns_targets_or_pnl_observed: false
+
+collection_only_correction:
+  only_change: skip_ISS_request_for_exact_declared_empty_interval
+  exact_empty_interval_iss_rows: 0
+  exact_empty_interval_raw_ISS_requests: 0
+  public_archive_collection: unchanged_required
+  catalog_board_dates_mutated: false
+  public_archive_interval: "2021-01-01..2025-12-31"
+  unexpected_empty_interval_policy: reject
+  all_other_parent_rules: byte_identical
+  V2_blank_ASSETCODE_parser: inherited_required
+  protected_date_gate: inherited_required
+
+period:
+  start: "2021-01-01"
+  end: "2025-12-31"
+  protected_from: "2026-01-01"
+
+output:
+  directory: data/processed/info_radar/moex-calendar-spreads-current-vintage-2021-2025-v3
+  immutable: true
+  overwrite_allowed: false
+  bundle_id: moex-calendar-spreads-current-vintage-2021-2025-v3
+
+limitations:
+  - all_parent_V1_and_V2_limitations_apply
+  - public_archive_is_current_vintage
+  - public_archive_bid_ask_are_EOD_not_order_time_quotes
+  - one_spread_has_no_admissible_ISS_interval_but_public_archive_is_preserved
+  - historical_fees_margin_and_broker_rules_not_exact
+  - future_strategy_is_development_not_independent_holdout
+  - guaranteed_future_return_is_false
+  - live_trading_is_forbidden
+
+implementation_dependencies:
+  configs/moex_calendar_spread_source.yaml: 7268753933efb4c9633f3e314ebc1d67cf4a7d63e4290e0f3a0142bacce8048e
+  configs/moex_calendar_spread_source_v2.yaml: be770102469677a3d5b88c79e976799298072aa77c45c405b31387a9fb809173
+  src/market_lab/futures/moex_calendar_spread_source.py: db2174889a4fc3baa08e39bfa4685b7cfdaaf01adf370760b27546b5ef5c261d
+  src/market_lab/futures/moex_calendar_spread_source_v2.py: d0c865a45369e13bf118842d045f32fd58d0188879e987986b1ce9bfbad1e30d
+  src/market_lab/futures/moex_calendar_spread_source_v3.py: 3f344899db1aa6da4e1312319461992df76e0b6f96d9ab28354da5016d36c8e1
+
+forbidden_after_seal:
+  - editing_or_overwriting_parent_V1_or_V2
+  - skipping_any_other_empty_ISS_interval
+  - mutating_official_board_or_series_dates
+  - changing_public_archive_collection_for_the_exact_empty_ISS_spread
+  - requesting_or_accepting_market_values_at_or_after_2026_01_01
+  - computing_returns_targets_signals_equity_or_pnl
+  - overwriting_any_parent_or_V3_output
+  - live_trading_or_claiming_guaranteed_profit

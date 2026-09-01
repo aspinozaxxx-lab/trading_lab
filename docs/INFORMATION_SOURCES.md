@@ -25,7 +25,10 @@ ISS JSON архивируются, missing/zero/signed prices сохраняют
 интервалов получают flags. После pre-collection push `293e54e` V1 корректно остановился
 без output: последний Si spread вернул blank `ASSETCODE`. Отдельный V2 seal SHA
 `be770102...` меняет только parser blank-to-missing, не мутирует raw и не допускает
-непустой чужой код. V1 остаётся неизменяемым; V2 collection ещё не выполнялся.
+непустой чужой код. После push `7c8d45a` V2 прошёл этот участок, но fail-closed выявил
+единственный пустой RFUD interval `BRF1BRG1`; output снова не создан. V3 SHA
+`3d89c51f...` сохраняет его official metadata, пропускает только невозможный ISS request
+и всё равно требует public archive. V1/V2 остаются неизменяемыми; V3 collection pending.
 
 Источник current-vintage и не содержит historical order-time queue. EOD Bid/Ask не
 доказывает исполнимый spread в момент решения; исторические fees, IM и broker rules также

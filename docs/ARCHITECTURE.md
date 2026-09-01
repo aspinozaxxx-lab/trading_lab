@@ -484,6 +484,16 @@ whitespace `ASSETCODE` на missing перед V1 parser. Исходный raw o
 восстанавливается, включая exception. V2 имеет отдельный config SHA и output `-v2`,
 поэтому V1 seal и возможный forensic replay не перезаписываются.
 
+### `market_lab.futures.moex_calendar_spread_source_v3`
+
+Collection-only wrapper после второго fail-closed запуска без output. Он копирует V1
+orchestration, наследует V2 parser context и допускает ровно одну closed exception:
+`BRF1BRG1` с exact official dates имеет `iss_request_till < iss_request_from`, поэтому
+получает пустой ISS frame и ноль ISS requests. Catalog/board dates не переписываются,
+а public archive page/CSV всё равно обязательны. Exact identity и все восемь дат/кодов
+pin-ятся кодом и config; любое другое пустое окно аварийно. Manifest имеет новый V3
+bundle id, output отдельный и immutable; audit остаётся полным parent raw replay.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical
