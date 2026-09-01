@@ -337,6 +337,16 @@ stress, zero/negative — normal-or-below. Friday-ending observation получ�
 boundary; raw replay exact. Источник current-vintage и использует нынешнюю Version 4 на
 всей истории, поэтому не является independent PIT confirmation.
 
+### `market_lab.futures_v25_stlfsi_stress_governor`
+
+Импортирует byte-identical V12 и применяет global binary scale только к его исходным
+weekly weights. Latest STLFSI4 выбирается backward `merge_asof` по
+`available_at <= decision_at`; fresh complete value `<=0` даёт scale 1, positive,
+missing или старше 14 дней — scale 0. V12 next-open mapper сам добавляет необходимые roll
+decisions. Перед market outcomes runner проверяет все source SHA, manifest/sidecar,
+декодирует raw CSV и требует exact replay processed/coverage. Config SHA `dd8b6051...`
+фиксирует один вариант и weekly counts до PnL.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

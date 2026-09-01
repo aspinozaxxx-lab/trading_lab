@@ -4,6 +4,35 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V25: weekly STLFSI4 stress governor — SEALED, OUTCOME PENDING
+
+- Протокол:
+  [`configs/futures_v25_stlfsi_stress_governor.yaml`](../configs/futures_v25_stlfsi_stress_governor.yaml)
+- Config SHA-256:
+  `dd8b60513de7261aa051c12bd5598fffd880c90c98489a5becac820b7597416b`.
+- Source collector/bundle был committed/pushed отдельно как `cdfe674`: 417 weekly rows,
+  processed SHA `4937b686...`, manifest SHA `1a992f64...`; one bounded raw CSV точно
+  воспроизводит processed frame и не содержит observations 2026.
+- Parent неизменяем: frozen V12 signal, weekly portfolio, 20% target volatility, gross
+  `<=1`, active-contract next-open execution и три cost scenarios.
+- Единственный governor действует только на исходных weekly V12 decisions: последний
+  complete STLFSI4 с `available_at <= decision_at` и возрастом `<=14` дней пропускает
+  V12 при value `<=0`; value `>0`, missing/incomplete/stale дают global cash. Scale
+  только `1` или `0`, asset exceptions отсутствуют.
+- Ноль — официальное определение normal financial conditions; 14 дней — два exact
+  недельных интервала source cadence. Levels, percentiles, changes, smoothing,
+  hysteresis, partial scale, sign inversion и комбинация с V24 запрещены.
+- Source/calendar-only seal до PnL: все `2018–2025` — 418 weekly decisions, 349 pass,
+  68 stress-cash, 1 missing/stale; OOS `2021–2025` — 261 decisions, `237/24/0`.
+- Pre-outcome source/config/semantic/synthetic tests: `11 passed`; первый market/PnL run
+  запрещён до commit и push этой записи.
+- Promotion: CAGR `>=5%`, Sharpe не ниже V12 `0,7624`, MDD не хуже V12 `14,1526%`,
+  не менее 4/5 positive years, positive doubled/stress, complete execution и no breaches.
+
+STLFSI4 — current-vintage Version 4, которая не существовала в точном виде на всей
+истории; V25 является adaptive development test, а не независимой PIT validation. После
+первого outcome same-history threshold/age/state/scaling/combination tuning запрещён.
+
 ## V24: daily Cboe VIX/VIX3M risk governor — NO-GO
 
 - Протокол:

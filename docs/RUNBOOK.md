@@ -518,6 +518,24 @@ raw replay exact и не содержит observations 2026. Availability нам
 конца следующего Thursday Chicago. Values copyrighted/citation-required; Version 4
 current-vintage history нельзя называть независимым PIT holdout.
 
+### Sealed V25 weekly STLFSI4 governor
+
+Config SHA `dd8b6051...` допускает ровно один adaptive development run, но только после
+commit/push implementation и pending-status:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest `
+  tests/test_futures_v25_stlfsi_stress_governor.py `
+  tests/test_stlfsi_source.py tests/test_encoding.py -q
+git status --short --branch
+.\.venv\Scripts\python.exe -m market_lab.futures_v25_stlfsi_stress_governor `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Pre-outcome state seal: all `418 = 349/68/1`, OOS `261 = 237/24/0` для
+pass/stress-cash/missing-cash. Несовпадение останавливает run. После outcome нельзя
+менять official zero, 14-day age, binary scale или смешивать V24/V25 по результатам.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

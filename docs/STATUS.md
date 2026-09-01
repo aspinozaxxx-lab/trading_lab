@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V24 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V25 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -616,8 +616,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     V12 и costs выше. Same-history VIX boundary/freshness/scaling tuning закрыт.
 14. Source-only screen отверг NFCI/ANFCI: 0 above-zero OOS weeks означают тождественный
     V12. STLFSI4 bundle готов: 417 weekly rows, 416 causal до 2026, processed SHA
-    `4937b686...`, manifest SHA `1a992f64...`, strict raw replay exact. В OOS есть 24
-    above-average-stress weeks; V25 ещё не sealed и не имеет права читать MOEX outcome.
+    `4937b686...`, manifest SHA `1a992f64...`, strict raw replay exact. V25 запечатан SHA
+    `dd8b6051...`: weekly states OOS `237 pass / 24 stress-cash / 0 missing`; первый
+    market outcome разрешён только после pre-outcome commit/push.
 
 ### P2 — разблокировать широкий structural exact execution
 
