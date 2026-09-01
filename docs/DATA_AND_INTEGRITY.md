@@ -81,6 +81,12 @@ nonmissing `available_at` обязан быть строго до `2018-01-01 Eu
 обязательны. Current-vintage STLFSI4 не является доказанным original historical vintage.
 Ни macro source, ни D3 не разрешены для PnL до отдельного V28 seal.
 
+S3 завершён после pre-collection push `1f9c343`: manifest SHA `949bc7bf...`, STLFSI4
+SHA `343c7636...`, CBR monetary SHA `bf18a53c...`, coverage SHA `db32971e...`, raw SHA
+`8109f157...`. Exact raw replay, artifact hashes/rows/columns, unknown timing policy и
+nonmissing availability before 2018 прошли audit. Bundle теперь разрешён только как
+input отдельного запечатанного V28 research protocol.
+
 ## Основные разрешённые development artifacts
 
 Пути относительны к external root. Hash относится к указанному файлу либо canonical
@@ -98,6 +104,10 @@ identity и должен проверяться перед чтением.
 | Pre-2018 causal D3 panel | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/panel.parquet` | `d1043ea73a1f4f86e7477c2a3664d08b409148d879435de2889560a1c2a8579c` |
 | Pre-2018 causal D3 active map | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/active_contract_map.parquet` | `b3ce75f9f7a67a2176741ebb7491ebc760070ef03c9ec3cf28a076542a7f728f` |
 | Pre-2018 causal D3 spec proxy | `data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/spec_proxy.parquet` | `d7cecd862229d6564bd5657d96e867c3e9984c6fd47ed671d0121293cef2ab2a` |
+| Pre-2018 macro S3 manifest | `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/manifest.json` | `949bc7bf5cbbd0973913a41df24f73a778a628997a9855e9c14a4b830c994151` |
+| Pre-2018 STLFSI4 current-vintage | `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/stlfsi4.parquet` | `343c76363fe3093da159a6cdfde5d8912fe6dedeab8f0c7e5e13eafdbe0c9c7a` |
+| Pre-2018 CBR monetary | `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/cbr_monetary.parquet` | `bf18a53cb85ad1417c504ed68797ea96ecb0bbdda270e40846f0dd2c8ac84164` |
+| Pre-2018 macro raw archive | `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/official_macro_responses.jsonl.gz` | `8109f157f314da53a7d93d9bf1f39fb12fb75c30dd6cd4e07b03ef52eacd3024` |
 | Active-contract map | `data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet` | `40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823` |
 | Futures spec proxy | `data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet` | `8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682` |
 | CBR PIT daily | `data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet` | `bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d` |

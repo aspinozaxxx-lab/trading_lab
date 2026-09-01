@@ -73,6 +73,10 @@ fail-closed parser остановился до publication на старом RUO
 не читались, S2 output отсутствует. S3 parser-only correction запечатан до collection:
 config SHA `ae575962...`, implementation SHA `5f2e4e09...`; unknown publication и
 `available_at` сохраняются missing, inference/zero-fill/collateral credit запрещены.
+Seal был pushed commit `1f9c343`, затем S3 успешно опубликован и полностью replayed:
+manifest SHA `949bc7bf...`, raw SHA `8109f157...`; 312 STLFSI4, 1 478 RUONIA и 1 065
+key-rate rows, все SHA/schema/availability checks true. Следующий разрешённый шаг —
+отдельный pre-outcome V28 seal.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return

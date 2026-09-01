@@ -427,7 +427,8 @@ User-Agent to the empirically compatible `curl/8.10.1`; S2 SHA `4ad7f034...`. S2
 all responses but published nothing when historical RUONIA publication timing proved
 missing for 1 400/1 478 rows. `pre2018_macro_source_v3` inherits S2 byte-identical and
 only preserves those dates and `available_at` as missing; it never infers timing or
-credits collateral income. S3 SHA `ae575962...`.
+credits collateral income. S3 SHA `ae575962...`; canonical manifest SHA `949bc7bf...`,
+raw replay and every artifact/temporal/schema check passed.
 
 ### `market_lab.futures.futoi_intraday_source`
 

@@ -670,6 +670,9 @@ Default immutable output:
 replay all three raw records, hashes, bounds and availability; не читать strategy
 returns/PnL до отдельного V28 seal.
 
+S3 уже выполнен после push `1f9c343`: manifest SHA `949bc7bf...`, raw archive SHA
+`8109f157...`; replay и все checks прошли. Команду collection повторно не запускать.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

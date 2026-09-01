@@ -434,7 +434,8 @@ availability до HTTP. S1 не получил response из-за User-Agent-spe
 все responses, но не опубликовал output из-за неизвестного marker в старых RUONIA rows.
 S3 SHA `ae575962...` predeclares единственную parser correction: 78 explicit publication
 dates сохраняют causal availability, 1 400 unknown dates остаются missing без inference
-и без collateral credit.
+и без collateral credit. Seal `1f9c343` предшествует collection; canonical manifest SHA
+`949bc7bf...`, exact raw replay и temporal/schema audit прошли полностью.
 Ограничение существенное: STLFSI4 — current-vintage history, а не архив оригинальных
 weekly vintages; это нужно явно учитывать в verdict V28.
 

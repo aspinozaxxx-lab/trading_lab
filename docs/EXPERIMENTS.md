@@ -4,7 +4,7 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## PRE2018-MACRO-S3: preserve unknown RUONIA timing — sealed, collection pending
+## PRE2018-MACRO-S3: preserve unknown RUONIA timing — completed
 
 - Config SHA `ae575962...`, implementation SHA `5f2e4e09...`; наследует exact S2
   requests, bounds, transport, STLFSI4/key-rate parsers и меняет только обработку
@@ -13,8 +13,12 @@
   78 explicit publication dates и 1 400 unknown markers. S3 сохраняет для последних
   `publication_date/available_at = missing`, не выводит дату косвенно и запрещает
   credit collateral income при неизвестной доступности.
-- Первый S3 collection разрешён только после commit/push; output immutable V3 и обязан
-  содержать три exact raw responses, coverage неизвестного timing и outcome-free schema.
+- Seal был pushed commit `1f9c343` до первого collection. Canonical immutable V3:
+  `data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v3/`, manifest SHA
+  `949bc7bf...`, raw archive SHA `8109f157...`.
+- Coverage: STLFSI4 312/312 complete rows, RUONIA 1 478 rows (78 explicit/1 400 unknown
+  timing), key rate 1 065 rows. Raw replay exact, все artifact hashes/rows/columns и
+  protected availability прошли audit; outcome-free schema подтверждена.
 
 ## PRE2018-MACRO-S2: transport-only retry — failed parse, no output
 
