@@ -1,0 +1,79 @@
+﻿protocol_name: stock-intraday-pre2026-source-v1
+protocol_version: 1
+research_status: source_only_no_returns_no_targets_no_pnl
+
+objective:
+  purpose: >-
+    Create a physically isolated immutable pre-2026 copy of the existing MOEX TQBR
+    ten-minute candles before any V35 economic computation.
+  forbidden_computations:
+    - returns
+    - labels
+    - targets
+    - pnl
+    - strategy_features
+
+source:
+  root: data/processed/sequence_10m
+  manifest_path: data/processed/sequence_10m/manifest.json
+  manifest_sha256: 20840effce8ba682c31f3367f88439f0ab3fd26d35ae4c1f8f77a5db159970a0
+  manifest_bytes: 17115
+  required_source: MOEX ISS
+  required_endpoint_kind: anonymous official candles API
+  required_columns: [open, high, low, close, volume, value, timestamp]
+  source_hash_field: sha256
+
+boundary:
+  cutoff_exclusive_utc: '2026-01-01T00:00:00Z'
+  protected_2026_read_allowed: false
+  filter_execution: pyarrow_predicate_before_pandas_or_numpy_materialization
+  output_must_have_max_timestamp_before_cutoff: true
+
+universe:
+  tickers:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+
+output:
+  directory: data/processed/stocks_10m_pre2026_v1
+  parquet_compression: zstd
+  parquet_row_group_size: 65536
+  immutable: true
+  manifest_encoding: utf-8-sig
+  include_only_source_columns: true
+
+audit:
+  verify_source_manifest_identity: true
+  verify_every_source_parquet_sha256: true
+  verify_exact_ticker_set: true
+  verify_output_parquet_sha256: true
+  verify_schema_and_timestamp_boundary: true
+  verify_no_outcome_columns: true
