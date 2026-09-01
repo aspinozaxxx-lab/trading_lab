@@ -4,11 +4,17 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V18: CBR forward-liquidity forecast для SI — sealed, outcome ещё не прочитан
+## V18: CBR forward-liquidity forecast для SI — NO-GO
 
 - Протокол: [`configs/futures_v18_cbr_liquidity_forecast.yaml`](../configs/futures_v18_cbr_liquidity_forecast.yaml)
 - Config SHA-256:
   `ee2d7fd77037eccf15237f827ed357e0b8608c96fae1f393e8a3478945b8b10a`.
+- Pre-outcome commit: `0c3fc80`; config, implementation, tests и pending-status docs были
+  pushed до первого чтения SI outcomes.
+- Canonical run:
+  `runs/v18_cbr_liquidity_forecast_20260901T002046Z_ee2d7fd7/`
+- Metrics SHA-256:
+  `b67423433a03ebcd4cdebac5df33754e62be94b4719a430f1642596c357e9f28`.
 - Новый source: 458 датированных CBR forecasts `2017-01-10..2025-12-30`, processed SHA
   `a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07`.
 - Единственный сигнал: `sign(government_accounts_change_bln_rub)`; positive liquidity
@@ -18,7 +24,27 @@
   successor release появляется после напечатанного конца периода либо отсутствует.
 - SI sizing: prior 60-session annual volatility, 20% target, floor 10%, absolute cap 1;
   RI/BR/MIX всегда zero. Threshold, normalization и outcome training отсутствуют.
-- Статус: sealed pre-outcome. До push config/code нельзя читать V18 market result.
+- Все input/temporal checks true. Получено 240 OOS release decisions
+  (`51/37/51/51/50` по годам), 10 expiry-to-zero и 18 roll decisions; 257/257 nonzero
+  execution dependencies полны. В 2022 ещё 14 releases исключены из-за отсутствия
+  prior 60-session SI volatility после остановки рынка; последний release 2025 не имел
+  будущей factual decision session.
+- Все три ledger complete: 183 primary filled legs, 0 critical, 0 unresolved,
+  maximum participation 0,01155%; один factual halt корректно carried.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | −41,9547% | −10,3092% | −0,5137 | −55,7292% | 1/5 | 8 289,95 | yes |
+| doubled | −44,5908% | −11,1392% | −0,5650 | −57,5354% | 1/5 | 16 259,90 | yes |
+| stress | −44,4906% | −11,1070% | −0,5616 | −57,3925% | 1/5 | 19 391,80 | yes |
+
+Primary годы: 2021 **−1,77%**, 2022 **−46,94%**, 2023 **−9,47%**,
+2024 **−1,33%**, 2025 **+24,67%**.
+
+Verdict: `NO_GO`. Прямой экономический знак будущего изменения government accounts не
+является самостоятельным edge для SI. Не инвертировать знак, не выбирать extreme weeks,
+не менять lag/expiry/volatility/costs по увиденному результату. Допустима только новая
+информационная гипотеза, заранее запечатанная независимо от V18 outcomes.
 
 ## V17: EIA seven-component physical balance for BR — NO-GO
 

@@ -47,10 +47,9 @@ observation более чем на сутки, а для всей истории
 `2026-08-31T22:43:34Z`. Подробности — в
 [карте источников](INFORMATION_SOURCES.md).
 
-Новый независимый PIT-кандидат подготовлен: официальный EIA WPSR Table 1 bundle содержит
-727 допустимых release vintages и 38 248 target-free строк `2012-01-05..2025-12-29`.
-Один stale issue `2019-07-03` изолирован, 71 межвыпусковая revision сохранена. Outcome BR
-ещё не читался; следующий шаг — pre-outcome seal единственного supply-demand composite.
+Официальный EIA WPSR Table 1 bundle содержит 727 допустимых release vintages и 38 248
+target-free строк `2012-01-05..2025-12-29`. Один stale issue `2019-07-03` изолирован,
+71 межвыпусковая revision сохранена; его единственный sealed-тест уже завершён как V17.
 
 V17 выполнил этот sealed test и получил **NO-GO**: total return **−33,1422%**,
 CAGR **−7,7373%**, Sharpe **−0,1893**, MDD **−48,8033%**, только два положительных года.
@@ -58,12 +57,12 @@ CAGR **−7,7373%**, Sharpe **−0,1893**, MDD **−48,8033%**, только д�
 объясняется исполнением. Raw delayed EIA balance не является доходным сигналом; signs,
 компоненты, lag и thresholds по этому результату не инвертировать и не подбирать.
 
-Следующий независимый source family уже собран без чтения outcomes: 458 датированных
-недельных прогнозов факторов банковской ликвидности ЦБ за `2017-01-10..2025-12-30`.
-Это forward-looking forecast, а не реализованный поток; `available_at` консервативно
-равен концу московского дня публикации. V18 уже запечатал один тест экономического знака
-forecast government-account flow для SI, без threshold search и без доверия query date;
-outcome ещё не прочитан, config SHA `ee2d7fd7...`.
+V18 проверил новый release-keyed source family: 458 датированных недельных прогнозов
+факторов банковской ликвидности ЦБ за `2017-01-10..2025-12-30`. Прямой знак будущего
+government-account flow для SI дал **−41,9547%**, CAGR **−10,3092%**, Sharpe
+**−0,5137**, MDD **−55,7292%** и только один положительный год. Все 257 nonzero
+execution dependencies покрыты, 0 critical/unresolved. Verdict **NO-GO**; знак,
+thresholds, lag и expiry по этому outcome не подбирать.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -79,6 +78,7 @@ outcome ещё не прочитан, config SHA `ee2d7fd7...`.
 | V15 2x V12 + causal RUONIA | +162,87%, CAGR 21,33%, Sharpe 0,88, MDD −34,48%; 8 critical | CAGR gate пройден, stability/execution gates нет; NO-GO |
 | V16 FUTOI crowding + capacity-aware 2x | Механически CAGR 22,01%, но 932/1 044 states были недоступны | **INVALID: FUTOI look-ahead**, метрики не использовать |
 | V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
+| V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -89,6 +89,29 @@ outcome ещё не прочитан, config SHA `ee2d7fd7...`.
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V18 CBR liquidity forecast — валидный отрицательный результат
+
+V18 был запечатан и pushed commit `0c3fc80` до первого чтения SI outcomes.
+
+- config SHA:
+  `ee2d7fd77037eccf15237f827ed357e0b8608c96fae1f393e8a3478945b8b10a`;
+- metrics SHA:
+  `b67423433a03ebcd4cdebac5df33754e62be94b4719a430f1642596c357e9f28`;
+- canonical run:
+  `runs/v18_cbr_liquidity_forecast_20260901T002046Z_ee2d7fd7/`;
+- 240 OOS release decisions, 10 expiry-to-zero и 18 roll decisions; 257/257 nonzero
+  execution dependencies complete;
+- primary/doubled/stress total return **−41,95%/−44,59%/−44,49%**;
+- primary costs **8 289,95 RUB**, maximum participation **0,01155%**;
+- годы: 2021 **−1,77%**, 2022 **−46,94%**, 2023 **−9,47%**,
+  2024 **−1,33%**, 2025 **+24,67%**;
+- все три ledger complete, 0 rejected/critical/unresolved; один factual halt carried.
+
+Последний forecast interval заканчивается в январе 2026, но market decisions, targets,
+positions и PnL заканчиваются `2025-12-30`; защищённые outcomes 2026 не читались. Прямой
+знак government-account forecast закрыт. Простая инверсия или отбор extreme weeks после
+просмотра результата запрещены как data mining.
 
 ## V17 EIA physical balance — валидный отрицательный результат
 
@@ -316,9 +339,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    либо принципиально другой независимый source family.
 5. Новый CBR release-keyed liquidity-forecast bundle готов: 458 releases, 537 requests,
    12 недель без record, maximum release gap 16 дней, processed SHA `a8faab04...`.
-   V18 direct SI test запечатан: знак forecast government-account flow, следующий
-   factual open, prior-only volatility sizing, без порога и перебора. После pre-outcome
-   push выполнить ровно один canonical run и принять его результат без подгонки.
+   V18 direct SI test выполнен после pre-outcome push и дал `NO_GO`: CAGR −10,31%,
+   Sharpe −0,51, MDD −55,73%. Не инвертировать знак и не перебирать строки/пороги;
+   следующий тест должен использовать новую заранее обоснованную информацию.
 6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 

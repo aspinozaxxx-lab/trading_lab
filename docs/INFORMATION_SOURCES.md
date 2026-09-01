@@ -213,18 +213,18 @@ V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states �
 decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
 Current-vintage FUTOI bundle уже завершён и fail-closed закрыт для historical PnL. EIA
-V17 завершён отрицательно. Новый CBR liquidity-forecast bundle прошёл source audit без
-чтения market outcomes.
+V17 и прямой CBR liquidity-forecast signal V18 завершены отрицательно. Сам CBR bundle
+остаётся пригодным target-free PIT-кандидатом, но увиденный V18 outcome нельзя
+использовать для инверсии знака или выбора другой строки/порога.
 Следующие незаблокированные действия:
 
 1. запросить у MOEX licensed original-vintage/bulk history либо начать отдельный forward
    collector, который timestamp-ит получение каждого нового 5m response в реальном
    времени; до этого FUTOI timing sleeping;
 2. не публиковать raw FUTOI до проверки лицензии, несмотря на анонимный HTTP 200;
-3. V18 CBR forecast test уже запечатан до outcomes: `sign` будущего изменения government
-   accounts, positive liquidity contribution = long SI, prior-only SI volatility,
-   explicit forecast expiry, exact next-open execution и без threshold search. После
-   pre-outcome push выполнить только этот вариант;
+3. V18 CBR forecast test завершён `NO_GO`: primary CAGR −10,31%, Sharpe −0,51,
+   MDD −55,73%, 1/5 positive years при полном исполнении. Не создавать V18.1 с
+   противоположным знаком, extreme-week threshold или другой строкой того же release;
 4. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
 5. любой следующий PnL начинается только после source manifest, `available_at` audit и
