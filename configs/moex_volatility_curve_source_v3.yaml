@@ -1,0 +1,83 @@
+﻿protocol_id: moex_volatility_curve_source_v3
+protocol_version: 3
+status: sealed_T_sign_semantics_before_canonical_build
+declared_at_utc: "2026-09-01T18:10:00Z"
+scope: source_only_no_strategy_no_returns_no_pnl
+research_only: true
+live_trading_allowed: false
+
+parent_v2:
+  config_path: configs/moex_volatility_curve_source_v2.yaml
+  config_sha256: 90204aab3d06bc7fbf444157a7b5a8cac011fb14af48a665bf5639569dda6005
+  module_path: src/market_lab/futures/moex_volatility_curve_source_v2.py
+  module_sha256: 8eeb28525c5a951a7791df2ab6f61e0294c5019ec9fdcd91183c86e93da042fc
+  seal_commit: 9759f39
+  output_published: false
+  strategy_returns_or_pnl_computed: false
+
+failed_v2_attempt:
+  failure: finite_negative_years_to_expiry_rejected_by_overstrict_source_gate
+  failure_stage: after_schema_parse_before_any_output
+  output_published: false
+  returns_labels_strategy_or_pnl_computed: false
+
+only_changed_behavior:
+  old_invalid_rule: years_to_expiry_strictly_positive
+  new_source_rule: preserve_every_finite_years_to_expiry
+  added_source_mask: expired_or_at_expiry_equals_T_less_than_or_equal_zero
+  added_consumer_mask: curve_feature_eligible_equals_T_greater_than_zero
+  nonpositive_consumer_policy: mask_from_curve_reconstruction_or_strategy_features
+  selection_timestamp_or_numeric_value_change: false
+  source_rows_dropped_by_T: false
+
+source:
+  download_url: https://ftp.moex.com/pub/FORTS/volat_coeff/202101.zip
+  expected_archive_bytes: 9920473
+  archive_sha256: 40b79e536033bdc32a5f768300084c18be7e3f546e2aa1020660589f7359561f
+  archive_member_name: 202101.csv
+  local_cache_outside_git: downloads/moex_volatility_curve/202101.zip
+
+sealed_source_only_counts:
+  archive_rows: 304132
+  core_rows: 76999
+  root_rows: {RTS: 22851, MIX: 15998, SI: 22840, BR: 15310}
+  bad_timestamps: 0
+  duplicate_event_full_small: 0
+  numeric_missing_or_infinite: 0
+  nonpositive_T_rows: 1520
+  negative_T_rows: 1520
+  minimum_T: -0.000552226044908233
+  first_event_at: "2021-01-04T19:00:07.957000+03:00"
+  last_event_at: "2021-01-29T23:50:37.797000+03:00"
+
+inherited_without_change:
+  header_aliases: {"[#NAME]": "#NAME", "[TIME]": "TIME"}
+  terminal_empty_header_cell: strip_only_at_row_end
+  roots: [RTS, MIX, SI, BR]
+  asset_mapping: {RTS: RI, MIX: MIX, SI: SI, BR: BR}
+  event_time_timezone: Europe/Moscow
+  delivery_buffer: one_minute
+  selection_uses_values_or_outcomes: false
+  series_or_maturity_filter: none
+  strategy_or_pnl: forbidden
+
+output:
+  directory: data/processed/options/moex-volatility-curve-pilot-2021-01-v3
+  immutable: true
+  overwrite_allowed: false
+  raw_archive_in_git: false
+  processed_data_in_git: false
+
+forbidden_after_pilot:
+  - computing_returns_labels_strategy_or_pnl_before_a_separate_feature_and_strategy_seal
+  - using_nonpositive_T_for_curve_reconstruction_or_strategy_features
+  - selecting_series_maturities_times_assets_or_curve_transform_by_future_returns
+  - treating_FUTURES_PRICE_as_an_executable_option_price
+  - overwriting_the_V3_pilot_output
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_volatility_curve_source_v2.py: 8eeb28525c5a951a7791df2ab6f61e0294c5019ec9fdcd91183c86e93da042fc
+  src/market_lab/futures/moex_volatility_curve_source_v3.py: a1fd38af0cdc97230d4cdd71f0c42b9ae160491857c6cea61f2d3a1fb936d437
