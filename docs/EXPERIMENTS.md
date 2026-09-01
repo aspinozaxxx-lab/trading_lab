@@ -4,6 +4,21 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V27-R1: frozen path-robustness audit — sealed, pending
+
+- Протокол:
+  [`configs/futures_v27_robustness.yaml`](../configs/futures_v27_robustness.yaml)
+- Config SHA-256:
+  `a8d6ed420593aeb26e0bf537b402a6edba6b40ab7dd64d48947dc2a936ec8b10`.
+- Parent V27 неизменяем: protocol SHA `7a9a44cf...`, metrics SHA `5fc1f271...`;
+  audit читает только `session_date` и `combined_ending_equity` из трёх canonical curves.
+- До time-series audit зафиксированы circular blocks 5/21/63 sessions, 20 000
+  replications на scenario/block, rolling 252-session windows, leave-one-year-out,
+  DSR sensitivity для 27/100 trials и отдельные критерии поддержки 20%/50%.
+- Resampling frequency объявлена descriptive, не calibrated forecast. Даже положительный
+  verdict разрешает только новый unseen/PIT validation и никогда live trading.
+- Synthetic/encoding tests до первого audit: `8 passed`; canonical run пока отсутствует.
+
 ## V27: official CBR key-rate extreme governor — GO to unseen validation
 
 - Протокол:

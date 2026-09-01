@@ -370,6 +370,16 @@ filtered `cbr_daily.parquet`. На weekly decision выбирается толь
 Canonical V27 прошёл все gates и сохраняется как главный research lead только для новой
 unseen/PIT validation; модуль не разрешает live trading.
 
+### `market_lab.futures_v27_robustness`
+
+Читает только byte-pinned `session_date` и `combined_ending_equity` трёх canonical V27
+ledgers и отдельно воспроизводит исходные metrics. Неизменяемый post-selection audit
+считает rolling 252-session paths, leave-one-calendar-year-out, deflated-Sharpe
+sensitivity и circular moving-block bootstrap для 5/21/63-session blocks. Все bootstrap
+samples и summaries сохраняются во внешнем immutable run. Его частоты описывают только
+повторную выборку уже увиденной истории и не являются independent validation или
+калиброванным прогнозом.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

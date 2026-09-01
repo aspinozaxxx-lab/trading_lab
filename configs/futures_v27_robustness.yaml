@@ -1,0 +1,142 @@
+﻿protocol_id: futures_v27_robustness_audit_v1
+protocol_version: 1
+status: predeclared_before_v27_daily_curve_audit
+declared_at_utc: "2026-09-01T05:38:35Z"
+research_only: true
+sealed_before_time_series_audit: true
+live_trading_allowed: false
+relationship_to_prior_work: >-
+  Post-selection diagnostic of the already observed canonical V27 result. The audit
+  cannot change V27 signals, governors, leverage, collateral, execution, costs or
+  promotion verdict. It measures path stability and empirical resampling frequencies
+  before any daily V27 equity values are read for this diagnostic. It is not an
+  independent holdout and cannot establish a calibrated future-return probability.
+
+parent_v27:
+  config_path: configs/futures_v27_key_rate_extreme_governor.yaml
+  protocol_sha256: 7a9a44cf7b09c7820a514b2706e332744a3b30ced8b7d3d4c8bdf7448a3194fe
+  metrics_sha256: 5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654
+  immutable_verdict: GO_TO_NEW_UNSEEN_VALIDATION
+  expected_combined_metrics:
+    primary:
+      total_return: 2.486127162295365
+      cagr: 0.28375239823077547
+      sharpe: 1.2119172724470118
+      maximum_drawdown: 0.20713841628396878
+    doubled:
+      total_return: 2.384811048721937
+      cagr: 0.276201382811615
+      sharpe: 1.1917550495705265
+      maximum_drawdown: 0.20940952178675276
+    stress:
+      total_return: 2.3510215468443807
+      cagr: 0.2736428665095234
+      sharpe: 1.1838727815643257
+      maximum_drawdown: 0.2105110847663768
+
+implementation:
+  path: src/market_lab/futures_v27_robustness.py
+  sha256: 795bb570090bb44db5eeaba487b696f5149bc2d86f3f11bde29703c02b7022a0
+
+input:
+  canonical_run_directory: v27_key_rate_governor_20260901T052350Z_7a9a44cf
+  expected_rows_per_scenario: 1272
+  allowed_columns: [session_date, combined_ending_equity]
+  forbidden_columns:
+    - prices
+    - targets
+    - positions
+    - orders
+    - asset_returns
+    - future_data
+  artifacts:
+    combined_ledger_primary.parquet:
+      bytes: 120912
+      sha256: 24cde908cc2c23fb0f5f70d3de4d1647194dc443e0cdbd04728bad3912e587b8
+    combined_ledger_doubled.parquet:
+      bytes: 120738
+      sha256: 23e9545fbe2cb64c96c80d2a52ee20b859fcdbded0dcc279e120c8169e704758
+    combined_ledger_stress.parquet:
+      bytes: 120944
+      sha256: 6590286de20beebf72d869f7fdaefabf9946ee7e279322a5a8613fae3035553f
+    metrics.json:
+      bytes: 38400
+      sha256: 5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654
+    identity.json:
+      bytes: 2475
+      sha256: 3f8f705dc755ea26039390c6ed306a006dfc3ea331f2bf6474b659b9c1c77384
+
+dates:
+  expected_minimum_session: "2020-12-30"
+  analysis_start: "2021-01-01"
+  expected_maximum_session: "2025-12-30"
+  forbidden_from: "2026-01-01"
+
+analysis:
+  initial_cash_rub: 1000000.0
+  annualization_sessions: 252
+  metric_replay_absolute_tolerance: 1.0e-12
+  calendar_years: [2021, 2022, 2023, 2024, 2025]
+  rolling_window_sessions: 252
+  rolling_windows_are_overlapping_descriptive_only: true
+  bootstrap_method: circular_moving_block
+  block_sessions: [5, 21, 63]
+  bootstrap_replications_per_scenario_block: 20000
+  bootstrap_batch_size: 250
+  seed_base: 27000000
+  seed_formula: seed_base_plus_scenario_index_times_10000_plus_block_sessions
+  quantiles: [0.05, 0.25, 0.50, 0.75, 0.95]
+  bootstrap_horizon: exact_parent_session_count_and_elapsed_years
+  bootstrap_threshold_cagr: [0.0, 0.20, 0.50]
+  bootstrap_threshold_maximum_drawdown: 0.30
+  deflated_sharpe_trial_counts: [27, 100]
+  leave_one_year_out_clock: retained_observations_divided_by_252
+  strategy_parameter_search: false
+
+diagnostic_gates:
+  scope: internal_robustness_support_for_unseen_validation_only
+  minimum_20:
+    minimum_stress_joint_20_30_frequency: 0.50
+    minimum_stress_q05_cagr: 0.0
+    stress_rolling_positive_fraction: 0.75
+    every_stress_leave_one_year_out_cagr_above: 0.0
+  aspirational_50:
+    minimum_stress_joint_50_30_frequency: 0.50
+  interpretation: >-
+    Passing minimum_20 only says the selected historical path is not obviously fragile
+    under these fixed diagnostics. Passing aspirational_50 would only be internal
+    support, not a promise or independent estimate. Neither gate changes V27 or permits
+    live trading.
+
+forbidden_followups:
+  - changing_V27_key_rate_or_STLFSI4_boundaries_from_audit_results
+  - changing_leverage_RUONIA_buffer_capacity_costs_or_universe
+  - selecting_a_bootstrap_block_length_after_results
+  - reporting_resampling_frequency_as_a_calibrated_forward_probability
+  - calling_same_history_robustness_an_independent_holdout
+  - promoting_to_live_without_new_PIT_evidence_and_broker_exact_admission
+
+reporting:
+  required_outputs:
+    - resolved_protocol.yaml
+    - protocol.sha256
+    - bootstrap_samples.parquet
+    - bootstrap_summary.csv
+    - rolling_windows.parquet
+    - leave_one_year_out.csv
+    - deflated_sharpe.csv
+    - report.md
+    - metrics.json
+    - identity.json
+
+limitations:
+  independent_holdout: false
+  selected_same_history: true
+  bootstrap_assumes_historical_blocks_are_representative: true
+  bootstrap_frequencies_are_not_calibrated_probabilities: true
+  rolling_windows_overlap: true
+  only_five_calendar_years: true
+  key_rate_extreme_occurs_in_one_short_historical_regime: true
+  current_vintage_STLFSI4: true
+  broker_exact_execution: false
+  live_promotion_possible: false

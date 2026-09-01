@@ -567,6 +567,22 @@ live. Не запускай V27 повторно ради выбора threshold
 runner должен иметь новый protocol id, физически отдельный unseen/PIT input bundle и
 быть sealed/pushed до первого outcome.
 
+### Sealed V27-R1 robustness audit
+
+V27-R1 не пересчитывает signal или execution и читает только дату/combined equity из
+трёх byte-pinned V27 ledgers. Config SHA `a8d6ed42...` должен быть committed и pushed до
+первого чтения daily curve. После этого audit запускается ровно один раз:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v27_robustness `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Он сохраняет 180 000 bootstrap paths (3 scenarios × 3 block lengths × 20 000), rolling
+252-session windows, leave-one-year-out и trial-count sensitivity. Результат не является
+forward probability или independent holdout; запрещено выбирать block/gate или менять
+V27 после просмотра audit.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

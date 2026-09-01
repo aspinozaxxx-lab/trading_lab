@@ -13,6 +13,13 @@ Primary combined CAGR **28,3752%**, Sharpe **1,2119**, MDD **−20,7138%**; stre
 **27,3643%**, MDD **−21,0511%**. Все sealed gates пройдены. Текущий общий статус:
 **GO TO NEW UNSEEN VALIDATION, но NO-GO for live trading**.
 
+Отдельный post-selection audit **V27-R1** подготовлен до чтения дневной equity curve.
+Config SHA `a8d6ed420593aeb26e0bf537b402a6edba6b40ab7dd64d48947dc2a936ec8b10`
+фиксирует circular block bootstrap по 5/21/63 сессии, 20 000 повторов на каждый из трёх
+cost scenarios, rolling 252-session windows, leave-one-year-out и deflated-Sharpe
+sensitivity. Он отдельно проверяет внутреннюю поддержку порогов 20% и 50%, но не может
+стать independent validation или разрешить live. Реальный audit пока не запускался.
+
 V26 был необходимым промежуточным прорывом: 2x V25 + RUONIA + `cancel_and_clip` дал
 primary CAGR **24,1698%**, Sharpe **0,9764**, MDD **−33,5661%**, а stress CAGR
 **23,0255%**. Он устранил 8 critical events V15, но strict MDD `<=30%` не прошёл;
@@ -663,6 +670,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    capacity cancels и деградацию trend edge.
 5. Только после независимого подтверждения проектировать отдельный live-admission
    protocol с operational risk и аварийным отключением.
+6. Выполнить уже sealed V27-R1 robustness audit ровно один раз. Его resampling frequency
+   не называть вероятностью будущей прибыли и не менять V27 по результатам.
 
 ### P1 — новая информация для intraday timing и устойчивости
 
