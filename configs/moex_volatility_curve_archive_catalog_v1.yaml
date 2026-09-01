@@ -1,0 +1,108 @@
+﻿protocol_id: moex_volatility_curve_archive_catalog_v1
+protocol_version: 1
+status: sealed_before_new_archive_bytes
+declared_at_utc: "2026-09-01T20:30:00Z"
+scope: source_schema_and_causal_coverage_only
+research_only: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    Public MOEX volatility-curve archives with complete day and evening snapshots can
+    support causal 30/90-day level, skew and curvature features for a new cross-market
+    regime family; small or evening-only archives cannot.
+  archive_selection_reads_market_returns_or_computes_pnl: false
+  later_economic_test_requires_a_separate_sealed_protocol: true
+
+official_source:
+  directory: https://ftp.moex.com/pub/FORTS/volat_coeff/
+  description: https://ftp.moex.com/pub/FORTS/volat_coeff/Volat_description.doc
+  curve_methodology: https://fs.moex.com/files/17331
+  post_2017_formula_notice: https://www.moex.com/n15089
+  gateway_documentation: https://ftp.moex.com/pub/ClientsAPI/Spectra/Docs/p2gate_en.html
+
+archives:
+  - archive_id: "201801"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/201801.zip
+    expected_bytes: 40238435
+    cache_file: 201801.zip
+    source_start: "2018-01-01"
+    source_end: "2018-01-31"
+    known_sha256:
+  - archive_id: "201901"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/201901.zip
+    expected_bytes: 42049217
+    cache_file: 201901.zip
+    source_start: "2019-01-01"
+    source_end: "2019-01-31"
+    known_sha256:
+  - archive_id: "202006"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/202006.zip
+    expected_bytes: 32103178
+    cache_file: 202006.zip
+    source_start: "2020-06-01"
+    source_end: "2020-06-30"
+    known_sha256:
+  - archive_id: "202101"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/202101.zip
+    expected_bytes: 9920473
+    cache_file: 202101.zip
+    source_start: "2021-01-01"
+    source_end: "2021-01-31"
+    known_sha256: 40b79e536033bdc32a5f768300084c18be7e3f546e2aa1020660589f7359561f
+  - archive_id: "202108"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/202108.zip
+    expected_bytes: 10064523
+    cache_file: 202108.zip
+    source_start: "2021-08-01"
+    source_end: "2021-08-31"
+    known_sha256:
+  - archive_id: "202108_202405"
+    url: https://ftp.moex.com/pub/FORTS/volat_coeff/volat%20coeffs%2008%202021%20-%2005%202024.zip
+    expected_bytes: 5258970
+    cache_file: 202108_202405.zip
+    source_start: "2021-08-01"
+    source_end: "2024-05-31"
+    known_sha256:
+
+coverage_contract:
+  member_rule: exactly_one_safe_csv
+  required_source_columns: ["#NAME", SMALL_NAME, TIME, S, A, B, C, D, E, T]
+  assets: [RI, MIX, SI, BR]
+  timezone: Europe/Moscow
+  availability: event_at_plus_one_minute
+  start: "10:10:00"
+  end: "23:50:00"
+  frequency_minutes: 10
+  expected_grid_points_per_source_date: 83
+  maximum_freshness_minutes: 20
+  target_calendar_days: [30, 90]
+  interpolation: same_asset_linear_in_effective_T
+  extrapolation: forbidden
+  nonpositive_T: preserved_but_ineligible
+
+selection_gate:
+  metric: complete_30d_90d_fraction_each_asset
+  minimum_fraction: 0.85
+  uses_prices_returns_targets_labels_or_pnl: false
+  result_selects_only_source_periods_not_strategy_economics: true
+
+output:
+  directory: data/processed/options/moex-volatility-curve-archive-catalog-v1
+  immutable: true
+  overwrite_allowed: false
+  raw_archives_in_git: false
+  processed_values_in_git: false
+
+forbidden_after_catalog:
+  - carrying_a_snapshot_beyond_the_sealed_20_minute_freshness_window
+  - selecting_periods_assets_or_sessions_by_market_returns_or_strategy_pnl
+  - treating_curve_FUTURES_PRICE_as_an_executable_option_price
+  - changing_the_coverage_gate_after_viewing_archive_coverage
+  - reading_any_market_price_return_target_or_pnl_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+implementation_dependencies:
+  src/market_lab/futures/moex_volatility_curve_source.py: 0bb9d9d03acf2cac59a99bd9d08f56df04638d6427c0a376b7607ef5096e15c5
+  src/market_lab/futures/moex_volatility_curve_source_v2.py: 8eeb28525c5a951a7791df2ab6f61e0294c5019ec9fdcd91183c86e93da042fc
+  src/market_lab/futures/moex_volatility_curve_archive_catalog.py: 636d8c011272f10eeea7ba95c44eeb5c99f301231e8527f1c56262e5dc743020
