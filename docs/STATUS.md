@@ -65,12 +65,13 @@ manifest SHA `3ab20092dbe4fd8a58211d11db1b6dcd6a8335f98051146da76a0f3c0c82fa71`,
 rows, все exact action gates true, unresolved roll/exit = 0. Ни returns, ни PnL пока не
 считались. Следующий этап — bounded STLFSI4/RUONIA/key-rate source и отдельный V28 seal.
 
-Macro source S1 подготовлен до первого HTTP request: config SHA `3daa3c40...`,
-implementation SHA `6fcb5318...`. Он делает ровно три server-bounded запроса за
-`2012-01-01..2017-12-31` — FRED STLFSI4, CBR RUONIA и CBR SOAP key rate — сохраняет
-raw bytes, conservative availability и missing, отбрасывает processed rows available
-уже в 2018 и программно запрещает market outcome columns. Collection разрешён только
-после commit/push seal.
+Macro source S1 был pushed commit `9a5ff96`, но первый request трижды получил FRED read
+timeout с research User-Agent; ни один response не сохранён и output не создан. Network
+diagnostic того же bounded URL доказал transport-specific причину: тот же `requests`
+с `curl/8.10.1` получил HTTP 200/5 878 bytes, без печати values или market outcomes. S2
+подготовлен как transport-only correction: config SHA `4ad7f034...`, implementation SHA
+`0cf46a51...`; dates, URLs, methods, bodies, parsers, availability, coverage и запреты S1
+наследуются byte-identical. Collection S2 разрешён только после commit/push.
 
 V12 primary: total return **45,1114%**, CAGR **7,7318%**, Sharpe **0,7624**,
 MDD **−14,1526%**; четыре из пяти лет положительны. При doubled costs total return
@@ -709,8 +710,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    hashes, exact identities и граница `<=2017-12-21` проверены.
 3. D1 выявил serial-contract failure; D2 остановился без output на неверном ожидании
    непрерывного SI roll; D3 с exact flat/sleep semantics успешно собран и проверен.
-   Macro source S1 уже prepared с SHA `3daa3c40...`; сначала commit/push, затем один
-   immutable collection/audit без strategy outcomes и byte-identical V28 seal.
+   S1 transport failed без output; S2 меняет только User-Agent и prepared с SHA
+   `4ad7f034...`. Сначала commit/push, затем immutable collection/audit без strategy
+   outcomes и byte-identical V28 seal.
    Период может независимо
    проверить frozen trend/capital/execution path, но главный `>=20%` governor не
    активируется: официальный максимум key rate был 17%. Historical specs/fees/IM всё ещё

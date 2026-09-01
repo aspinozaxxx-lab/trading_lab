@@ -421,7 +421,9 @@ FRED STLFSI4 и official CBR RUONIA/KeyRateXML, архивирует три exac
 пересчитывает conservative `available_at`, сохраняет missing и публикует immutable
 Parquet/manifest bundle. Processed availability физически ограничена до 2018; schema
 fail-closed запрещает price/return/target/signal/equity/PnL columns. Protocol S1 SHA
-`3daa3c40...`; источник не является strategy outcome.
+`3daa3c40...`; источник не является strategy outcome. S1 transport failed before any
+persisted response. `pre2018_macro_source_v2` wraps the same collector and changes only
+User-Agent to the empirically compatible `curl/8.10.1`; S2 SHA `4ad7f034...`.
 
 ### `market_lab.futures.futoi_intraday_source`
 

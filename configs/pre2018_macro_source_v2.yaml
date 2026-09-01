@@ -1,0 +1,54 @@
+﻿protocol_id: pre2018_macro_source_v2
+protocol_version: 2
+status: predeclared_after_failed_S1_transport_before_S2_collection
+declared_at_utc: "2026-09-01T07:47:06Z"
+scope: source_only_no_market_outcomes
+research_only: true
+sealed_before_S2_source_collection: true
+live_trading_allowed: false
+
+parent_S1_protocol:
+  path: configs/pre2018_macro_source.yaml
+  sha256: 3daa3c404255f0928135ac7ba5e8c732bacbfefe49ddacd63bccc2fbdaa37826
+  implementation_sha256: 6fcb531825522d3196612d22adc83f92fd1ffc9e692f26292f15e9ff7883673a
+  inheritance:
+    - exact_three_sources_and_2012_2017_server_bounds
+    - parsers_schemas_minimum_coverage_and_conservative_availability
+    - protected_2018_filter_and_missing_preservation
+    - raw_archive_manifest_rights_and_no_outcome_contract
+
+failed_S1_transport_attempt:
+  attempted_after_commit_and_push: true
+  commit: 9a5ff96
+  failure: three_FRED_read_timeouts_at_30_seconds_with_research_User_Agent
+  failure_stage: first_of_three_official_requests
+  output_published: false
+  official_response_bytes_persisted: false
+  market_outcomes_observed: false
+  diagnostic_after_failure:
+    same_bounded_URL_with_research_User_Agent: read_timeout
+    same_bounded_URL_with_curl_User_Agent_http_status: 200
+    same_bounded_URL_with_curl_User_Agent_bytes: 5878
+    response_values_or_strategy_outcomes_printed: false
+
+transport_correction:
+  only_changed_field: HTTP_User_Agent
+  S1_user_agent: market-lab-research/pre2018-macro-source-v1
+  S2_user_agent: curl/8.10.1
+  dates_urls_methods_bodies_parsers_availability_coverage_output_semantics_changed: false
+
+output:
+  directory: data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v2
+  immutable: true
+  overwrite_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/pre2018_macro_source_v2.py: 0cf46a51712ac93d901cfb60be07409d6394610321d528f736afcc821f554f62
+  src/market_lab/futures/pre2018_macro_source.py: 6fcb531825522d3196612d22adc83f92fd1ffc9e692f26292f15e9ff7883673a
+
+forbidden_after_seal:
+  - changing_any_parent_source_or_temporal_rule
+  - changing_any_value_parser_threshold_or_minimum_coverage
+  - adding_market_prices_returns_targets_labels_signals_equity_or_pnl
+  - changing_anything_except_the_declared_transport_User_Agent
+  - overwriting_the_output_bundle

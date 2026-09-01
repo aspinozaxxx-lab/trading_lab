@@ -4,7 +4,16 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## PRE2018-MACRO-S1: STLFSI4/RUONIA/key rate — sealed, collection pending
+## PRE2018-MACRO-S2: transport-only retry — sealed, collection pending
+
+- Config SHA `4ad7f034...`, implementation SHA `0cf46a51...`; наследует все S1 source
+  and temporal rules и меняет единственное поле HTTP User-Agent на `curl/8.10.1`.
+- Diagnostic после failed S1: research User-Agent timeout, curl User-Agent HTTP 200 and
+  5 878 bytes на том же exact URL. Values/market outcomes не печатались, S1 output нет.
+- Первый S2 collection разрешён только после push; manifest обязан зафиксировать S1
+  failure lineage, exact three responses и отсутствие outcome columns.
+
+## PRE2018-MACRO-S1: STLFSI4/RUONIA/key rate — failed transport, no output
 
 - Config SHA `3daa3c40...`, implementation SHA `6fcb5318...`; source-only collector не
   имеет доступа к MOEX outcomes.
@@ -12,8 +21,9 @@
   CBR RUONIA HTML with publication dates, official CBR KeyRateXML SOAP.
 - Conservative availability byte-identical по смыслу V25/V27/V15; rows available from
   2018 onward excluded, missing preserved, raw response bytes/hashes mandatory.
-- Первый HTTP request и immutable output разрешены только после pre-source push. После
-  collection нужен raw replay audit и отдельный V28 pre-outcome seal.
+- Seal был pushed commit `9a5ff96` до request. FRED first request трижды завершился
+  read timeout; CBR requests не выполнялись, output не опубликован. Correction не вносить
+  в S1; отдельный S2 фиксирует transport-only change.
 
 ## MOEX-PRE2018-D3: gap-aware official-cycle source — completed
 

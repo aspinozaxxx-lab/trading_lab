@@ -429,8 +429,10 @@ roll/exit; strategy outcome не читался.
 [FRED STLFSI4](https://fred.stlouisfed.org/series/STLFSI4),
 [CBR RUONIA dynamics](https://www.cbr.ru/hd_base/ruonia/dynamics/) и official CBR
 KeyRateXML. S1 SHA `3daa3c40...` фиксирует request bounds, raw archive и conservative
-availability до HTTP. Ограничение существенное: STLFSI4 — current-vintage history, а не
-архив оригинальных weekly vintages; это нужно явно учитывать в verdict V28.
+availability до HTTP. S1 не получил response из-за User-Agent-specific timeout; S2 SHA
+`4ad7f034...` меняет только transport identity на `curl/8.10.1`, не source semantics.
+Ограничение существенное: STLFSI4 — current-vintage history, а не архив оригинальных
+weekly vintages; это нужно явно учитывать в verdict V28.
 
 После успешного D3 derived-source и отдельного V28 seal этот период можно использовать
 как новую независимую проверку byte-identical V27 trend/capital/execution path. Он не

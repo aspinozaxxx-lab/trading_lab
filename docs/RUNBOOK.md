@@ -645,22 +645,25 @@ contract/spec rows, unresolved roll/exit = 0. Команду build повтор�
 
 ### Sealed pre-2018 macro source
 
-S1 config SHA `3daa3c40...`, implementation SHA `6fcb5318...`. До первого HTTP request
-code/config/tests должны быть committed и pushed:
+S1 SHA `3daa3c40...` был pushed, но FRED request трижды timed out до response persistence;
+output отсутствует, команду S1 не повторять. S2 config SHA `4ad7f034...`, implementation
+SHA `0cf46a51...` меняет только User-Agent. До первого S2 collection code/config/tests
+должны быть committed и pushed:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
-  tests/test_pre2018_macro_source.py tests/test_futures_info_radar.py `
+  tests/test_pre2018_macro_source.py tests/test_pre2018_macro_source_v2.py `
+  tests/test_futures_info_radar.py `
   tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures/pre2018_macro_source.py `
-  tests/test_pre2018_macro_source.py
-.\.venv\Scripts\python.exe -m market_lab.futures.pre2018_macro_source `
-  --config .\configs\pre2018_macro_source.yaml
+  src/market_lab/futures/pre2018_macro_source_v2.py `
+  tests/test_pre2018_macro_source_v2.py
+.\.venv\Scripts\python.exe -m market_lab.futures.pre2018_macro_source_v2 `
+  --config .\configs\pre2018_macro_source_v2.yaml
 ```
 
 Default immutable output:
-`data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v1/`. После collection
+`data/processed/info_radar/pre2018-macro-current-vintage-2012-2017-v2/`. После collection
 replay all three raw records, hashes, bounds and availability; не читать strategy
 returns/PnL до отдельного V28 seal.
 
