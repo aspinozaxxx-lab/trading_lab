@@ -64,16 +64,13 @@ government-account flow для SI дал **−41,9547%**, CAGR **−10,3092%**, 
 execution dependencies покрыты, 0 critical/unresolved. Verdict **NO-GO**; знак,
 thresholds, lag и expiry по этому outcome не подбирать.
 
-Следующий source-only кандидат уже подготовлен: 1 238 фактических дневных факторов ЦБ
-`2021-01-11..2025-12-30`, включая 939 ненулевых операций Минфина с валютой. Они
-допускаются только с 10:31 мск следующего рабочего дня. Snapshot current-vintage и может
-содержать revisions, поэтому пригоден лишь для sealed development test и будущего
-forward-архива, не для независимого подтверждения.
-
-V19 уже запечатал один тест прямого persistence-знака: reported FX purchase = long SI,
-sale = short SI, zero = cash; availability 10:31 мск, решение после close и fill только
-на следующем factual open. Amount scaling, thresholds, smoothing и blend запрещены.
-Outcome ещё не прочитан; config SHA `1340ffac...`, real source/input preflight 71/71.
+V19 проверил следующий независимый current-vintage source: 1 238 фактических дневных
+факторов ЦБ `2021-01-11..2025-12-30`, включая 939 ненулевых операций Минфина с валютой.
+Прямой persistence-знак для SI дал total return **−0,0316%**, CAGR **−0,0063%**,
+Sharpe **0,0501**, MDD **−30,7614%** и два положительных года. Все 937 nonzero
+execution dependencies покрыты, 0 critical/unresolved. Verdict **NO_GO**: сильный
+**+33,97%** в 2025 не компенсирует убытки трёх лет и не разрешает post-outcome отбор
+amount/change days, smoothing, lag или sign flip.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -90,7 +87,7 @@ Outcome ещё не прочитан; config SHA `1340ffac...`, real source/inpu
 | V16 FUTOI crowding + capacity-aware 2x | Механически CAGR 22,01%, но 932/1 044 states были недоступны | **INVALID: FUTOI look-ahead**, метрики не использовать |
 | V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
-| V19 CBR reported Minfin FX persistence | Outcome не прочитан; config SHA `1340ffac...` | Sealed; выполнить один run только после pre-outcome push |
+| V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -101,6 +98,30 @@ Outcome ещё не прочитан; config SHA `1340ffac...`, real source/inpu
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V19 CBR Minfin FX persistence — валидный отрицательный результат
+
+V19 был запечатан и pushed commit `0558e7e` до первого чтения SI outcomes.
+
+- config SHA:
+  `1340ffacae93b514fe4605262d8946a6a87cbc4619c1748b48ac45b9a9b19946`;
+- metrics SHA:
+  `dff0016e3501136714f66b3237dfb66f37449bde69c77ab489efdc777446b08d`;
+- canonical run:
+  `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/`;
+- 1 235 mapped source decisions, одна same-session collision и два records без будущей
+  active session; 937/937 nonzero execution dependencies complete;
+- primary/doubled/stress total return **−0,03%/−0,24%/−0,57%**;
+- primary CAGR **−0,006%**, Sharpe **0,050**, MDD **−30,76%**, costs
+  **4 154,95 RUB**, maximum participation **0,01155%**;
+- годы: 2021 **−4,65%**, 2022 **+3,49%**, 2023 **−20,13%**,
+  2024 **−5,32%**, 2025 **+33,97%**;
+- все три ledger complete, 0 rejected/critical/unresolved.
+
+Последние source publications доходят до `2025-12-31`, но decisions, targets, positions
+и PnL заканчиваются `2025-12-30`; outcomes 2026 не читались. Прямой persistence-знак
+закрыт. Magnitude/change-day selection, smoothing, иной lag или инверсия после просмотра
+результата запрещены как data mining.
 
 ## V18 CBR liquidity forecast — валидный отрицательный результат
 
@@ -357,9 +378,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 6. RVI threshold/blend на 2021–2025 также запрещён sealed V14; совпадение с invalid V16
    drawdown остаётся только post-outcome наблюдением.
 7. CBR daily-factors source собран: 1 238 admitted rows, processed SHA `88885d36...`,
-   manifest SHA `f1701ec3...`. V19 persistence test уже запечатан, 71/71 preflight true:
-   после pre-outcome push выполнить один canonical run без threshold, amount scaling,
-   smoothing, blend или sign flip.
+   manifest SHA `f1701ec3...`. V19 выполнен после pre-outcome push и дал `NO_GO`:
+   total return −0,03%, Sharpe 0,05, MDD −30,76%. Не выбирать magnitude/change days,
+   smoothing, lag, blend или sign flip по увиденному результату.
+8. Следующий source-only приоритет — PIT результаты первичных аукционов ОФЗ: publication
+   timestamp, спрос/размещение, cutoff/weighted yield и неизменяемые raw pages. PnL не
+   запускать до проверки полноты 2021–2025 и заранее запечатанного экономического знака.
 
 ### P2 — разблокировать широкий structural exact execution
 
@@ -415,6 +439,8 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v15_levered_ruonia_20260831T205040Z_8cbcf307/metrics.json`
 - `runs/v16_futoi_governor_20260831T220539Z_d0461775/metrics.json`
 - `runs/v17_eia_supply_demand_20260831T234157Z_1d8eee3f/metrics.json`
+- `runs/v18_cbr_liquidity_forecast_20260901T002046Z_ee2d7fd7/metrics.json`
+- `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

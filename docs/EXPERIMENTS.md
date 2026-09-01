@@ -4,11 +4,17 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## V19: CBR-reported Minfin FX-flow persistence для SI — sealed, outcome не прочитан
+## V19: CBR-reported Minfin FX-flow persistence для SI — NO-GO
 
 - Протокол: [`configs/futures_v19_cbr_minfin_fx_persistence.yaml`](../configs/futures_v19_cbr_minfin_fx_persistence.yaml)
 - Config SHA-256:
   `1340ffacae93b514fe4605262d8946a6a87cbc4619c1748b48ac45b9a9b19946`.
+- Pre-outcome commit: `0558e7e`; config, implementation, tests и pending-status docs были
+  pushed до первого чтения SI outcomes.
+- Canonical run:
+  `runs/v19_cbr_minfin_fx_persistence_20260901T004717Z_1340ffac/`
+- Metrics SHA-256:
+  `dff0016e3501136714f66b3237dfb66f37449bde69c77ab489efdc777446b08d`.
 - Новый source: 1 238 current-vintage daily CBR factors `2021-01-11..2025-12-30`,
   processed SHA
   `88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864`.
@@ -22,8 +28,27 @@
   RI/BR/MIX всегда zero. Amount scaling, threshold, smoothing, training и blend отсутствуют.
 - Историческая таблица допускает revisions и не содержит original publication bytes:
   даже положительный результат будет development-only и потребует forward vintages.
-- Статус: sealed pre-outcome; 71/71 real source/input preflight checks true. До
-  pre-outcome commit/push реальные targets, SI outcomes и PnL не читать.
+- Все input/temporal checks true. Из 1 238 source rows 1 235 отображены на factual
+  decision sessions; одна same-session collision причинно оставила более свежий record,
+  два последних records не имели будущей active session. Получено 937 nonzero mapped
+  decisions и 4 940 target rows; 937/937 execution dependencies полны.
+- Все три ledger complete, 0 rejected/critical/unresolved; primary содержит 162 filled
+  legs, costs 4 154,95 RUB и maximum participation 0,01155%.
+
+| Scenario | Total return | CAGR | Sharpe | MDD | Positive years | Costs RUB | Complete |
+|---|---:|---:|---:|---:|---:|---:|---|
+| primary | −0,0316% | −0,0063% | 0,0501 | −30,7614% | 2/5 | 4 154,95 | yes |
+| doubled | −0,2403% | −0,0481% | 0,0460 | −30,7447% | 2/5 | 8 249,91 | yes |
+| stress | −0,5687% | −0,1140% | 0,0396 | −30,7933% | 2/5 | 9 971,81 | yes |
+
+Primary годы: 2021 **−4,65%**, 2022 **+3,49%**, 2023 **−20,13%**,
+2024 **−5,32%**, 2025 **+33,97%**.
+
+Verdict: `NO_GO`. Лагированный прямой знак фактических операций Минфина не дал
+устойчивого edge для SI: почти нулевая итоговая доходность скрывает просадку свыше 30% и
+сильную зависимость от одного 2025 года. Не инвертировать знак, не выбирать magnitude/
+change-day thresholds, smoothing или иной lag по увиденному результату. Следующий PnL
+допустим только для новой независимой source family и заранее запечатанного protocol.
 
 ## V18: CBR forward-liquidity forecast для SI — NO-GO
 

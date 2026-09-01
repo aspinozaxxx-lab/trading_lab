@@ -357,7 +357,7 @@ historical vintages; raw не распространять без проверк
 
 ### V19 CBR-reported Minfin FX-flow persistence for SI
 
-Только после pre-outcome commit/push один immutable run создаётся командой:
+Канонический immutable run уже создан после pre-outcome commit/push командой:
 
 ```powershell
 .\.venv\Scripts\python.exe -m market_lab.futures_v19_cbr_minfin_fx_persistence `
@@ -366,7 +366,8 @@ historical vintages; raw не распространять без проверк
 
 Config SHA должен оставаться `1340ffac...`. Replay не разрешает sign flip, magnitude
 threshold/scaling, smoothing, выбор только change days, более ранний timing или blend с
-V12/V18 по увиденному V19 result.
+V12/V18 по увиденному V19 result. Канонический verdict — `NO_GO`: total return −0,03%,
+Sharpe 0,05, MDD −30,76%; metrics SHA начинается `dff0016e...`.
 
 ## 5. Новый эксперимент
 
