@@ -221,6 +221,16 @@ open. Несколько публикаций, попавших в одну sess
 только latest-known observation. Amount не масштабирует target; остальные assets zero,
 execution и risk sizing унаследованы от frozen V12.
 
+### `market_lab.futures_v20_minfin_ofz_demand_strength`
+
+Агрегирует successful fixed-coupon ОФЗ-ПД results по publication day и строит два
+empirical percentile только по предыдущим 26 auction days: bid-to-cover и total placed.
+Их сумма минус один даёт непрерывный score без threshold. Strength задаёт long RI/MIX и
+short SI, weakness — симметрично наоборот, BR zero; три legs имеют равный risk budget и
+prior 60-session volatility sizing. Date-only source допускается в конце московского дня,
+fill выполняется на следующем factual open, state истекает через семь календарных дней.
+Failed/corrected/supplemental events и ОФЗ-ПК/ИН не получают synthetic zero.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

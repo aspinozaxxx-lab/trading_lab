@@ -4,6 +4,29 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V20: Minfin OFZ-PD prior-rank demand strength — sealed, outcome не прочитан
+
+- Протокол: [`configs/futures_v20_minfin_ofz_demand_strength.yaml`](../configs/futures_v20_minfin_ofz_demand_strength.yaml)
+- Config SHA-256:
+  `788fadbd9c499483c560488a5a3d9d2e95f7e95496e5736ed4465eca889341ed`.
+- Новый официальный current-vintage source: 410 Minfin events, 364 primary results и
+  283 successful fixed-coupon ОФЗ-ПД rows; processed SHA
+  `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480`.
+- Все успешные ОФЗ-ПД одного дня агрегируются через total demand, total placed и
+  `bid_to_cover = demand/placed`. Каждый показатель ранжируется только относительно
+  предыдущих 26 successful auction days; минимум 13, ties получают half-rank.
+- Единственный score: `percentile(bid_to_cover) + percentile(placed) − 1`, без threshold,
+  clipping, outcome training и failed-auction imputation. Первые 13 auction days — warmup.
+- Знак заранее фиксирован: strength = long RI/MIX и short SI, weakness — обратная
+  корзина; BR zero. Три active legs имеют равный 1/3 risk budget, prior 60-session vol,
+  target 20%, floor 10%; gross `<=1`.
+- Date-only result доступен только в 23:59:59 мск publication day, fill — следующий
+  factual open. Score живёт до следующего score или семь календарных дней, затем zero.
+- Corrections, failed/cancelled, supplemental, announcement, ОФЗ-ПК и ОФЗ-ИН исключены
+  до outcomes. Current-vintage pages не являются original publication vintages.
+- Статус: sealed pre-outcome; 77/77 source/input preflight checks true. До pre-outcome
+  commit/push реальные targets, RI/MIX/SI outcomes и PnL не читать.
+
 ## V19: CBR-reported Minfin FX-flow persistence для SI — NO-GO
 
 - Протокол: [`configs/futures_v19_cbr_minfin_fx_persistence.yaml`](../configs/futures_v19_cbr_minfin_fx_persistence.yaml)

@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V19 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V20 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -72,6 +72,13 @@ execution dependencies покрыты, 0 critical/unresolved. Verdict **NO_GO**:
 **+33,97%** в 2025 не компенсирует убытки трёх лет и не разрешает post-outcome отбор
 amount/change days, smoothing, lag или sign flip.
 
+V20 запечатал новый source family без чтения рыночного результата: 283 successful
+ОФЗ-ПД rows агрегируются в 179 auction days, из которых 13 — causal warmup и 166 получают
+prior-only demand-strength score. Высокий bid-to-cover вместе с большим placed volume —
+long RI/MIX и short SI, слабость — обратная корзина; threshold отсутствует, expiry семь
+календарных дней. Config SHA `788fadbd...`, source/input preflight 77/77; outcome ещё не
+прочитан.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -88,6 +95,7 @@ amount/change days, smoothing, lag или sign flip.
 | V17 EIA physical balance for BR | −33,14%, CAGR −7,74%, Sharpe −0,19, MDD −48,80% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
+| V20 Minfin OFZ-PD demand strength | Outcome не прочитан; 166 prior-only scored auction days | Sealed; выполнить один run только после pre-outcome push |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -384,8 +392,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 8. Официальный Minfin OFZ source готов: 410 events, 364 primary results, 283 ОФЗ-ПД,
    processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`; все карточки классифицированы
    и primary fields полны. Availability консервативно равна концу publication day.
-9. До чтения следующего PnL запечатать один prior-only demand-strength protocol для
-   ОФЗ-ПД; не выбирать rank window, asset basket, sign или expiry по market outcome.
+9. V20 prior-only demand-strength protocol запечатан: config SHA `788fadbd...`, 77/77
+   preflight true. После pre-outcome push выполнить ровно один canonical run; не менять
+   rank window, basket signs, expiry, threshold или включённые event kinds по outcome.
 
 ### P2 — разблокировать широкий structural exact execution
 

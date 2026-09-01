@@ -385,6 +385,20 @@ stable first-page result index, классификацию каждой карт
 Canonical V2 содержит 410 events и 364 primary results; manifest SHA начинается
 `c6fcf390...`. Bundle V1 — superseded discovery и не является input эксперимента.
 
+### V20 Minfin OFZ-PD prior-rank demand strength
+
+Только после pre-outcome commit/push один immutable run создаётся командой:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v20_minfin_ofz_demand_strength `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+Config SHA должен оставаться `788fadbd...`. До результата запрещено менять prior window
+26/minimum 13, score formula, RI/MIX/SI signs, equal risk budget, seven-day expiry или
+набор successful ОФЗ-ПД. После результата запрещены sign flip, threshold/extreme-only и
+добавление failed/PK/IN на тех же 2021–2025 outcomes.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

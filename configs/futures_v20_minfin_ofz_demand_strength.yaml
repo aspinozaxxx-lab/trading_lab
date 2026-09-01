@@ -1,0 +1,286 @@
+﻿protocol_id: futures_v20_minfin_ofz_demand_strength_v1
+protocol_version: 1
+status: sealed_before_any_v20_market_outcome_read
+declared_at_utc: "2026-09-01T01:25:39Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+parent_v12_protocol_sha256: 0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53
+relationship_to_prior_work: >-
+  New current-vintage information family from official Ministry of Finance OFZ auction
+  result records. The 2021-2025 RI/MIX/SI outcomes were seen in unrelated experiments,
+  source pages were retrieved later, and exact historical publication times are absent;
+  therefore V20 is development evidence, not independent holdout confirmation.
+
+hypothesis:
+  statement: >-
+    Strong demand and large accepted placement in successful fixed-coupon OFZ-PD auctions
+    indicate lower domestic risk premium and stronger ruble liquidity. Relative to only
+    prior auction days, strength is long RI and MIX and short SI; weakness takes the
+    symmetric opposite basket.
+  economic_mechanism:
+    - bid_to_cover_measures_demand_relative_to_accepted_primary_supply
+    - placed_volume_requires_strength_to_include_actual_absorption_not_only_unaccepted_bids
+    - fixed_coupon_OFZ_PD_is_selected_before_outcomes_as_the_cleanest_rate_risk_family
+    - stronger_domestic_duration_demand_is_risk_on_for_RI_MIX_and_ruble_positive_for_SI
+    - the_result_day_is_never_filled_before_the_next_factual_open
+  primary_comparison: flat_cash_zero_return
+  contextual_comparison_only: frozen_V12_is_not_changed_or_combined_in_this_run
+  reject_if:
+    - any_source_identity_schema_or_temporal_check_fails
+    - any_successful_OFZ_PD_primary_result_has_missing_or_nonpositive_demand_or_placement
+    - any_current_auction_value_enters_its_own_rank_history
+    - any_result_is_used_before_end_of_its_printed_publication_day
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - primary_total_return_is_not_positive
+    - doubled_or_stress_total_return_is_not_positive
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - inverting_any_asset_sign
+    - changing_the_26_day_history_or_13_day_minimum
+    - selecting_a_score_threshold_or_only_extreme_auctions
+    - adding_failed_supplemental_corrected_PK_or_IN_events_based_on_v20_metrics
+    - changing_equal_risk_budgets_volatility_target_floor_or_seven_day_expiry
+    - changing_to_same_day_fill_or_using_a_publication_time_not_printed_by_the_source
+    - combining_with_V12_or_other_signals_based_on_v20_metrics
+    - presenting_current_vintage_history_as_original_publication_vintages
+
+dates:
+  minfin_source_start: "2021-01-13"
+  market_source_start: "2018-01-03"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  source_timezone: Europe/Moscow
+  market_timezone: Europe/Moscow
+
+inputs:
+  minfin_ofz_auction_events:
+    path: data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/minfin_ofz_auction_events.parquet
+    sha256: a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480
+    bytes: 73794
+    rows: 410
+    minimum_publication_date: "2021-01-13"
+    maximum_publication_date: "2025-12-24"
+    maximum_available_at: "2025-12-24T20:59:59+00:00"
+    allowed_columns:
+      - document_id
+      - event_kind
+      - publication_date
+      - modified_date
+      - available_at
+      - auction_date
+      - issue_code
+      - ofz_type
+      - demand_volume_bln_rub
+      - placed_volume_bln_rub
+      - bid_to_cover
+      - source_url
+      - raw_sha256
+      - current_vintage_historical_record
+      - original_publication_bytes_available
+      - historical_content_immutability_cryptographically_proved
+  minfin_ofz_manifest:
+    path: data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/manifest.json
+    sha256: c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52
+    bytes: 4152
+  minfin_ofz_coverage:
+    path: data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/coverage.parquet
+    sha256: 1b452aa8a022801484e9561a3a8046f630988ada07c52e333e8b853d7b8eb9a0
+    bytes: 23179
+    rows: 410
+  minfin_ofz_raw:
+    path: data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/official_minfin_ofz_auction_pages.jsonl.gz
+    sha256: f56af34a15a284e74f8364daf3abd6ae7d2978a01b22443e33ced079d72133c7
+    bytes: 6214948
+    records: 490
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    decision_minimum_timestamp: "2018-01-03"
+    decision_maximum_timestamp: "2025-12-29"
+    effective_maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: "2018-01-03"
+    maximum_timestamp: "2025-12-30"
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+
+information_set:
+  source_availability: 23_59_59_Europe_Moscow_on_printed_publication_day
+  release_join: available_at_must_be_less_than_or_equal_to_decision_at
+  event_filter: successful_primary_OFZ_PD_only
+  excluded_event_kinds: [auction_announcement, correction, failed_or_cancelled, supplemental_result]
+  same_publication_day_aggregation: sum_demand_and_placed_across_all_successful_OFZ_PD_results
+  causal_rank_history: previous_26_successful_OFZ_PD_auction_days_only
+  causal_rank_minimum_history: 13
+  decision_at: end_of_first_factual_MOEX_decision_session_on_or_after_publication_date
+  same_decision_session_collision: keep_latest_causally_available_signal_or_expiry
+  execution_not_before: exact_active_contract_open_on_next_factual_effective_date
+  state_between_publications: carry_latest_score_until_next_score_or_seven_calendar_day_expiry
+  last_modified_forbidden_for_timing: true
+  future_columns_forbidden: [open_D_plus_1, return_D_plus_1, target, label, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: minfin_OFZ_PD_prior_rank_demand_strength
+  same_day_bid_to_cover: total_demand_bln_rub_divided_by_total_placed_bln_rub
+  rank_window_prior_auction_days: 26
+  minimum_prior_auction_days: 13
+  empirical_percentile: fraction_strictly_lower_plus_half_fraction_equal
+  score_formula: bid_to_cover_percentile_plus_placed_volume_percentile_minus_one
+  score_range: [-1.0, 1.0]
+  economic_signs: {RI: 1, MIX: 1, SI: -1, BR: 0}
+  score_threshold: none
+  clipping: none_beyond_empirical_percentile_range
+  failed_auction_imputation: none_excluded
+  fit_or_outcome_training: none
+  hyperparameter_search: false
+  expiry_calendar_days: 7
+
+portfolio:
+  universe_exact_order: [SI, RI, BR, MIX]
+  active_assets: [RI, MIX, SI]
+  equal_absolute_risk_budget_each_active_asset: 0.3333333333333333
+  daily_volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  annualized_volatility_floor: 0.10
+  annual_target_volatility_each_active_asset: 0.20
+  maximum_absolute_weight_each_active_asset: 0.3333333333333333
+  target_formula: score_times_economic_sign_times_one_third_times_min_1_and_0_20_divided_by_max_prior_60d_vol_and_0_10
+  mandatory_additional_decisions: any_known_active_contract_change_for_nonzero_held_target
+  gross_cap: 1.0
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_weight_times_current_cash_over_lagged_notional
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open
+  execution_atomicity: portfolio
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 1.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  collateral_yield: 0.0
+  terminal_policy: carry_with_terminal_exit_reserve_reported
+  missing_or_unprovable: reject_or_unresolved_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+    minfin_original_publication_bytes: unavailable
+    minfin_exact_historical_publication_times: unavailable
+    minfin_historical_record_immutability: not_cryptographically_proved
+
+validation:
+  scheme: fixed_development_OOS_after_source_only_causal_warmup
+  source_history: "2021-01-13..2025-12-24_current_vintage"
+  signal_warmup: first_13_successful_OFZ_PD_auction_days_no_position
+  market_warmup: "2018-01-03..2020-12-31"
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  parameter_selection_on_oos: forbidden
+  protected_2026_price_or_outcome_read: forbidden
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_and_temporal_check_true
+    - at_least_150_scored_source_days_and_10_each_oos_year
+    - at_least_140_nonzero_scored_source_days
+    - all_three_scenarios_execution_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_cagr_at_least_0_05
+    - primary_sharpe_at_least_0_75
+    - primary_maximum_drawdown_at_most_0_20
+    - primary_positive_years_at_least_4_of_5
+    - doubled_total_return_positive
+    - stress_total_return_positive
+    - no_gross_participation_or_margin_breach
+  independent_confirmation_required: true
+
+reporting:
+  required_artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - source_events.parquet
+    - source_signals.parquet
+    - source_decisions.parquet
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md
