@@ -1,0 +1,86 @@
+﻿protocol_id: calendar_spread_economic_v3
+protocol_version: 3
+status: post_V2_adaptive_source_semantics_correction_predeclared_before_V3_outcomes
+declared_at_utc: "2026-09-01T13:35:00Z"
+research_only: true
+sealed_before_V3_outcomes: true
+independent_confirmation: false
+live_trading_allowed: false
+
+parent_V2:
+  config_path: configs/calendar_spread_v2.yaml
+  config_sha256: e986530265ab6c87c39fbb6315dcb39d1eb80b971ff58d8614bff5966bb4a1eb
+  implementation_path: src/market_lab/futures/calendar_spread_v2.py
+  implementation_sha256: 9d96dfe361f519fe5311751c7b0c3237db802e54a18e9bc6097e8bb61e29468e
+  seal_commit: e1a519d
+  canonical_manifest_sha256: facc159f6c8aa063d2cdd584de414f3cf28970c7c6fc8e63b231ded39cb9ed88
+  canonical_metrics_sha256: c43a3f0b42e4816eb741ef325e4cc5fec3ac3ba05619a76fd4ee465e4222cfff
+  verdict: NO_GO_NO_EVALUATION_EXPOSURE
+  inherited_empty_trade_metric_adapter: byte_identical
+
+sealed_V2_diagnosis:
+  active_rows: 4366
+  causal_MLP_predictions: 3734
+  total_plans: 13
+  evaluation_2024_2025_plans: 0
+  abs_z20_at_least_1_5_by_year: {2021: 112, 2022: 181, 2023: 117, 2024: 139, 2025: 135}
+  quote_width_at_most_2_prior_sigma_by_year: {2021: 16, 2022: 19, 2023: 0, 2024: 0, 2025: 0}
+  last_trade_changes_more_frequently_than_midpoint_in_multiple_asset_years: true
+  diagnosis: non_execution_EOD_closing_width_gate_removed_all_recent_exposure
+
+source_semantics_correction:
+  signal_price_before: EOD_arithmetic_bid_ask_midpoint
+  signal_price_after: factual_reported_last_trade_price
+  reported_trade_activity_already_required_by_D1: true
+  last_is_signed_and_zero_allowed_as_factual_value: true
+  baseline_and_targets_remain_same_spread_only: true
+  EOD_quote_width_retained_as_model_feature: true
+  EOD_quote_width_used_as_entry_admission: false
+  strict_positive_closing_quote_width_still_required: true
+  rationale: >-
+    The archive Bid/Ask is a final EOD snapshot and is not the synchronized outright-leg
+    open used by the ledger. Admission liquidity remains the minimum one-percent lagged
+    factual volume capacity of the two outright legs at the next common open.
+
+inheritance_from_V2_and_V1:
+  exact_ten_strategy_ids: true
+  exact_thresholds_horizons_directions_take_profit_stops_and_holding: true
+  exact_monthly_expanding_MLP_architecture_training_and_seed: true
+  exact_development_and_evaluation_splits: true
+  exact_equal_quantity_two_leg_accounting: true
+  exact_position_sizing_gross_margin_and_capacity: true
+  exact_primary_doubled_and_stress_costs: true
+  exact_primary_promotion_gates: true
+  no_other_change: true
+
+output:
+  directory: runs/calendar_spread_economic_2021_2025_v3
+  immutable: true
+  overwrite_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/calendar_spread_v3.py: fb9b4e1556ee848fa93f1173cf70e1ab92ac9b4cc628ee0956f793dcc6383f86
+  src/market_lab/futures/calendar_spread_v2.py: 9d96dfe361f519fe5311751c7b0c3237db802e54a18e9bc6097e8bb61e29468e
+  src/market_lab/futures/calendar_spread_v1.py: f8d0108e87c0c1eed5e841aab35e1bc2f59485e67ce3bd18aed9920c16213282
+  configs/calendar_spread_v2.yaml: e986530265ab6c87c39fbb6315dcb39d1eb80b971ff58d8614bff5966bb4a1eb
+  configs/calendar_spread_v1.yaml: e74dab97ab65a28d4fc16f0061952545606ccccd1df7a8c677a8c8bc2af2b3bc
+
+limitations:
+  correction_selected_after_V2_no_exposure_result: true
+  independent_confirmation: false
+  source_current_vintage_and_EOD: true
+  synchronized_leg_open_is_not_historical_multileg_queue: true
+  historical_specs_fees_margin_and_point_values_approximate: true
+  multiple_testing_risk_unchanged: true
+  guaranteed_future_return: false
+  live_trading_allowed: false
+
+forbidden_after_seal:
+  - modifying_V1_or_V2_bytes_or_artifacts
+  - changing_any_strategy_or_MLP_parameter
+  - changing_splits_sizing_capacity_margin_costs_or_gates
+  - reintroducing_midpoint_or_width_tuning_after_V3_results
+  - selecting_best_of_ten_as_confirmed
+  - reading_any_market_value_timestamp_on_or_after_2026_01_01
+  - overwriting_any_canonical_output
+  - live_trading_or_claiming_guaranteed_profit

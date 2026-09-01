@@ -550,6 +550,19 @@ Run технически complete, но economic evaluation пуста: EOD widt
 `NO_GO_NO_EVALUATION_EXPOSURE`; любые дальнейшие изменения помечаются post-outcome
 adaptive и обязаны получить новую protocol/output identity.
 
+### `market_lab.futures.calendar_spread_v3`
+
+Post-V2 adaptive wrapper для исправления семантики источника, не параметров стратегии.
+Feature builder передаёт parent-коду factual reported `Last` вместо closing Bid/Ask
+midpoint. Plan builder сохраняет actual width в neural features, но нейтрализует только
+его admission predicate, потому что fill проверяется по следующему общему outright open
+и lagged capacity ног. Strict-positive quote flag остаётся обязательным.
+
+Wrapper одновременно наследует V2 empty-metric adapter и через один exception-safe
+context подменяет ровно три parent hooks плюс resolved config path. Config SHA
+`c38a7356...`, module SHA `fb9b4e15...`; thresholds, MLP, ledger, costs и gates не
+меняются. Результат всегда adaptive development evidence и не может подтвердить live.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

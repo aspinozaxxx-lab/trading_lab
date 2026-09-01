@@ -96,7 +96,11 @@ predictions превратились лишь в 13 plans 2021–2022 и нол�
 development дал `+0,3602%` на одной сделке, что статистически бесполезно. Причина
 изолирована: abs-z сигналов достаточно, но EOD `quote_width <= 2 sigma` имел pass counts
 16/19/0/0/0 по 2021–2025. Следующий V3 допустим только как post-outcome adaptive
-source-semantics correction без изменения thresholds/ledger/costs/gates.
+source-semantics correction без изменения thresholds/ledger/costs/gates. V3 уже
+зафиксирован: config SHA `c38a7356...`, module SHA `fb9b4e15...`. Он меняет только
+signal price midpoint → factual reported Last и исключает closing EOD width из admission;
+сам width остаётся MLP feature, strict-positive flag, two-leg 1% capacity, все десять
+rules, risks/costs/gates неизменны. Следующий шаг — push seal и единственный V3 run.
 
 Новый source-only protocol V3 для официального MOEX EOD 2012–2017 подготовлен до
 первого daily price response: config SHA

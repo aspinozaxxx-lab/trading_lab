@@ -4,6 +4,23 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## CALENDAR-SPREAD-EV3: adaptive source-semantics correction sealed, outcomes pending
+
+- V3 config SHA `c38a7356385baeb75be7f0f206f757d49ff192284239630aed1aee72a79f8f57`,
+  implementation SHA `fb9b4e1556ee848fa93f1173cf70e1ab92ac9b4cc628ee0956f793dcc6383f86`.
+  Parent V2 config/implementation/manifest/metrics byte-pinned; его no-exposure result
+  уже известен, поэтому V3 явно post-outcome adaptive и не independent confirmation.
+- Единственная связанная source-semantics correction: same-spread signal строится по
+  factual reported `Last`, а closing EOD quote width сохраняется как MLP feature, но не
+  допускает/запрещает next-open entry. D1 уже требует reported activity; две locked
+  quote rows всё ещё запрещены для новых позиций.
+- Реальная liquidity admission не ослаблена: equal-quantity pair, первый следующий
+  common factual outright open, минимум 1% lagged-volume capacity обеих ног, buffered
+  margin 2x и full-exit retries неизменны. Все 10 thresholds/horizons/directions,
+  monthly MLP, split, 1,6x gross, costs и promotion gates byte-identical V1/V2.
+- Intended immutable path `runs/calendar_spread_economic_2021_2025_v3/`. V3 seal должен
+  быть pushed до первого V3 outcome; best-of-ten остаётся exploratory, live запрещён.
+
 ## CALENDAR-SPREAD-EV2: completed, NO_GO_NO_EVALUATION_EXPOSURE
 
 - V1 seal commit `ee7e311` был pushed до первого outcome computation. Первый run
