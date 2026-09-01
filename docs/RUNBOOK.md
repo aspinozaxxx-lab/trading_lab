@@ -417,6 +417,22 @@ Collector не использует Excel/market outcomes: cached XLSX values р
 Historical vintages не доказаны; availability равна концу следующего месяца, поэтому
 December 2025 недоступен до protected boundary.
 
+### V21 CBR next-year macro revision breadth
+
+Config SHA должен быть
+`5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`. До первого
+запуска проверь source-only tests и обязательно push pre-outcome commit. После этого
+создай ровно один immutable run:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v21_cbr_macro_revision_breadth `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+До появления outcome запрещено менять sealed config. После него запрещены sign flip,
+magnitude thresholds, новые indicators, другая oil priority, cross-series bridge,
+risk/expiry tuning и blend с V12 на тех же 2021–2025 outcomes.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

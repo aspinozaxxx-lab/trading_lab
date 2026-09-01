@@ -241,6 +241,16 @@ Failed/corrected/supplemental events и ОФЗ-ПК/ИН не получают s
 Sealed V20 run завершён `NO_GO`; этот модуль сохраняется для воспроизводимости, а не как
 основание перебирать знак, thresholds, rank window или expiry на той же истории.
 
+### `market_lab.futures_v21_cbr_macro_revision_breadth`
+
+Проверяет независимые ревизии next-year median из официального макроопроса ЦБ. История
+предыдущего значения группируется одновременно по indicator и forecast year, поэтому
+смена target year не создаёт ложную revision. USD/RUB управляет SI, GDP — RI/MIX, oil —
+BR; разные oil sheets не склеиваются, а missing-компонент оставляет свой 1/4 budget
+неиспользованным. Консервативный `available_at` отображается на первую factual decision
+session, исполнение наследует next-open active-contract mapper и portfolio-atomic ledger
+V12. Протокол SHA `5d97fd51...` запечатан до outcome; run пока не выполнен.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

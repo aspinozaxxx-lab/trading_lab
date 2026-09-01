@@ -4,6 +4,36 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V21: CBR next-year macro revision breadth — SEALED, OUTCOME PENDING
+
+- Протокол: [`configs/futures_v21_cbr_macro_revision_breadth.yaml`](../configs/futures_v21_cbr_macro_revision_breadth.yaml)
+- Config SHA-256:
+  `5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc`.
+- Новый официальный current-vintage source: 11 787 non-missing записей макроопроса ЦБ,
+  37 survey months, 17 indicators; до protected boundary причинно доступны 36 releases.
+- Используется только медиана прогноза следующего календарного года. Revision всегда
+  равна текущей медиане минус медиана предыдущего survey для строго того же indicator и
+  forecast year; первый выпуск без предыдущего значения — source warmup.
+- Независимые direct signs объявлены до outcomes: рост USD/RUB = long SI, рост GDP =
+  long RI и MIX, рост oil = long BR; снижение даёт симметричный short, exact zero — cash.
+- Нефть выбирается по неизменной очереди `oil tax > Brent > Urals`, только если у той же
+  серии есть предыдущее значение того же target year. Cross-series bridge запрещён.
+- Source-only seal: 36 available releases, 1 warmup, 35 scored (`4/8/8/8/7` по survey
+  years), 102 ненулевых asset revisions. Magnitude scaling, threshold, fitting и
+  outcome training отсутствуют.
+- Каждый asset имеет отдельный абсолютный risk budget 1/4, prior 60-session volatility,
+  target 20%, floor 10%. Missing component получает target zero, его бюджет не
+  перераспределяется. State живёт до следующего release или 70 календарных дней.
+- `available_at` намеренно поздний: 23:59:59 мск последнего дня месяца после survey
+  month; fill возможен только на следующем factual active-contract open. December 2025
+  исключён, потому что становится доступен в 2026.
+- Current-vintage workbook не содержит original historical release vintages. Даже
+  положительный результат будет adaptive development evidence и потребует нового unseen
+  или forward-vintage подтверждения; live trading запрещён.
+
+Статус: протокол, код и source-only counts готовы к pre-outcome commit/push. Market
+outcome, ledger и verdict ещё не читались; запуск разрешён только после фиксации commit.
+
 ## V20: Minfin OFZ-PD prior-rank demand strength — NO-GO
 
 - Протокол: [`configs/futures_v20_minfin_ofz_demand_strength.yaml`](../configs/futures_v20_minfin_ofz_demand_strength.yaml)

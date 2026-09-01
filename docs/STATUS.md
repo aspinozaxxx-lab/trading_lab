@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V20 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V21 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -86,6 +86,13 @@ records, 37 survey months и 17 indicators. Processed SHA `a139ead8...`, manifes
 contract допускает до границы 2026 только 36 releases. Источник готов для одного
 predeclared development test revisions ожиданий, но не для независимого подтверждения.
 
+V21 для этого источника теперь заранее запечатан, но market outcome ещё не читался.
+Config SHA `5d97fd51...`: только next-year median revisions, fixed direct signs для
+SI/RI/MIX/BR, fixed oil priority без cross-series bridge, 1/4 risk budget на asset без
+перераспределения missing-компонента и 70-day expiry. Source-only инварианты: 35 scored
+releases (`4/8/8/8/7`) и 102 ненулевых asset revisions. Следующий шаг — pre-outcome
+commit/push, затем ровно один immutable run.
+
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
 ликвидности; все доступные до остановки метрики отрицательны.
@@ -103,6 +110,7 @@ predeclared development test revisions ожиданий, но не для нез
 | V18 CBR forward-liquidity direction for SI | −41,95%, CAGR −10,31%, Sharpe −0,51, MDD −55,73% | Полное исполнение, прямой знак убыточен; NO-GO |
 | V19 CBR reported Minfin FX persistence | −0,03%, CAGR −0,006%, Sharpe 0,05, MDD −30,76% | Полное исполнение, но edge отсутствует; NO-GO |
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
+| V21 CBR next-year macro revisions | Outcome ещё не читался; 35 sealed source releases, 102 nonzero asset revisions | SEALED/PENDING; запуск только после pre-outcome push |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -430,8 +438,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Sharpe −0,63, MDD −6,19%, 504/504 dependencies complete. Не менять rank window,
    basket signs, expiry, threshold или включённые event kinds по этому outcome.
 10. CBR macro-survey bundle готов: 11 787 records, 37 months, 17 indicators, processed
-    SHA `a139ead8...`, manifest SHA `faae8927...`. До PnL запечатать один revisions
-    protocol; December 2025 исключается по `available_at >= 2026-01-01`.
+    SHA `a139ead8...`, manifest SHA `faae8927...`. V21 revisions protocol запечатан SHA
+    `5d97fd51...`: 35 scored releases и 102 nonzero asset revisions, fixed signs/oil
+    priority/risk/expiry. Сначала commit/push, затем ровно один immutable PnL run;
+    December 2025 исключён по `available_at >= 2026-01-01`.
 
 ### P2 — разблокировать широкий structural exact execution
 

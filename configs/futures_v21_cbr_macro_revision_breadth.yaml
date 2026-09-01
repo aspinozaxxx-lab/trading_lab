@@ -1,0 +1,280 @@
+﻿protocol_id: futures_v21_cbr_macro_revision_breadth_v1
+protocol_version: 1
+status: sealed_before_any_v21_market_outcome_read
+declared_at_utc: "2026-09-01T02:45:00Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+parent_v12_protocol_sha256: 0b1a79d5c09cf40330886ebfba84bb9a7a8a84973301d59627200050e61b3e53
+relationship_to_prior_work: >-
+  New current-vintage information family from the official Bank of Russia survey of
+  analysts. The 2021-2025 market outcomes were seen in unrelated experiments and the
+  workbook is an aggregated current snapshot without original release vintages; V21 is
+  therefore development evidence and never independent holdout confirmation.
+
+hypothesis:
+  statement: >-
+    Revisions in analysts' next-calendar-year median forecasts contain slow-moving
+    information that can stabilize a multi-asset futures portfolio. A higher USD/RUB
+    forecast is long SI, higher GDP growth is long RI and MIX, and a higher oil-price
+    forecast is long BR; negative revisions take the symmetric direction.
+  economic_mechanism:
+    - usd_rub_expectation_maps_directly_to_SI
+    - gdp_growth_expectation_maps_to_RI_and_MIX_risk_assets
+    - oil_price_expectation_maps_directly_to_BR
+    - independent_channels_keep_missing_information_from_becoming_a_composite_score
+    - slow_expectations_persist_only_until_the_next_release_or_fixed_expiry
+  primary_comparison: flat_cash_zero_return
+  contextual_comparison_only: frozen_V12_is_not_changed_or_combined_in_this_run
+  reject_if:
+    - any_source_identity_schema_or_temporal_check_fails
+    - any_revision_uses_a_different_indicator_or_forecast_year
+    - any_release_is_used_before_its_conservative_available_at
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - primary_total_return_is_not_positive
+    - doubled_or_stress_total_return_is_not_positive
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - inverting_any_asset_sign
+    - selecting_revision_magnitude_thresholds_or_weights
+    - adding_CPI_key_rate_or_other_channels_based_on_v21_metrics
+    - changing_oil_series_priority_or_bridging_different_oil_series
+    - changing_risk_budgets_volatility_target_floor_or_expiry
+    - changing_to_same_day_fill_or_earlier_release_availability
+    - combining_with_V12_or_other_signals_based_on_v21_metrics
+    - presenting_current_vintage_history_as_original_publication_vintages
+
+dates:
+  cbr_source_start: "2021-05-01"
+  market_source_start: "2018-01-03"
+  warmup_end: "2020-12-31"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  source_timezone: Europe/Moscow
+  market_timezone: Europe/Moscow
+
+inputs:
+  cbr_macro_forecasts:
+    path: data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/cbr_macro_survey_forecasts.parquet
+    sha256: a139ead81d1e06495afcd680ff1cb7903f2a102165c9f7bd7a074577c7069d6a
+    bytes: 78291
+    rows: 11787
+    allowed_columns:
+      - survey_month
+      - survey_label
+      - available_at
+      - indicator
+      - indicator_name
+      - unit
+      - statistic
+      - source_sheet
+      - source_cell
+      - source_url
+      - retrieved_at_utc
+      - current_vintage
+      - forecast_period
+      - forecast_year
+      - value
+  cbr_macro_manifest:
+    path: data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/manifest.json
+    sha256: faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe
+    bytes: 4405
+  cbr_macro_coverage:
+    path: data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/coverage.parquet
+    sha256: 629c66eaa5dae7f971bc5ac6ed6527f9956fd3e7753788d7e5203b46ec5363f9
+    bytes: 6724
+    rows: 423
+  cbr_macro_raw_workbook:
+    path: data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_current_vintage.xlsx
+    sha256: a715edf614799186278656970380aa0ba6abcfb801bfa2e92806cdc9fdb06944
+    bytes: 294970
+  cbr_macro_raw_page:
+    path: data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_page.html.gz
+    sha256: a5555e741cbb5185f21135464d97c32d819f134e95899b4593f54a8d94f630d3
+    bytes: 25184
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    allowed_columns:
+      - decision_date
+      - effective_date
+      - observed_through
+      - asset_code
+      - contract_id
+      - plan_tradable
+      - roll
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    allowed_columns:
+      - trade_date
+      - logical_asset
+      - canonical_contract_id
+      - open
+      - high
+      - low
+      - close
+      - settle
+      - volume
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    allowed_columns:
+      - session_date
+      - asset_symbol
+      - contract_id
+      - sizing_point_value
+      - sizing_observed_session_date
+      - sizing_lag_sessions
+      - sizing_usable
+      - realized_accounting_point_value
+      - realized_available_after_session
+      - tick_size
+      - conservative_fee_per_side
+      - modeled_initial_margin
+      - spec_proxy_version
+      - approximate
+      - research_only
+      - historical_exchange_exact
+      - broker_exact
+
+information_set:
+  source_availability: 23_59_59_Europe_Moscow_on_last_day_of_month_after_survey_month
+  release_join: available_at_must_be_less_than_or_equal_to_decision_at
+  selected_statistic: median_only
+  selected_forecast_horizon: next_calendar_year_only
+  revision_history: immediately_previous_survey_for_exact_same_indicator_and_forecast_year
+  oil_series_priority: [oil_tax_price_usd_bbl, brent_price_usd_bbl, urals_price_usd_bbl]
+  oil_cross_series_bridge: forbidden
+  decision_at: end_of_first_factual_MOEX_decision_session_on_or_after_available_local_date
+  execution_not_before: exact_active_contract_open_on_next_factual_effective_date
+  state_between_releases: carry_latest_snapshot_until_next_score_or_70_calendar_day_expiry
+  same_decision_session_collision: keep_latest_causally_available_signal_or_expiry
+  future_columns_forbidden: [open_D_plus_1, return_D_plus_1, target, label, pnl]
+  no_zero_imputation: true
+  missing_component_target: zero_without_risk_reallocation
+  no_gap_or_roll_return_bridge: true
+
+signal:
+  id: cbr_analyst_next_year_median_revision_signs
+  directions:
+    SI: {indicator: usd_rub_average, economic_sign: 1}
+    RI: {indicator: gdp_yoy_pct, economic_sign: 1}
+    MIX: {indicator: gdp_yoy_pct, economic_sign: 1}
+    BR: {indicator: prioritized_oil_price, economic_sign: 1}
+  revision_formula: current_median_minus_previous_survey_median_for_same_indicator_and_forecast_year
+  transform: sign_only_in_negative_zero_positive
+  magnitude_scaling: none
+  threshold: none
+  fit_or_outcome_training: none
+  hyperparameter_search: false
+  expiry_calendar_days: 70
+  sealed_source_counts:
+    causally_available_releases: 36
+    warmup_releases: 1
+    scored_releases: 35
+    scored_by_survey_year: {2021: 4, 2022: 8, 2023: 8, 2024: 8, 2025: 7}
+    nonzero_asset_revisions: 102
+
+portfolio:
+  universe_exact_order: [SI, RI, BR, MIX]
+  equal_absolute_risk_budget_each_asset: 0.25
+  unused_component_budget_reallocated: false
+  daily_volatility_lookback_sessions: 60
+  annualization_sessions: 252
+  annualized_volatility_floor: 0.10
+  annual_target_volatility_each_asset: 0.20
+  maximum_absolute_weight_each_asset: 0.25
+  target_formula: revision_sign_times_one_quarter_times_min_1_and_0_20_divided_by_max_prior_60d_vol_and_0_10
+  mandatory_additional_decisions: any_known_active_contract_change_for_nonzero_held_target
+  gross_cap: 1.0
+
+execution:
+  initial_cash_rub: 1000000.0
+  decision_to_fill: next_factual_effective_date_open
+  integer_quantity: truncate_toward_zero_weight_times_current_cash_over_lagged_notional
+  active_contract: exact_contract_known_at_decision_from_active_contract_map
+  roll: explicit_old_exit_plus_new_entry_at_same_factual_open
+  execution_atomicity: portfolio
+  maximum_participation: 0.01
+  participation_denominator: immediately_prior_factual_contract_volume
+  maximum_gross_notional_multiple: 1.0
+  initial_margin: modeled_25_percent_of_lagged_notional
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  collateral_yield: 0.0
+  terminal_policy: carry_with_terminal_exit_reserve_reported
+  missing_or_unprovable: reject_or_unresolved_never_zero_return
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+    cbr_original_historical_workbook_vintages: unavailable
+    cbr_exact_historical_publication_times: unavailable
+    cbr_historical_content_immutability: not_cryptographically_proved
+
+validation:
+  scheme: fixed_development_OOS_after_source_only_causal_warmup
+  source_history: "2021-05..2025-10_available_before_2026_current_vintage"
+  signal_warmup: first_release_without_same_target_previous_forecast_no_position
+  market_warmup: "2018-01-03..2020-12-31"
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  parameter_selection_on_oos: forbidden
+  protected_2026_price_or_outcome_read: forbidden
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_input_and_temporal_check_true
+    - exactly_35_scored_releases_and_at_least_4_each_survey_year
+    - at_least_100_nonzero_asset_revisions
+    - all_three_scenarios_execution_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_cagr_at_least_0_05
+    - primary_sharpe_at_least_0_75
+    - primary_maximum_drawdown_at_most_0_20
+    - primary_positive_years_at_least_4_of_5
+    - doubled_total_return_positive
+    - stress_total_return_positive
+    - no_gross_participation_or_margin_breach
+  independent_confirmation_required: true
+
+reporting:
+  required_artifacts:
+    - resolved_protocol.yaml
+    - identity.json
+    - source_forecasts.parquet
+    - source_signals.parquet
+    - source_decisions.parquet
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md

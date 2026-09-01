@@ -22,7 +22,7 @@ SHA-256. Если external root отличается от sibling-каталог
 
 ## Защищённая временная граница
 
-Для текущих V8–V20 исследований `2026-01-01` — protected boundary. Запрещено:
+Для текущих V8–V21 исследований `2026-01-01` — protected boundary. Запрещено:
 
 - читать 2026 prices, returns, targets, labels или PnL;
 - выбирать universe, признаки, thresholds или execution assumptions по 2026;
@@ -128,6 +128,11 @@ identity и должен проверяться перед чтением.
   публикации и original historical bytes не доказаны; current-vintage record пригоден
   только для development. Supplemental/correction/failed/announcement нельзя смешивать
   с successful primary result или нулевым bid-to-cover.
+- CBR macro survey допускается только в консервативный конец месяца, следующего за
+  `survey_month`. V21 использует только median следующего календарного года и считает
+  revision внутри точной пары indicator/forecast year. Different oil series не
+  соединяются; missing component остаётся missing в source и лишь получает явный zero
+  target без перераспределения риска. December 2025 доступен только в 2026 и исключён.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный
