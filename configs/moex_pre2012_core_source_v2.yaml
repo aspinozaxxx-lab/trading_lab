@@ -1,0 +1,83 @@
+﻿protocol_id: moex_pre2012_core_daily_source_v2
+protocol_version: 2
+status: parser_only_correction_after_v1_fail_closed_before_complete_collection
+declared_at_utc: "2026-09-01T00:00:00Z"
+scope: source_only_no_strategy_no_outcomes
+research_only: true
+post_daily_access_parser_only_correction: true
+live_trading_allowed: false
+
+parent_protocol:
+  path: configs/moex_pre2012_core_source_v1.yaml
+  sha256: 92c7f3249e4bd0363a65af78fccd3871929ea04e2ec7d187c8b6522a8fc71997
+  seal_commit: 49467bc
+
+observed_v1_failure:
+  publication_created: false
+  output_directory_created: false
+  completed_asset_progress_before_failure: [BR, MIX]
+  secid: RIM9_2009
+  trade_date: "2008-09-12"
+  request_from: "2008-09-12"
+  request_till: "2009-06-11"
+  page_index: 0
+  page_rows: 100
+  cursor_total_rows: 184
+  inert_rows_on_failed_page: 1
+  identity_fields_present: true
+  OHLC_settlement_WAP_activity_present: false
+  open_interest_present: false
+  market_values_printed: false
+  returns_targets_labels_equity_or_pnl_computed: false
+
+parser_correction:
+  only_change: >-
+    Preserve exact official daily rows whose six price fields are NULL and whose
+    VALUE/VOLUME/NUMTRADES fields are NULL or numeric zero. Normalize identity and any
+    factual open-interest fields, keep all price fields missing, and set every market,
+    trade and execution flag false. All other rows use the byte-pinned V1 parser.
+  universe_dates_endpoints_unchanged: true
+  discovery_metadata_cursor_and_request_order_unchanged: true
+  raw_payload_preserved_exactly: true
+  exact_cursor_source_row_count_preserved: true
+  admitted_daily_row_count_equals_cursor_total: true
+  inert_row_policy: preserve_identity_and_missing_values_with_all_market_flags_false
+  inert_row_is_zero_return: false
+  inert_row_is_executable: false
+  inert_row_can_create_signal: false
+  derived_source_must_mask_inert_rows: true
+  no_exact_total_inert_count_selected_before_full_collection: true
+
+unchanged_v1_contract:
+  source_start: "2008-01-01"
+  source_end: "2011-12-31"
+  protected_from: "2026-01-01"
+  exact_contracts: 81
+  exact_assets: {BR: 38, MIX: 1, RI: 16, SI: 26}
+  primary_board: RFUD
+  daily_pagination: history_cursor_exact_total
+  immutable_no_overwrite: true
+  strategy_calculation: forbidden
+  return_target_label_signal_equity_or_pnl_calculation: forbidden
+
+output:
+  default_relative_directory: >-
+    data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2
+  immutable_no_overwrite: true
+  outside_git_via_data_junction: true
+  raw_redistribution_allowed: false
+
+implementation_dependencies:
+  src/market_lab/futures/moex_pre2012_core_source_v2.py: acc547f57d42466f1acd1ddc43cb823573c37b09e06f6f2acc7f6769eb150bd2
+  src/market_lab/futures/moex_pre2012_core_source.py: 55965d9cb068a23c4d9310c91e03e95e7f65dedeec4ec06d247d3958613dfb4e
+  src/market_lab/futures/moex_pre2018_core4_source.py: 7dd25e01d28303988190123fc57c70fd3d93d938c207d219a03e837484833fc7
+
+limitations:
+  current_vintage_historical_snapshot: true
+  historical_specs_ticks_fees_margin_exact: false
+  bid_ask_spread_queue_and_order_book_exact: false
+  inert_rows_are_not_bars_or_returns: true
+  MIX_available_only_from_2011_contract_set: true
+  source_collection_is_not_strategy_validation: true
+  independent_holdout_requires_strategy_seal_before_outcome_access: true
+  live_promotion_possible: false

@@ -4,7 +4,27 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
-## MOEX-PRE2012-SOURCE-V1: sealed design, collection pending
+## MOEX-PRE2012-SOURCE-V2: parser-only correction sealed, collection pending
+
+- V1 был sealed/pushed commit `49467bc` до первого daily response, но collection
+  остановилась без output на `RIM9_2009/2008-09-12`. В строке присутствовали identity,
+  но все OHLC/WAP/settlement/activity/OI были NULL. Ни одно market value не печаталось,
+  returns/targets/PnL не вычислялись; V1 bytes и его каталог не изменяются.
+- V2 config SHA
+  `74847dd3c2ba89fcbc436301df4a7df29759877d53330b37ec94b7236da65cb3`, module SHA
+  `acc547f57d42466f1acd1ddc43cb823573c37b09e06f6f2acc7f6769eb150bd2`. Он pin-ит
+  V1 config/module и reusable parent module, сохраняя exact 81 contracts, период,
+  endpoints, request order, cursor и raw payload byte-identical.
+- Единственная correction: строка с шестью NULL price fields и NULL/zero
+  VALUE/VOLUME/NUMTRADES сохраняется с identity/missing values и всеми market/trade/
+  execution flags false. Она не является баром, fill или zero return. Все остальные
+  строки проходят исходный byte-pinned parser.
+- Planned immutable path:
+  `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`.
+  Exact total inert rows заранее не выбирался; manifest обязан его раскрыть и raw replay
+  обязан воспроизвести все source rows. Collection разрешена только после V2 push.
+
+## MOEX-PRE2012-SOURCE-V1: sealed, collection failed without output
 
 - Metadata-only audit без daily market endpoint нашёл exact 81 expired contracts
   2008–2011: BR 38, MIX 1, RI 16, SI 26. FRSTTRADE/LSTDELDATE и ровно один overlapping
@@ -18,12 +38,13 @@
   `2008-01-01..2011-12-31`, protected boundary, immutable external output и обе code
   identities. Он сохраняет exact raw responses и требует, чтобы replay заново построил
   все шесть Parquet tables; outcome-like columns запрещены.
-- Planned external path:
+- V1 external path (не создан):
   `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1/`.
-  Canonical manifest пока отсутствует; дневные prices, returns и PnL до seal не читались.
-- После source/replay нужен отдельный derived-source seal, затем новая strategy family
-  должна разрабатываться только на уже открытом 2012–2017. 2008–2011 outcomes остаются
-  закрыты до отдельного pre-outcome push и будут открыты ровно один раз.
+  Canonical manifest отсутствует. Первый run прочитал часть sealed daily source, но
+  напечатал только parser error и source identity; ни цены, ни returns/PnL не раскрыты.
+- Следующий collection разрешён только под V2. После source/replay нужен отдельный
+  derived-source seal, затем новая strategy family должна разрабатываться только на уже
+  открытом 2012–2017. 2008–2011 outcomes остаются закрыты до отдельного pre-outcome push.
 
 ## MOEX-MULTILEG-SOURCE-V1: parser sealed, licensed bytes pending
 

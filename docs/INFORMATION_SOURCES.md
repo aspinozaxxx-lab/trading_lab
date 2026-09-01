@@ -498,9 +498,13 @@ FRSTTRADE/LSTDELDATE, ни одно не содержит LSTTRADE; для ка�
 FRSTTRADE — `2007-03-15`, максимальный LSTDELDATE — `2011-12-16`; это metadata, не
 market outcome.
 
-До первого daily response подготовлены exact source rules и replay wrapper: config SHA
-`92c7f324...`, wrapper SHA `55965d9c...`, reused parent SHA `7dd25e01...`. После
-commit/push разрешена только source collection и offline raw replay без returns/PnL.
+До первого daily response exact source rules и replay wrapper были pushed commit
+`49467bc`: config SHA `92c7f324...`, wrapper SHA `55965d9c...`, reused parent SHA
+`7dd25e01...`. V1 остановился без output на identity-only NULL row
+`RIM9_2009/2008-09-12`; значения не печатались, outcomes не считались. Parser-only V2
+SHA `74847dd3...`/`acc547f5...` сохраняет такие source rows missing с false flags,
+ничего не меняя в universe/dates/endpoints/raw. После V2 commit/push разрешена только
+source collection и offline raw replay без returns/PnL.
 Экономическое преимущество этого маршрута — 2008–2011 пока не использовались для выбора
 стратегии и включают кризис/восстановление. Они останутся закрытым holdout до того, как
 новая strategy family будет разработана на 2012–2017 и отдельно запечатана.

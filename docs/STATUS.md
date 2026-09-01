@@ -7,13 +7,16 @@
 Metadata-only audit без daily endpoint нашёл ровно 81 официальный expired contract:
 BR/MIX/RI/SI = 38/1/16/26, с FRSTTRADE/LSTDELDATE и единственным RFUD segment у каждого;
 LSTTRADE отсутствует у 81/81 и сохраняется missing. Source-only protocol
-`moex_pre2012_core_daily_source_v1` подготовлен до первого daily price response:
-config SHA `92c7f3249e4bd0363a65af78fccd3871929ea04e2ec7d187c8b6522a8fc71997`,
-wrapper SHA `55965d9cb068a23c4d9310c91e03e95e7f65dedeec4ec06d247d3958613dfb4e`,
-parent SHA `7dd25e01...`. Сначала этот seal нужно commit/push, затем один раз собрать и
-raw-replay проверить immutable EOD bundle. До отдельного strategy seal запрещено читать
-2008–2011 returns/PnL: этот кризисно-восстановительный отрезок сохраняется как будущий
-честный holdout, а не очередной период для подбора параметров.
+`moex_pre2012_core_daily_source_v1` был sealed/pushed commit `49467bc` до первого daily
+response: config SHA `92c7f324...`, wrapper SHA `55965d9c...`, parent SHA `7dd25e01...`.
+V1 collection остановилась fail-closed без output на официальной identity-only строке
+`RIM9_2009/2008-09-12`: все OHLC/WAP/settlement/activity/OI отсутствуют. Цены не
+печатались, returns/PnL не считались. Узкая V2 correction сохраняет такую строку missing
+с false market/execution flags, оставляет raw bytes, exact universe/dates/endpoints и
+все остальные parser rules неизменными. V2 config SHA `74847dd3...`, module SHA
+`acc547f5...`; его нужно commit/push до повторной collection. До отдельного strategy
+seal запрещено читать 2008–2011 returns/PnL: этот кризисно-восстановительный отрезок
+сохраняется как будущий честный holdout, а не период для подбора параметров.
 
 ## Короткий ответ
 
@@ -812,10 +815,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — сохранить новый 2008–2011 holdout до просмотра outcomes
 
-1. Commit/push source-only config SHA `92c7f324...`, wrapper SHA `55965d9c...` и тесты
-   до первого daily response; metadata не содержит price/return/PnL.
-2. Один раз собрать 81 exact contract во внешний immutable каталог
-   `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1/`,
+1. V1 seal `49467bc` не менять и не повторять: collection остановилась без output на
+   exact NULL-placeholder `RIM9_2009/2008-09-12`. Commit/push parser-only V2 config SHA
+   `74847dd3...`, module SHA `acc547f5...`; universe/dates/endpoints остаются V1.
+2. Один раз собрать V2 для 81 exact contract во внешний immutable каталог
+   `data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`,
    затем независимо выполнить `--audit-only`; любые empty segment, hash/replay mismatch
    или дата вне `2008-01-01..2011-12-31` означают fail-closed без смены universe.
 3. Построить отдельный source-derived active-contract/spec panel без returns/PnL.

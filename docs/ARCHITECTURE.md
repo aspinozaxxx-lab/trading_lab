@@ -406,6 +406,14 @@ pagination и сравнивает все восстановленные таб�
 содержит strategy/return/PnL engine. Даже после успешной collection 2008–2011 цены нельзя
 использовать до отдельного derived-source и strategy seal.
 
+V1 fail-closed parser не допускал official identity-only daily placeholders. V2 находится
+в `market_lab.futures.moex_pre2012_core_source_v2`: scoped context подменяет только daily
+parser на время collection/replay и гарантированно восстанавливает parent binding.
+NULL-price + NULL/zero-activity строка остаётся в daily table с исходной identity,
+missing values и false flags; она не становится баром или zero return. Persistence
+reuse-ит V1 serialization во временном каталоге, добавляет V2 parser contract/counts,
+пересчитывает manifest identity и только затем атомарно публикует отдельный V2 output.
+
 ### `market_lab.futures.moex_pre2018_core4_derived`
 
 Source-only преобразование byte-pinned MOEX bundle 2012–2017 в common factual-session

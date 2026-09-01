@@ -50,13 +50,19 @@ source для следующего заранее запечатанного res
 
 ## Ещё не открытый источник MOEX 2008–2011
 
-`configs/moex_pre2012_core_source_v1.yaml` (SHA `92c7f324...`) фиксирует до первого
+`configs/moex_pre2012_core_source_v1.yaml` (SHA `92c7f324...`) зафиксировал до первого
 daily response exact 81 contracts BR/MIX/RI/SI = 38/1/16/26 и физические границы
 `2008-01-01..2011-12-31`. Metadata-only audit прочитал только finder/description/boards:
 FRSTTRADE/LSTDELDATE и один RFUD segment есть у каждого, LSTTRADE отсутствует у 81/81 и
 остаётся missing. Wrapper SHA `55965d9c...` и parent SHA `7dd25e01...` pin-ятся вместе.
 
-Planned bundle находится только через внешний `data` junction и должен быть immutable.
+V1 был pushed commit `49467bc`, затем fail-closed остановился без output на official
+identity-only daily row `RIM9_2009/2008-09-12`. V2 SHA `74847dd3...`/`acc547f5...`
+разрешает только её структурный класс: NULL prices и NULL/zero activity сохраняются
+missing с false flags, не как zero return/бар. Exact universe, dates, requests и raw
+payload не меняются. V1 output не создан; V2 использует отдельный suffix `-v2`.
+
+Planned V2 bundle находится только через внешний `data` junction и должен быть immutable.
 Он обязан хранить exact raw request log, шесть normalized tables, artifact hashes и
 полный offline replay. До отдельного strategy seal запрещено вычислять или даже
 просматривать 2008–2011 returns/PnL; collection coverage сама по себе не является

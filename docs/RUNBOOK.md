@@ -613,23 +613,27 @@ Manifest SHA `e60d0bca...`: 155 contracts, 30 059 rows, 544 requests, maximum da
 ### Sealed MOEX 2008–2011 source collection
 
 V1 config SHA `92c7f324...`, wrapper SHA `55965d9c...`, parent collector SHA
-`7dd25e01...`. Metadata-only audit завершён, но daily prices ещё не запрашивались.
-Сначала code/config/tests/docs обязаны быть committed и pushed. После этого collection
-выполняется один раз, а затем отдельно повторяется только offline audit:
+`7dd25e01...` был pushed commit `49467bc`. V1 collection fail-closed остановилась без
+output на identity-only NULL row `RIM9_2009/2008-09-12`; V1 не повторять. Parser-only
+V2 config SHA `74847dd3...`, module SHA `acc547f5...` сохраняет строку missing с false
+market/execution flags и не меняет universe/dates/requests. Сначала V2 code/config/tests/
+docs обязаны быть committed и pushed. После этого V2 collection выполняется один раз,
+а затем отдельно повторяется только offline audit:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q `
+  tests/test_moex_pre2012_core_source_v2.py `
   tests/test_moex_pre2012_core_source.py `
   tests/test_moex_pre2018_core4_source.py tests/test_encoding.py
 .\.venv\Scripts\ruff.exe check `
-  src/market_lab/futures/moex_pre2012_core_source.py `
-  tests/test_moex_pre2012_core_source.py
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_source
-.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_source --audit-only
+  src/market_lab/futures/moex_pre2012_core_source_v2.py `
+  tests/test_moex_pre2012_core_source_v2.py
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_source_v2
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_pre2012_core_source_v2 --audit-only
 ```
 
 Default immutable output:
-`data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v1/`.
+`data/processed/futures_pre2012/moex-core3-mix-daily-current-vintage-2008-2011-v2/`.
 Любой request/date/schema/replay mismatch — fail-closed; exact universe не менять после
 daily access. Manifest/coverage можно аудировать, но returns/PnL 2008–2011 запрещены до
 отдельного derived-source и strategy seal.
