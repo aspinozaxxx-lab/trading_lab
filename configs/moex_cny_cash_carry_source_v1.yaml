@@ -1,0 +1,113 @@
+﻿protocol_id: moex_cny_cash_carry_source_v1
+protocol_version: 1
+status: declared_after_schema_cursor_and_identity_probe_before_price_read
+scope: historical_source_only_no_basis_no_return_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol:
+  statement: >-
+    Continuing MOEX CNY/RUB spot and quarterly CR futures may support an executable
+    long-CNY/short-CR cash-and-carry sleeve after the USD/RUB spot market ceased.
+  this_protocol_computes_basis_returns_targets_or_pnl: false
+  economic_protocol_requires_separate_seal: true
+  reverse_carry_without_proven_cny_borrow: forbidden
+
+source:
+  provider: MOEX_ISS
+  access_mode: public_historical_current_vintage
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+  spot:
+    endpoint: https://iss.moex.com/iss/history/engines/currency/markets/selt/boards/CETS/securities/CNYRUB_TOM.json
+    board: CETS
+    security: CNYRUB_TOM
+    from: '2018-01-01'
+    till: '2025-12-31'
+    page_size_observed: 100
+    total_rows_observed: 2027
+  futures:
+    history_endpoint_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+    description_endpoint_template: https://iss.moex.com/iss/securities/{secid}.json
+    board: RFUD
+    asset_code: CNY
+    lot_size_cny: 1000
+    contract_type: futures
+    execution_type: cash_settled
+    exact_contracts:
+      CRH3: '2023-03-16'
+      CRM3: '2023-06-15'
+      CRU3: '2023-09-21'
+      CRZ3: '2023-12-21'
+      CRH4: '2024-03-21'
+      CRM4: '2024-06-20'
+      CRU4: '2024-09-19'
+      CRZ4: '2024-12-19'
+      CRH5: '2025-03-20'
+      CRM5: '2025-06-19'
+      CRU5: '2025-09-18'
+      CRZ5: '2025-12-18'
+    from: '2023-01-01'
+    till: '2025-12-31'
+    page_size_observed: 100
+
+required_spot_columns:
+  - BOARDID
+  - TRADEDATE
+  - SHORTNAME
+  - SECID
+  - OPEN
+  - LOW
+  - HIGH
+  - CLOSE
+  - NUMTRADES
+  - WAPRICE
+
+required_futures_columns:
+  - BOARDID
+  - TRADEDATE
+  - SECID
+  - OPEN
+  - LOW
+  - HIGH
+  - CLOSE
+  - VOLUME
+  - OPENPOSITION
+  - SETTLEPRICE
+  - WAPRICE
+  - NUMTRADES
+  - ASSETCODE
+
+temporal_semantics:
+  current_vintage_not_original_historical_vintage: true
+  daily_values_available_only_after_trade_date: true
+  protected_ceiling_exclusive: '2026-01-01'
+  old_experiments_may_not_read_this_source: true
+
+quality_gates:
+  exact_spot_security_and_board: true
+  exact_futures_contract_asset_board_expiry_and_lot: true
+  cursor_pagination_complete_per_instrument: true
+  raw_replay_exact: true
+  unique_instrument_trade_date: true
+  nonpositive_prices_preserved_but_never_execution_eligible: true
+  protected_rows_zero: true
+
+output:
+  root: data/processed/fx_basis/moex-cny-cash-carry-current-vintage-v1
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [basis, return, returns, label, target, prediction, pnl, profit, equity]
+
+future_economic_protocol_requirements:
+  separate_pre_outcome_commit: true
+  development_period: ['2023-01-01', '2024-12-31']
+  evaluation_period: ['2025-01-01', '2025-12-31']
+  fixed_quarterly_schedule_only: true
+  next_session_simultaneous_stressed_execution: true
+  full_spot_principal_margin_buffer_and_fees: true
+  cny_interest_credit_percent: 0.0
+  compare_against_causal_ruonia: true
+  no_same_history_threshold_or_date_search: true
