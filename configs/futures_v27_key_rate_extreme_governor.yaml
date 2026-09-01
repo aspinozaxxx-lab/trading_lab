@@ -1,0 +1,232 @@
+﻿protocol_id: futures_v27_key_rate_extreme_governor_v1
+protocol_version: 1
+status: predeclared_before_v27_oos_outcomes
+declared_at_utc: "2026-09-01T05:16:36Z"
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+relationship_to_prior_work: >-
+  Adaptive same-period stability hypothesis declared after V26 achieved more than
+  20 percent CAGR in every cost scenario but exceeded its 30 percent drawdown cap.
+  V27 keeps the sealed V26 maximum 2x risk, V25 STLFSI4 state, RUONIA treatment,
+  capacity policy and all costs unchanged. It adds one binary official CBR key-rate
+  governor before the 2x multiplier. It is not independent holdout confirmation.
+
+parent_v26:
+  protocol_sha256: 2b08589013f3b3387002830cad7878ef0fffc5dc808b8165fc004e724abf4c1b
+  metrics_sha256: b4149969696e23a29a06b58085510d9f8c9f2bbf584ca0d2aaa883801493567d
+  primary_combined_reference:
+    total_return: 1.9513836250949326
+    cagr: 0.2416982598452151
+    sharpe: 0.9763643289877022
+    maximum_drawdown: 0.3356613090610189
+    positive_years: 4
+    worst_year: -0.12268625825407442
+    total_cost_rub: 55297.66434774309
+    critical_failure_count: 0
+
+hypothesis:
+  statement: >-
+    When the latest conservatively available official CBR key rate is at least 20
+    percent per annum, moving the already-STLFSI4-governed portfolio fully to cash
+    before applying the otherwise unchanged 2x multiplier can retain at least 20
+    percent combined CAGR in all three cost scenarios while reducing every scenario
+    maximum drawdown to at most 30 percent.
+  economic_mechanism:
+    - a_20_percent_policy_rate_is_an_extreme_round_monetary_restriction_boundary
+    - extreme_cash_yield_competes_with_risky_trend_exposure
+    - high_discount_rates_and_tight_liquidity_can_destabilize_equity_currency_and_oil_trends
+    - cash_state_still_earns_the_sealed_haircutted_causal_RUONIA_on_eligible_collateral
+    - the_governor_can_only_reduce_never_increase_V26_risk
+  primary_comparison: sealed_V26_primary_combined_reference
+  reject_if:
+    - any_parent_input_raw_replay_schema_temporal_availability_or_accrual_check_fails
+    - exact_predeclared_weekly_combined_state_counts_do_not_match
+    - any_critical_execution_failure_or_unresolved_halt_remains
+    - any_primary_doubled_or_stress_combined_cagr_is_below_0_20
+    - any_primary_doubled_or_stress_combined_maximum_drawdown_exceeds_0_30
+    - primary_combined_sharpe_is_below_sealed_V26_primary
+    - primary_combined_worst_year_is_worse_than_sealed_V26_primary
+    - primary_combined_positive_years_are_below_4_of_5
+    - any_order_time_gross_participation_or_margin_limit_is_breached
+  forbidden_followups_on_same_2021_2025_outcomes:
+    - changing_20_percent_boundary_or_seven_day_maximum_age
+    - using_same_day_key_rate_before_the_conservative_next_day_boundary
+    - changing_cash_state_to_partial_scaling_after_observing_results
+    - changing_2x_leverage_RUONIA_haircut_buffer_or_capacity_policy
+    - combining_key_rate_with_other_CBR_thresholds_selected_by_V27_outcomes
+    - accepting_less_than_20_percent_or_more_than_30_percent_drawdown_after_a_near_miss
+    - treating_v27_as_independent_holdout_or_live_evidence
+
+dates:
+  source_start: "2018-01-01"
+  oos_start: "2021-01-01"
+  oos_end: "2025-12-31"
+  forbidden_from: "2026-01-01"
+  timezone: Europe/Moscow
+
+input_inheritance:
+  protocol: futures_v26_stlfsi_levered_ruonia_capacity_v1
+  protocol_sha256: 2b08589013f3b3387002830cad7878ef0fffc5dc808b8165fc004e724abf4c1b
+  exact_input_names:
+    - panel
+    - active_contract_map
+    - contract_observations
+    - panel_audit
+    - spec_proxy
+    - spec_manifest
+    - cbr_panel
+    - cbr_manifest
+    - stlfsi
+    - stlfsi_coverage
+    - stlfsi_raw_response
+    - stlfsi_manifest
+    - stlfsi_manifest_sidecar
+  new_market_outcome_input: none
+  cbr_key_rate_transitive_raw:
+    path: raw/info_radar/cbr-dev-2018-2025-v1/0001_cbr_key_rate_soap_key_rate_xml.xml
+    bytes: 121958
+    sha256: 06da1497c27f985151bbb4455cc7f6109660edf190a8fbf5280c0d04016d4639
+    request_body_sha256: 04c6f1fc8ba0217fe150392a05dbb57e7070cc9f6e662e873dddda81cf819856
+
+information_set:
+  base_signal_and_STLFSI4_state: byte_identical_V25_inherited_through_V26
+  key_rate_read_filter: parquet_predicate_series_id_equals_key_rate_only
+  key_rate_selection: latest_row_with_available_at_less_than_or_equal_to_decision_at
+  key_rate_available_at: effective_date_plus_one_calendar_day_00_00_Europe_Moscow
+  maximum_key_rate_age_calendar_days: 7
+  decision: 23_59_59_Europe_Moscow_on_each_frozen_V12_weekly_decision_date
+  execution_not_before: active_contract_factual_open_strictly_after_decision
+  future_columns_forbidden: [future_key_rate, open_D_plus_1, settle_D_plus_1, return_D_plus_1, target, pnl]
+  no_zero_imputation: true
+  no_gap_or_roll_return_bridge: true
+
+monetary_governor:
+  id: official_CBR_key_rate_extreme_binary_global_cash
+  boundary_percent_per_annum: 20.0
+  comparison: greater_than_or_equal
+  pass_state: fresh_complete_key_rate_strictly_below_20_and_STLFSI4_pass
+  cash_state: key_rate_at_least_20_or_STLFSI4_cash_or_key_rate_missing_or_stale
+  admitted_scale_before_2x: 1.0
+  cash_scale_before_2x: 0.0
+  maximum_age_calendar_days: 7
+  threshold_fit: none_round_economic_boundary
+  scale_can_increase_v26_risk: false
+  sealed_source_rows: 2015
+  sealed_state_counts:
+    all_2018_2025:
+      weekly_decisions: 418
+      pass_both: 309
+      cash_stlfsi4: 68
+      cash_key_rate_at_least_20: 40
+      cash_key_rate_missing_or_stale: 1
+    oos_2021_2025:
+      weekly_decisions: 261
+      pass_both: 197
+      cash_stlfsi4: 24
+      cash_key_rate_at_least_20: 40
+      cash_key_rate_missing_or_stale: 0
+
+capital_efficiency:
+  sequence: V12_signal_then_V25_STLFSI4_then_V27_key_rate_then_exact_2x
+  target_weight_multiplier_after_governors: 2.0
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  variants_after_outcome: forbidden
+
+collateral_income:
+  inherited_byte_identical_from_V26: true
+  benchmark: official_RUONIA_percent_per_annum
+  applied_rate_fraction: 0.50
+  day_count: ACT_365_calendar_days
+  operational_buffer_fraction_of_conservative_equity: 0.10
+  reinvested_into_contract_sizing: false
+  compounded_into_future_eligible_balance: false
+  principal_double_counted: false
+
+execution:
+  inherited_byte_identical_from_V26: true
+  initial_cash_rub: 1000000.0
+  execution_atomicity: asset
+  unexecutable_target_policy: cancel_and_clip
+  maximum_participation: 0.01
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  terminal_policy: carry_with_terminal_positions_and_cost_limitation_reported
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+  limitations:
+    same_period_adaptive_selection: true
+    exact_key_rate_publication_timestamp: false
+    key_rate_effective_date_plus_one_day_is_conservative_proxy: true
+    collateral_product_and_tax_exact: false
+    stlfsi_historical_revision_exact: false
+    historical_exchange_exact: false
+    broker_exact: false
+    queue_and_bid_ask_exact: false
+    point_value_fee_and_margin: frozen_conservative_research_proxy
+
+validation:
+  scheme: one_fixed_adaptive_development_oos_variant
+  oos: "2021-01-01..2025-12-31"
+  model_training: none
+  number_of_oos_variants: 1
+  parameter_selection_on_oos: forbidden
+  protected_2026_market_read: forbidden
+
+reporting:
+  required_metrics:
+    - combined_state_counts_and_key_rate_raw_replay
+    - futures_only_and_combined_total_return_cagr_sharpe_mdd
+    - combined_annual_returns_positive_years_and_worst_year
+    - collateral_income_and_causal_accrual_coverage
+    - target_cancellations_and_participation_clips
+    - execution_coverage_critical_failures_and_unresolved_halts
+    - delta_against_sealed_V26
+  artifacts:
+    - resolved_protocol.yaml
+    - parent_v26_protocol.yaml
+    - identity.json
+    - scores.parquet
+    - weekly_v12_weights.parquet
+    - weekly_v25_governed_weights.parquet
+    - weekly_v27_monetary_governed_weights.parquet
+    - weekly_v27_levered_weights.parquet
+    - combined_governor.csv
+    - mapped_targets.parquet
+    - decision_audit.csv
+    - coverage.csv
+    - collateral_primary.parquet
+    - combined_ledger_primary.parquet
+    - ledger_primary.parquet
+    - orders_primary.parquet
+    - positions_primary.parquet
+    - collateral_doubled.parquet
+    - combined_ledger_doubled.parquet
+    - ledger_doubled.parquet
+    - orders_doubled.parquet
+    - positions_doubled.parquet
+    - collateral_stress.parquet
+    - combined_ledger_stress.parquet
+    - ledger_stress.parquet
+    - orders_stress.parquet
+    - positions_stress.parquet
+    - metrics.json
+    - report.md
+
+promotion_rule:
+  scope: go_to_new_unseen_validation_only_never_live
+  require_all:
+    - every_parent_input_key_rate_raw_replay_source_temporal_and_accrual_check_true
+    - exact_predeclared_weekly_combined_state_counts
+    - all_three_scenarios_execution_and_combined_metrics_complete
+    - zero_critical_failures_and_zero_unresolved_halts
+    - primary_doubled_and_stress_combined_CAGR_each_at_least_0_20
+    - primary_doubled_and_stress_combined_MDD_each_at_most_0_30
+    - primary_combined_Sharpe_at_least_sealed_V26
+    - primary_combined_worst_year_at_least_sealed_V26
+    - primary_combined_positive_years_at_least_4_of_5
+    - no_order_time_gross_participation_or_margin_breach
+  independent_confirmation_required: true
