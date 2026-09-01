@@ -287,6 +287,17 @@ downstream оставляет максимальный `release_month`. Bundle �
 48 XLSX и две archive snapshots. Это current-retrieved release-specific history:
 development backtest допустим, но независимое подтверждение требует forward vintages.
 
+### `market_lab.futures_v23_cbr_household_confirmation_regime`
+
+Проверяет один заранее объявленный двухрядный confirmation regime из точных значений
+release-specific XLSX. Expected inflation down вместе с consumer sentiment up означает
+risk-on: long RI/MIX и short SI. Обратная согласованная пара означает risk-off; любой
+mixed/zero release переводит все legs в cash, BR всегда zero. Модуль использует frozen
+causal state/volatility mapper V22, но полностью заменяет BCI signal и provenance.
+Параметры исполнения остаются заранее фиксированными: по 1/3 risk budget, prior 60-day
+volatility, 45-day expiry, next factual open и portfolio-atomic ledger. Config SHA
+`2a8a35a8...` запечатан; market outcome V23 ещё не запускался.
+
 ### `market_lab.futures.futoi_intraday_source`
 
 Resumable current-vintage collector полного FUTOI 5m. Analytical

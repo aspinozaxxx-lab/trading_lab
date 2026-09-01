@@ -4,6 +4,33 @@
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.
 
+## V23: CBR household inflation/sentiment confirmation — SEALED, NOT RUN
+
+- Протокол:
+  [`configs/futures_v23_cbr_household_confirmation_regime.yaml`](../configs/futures_v23_cbr_household_confirmation_regime.yaml)
+- Config SHA-256:
+  `2a8a35a898eddae72694bce159282ced6f72230b537613ad224c0d2b6001f2ee`.
+- Source был независимо собран и pushed commit `3d18a03` до протокола: 48
+  release-specific страниц, PDF и XLSX за `2022-01..2025-12`; processed SHA
+  `70711272...`, manifest SHA `b132a45e...`, 146/146 raw responses проходят
+  byte/SHA/reparse audit.
+- Единственная гипотеза: expected-inflation delta `<0` и sentiment delta `>0` даёт
+  risk-on (long RI/MIX, short SI); обратная согласованная пара даёт risk-off; mixed/zero
+  всегда cash, BR zero. Observed inflation, magnitudes и thresholds запрещены.
+- Source-only seal: 48 releases, 1 warmup, 47 scored (`11/12/12/12`), 16 risk-on,
+  17 risk-off, 14 mixed, 99 nonzero asset directions и два expiry states.
+- Availability — конец более поздней publication/last-update date. Collision сентября и
+  октября 2022 обязан оставить октябрь. Fill — следующий factual active-contract open;
+  active legs имеют 1/3 risk budget, prior 60-session volatility и 45-day expiry.
+- Promotion gates: complete execution во всех cost scenarios, 0 critical/unresolved,
+  CAGR `>=5%`, Sharpe `>=0,75`, MDD `<=20%`, 3/4 positive active years и положительные
+  doubled/stress results. Даже GO разрешит только новую unseen validation, не live.
+- Pre-outcome source/config/semantic/synthetic tests: `6 passed`; market PnL ещё не
+  запускался и canonical run отсутствует.
+
+После первого outcome запрещены sign inversion, single-series selection, thresholds,
+trading mixed states, risk/expiry changes и post-hoc blend на тех же 2021–2025 данных.
+
 ## V22: CBR printed Business Climate Index regime — NO-GO
 
 - Протокол:

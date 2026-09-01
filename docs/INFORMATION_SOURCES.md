@@ -410,9 +410,9 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    полном execution. Exact decimals/components/signs/risk/expiry не подбирать;
 9. CBR household inflation/sentiment bundle готов: 48 release-specific XLSX/PDF/pages,
    146 raw responses, processed SHA `70711272...`, manifest SHA `b132a45e...`. V23
-   может проверить только один заранее объявленный confirmation regime: expected
+   запечатан SHA `2a8a35a8...` и проверяет только один confirmation regime: expected
    inflation down + sentiment up = risk-on, обратная согласованная пара = risk-off,
-   mixed = cash. До protocol seal market outcome не читать;
+   mixed = cash. Source/config tests прошли, market outcome ещё не запускался;
 10. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.

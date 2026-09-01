@@ -1,7 +1,7 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-01**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V22 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V23 гипотез защищены и не используются.
 
 ## Короткий ответ
 
@@ -105,8 +105,9 @@ signs, risk/expiry и blend по этому outcome не подбирать.
 release-specific выпусков ЦБ по инфляционным ожиданиям и потребительским настроениям,
 включая HTML/PDF/XLSX и 146 сохранённых официальных ответов. Processed SHA
 `70711272...`, manifest SHA `b132a45e...`; все 48 HTML endpoints подтверждают XLSX после
-округления. V23 ещё не запускался: сначала должен быть запечатан и pushed единственный
-confirmation regime, затем допускается ровно один development run.
+округления. V23 запечатан SHA `2a8a35a8...`: единственный confirmation regime, cash rule,
+risk, expiry и promotion gates уже неизменяемы. Source/config/synthetic tests прошли;
+market outcome ещё не запускался и canonical run отсутствует.
 
 Новая треугольная гипотеза RI/MIX/SI проверена двумя заранее зафиксированными execution
 вариантами и закрыта как **NO-GO**. Оба запуска остановились fail-closed на фактической
@@ -127,6 +128,7 @@ confirmation regime, затем допускается ровно один devel
 | V20 Minfin OFZ-PD demand strength | −5,35%, CAGR −1,09%, Sharpe −0,63, MDD −6,19% | Полное исполнение, но сигнал убыточен; NO-GO |
 | V21 CBR next-year macro revisions | −3,17%, CAGR −0,64%, Sharpe −0,08, MDD −18,79%; 2 critical | Signal отрицателен и execution incomplete; NO-GO |
 | V22 CBR printed BCI regime | +13,37%, CAGR 2,54%, Sharpe 0,36, MDD −8,86%; complete | Положительный, но нестабильный и ниже gates; NO-GO |
+| V23 CBR household confirmation | Protocol SHA `2a8a35a8...`; outcome ещё не читался | SEALED, ожидает один canonical development run |
 | Structural futures breadth | RAM: CAGR 6,77%, Sharpe 0,78, MDD −15,13% | Продолжать только exact-execution проверку |
 | Sparse key-rate events | 10 сделок, CAGR 0,99%, Sharpe 0,82, MDD −0,47% | Малый наблюдаемый lead, недостаточно масштаба |
 | RI/MIX/SI triangular relative value | V10: 4 сделки, −2,58%; V11: 10 сделок, −0,68%; оба invalid после unresolved | Закрыт, NO-GO |
@@ -137,6 +139,24 @@ confirmation regime, затем допускается ровно один devel
 
 Полная история и точные external run paths находятся в
 [реестре экспериментов](EXPERIMENTS.md).
+
+## V23 CBR household confirmation — SEALED, outcome не запущен
+
+V23 использует новую household source family и не изменяет увиденные BCI outcomes V22.
+Config SHA
+`2a8a35a898eddae72694bce159282ced6f72230b537613ad224c0d2b6001f2ee` фиксирует:
+
+- exact XLSX expected-inflation и consumer-sentiment sequential deltas;
+- risk-on только при inflation down + sentiment up, risk-off только при обратной паре;
+- mixed/zero = cash, long/short signs RI/MIX/SI неизменны, BR = zero;
+- 48 releases, 1 warmup, 47 scored, 16/17/14 regimes и 99 nonzero directions;
+- risk budget 1/3, prior 60d vol, target 20%, floor 10%, gross `<=1`, expiry 45 days;
+- next factual open, portfolio-atomic execution и costs 1×/2×/stress;
+- CAGR/Sharpe/MDD/year gates и запрет данных/метрик `>=2026-01-01`.
+
+Source commit `3d18a03` уже pushed до protocol. Pre-outcome тесты прошли (`6 passed`),
+включая полный replay 146 raw responses и synthetic expiry/collision. Следующий шаг —
+отдельный commit/push этой реализации, только затем ровно один immutable run.
 
 ## V22 CBR Business Climate Index — положительный, но слабый NO-GO
 
@@ -532,8 +552,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
     следующий PnL допускается только с новой независимой информацией или forward period.
 12. CBR household inflation/sentiment bundle готов: 48 releases, 146 raw responses,
     processed SHA `70711272...`, manifest SHA `b132a45e...`; 16 risk-on, 17 risk-off и
-    14 mixed source confirmations после warmup до collision handling. V23 пока не
-    запускался; сначала запечатать confirmation signs, cash rule, risk, expiry и gates.
+    14 mixed source confirmations после warmup до collision handling. V23 запечатан SHA
+    `2a8a35a8...`, tests прошли; market outcome пока не запускался. Следующий шаг —
+    pre-outcome commit/push, затем один canonical run без изменения протокола.
 
 ### P2 — разблокировать широкий structural exact execution
 

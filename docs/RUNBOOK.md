@@ -436,6 +436,30 @@ MDD −18,79%; coverage 200/202 и 2 critical failures делают ledger incom
 новые indicators, другую oil priority, cross-series bridge, risk/expiry tuning или blend
 с V12 на тех же 2021–2025 outcomes.
 
+### CBR household inflation/sentiment source и sealed V23
+
+Canonical source-only bundle уже находится во внешнем хранилище. Новый immutable
+snapshot всегда получает другой directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.cbr_inflation_expectations_source `
+  --output D:\Projects\trading_lab_data\data\processed\info_radar\cbr-inflation-expectations-<new-id> `
+  --max-workers 6
+```
+
+Collector сохраняет release-specific page/PDF/XLSX и две archive snapshots, разбирает
+точные ряды XLSX и сверяет их с one-decimal HTML endpoints. Raw не распространять без
+отдельной проверки прав. Sealed V23 имеет config SHA `2a8a35a8...`; после обязательного
+pre-outcome commit/push ровно один immutable run создаётся командой:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures_v23_cbr_household_confirmation_regime `
+  --output-root D:\Projects\trading_lab_data\runs
+```
+
+До первого run нельзя изменять signs, two-series confirmation, cash rule, risk/expiry или
+gates. После outcome replay не разрешает same-history selection этих параметров.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).
