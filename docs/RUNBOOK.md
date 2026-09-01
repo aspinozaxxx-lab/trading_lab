@@ -369,6 +369,22 @@ threshold/scaling, smoothing, выбор только change days, более р
 V12/V18 по увиденному V19 result. Канонический verdict — `NO_GO`: total return −0,03%,
 Sharpe 0,05, MDD −30,76%; metrics SHA начинается `dff0016e...`.
 
+### Minfin OFZ auction-result source
+
+Canonical source-only bundle находится во внешнем хранилище. Новый immutable version
+создаётся отдельным directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.minfin_ofz_auction_source `
+  --output-directory D:\Projects\trading_lab_data\data\processed\info_radar\minfin-ofz-auction-results-<new-id> `
+  --max-workers 6
+```
+
+Collector не читает market prices/returns/targets/PnL. Он требует reverse chronology,
+stable first-page result index, классификацию каждой карточки и полные primary metrics.
+Canonical V2 содержит 410 events и 364 primary results; manifest SHA начинается
+`c6fcf390...`. Bundle V1 — superseded discovery и не является input эксперимента.
+
 ## 5. Новый эксперимент
 
 1. Скопируй структуру из [EXPERIMENT_PROTOCOL.md](EXPERIMENT_PROTOCOL.md).

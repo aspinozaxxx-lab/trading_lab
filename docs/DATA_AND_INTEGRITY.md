@@ -64,6 +64,9 @@ identity и должен проверяться перед чтением.
 | CBR daily liquidity factors, current-vintage | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/cbr_liquidity_factors.parquet` | `88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864` |
 | CBR daily liquidity factors manifest | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/manifest.json` | `f1701ec330fce9813d75bd711de235744dd8a9daf5f192325efe64f16e98e61a` |
 | CBR daily liquidity factors raw snapshot | `data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1/official_cbr_liquidity_factors_current_vintage.html.gz` | `96901a15619561118719f8b4635bde97f964b806d59c609be9d40c0110dae95f` |
+| Minfin OFZ auction events, current-vintage | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/minfin_ofz_auction_events.parquet` | `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480` |
+| Minfin OFZ auction manifest | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/manifest.json` | `c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52` |
+| Minfin OFZ auction raw pages | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/official_minfin_ofz_auction_pages.jsonl.gz` | `f56af34a15a284e74f8364daf3abd6ae7d2978a01b22443e33ced079d72133c7` |
 | Structural raw archive | `data/processed/futures_v9_structural/official_moex_iss_source.jsonl.gz` | `c29bf969a551f6805e4d79d6e9152ce8be2a0e9ba92c8c29f133f742f259bc20` |
 | Structural source manifest identity | canonical run identity | `b5b38505657bd3e879cc758f56d2acd989a37fb970727be7c71ddca2adcada68` |
 | Structural history identity | canonical run identity | `dfa0537822f639c7af381ca5512efcd81cc4921b5139e4449de9384549b76b31` |
@@ -116,6 +119,11 @@ identity и должен проверяться перед чтением.
   но сами исторические значения могут уточняться. Поэтому current-vintage snapshot не
   доказывает исходные publication bytes и остаётся development-only; `Last-Modified` для
   availability не используется.
+- Minfin OFZ auction result допускается только в конце напечатанного publication day:
+  `23:59:59 Europe/Moscow`, затем fill не раньше следующего factual open. Точное время
+  публикации и original historical bytes не доказаны; current-vintage record пригоден
+  только для development. Supplemental/correction/failed/announcement нельзя смешивать
+  с successful primary result или нулевым bid-to-cover.
 - Scalers, winsorization, correlation graph и thresholds обучаются только на train slice.
 - Test targets не участвуют в feature mask, threshold selection или early stopping.
 - Universe должен быть point-in-time. Fixed 30-name equity universe сохраняет возможный

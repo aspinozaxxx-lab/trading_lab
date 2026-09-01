@@ -72,6 +72,14 @@ record. Availability консервативно ставится на конец
 revisions и отсутствие original publication bytes; raw HTML, processed parquet и hashes
 хранятся вне Git.
 
+`market_lab.futures.minfin_ofz_auction_source` проходит официальный paginated result
+archive Минфина до нижней границы интервала, повторно проверяет result-index первой
+страницы, классифицирует каждую карточку и сохраняет listing/detail raw bytes с hashes.
+Успешный primary result обязан содержать issue/type/date, demand, placement, proceeds и
+cutoff/weighted price; yield обязателен кроме floating-rate ОФЗ-ПК. Date-only публикация
+доступна только в `23:59:59 Europe/Moscow`; current-vintage history не считается
+independent/original-vintage evidence.
+
 `market_lab.futures_v7` и `market_lab.futures_v8` — предыдущие neural generations.
 V8 разделяет training, target-free enrichment/context, admission и evaluation. Его base
 predictions сохранены, но authoritative PnL намеренно fail-closed.

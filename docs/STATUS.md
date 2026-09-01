@@ -381,9 +381,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    manifest SHA `f1701ec3...`. V19 выполнен после pre-outcome push и дал `NO_GO`:
    total return −0,03%, Sharpe 0,05, MDD −30,76%. Не выбирать magnitude/change days,
    smoothing, lag, blend или sign flip по увиденному результату.
-8. Следующий source-only приоритет — PIT результаты первичных аукционов ОФЗ: publication
-   timestamp, спрос/размещение, cutoff/weighted yield и неизменяемые raw pages. PnL не
-   запускать до проверки полноты 2021–2025 и заранее запечатанного экономического знака.
+8. Официальный Minfin OFZ source готов: 410 events, 364 primary results, 283 ОФЗ-ПД,
+   processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`; все карточки классифицированы
+   и primary fields полны. Availability консервативно равна концу publication day.
+9. До чтения следующего PnL запечатать один prior-only demand-strength protocol для
+   ОФЗ-ПД; не выбирать rank window, asset basket, sign или expiry по market outcome.
 
 ### P2 — разблокировать широкий structural exact execution
 

@@ -188,6 +188,35 @@ snapshot — только development source. Независимое подтв�
 архивирования страницы после каждой публикации. Raw не распространяется без проверки
 прав; при цитировании нужна ссылка на ЦБ.
 
+### Minfin OFZ auction results — current-vintage официальный event corpus
+
+Официальный архив Минфина содержит датированные карточки результатов первичных
+аукционов ОФЗ, а также отдельные corrections, несостоявшиеся и дополнительные размещения:
+
+- path: `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/`;
+- 410 карточек `2021-01-13..2025-12-24`: 364 успешных primary results,
+  30 failed/cancelled, 8 supplemental, 7 corrections и 1 announcement;
+- успешные primary rows по годам: `80/34/88/69/93`; 364 уникальных пары
+  `auction_date × issue_code`, из них 283 fixed-coupon ОФЗ-ПД;
+- processed: 73 794 bytes, SHA-256
+  `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480`;
+- manifest: 4 152 bytes, SHA-256
+  `c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52`;
+- raw archive: 490 listing/detail responses, 6 214 948 bytes, SHA-256
+  `f56af34a15a284e74f8364daf3abd6ae7d2978a01b22443e33ced079d72133c7`;
+- все карточки классифицированы, обязательные поля 364 primary results полны, archive
+  reverse chronology и неизменность result-index первой страницы во время сбора проверены;
+- `available_at = 23:59:59 Europe/Moscow` напечатанного publication day: точного времени
+  сайт не даёт, поэтому same-day market decision раньше этого момента запрещён.
+
+Primary record хранит demand, placed volume, proceeds, cutoff/weighted price и yield;
+`bid_to_cover` вычисляется как demand/placed. Для ОФЗ-ПК yield закономерно nullable,
+для ОФЗ-ИН распознаётся real yield. Это current-vintage HTML, original publication bytes
+не доказаны, поэтому источник допускается только к development challenger и требует
+forward collection для независимого подтверждения. Сайт указывает лицензию CC BY 4.0;
+raw всё равно остаётся вне Git. Первый bundle `...-v1` сохранён как superseded discovery:
+одна ошибочно помещённая в result group карточка announcement ещё имела класс `other`.
+
 ### Уже использованные источники
 
 - MOEX daily futures/active map: OHLC, settlement, volume, OI, front/next curve и
@@ -211,6 +240,7 @@ RUONIA использована в V15. Её причинная часть V16 �
 | P1 | Полный MOEX FUTOI 5m | Будущий forward timing/момент сделки | Current-vintage, 1 000-row cap, offset игнорируется; historical PIT отсутствует | `max(SYSTIME + buffer, retrieval_at) <= decision_at` |
 | P1 | CBR weekly liquidity forecast | Заранее известный рублёвый liquidity/fiscal-flow regime для SI | Bundle готов; original response bytes не доказаны | Только дата внутри record и `available_at <= decision_at` |
 | P1 | CBR daily Minfin FX operations | Прямой persistent FX flow для SI и будущего intraday timing | Current-vintage revisions; original publication bytes отсутствуют | Следующий рабочий день, не раньше 10:31 мск |
+| P1 | Minfin OFZ auction results | Causal demand/liquidity shock для RI/MIX/SI | Date-only и current-vintage; нужен sealed test и forward vintages | Только конец publication day, затем следующий factual open |
 | P2 | EIA Weekly Petroleum Status Report | Независимые supply/demand shocks для BR | Bundle готов; consensus отсутствует, delayed edge ещё не проверен | Только `available_at <= decision_at`; stale issue исключён |
 | P2 | CBR publication calendar, RUONIA term structure, key-rate text | Funding/carry и режим SI/RI | Часть числовых рядов уже использована | Publication timestamp, не observation date |
 | P3 | Issuer filings и corporate actions | Equity-specific fundamental events | Права, revision chain, page evidence | Только original publication/revision known by decision |
@@ -259,9 +289,9 @@ V17 и прямой CBR liquidity-forecast signal V18 завершены отр�
    smoothing или иной lag по увиденному outcome;
 5. для stability RI/MIX приоритетнее licensed MOEX/broker specs/order-book и новый unseen
    forward период; старые RVI/FUTOI thresholds по 2021–2025 не перебирать;
-6. проверить официальный PIT-корпус результатов аукционов ОФЗ: точные publication time,
-   demand/placed volume и cutoff/weighted yield; сначала source coverage и raw hashes,
-   затем один экономически запечатанный тест без outcome-driven thresholds;
+6. официальный Minfin OFZ corpus собран: 410 events, 364 primary results, все primary
+   fields полны, processed SHA `a8c5c024...`, manifest SHA `c6fcf390...`. Следующий шаг —
+   один заранее запечатанный causal demand-strength test без outcome-driven thresholds;
 7. любой следующий PnL начинается только после source manifest, `available_at` audit и
    нового sealed protocol. Continuous model может решать чаще суток, но не раньше
    фактического получения bucket.
