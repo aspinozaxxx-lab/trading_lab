@@ -69,8 +69,15 @@ function Test-ExistingComponent {
             continue
         }
         $snapshotPath = Split-Path -Parent $manifestPath
-        $auditOutput = & $python -m `
-            market_lab.futures.moex_v27_forward_component_source `
+        $auditModule = if (
+            [string]$manifest.protocol_id -eq "futures_v27_forward_fred_api_component_v1"
+        ) {
+            "market_lab.futures.moex_v27_forward_fred_api_component_source"
+        }
+        else {
+            "market_lab.futures.moex_v27_forward_component_source"
+        }
+        $auditOutput = & $python -m $auditModule `
             --audit-directory $snapshotPath
         if ($LASTEXITCODE -eq 0) {
             $audit = $auditOutput | Out-String | ConvertFrom-Json
@@ -118,12 +125,44 @@ function Invoke-Component {
     $componentOutput | Write-Output
 }
 
+function Invoke-AuthenticatedFredComponent {
+    if (Test-ExistingComponent -Component "macro_fred" -MatchSourceDate $false) {
+        return
+    }
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        $componentOutput = @(
+            & $python -m market_lab.futures.moex_v27_forward_fred_api_component_source `
+                --output-root $OutputRoot 2>&1
+        )
+        $componentExitCode = $LASTEXITCODE
+    }
+    finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+    }
+    if ($componentExitCode -ne 0) {
+        $detail = $componentOutput | Select-Object -Last 1
+        Write-Warning "Authenticated official FRED component failed without fallback: $detail"
+        return
+    }
+    $componentOutput | Write-Output
+}
+
 Push-Location -LiteralPath $RepositoryRoot
 try {
     Invoke-Component -Component $marketComponent -MatchSourceDate $true -Required $true
     Invoke-Component -Component "macro_cbr" -MatchSourceDate $false -Required $false
-    Invoke-Component -Component "macro_fred" -MatchSourceDate $false -Required $false
-    & $python -m market_lab.futures.v27_forward_component_readiness `
+    if (
+        -not [string]::IsNullOrWhiteSpace($env:FRED_API_KEY) -and
+        $env:FRED_API_KEY -match '^[a-z0-9]{32}$'
+    ) {
+        Invoke-AuthenticatedFredComponent
+    }
+    else {
+        Invoke-Component -Component "macro_fred" -MatchSourceDate $false -Required $false
+    }
+    & $python -m market_lab.futures.v27_forward_component_readiness_v2 `
         --output-root $OutputRoot
     if ($LASTEXITCODE -ne 0) {
         throw "V27 component readiness failed with exit code $LASTEXITCODE"

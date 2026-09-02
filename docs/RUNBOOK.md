@@ -53,6 +53,24 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\market-lab.exe doctor
 ```
 
+### Фоновые scheduled collectors без всплывающих окон
+
+Все repo registration scripts создают PowerShell actions с
+`-WindowStyle Hidden -NonInteractive`. Поэтому отдельная Windows Service не нужна:
+Task Scheduler хранит расписание, запускает wrappers в фоне и продолжает сохранять
+данные во внешнее хранилище. После изменения registration script перерегистрировать
+только соответствующую задачу; вручную удалять tasks не требуется. Проверка:
+
+```powershell
+schtasks.exe /query /fo CSV /v |
+  ConvertFrom-Csv |
+  Where-Object { $_.TaskName -like '\TradingLab*' } |
+  Select-Object TaskName, Status, 'Task To Run', 'Next Run Time'
+```
+
+У каждого PowerShell action должен присутствовать `-WindowStyle Hidden`. Не запускать
+collectors через видимый интерактивный `powershell.exe` в планировщике.
+
 RTX 5090/CUDA environment использует отдельный полный lock:
 
 ```powershell
@@ -1257,7 +1275,7 @@ V27 independent forward validation:
 ```powershell
 .\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v27_forward_component_readiness `
+  market_lab.futures.v27_forward_component_readiness_v2 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_paper_preflight `
@@ -1271,6 +1289,11 @@ official history `CLOSE/VOLUME/OPENPOSITION` каждого контракта. 
 `2026-09-02`; первые 253 common CLOSE дают 252 return sessions и являются только
 warmup, следующие 504 — immutable evaluation. До завершения warmup PnL/CAGR запрещены.
 Macro разрешён только после собственного actual retrieval и не ремонтирует прошлые dates.
+Если пользовательская переменная Windows `FRED_API_KEY` содержит валидный официальный
+ключ, wrapper использует authenticated API component; иначе остаётся anonymous route.
+Ключ нельзя передавать аргументом или сохранять в repo/log/raw/manifest. После
+authenticated failure fallback запрещён. Readiness показывает раздельные route counts,
+но никогда значение ключа.
 Для exact hard fallback нужен `MOEX_ALGOPACK_TOKEN`; generic weekdays запрещены.
 Подробности:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).

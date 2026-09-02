@@ -35,6 +35,15 @@ normalization/schema/availability changes, cache, backfill, partial persistence 
 а macro можно присоединить только если его actual `retrieved_at <= decision_at`;
 будущий snapshot не ремонтирует прошлое решение.
 
+Anonymous `fredgraph.csv` оказался недоступен из текущей сети, тогда как официальный
+`api.stlouisfed.org` отвечает. До получения ключа и до первого FRED snapshot запечатан
+authenticated component config SHA `2954c5a4...`, implementation `4a283074...`, а его
+приём в V48/V27 readiness — correction SHA `b638ee93...`. Route выбирается только по
+наличию валидного process environment `FRED_API_KEY`: ключ не передаётся через CLI, не
+пишется в config/raw/manifest/log, а после ошибки authenticated request fallback на
+anonymous route запрещён. Это транспортная замена того же official `STLFSI4`, не
+изменение economics, availability или macro join.
+
 ## Источник
 
 Scheduled source теперь использует
@@ -79,7 +88,7 @@ preflight commit `05a1f74` ничего не вычисляет кроме sourc
 ```powershell
 .\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v27_forward_component_readiness `
+  market_lab.futures.v27_forward_component_readiness_v2 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
@@ -88,6 +97,12 @@ Tasks: `TradingLabV27ForwardExecution` и `TradingLabV27ForwardDecision`. Wrappe
 сохраняется максимум один раз на текущую UTC/source date. Required market failure
 останавливает task, optional FRED/CBR failure остаётся явным в readiness. Каталоги
 forward data и будущего paper PnL находятся вне Git.
+
+Для authenticated FRED route ключ задаётся только вне репозитория, например в
+пользовательской переменной среды Windows. Не вставлять его в командную строку,
+PowerShell wrapper, YAML или документацию. После перезапуска процесса Планировщика
+wrapper сам выберет API route; readiness показывает только boolean `configured` и
+раздельные anonymous/authenticated counts.
 
 ```powershell
 .\.venv\Scripts\python.exe -m `

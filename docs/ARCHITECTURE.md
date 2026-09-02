@@ -822,6 +822,14 @@ macro с past decision и показывает provider gaps отдельно. �
 использует `v48_frontier_forward_readiness_v2`; V48 economics и все gates из V1
 остаются byte-identical.
 
+`moex_v27_forward_fred_api_component_source` — credential-safe transport для того же
+official `STLFSI4` через `api.stlouisfed.org`. Secret читается только из process
+environment, не попадает в persisted URL/errors/artifacts; authenticated failure не
+переключается на anonymous transport. `v27_forward_component_readiness_v2` dispatch-ит
+audit по sealed protocol id и раздельно считает оба FRED route, а
+`v48_frontier_forward_readiness_v3` добавляет только route/key-availability state к
+неизменной V48 economics.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

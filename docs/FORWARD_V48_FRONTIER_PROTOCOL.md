@@ -37,6 +37,12 @@ SHA `242d2684...`: persistent FRED outage отклоняет только FRED c
 записанные MOEX/CBR не удаляются. Старое значение не подставляется; поздний FRED
 доступен лишь решениям после его actual retrieval.
 
+Authenticated FRED route запечатан отдельной correction SHA `b638ee93...`: официальный
+API component SHA `2954c5a4...`, implementation `4a283074...`. Он сохраняет тот же
+`STLFSI4` и ту же causal availability. Выбор route зависит только от валидности
+`FRED_API_KEY`; ключ никогда не сохраняется, а fallback после authenticated failure
+запрещён. V48 parameters, execution, costs и promotion gates не менялись.
+
 ## Последовательные границы
 
 1. Source warmup: `54` option weekly levels и `253` common official CLOSE.
@@ -54,11 +60,12 @@ SHA `242d2684...`: persistent FRED outage отклоняет только FRED c
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v48_frontier_forward_readiness_v2 `
+  market_lab.futures.v48_frontier_forward_readiness_v3 `
   --option-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1 `
   --component-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
 Текущий state: option `1/54`, V27 CLOSE `0/253`, execution dates `1`, CBR `1`, FRED
-`0`, invalid snapshots `0`, `paper_economics_may_start=false`,
+anonymous/authenticated `0/0`, key configured `false`, invalid snapshots `0`,
+`paper_economics_may_start=false`,
 `annualization_allowed=false`, `live_trading_allowed=false`.

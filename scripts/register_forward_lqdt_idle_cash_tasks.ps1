@@ -24,7 +24,7 @@ function Register-LqdtTask {
     )
     $action = New-ScheduledTaskAction `
         -Execute "powershell.exe" `
-        -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$collector`" -Stage $Stage" `
+        -Argument "-NoProfile -WindowStyle Hidden -NonInteractive -ExecutionPolicy Bypass -File `"$collector`" -Stage $Stage" `
         -WorkingDirectory $RepositoryRoot
     $trigger = New-ScheduledTaskTrigger `
         -Weekly `

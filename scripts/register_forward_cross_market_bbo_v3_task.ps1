@@ -40,7 +40,7 @@ $trigger.Repetition.StopAtDurationEnd = $true
 $action = $definition.Actions.Create(0)
 $action.Path = "powershell.exe"
 $action.Arguments = (
-    "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"{0}`"" -f $wrapperPath
+    "-NoProfile -WindowStyle Hidden -NonInteractive -ExecutionPolicy Bypass -File `"{0}`"" -f $wrapperPath
 )
 $action.WorkingDirectory = $RepositoryRoot
 

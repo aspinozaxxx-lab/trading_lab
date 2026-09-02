@@ -17,7 +17,7 @@ function Register-V27Task {
     )
     $action = New-ScheduledTaskAction `
         -Execute "powershell.exe" `
-        -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$collectorScript`" -SnapshotKind $SnapshotKind" `
+        -Argument "-NoProfile -WindowStyle Hidden -NonInteractive -ExecutionPolicy Bypass -File `"$collectorScript`" -SnapshotKind $SnapshotKind" `
         -WorkingDirectory $RepositoryRoot
     $trigger = New-ScheduledTaskTrigger `
         -Weekly `

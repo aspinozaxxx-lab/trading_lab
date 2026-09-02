@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## V27 authenticated official FRED component — SEALED, KEY NOT CONFIGURED
+
+- Config SHA `2954c5a4...` и implementation `4a283074...` добавляют официальный
+  `api.stlouisfed.org/fred/series/observations` route для того же `STLFSI4`; V48/V27
+  admission correction SHA `b638ee93...` запечатана до ключа и первого API response.
+- Route выбирается только по валидному process environment `FRED_API_KEY`. Secret не
+  принимается через CLI и не пишется в config, raw, manifest или sanitized error;
+  authenticated failure не разрешает fallback на anonymous `fredgraph`.
+- Economics, series, observation window, actual-retrieval availability и causal join
+  не менялись. Readiness V2/V3 dispatch-ит raw replay по protocol id и считает FRED
+  anonymous/authenticated отдельно.
+- Текущий operational state: key configured `false`, FRED `0/0`, execution `1`, CBR
+  `1`, decision `0`, invalid `0`; paper economics и live trading запрещены.
+
 ## V48 frontier forward V1 — SEALED, JOINT WARMUP 1/54 + 0/253
 
 - Forward config SHA `1fbc8c10...` запечатан `2026-09-02T10:41:22Z`, когда option

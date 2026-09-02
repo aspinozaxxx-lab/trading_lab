@@ -47,6 +47,19 @@ availability не менялись; cache/backfill запрещены. Atomic V2
 component (`550` rows) прошли raw replay без единого failed check; FRED остаётся явно
 missing и не может задним числом ремонтировать прошлое решение.
 
+Официальный host `api.stlouisfed.org` доступен из среды и отвечает `400` без ключа,
+тогда как anonymous fredgraph зависает. До ключа/response запечатан authenticated FRED
+component SHA `2954c5a4...`, implementation `4a283074...`, V48 route correction
+`b638ee93...`. Wrapper использует API только при валидном `FRED_API_KEY`; credential
+не сериализуется, а после authenticated HTTP/parse failure anonymous fallback запрещён.
+Сейчас key configured `false`, anonymous/authenticated snapshots `0/0`.
+
+Все `16` Windows tasks `TradingLab*` переведены на фоновый запуск
+`powershell.exe -WindowStyle Hidden -NonInteractive`. XML verification подтвердил, что
+расписания, principal, Enabled/Disabled и остальные параметры не менялись. Все repo
+registration scripts также закрепляют hidden mode, поэтому окна не вернутся после
+перерегистрации; отдельная Windows Service не требуется.
+
 ## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
 
 V47 SHA `0b3524f4...`, seal `a20d16e`, implementation `234a23e`; canonical

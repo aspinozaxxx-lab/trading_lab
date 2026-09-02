@@ -11,7 +11,7 @@ if (-not (Test-Path -LiteralPath $collectorScript -PathType Leaf)) {
 
 $action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
-    -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$collectorScript`"" `
+    -Argument "-NoProfile -WindowStyle Hidden -NonInteractive -ExecutionPolicy Bypass -File `"$collectorScript`"" `
     -WorkingDirectory $RepositoryRoot
 $trigger = New-ScheduledTaskTrigger `
     -Weekly `

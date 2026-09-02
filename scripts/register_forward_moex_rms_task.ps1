@@ -9,7 +9,7 @@ if (-not (Test-Path -LiteralPath $collector -PathType Leaf)) {
 }
 $action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
-    -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$collector`"" `
+    -Argument "-NoProfile -WindowStyle Hidden -NonInteractive -ExecutionPolicy Bypass -File `"$collector`"" `
     -WorkingDirectory $RepositoryRoot
 $trigger = New-ScheduledTaskTrigger `
     -Weekly `
