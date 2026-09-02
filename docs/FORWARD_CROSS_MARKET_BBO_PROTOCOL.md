@@ -9,7 +9,8 @@
 
 Sealed config: `configs/moex_forward_cross_market_bbo_source_v1.yaml`, SHA-256
 `80d5202db7c0d85542f79f775a29a30ebe16ec94f8d745abd9ec9d7ab4f27d3d`, seal commit
-`95ca5b3`. Implementation commit: `33b002c`.
+`95ca5b3`. Implementation commit: `33b002c`; pre-value pagination-safe server-side
+universe filter: `97806f8`.
 
 ## Фиксированный universe
 
@@ -36,6 +37,10 @@ Core состоит из 35 инструментов: 30 акций, четыр�
 bulk RFUD и bulk CETS. Нормализованный Parquet содержит BBO, лучшую/общую depth,
 количество заявок, cumulative volume/value/trades/OI и clocks. Returns, labels, targets,
 signals, predictions, trades, equity и PnL запрещены.
+
+ISS all-securities endpoints могут быть paginated. Поэтому после metadata-only выбора
+контрактов запросы используют server-side `securities=...` ровно для sealed universe;
+это сохраняет четыре запроса и не зависит от того, на какой странице оказался тикер.
 
 ## Readiness и будущий эксперимент
 

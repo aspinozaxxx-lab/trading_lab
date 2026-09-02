@@ -72,6 +72,9 @@ Config SHA `80d5202d...`, seal `95ca5b3` зафиксировал до перв�
 `LQDT/SBMM/AKMM/TMON`. Implementation `33b002c` делает четыре bulk ISS-запроса на
 снимок и сохраняет BBO, лучшую/общую depth, number of orders, cumulative activity/OI,
 exchange clocks и actual retrieval. Returns/labels/signals/trades/PnL отсутствуют.
+До первого значения официальный pagination contract был учтён commit `97806f8`:
+каждый bulk request получает server-side `securities=...` exact sealed universe, поэтому
+тикеры за первой страницей не теряются и число запросов остаётся четыре.
 
 Срезы назначены каждые 10 минут `10:09..18:39` МСК. Core требует все 30 акций, четыре
 фьючерса и CNY с положительными non-locked BID/OFFER и best depth; context fund может

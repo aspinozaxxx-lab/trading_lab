@@ -10,6 +10,9 @@
   from 10:09 through 18:39 Moscow. It stores executable-side BBO, best/total depth,
   order counts, cumulative activity/OI and exchange/retrieval clocks, but no returns,
   labels, targets, signal, prediction, trade, equity or PnL.
+- Pre-value implementation commit `97806f8` adds official server-side
+  `securities=...` filtering for the exact sealed universe so ISS pagination cannot
+  silently drop late-page tickers; request count and source economics do not change.
 - Core is 35 instruments and requires positive non-locked BBO and best depth. Readiness
   requires at least 30 complete snapshots in each of 20 source-only discovery sessions,
   followed by a separate economic seal, 20 calibration and 60 unseen sessions.
