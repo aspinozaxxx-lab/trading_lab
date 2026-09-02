@@ -1,0 +1,100 @@
+﻿protocol_id: moex_forward_cny_relative_value_source_v1
+protocol_version: 1
+status: sealed_before_first_forward_quote_or_swaprate_snapshot
+scope: forward_source_only_no_signal_no_return_no_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol:
+  statement: >-
+    Point-in-time CNYRUBF funding and simultaneous executable quotes against quarterly
+    CR may support a collateralized relative-value paper strategy, conditional on
+    separately proven broker collateral yield and haircut rules.
+  this_protocol_computes_signal_return_or_pnl: false
+  historical_2026_backfill: forbidden
+  broker_collateral_assumptions_in_this_source: none
+
+source:
+  provider: MOEX_ISS
+  current_endpoint: https://iss.moex.com/iss/engines/futures/markets/forts/securities.json
+  history_endpoint: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/CNYRUBF.json
+  query: {iss.meta: 'off', iss.only: 'securities,marketdata'}
+  requests:
+    perpetual: {assets: CNYRUBTOM, exact_secid: CNYRUBF}
+    quarterly: {assets: CNY, secid_regex: '^CR[HMUZ][0-9]$', nearest_future_contracts: 2}
+  perpetual_history_columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - SETTLEPRICE
+    - SWAPRATE
+    - NUMTRADES
+    - VOLUME
+  access_mode: public_delayed
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+
+temporal_semantics:
+  seal_moscow_date: '2026-09-02'
+  earliest_allowed_source_date: '2026-09-02'
+  current_quote_available_at: actual_retrieval_utc
+  funding_history_available_only_after_trade_date: true
+  history_till: retrieval_moscow_date_minus_one_calendar_day
+  forward_only: true
+  old_experiments_may_not_read_this_source: true
+
+required_security_columns:
+  - SECID
+  - BOARDID
+  - ASSETCODE
+  - LASTTRADEDATE
+  - LASTDELDATE
+  - MINSTEP
+  - STEPPRICE
+  - INITIALMARGIN
+  - BUYSELLFEE
+  - SCALPERFEE
+  - PREVSETTLEPRICE
+  - LOTVOLUME
+
+required_marketdata_columns:
+  - SECID
+  - BOARDID
+  - BID
+  - OFFER
+  - SPREAD
+  - LAST
+  - SETTLEPRICE
+  - NUMTRADES
+  - VOLTODAY
+  - OPENPOSITION
+  - SYSTIME
+  - TRADEDATE
+
+quality_gates:
+  exact_perpetual_identity: true
+  deterministic_nearest_two_quarterlies: true
+  security_marketdata_identity_exact: true
+  quote_source_date_not_before_seal: true
+  funding_history_before_retrieval_date_only: true
+  raw_replay_exact: true
+  duplicate_source_date_rejected_by_scheduler: true
+  forbidden_derived_columns_absent: true
+
+output:
+  root: data/forward/moex-cny-relative-value-v1
+  snapshot_prefix: snapshot_
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [return, returns, label, target, prediction, pnl, profit, equity]
+
+future_economic_protocol_minimums:
+  discovery_unique_quote_dates: 40
+  calibration_unique_quote_dates: 20
+  unseen_evaluation_unique_quote_dates: 60
+  execution_requires_observed_positive_bid_offer: true
+  entry_signal_uses_only_prior_published_swaprate: true
+  broker_collateral_yield_haircut_and_margin_rules_byte_pinned: true
+  numeric_go_requires_forward_multiyear_confirmation: true
