@@ -583,6 +583,23 @@ canonical run `v38_moex_margin_risk_governor_20260902T020147Z_3f9288e3` имею
 переключаться post-hoc на MR2/MR3 и не инвертировать правило. Forward RMS task остаётся
 source-only до завершения заранее объявленных discovery/calibration/evaluation окон.
 
+### Dividend-stock calendar spreads V1 — canonical NO-GO
+
+Source and economic outputs already exist and must not be overwritten. Offline replay:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_dividend_calendar_spread_source `
+  --audit-only
+.\.venv\Scripts\python.exe -m market_lab.futures.dividend_calendar_spread_v1 `
+  --audit-directory D:\Projects\trading_lab_data\runs\dividend_calendar_spread_v1_20260902T032624Z_52a8ce06
+```
+
+Source manifest `a8c1b0b0...` covers 53 spreads and replays 222 raw responses.
+Economic config `52a8ce06...` produced 31 cashflow-change events and zero executable
+following-quote entries, verdict `NO_GO`. Do not rerun collection, change sign/lag,
+select events, relax bid/ask entry or use same-day RMS. A successor requires an earlier
+original-timestamp issuer/board disclosure source and a new pushed protocol.
+
 ### Sealed V27-R1 robustness audit
 
 V27-R1 не пересчитывает signal или execution и читает только дату/combined equity из

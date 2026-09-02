@@ -1,14 +1,25 @@
 ﻿# Реестр экспериментов
 
-## Dividend-adjusted single-stock calendar spreads — source V1 sealed
+## Dividend-adjusted single-stock calendar spreads — V1 NO-GO
 
 - Source-only SHA `ad9a3008...`, seal `3e8dd71` precedes all selected spread prices.
   Universe GAZR/SBRF/ROSN/TATN/NOTK selected only by positive PIT cashflow coverage and
   official exchange spread metadata, never returns.
 - Cashflow coverage: 4 994 rows, 170 dates. Metadata: 53 spreads = `10/10/10/12/11`;
   every derived archive code exists in the official public list.
-- Status: collector/output/economics pending. This is a new dividend-adjusted
-  market-neutral family, not Calendar Spread V5 and not a post-hoc threshold change.
+- Canonical source: `data/processed/info_radar/moex-dividend-calendar-spreads-2023-2025-v1/`;
+  manifest `a8c1b0b0...`, raw `439a514a...`; 3 513 ISS rows, 3 556 public-archive
+  rows, 222 exact responses and full raw replay true. Archive has 3 248 reported-trade
+  rows versus zero in ISS.
+- Economic config SHA `52a8ce06...`, seal `adf36d5`, implementation `7fba805` and
+  empty-ledger audit correction `f62fdbd` precede the successful canonical output.
+  One fixed rule used strictly prior RMS cashflow, opposite fair-value sign, following
+  quote entry, bid/ask fills, 2/4/8 additional points and no parameter search.
+- Canonical `runs/dividend_calendar_spread_v1_20260902T032624Z_52a8ce06/`; metrics
+  `18646592...`, manifest `37759b73...`, independent audit exact. There were 31
+  cashflow-change events and **0 executable entries**: the following quote never left
+  positive edge to the fixed fair target. Verdict `NO_GO`; do not change sign, lag,
+  threshold, event subset or use same-day RMS on this history.
 
 ## V39 weekly option-OI tail governor — canonical GO to forward confirmation
 

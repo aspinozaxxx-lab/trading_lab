@@ -85,7 +85,7 @@ option/futures snapshots `0/0`; paper economics и CAGR reporting false. Пос�
 warmup потребуются 504 sessions/104 weeks/two full years. Полный контракт:
 [FORWARD_V39_PROTOCOL.md](FORWARD_V39_PROTOCOL.md).
 
-## Новая независимая ветка: dividend-adjusted single-stock spreads — SOURCE SEALED
+## Dividend-adjusted single-stock spreads — NO-GO
 
 RMS cashflow не покрывает SI/RI/BR/MIX, зато даёт 4 994 point-in-time anticipated
 cashflow rows на 170 dates для GAZR/SBRF/ROSN/TATN/NOTK. Official series metadata
@@ -93,11 +93,23 @@ cashflow rows на 170 dates для GAZR/SBRF/ROSN/TATN/NOTK. Official series me
 archive codes присутствуют в public MOEX spread archive. Price/Bid/Ask/PnL до seal не
 читались.
 
-Source-only config SHA `ad9a3008...`, seal commit `3e8dd71`. Будущий механизм —
-dividend-adjusted near/far fair value с atomic exchange spread, экономически отличный
-от провалившихся core4 price-only rules. Экономическое правило ещё не задано; следующий
-шаг — immutable raw collection/replay. До отдельного pushed strategy protocol returns,
-threshold/sign selection и PnL запрещены.
+Source-only config SHA `ad9a3008...`, seal commit `3e8dd71`; adapter commits
+`be2e4d3..92aed3d`. Canonical source
+`data/processed/info_radar/moex-dividend-calendar-spreads-2023-2025-v1/` имеет 53
+спреда, 3 513 ISS rows, 3 556 archive rows и 222 exact raw responses. Manifest
+`a8c1b0b0...`, raw `439a514a...`; полный series/board/history/HTML/CSV replay true.
+
+Economic V1 SHA `52a8ce06...`, seal `adf36d5`, implementation `7fba805` и
+empty-ledger audit correction `f62fdbd` были pushed до успешного output. Единственное
+правило: strictly prior RMS cashflow между expirations задаёт opposite fair shift;
+вход только на следующей bid/ask quote при остающемся положительном edge, затем
+fair-target/2-edge stop/10 observations, дополнительные costs 2/4/8 points.
+Canonical `runs/dividend_calendar_spread_v1_20260902T032624Z_52a8ce06/`; metrics
+`18646592...`, manifest `37759b73...`, audit exact. Из 31 cashflow-change events не
+осталось ни одного executable entry: следующая quote уже не давала положительный edge.
+Verdict `NO_GO`. Same-history sign/lag/threshold/events/holding и same-day RMS закрыты;
+следующий осмысленный dividend-source должен появляться **раньше** RMS/рынка, например
+original-timestamp issuer/board disclosures, и проверяться только новым seal.
 
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 

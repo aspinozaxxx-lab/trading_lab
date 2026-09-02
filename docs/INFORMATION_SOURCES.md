@@ -852,6 +852,15 @@ RUONIA использована в V15/V26/V27; key rate — в V27. Причи�
 
 ## Следующая проверяемая гипотеза
 
+Dividend-adjusted single-stock spread V1 завершён `NO_GO`: официальный RMS дал 31
+изменение ожидаемых выплат, но при strictly-prior information и входе на следующей
+public bid/ask quote исполнимых сделок было 0. RMS cashflow больше не использовать с
+same-history sign/lag/threshold tuning. Для этой семьи нужен источник, который
+предшествует repricing: original publication timestamp совета директоров/эмитента,
+дивидендная рекомендация, размер, record date и revision chain. Текущий MOEX/NSD
+current-vintage dividend reference без доказанного original `available_at` годится
+только для сверки факта, не для historical alpha.
+
 V16 имеет статус `INVALID_FUTOI_LOOKAHEAD`: 932/1 044 signal states не были доступны к
 decision. Новые daily FUTOI/RVI thresholds на тех же 2021–2025 закрыты.
 
