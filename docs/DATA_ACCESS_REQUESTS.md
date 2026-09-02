@@ -18,6 +18,40 @@ collector. Перед оплатой нужен письменный ответ 
 какие рынки/TradeStats/OrderStats/OBStats/depth доступны через API token. До ответа —
 `SLEEPING_NO_CREDENTIALS_NO_SPEND`; токен в Git/log/raw не сохранять.
 
+### Проверка официальной документации 2026-09-02
+
+- MOEX ALGOPACK заявляет Super Candles с более чем 50 flow/book features, 5-минутным
+  обновлением и историей с 2020 года. Официальный futures REST endpoint
+  `/iss/datashop/algopack/fo/tradestats.json` требует подписку и при авторизации
+  обслуживается через `apim.moex.com`.
+- Futures-раздел документации явно перечисляет `tradestats` и `obstats`; в отличие от
+  equity/FX menu, отдельного futures `orderstats` там нет. Generic Python API метод
+  `orderstats` перечисляет, поэтому доступность и schema именно для `FO` остаются
+  неоднозначными и должны проверяться test token/sample response, а не предполагаться.
+- `tradestats` даёт aggressive buy/sell volume/trades/imbalance; `obstats` — BBO/deeper
+  spread, levels, depth и book imbalance. Этого достаточно для заранее запечатанного
+  cross-market neural timing challenger, но не для реконструкции полной queue priority.
+- Официальный `Full_orders_log` — live FAST Gate option: unlimited-depth reconstruction
+  и все cancel/move events, обязательный договор на биржевую информацию и текущая
+  опубликованная доплата `21 000 RUB/month` сверх FAST access. Страница не обещает
+  исторический архив; этот продукт нельзя считать backtest data без отдельного
+  письменного подтверждения MOEX.
+
+Минимальный следующий запрос: test token без автоматической покупки, один sample day
+для SI/RI/BR/MIX по `tradestats/obstats` и письменное подтверждение non-display ML rights,
+history start, pagination, revisions и наличия/отсутствия FO `orderstats`. Collector
+`market_lab.futures.moex_forward_microstructure_source` уже реализован с target-free
+closed schema и не сохраняет token. До credentials server timer для paid route не
+включать; public delayed FUTOI не подменяет real-time microstructure.
+
+Официальные страницы:
+
+- `https://moexalgo.github.io/`;
+- `https://moexalgo.github.io/docs/api/super-candles-фьючерсы/`;
+- `https://moexalgo.github.io/docs/api/get-fo-tradestats/`;
+- `https://moexalgo.github.io/docs/method/supercandles/`;
+- `https://www.moex.com/a588`.
+
 ## P0 — original-timestamp dividend disclosures
 
 ### Зачем

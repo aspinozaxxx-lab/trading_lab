@@ -2095,6 +2095,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P1 — новая информация для intraday timing и устойчивости
 
+Официальная документация повторно проверена 2026-09-02: futures ALGOPACK даёт
+5-минутные `tradestats/obstats` и заявляет Super Candles history с 2020 года, но FO
+`orderstats` в futures REST menu не подтверждён. `Full_orders_log` за 21 000 RUB/month
+— live FAST option, а не заявленный historical archive. До test token и письменных
+non-display ML rights новый spend запрещён; готовый target-free collector остаётся
+sleeping и должен запускаться только на `gpu-mlserver` после credentials.
+
 1. Считать V16 `INVALID`: 932/1 044 FUTOI states нарушают `available_at <= decision_at`.
    Не использовать его return, diagnostics или thresholds для дальнейшего отбора.
 2. Полный официальный FUTOI 5m уже сохранён как current-vintage/forward source:
