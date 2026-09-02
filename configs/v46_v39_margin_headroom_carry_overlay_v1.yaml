@@ -1,0 +1,78 @@
+﻿protocol_id: futures_v46_v39_margin_headroom_carry_overlay_v1
+protocol_version: 1
+status: sealed_before_any_additive_overlay_equity_or_metric
+declared_at_utc: '2026-09-02T09:59:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Preserve 100% of frozen V39 instead of diluting it to 80%, and use a fixed 20% of
+  causally verified free margin headroom for the frozen active-cap broad cash-carry
+  sleeve. Add only carry return above the displaced 50% RUONIA cash baseline. This
+  self-financing overlay may improve V39 return and worst year without adding
+  directional leverage.
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    primary: {file: combined_ledger_primary.parquet, sha256: 1820996ba32b3ef2c313cf9d2fbcffb40eff3f7869a72db042814313c1908976, rows: 1272}
+    doubled: {file: combined_ledger_doubled.parquet, sha256: 5a4751ce2d7d6c2b32dd27d4cf2044a35159291a191042757c75355d0019a616, rows: 1272}
+    stress: {file: combined_ledger_stress.parquet, sha256: da088adc061786ab2d5b43858dbeeef2af4c007c9849e538e207da937bd26561, rows: 1272}
+  broad_carry:
+    root: runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172
+    protocol_sha256: e5d91172a7b78fa25cabe2568d09c33975d472896c40b871e3d33ff6f071907c
+    manifest: {file: manifest.json, sha256: 9fa21e58187a55a0367cf09142f6b91fa7a444314a04e72c539d256342c5227e}
+    metrics: {file: metrics.json, sha256: aca91c52771b1e6f682bdef2a3577a3adf10532f3883b86c607c5f8bfc592cd5}
+    ledger: {file: daily_ledger.parquet, sha256: d04539a419e72ce4a506d8db8c1c187bae89eed3642dfbe2648117df5fafa955, rows: 1827}
+    audit: {file: audit.json, sha256: 4fbad76d8506b57a3e8bfea9bcc8d4381e997fe8c80ed8fffc1df3190d773e2f}
+
+overlay:
+  v39_directional_nav_weight: 1.0
+  fixed_initial_carry_cash_fraction: 0.20
+  rebalance_overlay_after_initial_allocation: never
+  displaced_cash_baseline: cumulative_half_ruonia_daily_return
+  added_value_formula: v39_normalized_nav_plus_0.20_times_active_cap_nav_minus_half_ruonia_baseline_nav
+  no_directional_leverage_added: true
+  no_weight_search: true
+
+headroom:
+  source: strictly_prior_v39_modeled_initial_margin_div_combined_ending_equity
+  minimum_uncommitted_nav_reserve: 0.10
+  full_overlay_requires_prior_margin_fraction_lte: 0.70
+  if_requirement_fails: overlay_sleeps_until_next_strictly_prior_eligible_session
+  no_partial_scaling: true
+
+scenario_mapping:
+  primary: {v39: primary, carry_column: overlay_active_cap_primary_nav}
+  doubled: {v39: doubled, carry_column: overlay_active_cap_doubled_nav}
+  stress: {v39: stress, carry_column: overlay_active_cap_zero_cashflow_stress_nav}
+  execution_stress: {v39: stress, carry_column: overlay_active_cap_delayed_fill_stress_nav}
+
+alignment:
+  v39_session_calendar_is_authoritative: true
+  carry_and_half_ruonia_asof_v39_session_date: true
+  same_start_required: '2020-12-30'
+  protected_from: '2026-01-01'
+
+required_gates:
+  all_scenario_cagr_gte_corresponding_v39: true
+  all_scenario_sharpe_gte_corresponding_v39: true
+  all_scenario_mdd_lte_corresponding_v39: true
+  all_scenario_worst_year_gte_corresponding_v39: true
+  primary_positive_years_gte: 5
+  all_headroom_checks_true: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v46_v39_margin_headroom_carry_overlay_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet]
+
+limitations:
+  - Parent outcomes are already known and overlap; V46 is same-history portfolio engineering.
+  - Historical broker margin offsets and the actual cash instrument are not proved.
+  - Active-cap remains a normalized proxy rather than broker-verified integer sizing.
+  - Historical evidence cannot guarantee profit or authorize live trading.
