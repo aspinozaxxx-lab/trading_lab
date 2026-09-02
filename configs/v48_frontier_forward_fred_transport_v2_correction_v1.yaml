@@ -1,0 +1,71 @@
+﻿protocol_id: v48_frontier_forward_fred_transport_v2_correction_v1
+protocol_version: 1
+status: sealed_before_first_anonymous_transport_v2_FRED_component
+declared_at_utc: '2026-09-02T22:03:54Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Admit the header-only anonymous FRED transport V2 into V27/V39/V48/V49 forward
+  readiness while preserving the authenticated route, frozen STLFSI4 semantics,
+  causal macro join, warmup, evaluation and every economic promotion gate.
+
+parent_readiness:
+  protocol_path: configs/v48_frontier_forward_fred_api_correction_v1.yaml
+  protocol_sha256: b638ee931574a4b526125d80e1cef355fb223e30a724cb3aef846704ffa70c6f
+  implementation_path: src/market_lab/futures/v27_forward_component_readiness_v2.py
+  implementation_sha256: d8a4d17bc8438a00c8e3fcb3b54684527f34f500eea89a59b4d0f35513f90c05
+
+anonymous_transport_v2:
+  protocol_path: configs/futures_v27_forward_fred_anonymous_transport_v2.yaml
+  protocol_sha256: 8a26480dd25f17e3522b00efdb5f83bb67dee7ff0e95351cf460581fc5c01028
+  implementation_path: src/market_lab/futures/moex_v27_forward_fred_anonymous_transport_v2.py
+  implementation_sha256: 5cf38c9234b0428e13be56cf07ae425fc82cf02a756cce08e4e956db5b0456ed
+  existing_complete_snapshots_at_seal: 0
+
+authenticated_transport_v1:
+  implementation_path: src/market_lab/futures/moex_v27_forward_fred_api_component_source.py
+  implementation_sha256: 4a283074ce6b782e6f4e7c915758c438d443e38ff0f69c0f36e91ea02572df5c
+  remains_approved_when_valid_key_configured: true
+
+route_policy:
+  valid_FRED_API_KEY: authenticated_API_v1_only
+  absent_FRED_API_KEY: anonymous_fredgraph_header_v2_only
+  fallback_after_selected_route_failure: forbidden
+  same_process_try_both_routes: forbidden
+  selection_by_signal_market_return_or_PnL: forbidden
+  credential_persistence: forbidden
+
+economic_invariants:
+  STLFSI4_series_or_values_changed: false
+  observation_and_effective_date_changed: false
+  conservative_release_availability_changed: false
+  macro_join_rule_changed: false
+  V27_V39_V48_V49_signal_or_weight_changed: false
+  execution_cost_margin_capacity_or_quote_mark_changed: false
+  warmup_evaluation_or_promotion_gates_changed: false
+  historical_2026_backfill: forbidden
+  economic_parameters_changed: 0
+
+readiness_outputs:
+  total_valid_FRED_components: true
+  anonymous_v1_count: true
+  anonymous_v2_count: true
+  authenticated_v1_count: true
+  causal_joinable_decision_dates: true
+  signal_return_target_prediction_or_pnl: forbidden
+
+state_at_seal:
+  market_execution_dates: 1
+  market_decision_dates: 1
+  CBR_components: 1
+  anonymous_FRED_v1_components: 0
+  anonymous_FRED_v2_components: 0
+  authenticated_FRED_v1_components: 0
+  causally_joinable_decision_dates: 0
+  forward_PnL_computed: false
+
+limitations:
+  - Current-vintage STLFSI4 cannot repair a decision retrieved before the macro component.
+  - CDN header compatibility may fail again and must remain explicit missing data.
+  - A readiness pass does not prove future return or authorize live trading.
