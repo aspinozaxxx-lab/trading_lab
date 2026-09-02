@@ -1,0 +1,117 @@
+﻿protocol_id: futures_v27_forward_paper_v1
+protocol_version: 1
+status: sealed_before_first_valid_forward_snapshot_or_forward_pnl
+declared_at_utc: '2026-09-02T00:45:10Z'
+research_only: true
+live_trading_allowed: false
+
+source_contract:
+  protocol: configs/futures_v27_forward_validation_v2.yaml
+  protocol_sha256: f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932
+  implementation: src/market_lab/futures/moex_v27_forward_validation_source.py
+  implementation_sha256: f38a41f004bc3a1fd3dbb3a4d803c59e37ef51e8341f6251107c7a8c5bede79a
+  source_root: data/forward/v27-validation-v2
+  audited_snapshots_only: true
+  duplicate_kind_source_date_policy: reject
+  source_date_before_2026_09_02: reject
+  historical_2026_backfill: forbidden
+
+frozen_parent_implementations:
+  v12_signal:
+    path: src/market_lab/futures_v12_core4_correlation_trend.py
+    sha256: 27ca77002391df82edca57a2bfc02e2a0b1971693f7be37b190945b1fd512275
+  v25_stlfsi_governor_reference:
+    path: src/market_lab/futures_v25_stlfsi_stress_governor.py
+    sha256: 34d1520a7e8f18cb2f9f1612471a9d5b278d6af2d27418fbe38f75f6718201db
+  v26_capacity_reference:
+    path: src/market_lab/futures_v26_stlfsi_levered_ruonia_capacity.py
+    sha256: 8ffe540f99dccf30106af426da7d3e98b435d244b66a040c4ade56c5cc5a0718
+  v27_monetary_governor_reference:
+    path: src/market_lab/futures_v27_key_rate_extreme_governor.py
+    sha256: 8c86f97be3ae0cef09f4f4d1a79a609f1063e7ca0eebab1a67a4c69a267dea66
+  roll_planner:
+    path: src/market_lab/futures/roll.py
+    sha256: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+
+decision_panel_mapping:
+  trade_date: source_date
+  asset_code: logical_asset
+  secid: secid
+  expiration_date: last_trade_date
+  open: official_open
+  high: official_high
+  low: official_low
+  close: official_close
+  settle: official_settle
+  volume: official_volume
+  open_interest: official_open_interest
+  current_LAST_accepted_as_close: false
+  current_SETTLEPRICE_accepted_as_close: false
+  missing_active_close_policy: cash_and_critical_failure
+  missing_contract_or_session_policy: missing_never_fill
+
+roll:
+  confirmation_days: 2
+  hard_fallback_sessions: 5
+  dominance_ratio: 1.0
+  requires_both_volume_and_open_interest: true
+  overlap_price_column: settle
+  execution_price_column: open
+  official_future_session_calendar_required_for_hard_fallback: true
+  calendar_provider: MOEX_machine_readable_calendar
+  calendar_endpoint: https://iss.moex.com/iss/calendars/futures
+  calendar_documentation: https://www.moex.com/a2836
+  calendar_auth_environment_variable: MOEX_ALGOPACK_TOKEN
+  calendar_value_or_token_may_be_written_to_manifest: false
+  unavailable_calendar_policy: >-
+    block any hard-fallback-dependent position and promotion; never substitute generic
+    weekdays or infer future sessions from future prices
+
+signal_and_decision_timing:
+  log_momentum_horizons_return_sessions: [21, 63, 126, 252]
+  volatility_lookback_return_sessions: 60
+  covariance_lookback_return_sessions: 60
+  required_common_price_sessions_before_first_finite_252_return_signal: 253
+  warmup_reported_pnl: forbidden
+  weekly_decision: last_factual_session_of_completed_W_SUN_week
+  week_may_be_declared_complete_only_after_week_end: true
+  intrawweek_partial_last_date_may_be_treated_as_week_end: false
+  execution: next_factual_execution_observation_after_decision
+  missing_open_bid_or_offer: reject_never_fill
+
+forward_governor_adaptation:
+  reason: parent_functions_contain_historical_pre_2026_guard_and_fixed_state_counts
+  allowed_change: remove_only_historical_date_guard_and_historical_expected_counts
+  stlfsi4_boundary: 0.0
+  stlfsi4_maximum_age_calendar_days: 14
+  key_rate_boundary_percent: 20.0
+  key_rate_comparison: greater_than_or_equal_goes_to_cash
+  key_rate_maximum_age_calendar_days: 7
+  missing_or_stale_macro: cash
+  governor_may_increase_parent_risk: false
+
+evaluation:
+  evaluation_starts_after_common_price_sessions: 253
+  minimum_evaluation_sessions: 504
+  minimum_weekly_decisions: 104
+  minimum_calendar_years: 2
+  first_252_return_sessions_are_signal_state_only: true
+  no_interim_cagr_or_promotion: true
+  parameter_selection_from_forward_data: 0
+  promotion_gates_inherited_byte_identical_from_forward_v1: true
+  second_unseen_confirmation_required: true
+  broker_exact_audit_required: true
+
+outputs:
+  root: runs/v27-forward-validation-v2
+  before_warmup_complete: operational_readiness_only
+  immutable: true
+  contents_in_git: false
+
+forbidden:
+  - computing_or_reporting_warmup_pnl
+  - generic_business_day_calendar_substitution
+  - treating_partial_current_week_as_completed_week
+  - using_LAST_or_SETTLEPRICE_as_signal_CLOSE
+  - changing_parameters_after_forward_observations
+  - live_trading_from_this_protocol
