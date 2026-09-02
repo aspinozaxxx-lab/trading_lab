@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab option-surface snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 23:55:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@option-surface.service
+
+[Install]
+WantedBy=timers.target

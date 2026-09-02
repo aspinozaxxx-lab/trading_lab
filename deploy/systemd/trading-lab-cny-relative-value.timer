@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab CNY relative-value snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 18:30:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@cny-relative-value.service
+
+[Install]
+WantedBy=timers.target

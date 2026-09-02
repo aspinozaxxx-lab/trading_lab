@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab V27 end-of-day decision snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 23:45:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@v27-decision.service
+
+[Install]
+WantedBy=timers.target

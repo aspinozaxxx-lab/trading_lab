@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab cash-carry decision snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:49:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@cash-carry-decision.service
+
+[Install]
+WantedBy=timers.target

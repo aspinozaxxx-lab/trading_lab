@@ -1,0 +1,30 @@
+[Unit]
+Description=Trading Lab immutable forward collector (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=trading-lab
+Group=trading-lab
+WorkingDirectory=/opt/trading_lab
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=MARKET_LAB_STORAGE_ROOT=/srv/trading_lab_data
+EnvironmentFile=-/etc/trading-lab/collector.env
+ExecStart=/opt/trading_lab/.venv/bin/python -m market_lab.ops.forward_collector --job %i --storage-root /srv/trading_lab_data
+TimeoutStartSec=15min
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+LockPersonality=true
+RestrictSUIDSGID=true
+ReadWritePaths=/srv/trading_lab_data
+
+[Install]
+WantedBy=multi-user.target

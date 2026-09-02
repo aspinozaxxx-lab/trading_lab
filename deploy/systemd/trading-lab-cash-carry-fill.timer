@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab cash-carry fill snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:59:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@cash-carry-fill.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab money-market fund-pool decision snapshot
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:49:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@fund-pool-decision.service
+
+[Install]
+WantedBy=timers.target

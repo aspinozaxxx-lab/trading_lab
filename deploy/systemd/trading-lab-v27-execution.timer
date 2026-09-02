@@ -1,0 +1,11 @@
+[Unit]
+Description=Trading Lab V27 execution observation
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 10:05:00
+AccuracySec=1s
+Persistent=false
+Unit=trading-lab-collector@v27-execution.service
+
+[Install]
+WantedBy=timers.target

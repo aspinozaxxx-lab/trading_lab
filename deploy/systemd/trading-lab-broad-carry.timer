@@ -1,0 +1,13 @@
+[Unit]
+Description=Trading Lab broad carry snapshots every ten minutes
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 10..17:09/10:00
+OnCalendar=Mon..Fri *-*-* 18:09,19,29,39:00
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=false
+Unit=trading-lab-collector@broad-carry.service
+
+[Install]
+WantedBy=timers.target
