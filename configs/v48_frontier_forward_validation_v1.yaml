@@ -1,0 +1,126 @@
+﻿protocol_id: v48_frontier_forward_validation_v1
+protocol_version: 1
+status: sealed_before_first_V27_forward_snapshot_or_any_V48_forward_economic_outcome
+declared_at_utc: '2026-09-02T10:41:22Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Test the single preselected V48 frontier mode on genuinely new option, futures,
+  margin, quote and fee observations. The test targets at least 20% annualized return
+  after conservative execution costs; 35% is a stretch gate, not a promise.
+
+development_identity:
+  protocol_path: configs/v48_v47_exact_integer_execution_v1.yaml
+  protocol_sha256: 3b7ae0e4411c2691564491491dc6ef66c623f27cf89c6cd08c33387bd26e5e4b
+  implementation_path: src/market_lab/futures_v48_v47_exact_integer_execution.py
+  implementation_sha256: 76a7905836870a61ab0706e1c82208daa1c3bb0728b58276bb3f807f21302cb3
+  canonical_run: runs/v48_v47_exact_integer_execution_v1_20260902T102529Z_3b7ae0e4
+  metrics_sha256: ee23220b09d2d9b627822c20cc0f87461f75c3b52366d8edf9b82a135d3c8984
+  audit_sha256: b319678223ddf55185c6f7a2aaffdb8e282ea629a8328fdcb72aeec9d5ec01b0
+  development_verdict: EXACT_EXECUTION_GATES_PASS
+  development_is_not_forward_evidence: true
+
+forward_parents:
+  V39:
+    protocol_path: configs/futures_v39_forward_validation_v1.yaml
+    protocol_sha256: 3677bcca775da78089d0cfc81b92f0634b72eab777c040ad57e552da75bc6305
+    readiness_path: src/market_lab/futures/v39_forward_validation_readiness.py
+    readiness_sha256: 6e798cbd0491612d114f66b6041a8e639d49e1f41e216174af13088d43e8672c
+    economics_inherited_without_change: true
+  V27_transport:
+    compatibility_path: configs/futures_v27_forward_transport_compatibility_v1.yaml
+    compatibility_sha256: ae70f0d4979ee724bb9f0759cc7721ad03fed739cf45ae52b8003aa9cb2cf230
+    source_protocol_sha256: f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932
+  V27_paper:
+    protocol_path: configs/futures_v27_forward_paper_v1.yaml
+    protocol_sha256: d68f0595ab383e618f4daf1c810190fbb0479d2c6e667655bc597294d5839a76
+
+fixed_mode:
+  name: frontier
+  V39_mapped_target_multiplier: 1.50
+  maximum_gross_notional_multiple: 3.00
+  initial_margin_buffer_multiplier: 2.00
+  maximum_prior_official_volume_participation: 0.01
+  broad_carry_cash_fraction: 0.00
+  exact_integer_contracts: true
+  zero_target_and_direction_preserved: true
+  selection_after_forward_outcome: forbidden
+
+decision_and_execution:
+  universe: [SI, RI, BR, MIX]
+  decision_signal: byte_identical_V39_after_joint_warmup
+  decision_price: official_MOEX_daily_CLOSE
+  decision_option_state: latest_completed_week_strictly_before_decision_week
+  sizing_equity: prior_paper_equity
+  sizing_specs_and_initial_margin: latest_captured_before_order
+  next_session_execution_observation: required
+  buy_mark: observed_OFFER
+  sell_mark: observed_BID
+  missing_side_or_nonpositive_depth: cancel_asset_order
+  margin_or_gross_or_participation_failure: cancel_and_clip_without_bypass
+  roll_atomicity: asset
+  terminal_policy: carry_with_exit_cost_reserve
+  broker_fill_substitution: forbidden
+  synthetic_backfill_or_forward_fill: forbidden
+
+sequential_phases:
+  source_warmup: inherited_V39_54_option_levels_and_253_common_CLOSE_levels
+  paper_economics_begins_only_after_joint_warmup: true
+  minimum_unseen_futures_sessions: 504
+  minimum_unseen_weekly_decisions: 104
+  minimum_full_calendar_years: 2
+  interim_CAGR_or_promotion: forbidden
+
+cost_scenarios:
+  primary:
+    quote_side: observed_bid_offer
+    exchange_and_clearing_fee: captured_or_broker_statement_exact
+    broker_fee_multiplier: 1.0
+  doubled:
+    quote_side: observed_bid_offer
+    exchange_and_clearing_fee_multiplier: 2.0
+    broker_fee_multiplier: 2.0
+  stress:
+    quote_side: observed_bid_offer_plus_two_additional_ticks_adverse
+    exchange_and_clearing_fee_multiplier: 2.0
+    broker_fee_multiplier: 2.0
+
+promotion_gates:
+  all_scenario_CAGR_minimum: 0.20
+  stretch_all_scenario_CAGR: 0.35
+  all_scenario_sharpe_minimum: 1.00
+  maximum_drawdown_maximum: 0.40
+  worst_full_year_minimum: -0.15
+  positive_full_years_minimum: 2
+  maximum_observed_participation: 0.01
+  critical_failures_maximum: 0
+  unresolved_halts_maximum: 0
+  every_parent_snapshot_audit_required: true
+  second_unseen_confirmation_after_numeric_pass: required
+  broker_statement_reconciliation_before_live: required
+  live_trading_after_first_pass: forbidden
+
+current_state_at_seal:
+  option_daily_snapshots: 1
+  option_weekly_levels: 1
+  V27_valid_decision_dates: 0
+  V27_valid_execution_dates: 0
+  V48_forward_returns_or_PnL_computed: false
+  first_option_snapshot_counts_as_warmup_only: true
+
+forbidden_after_seal:
+  - changing_multiplier_gross_margin_capacity_or_carry_fraction
+  - switching_frontier_to_stability_after_forward_result
+  - changing_V39_window_quantiles_sign_or_universe
+  - replacing_observed_bid_offer_with_daily_open_or_midpoint
+  - reporting_annualized_result_before_full_evaluation
+  - backfilling_2026_market_macro_option_or_execution_observations
+  - live_trading_without_second_unseen_pass_and_broker_reconciliation
+
+outputs:
+  readiness_module: market_lab.futures.v48_frontier_forward_readiness
+  source_only_until_joint_warmup_complete: true
+  paper_root: runs/v48-frontier-forward-validation-v1
+  contents_in_git: false
+
