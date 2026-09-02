@@ -1,0 +1,24 @@
+﻿protocol_id: futures_v59r1_cftc_wti_crowding_br_pre2018_v1
+status: sealed_execution_only_correction_after_invalid_v59_before_any_valid_v59_economics
+declared_at_utc: '2026-09-02T19:10:00Z'
+research_only: true
+live_trading_allowed: false
+parent:
+  path: configs/futures_v59_cftc_wti_crowding_br_pre2018.yaml
+  sha256: cf597ddc1df453a036597d4c11ba66618c073b816f6acc3c4ec784edb035896f
+invalid_run:
+  reason: retry_policy_left_expired_BRF3_after_capacity_rejected_roll
+  candidate_and_baseline_critical_failure_count: 1827
+  economically_interpretable: false
+only_change:
+  unexecutable_target_policy:
+    from: retry
+    to: cancel_and_clip
+    provenance: preexisting_V28_pre2018_capacity_policy
+  participation_cap_unchanged: 0.01
+  sign_lag_risk_cap_costs_dates_and_gates_unchanged: true
+forbidden:
+  - change_CFTC_sign_or_lag
+  - change_volatility_target_or_gross_cap
+  - change_participation_or_costs
+  - reinterpret_invalid_V59_as_economic_result

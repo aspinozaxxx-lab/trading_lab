@@ -6,6 +6,7 @@ import argparse
 import json
 import shutil
 import tempfile
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Final
@@ -17,8 +18,14 @@ from market_lab import futures_v12_core4_correlation_trend as v12
 from market_lab import futures_v58_cftc_wti_positioning_br as v58
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[2]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v59_cftc_wti_crowding_br_pre2018.yaml"
-CONFIG_SHA256: Final[str] = "cf597ddc1df453a036597d4c11ba66618c073b816f6acc3c4ec784edb035896f"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v59r1_cftc_wti_crowding_br_pre2018.yaml"
+CONFIG_SHA256: Final[str] = "a79613a3926cbe83f6a276fd211968618b4174190bb18b59b8150e4525526018"
+PARENT_CONFIG_PATH: Final[Path] = (
+    PROJECT_ROOT / "configs/futures_v59_cftc_wti_crowding_br_pre2018.yaml"
+)
+PARENT_CONFIG_SHA256: Final[str] = (
+    "cf597ddc1df453a036597d4c11ba66618c073b816f6acc3c4ec784edb035896f"
+)
 START: Final[pd.Timestamp] = pd.Timestamp("2013-01-01")
 END: Final[pd.Timestamp] = pd.Timestamp("2017-12-01")
 PROTECTED: Final[pd.Timestamp] = pd.Timestamp("2018-01-01")
@@ -28,13 +35,23 @@ def load_protocol() -> dict[str, Any]:
     if v58.sha256_file(CONFIG_PATH) != CONFIG_SHA256:
         raise ValueError("V59 protocol byte drift")
     stated = CONFIG_PATH.with_suffix(".sha256").read_text(encoding="utf-8-sig").split()[0]
-    protocol = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    correction = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    if v58.sha256_file(PARENT_CONFIG_PATH) != PARENT_CONFIG_SHA256:
+        raise ValueError("V59 parent protocol byte drift")
+    protocol = yaml.safe_load(PARENT_CONFIG_PATH.read_text(encoding="utf-8-sig"))
     signal = protocol["signal"]
     risk = protocol["risk_execution"]
     if (
         stated != CONFIG_SHA256
-        or protocol.get("protocol_id") != "futures_v59_cftc_wti_crowding_br_pre2018_v1"
-        or protocol.get("status") != "sealed_after_pre2018_cftc_source_audit_before_v59_join_or_pnl"
+        or correction.get("protocol_id") != "futures_v59r1_cftc_wti_crowding_br_pre2018_v1"
+        or correction.get("status")
+        != "sealed_execution_only_correction_after_invalid_v59_before_any_valid_v59_economics"
+        or correction.get("live_trading_allowed") is not False
+        or correction["parent"]["sha256"] != PARENT_CONFIG_SHA256
+        or correction["only_change"]["unexecutable_target_policy"]["from"] != "retry"
+        or correction["only_change"]["unexecutable_target_policy"]["to"] != "cancel_and_clip"
+        or correction["only_change"]["sign_lag_risk_cap_costs_dates_and_gates_unchanged"]
+        is not True
         or protocol.get("live_trading_allowed") is not False
         or protocol["parent_mechanics"]["v58_protocol_sha256"] != v58.CONFIG_SHA256
         or signal["direction"] != "positive_short_BR_negative_long_BR_exact_zero_cash"
@@ -47,6 +64,7 @@ def load_protocol() -> dict[str, Any]:
         or risk["costs"] != {"primary": [1, 1], "doubled": [2, 2], "stress": [4, 2]}
     ):
         raise ValueError("V59 sealed economics drifted")
+    protocol["protocol_id"] = correction["protocol_id"]
     return protocol
 
 
@@ -102,6 +120,20 @@ def build_contrarian_signals(panel: pd.DataFrame, cftc: pd.DataFrame) -> pd.Data
     if signals["decision_date"].ge(PROTECTED).any():
         raise ValueError("V59 signal crosses protected boundary")
     return signals
+
+
+@dataclass(frozen=True, slots=True)
+class V59R1LedgerConfig:
+    initial_cash: float = 1_000_000.0
+    expected_assets: tuple[str, ...] = ("BR",)
+    maximum_gross_notional_multiple: float = 2.0
+    initial_margin_buffer_multiplier: float = 2.0
+    maximum_participation: float = 0.01
+    slippage_ticks: int = 1
+    fee_multiplier: float = 1.0
+    execution_atomicity: str = "asset"
+    terminal_policy: str = "carry"
+    unexecutable_target_policy: str = "cancel_and_clip"
 
 
 def _scenario_metrics(
@@ -200,7 +232,7 @@ def compute(
     candidate_metrics = {}
     baseline_metrics = {}
     for name, settings in settings_by_name.items():
-        config = v58.V58LedgerConfig(
+        config = V59R1LedgerConfig(
             slippage_ticks=settings["slippage_ticks"], fee_multiplier=settings["fee_multiplier"]
         )
         candidate_outputs[name] = v58.run_v58_ledger(market, candidate.targets, config)
@@ -257,7 +289,7 @@ def run_experiment(output_root: Path) -> Path:
     paths, checks = verify_inputs(protocol)
     result = compute(protocol, paths, checks)
     timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    name = f"v59_cftc_wti_crowding_br_pre2018_v1_{timestamp}_{CONFIG_SHA256[:8]}"
+    name = f"v59r1_cftc_wti_crowding_br_pre2018_v1_{timestamp}_{CONFIG_SHA256[:8]}"
     output_root = output_root.resolve()
     output_root.mkdir(parents=True, exist_ok=True)
     final = output_root / name
