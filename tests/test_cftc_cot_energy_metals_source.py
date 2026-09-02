@@ -27,7 +27,7 @@ def _row(year: int, market: str, code: str, *, report_date: str | None = None) -
     return row
 
 
-def _archive(year: int, *, protected: bool = False) -> bytes:
+def _archive(year: int, *, protected: bool = False, wti_alias_index: int = 0) -> bytes:
     config = source.load_config()
     markets = config["universe"]["markets"]
     report_date = "2026-01-06" if protected else None
@@ -35,14 +35,16 @@ def _archive(year: int, *, protected: bool = False) -> bytes:
         _row(year, "IRRELEVANT MARKET", "999999"),
         _row(
             year,
-            "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+            "WTI-SPURIOUS - NEW YORK MERCANTILE EXCHANGE",
             markets["WTI"]["cftc_contract_market_code"],
         ),
     ]
     rows.extend(
         _row(
             year,
-            markets[logical]["exact_market_and_exchange_name"],
+            markets[logical]["exact_market_and_exchange_names"][
+                wti_alias_index if logical == "WTI" else 0
+            ],
             markets[logical]["cftc_contract_market_code"],
             report_date=report_date,
         )
@@ -80,6 +82,15 @@ def test_parse_selects_exact_markets_and_applies_conservative_delay() -> None:
     assert record["selected_rows"] == 2
     assert frame["report_date"].eq(pd.Timestamp("2021-01-02")).all()
     assert frame["available_at_utc"].eq(pd.Timestamp("2021-01-10 04:59:59+00:00")).all()
+
+
+def test_parse_accepts_sealed_wti_rename_alias() -> None:
+    frame, _ = source.parse_annual_archive(
+        _archive(2023, wti_alias_index=1), 2023, source.load_config()
+    )
+
+    wti = frame.loc[frame["logical_market"].eq("WTI")]
+    assert wti["market_and_exchange_name"].eq("WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE").all()
 
 
 def test_parse_rejects_protected_dates() -> None:

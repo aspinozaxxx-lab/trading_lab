@@ -8,6 +8,12 @@ header_only_schema_correction: >-
   rejected the declared date header. Header-only inspection of all eight archives
   showed Report_Date_as_YYYY-MM-DD in every year, so only that input identity was
   corrected; the frozen V58 economics were not changed.
+header_only_wti_name_correction_at_utc: '2026-09-02T19:20:00Z'
+header_only_wti_name_correction: >-
+  Exact code/name inspection showed that CFTC retained code 067651 while renaming
+  CRUDE OIL, LIGHT SWEET to WTI-PHYSICAL during 2022. Both exact official names are
+  admitted as aliases of the same predeclared WTI market code; no position value,
+  MOEX outcome, sign, horizon, threshold, risk rule or economic gate was changed.
 scope: source_only_no_moex_price_return_target_signal_trade_or_pnl
 research_only: true
 live_trading_allowed: false
@@ -40,10 +46,13 @@ universe:
   markets:
     WTI:
       cftc_contract_market_code: '067651'
-      exact_market_and_exchange_name: CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE
+      exact_market_and_exchange_names:
+        - CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE
+        - WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE
     GOLD:
       cftc_contract_market_code: '088691'
-      exact_market_and_exchange_name: GOLD - COMMODITY EXCHANGE INC.
+      exact_market_and_exchange_names:
+        - GOLD - COMMODITY EXCHANGE INC.
   duplicate_code_date_policy: fail_closed
   missing_market_year_policy: fail_closed
 

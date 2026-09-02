@@ -24,7 +24,7 @@ from market_lab.io_utils import atomic_write_bytes, atomic_write_text, write_jso
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
 CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/cftc_cot_energy_metals_source_v1.yaml"
-CONFIG_SHA256: Final[str] = "91616481d10da89324ddade784cd10ae1b023215fcdde1b3354fccb7f544464f"
+CONFIG_SHA256: Final[str] = "22878af63002e1db0db4f4fb51c385d6da3851cd19e8d03deaee526af9c5fa01"
 USER_AGENT: Final[str] = "trading-lab-research/1.0 (CFTC public COT archive)"
 NEW_YORK: Final[ZoneInfo] = ZoneInfo("America/New_York")
 
@@ -90,6 +90,13 @@ def load_config() -> dict[str, Any]:
         or config.get("live_trading_allowed") is not False
         or tuple(int(year) for year in archives) != tuple(range(2018, 2026))
         or tuple(config["universe"]["exact_order"]) != ("WTI", "GOLD")
+        or tuple(config["universe"]["markets"]["WTI"]["exact_market_and_exchange_names"])
+        != (
+            "CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE",
+            "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+        )
+        or tuple(config["universe"]["markets"]["GOLD"]["exact_market_and_exchange_names"])
+        != ("GOLD - COMMODITY EXCHANGE INC.",)
         or config["schema"].get("moex_prices_returns_labels_targets_signals_trades_or_pnl_allowed")
         is not False
         or int(hypothesis["lookback_admitted_reports"]) != 13
@@ -154,11 +161,9 @@ def parse_annual_archive(
             frame[column] = frame[column].str.strip()
     configured = config["universe"]["markets"]
     identity_to_market = {
-        (
-            str(item["cftc_contract_market_code"]),
-            str(item["exact_market_and_exchange_name"]),
-        ): logical
+        (str(item["cftc_contract_market_code"]), str(exact_name)): logical
         for logical, item in configured.items()
+        for exact_name in item["exact_market_and_exchange_names"]
     }
     identities = zip(
         frame["CFTC_Contract_Market_Code"],
@@ -176,7 +181,7 @@ def parse_annual_archive(
         if (
             not rows["CFTC_Contract_Market_Code"].eq(str(item["cftc_contract_market_code"])).all()
             or not rows["Market_and_Exchange_Names"]
-            .eq(str(item["exact_market_and_exchange_name"]))
+            .isin(item["exact_market_and_exchange_names"])
             .all()
         ):
             raise ValueError(f"CFTC {year} exact market identity drift for {logical}")
