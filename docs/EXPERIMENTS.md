@@ -48,6 +48,17 @@
 - Next V55 must seal one own-return strategy before values. This short 2022–2025
   development period is not an independent holdout and cannot prove predictability.
 
+## V55 RGBI causal trend — NO-GO
+
+- Config SHA `6f27813b...`, commit `4990c45`, implementation `67e30353...`; one
+  presealed candidate `63d momentum / 20d vol / 25% target / 3x cap / 10d roll`.
+- Canonical run `v55_rgbi_futures_causal_trend_v1_20260902T175313Z_6f27813b` has
+  `886/885/762` signal/candidate/executed sessions and 123 unresolved executions.
+- CAGR primary/doubled/stress `11.0337%/6.9488%/−0.8009%`; Sharpe
+  `0.5246/0.3970/0.1402`; MDD `33.7315%/36.2436%/40.9996%`; only `2/4` positive years.
+- Verdict `NO_GO`; external replay `all_true=true`, manifest/metrics/audit SHA
+  `7feade35.../dd64fe35.../42af2681...`. No exact replay and no parameter tuning.
+
 ## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED
 
 - V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the

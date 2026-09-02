@@ -95,6 +95,27 @@ bundle `data/processed/info_radar/moex-rgbi-futures-daily-2022-2025-v1/`:
 O2/O4/O6 также не смешивались с quarterly RGBI. Market values пока не использовать
 для выбора horizon/direction/roll/risk. Следующий V55 должен быть sealed первым.
 
+## V55 RGBI causal trend — NO-GO, stress negative
+
+Config SHA `6f27813b...`, implementation commit `4990c45`, SHA `67e30353...`;
+canonical server run
+`runs/v55_rgbi_futures_causal_trend_v1_20260902T175313Z_6f27813b/`.
+До outcomes был запечатан единственный normalized candidate: `63` momentum,
+`20` volatility, target `25%`, cap `3x`, deterministic 10-day roll, next OPEN и
+`5/10/20` bps.
+
+- `886` signal, `885` candidate, `762` executed sessions; unresolved `123` (`13.90%`);
+- primary/doubled/stress CAGR `11.0337%/6.9488%/−0.8009%`;
+- Sharpe `0.525/0.397/0.140`, MDD `33.73%/36.24%/41.00%`;
+- profitable years `2/4`; stress worst year `−21.24%`;
+- return/Sharpe/MDD/worst-year/coverage gates false, verdict `NO_GO`;
+- external artifact replay `all_true=true`; manifest/metrics/audit SHA
+  `7feade35.../dd64fe35.../42af2681...`.
+
+Trend не даёт требуемые 20% и exact specs replay не оправдан. Не менять `63/20/25%/3x`,
+roll, direction или costs на этой истории. Следующий механизм — отдельная RVI
+volatility-risk-premium corridor, а не соседний RGBI horizon.
+
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
 
 V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
@@ -2056,17 +2077,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V55 presealed RGBI futures independent return engine
+### P0 — V56 presealed RVI volatility-risk-premium corridor
 
 1. V53R1 завершён `NO_GO`; его curve sign/buckets/factors не менять и не инвертировать.
-2. V54 source уже immutable/audited: config `fe49459e...`, manifest `60dbb74c...`,
-   daily `f993a6b0...`. Collection не повторять; разрешён только raw replay audit.
-3. До открытия market values запечатать один causal trend candidate: deterministic
-   front roll, forward causal adjustment, prior 63-session momentum, prior 20-session
-   volatility target `25%`, cap `3x`, next factual OPEN and fixed cost stresses.
-4. Это normalized development proxy до historical specs. Pass допускает только один
-   exact integer/spec/margin/cost replay; horizon, direction, vol target, cap и roll
-   после outcome не менять. 2022–2025 слишком короток для independent holdout claim.
+2. V55 RGBI trend завершён `NO_GO`; его horizon/vol target/cap/roll/direction не
+   менять. V54 source остаётся полезным, но новая RGBI strategy требует unseen data.
+3. Использовать уже audited RVI futures source для принципиально иного target:
+   outright short elevated front volatility, profit-taking corridor и distant stop.
+   Entry level, TP, stop, maximum holding, roll and risk фиксируются до outcomes.
+4. Один candidate, factual next OPEN, no ordinary back-adjustment, `1x/2x/stress`
+   costs и tail-loss gates обязательны. V45 calendar-spread corridor не ретюнить и
+   не переносить его result-dependent thresholds.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
