@@ -567,6 +567,22 @@ live. Не запускай V27 повторно ради выбора threshold
 runner должен иметь новый protocol id, физически отдельный unseen/PIT input bundle и
 быть sealed/pushed до первого outcome.
 
+### Historical MOEX RMS V4 and sealed V38
+
+Canonical source уже собран; не перезаписывать:
+
+```powershell
+$env:PYTHONPATH = 'src'
+python -m market_lab.futures.moex_rms_historical_pit_source --audit-only `
+  --output-root 'D:\Projects\trading_lab_data\data\processed\info_radar\moex-rms-historical-pit-2018-2025-v4'
+```
+
+Ожидается 11/11 true. V1–V3 output не существует. V38 config SHA `3f9288e3...` и
+canonical run `v38_moex_margin_risk_governor_20260902T020147Z_3f9288e3` имеют verdict
+`NO_GO`; run повторно не запускать. Не менять MR1 threshold/age/persistence, не
+переключаться post-hoc на MR2/MR3 и не инвертировать правило. Forward RMS task остаётся
+source-only до завершения заранее объявленных discovery/calibration/evaluation окон.
+
 ### Sealed V27-R1 robustness audit
 
 V27-R1 не пересчитывает signal или execution и читает только дату/combined equity из

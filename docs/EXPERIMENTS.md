@@ -1,5 +1,29 @@
 ﻿# Реестр экспериментов
 
+## V38 official MOEX MR1 asset-specific governor — canonical NO-GO
+
+- Historical source V4 config SHA `83bcabed...` was sealed before MR1/CF values.
+  Canonical `moex-rms-historical-pit-2018-2025-v4`: 4 647 raw pages; limits/static/
+  cashflow rows `189 682/88 639/10 817`; manifest `e88360d3...`, audit `013c6e23...`,
+  raw ZIP `d2b8d5e4...`; independent raw replay 11/11 true. V1–V3 failed closed without
+  output while temporal semantics and the real intraday keys were established.
+- Economic config SHA `3f9288e3...`/seal `dd5d118`, implementation `832f12c` were pushed
+  before historical MR1/PnL. The only rule was an exact positive week-over-week MR1
+  change: cash the affected frozen-V27 asset for one weekly interval; unchanged/lower
+  MR1 passes, missing/stale cashes. No fitted magnitude, percentile, smoothing or
+  leverage change.
+- Canonical `runs/v38_moex_margin_risk_governor_20260902T020147Z_3f9288e3/`; metrics
+  `32b457ab...`, identity `f5c76687...`; 26/26 artifact identities and 15/15 independent
+  metric replay checks true. OOS: 1 044 asset-week states, 23 MR1 increases, 18 affected
+  nonzero parent targets, 800/800 execution dependencies complete.
+- Primary/doubled/stress CAGR `24,5261%/23,9458%/23,5132%`. Primary Sharpe `1,0868`,
+  MDD `20,2538%`, worst year `−0,5832%`. Compared with V27, primary MDD improved by
+  `0,4600 п.п.` and worst year by `0,8940 п.п.`, but CAGR/Sharpe fell by
+  `3,8491 п.п./0,1251`; doubled/stress MDD worsened by `0,1088/0,7363 п.п.`.
+- Verdict `NO_GO`: the strict stability gates failed. Do not tune MR1 threshold, age,
+  persistence, global/asset scope, MR2/MR3, direction or leverage on these outcomes.
+  Historical MR1 is development evidence only; forward RMS remains source-only.
+
 ## V37 cross-market intraday breakout — canonical NO-GO
 
 - Frozen 30-stock source manifest `5a7a4873...`; config SHA `15c6d67c...`, seal

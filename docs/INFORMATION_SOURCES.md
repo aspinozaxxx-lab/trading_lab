@@ -85,6 +85,16 @@ clock, поэтому V2 хранит его как current vintage с `availabl
 приписывает дату risk tables. После 60 discovery dates источник может поддержать
 dividend-fair-value и cross-asset hypotheses; до этого labels/PnL запрещены.
 
+Отдельно завершён historical point-in-time RMS V4 до `2025-12-31`: 189 682 states
+`limits`, 88 639 `staticparams`, 10 817 unique cashflow events, 4 647 raw responses;
+manifest `e88360d3...`, audit `013c6e23...`, replay 11/11. Первый sealed economic use
+V38 проверил asset-specific cash после exact positive weekly MR1 change. Он сохранил
+all-cost CAGR `23,51–24,53%`, но ухудшил Sharpe и doubled/stress MDD против V27, поэтому
+получил `NO_GO`. Источник не объявлен бесполезным: MR1 теперь приоритетно используется
+для фактического margin/capacity admission, а cashflow — только для отдельно sealed
+dividend fair-value или defined-risk option hypothesis после forward discovery. Новые
+same-history MR thresholds, persistence, MR2/MR3 substitution и sign inversion закрыты.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

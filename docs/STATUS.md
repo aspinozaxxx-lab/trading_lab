@@ -1,7 +1,34 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V37 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
+
+## Последний результат: V38 official MOEX MR1 governor — NO-GO
+
+Новый point-in-time архив официальных риск-параметров MOEX был запечатан как source
+V4 SHA `83bcabed...` до чтения `MR1`: 4 647 raw responses, 189 682 `limits` states,
+88 639 `staticparams` states и 10 817 unique cashflow events. Canonical source
+`data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4/`; manifest
+`e88360d3...`, audit `013c6e23...`, raw ZIP `d2b8d5e4...`; независимый replay дал
+11/11 true. V1–V3 корректно остановились без output на обнаруженных temporal/key
+особенностях архива и не являются источниками.
+
+V38 config SHA `3f9288e3...`/seal `dd5d118` и implementation `832f12c` были pushed до
+чтения MR1/PnL. Frozen V27 дополнялся единственным asset-specific правилом: на weekly
+decision latest causally available official `MR1` сравнивался с предыдущим weekly
+state; exact positive change переводил только соответствующий SI/RI/BR/MIX target в
+cash, missing/stale также cash. Zero boundary, seven-day age, V27 signal/governors,
+2x, RUONIA, execution и costs не подбирались.
+
+Canonical `runs/v38_moex_margin_risk_governor_20260902T020147Z_3f9288e3/`; metrics
+SHA `32b457ab...`, identity `f5c76687...`, 26/26 artifacts exact и независимый metric
+replay 15/15 true. В OOS было 23 increase states и 18 сокращённых ненулевых targets.
+Primary/doubled/stress CAGR `24,5261%/23,9458%/23,5132%`; primary Sharpe `1,0868`,
+MDD `20,2538%`, worst year `−0,5832%`. Все CAGR выше 20%, primary MDD и worst year
+лучше V27, но Sharpe хуже на `0,1251`, doubled MDD хуже на `0,1088 п.п.`, stress —
+на `0,7363 п.п.`. Verdict `NO_GO`: same-history MR1 threshold/duration/level, MR2/MR3,
+global switch и inversion больше не тестировать. Источник остаётся полезен для forward
+execution/margin admission и экономически иной dividend/defined-risk option family.
 
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 
@@ -1194,6 +1221,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    использует минимум 504 sessions; до этого не вычислять/публиковать V27 forward CAGR.
 4. Получить broker-exact collateral/IM/fee/order-log правила параллельно; numeric GO без
    них остаётся paper-only и требует второго unseen confirmation.
+
+### P0 — forward MOEX RMS и новые execution/cashflow hypotheses
+
+1. Historical V4 source `83bcabed...`/manifest `e88360d3...` не перезаписывать;
+   V1–V3 output не восстанавливать. V38 является canonical `NO_GO`, поэтому MR1
+   threshold/age/persistence, MR2/MR3 substitution, global switch и sign inversion на
+   2021–2025 запрещены.
+2. Проверять task `TradingLabForwardMoexRms` и readiness; сейчас 0/60 discovery.
+   Snapshot обязан быть post-seal, raw-replayed и не содержать price/return/PnL.
+3. MR1 использовать в будущем прежде всего как broker/exchange admission input:
+   фактический margin reserve и capacity, а не как ещё один tuned alpha switch.
+4. После 60 discovery отдельно запечатать только экономически иную family до PnL:
+   anticipated dividend cashflow для fair-value/roll ranking либо defined-risk option
+   regime. Нужны 20 calibration и 60 unseen evaluation snapshots; naked option risk и
+   historical 2026 backfill запрещены.
 
 ### P0 — доходный collateral и forward CNY relative value
 

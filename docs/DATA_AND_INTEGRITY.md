@@ -420,6 +420,20 @@ current-vintage clock и становится доступен не раньше
 `from/till` backfill запрещён, revisions создают новый snapshot и не перезаписываются.
 В source нет price/return/target/PnL.
 
+Historical MOEX RMS point-in-time source хранится отдельно в
+`data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4/`. Его config SHA
+`83bcabed33afccbdb92ca3a1dbdc3f00e6d7ab71134a9d4e1c3ef1d93f51e5ae`, manifest
+`e88360d3f1a3476e3e34a67b947fb7aa1a656a2c290aa46e27add84dd397b2e3`, audit
+`013c6e234521fc5d6eebf143bddb3c35392251c414dc014e749f672b8726824c`, raw ZIP
+`d2b8d5e4fb8d91db5981837d6cf1110412b7243c618fbe1e0968e10882c256a1`.
+Limits/staticparams используют exact-date запросы и intraday key
+`tradedate+assetcode+updatetime`; cashflow является event-driven as-of endpoint,
+повторные exact snapshots сохраняются raw, но normalized state оставляет earliest
+`archive_query_date`. Получено 189 682/88 639/10 817 rows; все 11 replay checks true.
+V1–V3 output отсутствуют: их fail-closed остановки нельзя обходить или восстанавливать
+путём ручного dedup/forward-fill. Ни один из source файлов не содержит prices, returns,
+targets, predictions или PnL.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:
