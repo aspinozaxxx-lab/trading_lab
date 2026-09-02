@@ -1,0 +1,118 @@
+﻿protocol_id: futures_v60_v49_equity_trend_governor_v1
+protocol_version: 1
+status: sealed_before_any_v60_target_order_position_or_pnl
+declared_at_utc: '2026-09-02T19:34:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  The aggressive frozen V49 edge may be regime-persistent in its own causal shadow
+  equity. Keeping 2.00x risk only while the strictly prior V49 primary shadow NAV is
+  at or above its 126-session trailing mean, and reverting to the original 1.00x V39
+  risk otherwise, can retain at least 20% CAGR under every cost scenario while reducing
+  drawdown and bad-year dependence without changing any asset signal or direction.
+
+selection:
+  candidate_count: 1
+  parameter_search: false
+  moving_average_sessions: 126
+  risk_on_multiplier: 2.00
+  risk_off_multiplier: 1.00
+  warmup_multiplier: 1.00
+  equality_is_risk_on: true
+  hysteresis_or_cooldown: none
+  lower_higher_window_or_multiplier_comparison: forbidden
+  asset_year_scenario_or_threshold_selection_after_outcome: forbidden
+
+parents:
+  v49_engine:
+    config: configs/v49_v39_double_risk_exact_execution_v1.yaml
+    config_sha256: 37b4fcb0e346b1a03f414899891bcecb3cc71f3103a2d54d54184a52bf981f3d
+    implementation: src/market_lab/futures_v49_v39_double_risk_exact_execution.py
+    implementation_sha256: 1ddb838a0b62cfee9c666362a74527ded5e1bfc81ca0e0e1d429bc17cfca9acb
+  v49_canonical_shadow:
+    root: runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+    manifest: {file: manifest.json, sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c}
+    ledger: {file: combined_ledger.parquet, sha256: 7702330475b06150f0e73ea06c5a3f75ad94d34190a229d581483090debcb434, rows: 1272}
+    metrics: {file: metrics.json, sha256: eb24680a72976488a1a982d81f5902414a3154342ced6e0d7f1ba977a3c71bf4}
+    shadow_column: double_risk_primary_combined_nav
+    shadow_is_always_on_parent_not_v60_realized_nav: true
+    use_only_latest_session_strictly_before_target_effective_date: true
+  v39_targets_inherited_from_v49_v48_parent: true
+
+governor:
+  formula: risk_on_2x_if_prior_shadow_nav_gte_trailing_126_session_mean_else_1x
+  trailing_mean_includes_latest_strictly_prior_shadow_session: true
+  current_or_future_shadow_session_forbidden: true
+  scenario_specific_governor: false
+  parent_primary_shadow_drives_all_cost_scenarios: true
+  missing_or_short_warmup_policy: risk_off_1x
+  target_direction_and_zero_states_unchanged: true
+  gross_notional_cap: 4.00
+  initial_margin_buffer_multiplier: 2.00
+  broad_carry_cash_fraction: 0.00
+
+execution:
+  engine: frozen_v48_exact_integer_ledger
+  initial_cash_rub: 1000000.0
+  exact_integer_contracts: true
+  next_factual_open: true
+  roll_atomicity: asset
+  maximum_lagged_volume_participation: 0.01
+  missing_or_unexecutable: cancel_and_clip
+  terminal_policy: carry
+  margin_or_gross_limit_bypass_forbidden: true
+
+scenarios:
+  primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+  doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+  stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+  execution_stress: {slippage_ticks: 4, fee_multiplier: 2.0, delayed_fill_proxy: true}
+
+dates:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+
+gates:
+  execution_complete: true
+  zero_critical_failures: true
+  zero_unresolved_halts: true
+  zero_participation_clips: true
+  zero_initial_margin_rejections: true
+  maximum_participation_lte: 0.01
+  all_nav_positive: true
+  all_scenario_cagr_gte: 0.20
+  all_scenario_sharpe_gte: 1.00
+  all_scenario_mdd_lte: 0.25
+  all_scenario_worst_year_gte: -0.10
+  primary_positive_years_gte: 4
+  primary_mdd_strictly_better_than_v49: true
+  primary_worst_year_strictly_better_than_v49: true
+  stretch_primary_cagr_gte: 0.40
+  aspirational_primary_cagr_gte: 0.50
+  stretch_and_aspirational_are_report_only: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v60_v49_equity_trend_governor_v1
+  immutable_timestamped_run: true
+  required:
+    - manifest.json
+    - manifest.sha256
+    - audit.json
+    - metrics.json
+    - report.md
+    - combined_ledger.parquet
+    - orders.parquet
+    - positions.parquet
+    - governed_targets.parquet
+    - governor.parquet
+
+limitations:
+  - V60 is adaptive same-history development and is not independent validation.
+  - The 126-session rule was chosen economically, not estimated as a future optimum.
+  - Parent shadow equity uses modeled public next-open execution, not broker fills.
+  - Historical specifications, fees, margin and liquidity can differ from a broker account.
+  - A pass only earns a new sealed forward challenger; it cannot guarantee profit or authorize live trading.
