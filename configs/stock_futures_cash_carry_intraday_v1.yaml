@@ -1,0 +1,139 @@
+protocol_id: stock_futures_cash_carry_intraday_v1
+protocol_version: 1
+status: sealed_before_any_stock_futures_basis_signal_return_or_pnl
+declared_at_utc: '2026-09-02T04:00:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A fully funded covered position (long 100 shares, short one same-underlying
+  deliverable futures contract) can lock an unusually rich forward premium with
+  lower directional risk. Trade only when a 50%-haircut point-in-time MOEX RMS
+  cashflow estimate still clears both 20% annualized and RUONIA plus 4%.
+
+evaluation:
+  start: '2023-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+  parameter_fitting: none
+  interpretation: sealed_historical_current_vintage_screen_not_independent_live_holdout
+
+sources:
+  intraday:
+    root: data/processed/info_radar/moex-stock-futures-cash-carry-intraday-2023-2025-v3
+    manifest: {file: manifest.json, sha256: c9ca6aa8eb75dc08672cdf99257fa3b7dd0f32c74fc7e4ba3eb44827757591ef}
+    specs: {file: contract_specs.parquet, sha256: 179a7a74bd94f06764839e668a51e322c824b85dc8a42e4bedc6aaadb2142aa4, rows: 61}
+    candles: {file: futures_10m.parquet, sha256: 0f16e6e955576d22f857ecb99fb738f3764ed07b43ab4ed55ab58c15cb91d10b, rows: 485141}
+    raw: {file: official_moex_intraday_responses.jsonl.gz, sha256: dbe9b156e5b9610ecdaf2ef7184a226a201f19c5db8eb95c0f233706e7a0a6e1, rows: 1058}
+  rms:
+    root: data/processed/info_radar/moex-stock-futures-cash-carry-source-2023-2025-v2
+    manifest: {file: manifest.json, sha256: 001b50c177ceb55d97ea8c643762e339fc5052023982c60c81839cb315cd1365}
+    cashflow: {file: rms_cashflows.parquet, sha256: 24948583b64ee620b5bc5dbe4ac46bdbf4a54900d15dd5cf1a39ffca487d0816, rows: 4625}
+  spot:
+    root: data/processed/stocks_10m_pre2026_v1
+    manifest: {file: manifest.json, sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042}
+    files:
+      GAZR: {secid: GAZP, file: GAZP_TQBR_10m_pre2026.parquet, sha256: 2db5078e58f307704ab32eb7cf9160ef0ee696f172586116d1976d73c4174eda, rows: 153905}
+      SBRF: {secid: SBER, file: SBER_TQBR_10m_pre2026.parquet, sha256: 7fdbbd98d00d0b3daf36951075a75769ad1037523e882f6e63263c32021c1a62, rows: 153891}
+      ROSN: {secid: ROSN, file: ROSN_TQBR_10m_pre2026.parquet, sha256: a595a196724175e9a9e331c6cad96cb0ee5a55c487d8fb63f4c1ec02985ebb34, rows: 153887}
+      TATN: {secid: TATN, file: TATN_TQBR_10m_pre2026.parquet, sha256: 9cee661b109be051efa5c25ebd1c6a58abe809095f3536727373d234f6e0fc39, rows: 153766}
+      NOTK: {secid: NVTK, file: NVTK_TQBR_10m_pre2026.parquet, sha256: 8d67ac3b62d5919bc36957cfa38246b69a347e33fca69df1315cdf83917de7f4, rows: 153654}
+  rates:
+    root: data/processed/info_radar/cbr-dev-2018-2025-v1
+    manifest: {file: manifest.json, sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c}
+    daily: {file: cbr_daily.parquet, sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d}
+    series_id: ruonia
+
+universe:
+  assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  shares_per_contract: 100
+  direction: long_stock_short_one_futures
+  naked_stock_short_or_futures_long: forbidden
+  positions_per_asset: 1
+  portfolio_sleeves_equal_weight: 0.20
+
+decision:
+  timezone: Europe/Moscow
+  one_decision_candle_begin_per_day: '15:40:00'
+  decision_available_at_candle_end: true
+  execution: next_exactly_aligned_10m_candle_open
+  expected_execution_candle_begin: '15:50:00'
+  same_candle_fill: forbidden
+  spot_and_futures_timestamp_must_match_exactly: true
+  both_candles_positive_volume_required: true
+  eligible_calendar_days_to_last_trade: {minimum: 30, maximum: 90}
+  contract_choice: nearest_last_trade_then_lexicographic_secid
+  scheduled_exit_calendar_days_to_last_trade: 5
+  hold_to_scheduled_exit_without_signal_tuning: true
+
+point_in_time_cashflow:
+  latest_available_snapshot_per_asset_and_event_date: true
+  required_available_at_lte_decision_at: true
+  event_date_t_must_be_after_entry_and_lte_last_trade_minus_5_days: true
+  projected_cashflow_haircut: 0.50
+  missing_cashflow: zero_for_signal_and_explicitly_counted
+  outcome_proxy: latest_RMS_value_available_by_exit_for_events_that_occurred_while_held
+  outcome_is_not_proof_of_actual_shareholder_payment: true
+
+entry_gate:
+  formula: >-
+    annualized locked proxy = (futures lot price + 100 * 0.5 * PIT cashflows
+    - 100 * spot price - ordinary round-trip costs) / conservative capital
+    * 365 / calendar days to scheduled exit
+  threshold: max_20pct_or_ruonia_plus_4pct
+  ruonia_required_and_point_in_time: true
+  no_entry_on_missing_ruonia: true
+
+capital:
+  stock_notional: 100_times_spot_price
+  futures_margin_reserve_fraction_of_futures_notional: 0.30
+  conservative_capital: stock_notional_plus_margin_reserve
+  borrowing: none_fully_funded
+  integer_unit_trade: one_futures_and_100_shares
+
+costs:
+  ordinary:
+    spot_bps_per_side: 10.0
+    futures_bps_per_side: 5.0
+  doubled:
+    spot_bps_per_side: 20.0
+    futures_bps_per_side: 10.0
+  costs_include_commission_slippage_and_unobserved_spread_proxy: true
+
+scenarios:
+  primary: {cashflow_credit_fraction: 0.50, cost_model: ordinary}
+  doubled: {cashflow_credit_fraction: 0.50, cost_model: doubled}
+  zero_cashflow_stress: {cashflow_credit_fraction: 0.00, cost_model: doubled}
+  full_rms_proxy_upper_bound: {cashflow_credit_fraction: 1.00, cost_model: ordinary}
+  identical_decisions_across_scenarios: true
+
+outputs:
+  root: runs/stock_futures_cash_carry_intraday_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, decisions.parquet, trades.parquet, daily_ledger.parquet]
+
+quality_gates:
+  exact_source_hashes: true
+  all_rows_before_2026: true
+  exact_timestamp_alignment: true
+  no_overlapping_position_within_asset: true
+  next_bar_fill_only: true
+  report_decisions_signals_trades_unresolved_and_years: true
+  report_CAGR_Sharpe_MDD_and_primary_doubled_zero_cashflow: true
+  raw_RMS_proxy_never_called_realized_dividend: true
+
+promotion:
+  historical_screen_can_only_be_NO_GO_or_FORWARD_CANDIDATE: true
+  forward_candidate_requires_primary_and_doubled_positive_CAGR: true
+  forward_candidate_requires_primary_Sharpe_gte: 1.0
+  forward_candidate_requires_primary_MDD_lte: 0.15
+  forward_candidate_requires_trades_gte: 20
+  forward_candidate_requires_positive_years_gte: 2
+  live_promotion_forbidden: true
+
+limitations:
+  - RMS cashflow values are risk-system projections, not verified paid dividends.
+  - MOEX candles have no bid/ask, order queue, aggressor side, or broker rejects.
+  - Current-vintage contract specs and ISS history may have been revised.
+  - Equal-weight sleeve normalization ignores investor-specific integer capital constraints.
+  - Historical results cannot guarantee profit or authorize live trading.
