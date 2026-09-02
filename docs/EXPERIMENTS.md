@@ -16,6 +16,9 @@
 - Future comparisons are fixed now: full cross-market neural timing, price-only
   ablation, fixed rule and always-abstain under primary/doubled/stress costs. Public
   BBO is not queue/fill proof; live remains false.
+- Task `TradingLabForwardCrossMarketBBO10m` is `Ready`; exact Scheduler definition is
+  Mon–Fri 10:09, repetition PT10M for PT8H31M. Source/replay/readiness tests `6/6`;
+  full suite `1134 passed, 7 skipped` plus the same two missing-external-V8 failures.
 
 ## V42R2 V41 idle-fund cost stress — ROBUST ABOVE 20%, diagnostic only
 

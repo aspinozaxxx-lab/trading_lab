@@ -64,7 +64,7 @@ post-result same-history robustness: он не выбирает фонд, не �
 Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
 нарушений вне V42; они не исправлялись в этом эксперименте.
 
-### Forward cross-market BBO — SEALED, collector ready, 0/20 discovery sessions
+### Forward cross-market BBO — SEALED, task READY, 0/20 discovery sessions
 
 Открыт новый forward-only путь вместо дальнейшего same-history leverage tuning.
 Config SHA `80d5202d...`, seal `95ca5b3` зафиксировал до первого значения 30 TQBR
@@ -80,7 +80,13 @@ sessions; нужно минимум 30 complete core snapshots в день. За
 economic seal: 20 calibration и 60 unseen sessions. Это инфраструктура для continuous
 neural timing, all-market correlations и нового volatile-corridor теста, не найденная
 прибыль и не live promotion. AlgoPack token отсутствует, поэтому order/cancel flow пока
-не собирается. Подробности:
+не собирается. Task `TradingLabForwardCrossMarketBBO10m` проверен через Scheduler XML:
+Mon–Fri, `10:09`, repeat `PT10M`, duration `PT8H31M`, state `Ready`, first run
+`2026-09-02 10:09:00` МСК.
+
+Scoped Ruff clean, source/replay/readiness tests `6/6`. Полная регрессия после добавления
+источника: `1134 passed, 7 skipped`; два прежних V8 context failures — тот же missing
+external `data/processed/futures_v8/manifest_8c26216529a9b73b.json`. Подробности:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
 
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
