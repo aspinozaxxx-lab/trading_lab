@@ -24,7 +24,7 @@ from market_lab.io_utils import atomic_write_bytes, atomic_write_text, write_jso
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
 CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/cftc_cot_energy_metals_source_v1.yaml"
-CONFIG_SHA256: Final[str] = "e2f373b1374fb87805473f14e3a4cfeda801db2d2df877a73d1bf8e5d77b67ee"
+CONFIG_SHA256: Final[str] = "91616481d10da89324ddade784cd10ae1b023215fcdde1b3354fccb7f544464f"
 USER_AGENT: Final[str] = "trading-lab-research/1.0 (CFTC public COT archive)"
 NEW_YORK: Final[ZoneInfo] = ZoneInfo("America/New_York")
 
@@ -172,7 +172,7 @@ def parse_annual_archive(
             actual_names = sorted(rows["Market_and_Exchange_Names"].unique())
             raise ValueError(f"CFTC {year} market name drift for {logical}: {actual_names}")
     selected["report_date"] = pd.to_datetime(
-        selected["As_of_Date_Form_YYYY-MM-DD"], errors="raise"
+        selected["Report_Date_as_YYYY-MM-DD"], errors="raise"
     ).dt.normalize()
     if not selected["report_date"].dt.year.eq(year).all():
         raise ValueError(f"CFTC {year} contains cross-year selected rows")

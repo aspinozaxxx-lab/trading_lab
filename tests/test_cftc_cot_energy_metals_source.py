@@ -16,7 +16,7 @@ from market_lab.futures import cftc_cot_energy_metals_source as source
 def _row(year: int, market: str, code: str, *, report_date: str | None = None) -> dict[str, str]:
     row = {
         "Market_and_Exchange_Names": market,
-        "As_of_Date_Form_YYYY-MM-DD": report_date or f"{year}-01-02",
+        "Report_Date_as_YYYY-MM-DD": report_date or f"{year}-01-02",
         "CFTC_Contract_Market_Code": code,
         "Contract_Units": "CONTRACTS",
         "FutOnly_or_Combined": "FutOnly",
