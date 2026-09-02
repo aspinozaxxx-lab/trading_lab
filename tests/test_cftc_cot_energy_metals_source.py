@@ -31,7 +31,8 @@ def _archive(year: int, *, protected: bool = False) -> bytes:
     config = source.load_config()
     markets = config["universe"]["markets"]
     report_date = "2026-01-06" if protected else None
-    rows = [
+    rows = [_row(year, "IRRELEVANT MARKET", "999999")]
+    rows.extend(
         _row(
             year,
             markets[logical]["exact_market_and_exchange_name"],
@@ -39,8 +40,7 @@ def _archive(year: int, *, protected: bool = False) -> bytes:
             report_date=report_date,
         )
         for logical in ("WTI", "GOLD")
-    ]
-    rows.append(_row(year, "IRRELEVANT MARKET", "999999"))
+    )
     csv_bytes = pd.DataFrame(rows).to_csv(index=False).encode("utf-8")
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:

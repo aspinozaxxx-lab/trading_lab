@@ -183,6 +183,7 @@ def parse_annual_archive(
         raise ValueError(f"CFTC {year} duplicate selected market/report date")
     if not selected["FutOnly_or_Combined"].str.contains("FutOnly", case=False, na=False).all():
         raise ValueError(f"CFTC {year} selected rows are not futures-only")
+    selected = selected.reset_index(drop=True)
     output = pd.DataFrame(
         {
             "report_date": selected["report_date"],
