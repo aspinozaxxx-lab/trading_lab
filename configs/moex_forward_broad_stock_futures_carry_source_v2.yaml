@@ -1,0 +1,62 @@
+﻿protocol_id: moex_forward_broad_stock_futures_carry_source_v2
+protocol_version: 2
+status: sealed_after_v1_source_availability_failure_before_any_v2_quote
+declared_at_utc: '2026-09-02T07:18:00Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v1:
+  config: configs/moex_forward_broad_stock_futures_carry_source_v1.yaml
+  config_sha256: 5cd396e0033f26d161227dfbbdaef8812769d852dd3940d9e8f5bf8c8faabf70
+  implementation: src/market_lab/futures/moex_forward_broad_stock_futures_carry_source.py
+  universe_units_contract_selection_schedule_and_columns_unchanged: true
+
+v1_source_evidence_only:
+  snapshot: snapshot_20260902T1009_moscow
+  raw_sha256: 487fc1c5a4f183e1647b57de9f222164f565d597a664c8706c8396254e928551
+  normalized_sha256: 4d831ef455ea7c47c58c6e7b40482afbfb1cfc7bd22c9185aa6d88ba35dbb3cf
+  raw_replay_exact: true
+  exact_pairs: 30
+  two_sided_spot_and_futures_bbo_pairs: 30
+  positive_best_depth_pairs: 0
+  aggregate_spot_depth_pairs: 30
+  aggregate_futures_depth_pairs: 0
+  basis_yield_rank_return_signal_trade_or_pnl_read: false
+
+correction_scope:
+  reason: anonymous_public_ISS_does_not_supply_futures_depth_and_is_delayed
+  required_for_quote_complete_pair:
+    - exact_positive_integer_units
+    - positive_nonlocked_spot_BID_OFFER
+    - positive_nonlocked_futures_BID_OFFER
+    - at_least_one_exchange_clock_per_leg
+  depth_fields_preserved_as_optional_observations: true
+  missing_depth_is_unresolved_not_zero: true
+  no_claim_of_size_queue_fill_or_realtime: true
+  parameters_universe_contract_selection_schedule_and_http_requests_changed: 0
+
+access_semantics:
+  mode: anonymous_public_ISS_approximately_15_minutes_delayed
+  retrieval_at_is_causal_availability: true
+  exchange_UPDATETIME_is_preserved_for_delay_measurement: true
+  realtime_or_fill_evidence_requires_authorized_AlgoPack_or_broker_feed: true
+
+output:
+  root: data/forward/moex-broad-stock-futures-carry-v2-delayed
+  contents_in_git: false
+  immutable: true
+
+readiness:
+  discovery_sessions_source_only: 20
+  minimum_quote_complete_snapshots_per_session: 30
+  calibration_sessions_after_separate_economic_seal: 20
+  unseen_evaluation_sessions_after_calibration: 60
+  depth_or_fill_promotion_from_this_source: forbidden
+  basis_or_opportunity_ranking_before_discovery: forbidden
+  return_signal_trade_or_pnl_before_separate_economic_seal: forbidden
+  annualization_before_unseen_evaluation: forbidden
+
+limitations:
+  - BBO is delayed and is not proof of a current executable quote.
+  - Missing futures depth means one-contract capacity, queue and fill remain unproved.
+  - V2 changes source completeness only and cannot guarantee profit or authorize live trading.
