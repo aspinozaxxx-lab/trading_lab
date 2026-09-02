@@ -75,6 +75,9 @@ exchange clocks и actual retrieval. Returns/labels/signals/trades/PnL отсу�
 До первого значения официальный pagination contract был учтён commit `97806f8`:
 каждый bulk request получает server-side `securities=...` exact sealed universe, поэтому
 тикеры за первой страницей не теряются и число запросов остаётся четыре.
+До первого значения также исправлено только имя optional activity field: официальный
+ISS использует `VOLTODAY`, а не `VOLUME`; commit `97603a1`, economics/universe/schedule
+не менялись.
 
 Срезы назначены каждые 10 минут `10:09..18:39` МСК. Core требует все 30 акций, четыре
 фьючерса и CNY с положительными non-locked BID/OFFER и best depth; context fund может
@@ -106,10 +109,29 @@ Collector `5266903` делает series + filtered TQBR + filtered RFUD, про�
 `4d1cf7a`; `TradingLabForwardBroadStockFuturesCarry10m` проверен: Mon–Fri, `10:09`,
 `PT10M` на `PT8H31M`, state `Ready`, first run `2026-09-02 10:09` МСК.
 
+Полная регрессия после обоих новых source paths в штатном `.venv`:
+`1139 passed, 7 skipped`; остаются только два прежних V8 context failures из-за
+отсутствующего external `data/processed/futures_v8/manifest_8c26216529a9b73b.json`.
+
 Нужно 20 sessions минимум по 30 complete snapshots, затем новый economic seal, 20
 calibration и 60 unseen sessions. Это прямой путь увеличить частоту стабильного
 fully-funded sleeve с 5 до 30 активов, но metadata coverage ещё не прибыль и не live.
 [FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
+
+### Дополнительный source screen — funding curve ограничена лицензией, calendar breadth узкий
+
+Официальная методология подтверждает рублёвую кривую RUSFAR на сроках overnight,
+1W, 2W, 1M и 3M, но страница индикатора прямо требует договор для использования
+значений с целью извлечения прибыли. Поэтому anonymous RUSFAR values не добавляются
+в торговый dataset. Бесплатный причинный funding baseline остаётся latest available
+CBR RUONIA; для исполнимого hurdle дополнительно нужны broker cash/REPO terms.
+
+Metadata-only RFUD probe без quotes обнаружил две или более одновременно активные
+квартальные серии только у `5/30` fixed stocks: `GAZP`, `LKOH`, `ROSN`, `SBER`,
+`SBERP`. У остальных 25 сейчас доступна только одна подходящая серия. Значит broad
+single-stock calendar-spread family не масштабируется на весь universe и пока остаётся
+узким forward challenger; создавать фиктивные дальние контракты или считать outright
+BBO атомарным multileg fill запрещено.
 
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 

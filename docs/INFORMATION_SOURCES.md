@@ -748,6 +748,16 @@ series count и cross-asset median/dispersion для RI/MIX/SI/BR. Counts: 25 17
 
 ### Разведка дополнительных источников для следующего forward-периода
 
+Официальный source screen `2026-09-02` добавил два ограничения, которые нельзя
+обходить технически. Семейство RUSFAR действительно публикует secured funding terms
+overnight/1W/2W/1M/3M, но MOEX отдельно указывает, что использование значений для
+извлечения прибыли требует договора. Поэтому anonymous RUSFAR values не собираются в
+модель; допустимые замены — CBR RUONIA с causal publication lag и документированные
+ставки конкретного брокерского cash/REPO продукта. Metadata-only RFUD screen для 30
+акций также показал минимум две активные квартальные серии только у `GAZP/LKOH/ROSN/
+SBER/SBERP`. Это оставляет single-stock calendar carry полезным узким challenger, но
+не broad sleeve и не доказательство атомарного исполнения.
+
 Самый полезный следующий слой — не ещё один пересмотр historical threshold, а
 timestamped forward microstructure collector:
 
