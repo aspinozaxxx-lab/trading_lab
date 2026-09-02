@@ -1,0 +1,105 @@
+﻿protocol_id: futures_v49_v39_double_risk_exact_execution_v1
+protocol_version: 1
+status: sealed_before_any_v49_order_position_or_pnl
+declared_at_utc: '2026-09-02T11:40:47Z'
+research_only: true
+adaptive_same_history: true
+selected_after_observing_v48: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A mechanically chosen 2.00x scale of the frozen V39 mapped targets can reach the
+  45-55% development return region without changing direction or zero states, while
+  exact integer sizing, factual next-open execution, one-percent lagged-volume
+  participation, doubled margin reserve and four cost scenarios keep drawdown below
+  fifty percent and avoid capacity or margin rejection.
+
+selection:
+  candidate_count: 1
+  mapped_target_multiplier: 2.00
+  rationale: exact_double_risk_unit_not_a_scale_search
+  lower_or_higher_scale_comparison: forbidden
+  select_asset_year_scenario_or_threshold_after_outcome: forbidden
+  use_v49_result_as_independent_validation: forbidden
+
+parents:
+  v48_engine:
+    config: configs/v48_v47_exact_integer_execution_v1.yaml
+    config_sha256: 3b7ae0e4411c2691564491491dc6ef66c623f27cf89c6cd08c33387bd26e5e4b
+    implementation: src/market_lab/futures_v48_v47_exact_integer_execution.py
+    implementation_sha256: 76a7905836870a61ab0706e1c82208daa1c3bb0728b58276bb3f807f21302cb3
+  v48_canonical_benchmark:
+    root: runs/v48_v47_exact_integer_execution_v1_20260902T102529Z_3b7ae0e4
+    manifest: {file: manifest.json, sha256: 395ce5c8abecf6d7d0250eb9bccda5864e49ef9da5f037ce8346a44cf7cdd969}
+    metrics: {file: metrics.json, sha256: ee23220b09d2d9b627822c20cc0f87461f75c3b52366d8edf9b82a135d3c8984}
+  v39_inputs_inherited_byte_identically_from_v48: true
+
+risk_mode:
+  name: double_risk
+  mapped_target_multiplier: 2.00
+  maximum_gross_notional_multiple: 4.00
+  initial_margin_buffer_multiplier: 2.00
+  broad_carry_cash_fraction: 0.00
+  volatility_drawdown_or_result_dependent_scaling: forbidden
+  target_direction_and_zero_states_unchanged: true
+
+execution:
+  engine: frozen_v48_exact_integer_ledger
+  initial_cash_rub: 1000000.0
+  exact_integer_contracts: true
+  next_factual_open: true
+  roll_atomicity: asset
+  maximum_lagged_volume_participation: 0.01
+  missing_or_unexecutable: cancel_and_clip
+  terminal_policy: carry
+  margin_or_gross_limit_bypass_forbidden: true
+
+scenarios:
+  primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+  doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+  stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+  execution_stress: {slippage_ticks: 4, fee_multiplier: 2.0, delayed_fill_proxy: true}
+
+dates:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+
+gates:
+  execution_complete: true
+  zero_critical_failures: true
+  zero_unresolved_halts: true
+  zero_participation_clips: true
+  zero_initial_margin_rejections: true
+  maximum_participation_lte: 0.01
+  all_nav_positive: true
+  primary_cagr_gte: 0.45
+  all_scenario_cagr_gte: 0.40
+  all_scenario_sharpe_gte: 0.85
+  all_scenario_mdd_lte: 0.50
+  all_scenario_worst_year_gte: -0.20
+  primary_positive_years_gte: 4
+  stretch_primary_cagr_gte: 0.50
+  stretch_gate_is_reported_but_not_required_for_pass: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v49_v39_double_risk_exact_execution_v1
+  immutable_timestamped_run: true
+  required:
+    - manifest.json
+    - manifest.sha256
+    - audit.json
+    - metrics.json
+    - report.md
+    - combined_ledger.parquet
+    - orders.parquet
+    - positions.parquet
+    - scaled_targets.parquet
+
+limitations:
+  - V49 is an aggressive same-history development sensitivity selected after V48.
+  - A pass cannot estimate predictability or replace the sealed V48 forward protocol.
+  - Historical specifications and public next-open prices are not broker fill logs.
+  - Broker house margin, offsets, fees, rejects and short-lived liquidity can be worse.
+  - Fifty-percent annual return cannot be promised and live trading remains forbidden.
