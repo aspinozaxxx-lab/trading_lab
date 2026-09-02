@@ -1,0 +1,139 @@
+﻿protocol_id: dividend_calendar_spread_economic_v1
+protocol_version: 1
+status: sealed_after_source_audit_before_spread_returns_or_pnl
+declared_at_utc: '2026-09-02T03:23:00Z'
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+
+hypothesis:
+  statement: >-
+    A point-in-time change in MOEX RMS anticipated cashflows between the near and far
+    expirations changes the fair far-minus-near futures spread by the opposite amount.
+    If the next executable public-archive quote still lies on the profitable side of
+    that fixed fair target, an atomic calendar-spread limit order may capture delayed
+    convergence without taking outright stock direction.
+  family: dividend_revision_delayed_convergence
+  family_is_distinct_from_core4_price_only_calendar_spreads: true
+  strategy_count: 1
+  parameter_search: false
+  sign: predicted_far_minus_near_change_equals_negative_cashflow_change
+  inversion_after_outcome: forbidden
+
+dates:
+  source_start: '2023-01-01'
+  source_end: '2025-12-31'
+  diagnostics_start: '2023-01-01'
+  diagnostics_end: '2024-12-31'
+  temporal_evaluation_start: '2025-01-01'
+  temporal_evaluation_end: '2025-12-31'
+  protected_from: '2026-01-01'
+  timezone: Europe/Moscow
+
+inputs:
+  spread_root: data/processed/info_radar/moex-dividend-calendar-spreads-2023-2025-v1
+  spread_manifest: {file: manifest.json, sha256: a8c1b0b0b9a163908c86c42542daa9607e311cd58e161b2235b5ecf7020362ca}
+  catalog: {file: catalog.parquet, sha256: 4efa085e909e76ea7bcf218261f908ec65f7f1fe0a4c2a7bed719cd9c887c0b3, rows: 53}
+  archive_daily: {file: public_archive_daily.parquet, sha256: a86d8dc9b177fb801a4e657009442d6a144ca9dbb8698f875f04209cea705eee, rows: 3556}
+  raw_responses: {file: official_moex_responses.jsonl.gz, sha256: 439a514a34fe72ead9e993591aefd3333cc5b6f6c4c40153584028d65a429a76, rows: 222}
+  cashflow_root: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4
+  cashflow: {file: cashflow.parquet, sha256: be7f9a32bf2b085edb01df4cee8d3a895be10b182e9708fd5e033616dfefad19, rows: 10817}
+  cashflow_manifest: {file: manifest.json, sha256: e88360d3f1a3476e3e34a67b947fb7aa1a656a2c290aa46e27add84dd397b2e3}
+  cashflow_audit: {file: audit.json, sha256: 013c6e234521fc5d6eebf143bddb3c35392251c414dc014e749f672b8726824c}
+
+information_set:
+  spread_definition: far_futures_price_minus_near_futures_price
+  long_spread: long_far_short_near_equal_contract_quantity
+  spread_state_available_at: next_calendar_day_midnight_Europe_Moscow
+  cashflow_state: latest_complete_asset_snapshot_with_tradedate_strictly_before_spread_trade_date
+  multiple_states_same_tradedate: latest_available_at_utc_then_latest_updatetime
+  same_day_cashflow_use: forbidden
+  cashflow_between_legs: near_expiration_strictly_less_than_t_less_than_or_equal_far_expiration
+  risk_adjusted_cashflow_points: sum_cf_times_cfrisk
+  nonfinite_or_negative_cf_or_cfrisk: reject
+  initial_cashflow_snapshot_creates_signal: false
+  missing_snapshot: no_signal
+  outcome_or_future_price_in_signal: forbidden
+
+signal:
+  previous_spread_midpoint: prior_observation_arithmetic_bid_ask_midpoint_same_spread
+  cashflow_change: current_lagged_between_legs_sum_minus_previous_lagged_between_legs_sum
+  require_cashflow_change_nonzero: true
+  fair_target: previous_spread_midpoint_minus_cashflow_change
+  residual: current_spread_midpoint_minus_fair_target
+  long_when_residual_negative: true
+  short_when_residual_positive: true
+  zero_residual: no_signal
+  price_or_cashflow_magnitude_threshold: none
+  overlapping_position_same_asset: forbidden
+
+execution_proxy:
+  entry: first_strictly_later_archive_row_same_spread
+  entry_long: fill_at_ask_only_if_ask_strictly_below_fair_target
+  entry_short: fill_at_bid_only_if_bid_strictly_above_fair_target
+  require_two_sided_complete_non_crossed_strict_positive_width_quote: true
+  require_reported_trade_activity: true
+  target_exit_long: first_later_bid_greater_than_or_equal_fair_target_fill_at_bid
+  target_exit_short: first_later_ask_less_than_or_equal_fair_target_fill_at_ask
+  adverse_stop: first_later_executable_loss_at_least_two_times_initial_target_edge
+  maximum_holding_observations: 10
+  forced_exit_days_to_near_expiration: 4
+  forced_exit: first_eligible_bid_or_ask_after_trigger
+  no_quote: wait_until_next_eligible_row
+  terminal_unclosed_position: unresolved_not_zero_pnl
+  bid_ask_already_charged: true
+  historical_EOD_quote_is_not_guaranteed_fill: true
+
+cost_scenarios_quote_points_round_trip:
+  primary: 2.0
+  doubled: 4.0
+  stress: 8.0
+  rationale: conservative_fixed_fee_and_unseen_queue_haircut_beyond_observed_bid_ask
+
+accounting:
+  unit: spread_quote_points_per_one_equal_quantity_pair
+  gross_points: direction_times_exit_fill_minus_entry_fill
+  net_points: gross_points_minus_scenario_round_trip_points
+  portfolio_CAGR_or_ruble_return: not_computable_without_historical_contract_specs_margin_and_fees
+  capital_scaling_or_leverage: forbidden
+  report_by_exit_year_asset_and_cost_scenario: true
+
+validation:
+  primary_gate_period: '2025-01-01..2025-12-31'
+  minimum_completed_primary_trades: 20
+  primary_total_net_points_must_be_positive: true
+  doubled_total_net_points_must_be_positive: true
+  stress_total_net_points_must_be_positive: true
+  minimum_positive_assets_primary: 4
+  minimum_positive_exit_years_primary_full_history: 2
+  primary_median_net_points_per_trade_must_be_positive: true
+  maximum_unresolved_positions: 0
+  all_temporal_and_identity_checks_must_pass: true
+  passing_means: candidate_for_exact_specs_fees_margin_and_forward_order_validation_only
+  passing_does_not_mean: profitable_live_strategy_or_20_percent_CAGR
+
+output:
+  root: runs
+  prefix: dividend_calendar_spread_v1
+  immutable: true
+  artifacts: [events.parquet, trades.parquet, metrics.json, report.md, audit.json, manifest.json, manifest.sha256]
+
+limitations:
+  source_is_current_vintage: true
+  archive_quotes_are_EOD_not_order_time_or_queue: true
+  historical_contract_specs_fees_margin_and_atomic_fill_are_unproved: true
+  cashflow_is_exchange_risk_input_not_issuer_guidance: true
+  only_one_calendar_year_is_temporal_evaluation: true
+  guaranteed_profit: false
+  live_trading_allowed: false
+
+forbidden_after_seal:
+  - changing_cashflow_sign_risk_adjustment_or_between_expiry_boundary
+  - choosing_assets_cashflow_events_thresholds_holding_period_or_stop_after_outcome
+  - using_same_day_cashflow_or_same_day_entry
+  - filling_at_midpoint_last_settlement_or_outside_bid_ask
+  - treating_EOD_quote_as_guaranteed_execution
+  - inventing_contract_multiplier_margin_CAGR_or_leverage
+  - using_any_price_cashflow_or_pnl_timestamp_at_or_after_2026_01_01
+  - overwriting_the_canonical_run
+  - live_trading_or_claiming_guaranteed_profit
