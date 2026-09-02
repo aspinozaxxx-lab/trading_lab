@@ -58,7 +58,7 @@ Authoritative команда выполняется на `gpu-mlserver`:
 ```bash
 cd /opt/trading_lab
 runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
-  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness \
+  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness_v2 \
   --option-root /srv/trading_lab_data/data/forward/moex-options-surface-v1 \
   --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components
 ```
@@ -70,3 +70,8 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
 Первый authoritative paper-arm run после exact deploy commit `8f7176b`: option/CLOSE
 `0/54 + 0/253`, execution/FRED/CBR `0/0/0`; один option snapshot и два components,
 retrieved до seal, явно исключены; invalid `0`, signal/target/PnL false.
+
+Transport admission SHA `62ca9450...` и successor deploy `8cee8cd` принимают sealed
+anonymous FRED V2 без изменения paper boundary. Текущий paper-arm readiness:
+option/CLOSE `1/54 + 1/253`, post-seal execution/FRED/CBR `0/1/0`, causal join `0`,
+excluded preseal option/components `1/2`, invalid `0`; CAGR/PnL всё ещё запрещены.

@@ -859,10 +859,15 @@ macro с past decision и показывает provider gaps отдельно. �
 `moex_v27_forward_fred_api_component_source` — credential-safe transport для того же
 official `STLFSI4` через `api.stlouisfed.org`. Secret читается только из process
 environment, не попадает в persisted URL/errors/artifacts; authenticated failure не
-переключается на anonymous transport. `v27_forward_component_readiness_v2` dispatch-ит
-audit по sealed protocol id и раздельно считает оба FRED route, а
-`v48_frontier_forward_readiness_v3` добавляет только route/key-availability state к
-неизменной V48 economics.
+переключается на anonymous transport. Без ключа dispatcher использует
+`moex_v27_forward_fred_anonymous_transport_v2`: exact fredgraph endpoint/query/parser,
+но browser-compatible headers вместо блокируемого research User-Agent.
+`v27_forward_component_readiness_v3` dispatch-ит audit по трём sealed protocol id и
+раздельно считает anonymous V1/V2 и authenticated V1. Successors
+`v39_forward_component_readiness_v2`, `v48_frontier_forward_readiness_v4`,
+`v49_double_risk_forward_readiness_v2` и
+`v49_double_risk_paper_readiness_v2` принимают тот же V2 component без изменения
+границ, warmup, fixed arms или promotion gates.
 
 ### `market_lab.futures_v49_v39_double_risk_exact_execution`
 

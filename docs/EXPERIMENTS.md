@@ -292,6 +292,25 @@
   повторять; соседние scales, cap, buffer и gates по этому outcome не настраивать.
   Следующий допустимый тест — только отдельный presealed post-seal paper/forward arm.
 
+## V27 anonymous FRED transport V2 — SOURCE ACTIVE, MACRO READY
+
+- Transport config SHA `8a26480d...` and admission SHA `62ca9450...` were sealed with
+  anonymous/API counts all zero. Only browser-compatible request headers changed;
+  official fredgraph URL/query, `STLFSI4`, parser, current-vintage availability and
+  causal macro join are unchanged.
+- Source implementation SHA `5cf38c92...`; dispatcher/readiness deploy `799656f`.
+  First immutable component
+  `snapshot_macro_fred_transport_v2_20260902T221948066517Z` has 57 rows and source
+  replay `15/15`; manifest/audit SHA `e1d7b83c.../5d34f36f...`.
+- V27 readiness V3 now reports 4 valid/0 invalid components,
+  execution/decision/FRED/CBR `1/1/1/1`, macro ready true, price warmup `1/253`.
+  Causal decision count remains `0`, because the first FRED retrieval followed the
+  stored decision; no future macro backfill occurred.
+- Downstream successors: commit `8cee8cd` adds V48 readiness V4 and V49 forward/paper
+  readiness V2; commit `df8c57e` adds V39 component readiness V2. They accept anonymous
+  FRED V2 while preserving exact boundaries and fixed arms. No signal, return, target,
+  prediction or PnL was computed.
+
 ## V27 authenticated official FRED component — SEALED, KEY NOT CONFIGURED
 
 - Config SHA `2954c5a4...` и implementation `4a283074...` добавляют официальный
@@ -303,8 +322,9 @@
 - Economics, series, observation window, actual-retrieval availability и causal join
   не менялись. Readiness V2/V3 dispatch-ит raw replay по protocol id и считает FRED
   anonymous/authenticated отдельно.
-- Текущий operational state: key configured `false`, FRED `0/0`, execution `1`, CBR
-  `1`, decision `0`, invalid `0`; paper economics и live trading запрещены.
+- Текущий operational state: key configured `false`, FRED anonymous-v1/v2/authenticated
+  `0/1/0`, execution `1`, CBR `1`, decision `1`, invalid `0`, causal join `0`; paper
+  economics и live trading запрещены.
 
 ## V48 frontier forward V1 — SEALED, JOINT WARMUP 1/54 + 0/253
 
@@ -322,8 +342,9 @@
   обещание. Также нужны Sharpe `>=1`, MDD `<=40%`, worst full year `>=-15%`, два
   positive years, zero critical/unresolved, второй unseen pass и broker reconciliation.
 - Source-mapping correction SHA `019f970e...` сохраняет тот же fixed mode, но читает
-  independent V27 components. Текущий readiness: option `1/54`, CLOSE `0/253`,
-  execution `1`, CBR `1`, FRED `0`, invalid `0`, paper economics false. Команда в
+  independent V27 components. FRED V2 admission SHA `62ca9450...` и readiness V4
+  дают: option `1/54`, CLOSE `1/253`, execution `1`, CBR `1`, FRED `1`, invalid `0`,
+  causal join `0`, paper economics false. Команда в
   `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
 
 ## V27 forward transport continuity V1 — SEALED BEFORE FIRST SNAPSHOT

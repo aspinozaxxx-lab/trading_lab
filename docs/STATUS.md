@@ -410,6 +410,11 @@ eligible counts на границе равны нулю. Это устраняе
 запушен и развернут на `gpu-mlserver`; server tests `5 passed`, paper readiness снова
 подтвердил `0/54 + 0/253`, execution/FRED/CBR `0/0/0`, exclusions `1 + 2`, invalid `0`.
 
+FRED transport V2 admission SHA `62ca9450...` и successor deploy `8cee8cd` не сдвигают
+эту границу. Текущий paper-arm readiness V2: option/CLOSE `1/54 + 1/253`, post-seal
+execution/FRED/CBR `0/1/0`, excluded preseal option/components `1/2`, invalid `0`,
+causal join `0`; PnL/CAGR всё ещё запрещены.
+
 ## V48 exact frontier — FORWARD BASELINE, 38.46–39.86% CAGR
 
 V48 SHA `3b7ae0e4...`, seal `5c7e9e0`, implementation `ba414cc`; canonical
@@ -438,8 +443,10 @@ OHLC/spec proxy, а не broker fills или independent forward. Forward protoc
 запечатан до первого V27 snapshot: SHA `1fbc8c10...`, единственный режим `frontier`,
 scale `1.50`, gross cap `3.00`, margin buffer `2.00`, participation `1%`, carry `0`.
 Source mapping correction SHA `019f970e...` перевёл readiness на независимые V27
-components без изменения режима. Сейчас: option levels `1/54`, official CLOSE `0/253`,
-execution dates `1`, CBR `1`, FRED `0`; signals/returns/PnL и annualization запрещены.
+components без изменения режима. FRED V2 admission SHA `62ca9450...` и readiness V4
+теперь дают: option levels `1/54`, official CLOSE `1/253`, execution dates `1`, CBR
+`1`, FRED anonymous-v1/v2/authenticated `0/1/0`, invalid `0`, causal join `0`;
+signals/returns/PnL и annualization запрещены.
 Scale, cap, buffer, execution marks и gates по 2021–2025 больше не менять; см.
 `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
 
@@ -451,15 +458,18 @@ availability не менялись; cache/backfill запрещены. Atomic V2
 `0`, потому что persistent FRED disconnect отклонял весь snapshot. До первого decision
 или PnL запечатан component protocol SHA `242d2684...`: MOEX, FRED и CBR теперь имеют
 собственные immutable timestamps. Первый execution component (`25` rows) и CBR
-component (`550` rows) прошли raw replay без единого failed check; FRED остаётся явно
-missing и не может задним числом ремонтировать прошлое решение.
+component (`550` rows) прошли raw replay без единого failed check; на этом этапе FRED
+был явно missing и не мог задним числом ремонтировать прошлое решение.
 
-Официальный host `api.stlouisfed.org` доступен из среды и отвечает `400` без ключа,
-тогда как anonymous fredgraph зависает. До ключа/response запечатан authenticated FRED
-component SHA `2954c5a4...`, implementation `4a283074...`, V48 route correction
-`b638ee93...`. Wrapper использует API только при валидном `FRED_API_KEY`; credential
-не сериализуется, а после authenticated HTTP/parse failure anonymous fallback запрещён.
-Сейчас key configured `false`, anonymous/authenticated snapshots `0/0`.
+Официальный host `api.stlouisfed.org` доступен, но требует ключ. Старый anonymous
+fredgraph зависал только с прежним research User-Agent; transport-only probe того же
+URL с browser-compatible headers прошёл. До первого ответа запечатаны source SHA
+`8a26480d...` и admission SHA `62ca9450...`; implementation `5cf38c92...` не меняет
+series/query/parser/availability. Wrapper использует API только при валидном
+`FRED_API_KEY`, иначе anonymous header V2; после failure fallback запрещён.
+Первый 57-row V2 snapshot прошёл `15/15`, manifest/audit SHA
+`e1d7b83c.../5d34f36f...`. Сейчас key configured `false`, anonymous-v1/v2/authenticated
+snapshots `0/1/0`.
 
 Forward collection перенесён на `gpu-mlserver`: commit `bd1f63c` добавил
 cross-platform dispatcher и 13 native systemd timers, серверные каталоги
@@ -1049,10 +1059,12 @@ CAGR, Sharpe, MDD и worst year во всех требуемых сравнен�
 независимое доказательство и не обещание 50%. Window/quantiles/signs/assets/scale больше
 не менять; добавить V39 к forward paper validation как заранее замороженный challenger.
 
-Forward V39 V1 уже запечатан SHA `3677bcca...`, commit `ba9bbb1`; joint readiness
-commit `24a41b6` raw-replay проверяет оба существующих source и не вычисляет signal/PnL.
-Текущее состояние: option weekly levels `1/54`, V27 official CLOSE `0/253`, invalid
-option/futures snapshots `0/0`; paper economics и CAGR reporting false. После обоих
+Forward V39 V1 уже запечатан SHA `3677bcca...`, commit `ba9bbb1`; старый atomic
+readiness сохранён для exact replay. Component successor V2 принимает admission
+`62ca9450...`, raw-replay проверяет V27 components и не вычисляет signal/PnL. Текущее
+состояние: option weekly levels `1/54`, V27 official CLOSE `1/253`, execution/FRED/CBR
+`1/1/1`, causal join `0`, invalid option/component snapshots `0/0`; paper economics и
+CAGR reporting false. После обоих
 warmup потребуются 504 sessions/104 weeks/two full years. Полный контракт:
 [FORWARD_V39_PROTOCOL.md](FORWARD_V39_PROTOCOL.md).
 
@@ -1129,19 +1141,28 @@ partial current week не считается завершённой. Сейча�
 никакая короткая annualization не является доказательством 20–50%. Полный порядок:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
 
-Первый execution run `2026-09-02 10:05` и ручной retry не создали snapshot: официальный
-FRED STLFSI4 endpoint трижды дал 30-second read timeout. Market/CBR bytes не были
-частично опубликованы, cache/zero substitution запрещены, readiness остаётся 0.
-Transport-only retry `1s/2s` добавлен без изменения economics.
+Первый atomic execution run `2026-09-02 10:05` и ручной retry не создали общий snapshot:
+официальный FRED STLFSI4 endpoint трижды дал 30-second read timeout. Market/CBR bytes
+не были частично опубликованы, cache/zero substitution запрещены. Это состояние
+сохранено как корректный fail-closed результат superseded atomic V2.
 
 Этот availability coupling исправлен новым source-storage boundary до первого decision:
 component config SHA `242d2684...`, implementation `026fef9f...`, readiness
 `d7b4d30a...`; V48 source-mapping correction SHA `019f970e...`. Scheduled wrapper
 сначала сохраняет required MOEX component, затем независимо пытается CBR и FRED.
 Фактически сохранены и replay-аудированы execution `1` (`25` rows), decision `1`
-(`25` rows) и CBR `1` (`550` rows); invalid `0`, FRED `0`. FRED failure теперь даёт concise
-warning, но не удаляет market evidence. Любой join требует macro `retrieved_at <=
-decision_at`; поздний FRED не ремонтирует прошлое.
+(`25` rows) и CBR `1` (`550` rows). Новый anonymous FRED transport V2 был запечатан
+до ответа: source SHA `8a26480d...`, admission SHA `62ca9450...`, implementation
+`5cf38c92...`. Он изменил только headers. Deploy `799656f` создал первый 57-row FRED
+component; audit `15/15`, manifest/audit `e1d7b83c.../5d34f36f...`. Readiness V3:
+4 valid, 0 invalid, FRED/CBR ready, warmup `1/253`. Любой join по-прежнему требует
+macro `retrieved_at <= decision_at`; поэтому поздний первый FRED не ремонтирует прошлое
+decision и causal join остаётся `0`.
+
+Downstream commit `8cee8cd` добавил V48 readiness V4 и V49 forward/paper readiness V2;
+`df8c57e` добавил V39 component readiness V2. Они принимают V2 protocol id и сохраняют
+прежние boundaries, fixed multipliers и promotion gates. Signal/return/target/
+prediction/PnL не вычислялись.
 
 Отдельный operational blocker: hard fallback ролла требует official future-session
 calendar MOEX. Endpoint найден, но без `MOEX_ALGOPACK_TOKEN` возвращает HTML. Generic

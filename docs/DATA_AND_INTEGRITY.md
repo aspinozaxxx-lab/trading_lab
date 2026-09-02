@@ -422,7 +422,11 @@ Scheduled successor физически отделён в
 actual retrieval. Failure одного component не удаляет другой; partial data внутри
 component запрещены. Macro присоединяется только при `retrieved_at <= decision_at`,
 future macro не backfill-ит past decision. Старые V27 runners не имеют доступа к обоим
-forward paths.
+forward paths. Первый anonymous-header V2 FRED component находится в
+`snapshot_macro_fred_transport_v2_20260902T221948066517Z`: 57 rows, replay `15/15`,
+manifest/audit SHA `e1d7b83c.../5d34f36f...`. На `2026-09-03 01:20` root содержит
+4 valid/0 invalid components; FRED и CBR доступны, но единственный decision раньше
+FRED retrieval и поэтому causal join count остаётся нулём.
 
 MOEX RMS forward source отделён в `data/forward/moex-rms-risk-cashflow-v2/`. Каждый
 snapshot хранит paginated raw JSON и отдельные Parquet `staticparams/limits/cashflow`.

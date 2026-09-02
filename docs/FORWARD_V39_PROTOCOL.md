@@ -46,10 +46,13 @@ Backfill 2026 и перенос historical 2021–2025 option states в forward 
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v39_forward_validation_readiness `
+  market_lab.futures.v39_forward_component_readiness_v2 `
   --option-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1 `
-  --futures-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+  --component-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
-На `2026-09-02`: option levels `1/54`, V27 CLOSE `0/253`, invalid snapshots `0/0`,
-`paper_economics_may_start=false`, `cagr_reporting_allowed=false`.
+На `2026-09-03`: option levels `1/54`, V27 CLOSE `1/253`, execution/FRED/CBR
+`1/1/1`, causal join `0`, invalid snapshots `0/0`,
+`paper_economics_may_start=false`, `cagr_reporting_allowed=false`. Старый atomic
+readiness сохраняется только для exact replay; current successor принимает sealed
+anonymous FRED V2. Implementation commit `df8c57e`.

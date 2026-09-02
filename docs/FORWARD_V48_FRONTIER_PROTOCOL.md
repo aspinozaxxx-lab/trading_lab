@@ -60,12 +60,12 @@ API component SHA `2954c5a4...`, implementation `4a283074...`. Он сохран
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v48_frontier_forward_readiness_v3 `
+  market_lab.futures.v48_frontier_forward_readiness_v4 `
   --option-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1 `
   --component-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
-Текущий state: option `1/54`, V27 CLOSE `0/253`, execution dates `1`, CBR `1`, FRED
-anonymous/authenticated `0/0`, key configured `false`, invalid snapshots `0`,
-`paper_economics_may_start=false`,
-`annualization_allowed=false`, `live_trading_allowed=false`.
+Текущий state: option `1/54`, V27 CLOSE `1/253`, execution dates `1`, CBR `1`, FRED
+anonymous-v1/anonymous-v2/authenticated `0/1/0`, key configured `false`, invalid
+snapshots `0`, causal join `0`, `paper_economics_may_start=false`,
+`cagr_reporting_allowed=false`, `live_trading_allowed=false`.

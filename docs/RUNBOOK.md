@@ -1324,7 +1324,7 @@ V27 independent forward validation:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v27_forward_component_readiness_v2 `
+  market_lab.futures.v27_forward_component_readiness_v3 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_paper_preflight `
@@ -1346,10 +1346,17 @@ official history `CLOSE/VOLUME/OPENPOSITION` каждого контракта. 
 warmup, следующие 504 — immutable evaluation. До завершения warmup PnL/CAGR запрещены.
 Macro разрешён только после собственного actual retrieval и не ремонтирует прошлые dates.
 Если `/etc/trading-lab/collector.env` содержит валидный официальный `FRED_API_KEY`,
-dispatcher использует authenticated API component; иначе остаётся anonymous route.
+dispatcher использует authenticated API component; иначе — sealed anonymous header V2.
 Ключ нельзя передавать аргументом или сохранять в repo/log/raw/manifest. После
 authenticated failure fallback запрещён. Readiness показывает раздельные route counts,
 но никогда значение ключа.
+Первый anonymous V2 snapshot
+`snapshot_macro_fred_transport_v2_20260902T221948066517Z` прошёл `15/15`; ожидаемое
+текущее V27 readiness: components `4 valid/0 invalid`, execution/decision/FRED/CBR
+`1/1/1/1`, causal join `0`, warmup `1/253`. Для downstream проверок использовать
+`v39_forward_component_readiness_v2`, `v48_frontier_forward_readiness_v4`,
+`v49_double_risk_forward_readiness_v2` и
+`v49_double_risk_paper_readiness_v2`; старые версии сохраняются для exact replay.
 Для exact hard fallback нужен `MOEX_ALGOPACK_TOKEN`; generic weekdays запрещены.
 Подробности:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
@@ -1551,7 +1558,7 @@ Source-only readiness отдельного post-seal paper arm:
 ```bash
 cd /opt/trading_lab
 runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
-  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness \
+  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness_v2 \
   --option-root /srv/trading_lab_data/data/forward/moex-options-surface-v1 \
   --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components
 ```

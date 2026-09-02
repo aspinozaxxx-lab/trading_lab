@@ -41,13 +41,22 @@
 | `trading-lab-v27-execution.timer` | V27 observed execution | 10:05 |
 
 `market_lab.ops.forward_collector` сохраняет прежнюю семантику wrappers: audit before
-skip, deterministic decision/fill identity, source-date probes, independent V27
-components и отсутствие anonymous fallback после authenticated FRED failure.
+skip, deterministic decision/fill identity и independent V27 components. При валидном
+`FRED_API_KEY` выбирается только authenticated FRED V1; без ключа — только anonymous
+header V2. Failure выбранного route не включает другой route в том же process.
 Job `option-surface` пишет root `moex-options-surface-v2-timestamps-margin`, а
 `option-surface-eod` — прежний `moex-options-surface-v1`; смешивать эти roots нельзя.
 После каждого V2 capture тот же service публикует sealed counts-only quality report в
 `moex-options-surface-v2-quality-v1`; failure source replay/clock validation виден в
 journal и не скрывается успешным capture.
+
+Commit `799656f` развернул FRED V2 dispatcher/readiness. Первый scheduled-equivalent
+manual service run создал один 57-row component
+`snapshot_macro_fred_transport_v2_20260902T221948066517Z`; replay `15/15`, readiness
+4 valid/0 invalid, FRED/CBR ready. Повторный service run аудировал и пропустил его,
+нового manifest не создал. Commit `8cee8cd` добавил downstream V48/V49 readiness;
+server tests `4/4`, V48 видит FRED V2 как valid, а не invalid. Commit `df8c57e`
+добавляет отдельный component successor для V39 вместо пустого legacy atomic root.
 
 ## Проверка и журнал
 

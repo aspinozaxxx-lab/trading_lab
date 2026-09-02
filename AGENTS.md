@@ -21,7 +21,8 @@
 9. [Forward equity protocol](docs/FORWARD_EQUITY_PROTOCOL.md) — как собирать новый
    TradeStats/OrderStats/OBStats период после V35 и какие gates нужны до paper PnL.
 10. [Forward V27 protocol](docs/FORWARD_V27_PROTOCOL.md) — независимая проверка
-    сильнейшего 28,38% development-кандидата без backfill и post-hoc tuning.
+    сильнейшего 28,38% development-кандидата без backfill и post-hoc tuning; текущий
+    component readiness V3 принимает sealed anonymous FRED transport V2.
 11. [Forward V39 protocol](docs/FORWARD_V39_PROTOCOL.md) — совместная независимая
     проверка option-OI governor и frozen V27 execution без преждевременного CAGR.
 12. [Запросы лицензируемых данных](docs/DATA_ACCESS_REQUESTS.md) — какие платные
@@ -42,7 +43,8 @@
 19. [Серверные collectors](docs/SERVER_COLLECTORS.md) — authoritative `gpu-mlserver`,
     systemd timers, каталоги, журнал и безопасный аварийный откат.
 20. [Forward V49 double-risk](docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md) — лучший exact
-    historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill.
+    historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill;
+    для текущих counts использовать forward/paper readiness V2.
 21. [Official MOEX OFZ source](docs/MOEX_OFZ_SOURCE.md) — новый audited источник
     независимого carry/roll-down engine и точные запреты до V52 economic seal.
 22. [Текущее состояние](docs/STATUS.md), раздел V54 — audited RGBI futures source

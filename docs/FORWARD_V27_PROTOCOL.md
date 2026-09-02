@@ -35,14 +35,21 @@ normalization/schema/availability changes, cache, backfill, partial persistence 
 а macro можно присоединить только если его actual `retrieved_at <= decision_at`;
 будущий snapshot не ремонтирует прошлое решение.
 
-Anonymous `fredgraph.csv` оказался недоступен из текущей сети, тогда как официальный
-`api.stlouisfed.org` отвечает. До получения ключа и до первого FRED snapshot запечатан
-authenticated component config SHA `2954c5a4...`, implementation `4a283074...`, а его
-приём в V48/V27 readiness — correction SHA `b638ee93...`. Route выбирается только по
-наличию валидного process environment `FRED_API_KEY`: ключ не передаётся через CLI, не
-пишется в config/raw/manifest/log, а после ошибки authenticated request fallback на
-anonymous route запрещён. Это транспортная замена того же official `STLFSI4`, не
-изменение economics, availability или macro join.
+Старый anonymous `fredgraph.csv` route с research User-Agent стабильно зависал, тогда
+как тот же exact URL с browser-compatible User-Agent отвечал. До чтения первого ответа
+запечатан transport-only config SHA `8a26480d...` и общий admission SHA `62ca9450...`.
+Source V2 (`5cf38c92...`) меняет только HTTP headers; endpoint, query, `STLFSI4`, parser,
+availability и macro join неизменны. При валидном process environment `FRED_API_KEY`
+по-прежнему выбирается authenticated config SHA `2954c5a4...`; без ключа выбирается
+только anonymous header V2. После ошибки выбранного route fallback на другой запрещён,
+а ключ не передаётся через CLI и не пишется в config/raw/manifest/log.
+
+Dispatcher/readiness V3 deployed commit `799656f`. Первый V2 component
+`snapshot_macro_fred_transport_v2_20260902T221948066517Z` содержит 57 current-vintage
+rows, прошёл source replay `15/15`; manifest/audit SHA
+`e1d7b83c.../5d34f36f...`. Readiness: 4 valid, 0 invalid, execution/decision/FRED/CBR
+`1/1/1/1`, macro ready true. Causally joinable decisions пока `0`: FRED retrieved
+позже уже сохранённого decision, и это прошлое решение намеренно не исправляется.
 
 ## Источник
 
@@ -96,7 +103,7 @@ preflight commit `05a1f74` ничего не вычисляет кроме sourc
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v27_forward_component_readiness_v2 `
+  market_lab.futures.v27_forward_component_readiness_v3 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
@@ -113,7 +120,7 @@ forward data и будущего paper PnL находятся вне Git.
 Для authenticated FRED route ключ задаётся только вне репозитория в server file
 `/etc/trading-lab/collector.env`. Не вставлять его в командную строку, YAML или
 документацию. Следующий service process сам выберет API route; readiness показывает
-только boolean `configured` и раздельные anonymous/authenticated counts.
+только boolean `configured` и раздельные anonymous-v1/anonymous-v2/authenticated counts.
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
