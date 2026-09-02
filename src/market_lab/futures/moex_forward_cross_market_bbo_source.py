@@ -82,6 +82,7 @@ SECURITY_COLUMNS: Final[tuple[str, ...]] = (
     "SECID",
     "BOARDID",
     "LOTSIZE",
+    "LOTVOLUME",
     "MINSTEP",
 )
 MARKET_COLUMNS: Final[tuple[str, ...]] = (
@@ -269,7 +270,7 @@ def select_futures_contracts(
 
 def _blocks(payload: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame]:
     securities = iss._parse_iss_block(
-        payload, "securities", frozenset({"secid", "boardid", "lotsize", "minstep"})
+        payload, "securities", frozenset({"secid", "boardid", "minstep"})
     )
     market = iss._parse_iss_block(
         payload,
@@ -327,6 +328,8 @@ def _row(
     if not any(value not in (None, "") and pd.notna(value) for value in clocks):
         invalid.append("exchange_clock_missing")
     lot_size = _number(security.get("lotsize"))
+    if lot_size is None:
+        lot_size = _number(security.get("lotvolume"))
     minimum_step = _number(security.get("minstep"))
     if lot_size is None or lot_size <= 0 or minimum_step is None or minimum_step <= 0:
         invalid.append("lot_or_minimum_step_missing")
@@ -354,7 +357,7 @@ def _row(
         "low": _optional(values.get("low")),
         "last": _optional(values.get("last")),
         "waprice": _optional(values.get("waprice")),
-        "volume": _optional(values.get("volume")),
+        "volume": _optional(values.get("volume", values.get("voltaday"))),
         "value_today": _optional(values.get("valtoday")),
         "last_trade_value": _optional(values.get("value")),
         "number_of_trades": _optional(values.get("numtrades")),

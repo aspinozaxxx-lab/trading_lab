@@ -32,7 +32,16 @@ def _table(columns: tuple[str, ...], rows: list[list[Any]]) -> dict[str, Any]:
 
 
 def _venue_payload(secids: list[str], board: str) -> dict[str, Any]:
-    security_rows = [[secid, board, 1, 0.01] for secid in secids]
+    security_rows = []
+    for secid in secids:
+        values = {
+            "SECID": secid,
+            "BOARDID": board,
+            "LOTSIZE": 1 if board != source.FUTURES_BOARD else None,
+            "LOTVOLUME": 1 if board == source.FUTURES_BOARD else None,
+            "MINSTEP": 0.01,
+        }
+        security_rows.append([values[column] for column in source.SECURITY_COLUMNS])
     market_rows: list[list[Any]] = []
     for index, secid in enumerate(secids):
         values: dict[str, Any] = {
