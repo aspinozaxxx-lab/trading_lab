@@ -1,5 +1,37 @@
 ﻿# Реестр экспериментов
 
+## V48 frontier forward V1 — SEALED, JOINT WARMUP 1/54 + 0/253
+
+- Forward config SHA `1fbc8c10...` запечатан `2026-09-02T10:41:22Z`, когда option
+  source имел один warmup-only level, а V27 не имел ни одного persisted snapshot или
+  экономического outcome. Live trading false.
+- Единственный выбранный до результата режим: frozen V39 targets `1.50x`, gross cap
+  `3.00`, captured initial margin buffer `2.00`, prior official volume participation
+  `1%`, exact integer contracts, no carry. После forward outcome запрещены смена режима,
+  scale/cap/buffer, V39 quantiles/sign и замена observed bid/offer на OPEN/midpoint.
+- Signal/PnL начнутся только после joint V39 warmup `54` option levels + `253` common
+  official CLOSE. Evaluation требует ещё `504` futures sessions, `104` weekly decisions
+  и два полных года. До этого CAGR/annualization запрещены.
+- Promotion floor — `>=20%` CAGR во всех cost scenarios; `35%` — stretch gate, не
+  обещание. Также нужны Sharpe `>=1`, MDD `<=40%`, worst full year `>=-15%`, два
+  positive years, zero critical/unresolved, второй unseen pass и broker reconciliation.
+- Текущий source-only readiness: option `1/54`, CLOSE `0/253`, execution `0`, invalid
+  `0/0`, paper economics false. Команда и rationale находятся в
+  `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
+
+## V27 forward transport continuity V1 — SEALED BEFORE FIRST SNAPSHOT
+
+- V39 readiness alert оказался не изменением стратегии, а intentional retry-only
+  collector change. Старые sealed configs не переписаны: отдельный compatibility SHA
+  `ae70f0d4...` pin-ит original `f38a41f0...` и единственный approved current build
+  `7a6f5732...`.
+- Approved delta: до трёх повторов exact GET/POST после `requests` transport exception
+  и восстановление `SessionLike.post` в Protocol scope. Endpoints, query, economics,
+  schema, timestamps и replay не менялись; substitution/cache/backfill запрещены.
+- Scheduled `execution_observation` в 10:05 завершился без snapshot: FRED устойчиво
+  сбрасывал соединение после всех retries. Fail-closed сохранён, поэтому V27 remains
+  `0/253`; incomplete market-only snapshot не выдаётся за valid evidence.
+
 ## V48 exact integer replay of V47 — FRONTIER PASS, STABILITY STRICT NO-GO
 
 - Config SHA `3b7ae0e4...`, seal `5c7e9e0`, implementation `ba414cc`; canonical

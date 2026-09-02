@@ -37,6 +37,8 @@
     10-минутные снимки для непрерывного timing и совместного анализа всех рынков.
 17. [Forward broad stock–futures carry](docs/FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md)
     — 30 fully-funded пар для расширения стабильного cash-carry sleeve.
+18. [Forward V48 frontier](docs/FORWARD_V48_FRONTIER_PROTOCOL.md) — единственный
+    зафиксированный aggressive mode `1.50x` и его joint warmup/evaluation gates.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

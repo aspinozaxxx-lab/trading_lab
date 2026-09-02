@@ -808,6 +808,13 @@ spec/IM/fees и raw current vintages STLFSI4/RUONIA/key rate. Actual retrieval �
 аудитит каждый каталог и считает 252-session warmup и 504-session evaluation отдельно;
 он никогда не вычисляет PnL.
 
+`v27_forward_transport_compatibility` отделяет sealed economics от допустимой
+transport-only реализации: current collector обязан входить в byte-pinned allowlist,
+а endpoint/query/schema/availability и обязательность всех MOEX/FRED/CBR responses
+остаются неизменными. `v48_frontier_forward_readiness` поверх V39 readiness фиксирует
+единственный V48 frontier mode (`1.50x`, gross `3x`, margin buffer `2x`, participation
+`1%`) и до joint warmup выводит только source counts, никогда signal/return/PnL.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

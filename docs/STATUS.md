@@ -27,9 +27,20 @@ primary имеет только `4/5` positive years из-за `2025 -0.1492%`, 
 выбирались после результата.
 
 V48 всё ещё не live GO: это масштабирование известного same-history winner, public
-OHLC/spec proxy, а не broker fills или independent forward. Следующий обязательный
-этап — запечатанный forward exact-execution admission для масштаба `1.50x`; scale,
-gross cap, margin buffer и gates по 2021–2025 больше не менять.
+OHLC/spec proxy, а не broker fills или independent forward. Forward protocol V1 уже
+запечатан до первого V27 snapshot: SHA `1fbc8c10...`, единственный режим `frontier`,
+scale `1.50`, gross cap `3.00`, margin buffer `2.00`, participation `1%`, carry `0`.
+Readiness: option levels `1/54`, V27 official CLOSE `0/253`, execution dates `0`;
+signals/returns/PnL и annualization пока запрещены. Scale, cap, buffer, execution marks
+и gates по 2021–2025 больше не менять; см. `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
+
+V39/V27 readiness также восстановлен после fail-closed identity alert. До первого V27
+snapshot был запечатан transport-only compatibility SHA `ae70f0d4...`: он разрешает
+только exact collector implementation `7a6f5732...` с тремя повторами того же запроса
+и исправленной Protocol-signature. Economics, endpoints, normalization, schema и
+availability не менялись; cache/backfill/partial snapshot запрещены. Первый запуск
+в 10:05 не сохранил данных из-за persistent FRED disconnect, поэтому счётчик честно
+остаётся `0`, а не подменяется неполным или задним срезом.
 
 ## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
 

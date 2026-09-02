@@ -18,6 +18,15 @@ official daily `CLOSE`. Поэтому V1 source не используется. 
 `f4a7d016...`/commit `941e0b9` не меняет экономику или параметры и был запечатан до
 просмотра post-seal CLOSE. Реализация commit `09e73c4` имеет SHA `f38a41f0...`.
 
+До первого V2 snapshot в collector добавлены только повторы exact HTTP request после
+transport exception. Чтобы не переписывать sealed V2/paper/V39 protocols, создан
+отдельный compatibility protocol SHA `ae70f0d4...`: original build `f38a41f0...`,
+approved build `7a6f5732...`. Он fail-closed запрещает новые endpoints/query,
+normalization/schema/availability changes, cache, backfill, partial persistence и любое
+изменение economics. Первый запуск `2026-09-02 10:05` не сохранил snapshot, поскольку
+FRED сбросил соединение после всех retries; readiness поэтому остаётся `0`, без
+подстановки старого/current-vintage значения.
+
 ## Источник
 
 `market_lab.futures.moex_v27_forward_validation_source` сохраняет два immutable вида
