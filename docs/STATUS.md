@@ -30,32 +30,37 @@ capacity равна `3/3` контракта, median four-side crossing friction
 Limit-order гипотеза потребует queue/latency source. Подробности и audit paths:
 [MOEX_TYPE_B_OPTION_SOURCE.md](MOEX_TYPE_B_OPTION_SOURCE.md). Live trading false.
 
-## Intraday MOEX option surface — SOURCE-ONLY COLLECTION ACTIVE
+## Intraday MOEX option surface V2 — SOURCE-ONLY COLLECTION ACTIVE
 
-Для принципиально новой гипотезы непрерывного выбора момента сделки запечатан admission
-config SHA `b325dc26...`, eligibility boundary `2026-09-02T20:05:00Z`; source и parser
-остались byte-pinned к уже аудированному option-surface collector. Старые snapshots не
-backfill-ятся и считаются только `excluded_preboundary`.
+V1 intraday admission SHA `b325dc26...` завершён без полной сессии: накоплено пять
+eligible поздних snapshots, complete sessions `0/20`. Его снимки не переносятся в V2.
+Новый source V2 запечатан до первого V2 value: config SHA `f9a06462...`, implementation
+SHA `74d015a6...`, eligibility boundary `2026-09-02T21:25:00Z`. Admission V2 SHA
+`fb598938...` запечатан отдельно до первого снимка.
 
-Commit `ef1a9d1` перенёс authoritative schedule на `gpu-mlserver`, а `468bd2f` устранил
-обнаруженный source-date dedup и заставил каждый timer tick запускать immutable capture:
-Mon–Fri
-10:09–22:59 МСК каждые 10 минут плюс 23:09/19/29/39/55. Локальные Windows tasks
-остаются выключены. Readiness требует для одной complete session не менее 30 valid
-срезов, span `>=300` минут и max gap `<=25` минут. До 20 complete discovery sessions
-запрещены features, labels, returns и PnL; далее заранее разделены 20 calibration и 60
-unseen sessions.
+V2 сохраняет исходные `UPDATETIME`, `TIME`, `SEQNUM`, `QUANTITY`, `OICHANGE` и margin
+поля `PREVOPENPOSITION/IMNP/IMP/IMBUY/IMTIME`, которые V1 отбрасывал. Это позволяет
+впоследствии проверять staleness и causal identity точнее. Public ISS depth/queue поля
+оказались пустыми и не включены: V2 не доказывает очередь, задержку доставки или fill.
+
+Authoritative `trading-lab-option-surface.timer` на `gpu-mlserver` пишет V2 Mon–Fri
+10:09–22:59 МСК каждые 10 минут плюс 23:09/19/29/39/55. Отдельный
+`trading-lab-option-surface-eod.timer` в 23:57 пишет ровно один V1 snapshot для frozen
+V39/V49 forward-readiness. Локальные Windows tasks выключены. Readiness V2 требует для
+одной complete session не менее 30 valid срезов, span `>=300` минут и max gap `<=25`
+минут. До 20 complete discovery sessions запрещены features, labels, returns и PnL;
+далее заранее разделены 20 calibration и 60 unseen sessions.
 
 Будущий sealed economic protocol сравнит full-surface neural timing, price-only
 ablation, fixed skew/term rule и always-abstain. Только defined-risk конструкции;
 исполнение по наблюдаемому OFFER на входе и BID на выходе, naked short запрещён. Это
 сбор нового причинного источника, а не заявление о найденной доходности.
 
-Первый штатный post-boundary tick `2026-09-02T20:09:00Z` создал
-`snapshot_20260902T200900329716Z`. К концу сессии накоплено пять eligible snapshots
-`20:09…20:55Z`; readiness: eligible `5`, preboundary exclusions `2`, invalid `0`,
-span `46` минут, max gap `16` минут, complete sessions `0/20`. Поздно начатая сессия
-корректно не считается полной и не открывает economic seal; service result success.
+Первый V2 tick создал `snapshot_20260902T212518751694Z`; source audit `22/22`,
+readiness eligible/preboundary/invalid `1/0/0`, complete sessions `0/20`. Поздно начатая
+сессия корректно не считается полной и не открывает economic seal; service result
+success. Canonical V2 root:
+`/srv/trading_lab_data/data/forward/moex-options-surface-v2-timestamps-margin`.
 
 ## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
 
@@ -2264,8 +2269,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. V58/V59 CFTC закрыты, V60 прошёл development, V61 не подтвердил minimum 20%.
    Не менять их signs/windows/multipliers по уже увиденному outcome.
-2. Держать активным только server timer нового option admission SHA `b325dc26...`;
-   каждый eligible snapshot обязан быть post-boundary и пройти полный source replay.
+2. Держать активным server intraday timer option admission V2 SHA `fb598938...` и
+   отдельный V1 EOD compatibility timer; каждый V2 eligible snapshot обязан быть
+   post-boundary и пройти полный source replay.
 3. До 20 complete sessions не вычислять features, labels, returns или PnL. После gate
    один раз запечатать экономический protocol до чтения следующих outcomes.
 4. Сравнить full-surface neural timing с price-only ablation, fixed skew/term rule и

@@ -458,6 +458,15 @@ Availability — следующий календарный день после `
 признаки поверхности/settlement state, но не execution: bid/ask отсутствуют, поэтому
 любой downstream обязан fail-closed отклонять SETTLEPRICE как fill.
 
+Forward intraday option surface V2 хранится только во внешнем root
+`data/forward/moex-options-surface-v2-timestamps-margin/`. Source/admission SHA
+`f9a06462.../fb598938...`, implementation SHA `74d015a6...`, earliest eligible
+retrieval `2026-09-02T21:25:00Z`. V2 сохраняет raw exchange clocks/sequence и current
+margin, но не depth/queue: соответствующие public ISS fields были полностью null.
+V1 snapshots не backfill-ятся и не считаются в V2 readiness. Первый snapshot
+`snapshot_20260902T212518751694Z` прошёл source audit `22/22`; это forward source
+evidence, не historical outcome и не PnL.
+
 Weekly option-state V3 хранится в
 `data/processed/options/moex-core4-options-weekly-2021-2025-v3/`. Config SHA
 `a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3`, implementation

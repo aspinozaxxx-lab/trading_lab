@@ -16,8 +16,9 @@ trail. Это исследовательский код, не инвестици
 | `V41/V43 stability family` | 24,1–25,6% | 1,20–1,27 | 16,8–17,5% | All-cost history >20%, robustness NO-GO |
 
 Высокий full-period CAGR пока не означает предсказуемую прибыль: bootstrap q05 и rolling
-windows опускаются ниже 20%. Новая активная ветка собирает intraday option surface на
-`gpu-mlserver` и проверяет только defined-risk конструкции по observed BID/OFFER.
+windows опускаются ниже 20%. Новая активная ветка собирает timestamped intraday option
+surface V2 на `gpu-mlserver` и проверяет только defined-risk конструкции по observed
+BID/OFFER. Отдельный вечерний V1 snapshot сохраняет совместимость frozen V39/V49.
 Исторический Type B sample подтвердил механику, но показал высокий four-side crossing
 friction и содержит лишь один день. Детали: [текущее состояние](docs/STATUS.md).
 

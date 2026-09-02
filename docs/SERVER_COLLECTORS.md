@@ -36,12 +36,15 @@
 | `trading-lab-cny-relative-value.timer` | CNY relative value | 18:30 |
 | `trading-lab-moex-rms.timer` | MOEX RMS | 23:35 |
 | `trading-lab-v27-decision.timer` | V27 official CLOSE | 23:45 |
-| `trading-lab-option-surface.timer` | option surface | 10:09–22:59 каждые 10 минут; 23:09/19/29/39/55 |
+| `trading-lab-option-surface.timer` | timestamped option surface V2 | 10:09–22:59 каждые 10 минут; 23:09/19/29/39/55 |
+| `trading-lab-option-surface-eod.timer` | V1 compatibility for V39/V49 | 23:57 |
 | `trading-lab-v27-execution.timer` | V27 observed execution | 10:05 |
 
 `market_lab.ops.forward_collector` сохраняет прежнюю семантику wrappers: audit before
 skip, deterministic decision/fill identity, source-date probes, independent V27
 components и отсутствие anonymous fallback после authenticated FRED failure.
+Job `option-surface` пишет root `moex-options-surface-v2-timestamps-margin`, а
+`option-surface-eod` — прежний `moex-options-surface-v1`; смешивать эти roots нельзя.
 
 ## Проверка и журнал
 

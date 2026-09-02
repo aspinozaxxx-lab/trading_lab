@@ -745,6 +745,19 @@ SECID+BOARDID и сохраняет strike/expiry/underlying, bid/offer, settlem
 повторно распаковывает raw bytes и требует exact normalized values. Source содержит
 цены, но никогда не вычисляет return/label/target/PnL.
 
+### `market_lab.futures.moex_forward_option_surface_source_v2`
+
+Timestamped wrapper над byte-pinned V1 source. Помимо прежней поверхности он сохраняет
+exchange update/trade clocks, sequence, last quantity, OI change и current option margin.
+Новый immutable root отделён от V1; V1 snapshots и pre-boundary retrieval запрещено
+копировать. Public ISS depth/queue columns оказались полностью пустыми, поэтому V2 не
+делает claims о depth, delivery latency или fill. Intraday readiness V2 replay-аудирует
+каждый parent snapshot и считает только complete post-boundary sessions; экономические
+outputs до отдельного post-discovery seal запрещены.
+
+Dispatcher сохраняет два независимых jobs: `option-surface` пишет V2 внутридневно,
+`option-surface-eod` пишет V1 один раз в конце дня для frozen V39/V49 consumers.
+
 ### Historical Type B option pipeline
 
 `moex_type_b_derivatives_sample_source_v3` проверяет exact archive/member/header/CRC,

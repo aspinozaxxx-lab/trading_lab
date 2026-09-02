@@ -20,20 +20,23 @@
   mechanics и показывает дорогой market crossing; economic evaluation ждёт независимые
   даты/forward, limit execution — отдельные queue/latency data. Live false.
 
-## Intraday option-surface admission — source-only, active
+## Intraday option-surface V2 admission — source-only, active
 
-- Config SHA `b325dc263639ffa97e0c25ac95340b7bae339ca64f0f6b7fd6ba5de441cbed44`,
-  boundary `2026-09-02T20:05:00Z`, schedule commit `ef1a9d1`, intraday dispatcher fix
-  `468bd2f`.
-- Authoritative `gpu-mlserver` collector: every 10 minutes during the MOEX derivatives
-  session; local Windows tasks disabled. Existing pre-boundary observations excluded.
+- V1 admission SHA `b325dc26...` закончился с `5/2/0` eligible/preboundary/invalid
+  snapshots и `0/20` complete sessions; V1 observations не копируются в V2.
+- Source V2 config/implementation SHA `f9a06462.../74d015a6...`; admission SHA
+  `fb598938c62364be33e352ed6bdc2c68f7bf6b44020a1c77d42c03211b6d12ce`, boundary
+  `2026-09-02T21:25:00Z`.
+- V2 дополнительно сохраняет exchange update/trade clocks, sequence, last quantity,
+  OI change и option margin. Public depth/queue поля полностью пусты и исключены.
+- Authoritative `gpu-mlserver` intraday collector пишет V2 каждые 10 минут; отдельный
+  23:57 EOD timer продолжает V1 только для frozen V39/V49. Local Windows tasks disabled.
 - Gate: 20 complete discovery sessions, each with `>=30` valid snapshots, `>=300` minute
   span and `<=25` minute maximum gap. No economic outcomes are computed before this.
 - Predeclared future arms: full-surface neural timing, price-only ablation, fixed
   skew/term rule, always-abstain; defined-risk and observed OFFER/BID only.
-- First scheduled eligible snapshot `20260902T200900329716Z`: parent replay 17/17 true.
-  By session end readiness eligible/preboundary/invalid `5/2/0`, span `46` minutes,
-  maximum gap `16` minutes and complete discovery sessions `0/20`.
+- First V2 snapshot `20260902T212518751694Z`: source audit `22/22`; readiness
+  eligible/preboundary/invalid `1/0/0`, complete discovery sessions `0/20`.
 
 ## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
 

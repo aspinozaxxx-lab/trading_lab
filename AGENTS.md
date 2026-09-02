@@ -50,9 +50,9 @@
 23. [Текущее состояние](docs/STATUS.md), раздел V60/V61 — causal `2x/1x` shadow-equity
     governor прошёл development, но fixed robustness не подтвердил minimum 20%; его
     126-session rule и multipliers больше не настраивать на той же истории.
-24. [Runbook](docs/RUNBOOK.md), раздел Forward MOEX option surfaces — intraday
-    admission SHA `b325dc26...`, server schedule и запрет экономических расчётов до
-    20 полных post-boundary discovery-сессий.
+24. [Runbook](docs/RUNBOOK.md), раздел Forward MOEX option surfaces — timestamped V2
+    intraday admission SHA `fb598938...`, dual server schedule и запрет экономических
+    расчётов до 20 полных post-boundary discovery-сессий.
 25. [Historical MOEX Type B options](docs/MOEX_TYPE_B_OPTION_SOURCE.md) — один бесплатный
     sample day, strict-prior BBO, defined-risk vertical coverage и высокий crossing
     friction; не использовать его для выбора economic threshold или CAGR.

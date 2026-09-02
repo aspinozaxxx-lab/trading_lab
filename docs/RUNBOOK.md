@@ -1125,67 +1125,63 @@ cash/risk/leverage/costs или boundary bridge на этой history.
 
 ### Forward MOEX option surfaces
 
-Один immutable public-delayed snapshot SI/RI/BR/MIX:
+Один immutable timestamped V2 public-delayed snapshot SI/RI/BR/MIX:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.moex_forward_option_surface_source
+  market_lab.futures.moex_forward_option_surface_source_v2
 ```
 
 Read-only audit:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.moex_forward_option_surface_source `
+  market_lab.futures.moex_forward_option_surface_source_v2 `
   --audit-directory <snapshot-path>
 ```
 
 Каждый запуск создаёт новый каталог под
-`data/forward/moex-options-surface-v1/`; overwrite и historical backfill запрещены.
-Первый реальный snapshot —
-`snapshot_20260901T230311250639Z`, 2 062 rows, audit 17/17. До 60 discovery + 20
-calibration + 40 unseen evaluation snapshots экономический protocol не запускать; см.
-[FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
+`data/forward/moex-options-surface-v2-timestamps-margin/`; overwrite, V1 copy и
+historical backfill запрещены. Source config/implementation SHA
+`f9a06462.../74d015a6...`, earliest eligible retrieval `2026-09-02T21:25:00Z`.
+Первый V2 snapshot — `snapshot_20260902T212518751694Z`, audit `22/22`.
 
-Локальный legacy wrapper ниже сохраняет source-date-only EOD semantics, но Windows task
-отключена. Внутридневной server service вызывает immutable Python collector напрямую;
-существующий timestamp не перезаписывается:
+Локальный legacy wrapper ниже сохраняет V1 source-date-only EOD semantics, но Windows
+task отключена. Он нужен только для ручного диагностического V1 capture:
 
 ```powershell
 .\scripts\collect_forward_option_surface.ps1
 ```
 
-Authoritative server timer — `trading-lab-option-surface.timer`, Mon–Fri каждые 10 минут
-с 10:09 до 22:59 МСК и в 23:09/19/29/39/55; локальная Windows task отключена.
-Проверка timer приведена в
-`docs/SERVER_COLLECTORS.md`.
+Authoritative server intraday timer `trading-lab-option-surface.timer` вызывает V2
+Mon–Fri каждые 10 минут с 10:09 до 22:59 МСК и в 23:09/19/29/39/55. Отдельный
+`trading-lab-option-surface-eod.timer` в 23:57 создаёт V1 snapshot для frozen V39/V49,
+которые сохраняют прежний input contract. Локальные Windows tasks отключены. Проверка
+таймеров приведена в [SERVER_COLLECTORS.md](SERVER_COLLECTORS.md).
 
-Read-only readiness нового intraday admission (config SHA `b325dc26...`, eligibility
-boundary `2026-09-02T20:05:00Z`):
+Read-only readiness intraday V2 admission (config SHA `fb598938...`, eligibility
+boundary `2026-09-02T21:25:00Z`):
 
 ```powershell
-.\.venv\Scripts\python.exe -m market_lab.futures.forward_option_intraday_readiness `
-  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1
+.\.venv\Scripts\python.exe -m market_lab.futures.forward_option_intraday_readiness_v2 `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v2-timestamps-margin
 ```
 
-Старые snapshot учитываются только как `excluded_preboundary`. Полная торговая сессия
-требует не менее 30 valid snapshots, span не менее 300 минут и maximum gap не более
-25 минут. Экономические features, labels и PnL запрещены до 20 полных discovery-сессий;
-затем заранее фиксируются 20 calibration и 60 unseen sessions. Будущие сравнения:
+V1 и pre-boundary snapshots не считаются. Полная торговая сессия требует не менее 30
+valid snapshots, span не менее 300 минут и maximum gap не более 25 минут. Экономические
+features, labels и PnL запрещены до 20 полных discovery-сессий; затем заранее
+зафиксированы 20 calibration и 60 unseen sessions. Будущие сравнения:
 full-surface neural timing, price-only ablation, fixed skew/term rule и always-abstain;
 только defined-risk позиции с наблюдаемыми OFFER на входе и BID на выходе.
 
-Полный replay-аудит всех накопленных snapshot и точный gate 60/20/40:
+Первый V2 readiness: eligible/preboundary/invalid `1/0/0`, complete discovery sessions
+`0/20`. Поле `market_update_time`, `last_trade_time`, `exchange_sequence_number` и
+`initial_margin_exchange_time` обязательно в каждом V2 snapshot. Public depth/queue
+не заявляется: эти ISS fields оказались полностью пустыми.
 
-```powershell
-.\.venv\Scripts\python.exe -m market_lab.futures.forward_option_readiness `
-  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1
-```
-
-Монитор считает только valid unique `source_date`. На `2026-09-02`: `1/60` discovery,
-`0/20` calibration, `0/40` unseen evaluation, invalid `0`, поэтому создание
-экономического protocol пока заблокировано. Wrapper пропускает существующую дату только
-после успешного replay-аудита; повреждённый immutable snapshot не мешает записать замену.
+V1 продолжает собственные неизменные readiness-контракты. Для V39/V49 использовать
+только прежний root `data/forward/moex-options-surface-v1` и соответствующие команды
+ниже; V2 нельзя подставлять в frozen protocol без новой версии и нового seal.
 
 Historical public MOEX option EOD pilot V2 уже canonical; повторять collection в тот же
 path нельзя. Допустим только read-only raw replay:
