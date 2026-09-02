@@ -1,5 +1,24 @@
 ﻿# Реестр экспериментов
 
+## V57/V58 official CFTC WTI positioning → BR — V58 NO-GO
+
+- V57 source SHA/code `22878af6.../cdaa6389...`; immutable official CFTC bundle has
+  `836` rows (`418` WTI + `418` Gold), `2018-01-02…2025-12-30`, and raw replay
+  `all_true=true`. Manifest/positions/raw/audit SHA
+  `e0151b2b.../d155bf55.../3defacb9.../500413b2...`.
+- V58 SHA `637eb6c4...`, seal `d1974ca`, implementation `831e359`/`d89d7842...`.
+  The only candidate was WTI managed-money net-share change over 13 admitted reports,
+  continuation sign, 20d BR vol, 30% target, 2x cap and factual next-open execution.
+- Canonical `v58_cftc_wti_positioning_br_v1_20260902T184645Z_637eb6c4`: candidate
+  CAGR `−28.2451%/−28.7082%/−30.3806%`, Sharpe
+  `−0.7333/−0.7531/−0.8285`, MDD `87.13%/87.24%/88.07%`; only `1/5` positive years.
+- Candidate execution is complete with zero critical/unresolved events, so the negative
+  result is economic rather than missing-data ambiguity. Verdict `NO_GO`; replay
+  `28/28` true, manifest/metrics/audit SHA
+  `94a7b8f4.../44b9a22f.../43ac0263...`.
+- Do not flip sign or tune lag/risk/cap on 2021–2025. A contrarian crowding mechanism is
+  admissible only as a separately sealed test on independently sourced pre-2018 data.
+
 ## V52R2 official OFZ carry/roll-down — NO-GO
 
 - V52 config SHA `ee995ff4...`, implementation commit `2b25672`, SHA `a7752bd0...`

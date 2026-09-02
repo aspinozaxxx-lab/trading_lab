@@ -3,6 +3,42 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V57/V58 official CFTC WTI positioning → BR — SOURCE AUDITED, V58 NO-GO
+
+V57 source config SHA `22878af6...`, implementation commit `3d66bf4`, code SHA
+`cdaa6389...`. Все schema/name corrections были ограничены официальными заголовками и
+точными identity: CFTC сохранила код `067651`, но в 2022 переименовала основной рынок
+из `CRUDE OIL, LIGHT SWEET` в `WTI-PHYSICAL`. Экономика V58 была запечатана до BR
+outcome и не менялась. Immutable source содержит `836` строк — по `418` WTI и Gold,
+`2018-01-02…2025-12-30`; replay имеет все `15/15` checks true. Manifest/positions/raw/
+audit SHA `e0151b2b.../d155bf55.../3defacb9.../500413b2...`.
+
+V58 config SHA `637eb6c4...`, seal commit `d1974ca`, implementation commit `831e359`,
+code SHA `d89d7842...`. Единственный candidate использовал изменение WTI managed-money
+net/OI против значения 13 допущенных reports назад; положительное изменение означало
+long BR, отрицательное — short, без threshold. Решения weekly, CFTC delay не меньше
+7 календарных дней, maximum age 14 дней; BR risk `20d log-vol / 30% target / 2x cap`,
+factual next OPEN, exact rolls, 1% participation и costs `1/1`, `2/2`, `4/2`.
+
+Canonical run
+`runs/v58_cftc_wti_positioning_br_v1_20260902T184645Z_637eb6c4/`:
+
+- `261` evaluation weekly decisions, `46` roll-only decisions и `303` nonzero targets;
+- candidate primary/doubled/stress CAGR `−28.2451%/−28.7082%/−30.3806%`, Sharpe
+  `−0.7333/−0.7531/−0.8285`, MDD `87.13%/87.24%/88.07%`;
+- primary потерял `80.97%`, имел только `1/5` positive years; gross edge отрицателен,
+  execution candidate complete, critical/unresolved `0/0`;
+- frozen price-only 63-session baseline показал indicative CAGR `17.94%`, но его
+  ledger invalid после unresolved expired-contract marks, поэтому это не admissible
+  решение и не подтверждение 20%;
+- V58 verdict `NO_GO`; server replay имеет все `28/28` checks true. Manifest/metrics/
+  audit SHA `94a7b8f4.../44b9a22f.../43ac0263...`.
+
+Не переворачивать sign и не менять 13-report lag/risk/cap на 2021–2025. Следующий
+допустимый тест — отдельно запечатанная contrarian/crowding гипотеза на независимом
+pre-2018 периоде с заново собранным official CFTC source; только после такого
+подтверждения можно вернуться к combined-period проверке. Live trading запрещён.
+
 ## V52R2 OFZ carry/roll-down — NO-GO, 1.92–4.51% CAGR
 
 V52 был запечатан до первого чтения market values: config SHA `ee995ff4...`, commit
@@ -2105,21 +2141,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V57 official CFTC COT causal source, затем presealed BR return test
+### P0 — V59 independent pre-2018 CFTC crowding test
 
-1. V56 закрыт: sealed verdict invalid из-за unresolved, а fully marked subset уже
-   имеет отрицательные gross/net edge. `30/24/45`, sign, holding, DTE и sizing не
-   менять; V56.1 запрещён.
-2. Собрать на `gpu-mlserver` target-free official CFTC Disaggregated Futures Only
-   annual archives `2018–2025` только для exact WTI и Gold market codes. Raw ZIP,
-   schema, rows, hashes и replay обязательны; 2026 файл и значения запрещены.
-3. Поскольку CFTC не публикует полный historical release calendar, назначить каждому
-   Tuesday report консервативный `available_at = report_date + 7 calendar days,
-   23:59:59 America/New_York`; не использовать обычный Friday как недоказанный факт.
-4. До чтения MOEX BR outcomes отдельно запечатать один sign/horizon/risk rule. Новый
-   mechanism должен торговать собственный BR return на factual next OPEN и сравниваться
-   с always-cash и BR price-only baselines; COT нельзя использовать для post-outcome
-   threshold/sign search или как ещё один V49 governor.
+1. V58 trend/continuation sign закрыт как резко отрицательный. Не переворачивать sign
+   на уже увиденном `2021–2025` и не менять lag/risk/cap.
+2. До чтения CFTC `2012–2017` values запечатать source identities и одну экономически
+   отдельную crowding/mean-reversion гипотезу: рост managed-money net share означает
+   short BR, падение — long BR; остальные mechanics допускаются только byte-identical
+   V58.
+3. Собрать старые annual archives и выполнить target-free raw replay только на
+   `gpu-mlserver`; затем один раз проверить на existing independent pre-2018 MOEX BR.
+4. Только если inverse sign проходит не менее 20% во всех costs, Sharpe/MDD/stability и
+   затем согласуется с уже увиденным периодом без дальнейшего tuning, считать механизм
+   кандидатом для нового unseen forward paper.
 5. Historical defined-risk option premium остаётся приоритетным параллельным источником,
    но public ISS не содержит executable bid/offer. Нужен лицензированный MOEX Type B
    (all trades + top of book, derivatives available since 2016) либо forward surface;
@@ -2459,6 +2493,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/metrics.json`
 - `runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/metrics.json`
 - `runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0/metrics.json`
+- `runs/v58_cftc_wti_positioning_br_v1_20260902T184645Z_637eb6c4/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.
