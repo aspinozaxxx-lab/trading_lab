@@ -1,0 +1,106 @@
+﻿protocol_id: v53_ofz_curve_v49_governor_v1
+protocol_version: 1
+status: sealed_before_any_ofz_curve_state_or_v49_join
+declared_at_utc: '2026-09-02T18:45:00Z'
+research_only: true
+normalized_development_proxy: true
+selected_after_v49_and_v52: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A sign-only monthly OFZ yield-curve regime can identify macro dislocation in which
+  the frozen V49 trend engine deserves more risk. Scaling frozen net V49 returns by
+  1.25 in an inverted curve and 0.75 in a normal curve may lift CAGR toward fifty
+  percent without a threshold search or excessive drawdown.
+
+curve_state:
+  universe_security_id_prefix: SU262
+  history_currency_id: SUR
+  economic_currency: RUB
+  face_unit: RUB
+  decision: last_factual_TQOB_session_of_calendar_month
+  availability: maximum_input_available_at_utc
+  apply_not_before: first_V49_session_on_or_after_availability
+  trailing_liquidity_observations: 20
+  trailing_window_includes_decision_session: true
+  minimum_trailing_median_value_rub: 10000000.0
+  short_bucket_years: {minimum_inclusive: 2.0, maximum_exclusive: 4.0}
+  long_bucket_years: {minimum_inclusive: 5.0, maximum_inclusive: 7.0}
+  minimum_securities_per_bucket: 2
+  bucket_statistic: median_yield_at_wap_pct
+  slope: long_median_minus_short_median
+  inverted_definition: slope_lte_zero
+  threshold_or_bucket_search: forbidden
+  missing_bucket: cash_factor_zero
+
+governor:
+  candidate_count: 1
+  parent: frozen_V49_combined_NAV_after_declared_costs
+  inverted_factor: 1.25
+  normal_factor: 0.75
+  missing_factor: 0.0
+  apply_to: each_scenario_net_daily_return
+  cross_sleeve_rebalancing_or_carry: none
+  factor_sign_or_magnitude_search: forbidden
+  exact_order_position_or_margin_claim: false
+
+inputs:
+  ofz_source:
+    root: data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1
+    protocol_sha256: 227b1641f05748ef837829c339e2d9399bc7bd0ce317c191088ca80a88d43c38
+    manifest: {file: manifest.json, sha256: 102b4add04273020f156e53177a639770d46a0192dec5e9bf2d6bf8c1da04770}
+    audit: {file: audit.json, sha256: 809eef1366f9d131622b28cd1026a88f5fc5d55b09ba31614bbed46bfc3ef961}
+    history: {file: ofz_history.parquet, rows: 70896, sha256: f045482bc8e4cdacd32a3b991cc5ba4e7d5ec6e5eb6df86944730d40f1bab817}
+    bondization_is_not_read: true
+  frozen_v49:
+    root: runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+    protocol_sha256: 37b4fcb0e346b1a03f414899891bcecb3cc71f3103a2d54d54184a52bf981f3d
+    manifest: {file: manifest.json, sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c}
+    ledger: {file: combined_ledger.parquet, rows: 1272, sha256: 7702330475b06150f0e73ea06c5a3f75ad94d34190a229d581483090debcb434}
+
+scenario_columns:
+  primary: double_risk_primary_combined_nav
+  doubled: double_risk_doubled_combined_nav
+  stress: double_risk_stress_combined_nav
+  execution_stress: double_risk_execution_stress_combined_nav
+
+dates:
+  start: '2021-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+
+gates:
+  zero_protected_rows: true
+  zero_same_session_lookahead: true
+  minimum_valid_state_months: 48
+  both_curve_states_observed: true
+  minimum_state_covered_V49_session_fraction: 0.75
+  all_nav_positive: true
+  primary_cagr_gte: 0.45
+  all_scenario_cagr_gte: 0.40
+  all_scenario_sharpe_gte: 1.15
+  all_scenario_mdd_lte: 0.35
+  all_scenario_worst_year_gte: -0.10
+  primary_positive_years_gte: 4
+  aspirational_primary_cagr_gte: 0.50
+  aspirational_gate_is_reported_but_not_required_for_pass: true
+  exact_replay_required_before_forward: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v53_ofz_curve_v49_governor_v1
+  immutable_timestamped_run: true
+  required: [curve_states.parquet, governed_ledger.parquet, metrics.json, report.md,
+    manifest.json, manifest.sha256, audit.json]
+
+limitations:
+  - V53 is a same-history normalized proxy selected after V49 and cannot be a holdout.
+  - Scaling net returns is not exact integer execution, cost, margin or capacity replay.
+  - Daily OFZ history has no bid/ask or broker fill evidence.
+  - A pass only admits one exact replay; it cannot authorize live trading.
+
+forbidden_followups:
+  - inverting_the_state_sign_or_changing_1_25_0_75_after_results
+  - changing_bucket_edges_liquidity_minimum_or_monthly_decision_on_2021_2025
+  - selecting_a_scenario_year_or_curve_state_after_results
+  - using_2026_or_later_price_return_target_signal_position_or_pnl
