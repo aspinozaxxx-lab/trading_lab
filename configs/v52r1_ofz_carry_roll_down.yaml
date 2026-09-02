@@ -1,0 +1,38 @@
+﻿protocol_id: v52r1_ofz_carry_roll_down
+protocol_version: 1
+status: sealed_after_v52_empty_concat_failure_before_output
+declared_at_utc: '2026-09-02T17:50:00Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v52:
+  config_path: configs/v52_ofz_carry_roll_down_v1.yaml
+  protocol_sha256: ee995ff40887db0d3a393cedf3b9c6ed365a76fc8089db34f8317837cc1c241b
+  implementation_path: src/market_lab/futures_v52_ofz_carry_roll_down.py
+  implementation_sha256_at_failed_run: a7752bd03520118aa3e8a777ba0bb7714363461445f6ab17c10cc48abb95e312
+  failed_server_commit: 2b25672
+
+observed_failure:
+  all_scenario_trade_frames_empty: true
+  failure: pandas_concat_no_objects
+  output_directory_created: false
+  metrics_manifest_pnl_or_report_created: false
+  market_values_printed: false
+
+mechanical_correction:
+  empty_trade_schema_is_explicit: true
+  empty_position_schema_is_explicit: true
+  concat_includes_all_scenario_frames: true
+  selection_duration_liquidity_top_count_weights_rebalance_costs_and_gates_changed: false
+  parent_market_values_or_results_used_to_change_economics: false
+  corrected_shared_engine_path: src/market_lab/futures_v52_ofz_carry_roll_down.py
+  corrected_shared_engine_sha256: 066dab2181b7a301289af0568a77b005ccb24b483c9803728d0ec8ea449197b1
+  wrapper_path: src/market_lab/futures_v52r1_ofz_carry_roll_down.py
+
+output_override:
+  root: runs/v52r1_ofz_carry_roll_down
+  immutable_timestamped_run: true
+
+limitations:
+  - R1 can only publish the already implied zero-trade result; it cannot change eligibility.
+  - All V52 source, accounting, execution, portfolio and live-trading limitations remain.

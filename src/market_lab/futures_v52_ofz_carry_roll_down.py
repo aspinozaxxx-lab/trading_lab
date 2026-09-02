@@ -57,6 +57,24 @@ SCHEDULE_COLUMNS: Final[tuple[str, ...]] = (
     "value_rub",
     "current_vintage",
 )
+TRADE_COLUMNS: Final[tuple[str, ...]] = (
+    "scenario",
+    "decision_date",
+    "execution_date",
+    "security_id",
+    "side",
+    "dirty_open",
+    "notional_rub",
+    "cost_rub",
+)
+POSITION_COLUMNS: Final[tuple[str, ...]] = (
+    "scenario",
+    "date",
+    "security_id",
+    "quantity",
+    "dirty_mark",
+    "market_value_rub",
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -532,8 +550,8 @@ def simulate(
     if pending is not None:
         unresolved_rebalances += 1
     return SimulationResult(
-        pd.DataFrame(trades),
-        pd.DataFrame(positions),
+        pd.DataFrame(trades, columns=TRADE_COLUMNS),
+        pd.DataFrame(positions, columns=POSITION_COLUMNS),
         pd.DataFrame(ledger),
         completed,
         unresolved_rebalances,
@@ -690,12 +708,8 @@ def build(
         scenario: simulate(history, schedule, decisions, protocol.payload, scenario)
         for scenario in SCENARIOS
     }
-    trades = pd.concat(
-        [item.trades for item in results.values() if not item.trades.empty], ignore_index=True
-    )
-    positions = pd.concat(
-        [item.positions for item in results.values() if not item.positions.empty], ignore_index=True
-    )
+    trades = pd.concat([item.trades for item in results.values()], ignore_index=True)
+    positions = pd.concat([item.positions for item in results.values()], ignore_index=True)
     ledgers = {scenario: item.ledger for scenario, item in results.items()}
     combined = combine_with_v49(
         ledgers,

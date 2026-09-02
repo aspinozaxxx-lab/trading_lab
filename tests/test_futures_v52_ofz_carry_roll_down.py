@@ -107,3 +107,26 @@ def test_simulation_enters_next_open_and_credits_explicit_coupon_entitlement() -
         0
     ] > 0
     assert result.ledger["nav"].iloc[-1] > result.ledger["nav"].iloc[-2]
+
+
+def test_empty_trade_result_has_stable_artifact_schema() -> None:
+    config = _config()
+    history = pd.DataFrame(
+        {
+            "trade_date": pd.to_datetime(["2021-01-29", "2021-02-01"]),
+            "security_id": ["SU262X", "SU262X"],
+            "dirty_open": [1_000.0, 1_000.0],
+            "dirty_mark": [1_000.0, 1_000.0],
+        }
+    )
+    empty_decisions = pd.DataFrame(
+        columns=["decision_date", "security_id", "rank", "status", "available_at_utc"]
+    )
+    empty_schedule = pd.DataFrame(columns=v52.SCHEDULE_COLUMNS)
+    result = v52.simulate(
+        history, empty_schedule, empty_decisions, config, "primary_10bps"
+    )
+    assert result.trades.empty
+    assert tuple(result.trades.columns) == v52.TRADE_COLUMNS
+    assert result.positions.empty
+    assert tuple(result.positions.columns) == v52.POSITION_COLUMNS
