@@ -1,0 +1,140 @@
+﻿protocol_id: v52_ofz_carry_roll_down_v1
+protocol_version: 1
+status: sealed_before_any_ofz_market_value_return_or_pnl
+declared_at_utc: '2026-09-02T17:25:00Z'
+research_only: true
+independent_return_engine: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A causal monthly portfolio of three liquid fixed-coupon OFZ-PD issues with two to
+  seven years remaining maturity and the highest prior YIELDATWAP can earn carry and
+  roll-down with lower drawdown and lower dependence on the frozen V49 futures engine.
+  A predeclared 85/15 fully-funded buy-and-hold sleeve mix may improve stability while
+  retaining materially more than twenty percent historical CAGR.
+
+selection:
+  candidate_count: 1
+  universe_security_id_prefix: SU262
+  currency_id: RUB
+  face_unit: RUB
+  minimum_remaining_maturity_years: 2.0
+  maximum_remaining_maturity_years: 7.0
+  trailing_liquidity_observations: 20
+  trailing_window_includes_decision_session: true
+  minimum_trailing_median_value_rub: 10000000.0
+  ranking_field: yield_at_wap_pct
+  ranking_direction: descending
+  selected_security_count: 3
+  target_weights: equal
+  decision: last_factual_TQOB_session_of_each_calendar_month_after_close
+  require_candidate_row_on_decision_session: true
+  tie_break: security_id_ascending
+  change_threshold_duration_top_count_weight_or_rebalance_day_after_outcome: forbidden
+
+execution:
+  initial_cash_rub: 1000000.0
+  fractional_bond_proxy: true
+  historical_lot_size_proven: false
+  order_time: first_common_subsequent_factual_session_with_positive_OPEN_for_all_old_and_new
+  maximum_execution_delay_calendar_days: 10
+  missing_common_execution: sleep_and_keep_existing_positions
+  rebalance_method: exact_target_weight_delta_after_cost_fixed_point
+  maximum_fixed_point_iterations: 100
+  fixed_point_tolerance_rub: 1.0e-08
+  dirty_price_formula: clean_percent_times_face_divided_by_100_plus_accrued_interest
+  close_mark_priority: [close_clean_pct, wap_clean_pct, legal_close_clean_pct]
+  missing_held_mark: unresolved_no_forward_fill
+  coupons_and_amortization: explicit_bondization_only
+  entitlement: quantity_held_after_close_of_latest_factual_session_on_or_before_explicit_record_date
+  cashflow_credit_date: first_factual_session_on_or_after_explicit_event_date
+  missing_record_date_event_date_or_value: unresolved
+  terminal_positions: mark_not_liquidate
+
+cost_scenarios:
+  primary_10bps: {one_way_bps: 10.0}
+  doubled_20bps: {one_way_bps: 20.0}
+  stress_40bps: {one_way_bps: 40.0}
+
+inputs:
+  ofz_source:
+    root: data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1
+    protocol_sha256: 227b1641f05748ef837829c339e2d9399bc7bd0ce317c191088ca80a88d43c38
+    manifest: {file: manifest.json, sha256: 102b4add04273020f156e53177a639770d46a0192dec5e9bf2d6bf8c1da04770}
+    audit: {file: audit.json, sha256: 809eef1366f9d131622b28cd1026a88f5fc5d55b09ba31614bbed46bfc3ef961}
+    history: {file: ofz_history.parquet, rows: 70896, sha256: f045482bc8e4cdacd32a3b991cc5ba4e7d5ec6e5eb6df86944730d40f1bab817}
+    bondization: {file: ofz_bondization.parquet, rows: 708, sha256: d69be407f565b69e663dd338ae90cc70e9970ca47734c2ad24b5f11799dc1297}
+    current_vintage_schedule_is_accounting_only: true
+    current_vintage_schedule_as_predictor: forbidden
+  frozen_v49:
+    root: runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+    protocol_sha256: 37b4fcb0e346b1a03f414899891bcecb3cc71f3103a2d54d54184a52bf981f3d
+    manifest: {file: manifest.json, sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c}
+    ledger: {file: combined_ledger.parquet, rows: 1272, sha256: 7702330475b06150f0e73ea06c5a3f75ad94d34190a229d581483090debcb434}
+    metrics: {file: metrics.json, sha256: eb24680a72976488a1a982d81f5902414a3154342ced6e0d7f1ba977a3c71bf4}
+    frozen_signal_execution_and_costs_unchanged: true
+
+portfolio:
+  construction: fully_funded_static_initial_allocation_without_cross_sleeve_rebalancing
+  v49_weight: 0.85
+  ofz_weight: 0.15
+  scenario_mapping:
+    primary: {v49: double_risk_primary_combined_nav, ofz: primary_10bps}
+    doubled: {v49: double_risk_doubled_combined_nav, ofz: doubled_20bps}
+    stress: {v49: double_risk_stress_combined_nav, ofz: stress_40bps}
+    execution_stress: {v49: double_risk_execution_stress_combined_nav, ofz: stress_40bps}
+  date_alignment: exact_common_sessions_only
+
+dates:
+  start: '2021-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+
+gates:
+  zero_protected_rows: true
+  zero_lookahead_decisions: true
+  zero_unresolved_cashflows: true
+  minimum_completed_rebalances: 48
+  maximum_unresolved_rebalances: 2
+  minimum_mark_coverage_fraction: 0.98
+  all_ofz_nav_positive: true
+  all_ofz_scenario_cagr_gte: 0.08
+  all_ofz_scenario_sharpe_gte: 0.60
+  all_ofz_scenario_mdd_lte: 0.20
+  all_ofz_scenario_worst_year_gte: -0.10
+  primary_ofz_positive_years_gte: 4
+  all_combined_scenario_cagr_gte: 0.35
+  all_combined_scenario_mdd_lte: 0.25
+  primary_combined_cagr_gte: 0.38
+  aspirational_primary_combined_cagr_gte: 0.50
+  aspirational_gate_is_reported_but_not_required_for_pass: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v52_ofz_carry_roll_down_v1
+  immutable_timestamped_run: true
+  required:
+    - manifest.json
+    - manifest.sha256
+    - audit.json
+    - metrics.json
+    - report.md
+    - decisions.parquet
+    - trades.parquet
+    - positions.parquet
+    - daily_ledger.parquet
+
+limitations:
+  - Daily MOEX history has no executable bid/ask, depth, queue or broker fills.
+  - Fractional bonds are a sizing proxy because historical LOTSIZE is not pinned.
+  - Bondization is current-vintage and is used only to reconstruct explicit cashflows.
+  - The V49 sleeve is same-history selected and this portfolio is not a holdout.
+  - Tax, broker fees, settlement cash timing and collateral eligibility are unproved.
+  - A pass cannot promise future returns and cannot authorize live trading.
+
+forbidden_followups:
+  - changing_duration_liquidity_top_count_weights_rebalance_or_costs_on_2021_2025
+  - selecting_an_OFZ_or_V49_scenario_after_results
+  - using_any_2026_or_later_price_return_target_signal_position_or_pnl
+  - treating_current_vintage_schedule_fields_as_historical_predictors
+  - live_trading_without_forward_bid_offer_and_broker_exact_admission
