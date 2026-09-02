@@ -1,0 +1,80 @@
+protocol_id: stock_futures_cash_carry_idle_ruonia_v2
+protocol_version: 2
+status: sealed_before_any_idle_interest_nav_or_combined_metric
+declared_at_utc: '2026-09-02T04:22:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Preserve all 15 frozen covered cash-carry trades and add only causal income on
+  capital assigned to asset sleeves without an open position. At most 50% of the
+  latest point-in-time RUONIA is credited, matching the conservative V39 collateral
+  policy rather than assuming full deposit access.
+
+parent:
+  root: runs/stock_futures_cash_carry_intraday_v1_20260902T040404Z_aa35b0d8
+  protocol_sha256: aa35b0d864483b30e0b6ffec67dec9b5efeab945362dc9cf5b91e60c06c1885e
+  manifest: {file: manifest.json, sha256: 9025f572c9d5ffddfca556cfbaa36ceb0372aa5d3e98c1059b8ffceb866a8c29}
+  metrics: {file: metrics.json, sha256: e9eee0c320d74be6924f5344662761dc865f520066e88e4ef545834de0683ecd}
+  ledger: {file: daily_ledger.parquet, sha256: 10435a84b97e695dfe8318d8df17c9acea9d7d9276848e5296465ae7c4cdfe7c, rows: 793}
+  trades: {file: trades.parquet, sha256: cae7d2992afee8b0a67e199cd8d25fd06e7995bc813266d358ad5b43bd2d3815, rows: 15}
+
+rates:
+  root: data/processed/info_radar/cbr-dev-2018-2025-v1
+  manifest: {file: manifest.json, sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c}
+  daily: {file: cbr_daily.parquet, sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d, rows: 5951}
+  series_id: ruonia
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  parameter_fitting: none
+  parent_before_first_cash_carry_observation: flat_at_one
+
+eligibility:
+  assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  equal_asset_sleeves: 5
+  active_from_entry_date_through_exit_date_inclusive: true
+  active_sleeve_interest_fraction: 0.0
+  inactive_sleeve_interest_fraction: 1.0
+  eligible_portfolio_fraction: one_minus_active_asset_count_divided_by_5
+  entry_and_exit_calendar_days_are_fully_ineligible: true
+
+interest:
+  applied_ruonia_fraction: 0.50
+  latest_rate_available_at_lte_interval_start_21_00_Europe_Moscow: true
+  accrual: actual_calendar_days_divided_by_365
+  missing_rate: zero_interest_and_explicit_count
+  negative_rate_floor: 0.0
+  compounded_into_sleeve_nav_and_future_normalized_trade_sizing: true
+  fees_or_tax_on_interest: not_modeled_apply_50pct_haircut_instead
+
+parent_scenario_mapping:
+  primary: primary
+  doubled: doubled
+  zero_cashflow_stress: zero_cashflow_stress
+  full_rms_proxy_upper_bound: full_rms_proxy_upper_bound
+  parent_decisions_trades_and_costs_unchanged: true
+
+quality_gates:
+  exact_15_parent_trades: true
+  no_trade_or_signal_recomputation: true
+  causal_ruonia_only: true
+  all_dates_before_2026: true
+  collateral_income_nonnegative: true
+  primary_doubled_and_zero_cashflow_CAGR_positive: true
+  primary_maximum_drawdown_lte: 0.02
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/stock_futures_cash_carry_idle_ruonia_v2
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, daily_ledger.parquet]
+
+limitations:
+  - A realizable broker instrument paying 50% RUONIA with instant liquidity is not proved historically.
+  - Interest tax, settlement cutoffs, collateral haircuts and broker-specific restrictions are not modeled.
+  - Parent RMS cashflows remain projections/outcome proxies, not verified paid dividends.
+  - Equal normalized sleeves ignore investor-specific integer contract sizing.
+  - Historical evidence cannot guarantee profit or authorize live trading.
