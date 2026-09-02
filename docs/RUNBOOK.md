@@ -1374,6 +1374,22 @@ cash/collateral; будущая продажа оценивается тольк
 разрешения вопроса о договоре на индексные данные. Полный контракт:
 [FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
 
+Canonical joint depth/readiness gate for V41:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.v41_forward_execution_admission `
+  --stock-root `
+  D:\Projects\trading_lab_data\data\forward\moex-stock-futures-cash-carry-v1 `
+  --lqdt-root `
+  D:\Projects\trading_lab_data\data\forward\moex-lqdt-idle-cash-v1
+```
+
+Именно `joint_date_count`, а не отдельные readiness counts, является discovery
+progress V41. Raw должен доказать best-level depth для 100 shares/1 future на каждой
+паре и positive LQDT depth; максимальный same-stage retrieval skew — 30 секунд.
+Config/threshold после первого snapshot не менять.
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:

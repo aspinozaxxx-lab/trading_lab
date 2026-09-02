@@ -72,6 +72,20 @@ clocks; iNAV LQDTM не собирается из-за нерешённых ус
 status `Ready` и exact next run `2026-09-02 15:49:00/15:59:00` МСК.
 [FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
 
+### V41 joint depth admission — SEALED, 0/60 joint dates
+
+Перед первым snapshot выяснено, что raw ISS обоих collectors уже содержит
+`BIDDEPTH/OFFERDEPTH`, хотя processed V1 хранит только quotes. Поэтому источники не
+перезапускаются. Отдельный source-quality gate SHA `8183eb50...`, seal `293165b`
+требует на каждом stage: все 5 spot/futures pairs, глубину для минимум 100 акций и
+1 контракта в обе стороны, положительную LQDT depth и retrieval skew между collectors
+не более 30 секунд. Fill каждого parent строго позже decision.
+
+Joint readiness сейчас `0/60`; затем 20 calibration и 60 unseen. Gate не вычисляет
+basis/yield/return/signal/trade/PnL и не решает LQDT allocation capacity, broker queue,
+fees, margin или settlement. Это предотвращает накопление 60 дней формально полных,
+но фактически неисполнимых котировок.
+
 ## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
 
 Единственный weight `80/20`, отсутствие rebalancing и scenario mapping были запечатаны
@@ -1429,6 +1443,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. LQDT выбран как отдельный idle-only challenger, source SHA `15fb471a...`, seal
    `8ae3dc3`. Запустить tasks 15:49/15:59 и paired readiness; не считать его залогом,
    не читать iNAV без подтверждения лицензии и не строить PnL до 60 пар.
+6. Канонический discovery count для V41 — joint depth admission `8183eb50...`, а не
+   отдельные quote counts. Дата проходит только при 10 stock/futures depth gates,
+   positive LQDT depth и same-stage skew `<=30s`.
 
 ### P0 — независимая forward-проверка V27
 

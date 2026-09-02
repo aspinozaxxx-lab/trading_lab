@@ -57,3 +57,12 @@ evaluation. До окончания discovery запрещено запечат�
 unseen evaluation запрещена annualization. Отдельно остаются нерешёнными задержка
 anonymous ISS, доступный размер, broker fees/margin и реально ликвидный инструмент для
 доходности свободного капитала.
+
+## Совместный depth gate
+
+Raw responses уже включают `BIDDEPTH/OFFERDEPTH`, поэтому processed V1 не меняется.
+Config `configs/v41_forward_execution_admission_v1.yaml`, SHA `8183eb50...`, seal
+`293165b` фиксирует до первого значения обязательную глубину минимум для 100 акций и
+одного фьючерса в обе стороны, positive LQDT depth и same-stage retrieval skew не более
+30 секунд. Для V41 discovery использовать только `v41_forward_execution_admission`,
+а не сумму независимых counts.

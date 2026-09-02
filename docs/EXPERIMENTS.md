@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## V41 joint forward execution admission V1 — SEALED, 0/60
+
+- Config SHA `8183eb50...`, seal `293165b` precedes first parent quote/depth values.
+  It consumes exact raw archives of stock-futures source `b25fe86c...` and idle-LQDT
+  source `15fb471a...`; neither parent is rewritten.
+- Each decision/fill stage requires both-sided best depth for one covered unit:
+  100 shares converted through current TQBR LOTSIZE and one RFUD contract for every
+  asset. LQDT BID/OFFER depth must be positive; its allocation capacity is deferred.
+- Same-stage retrieval skew is capped at 30 seconds and both fill retrieval times must
+  follow decisions. Only 60 jointly admitted dates unlock a separate economic seal;
+  20 calibration + 60 unseen then follow. No outcome or annualization is produced now.
+
 ## Forward LQDT idle-cash source V1 — SEALED, 0/60 discovery pairs
 
 - LQDT fixed before quotes: ISIN `RU000A1014L8`, fund rules №3915, TQBR. Official

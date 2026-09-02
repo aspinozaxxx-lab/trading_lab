@@ -891,6 +891,12 @@ idle sleeve и должен быть продан перед cash-carry. Source 
 `8ae3dc3`; собираются только TQBR BID/OFFER/settlement/clocks. iNAV исключён до
 отдельного разрешения условий использования индексных данных.
 
+ISS schema также содержит `BIDDEPTH/OFFERDEPTH`, `BIDDEPTHT/OFFERDEPTHT` и число
+заявок; raw collectors сохраняют эти поля без изменения. До первых значений запечатан
+joint gate SHA `8183eb50...`/seal `293165b`: 100 shares через current TQBR LOTSIZE,
+1 RFUD contract, positive LQDT depth и максимум 30 секунд между parent retrieval.
+Это source-capacity evidence, не доказательство очереди или fill.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и
