@@ -25,7 +25,7 @@
 
 ## Расписания
 
-Все времена московские, Mon–Fri:
+Все времена московские; большинство market jobs Mon–Fri, календарь — ежедневно:
 
 | Timer | Job | Время |
 |---|---|---|
@@ -39,6 +39,7 @@
 | `trading-lab-option-surface.timer` | timestamped option surface V2 | 10:09–22:59 каждые 10 минут; 23:09/19/29/39/55 |
 | `trading-lab-option-surface-eod.timer` | V1 compatibility for V39/V49 | 23:57 |
 | `trading-lab-v27-execution.timer` | V27 observed execution | 10:05 |
+| `trading-lab-futures-calendar.timer` | official MOEX futures calendar | ежедневно 00:20 |
 
 `market_lab.ops.forward_collector` сохраняет прежнюю семантику wrappers: audit before
 skip, deterministic decision/fill identity и independent V27 components. При валидном
@@ -57,6 +58,13 @@ manual service run создал один 57-row component
 нового manifest не создал. Commit `8cee8cd` добавил downstream V48/V49 readiness;
 server tests `4/4`, V48 видит FRED V2 как valid, а не invalid. Commit `df8c57e`
 добавляет отдельный component successor для V39 вместо пустого legacy atomic root.
+
+Commits `b6b39c4/d829d81` запечатали и развернули public-page transport официального
+MOEX futures calendar до первого persisted response. Первый run завершён
+`Result=success`, `ExecMainStatus=0`: `485` future dates, unknown `0`, raw replay
+`18/18`, manifest/audit SHA `19a2858e.../35a0283b...`. Calendar timer стал 15-м
+активным server timer. V49 readiness V3 (`218d7aa`) принимает источник только как
+дополнительный fail-closed AND-condition; экономику и PnL он не вычисляет.
 
 ## Проверка и журнал
 

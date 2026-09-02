@@ -428,6 +428,15 @@ manifest/audit SHA `e1d7b83c.../5d34f36f...`. На `2026-09-03 01:20` root со�
 4 valid/0 invalid components; FRED и CBR доступны, но единственный decision раньше
 FRED retrieval и поэтому causal join count остаётся нулём.
 
+Official MOEX forward futures calendar физически отделён в
+`data/forward/moex-futures-calendar-html-v1/`. Config/admission SHA
+`8380d1a0.../9dc8ef1f...`; raw public-page HTML сохраняется целиком, normalized Parquet
+имеет только `calendar_year/tradedate/is_traded/reason/retrieved_at/available_at/source`.
+Первый snapshot `snapshot_calendar_20260902T225345007058Z` содержит `485` дат,
+unknown `0`, replay `18/18`, manifest/audit SHA `19a2858e.../35a0283b...`.
+Snapshot доступен только решениям после actual retrieval. Missing/null нельзя заменять
+буднями, наблюдаемыми ценами или торговыми фактами; historical vintage backfill запрещён.
+
 MOEX RMS forward source отделён в `data/forward/moex-rms-risk-cashflow-v2/`. Каждый
 snapshot хранит paginated raw JSON и отдельные Parquet `staticparams/limits/cashflow`.
 Risk tables обязаны иметь общий post-seal `tradedate`; cashflow имеет независимый

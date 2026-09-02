@@ -1,5 +1,22 @@
 ﻿# Реестр экспериментов
 
+## Official MOEX futures calendar transport — source and V49 admission complete
+
+- Source config `8380d1a0...` и implementation `c4a07428...` запечатаны/pushed
+  commits `b6b39c4/d829d81` до первого persisted response; admission `9dc8ef1f...`.
+- Public trading-calendar page содержит structured `__NEXT_DATA__.offDays.futures`;
+  direct documented ISS route без auth возвращает HTML. Никакие цены/returns/PnL для
+  выбора транспорта не использовались.
+- Первый server snapshot `snapshot_calendar_20260902T225345007058Z`: `485` дат,
+  `474/11/0` trading/non-trading/unknown, raw replay `18/18`, manifest/audit SHA
+  `19a2858e.../35a0283b...`.
+- Daily 00:20 МСК systemd timer активен; service `Result=success`, `ExecMainStatus=0`.
+- V49 calendar admission `6b81c07c...`, readiness V3 `6950ac24...`, deploy `218d7aa`,
+  server tests `21/21`. Calendar `1 valid/0 invalid`, next six sessions known, но
+  общий paper-ready false из-за `1/54 + 1/253` warmup и execution/FRED/CBR `0/1/0`.
+- Calendar — только дополнительный AND gate: hard fallback остаётся `5`, arm
+  `2x/4x/2x/1%` и все economics неизменны; live false.
+
 ## Historical MOEX Type B options — structural execution diagnostics complete
 
 - Единственный бесплатный official Type B day `2024-10-01` разобран source V3 без

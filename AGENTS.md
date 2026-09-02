@@ -44,7 +44,8 @@
     systemd timers, каталоги, журнал и безопасный аварийный откат.
 20. [Forward V49 double-risk](docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md) — лучший exact
     historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill;
-    для текущих counts использовать forward/paper readiness V2.
+    для текущих counts использовать forward readiness V2 и paper readiness V3 с
+    official calendar AND-condition.
 21. [Official MOEX OFZ source](docs/MOEX_OFZ_SOURCE.md) — новый audited источник
     независимого carry/roll-down engine и точные запреты до V52 economic seal.
 22. [Текущее состояние](docs/STATUS.md), раздел V54 — audited RGBI futures source

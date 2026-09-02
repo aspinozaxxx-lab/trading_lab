@@ -869,6 +869,14 @@ environment, не попадает в persisted URL/errors/artifacts; authentica
 `v49_double_risk_paper_readiness_v2` принимают тот же V2 component без изменения
 границ, warmup, fixed arms или promotion gates.
 
+`moex_forward_futures_calendar_source_v1` получает публичную official MOEX trading
+calendar page и извлекает единственный structured `__NEXT_DATA__.offDays.futures`
+component. Он сохраняет exact raw HTML и normalized date/status/reason, но не цены,
+signals или PnL. `moex_forward_futures_calendar_readiness_v1` выбирает только snapshot,
+retrieved до решения, не заменяет `null` и требует шесть известных будущих sessions
+для причинного five-session hard-fallback. `v49_double_risk_paper_readiness_v3`
+добавляет calendar-ready к прежнему V2 readiness через AND, не меняя arm или gates.
+
 ### `market_lab.futures_v49_v39_double_risk_exact_execution`
 
 Однорежимный aggressive development runner поверх frozen V48/V39 inputs. Он умножает
@@ -930,9 +938,10 @@ live admission.
 
 ### `market_lab.ops.forward_collector` и systemd
 
-Кроссплатформенный operational dispatcher запускает 13 forward jobs на
+Кроссплатформенный operational dispatcher запускает 15 forward jobs на
 `gpu-mlserver`: повторяющиеся BBO/carry snapshots, три decision/fill пары, CNY, RMS,
-options и два V27 этапа. Он не содержит trading economics, но переносит idempotency и
+options, официальный futures calendar и два V27 этапа. Он не содержит trading
+economics, но переносит idempotency и
 audit semantics прежних PowerShell wrappers. Systemd template работает от отдельного
 `trading-lab`, имеет read-only system/repo и единственный writable root
 `/srv/trading_lab_data`. Локальный Task Scheduler отключён, чтобы authoritative writer

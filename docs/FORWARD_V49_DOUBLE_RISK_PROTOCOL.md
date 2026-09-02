@@ -58,9 +58,10 @@ Authoritative команда выполняется на `gpu-mlserver`:
 ```bash
 cd /opt/trading_lab
 runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
-  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness_v2 \
+  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness_v3 \
   --option-root /srv/trading_lab_data/data/forward/moex-options-surface-v1 \
-  --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components
+  --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components \
+  --calendar-root /srv/trading_lab_data/data/forward/moex-futures-calendar-html-v1
 ```
 
 Вывод содержит только post-seal source counts, invalid/excluded counts и phase. Поля
@@ -75,3 +76,10 @@ Transport admission SHA `62ca9450...` и successor deploy `8cee8cd` приним
 anonymous FRED V2 без изменения paper boundary. Текущий paper-arm readiness:
 option/CLOSE `1/54 + 1/253`, post-seal execution/FRED/CBR `0/1/0`, causal join `0`,
 excluded preseal option/components `1/2`, invalid `0`; CAGR/PnL всё ещё запрещены.
+
+Calendar admission SHA `6b81c07c...` добавляет официальный MOEX calendar только как
+дополнительное обязательное условие. V3 видит snapshot
+`snapshot_calendar_20260902T225345007058Z`, `1 valid/0 invalid`, следующие шесть
+торговых сессий известны. Calendar-ready `true`, но общий `paper_economics_may_start`
+остаётся `false`, поскольку joint warmup, post-seal execution и CBR ещё не готовы.
+Календарь не меняет multiplier/cap/margin/cost/gates и не разрешает live trading.

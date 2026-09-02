@@ -133,7 +133,15 @@ sealed reference. До реализации component-aware paper ledger economi
 запрещена.
 
 Hard fallback за пять сессий до expiry требует official machine-readable calendar
-MOEX. Он доступен через `https://iss.moex.com/iss/calendars/futures`, но текущая среда
-не имеет `MOEX_ALGOPACK_TOKEN`; без него endpoint вернул HTML. Generic business days и
-календарь, восстановленный из будущих цен, запрещены. Source продолжает накапливаться,
-но paper economics/promotion остаётся fail-closed до авторизации календаря.
+MOEX. Direct ISS без авторизации возвращает HTML, однако публичная страница календаря
+содержит server-side structured `__NEXT_DATA__.offDays.futures`. Новый transport
+запечатан SHA `8380d1a0...`, admission SHA `9dc8ef1f...`; первый immutable server
+snapshot `snapshot_calendar_20260902T225345007058Z` прошёл replay `18/18` и содержит
+`485` дат до `2027-12-31`, unknown `0`. Daily timer работает в `00:20` МСК.
+
+Calendar readiness выбирает только snapshot с `retrieved_at <= decision_at`, требует
+непрерывные известные calendar dates и как минимум шесть следующих trading sessions,
+чтобы причинно решить правило `<=5`. Generic business days, `null` substitution,
+восстановление из цен и backfill запрещены. Source blocker снят только для решений
+после первого retrieval; component-aware paper ledger по-прежнему не разрешён до
+остальных warmup/execution/macro условий.

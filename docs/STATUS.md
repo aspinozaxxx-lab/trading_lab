@@ -3,6 +3,30 @@
 Обновлено: **2026-09-03**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Official MOEX futures calendar — SOURCE READY, V49 READINESS V3
+
+Прямой documented ISS route `iss.moex.com/iss/calendars/futures` без авторизации
+возвращает HTML, но публичная страница торгового календаря MOEX server-side содержит
+структурированный `__NEXT_DATA__.offDays.futures`. Source-only transport был запечатан
+до первого сохранённого ответа: config SHA `8380d1a0...`, admission SHA `9dc8ef1f...`,
+implementation `c4a07428...`; commits `b6b39c4/d829d81` были pushed до collection.
+
+Первый server snapshot
+`snapshot_calendar_20260902T225345007058Z` содержит только даты/status/reason: `485`
+дат `2026-09-03..2027-12-31`, из них `474` trading, `11` non-trading, unknown `0`.
+Raw HTML `524 574` bytes сохранён gzip; source replay `18/18`, manifest/audit SHA
+`19a2858e.../35a0283b...`. Readiness знает следующие шесть торговых сессий, invalid `0`,
+поэтому operational blocker пятисессионного hard fallback снят для решений после
+`2026-09-02T22:53:45Z`. Более ранние решения этот snapshot не ремонтирует.
+
+Timer `trading-lab-futures-calendar.timer` работает на `gpu-mlserver` ежедневно в
+`00:20` МСК; всего активны `15` server timers, локальных PowerShell tasks нет.
+V49 calendar admission SHA `6b81c07c...`, readiness V3 implementation `6950ac24...`,
+deploy `218d7aa`; server tests `21/21`. Текущий V49 state: calendar `1 valid/0 invalid`,
+option/CLOSE `1/54 + 1/253`, execution/FRED/CBR `0/1/0`, causal join `0`. Calendar
+является дополнительным AND-condition и не может обойти warmup: signal/return/target/
+order/position/PnL не вычислялись, CAGR запрещён, live false.
+
 ## Historical MOEX Type B options — STRUCTURE VALID, ECONOMICS NOT TESTED
 
 Официальный бесплатный Type B sample `OrderLog20241001_B.7z` загружен только на
