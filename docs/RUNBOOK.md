@@ -1127,6 +1127,18 @@ V39 canonical run повторять нельзя:
 hashes, verdict `GO_TO_NEW_FORWARD_CONFIRMATION`. Same-history V39 tuning запрещён;
 следующий PnL только в заранее замороженном forward challenger.
 
+Совместный V39 forward readiness (никаких signal/PnL):
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.v39_forward_validation_readiness `
+  --option-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1 `
+  --futures-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+```
+
+На `2026-09-02` ожидание: option `1/54`, futures CLOSE `0/253`, invalid `0/0`,
+`paper_economics_may_start=false`. Tasks уже зарегистрированы отдельно: option 23:55,
+V27 decision 23:45 и execution 10:05 мск. Новый collector/task для V39 не нужен.
+
 ### MOEX USD/RUB TOM source for future cash-and-carry
 
 Canonical source уже создан и immutable. Повторный read-only replay audit:

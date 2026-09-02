@@ -22,6 +22,8 @@
    TradeStats/OrderStats/OBStats период после V35 и какие gates нужны до paper PnL.
 10. [Forward V27 protocol](docs/FORWARD_V27_PROTOCOL.md) — независимая проверка
     сильнейшего 28,38% development-кандидата без backfill и post-hoc tuning.
+11. [Forward V39 protocol](docs/FORWARD_V39_PROTOCOL.md) — совместная независимая
+    проверка option-OI governor и frozen V27 execution без преждевременного CAGR.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

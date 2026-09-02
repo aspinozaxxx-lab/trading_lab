@@ -78,6 +78,13 @@ CAGR, Sharpe, MDD и worst year во всех требуемых сравнен�
 независимое доказательство и не обещание 50%. Window/quantiles/signs/assets/scale больше
 не менять; добавить V39 к forward paper validation как заранее замороженный challenger.
 
+Forward V39 V1 уже запечатан SHA `3677bcca...`, commit `ba9bbb1`; joint readiness
+commit `24a41b6` raw-replay проверяет оба существующих source и не вычисляет signal/PnL.
+Текущее состояние: option weekly levels `1/54`, V27 official CLOSE `0/253`, invalid
+option/futures snapshots `0/0`; paper economics и CAGR reporting false. После обоих
+warmup потребуются 504 sessions/104 weeks/two full years. Полный контракт:
+[FORWARD_V39_PROTOCOL.md](FORWARD_V39_PROTOCOL.md).
+
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 
 V37 проверил принципиально иной target на frozen 30-stock 10m source: one-sided
