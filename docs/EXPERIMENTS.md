@@ -23,6 +23,18 @@
 - Даже numeric GO не разрешает live: требуется второй unseen period и broker-exact
   collateral/margin/fees/order audit.
 
+## MOEX RMS risk/cashflow forward source — ACTIVE, 0/60 discovery
+
+- Public official source содержит `staticparams`, `limits` и anticipated `cashflow`;
+  absolute price/return/target/PnL не запрашиваются. Future use ограничен dividend fair
+  value, exchange-margin stress, cross-asset ranking и option-risk regime.
+- V1 SHA `fd0145eb...` sealed до values и fail-closed без output: cashflow имеет свой
+  revision clock. V2 SHA `48044ecf...`, seal `cc1bcd2`, меняет только temporal schema;
+  values до V2 seal не читались.
+- Collector `dcd9795`, scheduler/readiness `ff4d0d0`, tests `4/4`. Task
+  `TradingLabForwardMoexRms` Ready, Mon–Fri 23:35. Source date раньше `2026-09-02`
+  reject; 60 discovery + 20 calibration + 60 unseen evaluation, PnL пока запрещён.
+
 ## FX cash-and-carry V1 — NO-GO
 
 - Protocol SHA `4b3ca33e...`, seal `7ddc677`; runner commits `a6d945b`/`4b4b5a2`

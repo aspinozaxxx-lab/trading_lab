@@ -413,6 +413,13 @@ Macro snapshots могут содержать earlier observation dates толь
 по `snapshot_kind + source_date`; decision/open snapshots одной даты не являются
 дубликатами. Старый V27 runner не имеет доступа к этому path.
 
+MOEX RMS forward source отделён в `data/forward/moex-rms-risk-cashflow-v2/`. Каждый
+snapshot хранит paginated raw JSON и отдельные Parquet `staticparams/limits/cashflow`.
+Risk tables обязаны иметь общий post-seal `tradedate`; cashflow имеет независимый
+current-vintage clock и становится доступен не раньше actual retrieval. Исторический
+`from/till` backfill запрещён, revisions создают новый snapshot и не перезаписываются.
+В source нет price/return/target/PnL.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

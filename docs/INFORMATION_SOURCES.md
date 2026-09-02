@@ -78,6 +78,13 @@ MOEX: `https://iss.moex.com/iss/calendars/futures`. Документация у�
 `is_traded`, `updatetime`; текущий доступ без token возвращает HTML. Поэтому нужен
 `MOEX_ALGOPACK_TOKEN`; generic weekdays запрещены как источник скрытой ошибки.
 
+Новый публичный forward-only источник MOEX RMS использует official ISS endpoints
+`rms/engines/futures/objects/staticparams`, `limits`, `cashflow`. Он даёт anticipated
+cashflows и exchange risk/margin state без рыночных цен. Cashflow обновляется отдельным
+clock, поэтому V2 хранит его как current vintage с `available_at >= retrieval`, а не
+приписывает дату risk tables. После 60 discovery dates источник может поддержать
+dividend-fair-value и cross-asset hypotheses; до этого labels/PnL запрещены.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

@@ -28,6 +28,22 @@ calendar MOEX. Endpoint найден, но без `MOEX_ALGOPACK_TOKEN` возв
 weekdays запрещены; отсутствие авторизации не мешает накоплению source, но блокирует
 paper economics/promotion.
 
+## Новый независимый источник: MOEX RMS cashflow/risk — ACTIVE, 0/60 discovery
+
+Публичные official `staticparams`, `limits`, `cashflow` дают anticipated cashflows по
+21 underlying и risk/margin parameters по 198 asset codes без price/return/PnL. Source
+V1 SHA `fd0145eb...` был запечатан до values, но metadata probe обнаружил независимый
+clock cashflow (`2026-08-26`) против risk tables (`2026-09-01`); V1 output не создан.
+V2 correction SHA `48044ecf...`/commit `cc1bcd2` разрешает только раздельные clocks и
+фиксирует `available_at >= actual retrieval`, не меняя экономическую гипотезу.
+
+Collector commit `dcd9795`, automation/readiness `ff4d0d0`; synthetic raw replay
+`4/4`. Task `TradingLabForwardMoexRms` имеет status `Ready`, Mon–Fri 23:35 мск. Первый
+snapshot запрещён, пока risk source date меньше `2026-09-02`; сейчас 0/60 discovery,
+после него 20 calibration и 60 unseen evaluation. Допустимые будущие families заранее
+ограничены dividend fair value, margin-risk governor, cross-asset ranking и defined-risk
+option regime; economic seal и PnL до discovery запрещены.
+
 ## Последний результат: V36-R1 multi-era online expert ensemble NO-GO
 
 V36 проверила на одной причинной шкале `2008-10-08..2025-12-30` десять заранее

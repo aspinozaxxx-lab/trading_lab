@@ -1154,6 +1154,20 @@ warmup, следующие 504 — immutable evaluation. До завершени
 Подробности:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
 
+Forward MOEX RMS risk/cashflow source:
+
+```powershell
+.\scripts\register_forward_moex_rms_task.ps1
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_rms_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-rms-risk-cashflow-v2
+```
+
+Task `TradingLabForwardMoexRms` запускается Mon–Fri 23:35 мск. Wrapper пропускает уже
+audited `risk_source_date`, отклоняет дату раньше `2026-09-02`; collector сохраняет
+полные paginated raw pages и replayable Parquet трёх таблиц. Не добавлять `from/till`,
+не считать PnL до 60 discovery dates; далее нужны 20 calibration и 60 unseen evaluation.
+
 Forward CNY quotes/funding collector:
 
 ```powershell
