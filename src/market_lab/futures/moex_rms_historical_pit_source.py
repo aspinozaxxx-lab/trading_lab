@@ -21,11 +21,11 @@ import requests
 import yaml
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v2.yaml"
-CONFIG_SHA256: Final[str] = "09033a57ef154e229a721843a23d98cd5f6a6970c5b7f51a13e4bba2946c2516"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v3.yaml"
+CONFIG_SHA256: Final[str] = "e08ab9b0721b65906f150a2098181d3a12ae3da653324c8cafba5b0494a3124a"
 MODULE_PATH: Final[Path] = Path(__file__).resolve()
 DEFAULT_OUTPUT_ROOT: Final[Path] = (
-    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v2"
+    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v3"
 )
 USER_AGENT: Final[str] = "market-lab-moex-rms-pit/1.0 (research)"
 TABLES: Final[tuple[str, ...]] = ("limits", "staticparams", "cashflow")
@@ -64,6 +64,14 @@ def _write_json(path: Path, payload: object) -> None:
     )
 
 
+def _recursive_merge(base: dict[str, Any], overrides: Mapping[str, Any]) -> None:
+    for key, value in overrides.items():
+        if isinstance(value, Mapping) and isinstance(base.get(key), dict):
+            _recursive_merge(base[key], value)
+        else:
+            base[key] = value
+
+
 def load_config() -> dict[str, Any]:
     actual = _sha_file(CONFIG_PATH)
     declared = CONFIG_PATH.with_suffix(".yaml.sha256").read_text(
@@ -71,13 +79,38 @@ def load_config() -> dict[str, Any]:
     ).split()[0]
     if actual != CONFIG_SHA256 or declared != CONFIG_SHA256:
         raise ValueError("MOEX RMS historical config seal mismatch")
-    config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    wrapper = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    parent_path = PROJECT_ROOT / wrapper["inheritance"]["parent_config_path"]
+    parent_sha = str(wrapper["inheritance"]["parent_config_sha256"])
+    if _sha_file(parent_path) != parent_sha:
+        raise ValueError("MOEX RMS historical parent config seal mismatch")
+    config = yaml.safe_load(parent_path.read_text(encoding="utf-8-sig"))
+    _recursive_merge(config, wrapper["overrides"])
+    for key in (
+        "protocol_id",
+        "protocol_version",
+        "status",
+        "declared_at_utc",
+        "research_only",
+        "live_trading_allowed",
+    ):
+        config[key] = wrapper[key]
+    _recursive_merge(config["objective"], wrapper["objective"])
+    config["inheritance"] = wrapper["inheritance"]
+    config["correction"] = wrapper["correction"]
+    config["preseal_temporal_metadata_probe"] = wrapper[
+        "preseal_temporal_metadata_probe"
+    ]
     if (
-        config.get("protocol_id") != "moex_rms_historical_pit_source_v2"
+        config.get("protocol_id") != "moex_rms_historical_pit_source_v3"
         or config.get("live_trading_allowed") is not False
         or config["objective"]["returns_targets_predictions_or_pnl_allowed"] is not False
         or str(config["temporal_boundary"]["protected_from"]) != "2026-01-01"
-        or config["correction"]["parent_output_created"] is not False
+        or config["inheritance"]["parent_output_created"] is not False
+        or config["source"]["tables"]["cashflow"][
+            "maximum_snapshot_age_calendar_days"
+        ]
+        != 62
         or config["future_hypothesis_constraints"]["structural_margin_rule_threshold"]
         != "zero_change_only_not_percentile_fit"
     ):

@@ -85,6 +85,9 @@ def test_config_seals_structural_zero_change_rule_and_pre2026_boundary() -> None
     assert config["source"]["tables"]["cashflow"]["date_semantics"] == (
         "latest_snapshot_as_of_query_date"
     )
+    assert config["source"]["tables"]["cashflow"][
+        "maximum_snapshot_age_calendar_days"
+    ] == 62
 
 
 def test_small_archive_collects_and_raw_replays(tmp_path: Path) -> None:
