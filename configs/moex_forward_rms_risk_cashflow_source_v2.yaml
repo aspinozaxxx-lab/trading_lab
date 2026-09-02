@@ -1,0 +1,57 @@
+﻿protocol_id: moex_forward_rms_risk_cashflow_source_v2
+protocol_version: 2
+status: sealed_after_post_v1_date_metadata_probe_before_cf_mr_or_limit_values
+declared_at_utc: '2026-09-02T00:52:34Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v1:
+  protocol: configs/moex_forward_rms_risk_cashflow_source_v1.yaml
+  protocol_sha256: fd0145eb5125a083ed4612d1430d9fbd2a0724c399e85894f919d68f44a83b88
+  inheritance: endpoints_schemas_raw_integrity_mechanism_families_sequential_research
+
+correction_scope:
+  reason: >-
+    MOEX staticparams and limits expose one common risk TRADEDATE while cashflow is an
+    independently revised current table whose TRADEDATE can be older. Requiring all
+    three clocks to match would reject valid current-vintage cashflow publications.
+  economic_hypothesis_changed: false
+  parameters_changed: 0
+  v1_snapshot_created: false
+  values_read_before_v2_seal: false
+  metadata_read_before_v2_seal:
+    staticparams_tradedate: '2026-09-01'
+    limits_tradedate: '2026-09-01'
+    cashflow_tradedate: '2026-08-26'
+    only_dates_updates_counts_and_identity_duplicates: true
+
+temporal_semantics_v2:
+  staticparams_and_limits_common_tradedate_required: true
+  risk_source_date_earliest: '2026-09-02'
+  cashflow_tradedate_may_precede_risk_source_date: true
+  cashflow_request_is_current_snapshot_only: true
+  cashflow_historical_backfill: forbidden
+  cashflow_rows_available_at: max_row_updatetime_actual_retrieval
+  risk_rows_available_at: max_row_updatetime_actual_retrieval
+  no_row_may_be_used_before_actual_retrieval: true
+  cashflow_revision_identity: [assetcode, t]
+  revised_cashflow_value: preserve_new_snapshot_never_overwrite
+  snapshot_discovery_identity: risk_source_date
+  duplicate_risk_source_date_policy: skip_if_existing_snapshot_audits_true
+
+source_quality_gates_v2:
+  exact_one_staticparams_tradedate: true
+  exact_one_limits_tradedate: true
+  staticparams_limits_tradedate_equal: true
+  cashflow_one_or_more_tradedates_allowed: true
+  each_cashflow_tradedate_not_after_retrieval_moscow_date: true
+  all_updatetimes_not_after_retrieval: true
+  exact_current_no_from_till_parameters: true
+  all_v1_raw_schema_pagination_identity_gates_inherited: true
+
+output:
+  source_root: data/forward/moex-rms-risk-cashflow-v2
+  immutable: true
+  contents_in_git: false
+
+forbidden_columns: [price, open, high, low, close, return, returns, label, target, prediction, pnl, profit, equity]
