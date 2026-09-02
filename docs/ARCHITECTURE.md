@@ -745,6 +745,19 @@ SECID+BOARDID и сохраняет strike/expiry/underlying, bid/offer, settlem
 повторно распаковывает raw bytes и требует exact normalized values. Source содержит
 цены, но никогда не вычисляет return/label/target/PnL.
 
+### Historical Type B option pipeline
+
+`moex_type_b_derivatives_sample_source_v3` проверяет exact archive/member/header/CRC,
+разбирает trade, quote update и парный-null quote clear и сохраняет original row order.
+`moex_type_b_core4_bbo_derived_v2` обрабатывает exact timestamp блоками: trade context
+получает только состояние предыдущего distinct timestamp, затем применяются quotes
+текущего блока. `moex_type_b_defined_risk_vertical_admission_v1` соединяет prior option
+identity, fixed 10m grid и adjacent-strike debit verticals без PnL.
+`moex_type_b_vertical_execution_diagnostics_v1` измеряет displayed entry/exit capacity и
+contemporaneous four-side BBO crossing friction по заранее sealed threshold/quantile
+grid. Все четыре модуля source-only; один sample day запрещено использовать для выбора
+economic rule или оценки CAGR.
+
 ### `market_lab.futures.moex_fx_spot_source`
 
 Sealed source-only collector публичной current-vintage истории `USD000UTSTOM`. Он

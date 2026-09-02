@@ -470,6 +470,17 @@ Weekly option-state V3 хранится в
 может использовать state только при `source_date < decision_date`; same-date join
 запрещён. Все strikes/maturities/week codes остаются в агрегате без outcome selection.
 
+Официальный бесплатный derivatives Type B sample хранится только на сервере в
+`data/processed/options/moex-type-b-derivatives-sample-2024-10-01-v3/`. Raw archive SHA
+`afccc1602d81c15dd064eadd44dd91a3aff53bcb3213fe96840f0b8188601e30`; source manifest/
+audit SHA `8317b756.../9e9ad48...`. Strict-prior core4 BBO V2 лежит в
+`data/processed/options/moex-type-b-core4-bbo-2024-10-01-v2/`, manifest/audit
+`e3a7934b.../7e2656d8...`. Defined-risk admission V1 manifest/audit
+`3455302a.../6e062f04...`; displayed capacity/friction diagnostic manifest/audit
+`5ed6ef18.../86a28f55...`. Все каталоги immutable, не содержат return/label/target/
+prediction/position/equity/PnL и не попадают в Git. Sample day не является performance
+history; другие бесплатные Type B дни в official directory отсутствуют.
+
 V39 canonical run:
 `runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`. Metrics SHA
 `52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113`, identity SHA

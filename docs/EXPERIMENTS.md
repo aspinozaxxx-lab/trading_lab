@@ -1,5 +1,25 @@
 ﻿# Реестр экспериментов
 
+## Historical MOEX Type B options — structural execution diagnostics complete
+
+- Единственный бесплатный official Type B day `2024-10-01` разобран source V3 без
+  economics: `6 561 395` ticks, `16 753` trades, `975 553` explicit quote clears;
+  source audit `10/10`. В официальном free directory других Type B дней нет.
+- Strict-prior BBO V2 группирует exact timestamp и не даёт trade видеть updates того же
+  блока: `957 259` states, `13 670` contexts, `13 607` prior two-sided, locked/crossed 0;
+  audit `12/12`. Same-timestamp V1 считается invalid execution context.
+- Defined-risk V1: 1 211 adjacent-strike debit pairs, 99 fixed grid timestamps и
+  `9/72/403/1465` opportunities при freshness `1/5/15/60s`; audit `12/12`.
+- Execution diagnostics SHA `cd32510e...` sealed commit `82af580` до depth/friction;
+  implementation/deploy `771db67`, audit `11/11`, manifest/audit
+  `5ed6ef18.../86a28f55...`.
+- При 15s median displayed entry/exit capacity `3/3`, median four-side crossing cost
+  `16,6%` strike width; friction `<=5%` только у `44/403`, both-side capacity `>=5/10`
+  у `129/35`. При 5s median capacity `5/5`, median friction `16,8%`, `<=5%` у `11/72`.
+- Это не PnL и не основание для post-hoc liquidity threshold. Один день подтверждает
+  mechanics и показывает дорогой market crossing; economic evaluation ждёт независимые
+  даты/forward, limit execution — отдельные queue/latency data. Live false.
+
 ## Intraday option-surface admission — source-only, active
 
 - Config SHA `b325dc263639ffa97e0c25ac95340b7bae339ca64f0f6b7fd6ba5de441cbed44`,
@@ -11,8 +31,9 @@
   span and `<=25` minute maximum gap. No economic outcomes are computed before this.
 - Predeclared future arms: full-surface neural timing, price-only ablation, fixed
   skew/term rule, always-abstain; defined-risk and observed OFFER/BID only.
-- First scheduled eligible snapshot `20260902T200900329716Z`: parent replay 17/17 true;
-  readiness eligible/preboundary/invalid `1/2/0`, complete discovery sessions `0/20`.
+- First scheduled eligible snapshot `20260902T200900329716Z`: parent replay 17/17 true.
+  By session end readiness eligible/preboundary/invalid `5/2/0`, span `46` minutes,
+  maximum gap `16` minutes and complete discovery sessions `0/20`.
 
 ## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
 

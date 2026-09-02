@@ -7,18 +7,19 @@ trail. Это исследовательский код, не инвестици
 
 ## Текущее состояние
 
-Ни одна стратегия не разрешена для live trading. Единственный условно перспективный lead
-— широкий structural futures portfolio:
+Ни одна стратегия не разрешена для live trading. Лучшие исторические challengers:
 
 | Candidate | Net CAGR | Sharpe | MDD | Статус |
 |---|---:|---:|---:|---|
-| `risk_adjusted_momentum` | 6,77% | 0,78 | −15,13% | Daily proxy; exact execution blocked |
-| `tsmom_multi` | 6,31% | 0,79 | −14,21% | Daily proxy; exact execution blocked |
-| `tsmom_6m` | 5,34% | 0,81 | −11,95% | Daily proxy; exact execution blocked |
+| `V49 double-risk` | 43,68% | 1,31 | 22,97% | Лучший exact history; robustness не подтвердил 20% |
+| `V60 equity governor` | 39,94% | 1,24 | 22,02% | Development GO; robustness NO-GO |
+| `V41/V43 stability family` | 24,1–25,6% | 1,20–1,27 | 16,8–17,5% | All-cost history >20%, robustness NO-GO |
 
-Robustness показал PBO-style risk 69,84%, а execution study остановился на missing
-settlement/contract и отсутствии historical specs/fees/IM. Continuous timing, corridor и
-30-stock market graph получили NO-GO. Детали: [текущее состояние](docs/STATUS.md).
+Высокий full-period CAGR пока не означает предсказуемую прибыль: bootstrap q05 и rolling
+windows опускаются ниже 20%. Новая активная ветка собирает intraday option surface на
+`gpu-mlserver` и проверяет только defined-risk конструкции по observed BID/OFFER.
+Исторический Type B sample подтвердил механику, но показал высокий four-side crossing
+friction и содержит лишь один день. Детали: [текущее состояние](docs/STATUS.md).
 
 ## Документация
 

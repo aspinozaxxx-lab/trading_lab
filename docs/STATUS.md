@@ -1,7 +1,34 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-03**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
+
+## Historical MOEX Type B options — STRUCTURE VALID, ECONOMICS NOT TESTED
+
+Официальный бесплатный Type B sample `OrderLog20241001_B.7z` загружен только на
+`gpu-mlserver`; архив SHA `afccc160...`. Canonical source V3 содержит `6 561 395`
+option tick events (`5 569 089` updates, `975 553` explicit quote clears, `16 753`
+trades) и exact deal-ID overlap `16 753/16 753`; audit `10/10`. Бесплатный официальный
+каталог проверен `2026-09-03`: других Type B дней в нём нет, полная история платная.
+
+Core4 BBO V2 устранил same-timestamp look-ahead: trade видит только состояние конца
+предыдущего distinct timestamp. Получено `957 259` BBO states и `13 670` trade contexts;
+`13 607` имеют prior two-sided quote, locked/crossed `0`; audit `12/12`. Structural
+defined-risk admission на заранее заданных 99 grid timestamps нашёл `9/72/403/1465`
+adjacent-strike debit vertical opportunities при freshness `1/5/15/60s`; audit `12/12`.
+
+Отдельный execution-diagnostic был sealed commit `82af580` до depth/friction values,
+config SHA `cd32510e...`, implementation `771db67`. Canonical audit `11/11`; manifest/
+audit SHA `5ed6ef18.../86a28f55...`. При freshness 15s медианная displayed entry/exit
+capacity равна `3/3` контракта, median four-side crossing friction `16,6%` ширины
+страйков; лишь `44/403` observations имеют friction `<=5%`, `129/403` — capacity обеих
+сторон `>=5`, `35/403` — `>=10`. При 5s median capacity `5/5`, friction `16,8%`, и
+только `11/72` имеют friction `<=5%`.
+
+Вывод: market-order вертикали структурно возможны, но BBO crossing дорог; один день не
+даёт expected return и запрещено превращать увиденные `5%/15s` в strategy thresholds.
+Limit-order гипотеза потребует queue/latency source. Подробности и audit paths:
+[MOEX_TYPE_B_OPTION_SOURCE.md](MOEX_TYPE_B_OPTION_SOURCE.md). Live trading false.
 
 ## Intraday MOEX option surface — SOURCE-ONLY COLLECTION ACTIVE
 
@@ -25,9 +52,10 @@ ablation, fixed skew/term rule и always-abstain. Только defined-risk ко
 сбор нового причинного источника, а не заявление о найденной доходности.
 
 Первый штатный post-boundary tick `2026-09-02T20:09:00Z` создал
-`snapshot_20260902T200900329716Z`. Независимый raw replay: `17/17`, `all_true=true`;
-readiness: eligible `1`, preboundary exclusions `2`, invalid `0`, complete sessions
-`0/20`. Один срез корректно не считается полной сессией и не открывает economic seal.
+`snapshot_20260902T200900329716Z`. К концу сессии накоплено пять eligible snapshots
+`20:09…20:55Z`; readiness: eligible `5`, preboundary exclusions `2`, invalid `0`,
+span `46` минут, max gap `16` минут, complete sessions `0/20`. Поздно начатая сессия
+корректно не считается полной и не открывает economic seal; service result success.
 
 ## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
 

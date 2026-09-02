@@ -53,6 +53,9 @@
 24. [Runbook](docs/RUNBOOK.md), раздел Forward MOEX option surfaces — intraday
     admission SHA `b325dc26...`, server schedule и запрет экономических расчётов до
     20 полных post-boundary discovery-сессий.
+25. [Historical MOEX Type B options](docs/MOEX_TYPE_B_OPTION_SOURCE.md) — один бесплатный
+    sample day, strict-prior BBO, defined-risk vertical coverage и высокий crossing
+    friction; не использовать его для выбора economic threshold или CAGR.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

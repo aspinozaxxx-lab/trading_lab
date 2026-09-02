@@ -1209,6 +1209,30 @@ Weekly option-state V3 также immutable; collection не повторять.
 
 Ожидание: 11/11 true, 1 327 744 rows, 13 802 pages, 261 dates.
 
+Historical Type B artifacts существуют только на `gpu-mlserver` и не пересобираются.
+Допустимы read-only audits:
+
+```bash
+cd /opt/trading_lab
+PYTHONPATH=src .venv/bin/python -m \
+  market_lab.futures.moex_type_b_derivatives_sample_source_v3 \
+  --audit-directory /srv/trading_lab_data/data/processed/options/moex-type-b-derivatives-sample-2024-10-01-v3
+PYTHONPATH=src .venv/bin/python -m \
+  market_lab.futures.moex_type_b_core4_bbo_derived_v2 \
+  --audit-directory /srv/trading_lab_data/data/processed/options/moex-type-b-core4-bbo-2024-10-01-v2
+PYTHONPATH=src .venv/bin/python -m \
+  market_lab.futures.moex_type_b_defined_risk_vertical_admission_v1 \
+  --audit-directory /srv/trading_lab_data/data/processed/options/moex-type-b-defined-risk-vertical-admission-2024-10-01-v1
+PYTHONPATH=src .venv/bin/python -m \
+  market_lab.futures.moex_type_b_vertical_execution_diagnostics_v1 \
+  --audit-directory /srv/trading_lab_data/data/processed/options/moex-type-b-vertical-execution-diagnostics-2024-10-01-v1
+```
+
+Ожидание: source `10/10`, BBO `12/12`, vertical admission `12/12`, execution diagnostic
+`11/11`, все `all_true`. Не запускать commands без `--audit-directory`: output immutable.
+Один sample day не поддерживает PnL/CAGR; полный Type B archive требует отдельного
+разрешения на покупку. Детали: [MOEX_TYPE_B_OPTION_SOURCE.md](MOEX_TYPE_B_OPTION_SOURCE.md).
+
 V39 canonical run повторять нельзя:
 `runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`. Ожидание: metrics SHA
 `52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113`, identity SHA
