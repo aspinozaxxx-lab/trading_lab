@@ -88,6 +88,11 @@ def test_config_seals_structural_zero_change_rule_and_pre2026_boundary() -> None
     assert config["source"]["tables"]["cashflow"][
         "maximum_snapshot_age_calendar_days"
     ] == 62
+    assert config["source"]["tables"]["limits"]["unique_key"] == [
+        "tradedate",
+        "assetcode",
+        "updatetime",
+    ]
 
 
 def test_small_archive_collects_and_raw_replays(tmp_path: Path) -> None:

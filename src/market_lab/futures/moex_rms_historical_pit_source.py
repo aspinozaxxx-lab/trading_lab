@@ -21,11 +21,11 @@ import requests
 import yaml
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v3.yaml"
-CONFIG_SHA256: Final[str] = "e08ab9b0721b65906f150a2098181d3a12ae3da653324c8cafba5b0494a3124a"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v4.yaml"
+CONFIG_SHA256: Final[str] = "83bcabed33afccbdb92ca3a1dbdc3f00e6d7ab71134a9d4e1c3ef1d93f51e5ae"
 MODULE_PATH: Final[Path] = Path(__file__).resolve()
 DEFAULT_OUTPUT_ROOT: Final[Path] = (
-    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v3"
+    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4"
 )
 USER_AGENT: Final[str] = "market-lab-moex-rms-pit/1.0 (research)"
 TABLES: Final[tuple[str, ...]] = ("limits", "staticparams", "cashflow")
@@ -72,6 +72,25 @@ def _recursive_merge(base: dict[str, Any], overrides: Mapping[str, Any]) -> None
             base[key] = value
 
 
+def _load_effective_config(path: Path, ancestors: frozenset[Path]) -> dict[str, Any]:
+    resolved = path.resolve()
+    if resolved in ancestors:
+        raise ValueError("MOEX RMS historical config inheritance cycle")
+    layer = yaml.safe_load(path.read_text(encoding="utf-8-sig"))
+    inheritance = layer.get("inheritance")
+    if not inheritance:
+        return layer
+    parent_path = PROJECT_ROOT / inheritance["parent_config_path"]
+    parent_sha = str(inheritance["parent_config_sha256"])
+    if _sha_file(parent_path) != parent_sha:
+        raise ValueError("MOEX RMS historical parent config seal mismatch")
+    config = _load_effective_config(parent_path, ancestors | {resolved})
+    metadata = {key: value for key, value in layer.items() if key != "overrides"}
+    _recursive_merge(config, metadata)
+    _recursive_merge(config, layer["overrides"])
+    return config
+
+
 def load_config() -> dict[str, Any]:
     actual = _sha_file(CONFIG_PATH)
     declared = CONFIG_PATH.with_suffix(".yaml.sha256").read_text(
@@ -79,30 +98,9 @@ def load_config() -> dict[str, Any]:
     ).split()[0]
     if actual != CONFIG_SHA256 or declared != CONFIG_SHA256:
         raise ValueError("MOEX RMS historical config seal mismatch")
-    wrapper = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
-    parent_path = PROJECT_ROOT / wrapper["inheritance"]["parent_config_path"]
-    parent_sha = str(wrapper["inheritance"]["parent_config_sha256"])
-    if _sha_file(parent_path) != parent_sha:
-        raise ValueError("MOEX RMS historical parent config seal mismatch")
-    config = yaml.safe_load(parent_path.read_text(encoding="utf-8-sig"))
-    _recursive_merge(config, wrapper["overrides"])
-    for key in (
-        "protocol_id",
-        "protocol_version",
-        "status",
-        "declared_at_utc",
-        "research_only",
-        "live_trading_allowed",
-    ):
-        config[key] = wrapper[key]
-    _recursive_merge(config["objective"], wrapper["objective"])
-    config["inheritance"] = wrapper["inheritance"]
-    config["correction"] = wrapper["correction"]
-    config["preseal_temporal_metadata_probe"] = wrapper[
-        "preseal_temporal_metadata_probe"
-    ]
+    config = _load_effective_config(CONFIG_PATH, frozenset())
     if (
-        config.get("protocol_id") != "moex_rms_historical_pit_source_v3"
+        config.get("protocol_id") != "moex_rms_historical_pit_source_v4"
         or config.get("live_trading_allowed") is not False
         or config["objective"]["returns_targets_predictions_or_pnl_allowed"] is not False
         or str(config["temporal_boundary"]["protected_from"]) != "2026-01-01"
@@ -111,6 +109,10 @@ def load_config() -> dict[str, Any]:
             "maximum_snapshot_age_calendar_days"
         ]
         != 62
+        or config["source"]["tables"]["limits"]["unique_key"]
+        != ["tradedate", "assetcode", "updatetime"]
+        or config["source"]["tables"]["staticparams"]["unique_key"]
+        != ["tradedate", "assetcode", "updatetime"]
         or config["future_hypothesis_constraints"]["structural_margin_rule_threshold"]
         != "zero_change_only_not_percentile_fit"
     ):
