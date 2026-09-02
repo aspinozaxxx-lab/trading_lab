@@ -1,5 +1,12 @@
 ﻿# Дополнительные источники информации
 
+Новый официальный RVI futures source завершён: monthly series `2019–2025`, `84`
+контракта, `4 372` EOD rows, `2 382` factual activity+OPEN/CLOSE rows и raw replay
+`14/14 true`. В отличие от rate-spread источника, рынок имел двустороннюю временную
+доступность для теста, но V45 показал недостаточную частоту/масштаб: primary CAGR
+`0.2123%`, stress отрицателен. Источник сохраняется для независимого forward
+volatility context, но historical corridor family закрыта без повторной настройки.
+
 Официальный source-only аудит same-expiry фьючерсов RUONIA (`RR`) и RUSFAR (`MF`)
 завершён отдельным bundle `moex-ruonia-rusfar-futures-daily-2019-2025-v1`:
 `79` пар, `36 737` daily rows, `444` raw responses, replay `14/14 true`. Экономический

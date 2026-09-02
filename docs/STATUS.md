@@ -3,6 +3,27 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V45 RVI calendar corridor — NO-GO
+
+Новый независимый volatility source успешно собран и raw-replay audited: protocol
+SHA `bb4aec1d...`, seal `fce9705`, implementation `14c93c1`; `84` RVI monthly series,
+`4 372` daily rows, `2 382` строк с positive activity и OPEN/CLOSE, `85` raw responses,
+audit `14/14 true`. Bundle остаётся вне Git в
+`moex-rvi-futures-daily-2019-2025-v1`; outcomes в source отсутствуют.
+
+V45 SHA `2207f549...`, seal `afc7152`, implementation `161db45`, mechanical no-outcome
+repair `4065b75`; canonical
+`runs/v45_rvi_calendar_corridor_20260902T095257Z_2207f549/`. Presealed adjacent-curve
+corridor дал `99` signals, `29` complete trades, `0` unresolved exits: `19` TP,
+`8` expiry exits, `2` distant stops. Primary/doubled/stress CAGR
+`0.2123% / 0.0597% / -0.2481%`, Sharpe `0.6043 / 0.2008 / -0.9704`, MDD
+`0.4735% / 0.7083% / 1.3407%`. Primary profit factor `2.6472`, но только `2/5`
+positive years, `0` trades in 2022 и отрицательный stress total.
+
+Verdict `NO_GO`: edge слишком редок и мал для цели, stress costs его уничтожают.
+Corridor/window/direction/DTE/capacity/cost/sizing на этой истории больше не менять.
+V41 остаётся lead; live trading по-прежнему запрещён.
+
 ## V44 breadth governor — NO-GO; V41 remains lead
 
 V44 проверил независимую защитную гипотезу: prior-close breadth всего fixed

@@ -1,5 +1,31 @@
 ﻿# Реестр экспериментов
 
+## V45 RVI adjacent-month calendar corridor — canonical NO-GO
+
+- Source protocol SHA `bb4aec1d...`, seal `fce9705`, implementation `14c93c1`;
+  immutable bundle `moex-rvi-futures-daily-2019-2025-v1` содержит `84` monthly
+  series, `4 372` daily rows и `85` raw responses. `2 382` rows имеют реальные
+  сделки и одновременно OPEN/CLOSE. Replay audit `14/14 true`; manifest/series/
+  daily/raw/audit SHA `1222c648.../4d215bfb.../0d20e9b2.../c9cacbaa.../c054b4e8...`.
+- Economic SHA `2207f549...`, seal `afc7152`, implementation `161db45`; первый запуск
+  остановился до curve/PnL и без output из-за dataframe-selection typo. Mechanical
+  repair `4065b75` не менял экономику. Canonical run
+  `v45_rvi_calendar_corridor_20260902T095257Z_2207f549`.
+- Fixed rule: adjacent monthly curve, 63-observation prior median/MAD, entry
+  `|z| >= 1.5`, TP `|z| <= 0.5`, same-sign distant stop `|z| >= 4`, 20-session max,
+  next factual common OPEN, both legs active, equal integer contracts and explicit
+  volume/risk/gross caps. Costs are `0.10/0.20/0.40` RVI points per leg per side.
+- Из `99` signals завершено `29` trades, `38` entry rejects, unresolved exits `0`;
+  exits: `19` take-profit, `8` expiry buffer, `2` distant stop. Primary/doubled/stress
+  CAGR `0.2123% / 0.0597% / -0.2481%`; Sharpe `0.6043 / 0.2008 / -0.9704`; MDD
+  `0.4735% / 0.7083% / 1.3407%`. Primary profit factor `2.6472`, но positive years
+  только `2/5`, в 2022 сделок нет, stress total `-1.2031%`.
+- Verdict `NO_GO`: экономически интересная mean-reversion недостаточно часта и
+  масштабируема, а edge не выдерживает stress costs. Не менять corridor, direction,
+  window, DTE, volume cap, costs или sizing на этой истории. Manifest/metrics/trades/
+  ledger/curve/audit SHA `dcb51974.../62594efd.../566bcb6c.../326e3aa4.../
+  6e4c0bbf.../ec30b776...`.
+
 ## V44 V41 + stock-breadth governor — canonical NO-GO
 
 - Protocol SHA `0343758a...`, seal `ca16574`, implementation `a4a4b19`, mechanical
