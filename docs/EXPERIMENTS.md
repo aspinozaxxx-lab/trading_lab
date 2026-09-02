@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## Forward money-market fund pool V1 — SEALED, 0/60 discovery pairs
+
+- Fixed pre-value universe: LQDT, SBMM, AKMM and TMON on TQBR with exact official
+  ISIN/registration identities. Config SHA `37a3baeb...`, seal `ac299a7`, boundary
+  `2026-09-02`; additions, substitutions and historical backfill are forbidden.
+- Decision/fill snapshots at 15:49/15:59 preserve executable BID/OFFER, best and total
+  depth, lot/minstep, settlement, exchange/retrieval clocks and exact raw ISS responses.
+  All four valid rows are required; no ranking, yield, return, signal, trade or PnL.
+- Discovery is 60 complete ordered pairs. Only then may a presealed selection rule use
+  20 calibration pairs, followed by 60 unseen pairs. The future rule must account for
+  offer-to-buy, bid-to-sell, broker fee, tax and liquidation before active cash-carry.
+- This is an idle-only instrument comparison, not evidence that any fund is eligible
+  broker collateral and not authorization for live trading.
+
 ## V41 joint forward execution admission V1 — SEALED, 0/60
 
 - Config SHA `8183eb50...`, seal `293165b` precedes first parent quote/depth values.

@@ -86,6 +86,19 @@ basis/yield/return/signal/trade/PnL и не решает LQDT allocation capacit
 fees, margin или settlement. Это предотвращает накопление 60 дней формально полных,
 но фактически неисполнимых котировок.
 
+### Fixed idle-fund pool — SEALED before values, implementation ready, 0/60 pairs
+
+Чтобы не привязывать V41 к одному LQDT, до чтения котировок зафиксирован пул
+`LQDT/SBMM/AKMM/TMON` с exact ISIN/ПДУ. Source SHA `37a3baeb...`, seal `ac299a7`.
+Два среза 15:49/15:59 сохраняют BID/OFFER, лучшую/общую depth, lot/minstep,
+settlement и clocks всех четырёх фондов; неполный фонд делает snapshot invalid.
+
+До 60 полных пар нельзя ранжировать фонды. После discovery правило выбора сначала
+запечатывается, затем получает 20 calibration и 60 unseen пар. В экономику обязательно
+войдут покупка по OFFER, продажа по BID, комиссия, налог, settlement и полная ликвидация
+перед активной cash-carry позицией. Live false; залоговая пригодность не предполагается.
+[FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md](FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md).
+
 ## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
 
 Единственный weight `80/20`, отсутствие rebalancing и scenario mapping были запечатаны
@@ -1446,6 +1459,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 6. Канонический discovery count для V41 — joint depth admission `8183eb50...`, а не
    отдельные quote counts. Дата проходит только при 10 stock/futures depth gates,
    positive LQDT depth и same-stage skew `<=30s`.
+7. Проверять `TradingLabForwardFundPoolDecision/Fill` и readiness фиксированного пула
+   LQDT/SBMM/AKMM/TMON. До 60 пар не вычислять spread ranking, yield или PnL; состав
+   пула после первого значения не менять.
 
 ### P0 — независимая forward-проверка V27
 

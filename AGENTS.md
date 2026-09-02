@@ -31,6 +31,8 @@
     синхронный BID/OFFER-контур для проверки исполнимости V41 stabilizing sleeve.
 14. [Forward LQDT idle-cash protocol](docs/FORWARD_LQDT_IDLE_CASH_PROTOCOL.md) —
     проверка исполнимого доходного инструмента только для неактивного капитала V41.
+15. [Forward money-market fund pool](docs/FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md) —
+    фиксированный пул альтернатив LQDT и запрет выбора по уже увиденным значениям.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

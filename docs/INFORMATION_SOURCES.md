@@ -897,6 +897,13 @@ joint gate SHA `8183eb50...`/seal `293165b`: 100 shares через current TQBR 
 1 RFUD contract, positive LQDT depth и максимум 30 секунд между parent retrieval.
 Это source-capacity evidence, не доказательство очереди или fill.
 
+Отдельно до quote/depth values запечатан пул альтернатив idle-инструмента:
+LQDT, SBMM, AKMM и TMON с официальными ISIN/ПДУ. Source SHA `37a3baeb...`, seal
+`ac299a7`; universe после значений не расширяется. Два TQBR-среза сохраняют BID/OFFER,
+лучшую/общую depth, settlement и clocks, но не ranking/yield/return/PnL. Только после
+60 полных пар можно запечатать правило выбора; затем нужны 20 calibration и 60 unseen.
+Это проверка исполнимости и стоимости парковки капитала, не допущение о collateral.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и

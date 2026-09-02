@@ -1390,6 +1390,21 @@ progress V41. Raw должен доказать best-level depth для 100 shar
 паре и positive LQDT depth; максимальный same-stage retrieval skew — 30 секунд.
 Config/threshold после первого snapshot не менять.
 
+Forward fixed money-market fund pool:
+
+```powershell
+.\scripts\register_forward_money_market_fund_pool_tasks.ps1
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_money_market_fund_pool_readiness `
+  --output-root `
+  D:\Projects\trading_lab_data\data\forward\moex-money-market-fund-pool-v1
+```
+
+Tasks `TradingLabForwardFundPoolDecision/Fill` используют exact 15:49:00/15:59:00 МСК.
+Universe LQDT/SBMM/AKMM/TMON фиксирован seal `ac299a7`; не добавлять фонд после чтения
+котировок. До 60 ordered pairs запрещены ranking, yield и PnL. Полный контракт:
+[FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md](FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md).
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:
