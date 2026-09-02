@@ -185,3 +185,10 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
         | {"v27-decision", "v27-execution"}
     ):
         assert f"Unit=trading-lab-collector@{job}.service" in timer_text
+
+    option_timer = (unit_root / "trading-lab-option-surface.timer").read_text(
+        encoding="utf-8-sig"
+    )
+    assert "OnCalendar=Mon..Fri *-*-* 10..22:09/10:00" in option_timer
+    assert "OnCalendar=Mon..Fri *-*-* 23:09,19,29,39,55:00" in option_timer
+    assert "Persistent=false" in option_timer

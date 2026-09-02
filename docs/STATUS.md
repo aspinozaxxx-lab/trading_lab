@@ -10,7 +10,9 @@ config SHA `b325dc26...`, eligibility boundary `2026-09-02T20:05:00Z`; source и
 остались byte-pinned к уже аудированному option-surface collector. Старые snapshots не
 backfill-ятся и считаются только `excluded_preboundary`.
 
-Commit/deploy `ef1a9d1` перенёс authoritative schedule на `gpu-mlserver`: Mon–Fri
+Commit `ef1a9d1` перенёс authoritative schedule на `gpu-mlserver`, а `468bd2f` устранил
+обнаруженный source-date dedup и заставил каждый timer tick запускать immutable capture:
+Mon–Fri
 10:09–22:59 МСК каждые 10 минут плюс 23:09/19/29/39/55. Локальные Windows tasks
 остаются выключены. Readiness требует для одной complete session не менее 30 valid
 срезов, span `>=300` минут и max gap `<=25` минут. До 20 complete discovery sessions
