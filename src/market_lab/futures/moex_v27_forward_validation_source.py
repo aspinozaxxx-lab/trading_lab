@@ -97,6 +97,15 @@ class SessionLike(Protocol):
         self, url: str, *, headers: Mapping[str, str], timeout: float
     ) -> ResponseLike: ...
 
+    def post(
+        self,
+        url: str,
+        *,
+        data: bytes,
+        headers: Mapping[str, str],
+        timeout: float,
+    ) -> ResponseLike: ...
+
 
 def _get_with_retries(
     client: SessionLike, url: str, *, attempts: int = 3
@@ -131,16 +140,6 @@ def _post_with_retries(
                 raise
             time.sleep(2**attempt)
     raise AssertionError("unreachable V27 POST retry state")
-
-    def post(
-        self,
-        url: str,
-        *,
-        data: bytes,
-        headers: Mapping[str, str],
-        timeout: float,
-    ) -> ResponseLike: ...
-
 
 def _sha_bytes(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()

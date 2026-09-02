@@ -16,6 +16,7 @@ from market_lab import futures_v39_option_oi_tail_governor as v39
 from market_lab.futures import forward_option_readiness as option_readiness
 from market_lab.futures import moex_forward_option_surface_source as option_source
 from market_lab.futures import moex_v27_forward_validation_source as v27_source
+from market_lab.futures import v27_forward_transport_compatibility as v27_transport
 from market_lab.futures import v27_forward_validation_readiness as v27_readiness
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
@@ -42,6 +43,7 @@ def load_config() -> dict[str, Any]:
     ):
         raise ValueError("V39 forward sidecar mismatch")
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    v27_transport.assert_compatible(config["futures_source"]["implementation_sha256"])
     if (
         config["protocol_id"] != "futures_v39_forward_validation_v1"
         or config["live_trading_allowed"] is not False
@@ -50,7 +52,6 @@ def load_config() -> dict[str, Any]:
         or config["option_source"]["protocol_sha256"] != option_source.CONFIG_SHA256
         or config["option_source"]["implementation_sha256"] != _sha(Path(option_source.__file__))
         or config["futures_source"]["protocol_sha256"] != v27_source.CONFIG_SHA256
-        or config["futures_source"]["implementation_sha256"] != _sha(Path(v27_source.__file__))
     ):
         raise ValueError("V39 forward identity invariants drifted")
     return config

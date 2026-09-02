@@ -1,0 +1,51 @@
+﻿protocol_id: futures_v27_forward_transport_compatibility_v1
+protocol_version: 1
+status: sealed_before_first_v27_v2_forward_snapshot
+declared_at_utc: '2026-09-02T10:37:52Z'
+research_only: true
+live_trading_allowed: false
+
+parent_source:
+  protocol_path: configs/futures_v27_forward_validation_v2.yaml
+  protocol_sha256: f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932
+  original_implementation_path: src/market_lab/futures/moex_v27_forward_validation_source.py
+  original_implementation_sha256: f38a41f004bc3a1fd3dbb3a4d803c59e37ef51e8341f6251107c7a8c5bede79a
+  original_forward_snapshot_count: 0
+
+approved_implementations:
+  retry_and_protocol_signature_fix:
+    implementation_path: src/market_lab/futures/moex_v27_forward_validation_source.py
+    implementation_sha256: 7a6f5732743f12ad8ec9bfcc1fca5d9bbae6aedde41af1b07d2c8ea0cae5c32c
+    changes:
+      - retry_same_exact_request_after_requests_transport_exception
+      - restore_SessionLike_post_signature_to_protocol_scope
+    maximum_attempts_per_exact_request: 3
+    retry_backoff_seconds: [1, 2]
+
+compatibility_invariants:
+  economic_hypothesis_changed: false
+  signal_or_position_logic_changed: false
+  endpoint_or_query_changed: false
+  normalization_or_availability_changed: false
+  output_schema_changed: false
+  forward_boundary_changed: false
+  failed_request_substitution: forbidden
+  cached_or_backfilled_response_substitution: forbidden
+  partial_snapshot_persistence: forbidden
+  all_required_MOEX_FRED_CBR_responses_still_mandatory: true
+  actual_retrieval_timestamp_required: true
+  immutable_raw_replay_required: true
+
+consumer_policy:
+  V27_readiness_may_accept_approved_current_implementation: true
+  V27_paper_preflight_may_accept_approved_current_implementation: true
+  V39_readiness_may_accept_approved_current_implementation: true
+  any_unlisted_implementation: fail_closed
+  source_protocol_remains: futures_v27_forward_validation_v2
+
+observed_incident_before_seal:
+  scheduled_execution_snapshot_persisted: false
+  failure_class: upstream_FRED_transport_disconnect
+  market_or_macro_values_used_for_economic_decision: false
+  forward_economic_outcomes_exist: false
+

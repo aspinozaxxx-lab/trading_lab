@@ -16,6 +16,7 @@ import pandas as pd
 import yaml
 
 from market_lab.futures import moex_v27_forward_validation_source as source
+from market_lab.futures import v27_forward_transport_compatibility as transport
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
 CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v27_forward_paper_v1.yaml"
@@ -49,13 +50,12 @@ def load_config() -> dict[str, Any]:
         raise ValueError("V27 forward paper config seal mismatch")
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
     source_contract = config["source_contract"]
+    transport.assert_compatible(source_contract["implementation_sha256"])
     if (
         config.get("protocol_id") != "futures_v27_forward_paper_v1"
         or config.get("live_trading_allowed") is not False
         or source_contract["protocol_sha256"]
         != _sha_file(PROJECT_ROOT / source_contract["protocol"])
-        or source_contract["implementation_sha256"]
-        != _sha_file(PROJECT_ROOT / source_contract["implementation"])
         or int(
             config["signal_and_decision_timing"][
                 "required_common_price_sessions_before_first_finite_252_return_signal"
