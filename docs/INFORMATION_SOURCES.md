@@ -852,6 +852,23 @@ RUONIA использована в V15/V26/V27; key rate — в V27. Причи�
 
 ## Следующая проверяемая гипотеза
 
+Covered stock–futures source теперь готов: 485 141 синхронизируемых 10m futures candles,
+61 exact specs (`LOTSIZE=100`) и pinned RMS PIT cashflow. Economic V1 дал низкий CAGR,
+но высокий Sharpe и 14/15 прибыльных trades даже в zero-cashflow doubled-cost stress.
+Не менять его threshold/DTE/time/haircut на увиденной истории. Допустимые продолжения:
+
+1. лицензируемый MOEX/broker bid/ask + historical margin/fee archive для доказательства
+   исполнения этих exact сделок;
+2. original-timestamp paid-dividend evidence от issuer/Interfax/CCI только после
+   отдельного разрешения на подписку;
+3. отдельный pre-sealed portfolio experiment, где frozen cash-carry sleeve добавляется
+   к frozen V39 без изменения ни одного дочернего сигнала.
+
+Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
+anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
+`/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и
+не содержит dividend block. Не считать его пустой историей и не zero-impute.
+
 Dividend-adjusted single-stock spread V1 завершён `NO_GO`: официальный RMS дал 31
 изменение ожидаемых выплат, но при strictly-prior information и входе на следующей
 public bid/ask quote исполнимых сделок было 0. RMS cashflow больше не использовать с

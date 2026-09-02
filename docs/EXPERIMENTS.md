@@ -1,5 +1,28 @@
 ﻿# Реестр экспериментов
 
+## Covered stock–futures intraday cash-and-carry V1 — stable but standalone NO-GO
+
+- Source V2 SHA `ffef4524...` replaced a denied subscription-only CCI dividend route
+  without changing the preselected 61 contracts. It contains 16 589 daily rows and
+  4 625 pinned MOEX RMS PIT cashflow observations; exact replay true.
+- Intraday source V3 SHA `d6e751e7...` was pushed before selected 10m values. Canonical
+  `data/processed/info_radar/moex-stock-futures-cash-carry-intraday-2023-2025-v3/`:
+  485 141 candles, 61 official descriptions with `LOTSIZE=100`, 1 058 raw responses;
+  manifest/candles/raw `c9ca6aa8.../0f16e6e9.../dbe9b156...`, exact raw replay.
+- Economic SHA `aa35b0d8...`, seal `0416fb4`: fixed 15:40 decision/15:50 next-open,
+  exact stock/futures timestamp, nearest 30–90 DTE, 5-DTE exit, 50% PIT cashflow
+  haircut, `max(20%, RUONIA+4%)`, fully funded capital plus 30% futures reserve, and
+  10/5 bps per-side ordinary versus 20/10 doubled costs.
+- Canonical `runs/stock_futures_cash_carry_intraday_v1_20260902T040404Z_aa35b0d8/`;
+  metrics/manifest/audit `e9eee0c3.../9025f572.../e2216343...`. 2 262 decisions,
+  15 trades, 120 unresolved. All 15 primary and 14/15 zero-cashflow doubled-cost trades
+  profitable. Primary/doubled/zero CAGR `5.1921%/4.9605%/2.3388%`, Sharpe
+  `2.944/2.906/3.601`, MDD `0.640%/0.642%/0.655%`; 2024/2025 primary
+  `+5.5773%/+10.2042%`.
+- Verdict `NO_GO` standalone because `15 < 20` trades and CAGR is below 20%. Freeze
+  time/DTE/hurdle/haircut/costs. It may enter only a separately sealed portfolio test
+  as a stabilizing sleeve; RMS proxy is not a verified dividend and live remains false.
+
 ## Dividend-adjusted single-stock calendar spreads — V1 NO-GO
 
 - Source-only SHA `ad9a3008...`, seal `3e8dd71` precedes all selected spread prices.

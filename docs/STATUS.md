@@ -3,6 +3,39 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Новый стабильный sleeve: covered stock–futures cash-and-carry V1 — NO-GO standalone
+
+После провала несинхронного dividend-spread направления запечатан принципиально иной
+контрактный механизм: купить 100 акций и одновременно продать один deliverable futures
+того же эмитента. Source V2 SHA `ffef4524...` сохранил 61 контракт, 16 589 daily rows
+и 4 625 PIT cashflow observations. Публичный старый dividend endpoint MOEX оказался
+ошибочным, актуальный CCI вернул `X-MicexPassport-Marker: denied`; paid values не
+читались. Source V3 SHA `d6e751e7...` был pushed до intraday values и собрал 485 141
+официальную 10m свечу, 61 description с `LOTSIZE=100` и 1 058 raw responses. Canonical
+source `data/processed/info_radar/moex-stock-futures-cash-carry-intraday-2023-2025-v3/`;
+manifest `c9ca6aa8...`, candles `0f16e6e9...`, raw `dbe9b156...`; replay exact.
+
+Economic SHA `aa35b0d8...`, seal `0416fb4` precedes basis/signals/PnL. Fixed rule:
+15:40 Moscow close decision, exact synchronized 15:50 next-open fill, nearest 30–90 DTE,
+exit at 5 DTE, fully funded long 100 shares/short one futures, 30% futures capital
+reserve, 50% haircut PIT RMS cashflow, admission `max(20%, RUONIA+4%)`, costs
+spot/futures 10/5 bps per side and doubled 20/10. No parameter fitting.
+
+Canonical `runs/stock_futures_cash_carry_intraday_v1_20260902T040404Z_aa35b0d8/`;
+metrics `e9eee0c3...`, manifest `9025f572...`, audit `e2216343...`. Из 2 262 решений
+получено 15 signals/trades; все 15 primary прибыльны, 14/15 прибыльны даже при zero
+cashflow + doubled costs. Primary/doubled/zero-cashflow CAGR
+`5,1921%/4,9605%/2,3388%`, Sharpe `2,9436/2,9062/3,6012`, MDD
+`0,6399%/0,6416%/0,6551%`. Годы: 2023 `0%`, 2024 `+5,5773%`, 2025 `+10,2042%`.
+Full RMS proxy upper bound CAGR `7,8141%`.
+
+Verdict `NO_GO` как самостоятельная 20% стратегия: trades `15 < 20`, CAGR ниже цели,
+RMS не доказывает фактическую выплату, а candles не доказывают bid/ask execution.
+Однако это первый отдельный механизм с высоким Sharpe и почти нулевым drawdown;
+сохранять как frozen stabilizing sleeve. Threshold/DTE/time/haircut/costs на этой истории
+не менять. Следующий допустимый тест — заранее sealed портфель frozen V39 + этот sleeve
+или новый forward collector с bid/ask и broker margin, не оптимизация cash-carry V1.
+
 ## Последний результат: V38 official MOEX MR1 governor — NO-GO
 
 Новый point-in-time архив официальных риск-параметров MOEX был запечатан как source

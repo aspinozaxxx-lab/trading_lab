@@ -1317,6 +1317,29 @@ $hash = (Get-FileHash .\configs\<new-config>.yaml -Algorithm SHA256).Hash.ToLowe
 Не используй этот пример записи SHA для изменения уже sealed config: тогда необходима новая
 версия протокола.
 
+### Covered stock–futures cash-and-carry V1
+
+Canonical source audits:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_stock_futures_cash_carry_source --audit-only
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_stock_futures_cash_carry_intraday_source --audit-only
+```
+
+Economic runner создаёт новый immutable run:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.stock_futures_cash_carry_intraday_v1
+```
+
+Canonical уже находится в
+`runs/stock_futures_cash_carry_intraday_v1_20260902T040404Z_aa35b0d8/`; повторный run
+для подбора time/DTE/hurdle/haircut/costs запрещён. Проверять canonical по его
+`manifest.json`, `audit.json` и SHA, не перезаписывать output.
+
 ## 6. Диагностика частых проблем
 
 - `FileNotFoundError` для `PROJECT_ROOT/data` или `runs`: проверь junctions.
