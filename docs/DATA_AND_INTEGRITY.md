@@ -447,6 +447,18 @@ Availability — следующий календарный день после `
 признаки поверхности/settlement state, но не execution: bid/ask отсутствуют, поэтому
 любой downstream обязан fail-closed отклонять SETTLEPRICE как fill.
 
+Weekly option-state V3 хранится в
+`data/processed/options/moex-core4-options-weekly-2021-2025-v3/`. Config SHA
+`a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3`, implementation
+`c709d35a7fbd8845ec46fa476e40476d98f9f4524428a92a16a718d1f56aa3bb`, manifest
+`0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66`, audit
+`e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec`, processed
+`fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d`, raw ZIP
+`c1308810d1422267a66a3e1b3203744a1654d271ae4e0367327c460050dc45e5`.
+Он содержит 1 327 744 rows на exact byte-pinned V27 decision calendar, но downstream
+может использовать state только при `source_date < decision_date`; same-date join
+запрещён. Все strikes/maturities/week codes остаются в агрегате без outcome selection.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

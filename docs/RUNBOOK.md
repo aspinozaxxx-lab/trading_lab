@@ -1110,6 +1110,17 @@ path нельзя. Допустим только read-only raw replay:
 Ожидание: 9/9 true, 105 318 rows, 1 133 pages. Source не разрешает historical option
 PnL: нет bid/ask, `THEOR_PRICE` пуст, а SETTLEPRICE запрещено трактовать как fill.
 
+Weekly option-state V3 также immutable; collection не повторять. Read-only replay:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_options_weekly_state_source_v3 `
+  --audit-only `
+  --output-root D:\Projects\trading_lab_data\data\processed\options\moex-core4-options-weekly-2021-2025-v3
+```
+
+Ожидание: 11/11 true, 1 327 744 rows, 13 802 pages, 261 dates. V39 config уже sealed
+SHA `3b5d3074...`, но до появления отдельного runner/run никакого V39 outcome нет.
+
 ### MOEX USD/RUB TOM source for future cash-and-carry
 
 Canonical source уже создан и immutable. Повторный read-only replay audit:

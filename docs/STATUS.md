@@ -48,6 +48,24 @@ expiry/spec mapping и licensed Type B/A bid/ask/order history historical option
 запечатывать. Практический путь — продолжать forward option collector: readiness 1/60,
 invalid 0; затем 20 calibration и 40 unseen evaluation.
 
+## Новая активная проверка: V39 weekly option-OI tail governor — SEALED
+
+Пилот расширен в отдельный target-free weekly source V3, запечатанный commits
+`9a51a3c`/`f6327c7` до non-pilot values. Canonical
+`data/processed/options/moex-core4-options-weekly-2021-2025-v3/`: 261 exact frozen-V27
+decision dates × 4 assets, 1 044 jobs, 13 802 raw pages, 1 327 744 rows и 108 104 SECID.
+Manifest `0453f05c...`, audit `e09534ff...`, Parquet `fdd67cd9...`, raw ZIP
+`c1308810...`; независимый replay 11/11. Во всех 1 044 asset-week группах положительны
+и call, и put OI; source не содержит returns/targets/predictions/PnL.
+
+V39 SHA `3b5d3074...`, seal commit `700ff9a` pushed до первого join с V27/PnL. Единственное
+правило: latest source date строго раньше weekly decision; изменение aggregate put-share
+сравнивается с 10/90 квантилями только 52 предыдущих изменений того же asset. Long
+гасится лишь выше q90, short — лишь ниже q10; warmup проходит parent без изменений,
+missing/stale после warmup гасит asset. Опционы не торгуются, V27 execution/costs/2x
+не меняются. Реализация и один economic run ещё не выполнены; параметры после результата
+менять запрещено.
+
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 
 V37 проверил принципиально иной target на frozen 30-stock 10m source: one-sided

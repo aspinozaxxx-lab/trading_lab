@@ -37,6 +37,13 @@ positive volume/trades 7 887, `CLOSE` 7 868, а historical bid/ask и `THEOR_PRI
 reference и лицензированный MOEX historical Type B/A quotes/orders; бесплатный EOD
 SETTLEPRICE не является заменой исполнимой котировки.
 
+Для режима фьючерсной стратегии public EOD оказался достаточнее, чем для торговли
+самими опционами. Weekly V3 собрал 261 frozen decision date и 1 327 744 contract rows;
+каждая из 1 044 asset-week групп имеет call/put OI, поэтому можно причинно оценивать
+aggregate put-share без strike/maturity selection и без option fills. Первый заранее
+зафиксированный use — V39 tail-shock veto (52 прошлые недели, q10/q90); это development
+гипотеза, а не доказанный доход и не замена forward option quotes.
+
 Вторая новая family — USD/RUB cash-and-carry. После schema/cursor-only probe source
 config `moex_fx_spot_source_v1` был sealed/pushed (`bd7f138`), а collector — отдельным
 commit `a049b51`, до чтения market values. Canonical public MOEX ISS bundle содержит
