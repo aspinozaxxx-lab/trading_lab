@@ -121,16 +121,16 @@ def test_option_surface_is_direct_and_never_deduplicated_by_source_date(
     subject.run_job("option-surface", tmp_path)
 
     expected_output = str(
-        (tmp_path / "data" / "forward" / "moex-options-surface-v1").resolve()
+        (tmp_path / "data" / "forward" / "moex-options-surface-v2-timestamps-margin").resolve()
     )
     assert calls == [
         (
-            "market_lab.futures.moex_forward_option_surface_source",
+            "market_lab.futures.moex_forward_option_surface_source_v2",
             "--output-root",
             expected_output,
         ),
         (
-            "market_lab.futures.moex_forward_option_surface_source",
+            "market_lab.futures.moex_forward_option_surface_source_v2",
             "--output-root",
             expected_output,
         ),
@@ -168,9 +168,7 @@ def test_v27_uses_authenticated_route_only_when_key_is_valid(
 
 def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     unit_root = subject.PROJECT_ROOT / "deploy" / "systemd"
-    service = (unit_root / "trading-lab-collector@.service").read_text(
-        encoding="utf-8-sig"
-    )
+    service = (unit_root / "trading-lab-collector@.service").read_text(encoding="utf-8-sig")
     timers = sorted(unit_root.glob("trading-lab-*.timer"))
     timer_text = "\n".join(path.read_text(encoding="utf-8-sig") for path in timers)
     assert len(timers) == 13
@@ -186,9 +184,7 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     ):
         assert f"Unit=trading-lab-collector@{job}.service" in timer_text
 
-    option_timer = (unit_root / "trading-lab-option-surface.timer").read_text(
-        encoding="utf-8-sig"
-    )
+    option_timer = (unit_root / "trading-lab-option-surface.timer").read_text(encoding="utf-8-sig")
     assert "OnCalendar=Mon..Fri *-*-* 10..22:09/10:00" in option_timer
     assert "OnCalendar=Mon..Fri *-*-* 23:09,19,29,39,55:00" in option_timer
     assert "Persistent=false" in option_timer

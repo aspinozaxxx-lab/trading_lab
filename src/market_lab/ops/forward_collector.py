@@ -38,8 +38,8 @@ DIRECT_JOBS: Final[dict[str, DirectJob]] = {
         "moex-broad-stock-futures-carry-v2-delayed",
     ),
     "option-surface": DirectJob(
-        "market_lab.futures.moex_forward_option_surface_source",
-        "moex-options-surface-v1",
+        "market_lab.futures.moex_forward_option_surface_source_v2",
+        "moex-options-surface-v2-timestamps-margin",
     ),
 }
 
@@ -104,12 +104,8 @@ PROBED_JOBS: Final[dict[str, dict[str, Any]]] = {
 }
 
 V27_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_component_source"
-V27_FRED_API_MODULE: Final[str] = (
-    "market_lab.futures.moex_v27_forward_fred_api_component_source"
-)
-V27_READINESS_MODULE: Final[str] = (
-    "market_lab.futures.v27_forward_component_readiness_v2"
-)
+V27_FRED_API_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_fred_api_component_source"
+V27_READINESS_MODULE: Final[str] = "market_lab.futures.v27_forward_component_readiness_v2"
 V27_PROBE_URL: Final[str] = (
     "https://iss.moex.com/iss/engines/futures/markets/forts/"
     "securities.json?assets=Si&iss.meta=off&iss.only=marketdata"
@@ -188,10 +184,7 @@ def _probe_unique_date(spec: dict[str, Any]) -> str:
         str(row[date_index])
         for row in table["data"]
         if row[date_index] not in (None, "")
-        and (
-            secid_index is None
-            or str(row[secid_index]) == str(spec["secid"])
-        )
+        and (secid_index is None or str(row[secid_index]) == str(spec["secid"]))
     }
     if len(dates) != 1:
         raise RuntimeError(f"source probe must expose exactly one date, got {sorted(dates)}")
@@ -226,16 +219,12 @@ def _run_probed(spec: dict[str, Any], storage_root: Path) -> None:
     module = str(spec["module"])
     output = _output_root(storage_root, str(spec["output_name"]))
     source_date = _probe_unique_date(spec)
-    existing = _matching_snapshot(
-        output, tuple(spec["manifest_path"]), source_date, module
-    )
+    existing = _matching_snapshot(output, tuple(spec["manifest_path"]), source_date, module)
     if existing is not None:
         print(f"SKIP source_date={source_date} snapshot={existing}")
         return
     _run_module(module, "--output-root", str(output))
-    created = _matching_snapshot(
-        output, tuple(spec["manifest_path"]), source_date, module
-    )
+    created = _matching_snapshot(output, tuple(spec["manifest_path"]), source_date, module)
     if created is None:
         raise RuntimeError(f"collector created no snapshot for source date {source_date}")
     print(f"CAPTURED source_date={source_date} snapshot={created}")
@@ -262,14 +251,12 @@ def _v27_existing(
             continue
         module = (
             V27_FRED_API_MODULE
-            if manifest.get("protocol_id")
-            == "futures_v27_forward_fred_api_component_v1"
+            if manifest.get("protocol_id") == "futures_v27_forward_fred_api_component_v1"
             else V27_MODULE
         )
         _audit(module, manifest_file.parent)
         print(
-            f"SKIP component={component} source_date={source_date} "
-            f"snapshot={manifest_file.parent}"
+            f"SKIP component={component} source_date={source_date} snapshot={manifest_file.parent}"
         )
         return True
     return False
@@ -299,9 +286,7 @@ def _run_v27(job_name: str, storage_root: Path) -> None:
     }
     source_date = _probe_unique_date(probe_spec)
     output = _output_root(storage_root, "v27-validation-v3-components")
-    market_component = (
-        "market_decision" if job_name == "v27-decision" else "market_execution"
-    )
+    market_component = "market_decision" if job_name == "v27-decision" else "market_execution"
     _v27_component(output, market_component, source_date, True, True)
     _v27_component(output, "macro_cbr", source_date, False, False)
     api_key = os.environ.get("FRED_API_KEY", "")
