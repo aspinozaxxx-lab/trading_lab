@@ -1486,12 +1486,15 @@ Source-only readiness отдельного post-seal paper arm:
 
 ```bash
 cd /opt/trading_lab
-runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
-  .venv/bin/python -m market_lab.futures.v49_double_risk_forward_readiness
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
+  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness \
+  --option-root /srv/trading_lab_data/data/forward/moex-options-surface-v1 \
+  --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components
 ```
 
-Config SHA `520bd3d4...`; eligible retrieval начинается только с
-`2026-09-02T12:30:04Z`. Команда не вычисляет signal/target/return/PnL.
+Parent config SHA `520bd3d4...`; отдельный paper-arm config SHA `56822e1e...`.
+Окончательная eligible retrieval boundary — `2026-09-02T19:16:00Z`; не сдвигать её и
+не запускать ещё один seal. Команда не вычисляет signal/target/return/PnL.
 
 V49 уже выполнен ровно один раз на `gpu-mlserver`; повторный economic run запрещён.
 Проверять immutable result можно только read-only audit-командой на сервере:

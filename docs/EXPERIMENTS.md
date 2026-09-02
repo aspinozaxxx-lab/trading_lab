@@ -197,6 +197,10 @@
   counts оставались нулевыми. Единственный arm и execution byte-identical по смыслу
   parent protocol; отдельный readiness не считает ничего до новой границы. Повторный
   seal запрещён, поскольку он произвольно сдвинет unseen window.
+- Exact commit `8f7176b` запушен и deployed на `gpu-mlserver` до вечерних timers.
+  Server targeted suite `5 passed`; authoritative paper readiness: option/CLOSE
+  `0/54 + 0/253`, execution/FRED/CBR `0/0/0`, preseal exclusions `1/2`, invalid `0`,
+  signal/target/PnL false.
 
 ## V49 V39 exact double-risk — NO-GO at the presealed 45% primary gate
 

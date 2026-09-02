@@ -67,6 +67,6 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
 `contains_signal_return_target_prediction_or_pnl` и `live_trading_allowed` всегда
 `false`.
 
-Первый authoritative run после deploy commit `a6cd0af`: option/CLOSE
+Первый authoritative paper-arm run после exact deploy commit `8f7176b`: option/CLOSE
 `0/54 + 0/253`, execution/FRED/CBR `0/0/0`; один option snapshot и два components,
-retrieved до seal, явно исключены; invalid `0`.
+retrieved до seal, явно исключены; invalid `0`, signal/target/PnL false.

@@ -296,7 +296,9 @@ option snapshot и два preseal components исключены, invalid `0`, Pn
 SHA `56822e1e...`, boundary `2026-09-02T19:16:00Z`. Он повторно фиксирует ровно один
 arm `2.00x/4.00/2.00/1%`, V39 signs/zeros и exact BID/OFFER execution; все пять
 eligible counts на границе равны нулю. Это устраняет двусмысленность старой очереди:
-новый arm уже запечатан, повторно обнулять boundary нельзя.
+новый arm уже запечатан, повторно обнулять boundary нельзя. Exact commit `8f7176b`
+запушен и развернут на `gpu-mlserver`; server tests `5 passed`, paper readiness снова
+подтвердил `0/54 + 0/253`, execution/FRED/CBR `0/0/0`, exclusions `1 + 2`, invalid `0`.
 
 ## V48 exact frontier — FORWARD BASELINE, 38.46–39.86% CAGR
 
@@ -2180,7 +2182,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Historical defined-risk option premium остаётся приоритетным параллельным источником,
    но public ISS не содержит executable bid/offer. Нужен лицензированный MOEX Type B
    (all trades + top of book, derivatives available since 2016) либо forward surface;
-   покупка только после отдельного разрешения пользователя.
+   покупка только после отдельного разрешения пользователя. Официальный T-Invest API
+   не является бесплатной заменой: его historical archive содержит минутные OHLCV
+   candles, тогда как `GetOrderBook` — текущий snapshot, не исторический BBO. По
+   официальному тарифу MOEX Type B стоит от USD 150 за market-month или USD 50 за
+   instrument-month без VAT. Бесплатные MOEX Type B sample пригодны только для parser/
+   schema preflight, не для многолетнего economic test.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
