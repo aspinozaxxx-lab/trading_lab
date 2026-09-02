@@ -14,6 +14,13 @@ TradeStats/OrderStats/OBStats и cancel/aggressive-flow признаки. Discov
 сессий минимум по 30 complete core snapshots; до отдельного economic seal outcomes не
 вычисляются. См. [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
 
+Отдельный broad cash-carry source использует тот же fixed 30-stock universe, но добавляет
+matching single-stock futures. Metadata-only проверка дала coverage `30/30`; sealed
+collector сохраняет точные units и executable sides каждые 10 минут без вычисления
+basis. Это потенциально повышает частоту наиболее стабильного найденного механизма,
+не добавляя directional leverage. Discovery/economic boundaries описаны в
+[FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
+
 Фактический public pipeline-check выполнен один раз:
 `data/forward/moex-microstructure-v1/snapshot_20260901T214719330521Z/`. Source date
 `2026-08-18`, retrieval `2026-09-01T21:47:19Z`, 4 raw requests, 8 normalized FUTOI

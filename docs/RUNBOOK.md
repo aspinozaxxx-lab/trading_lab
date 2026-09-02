@@ -113,6 +113,24 @@ Windows task `TradingLabForwardCrossMarketBBO10m` запускается по б
 PnL запрещены. Полный контракт:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
 
+### Forward broad 30-stock futures carry
+
+```powershell
+.\scripts\run_forward_broad_stock_futures_carry.ps1
+
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_broad_stock_futures_carry_readiness
+
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_broad_stock_futures_carry_source `
+  --audit-directory <snapshot-directory>
+```
+
+Task `TradingLabForwardBroadStockFuturesCarry10m`: Mon–Fri, `10:09`, `PT10M` for
+`PT8H31M`. До 20 полных discovery sessions не считать basis/rank/PnL. Missing pair или
+fractional `LOTVOLUME/LOTSIZE` остаётся invalid и не заменяется нулём. Полный контракт:
+[FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
+
 ## 4. Воспроизведение V9
 
 ### Structural proxy

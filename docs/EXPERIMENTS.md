@@ -1,5 +1,18 @@
 ﻿# Реестр экспериментов
 
+## Forward broad 30-stock futures carry V1 — SEALED, 0/20 discovery sessions
+
+- Metadata-only official series/description probe found RFUD `TYPE=futures` coverage
+  for all 30 fixed stocks; no quote, basis, return or PnL was read. Contract LOTVOLUME
+  spans 1–10,000 shares. Exact mapping and 30–120 DTE rule are config SHA `5cd396e0...`,
+  seal `228edb8`; perpetual GAZPF/SBERF are excluded.
+- Collector `5266903` uses three server-filtered responses per ten-minute snapshot and
+  validates positive integer `RFUD LOTVOLUME / TQBR LOTSIZE`. All 30 positive nonlocked
+  BBO/depth pairs are required; source output has no basis/yield/rank/signal/trade/PnL.
+- Tests and raw replay `5/5`; readiness/task commit `4d1cf7a`. Task is Ready, Mon–Fri
+  10:09, PT10M for PT8H31M. Discovery requires 20 sessions × at least 30 complete
+  snapshots, then separate seal, 20 calibration and 60 unseen sessions. Live false.
+
 ## Forward cross-market BBO V1 — SEALED, 0/20 discovery sessions
 
 - Config SHA `80d5202d...`, seal `95ca5b3` precedes all real snapshot values.

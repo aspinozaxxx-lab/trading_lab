@@ -92,6 +92,25 @@ Scoped Ruff clean, source/replay/readiness tests `6/6`. Полная регре�
 external `data/processed/futures_v8/manifest_8c26216529a9b73b.json`. Подробности:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
 
+### Broad 30-stock futures cash-carry — SEALED, task READY, 0/20 discovery sessions
+
+Metadata-only probe без quotes/PnL подтвердил matching active RFUD futures для всех
+`30/30` акций фиксированного V35 universe. Все выбранные 30–120 DTE контракты имеют
+RFUD board, `TYPE=futures`; `LOTVOLUME` меняется от 1 до 10 000 акций. Exact mapping,
+исключение perpetual `GAZPF/SBERF`, selection и units запечатаны SHA `5cd396e0...`,
+seal `228edb8` до первой котировки.
+
+Collector `5266903` делает series + filtered TQBR + filtered RFUD, проверяет integer
+`futures LOTVOLUME / spot LOTSIZE`, сохраняет 30 синхронных BID/OFFER/depth/spec/clock
+пар и не вычисляет basis/yield/rank/signal/PnL. Tests/replay `5/5`. Readiness/task
+`4d1cf7a`; `TradingLabForwardBroadStockFuturesCarry10m` проверен: Mon–Fri, `10:09`,
+`PT10M` на `PT8H31M`, state `Ready`, first run `2026-09-02 10:09` МСК.
+
+Нужно 20 sessions минимум по 30 complete snapshots, затем новый economic seal, 20
+calibration и 60 unseen sessions. Это прямой путь увеличить частоту стабильного
+fully-funded sleeve с 5 до 30 активов, но metadata coverage ещё не прибыль и не live.
+[FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

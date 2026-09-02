@@ -35,6 +35,8 @@
     фиксированный пул альтернатив LQDT и запрет выбора по уже увиденным значениям.
 16. [Forward cross-market BBO](docs/FORWARD_CROSS_MARKET_BBO_PROTOCOL.md) — causal
     10-минутные снимки для непрерывного timing и совместного анализа всех рынков.
+17. [Forward broad stock–futures carry](docs/FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md)
+    — 30 fully-funded пар для расширения стабильного cash-carry sleeve.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
