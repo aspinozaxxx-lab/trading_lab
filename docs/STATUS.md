@@ -1903,9 +1903,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
-1. Не повторять canonical V49 и не проверять соседние scales/caps/buffers на 2021–2025.
-   Historical verdict остаётся `NO_GO`, даже если разрыв до primary gate всего
-   `1.3167` п.п.
+1. Forward config SHA `520bd3d4...` уже запечатан с eligibility boundary
+   `2026-09-02T12:30:04Z`; source counts V49 начинаются с нуля. Не повторять canonical
+   V49 и не проверять соседние scales/caps/buffers на 2021–2025. Historical verdict
+   остаётся `NO_GO`, даже если разрыв до primary gate всего `1.3167` п.п.
 2. До первого V49 forward decision отдельно запечатать ровно один paper arm: scale
    `2.00x`, gross cap `4.00`, margin buffer `2.00`, participation `1%`, V39 signs/zeros
    и exact execution без изменений. Начало допускается только после нового seal;

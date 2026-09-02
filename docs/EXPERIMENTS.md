@@ -1,5 +1,22 @@
 ﻿# Реестр экспериментов
 
+## V49 double-risk forward V1 — SEALED, POST-SEAL COUNTS RESET TO ZERO
+
+- Config SHA `520bd3d4...` запечатан на `2026-09-02T12:30:04Z` до первого V49
+  forward decision/target/order/position/PnL. Единственный arm сохраняет historical
+  V49 economics: `2.00x`, gross `4.00`, margin buffer `2.00`, participation `1%`,
+  exact integer contracts и no carry.
+- Любой snapshot с `retrieved_at_utc` раньше новой границы исключается. Состояние V48
+  при seal (`1` option level, `0` decision, `1` execution, `0` FRED, `1` CBR) не
+  переносится: V49 eligible counts начинаются с нуля; backfill 2026 запрещён.
+- Joint warmup `54` option weekly levels + `253` official CLOSE, затем `504` sessions,
+  `104` weekly decisions и два полных года. До завершения запрещены PnL/CAGR и выбор
+  между V48/V49.
+- Required full-evaluation floor — all-scenario CAGR `20%`; `40%` stretch и `50%`
+  aspirational report не являются обещанием. Live false даже после numeric pass.
+- Source-only module `market_lab.futures.v49_double_risk_forward_readiness`; полный
+  контракт: `docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md`.
+
 ## V49 V39 exact double-risk — NO-GO at the presealed 45% primary gate
 
 - Config SHA `37b4fcb0...`, seal `ad22fb4`, implementation commit `540741a`, exact

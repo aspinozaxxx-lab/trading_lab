@@ -41,8 +41,8 @@
     зафиксированный aggressive mode `1.50x` и его joint warmup/evaluation gates.
 19. [Серверные collectors](docs/SERVER_COLLECTORS.md) — authoritative `gpu-mlserver`,
     systemd timers, каталоги, журнал и безопасный аварийный откат.
-20. [V49 exact double-risk](docs/EXPERIMENTS.md#v49-v39-exact-double-risk--no-go-at-the-presealed-45-primary-gate)
-    — лучший exact historical CAGR, строгий `NO_GO` и запрет перебирать соседние масштабы.
+20. [Forward V49 double-risk](docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md) — лучший exact
+    historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

@@ -841,6 +841,14 @@ ledger/orders/positions/targets/metrics/report, byte-manifest и runtime audit; 
 run. Canonical V49 имеет строгий `NO_GO` при `43.6833% < 45%` primary CAGR; код не
 является live path.
 
+### `market_lab.futures.v49_double_risk_forward_readiness`
+
+Read-only admission поверх audited option/V27 components. В отличие от V48 readiness,
+он отбрасывает любой snapshot с retrieval раньше отдельного V49 seal, заново считает
+54/253 warmup и 504/104 evaluation и до admission не создаёт signal, target, order или
+PnL. Duplicate market component date исключается fail-closed. Arm identity всегда
+`2.00x/4.00/2.00/1%`; V48/V49 outcome comparison отсутствует.
+
 ### `market_lab.ops.forward_collector` и systemd
 
 Кроссплатформенный operational dispatcher запускает 13 forward jobs на

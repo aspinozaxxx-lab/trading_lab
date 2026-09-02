@@ -1,0 +1,128 @@
+﻿protocol_id: v49_double_risk_forward_validation_v1
+protocol_version: 1
+status: sealed_before_any_V49_forward_decision_target_order_position_or_PnL
+declared_at_utc: '2026-09-02T12:30:04Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Evaluate the single frozen V49 2.00x double-risk arm on observations retrieved only
+  after this seal. Require at least 20% annualized return in every cost scenario;
+  report 40% and 50% only as stretch levels, never promises.
+
+historical_identity:
+  protocol_path: configs/v49_v39_double_risk_exact_execution_v1.yaml
+  protocol_sha256: 37b4fcb0e346b1a03f414899891bcecb3cc71f3103a2d54d54184a52bf981f3d
+  implementation_path: src/market_lab/futures_v49_v39_double_risk_exact_execution.py
+  implementation_sha256: 1ddb838a0b62cfee9c666362a74527ded5e1bfc81ca0e0e1d429bc17cfca9acb
+  canonical_run: runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+  manifest_sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c
+  metrics_sha256: eb24680a72976488a1a982d81f5902414a3154342ced6e0d7f1ba977a3c71bf4
+  audit_sha256: 60a88ce6605b3a2f3b5fdb17d57872f1c86fdc5c49a574b1b3e328f81c2ba638
+  development_verdict: NO_GO
+  failed_required_gate: primary_cagr_43_6833_below_45_percent
+  development_is_not_forward_evidence: true
+
+forward_source_parent:
+  current_V48_readiness_path: src/market_lab/futures/v48_frontier_forward_readiness_v3.py
+  current_V48_readiness_sha256: afd4dc024e9e76ab782a56c878cc5ed73a83c73d52957baf5175f02e5c85a39b
+  admission_protocol_path: configs/v48_frontier_forward_fred_api_correction_v1.yaml
+  admission_protocol_sha256: b638ee931574a4b526125d80e1cef355fb223e30a724cb3aef846704ffa70c6f
+  V39_readiness_path: src/market_lab/futures/v39_forward_validation_readiness.py
+  V39_readiness_sha256: 6e798cbd0491612d114f66b6041a8e639d49e1f41e216174af13088d43e8672c
+  economics_reused_only_after_new_V49_seal: true
+
+fixed_arm:
+  name: double_risk
+  V39_mapped_target_multiplier: 2.00
+  maximum_gross_notional_multiple: 4.00
+  initial_margin_buffer_multiplier: 2.00
+  maximum_prior_official_volume_participation: 0.01
+  broad_carry_cash_fraction: 0.00
+  exact_integer_contracts: true
+  zero_target_and_direction_preserved: true
+  comparison_or_selection_against_V48_after_forward_outcome: forbidden
+
+forward_boundary:
+  earliest_eligible_retrieved_at_utc: '2026-09-02T12:30:04Z'
+  preseal_option_market_macro_or_execution_snapshot_counted: false
+  historical_2026_backfill_counted: false
+  source_date_without_postseal_retrieval_is_eligible: false
+
+decision_and_execution:
+  universe: [SI, RI, BR, MIX]
+  decision_signal: byte_identical_V39_after_postseal_joint_warmup
+  decision_price: official_MOEX_daily_CLOSE
+  decision_option_state: latest_completed_week_strictly_before_decision_week
+  sizing_equity: prior_paper_equity
+  sizing_specs_and_initial_margin: latest_postseal_captured_before_order
+  next_session_execution_observation: required
+  buy_mark: observed_OFFER
+  sell_mark: observed_BID
+  missing_side_or_nonpositive_depth: cancel_asset_order
+  margin_or_gross_or_participation_failure: cancel_and_clip_without_bypass
+  roll_atomicity: asset
+  terminal_policy: carry_with_exit_cost_reserve
+  broker_fill_substitution: forbidden
+  synthetic_backfill_or_forward_fill: forbidden
+
+postseal_warmup:
+  option_unique_weekly_levels_required: 54
+  futures_common_official_CLOSE_levels_required: 253
+  paper_economics_begins_only_after_joint_warmup: true
+
+evaluation:
+  minimum_unseen_futures_sessions: 504
+  minimum_unseen_weekly_decisions: 104
+  minimum_full_calendar_years: 2
+  interim_CAGR_arm_selection_or_promotion: forbidden
+
+cost_scenarios:
+  primary:
+    quote_side: observed_bid_offer
+    captured_exchange_clearing_and_broker_fees_required: true
+  doubled:
+    exchange_clearing_and_broker_fee_multiplier: 2.0
+  stress:
+    observed_bid_offer_additional_adverse_ticks: 2
+    exchange_clearing_and_broker_fee_multiplier: 2.0
+
+promotion_gates:
+  all_scenario_CAGR_minimum: 0.20
+  stretch_all_scenario_CAGR: 0.40
+  aspirational_primary_CAGR_report_only: 0.50
+  all_scenario_sharpe_minimum: 1.00
+  maximum_drawdown_maximum: 0.40
+  worst_full_year_minimum: -0.15
+  positive_full_years_minimum: 2
+  maximum_observed_participation: 0.01
+  critical_failures_maximum: 0
+  unresolved_halts_maximum: 0
+  every_parent_snapshot_audit_required: true
+  broker_statement_reconciliation_before_live: required
+  second_unseen_confirmation_after_numeric_pass: required
+  live_trading_after_first_or_second_pass: forbidden_without_separate_admission
+
+current_state_at_seal:
+  V48_valid_option_weekly_levels: 1
+  V48_valid_market_decision_dates: 0
+  V48_valid_market_execution_dates: 1
+  V48_valid_FRED_components: 0
+  V48_valid_CBR_components: 1
+  V49_eligible_counts_reset_to_zero: true
+  V49_forward_decision_target_order_position_or_PnL_computed: false
+
+forbidden_after_seal:
+  - counting_any_snapshot_retrieved_before_the_V49_seal
+  - changing_multiplier_gross_margin_capacity_carry_or_target_states
+  - selecting_V48_or_V49_from_interim_or_final_forward_outcome
+  - changing_warmup_evaluation_costs_or_promotion_gates
+  - replacing_observed_bid_offer_with_OPEN_midpoint_or_synthetic_fill
+  - reporting_annualized_result_before_full_evaluation
+  - live_trading_without_new_admission_and_broker_reconciliation
+
+outputs:
+  readiness_module: market_lab.futures.v49_double_risk_forward_readiness
+  source_only_until_postseal_joint_warmup_complete: true
+  paper_root: runs/v49-double-risk-forward-validation-v1
+  contents_in_git: false
