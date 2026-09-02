@@ -1,0 +1,192 @@
+﻿protocol_id: v51_v42r2_robustness_audit_v1
+protocol_version: 1
+status: sealed_before_any_v42r2_curve_resampling
+declared_at_utc: '2026-09-02T16:11:17Z'
+research_only: true
+post_selection_diagnostic: true
+live_trading_allowed: false
+
+objective: >-
+  Test whether every one of the nine already observed V42R2 market-cost curves retains
+  internal support for at least 20% CAGR under fixed block-resampling, rolling-window
+  and leave-one-year-out diagnostics. Report 50% only as aspirational context.
+
+relationship_to_prior_work: >-
+  V42R2 is the strongest same-history stability portfolio but is not independent and
+  has no broker-exact forward fills. V51 cannot select a fund or cost scenario, change
+  the 80/20 allocation, retune V39, or modify any execution, yield or cost assumption.
+
+parent_v42r2:
+  config_path: configs/v42r2_v41_idle_fund_cost_stress_v1.yaml
+  protocol_sha256: 02a61505067ce73f8475148d5b8906b475859889f5adcfa54309f82b401ad54f
+  implementation_path: src/market_lab/futures_v42r2_v41_idle_fund_cost_stress.py
+  implementation_sha256: 88501b7c940143036e38bb3f36f8e53e2de1909bcd87da573139b35548d39057
+  shared_engine_path: src/market_lab/futures_v42r1_v41_idle_fund_cost_stress.py
+  shared_engine_sha256: 44304e763fa5a1871f23ad28e9b26e622373a767abd8b4e2f4195fe51872b132
+  metrics_sha256: 39f55595a0eda1ccc5e14f90f8be2bf8a910de816912f39e3864cc5e83e03412
+  immutable_verdict: ROBUST_TO_DECLARED_IDLE_COST_STRESSES
+  expected_combined_metrics:
+    primary__lqdt_contractual_max:
+      total_return: 2.1069388962511413
+      cagr: 0.2545270316158381
+      sharpe: 1.2621084724977767
+      maximum_drawdown: 0.17347068561188184
+    primary__high_cost_tmon_contractual_max:
+      total_return: 2.0948546797711405
+      cagr: 0.2535494974329544
+      sharpe: 1.2563385041050479
+      maximum_drawdown: 0.17377591648670898
+    primary__zero_idle_yield_with_switching:
+      total_return: 2.0535453277119595
+      cagr: 0.25018461263835223
+      sharpe: 1.2384652815184365
+      maximum_drawdown: 0.17423319179745123
+    doubled__lqdt_contractual_max:
+      total_return: 2.0548345970353656
+      cagr: 0.25029017997052017
+      sharpe: 1.2417380115005856
+      maximum_drawdown: 0.17448195105223352
+    doubled__high_cost_tmon_contractual_max:
+      total_return: 2.0428296361784257
+      cagr: 0.2493058129571044
+      sharpe: 1.2359604759499032
+      maximum_drawdown: 0.17478928022521656
+    doubled__zero_idle_yield_with_switching:
+      total_return: 2.0017915888509705
+      cagr: 0.24591719334986184
+      sharpe: 1.2180372865770723
+      maximum_drawdown: 0.17524925295353988
+    stress__lqdt_contractual_max:
+      total_return: 1.9918415559512872
+      cagr: 0.2450900149634938
+      sharpe: 1.2211657500226967
+      maximum_drawdown: 0.16802976133796965
+    stress__high_cost_tmon_contractual_max:
+      total_return: 1.980711198644458
+      cagr: 0.2441621005287058
+      sharpe: 1.215642930860998
+      maximum_drawdown: 0.16833225266397778
+    stress__zero_idle_yield_with_switching:
+      total_return: 1.94266217592123
+      cagr: 0.2409689537670845
+      sharpe: 1.198560324977153
+      maximum_drawdown: 0.16878786366148646
+
+implementation:
+  path: src/market_lab/futures_v51_v42r2_robustness.py
+  sha256: 3e38079b80327501462832a5f4954c1f073fbc32f4a6ffc08271f672a4f63694
+  reused_robustness_path: src/market_lab/futures_v27_robustness.py
+  reused_robustness_sha256: 795bb570090bb44db5eeaba487b696f5149bc2d86f3f11bde29703c02b7022a0
+
+scenario_order:
+  - primary__lqdt_contractual_max
+  - primary__high_cost_tmon_contractual_max
+  - primary__zero_idle_yield_with_switching
+  - doubled__lqdt_contractual_max
+  - doubled__high_cost_tmon_contractual_max
+  - doubled__zero_idle_yield_with_switching
+  - stress__lqdt_contractual_max
+  - stress__high_cost_tmon_contractual_max
+  - stress__zero_idle_yield_with_switching
+
+input:
+  canonical_run_directory: v42r2_v41_idle_fund_cost_stress_v1_20260902T052406Z_02a61505
+  expected_full_rows: 1827
+  expected_rows: 1272
+  required_filter: is_v39_session_equals_true
+  allowed_columns:
+    - date
+    - is_v39_session
+    - primary__lqdt_contractual_max__combined_nav
+    - primary__high_cost_tmon_contractual_max__combined_nav
+    - primary__zero_idle_yield_with_switching__combined_nav
+    - doubled__lqdt_contractual_max__combined_nav
+    - doubled__high_cost_tmon_contractual_max__combined_nav
+    - doubled__zero_idle_yield_with_switching__combined_nav
+    - stress__lqdt_contractual_max__combined_nav
+    - stress__high_cost_tmon_contractual_max__combined_nav
+    - stress__zero_idle_yield_with_switching__combined_nav
+  artifacts:
+    daily_ledger.parquet:
+      bytes: 466063
+      sha256: 312d07e4789e1263738f420eff3805fc1f50e26c7f3ca9918745a73d7d0af71e
+    metrics.json:
+      bytes: 17815
+      sha256: 39f55595a0eda1ccc5e14f90f8be2bf8a910de816912f39e3864cc5e83e03412
+    manifest.json:
+      bytes: 1259
+      sha256: 66a86c5f752427923058b0e146502aebbcccc2c2f34e995febb2c6694bbba4c3
+    manifest.sha256:
+      bytes: 83
+      sha256: 0688f2628ad14610c655ea3a88f0abe5f5e086027d5cbf3f28155d9c236d6593
+    audit.json:
+      bytes: 907
+      sha256: f93ca87bec14aca28160e85d4effb4f81b37339606ca1f7302ea03a0038238e0
+    report.md:
+      bytes: 1125
+      sha256: b3719280de8b3c4514c630eb5997d5f8b983e7f3d6d23268b57bdf5fb2da17fd
+
+dates:
+  expected_minimum_session: '2020-12-30'
+  expected_maximum_session: '2025-12-30'
+  forbidden_from: '2026-01-01'
+
+analysis:
+  annualization_sessions: 252
+  observed_metric_calendar_year_days: 365.25
+  bootstrap_calendar_year_days: 365.2425
+  metric_replay_absolute_tolerance: 1.0e-12
+  calendar_years: [2021, 2022, 2023, 2024, 2025]
+  rolling_window_sessions: [252, 504]
+  rolling_windows_are_overlapping_descriptive_only: true
+  bootstrap_method: circular_moving_block
+  block_sessions: [5, 21, 63, 126]
+  bootstrap_replications_per_scenario_block: 25000
+  bootstrap_total_paths: 900000
+  bootstrap_batch_size: 250
+  seed_base: 51042000
+  seed_formula: seed_base_plus_scenario_index_times_10000_plus_block_sessions
+  quantiles: [0.05, 0.25, 0.50, 0.75, 0.95]
+  bootstrap_horizon: exact_parent_session_count_and_elapsed_calendar_years
+  bootstrap_threshold_cagr: [0.0, 0.20, 0.50]
+  bootstrap_threshold_maximum_drawdown: 0.30
+  deflated_sharpe_trial_counts: [50, 100, 250]
+  leave_one_year_out_clock: retained_observations_divided_by_252
+  all_nine_scenarios_required: true
+  strategy_parameter_search: false
+
+diagnostic_gates:
+  minimum_20:
+    minimum_joint_20_30_frequency: 0.75
+    minimum_q05_cagr: 0.20
+    minimum_252d_fraction_cagr_ge_20: 0.65
+    minimum_504d_fraction_cagr_ge_20: 0.75
+    every_leave_year_out_cagr_ge: 0.20
+  aspirational_50:
+    minimum_joint_50_30_frequency: 0.50
+    minimum_median_cagr: 0.50
+  interpretation: >-
+    A pass is internal evidence that all nine selected historical paths are not
+    obviously fragile under these fixed diagnostics. It is not a forward probability,
+    cannot select a fund and cannot authorize live trading.
+
+forbidden_followups:
+  - selecting_the_best_market_or_fund_cost_scenario_after_results
+  - changing_the_80_20_allocation_idle_yield_costs_or_V39_signals
+  - selecting_a_block_window_year_or_gate_after_results
+  - reporting_resampling_frequency_as_a_calibrated_forward_probability
+  - calling_same_history_robustness_an_independent_holdout
+  - using_2026_or_later_prices_returns_targets_or_pnl
+  - live_trading_without_forward_and_broker_exact_admission
+
+limitations:
+  independent_holdout: false
+  selected_same_history: true
+  V42R2_fund_costs_are_scenarios_not_historical_quotes: true
+  bootstrap_assumes_historical_blocks_are_representative: true
+  bootstrap_frequencies_are_not_calibrated_probabilities: true
+  rolling_windows_overlap: true
+  only_five_calendar_years: true
+  broker_exact_forward_fills_missing: true
+  live_promotion_possible: false
+
