@@ -62,6 +62,13 @@ history. Task работает по будням в 18:30 мск; readiness тр
 брокера с effective dates, haircut, допустимыми активами, VM debit и правом клиента на
 coupon/repo/money-market yield.
 
+Для сильнейшего directional/collateral кандидата запущен отдельный V27 forward source:
+полные SI/RI/BR/MIX chains в 10:05 и 23:45 мск плюс original captured current vintages
+FRED STLFSI4, CBR RUONIA и key rate. Он сохраняет raw bytes и не содержит signal/return/
+PnL. 252 новых sessions нужны только для causal warmup; independent evaluation требует
+ещё 504 sessions. Это медленнее исторического backtest, но впервые даёт доказательство,
+которое нельзя получить повторным подбором на 2021–2025.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed

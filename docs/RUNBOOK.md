@@ -1132,6 +1132,22 @@ CNY perpetual source и исправленный economic run:
 trades. V1 economic run с suffix `5b2d6be7` не удалять, но его numeric GO invalid из-за
 point-value error. V1/V2 повторно не запускать и historical thresholds не менять.
 
+V27 independent forward validation:
+
+```powershell
+.\scripts\register_v27_forward_tasks.ps1
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.v27_forward_validation_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v1
+```
+
+Tasks `TradingLabV27ForwardExecution` (10:05) и `TradingLabV27ForwardDecision` (23:45)
+работают Mon–Fri. Каждый snapshot raw-replayable и содержит полные SI/RI/BR/MIX chains
+плюс captured STLFSI4/RUONIA/key-rate vintage. Не запускать market backfill до
+`2026-09-02`; первые 252 decision dates — только warmup, следующие 504 — immutable
+evaluation. До завершения warmup PnL/CAGR запрещены. Подробности:
+[FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
+
 Forward CNY quotes/funding collector:
 
 ```powershell

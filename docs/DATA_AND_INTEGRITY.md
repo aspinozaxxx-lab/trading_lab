@@ -402,6 +402,13 @@ Forward CNY source физически отделён в
 quotes/funding Parquet, manifest и replay audit. Старые experiments не могут читать этот
 path; readiness считает только audited unique dates и не вычисляет PnL.
 
+V27 forward validation отделён в `data/forward/v27-validation-v1/`. Market source date
+не может быть раньше `2026-09-02`; pre-seal 2026 prices и pre-2026 warmup запрещены.
+Macro snapshots могут содержать earlier observation dates только как current vintage,
+причём их `forward_available_at` не раньше actual retrieval. Уникальность определяется
+по `snapshot_kind + source_date`; decision/open snapshots одной даты не являются
+дубликатами. Старый V27 runner не имеет доступа к этому path.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

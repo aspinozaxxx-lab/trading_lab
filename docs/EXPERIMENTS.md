@@ -1,5 +1,20 @@
 ﻿# Реестр экспериментов
 
+## V27 independent forward validation — ACTIVE, 0/252 warmup
+
+- Parent development V27: SHA `7a9a44cf...`, canonical metrics `5fc1f271...`; primary
+  CAGR `28,3752%`, Sharpe `1,2119`, MDD `20,7138%`, но same-period adaptive и не live.
+- Forward protocol SHA `c1acf97b...`, seal `a79fd4c`; source `83230e4`, readiness
+  `74878c3` pushed до post-seal prices. Historical 2026 market backfill запрещён.
+- Source сохраняет полные SI/RI/BR/MIX chains и raw STLFSI4/RUONIA/key-rate vintages
+  дважды в торговый день. Tasks 10:05/23:45 мск зарегистрированы и `Ready`.
+- Требуется 252 common sessions warmup без reported PnL, затем минимум 504 unseen
+  evaluation sessions / 104 weekly decisions / два года. На момент записи 0/252 и
+  0/504. Gates: all-cost CAGR `>=20%`, Sharpe `>=1`, MDD `<=30%`, положительные годы,
+  zero critical/unresolved и observed-quote paper profit.
+- Даже numeric GO не разрешает live: требуется второй unseen period и broker-exact
+  collateral/margin/fees/order audit.
+
 ## FX cash-and-carry V1 — NO-GO
 
 - Protocol SHA `4b3ca33e...`, seal `7ddc677`; runner commits `a6d945b`/`4b4b5a2`

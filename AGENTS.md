@@ -20,6 +20,8 @@
    reports нужны для следующей проверки календарных спредов и как их безопасно принять.
 9. [Forward equity protocol](docs/FORWARD_EQUITY_PROTOCOL.md) — как собирать новый
    TradeStats/OrderStats/OBStats период после V35 и какие gates нужны до paper PnL.
+10. [Forward V27 protocol](docs/FORWARD_V27_PROTOCOL.md) — независимая проверка
+    сильнейшего 28,38% development-кандидата без backfill и post-hoc tuning.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

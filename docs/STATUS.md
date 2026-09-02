@@ -3,6 +3,20 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V36 гипотез защищены и не используются.
 
+## Главная активная проверка: V27 forward validation
+
+Сильнейший development-кандидат V27 (`28,3752%` CAGR, Sharpe `1,2119`, MDD
+`20,7138%`) теперь имеет независимый forward seal SHA `c1acf97b...`, commit `a79fd4c`.
+Source code `83230e4`, readiness `74878c3` были pushed до первого post-seal market
+snapshot. V27 signal/risk/governors/collateral/costs byte-identical; backfill market
+data `2026-01-01..2026-09-01` запрещён.
+
+Tasks `TradingLabV27ForwardExecution` (10:05 мск) и
+`TradingLabV27ForwardDecision` (23:45 мск) имеют status `Ready`. Сейчас 0/252 warmup,
+0/504 unseen evaluation. До завершения warmup PnL запрещён; до 504 evaluation sessions
+никакая короткая annualization не является доказательством 20–50%. Полный порядок:
+[FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
+
 ## Последний результат: V36-R1 multi-era online expert ensemble NO-GO
 
 V36 проверила на одной причинной шкале `2008-10-08..2025-12-30` десять заранее
@@ -1117,6 +1131,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — независимая forward-проверка V27
+
+1. Не менять parent V27 SHA `7a9a44cf...`, horizons `21/63/126/252`, STLFSI4 `0`,
+   key rate `20%`, 2x, RUONIA haircut `50%`, buffer/cost/capacity.
+2. Каждый следующий сеанс проверить обе scheduled tasks и
+   `v27_forward_validation_readiness`; invalid snapshot не считать в coverage.
+3. Первые 252 unique decision dates — только warmup. Затем неизменяемый paper runner
+   использует минимум 504 sessions; до этого не вычислять/публиковать V27 forward CAGR.
+4. Получить broker-exact collateral/IM/fee/order-log правила параллельно; numeric GO без
+   них остаётся paper-only и требует второго unseen confirmation.
 
 ### P0 — доходный collateral и forward CNY relative value
 

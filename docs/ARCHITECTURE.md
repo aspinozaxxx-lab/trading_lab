@@ -799,6 +799,15 @@ signal/return/PnL. Каждый snapshot immutable и raw-replayable. Read-only
 `forward_cny_relative_value_readiness` считает только полностью audited unique quote
 dates по фазам 40/20/60; scheduler запускается в 18:30 мск по будням.
 
+### `market_lab.futures.moex_v27_forward_validation_source`
+
+Forward-only independent-validation source для frozen V27. Два snapshot kinds в день
+сохраняют полные listed chains SI/RI/BR/MIX, bid/offer/OHLC/settle/volume/OI,
+spec/IM/fees и raw current vintages STLFSI4/RUONIA/key rate. Actual retrieval является
+нижней границей macro availability. `v27_forward_validation_readiness` raw-replay
+аудитит каждый каталог и считает 252-session warmup и 504-session evaluation отдельно;
+он никогда не вычисляет PnL.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily
