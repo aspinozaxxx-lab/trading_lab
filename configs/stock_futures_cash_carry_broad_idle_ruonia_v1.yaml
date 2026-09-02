@@ -1,0 +1,84 @@
+﻿protocol_id: stock_futures_cash_carry_broad_idle_ruonia_v1
+protocol_version: 1
+status: sealed_before_any_broad_idle_interest_nav_or_metric
+declared_at_utc: '2026-09-02T08:31:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Preserve the exact 29 unit-corrected broad cash-carry trades and credit only 50% of
+  causally available RUONIA to capital that is not assigned to an active covered
+  position. This is the exact idle-income fraction already frozen in V41, not a new
+  rate selected from the broad outcome.
+
+parent:
+  root: runs/stock_futures_cash_carry_broad_r1_20260902T082721Z_c2aa6752
+  protocol_sha256: c2aa67526f8217447955da6333a20e24b658ca25b5d1405820ab19ab857b11ca
+  manifest: {file: manifest.json, sha256: 827a5f3348b899e96f5aa993b839c7f613a89db5b221f6e9eb7f038516130b3d}
+  metrics: {file: metrics.json, sha256: b62d35d92e5effe87cdf8bbe5b178419fa91a8b20e67271281ecae7a546385fc}
+  ledger: {file: daily_ledger.parquet, sha256: d1735f51335ec6cb8cdbb5ed0d464c919bd927fde869374719b112b74c512fcc, rows: 781}
+  trades: {file: trades.parquet, sha256: 2ef4be40dfcdb0d9fe1cecec07546247b5ad33a667c431eff7ab91697bf9091b, rows: 29}
+
+rates:
+  root: data/processed/info_radar/cbr-dev-2018-2025-v1
+  manifest: {file: manifest.json, sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c}
+  daily: {file: cbr_daily.parquet, sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d, rows: 5951}
+  series_id: ruonia
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  parameter_fitting: none
+  parent_before_first_and_after_last_observation: flat_at_boundary_nav
+
+eligibility:
+  equal_sleeves:
+    exact_stock_sleeves: 29
+    active_from_entry_date_through_exit_date_inclusive: true
+    eligible_fraction: one_minus_active_stock_count_divided_by_29
+  active_cap:
+    parent_exposure_column_per_scenario: active_cap_scenario_exposure
+    conservative_interval_exposure: max_current_and_previous_calendar_filled_exposure
+    eligible_fraction: one_minus_conservative_interval_exposure
+    entry_and_exit_calendar_days_are_ineligible: true
+  active_capital_interest_fraction: 0.0
+  idle_capital_interest_fraction: 1.0
+
+interest:
+  applied_ruonia_fraction: 0.50
+  inherited_from: stock_futures_cash_carry_idle_ruonia_v2_and_V41
+  latest_rate_available_at_lte_interval_start_21_00_Europe_Moscow: true
+  accrual: actual_calendar_days_divided_by_365
+  missing_rate: zero_interest_and_explicit_count
+  negative_rate_floor: 0.0
+  fees_or_tax_on_interest: not_modeled_apply_50pct_haircut_instead
+
+parent_scenario_mapping:
+  primary: primary
+  doubled: doubled
+  zero_cashflow_stress: zero_cashflow_stress
+  delayed_fill_stress: delayed_fill_stress
+  parent_decisions_trades_costs_cashflows_and_positions_unchanged: true
+
+quality_gates:
+  exact_29_parent_trades: true
+  no_trade_signal_or_allocation_recomputation: true
+  causal_ruonia_only: true
+  all_dates_before_2026: true
+  idle_income_nonnegative: true
+  both_views_all_four_CAGR_positive: true
+  equal_primary_maximum_drawdown_lte: 0.02
+  active_cap_primary_maximum_drawdown_lte: 0.05
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/stock_futures_cash_carry_broad_idle_ruonia_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, daily_ledger.parquet]
+
+limitations:
+  - A realizable broker instrument paying 50% RUONIA with instant liquidity is not proved.
+  - Tax, settlement cutoffs, collateral haircuts and broker restrictions are not modeled.
+  - The parent remains same-history development evidence with projected RMS cashflows.
+  - Historical results cannot guarantee profit or authorize live trading.

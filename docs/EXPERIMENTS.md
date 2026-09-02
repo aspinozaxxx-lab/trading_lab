@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## Broad cash-carry split-adjustment source V1 — SEALED, collection pending
+## Broad cash-carry split-adjustment source V1 — COMPLETE AND AUDITED
 
 - A post-run source-validity check found 27 contracts where current-vintage
   back-adjusted TQBR prices and historical futures quote units disagree with naïve
@@ -14,6 +14,31 @@
   `ce06df7.../32939c5f.../272e9700...`; 15/15 replay checks pass. Corrected economic
   R1 SHA `c2aa6752...` is sealed before its outcomes. It inherits every V1 economic
   rule and changes only adjusted spot/cashflow share basis for those exact events.
+
+## Broad stock-futures cash-carry R1 — FORWARD CANDIDATE
+
+- Config SHA `c2aa6752...`, implementation `7545c44`. Source-quality gate passes for
+  338/339 contracts with normalized median futures/spot unit ratio `0.919..1.066`;
+  `CMU3` is the one explicit no-aligned-price contract. All 12 run audits pass.
+- Canonical `runs/stock_futures_cash_carry_broad_r1_20260902T082721Z_c2aa6752/`:
+  11,711 decisions, 29 trades, 29/29 primary wins and 24/29 zero/delayed-stress wins.
+  Equal-sleeve primary/doubled/zero/delayed CAGR
+  `1.8412%/1.7614%/0.4166%/0.4118%`, Sharpe `1.912/1.867/1.124/1.116`, MDD below
+  `0.513%`; active-cap CAGR `5.3132%/5.0841%/1.1634%/1.1500%`, Sharpe
+  `1.914/1.869/1.061/1.053`, MDD below `1.565%`. Every scenario has 3/3 positive years.
+- Verdict `FORWARD_CANDIDATE`; no standalone view reaches 20%. This is a robust,
+  low-drawdown sleeve candidate, not live evidence. Do not select its profitable
+  stocks post-hoc; forward BID/OFFER and broker terms remain required.
+
+## Broad cash-carry R1 + idle RUONIA V1 — SEALED, outcome unopened
+
+- Config SHA `e5d91172...` preserves the exact 29 R1 trades and both predeclared
+  portfolio views. It adds only 50% causal RUONIA to inactive capital, exactly the
+  fraction already frozen in the old cash-carry V2/V41 rather than selected from R1.
+- Equal-sleeve eligibility is `1 - active stocks / 29`, with entry and exit dates
+  ineligible. Active-cap eligibility is one minus the conservative maximum of current
+  and previous parent exposure. All four parent scenarios stay unchanged; no new
+  trade, allocation, threshold or cashflow decision is permitted.
 
 ## Broad stock-futures cash-carry economic V1 — INVALID UNIT IDENTITY
 

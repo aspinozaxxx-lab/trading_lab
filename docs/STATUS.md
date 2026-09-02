@@ -232,6 +232,20 @@ implementation/config по exact hashes и меняет только adjusted sp
 per-share RMS basis до effective corporate-action dates. Price-unit gate заранее
 требует 338 контрактов с median normalized ratio `0.75..1.35` и один explicit missing.
 
+R1 canonical `runs/stock_futures_cash_carry_broad_r1_20260902T082721Z_c2aa6752/`
+прошёл 12/12 audit и unit gate: 338 valid ratios `0.919..1.066`, один explicit missing
+`CMU3`. 11,711 decisions, 29 trades; primary wins 29/29, zero/delayed 24/29. Equal
+sleeves primary/doubled/zero/delayed CAGR
+`1.8412%/1.7614%/0.4166%/0.4118%`, Sharpe `1.912/1.867/1.124/1.116`, MDD
+`0.3866–0.5127%`; active-cap CAGR `5.3132%/5.0841%/1.1634%/1.1500%`, Sharpe
+`1.914/1.869/1.061/1.053`, MDD `1.0596–1.5641%`. Все 3 года положительны во всех
+сценариях. Verdict `FORWARD_CANDIDATE`, но standalone ниже 20% и execution не доказан.
+
+Следующий overlay уже sealed до результата: SHA `e5d91172...`. Он сохраняет exact 29
+trades и оба views, добавляя только унаследованные из V41 50% causal RUONIA на
+неактивный капитал; entry/exit day ineligible, active-cap использует conservative
+max(current, previous exposure). Никакой сигнал/weight/threshold не меняется.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.
