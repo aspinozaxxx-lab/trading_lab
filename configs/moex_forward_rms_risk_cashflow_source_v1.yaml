@@ -1,0 +1,127 @@
+﻿protocol_id: moex_forward_rms_risk_cashflow_source_v1
+protocol_version: 1
+status: sealed_after_schema_and_row_count_inspection_before_source_values_or_outcomes
+declared_at_utc: '2026-09-02T00:51:28Z'
+research_only: true
+live_trading_allowed: false
+
+objective:
+  statement: >-
+    Capture point-in-time MOEX derivatives risk parameters and anticipated cash flows
+    as a price-independent source for future dividend-fair-value, margin-stress and
+    cross-asset relative-value hypotheses.
+  source_only: true
+  economic_hypothesis_selected: false
+  price_return_target_prediction_or_pnl_allowed: false
+
+preseal_inspection:
+  values_read: false
+  response_schemas_read: true
+  response_row_counts_read: true
+  observed_row_counts_not_sealed_as_future_expectation:
+    staticparams: 198
+    limits: 198
+    cashflow: 89
+
+source:
+  provider: Moscow_Exchange_MOEX_ISS
+  official_interface: https://www.moex.com/a8531
+  documentation_announcement: https://www.moex.com/n56498
+  base_endpoint: https://iss.moex.com/iss/rms/engines/futures/objects
+  access_mode: public_delayed
+  bearer_token_required: false
+  tables:
+    staticparams:
+      endpoint: staticparams.json
+      required_columns:
+        - tradedate
+        - assetcode
+        - mdtimeicl
+        - mdtimeecl
+        - freq
+        - count
+        - spread
+        - autoshiftnummr
+        - autoshiftnumir
+        - futmonrange
+        - csmonrange
+        - futmontime
+        - csmontime
+        - futmonnum
+        - csmonnum
+        - futshift
+        - csshift
+        - somc
+        - windowsize
+        - volatnum
+        - rangefut
+        - rangecs
+        - mdrule
+        - negativeprices
+        - allfirstpriority
+        - nvolat
+        - minprice
+        - optionmodel
+        - ncl
+        - nclopt
+        - radius
+        - code_mcs
+        - updatetime
+    limits:
+      endpoint: limits.json
+      required_columns: [tradedate, assetcode, mr1, mr2, mr3, lk1, lk2, title, group_title, updatetime]
+    cashflow:
+      endpoint: cashflow.json
+      required_columns: [tradedate, assetcode, t, cf, cfrisk, updatetime]
+  pagination:
+    cursor_suffix: .cursor
+    start_parameter: start
+    require_complete_total: true
+  request_parameters:
+    iss.meta: 'off'
+  raw_response_bytes_urls_hashes_and_retrieval_required: true
+
+forward_boundary:
+  earliest_allowed_retrieval_utc: '2026-09-02T00:51:28Z'
+  earliest_allowed_source_date: '2026-09-02'
+  historical_backfill: forbidden
+  source_date_before_seal_policy: reject_snapshot
+  actual_retrieval_timestamp_required: true
+  current_snapshot_only: true
+  revisions: preserve_as_new_snapshot_never_overwrite
+
+source_quality_gates:
+  all_three_tables_required: true
+  schema_contains_every_required_column: true
+  pagination_complete: true
+  exact_one_common_tradedate_across_staticparams_and_limits: true
+  cashflow_tradedate_must_match_common_tradedate: true
+  unique_staticparams_assetcode: true
+  unique_limits_assetcode: true
+  unique_cashflow_assetcode_t: true
+  updatetime_not_after_retrieval: true
+  raw_replay_exact: true
+  immutable_snapshot: true
+  forbidden_columns_absent: true
+
+allowed_future_mechanism_families_after_discovery:
+  - anticipated_dividend_cashflow_change_for_stock_and_index_futures_fair_value
+  - exchange_margin_risk_expansion_as_fail_closed_risk_governor
+  - cross_asset_cashflow_and_margin_relative_ranking
+  - rms_regime_features_for_defined_risk_option_positions
+
+sequential_research:
+  discovery_unique_source_dates: 60
+  discovery_use: schema_missingness_revision_and_scale_only_no_pnl
+  economic_protocol_must_be_sealed_after_discovery_before_labels: true
+  calibration_unique_source_dates: 20
+  unseen_evaluation_unique_source_dates: 60
+  parameter_selection_from_unseen_evaluation: 0
+  short_window_annualized_return_is_proof: false
+
+output:
+  source_root: data/forward/moex-rms-risk-cashflow-v1
+  immutable: true
+  contents_in_git: false
+
+forbidden_columns: [price, open, high, low, close, return, returns, label, target, prediction, pnl, profit, equity]
