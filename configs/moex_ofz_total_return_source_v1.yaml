@@ -1,0 +1,174 @@
+﻿protocol_id: moex_ofz_total_return_source_v1
+protocol_version: 1
+status: sealed_after_schema_probe_before_any_history_row
+declared_at_utc: '2026-09-02T16:27:56Z'
+research_only: true
+live_trading_allowed: false
+
+scope:
+  purpose: official_OFZ_market_and_cashflow_source_for_future_total_return_protocol
+  computes_return_target_prediction_or_pnl: false
+  economic_protocol_requires_separate_pre_outcome_seal: true
+
+hypothesis_for_later_protocol: >-
+  A bounded-duration, diversified OFZ carry and roll-down sleeve may provide a return
+  engine independent of V39 trend/option-OI and improve weak rolling periods. This
+  source protocol does not define selection, duration, weights, execution or PnL.
+
+implementation:
+  path: src/market_lab/futures/moex_ofz_total_return_source.py
+  sha256: 11aa44c762d16d3c743e8ad7711a5922614969df57c9e5778ad1d35cfe435e49
+
+source:
+  provider: MOEX_ISS
+  access_mode: public_historical_current_vintage
+  bearer_token_required: false
+  official_developer_manual: https://www.moex.com/files/4be999zbzp80bx2bgmwayrtyx0
+  history:
+    endpoint: https://iss.moex.com/iss/history/engines/stock/markets/bonds/boards/TQOB/securities.json
+    engine: stock
+    market: bonds
+    board: TQOB
+    security_filter: SECID_starts_with_SU
+    from: '2021-01-01'
+    till: '2025-12-31'
+    pagination: exact_history_cursor_until_total
+  bondization:
+    endpoint_template: https://iss.moex.com/iss/statistics/engines/stock/markets/bonds/bondization/{secid}.json
+    blocks: [coupons, amortizations, offers]
+    pagination: exact_per_block_cursor_until_total
+    event_from: '2021-01-01'
+    event_till: '2025-12-31'
+    current_vintage_not_original_publication_vintage: true
+    allowed_use: accounting_cashflows_only_not_historical_predictor
+
+required_history_columns:
+  - BOARDID
+  - TRADEDATE
+  - SHORTNAME
+  - SECID
+  - NUMTRADES
+  - VALUE
+  - VOLUME
+  - OPEN
+  - CLOSE
+  - WAPRICE
+  - LEGALCLOSEPRICE
+  - ACCINT
+  - YIELDCLOSE
+  - YIELDATWAP
+  - MATDATE
+  - DURATION
+  - COUPONPERCENT
+  - COUPONVALUE
+  - FACEVALUE
+  - CURRENCYID
+  - FACEUNIT
+  - BONDTYPE
+  - BONDSUBTYPE
+
+required_schedule_columns:
+  coupons:
+    - isin
+    - name
+    - issuevalue
+    - coupondate
+    - recorddate
+    - startdate
+    - initialfacevalue
+    - facevalue
+    - faceunit
+    - value
+    - valueprc
+    - value_rub
+    - secid
+    - primary_boardid
+  amortizations:
+    - isin
+    - name
+    - issuevalue
+    - amortdate
+    - facevalue
+    - initialfacevalue
+    - faceunit
+    - valueprc
+    - value
+    - value_rub
+    - data_source
+    - secid
+    - primary_boardid
+  offers:
+    - isin
+    - name
+    - issuevalue
+    - offerdate
+    - offerdatestart
+    - offerdateend
+    - facevalue
+    - faceunit
+    - price
+    - value
+    - agent
+    - offertype
+    - secid
+    - primary_boardid
+
+temporal_semantics:
+  daily_history_available_at: next_calendar_day_00_00_Europe_Moscow
+  current_vintage_not_original_historical_vintage: true
+  bondization_available_at: actual_retrieval_only
+  protected_ceiling_exclusive: '2026-01-01'
+  old_experiments_may_not_read_this_source: true
+
+quality_gates:
+  exact_TQOB_SU_identity: true
+  exact_cursor_pagination_history_and_each_schedule_block: true
+  raw_response_sha_and_gzip_sha: true
+  raw_to_processed_replay_exact: true
+  unique_security_trade_date: true
+  unique_event_kind_security_event_date: true
+  missing_prices_yields_or_cashflows_preserved_not_zero_filled: true
+  protected_market_rows_zero: true
+  bondization_current_vintage_disclosed: true
+  no_strategy_or_outcome_columns: true
+
+output:
+  root: data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+  required_files: [ofz_history.parquet, ofz_bondization.parquet, manifest.json, audit.json]
+
+forbidden_columns:
+  - return
+  - returns
+  - total_return
+  - label
+  - target
+  - prediction
+  - signal
+  - position
+  - order
+  - pnl
+  - profit
+  - equity
+
+future_economic_protocol_requirements:
+  source_audit_all_true_before_seal: true
+  fixed_universe_rule_before_price_or_return_read: true
+  dirty_price_equals_clean_percent_times_face_plus_accrued_interest: true
+  coupon_and_amortization_cashflows_explicit: true
+  next_session_execution_not_same_close: true
+  T_plus_1_settlement_and_cash_timing: true
+  point_in_time_membership_maturity_coupon_type_and_liquidity: true
+  bid_ask_or_conservative_execution_stress_required: true
+  broker_fee_tax_and_lot_size_required: true
+  no_duration_yield_weight_or_rebalance_search_on_same_history: true
+  compare_standalone_and_frozen_portfolio_rolling_q05: true
+  live_trading_allowed: false
+
+limitations:
+  - History is public current-vintage daily trade data, not original raw exchange feed.
+  - Historical daily files do not prove bid/ask queue, size or broker fills.
+  - Bondization is current-vintage and cannot be used as a historical predictor.
+  - Source completion alone cannot prove 20 percent return or authorize live trading.
