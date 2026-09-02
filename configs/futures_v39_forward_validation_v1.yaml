@@ -1,0 +1,117 @@
+﻿protocol_id: futures_v39_forward_validation_v1
+protocol_version: 1
+status: sealed_after_v39_development_before_first_v39_forward_economic_observation
+declared_at_utc: '2026-09-02T02:55:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Validate the frozen V39 option-open-interest tail governor on genuinely accumulated
+  post-source-seal data without historical backfill, parameter changes, short-window
+  annualization or option settlement fills.
+
+development_candidate:
+  protocol_path: configs/futures_v39_option_oi_tail_governor.yaml
+  protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+  implementation_path: src/market_lab/futures_v39_option_oi_tail_governor.py
+  implementation_sha256: 0dac782edadd0d86238bef6d608aab95f1d82d5ab1f6c5b308c67cd615e340b8
+  canonical_run: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+  metrics_sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113
+  identity_sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71
+  development_primary: {cagr: 0.28684921591536106, sharpe: 1.2514786952301653, maximum_drawdown: 0.20032190791720583}
+  development_is_not_forward_evidence: true
+
+frozen_economics:
+  parent_signal: byte_identical_V27
+  universe: [SI, RI, BR, MIX]
+  option_state: aggregate_open_interest_over_all_strikes_maturities_and_week_codes
+  put_share: put_OI_divided_by_call_plus_put_OI
+  option_state_used_by_decision: latest_completed_week_strictly_before_decision_week
+  current_change: selected_put_share_minus_prior_selected_put_share
+  prior_changes_window: 52
+  lower_quantile: 0.10
+  upper_quantile: 0.90
+  quantile_method: linear
+  long_cash_rule: current_change_strictly_above_prior_q90
+  short_cash_rule: current_change_strictly_below_prior_q10
+  equality_and_directionally_compatible_rule: pass
+  scale_values: [0.0, 1.0]
+  option_orders: forbidden
+  futures_leverage_costs_collateral_capacity_and_execution: byte_identical_V27_V39
+
+option_source:
+  protocol_path: configs/moex_forward_option_surface_source_v1.yaml
+  protocol_sha256: a33c86b4440a0c14fceac4c5a2e3bdd580e3ff9964bfcb375a4ba09f83529eaa
+  implementation_path: src/market_lab/futures/moex_forward_option_surface_source.py
+  implementation_sha256: 6b844b8a39724f9c6920e5993c9bfd0b161d78399c9b98e35b42f8fbd96c4fde
+  root: data/forward/moex-options-surface-v1
+  earliest_source_date: '2026-09-01'
+  existing_snapshot_at_forward_protocol_seal: 1
+  existing_snapshot_may_count_for_warmup_only: true
+  evaluation_must_start_after_forward_protocol_seal_and_all_warmups: true
+  every_snapshot_raw_replay_required: true
+  all_four_assets_and_positive_call_put_OI_required: true
+  source_date_and_actual_retrieval_required: true
+  old_experiment_access: forbidden
+
+futures_source:
+  protocol_path: configs/futures_v27_forward_validation_v2.yaml
+  protocol_sha256: f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932
+  implementation_path: src/market_lab/futures/moex_v27_forward_validation_source.py
+  implementation_sha256: f38a41f004bc3a1fd3dbb3a4d803c59e37ef51e8341f6251107c7a8c5bede79a
+  root: data/forward/v27-validation-v2
+  earliest_market_source_date: '2026-09-02'
+  every_snapshot_raw_replay_required: true
+  official_daily_CLOSE_only_for_signal: true
+  current_LAST_or_SETTLE_as_close: forbidden
+
+warmup:
+  option_unique_weekly_levels_required: 54
+  rationale: 54_levels_produce_current_change_plus_52_strictly_prior_changes
+  futures_common_official_CLOSE_levels_required: 253
+  futures_return_observations_required: 252
+  warmup_returns_or_short_window_annualization_reported_as_result: forbidden
+  historical_or_current_vintage_backfill: forbidden
+
+evaluation:
+  begins_only_after_both_warmups_complete: true
+  minimum_futures_sessions: 504
+  minimum_weekly_decisions: 104
+  minimum_full_calendar_years: 2
+  option_week_state_for_each_decision_required: true
+  missing_or_stale_option_state: cash_affected_asset
+  observed_futures_quote_paper_execution_required: true
+  option_execution_not_required_because_options_are_not_traded: true
+
+promotion_gates:
+  all_cost_scenario_CAGR_minimum: 0.20
+  primary_sharpe_minimum: 1.0
+  maximum_drawdown_maximum: 0.30
+  positive_full_years_minimum: 2
+  worst_full_year_minimum: 0.0
+  critical_failures_maximum: 0
+  unresolved_halts_maximum: 0
+  option_and_futures_source_audits_all_true: true
+  observed_quote_paper_profit_positive: true
+  second_unseen_confirmation_required_after_numeric_pass: true
+  live_trading_allowed_after_first_pass: false
+
+readiness:
+  module: market_lab.futures.v39_forward_validation_readiness
+  computes_signal_or_pnl: false
+  counts_only_raw_replay_valid_unique_dates_weeks_and_snapshot_kinds: true
+
+forbidden_after_forward_outcomes:
+  - changing_52_window_or_10_90_quantiles
+  - changing_sign_direction_scale_warmup_or_staleness
+  - selecting_option_strikes_maturities_week_codes_assets_or_activity_filters
+  - switching_to_option_volume_or_prices_after_result
+  - backfilling_2026_or_preseal_market_or_option_states
+  - changing_V27_signal_leverage_costs_collateral_capacity_or_execution
+  - reporting_CAGR_before_504_evaluation_sessions_and_two_full_years
+  - live_trading_before_second_unseen_confirmation_and_broker_exact_audit
+
+outputs:
+  readiness_only_until_warmup_complete: true
+  paper_root: runs/v39-forward-validation-v1
+  contents_in_git: false
