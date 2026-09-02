@@ -58,9 +58,10 @@ ssh gpu-mlserver 'systemctl show trading-lab-collector@cross-market.service \
   -p Result -p ExecMainStatus -p InactiveEnterTimestamp'
 ```
 
-Первый автоматический серверный цикл `2026-09-02 14:59` завершил `cross-market` и
-`broad-carry` с `Result=success`, `ExecMainStatus=0`. Оба новых snapshot прошли полный
-source audit с `all_true=true`.
+Два последовательных автоматических серверных цикла `2026-09-02 14:59/15:09`
+завершили `cross-market` и `broad-carry` с `Result=success`, `ExecMainStatus=0`.
+Все четыре новых snapshot прошли полный source audit с `all_true=true`; forward root
+после второго цикла содержит `331` file.
 
 ## Установка и обновление
 

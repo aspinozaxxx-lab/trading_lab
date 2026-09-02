@@ -59,8 +59,9 @@ cross-platform dispatcher и 13 native systemd timers, серверные кат
 `/opt/trading_lab` и `/srv/trading_lab_data`, отдельного пользователя `trading-lab` и
 защищённый environment file вне Git. Все прежние данные (`311` files, `2 616 600`
 bytes) перенесены без изменения общего byte count. Первый автоматический server cycle
-`2026-09-02 14:59` создал cross-market и broad-carry snapshots; оба завершились
-`Result=success`, `ExecMainStatus=0` и прошли raw replay `all_true=true`.
+`2026-09-02 14:59/15:09` дважды подряд создал cross-market и broad-carry snapshots;
+все четыре завершились `Result=success`, `ExecMainStatus=0` и прошли raw replay
+`all_true=true`. Server forward root содержит `331` file после второго цикла.
 
 После этого все `16` локальных Windows tasks `TradingLab*` отключены (`13` active
 выключены, `3` уже были disabled). Definitions не удалены и остаются только аварийным
