@@ -1512,6 +1512,29 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
 `--audit-directory`, не менять scale/cap/buffer/gates и не переносить расчёт на
 локальную Windows-машину.
 
+### V60/V61 shadow-equity governor and robustness audit
+
+V60 и V61 уже выполнены ровно один раз; повторный economic/bootstrap run запрещён.
+Разрешены только read-only audits на `gpu-mlserver`:
+
+```bash
+cd /opt/trading_lab
+env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 ARROW_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m market_lab.futures_v60_v49_equity_trend_governor \
+  --audit-directory \
+  /srv/trading_lab_data/runs/v60_v49_equity_trend_governor_v1_20260902T193821Z_40145868
+
+env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 ARROW_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m market_lab.futures_v61_v60_robustness \
+  --audit-directory \
+  /srv/trading_lab_data/runs/v61_v60_robustness_20260902T194742Z_321fff16
+```
+
+V60 development gates прошли, но V61 не подтвердил internal minimum 20: stress q05
+CAGR `8.9513%`, joint CAGR `>=20%` + MDD `<=25%` frequency `52.188%`, все пять
+обязательных robustness conditions false. Не менять 126-session rule или 1x/2x по
+этому outcome.
+
 ### Official MOEX OFZ source R2 audit
 
 Canonical collection уже завершена; повторный download запрещён. Network-independent

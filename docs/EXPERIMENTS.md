@@ -1,5 +1,24 @@
 ﻿# Реестр экспериментов
 
+## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
+
+- V60 SHA/code `40145868.../4a3e38e5...`, seal `f132dd8`. One predeclared rule uses
+  only the latest strictly-prior always-on V49 primary NAV: `2x` above/equal its
+  trailing 126-session mean, otherwise `1x`; warmup is `1x`, no search.
+- Canonical `v60_v49_equity_trend_governor_v1_20260902T193821Z_40145868`: primary/
+  doubled/stress CAGR `39.9382%/38.8445%/38.4998%`, Sharpe
+  `1.2435/1.2218/1.2111`, MDD `22.0244%/22.0686%/22.2845%`; development verdict
+  `GO_TO_NEW_FORWARD_CONFIRMATION`, replay all true.
+- V61 SHA `321fff16...`, seal/deploy `ce5220d`, reused the fixed V50 diagnostic grid but
+  tightened joint bootstrap MDD to `25%`: 300 000 paths, four block sizes, 252/504d
+  rolling and leave-one-year-out. Canonical
+  `v61_v60_robustness_20260902T194742Z_321fff16` is audited all true.
+- Every minimum-20 condition failed: stress joint frequency `52.188%`, q05 CAGR
+  `8.9513%`, rolling-252/504 fractions `57.2968%/58.3875%`, leave-2022-out CAGR
+  `18.7995%`. Verdict `INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`.
+- Do not tune the 126-session rule, multipliers or gates on this outcome. V60 is useful
+  development evidence, not predictable return or live permission.
+
 ## V59/R2 pre-2018 CFTC crowding — INVALID, NO USEFUL EDGE
 
 - Audited 2012–2017 CFTC source: `626` rows, replay `15/15` true; source config

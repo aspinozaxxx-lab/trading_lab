@@ -3,6 +3,46 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
+
+V60 config SHA `40145868...`, seal/deploy commit `f132dd8`, implementation SHA
+`4a3e38e5...`. До outcome был зафиксирован ровно один causal rule: frozen V39 targets
+масштабируются `2.00x`, только когда latest strictly-prior always-on V49 primary shadow
+NAV не ниже своей trailing 126-session mean; иначе и во время warmup используется
+`1.00x`. Ни signal direction/zero, ни costs, exact integer execution, gross `4x`, margin
+buffer `2x` или participation `1%` не менялись; parameter search отсутствовал.
+
+Canonical run `v60_v49_equity_trend_governor_v1_20260902T193821Z_40145868` прошёл все
+presealed development gates:
+
+- primary/doubled/stress/execution-stress CAGR
+  `39.9382%/38.8445%/38.4998%/38.4998%`;
+- Sharpe `1.2435/1.2218/1.2111/1.2111`, MDD
+  `22.0244%/22.0686%/22.2845%/22.2845%`;
+- primary worst year `−2.1717%`; risk-on/risk-off/warmup dates `197/105/32`;
+- против V49 MDD улучшен на `0.9477–2.3773 п.п.`, но CAGR ниже на
+  `1.8843–4.1324 п.п.`;
+- deterministic artifact/metric/gate replay полностью true. Manifest/metrics/audit SHA
+  `5741a93d.../836041a7.../5de120c7...`.
+
+V61 был отдельно запечатан до resampling: config SHA `321fff16...`, implementation/
+deploy commit `ce5220d`, 300 000 circular-block paths, blocks `5/21/63/126`, rolling
+`252/504`, leave-one-year-out и более строгий joint gate CAGR `>=20%` + MDD `<=25%`.
+Canonical `v61_v60_robustness_20260902T194742Z_321fff16` дал
+`INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`; все пять minimum-20 conditions false:
+
+- worst stress joint frequency `52.188% < 75%`, q05 CAGR `8.9513% < 20%`;
+- доли stress rolling CAGR `>=20%`: `57.2968%` на 252d и `58.3875%` на 504d;
+- leave-2022-out stress CAGR `18.7995% < 20%` — результат всё ещё заметно зависит от
+  2022 года;
+- audit полностью true; manifest/metrics/identity SHA
+  `bb122360.../7915e08a.../beb718b0...`.
+
+Итог: V60 — лучший новый risk-adjusted historical challenger, но исходную задачу
+предсказуемых `>=20%` он не доказал. Не менять 126-session window, multipliers или
+gates по этому outcome. Допустимы frozen forward V49/V60 и новая экономически иная
+family/source; live false.
+
 ## V57/V58 official CFTC WTI positioning → BR — SOURCE AUDITED, V58 NO-GO
 
 V57 source config SHA `22878af6...`, implementation commit `3d66bf4`, code SHA

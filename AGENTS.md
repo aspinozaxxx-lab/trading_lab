@@ -47,6 +47,9 @@
     независимого carry/roll-down engine и точные запреты до V52 economic seal.
 22. [Текущее состояние](docs/STATUS.md), раздел V54 — audited RGBI futures source
     `2022–2025`; market values нельзя читать для design до отдельного V55 seal.
+23. [Текущее состояние](docs/STATUS.md), раздел V60/V61 — causal `2x/1x` shadow-equity
+    governor прошёл development, но fixed robustness не подтвердил minimum 20%; его
+    126-session rule и multipliers больше не настраивать на той же истории.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
