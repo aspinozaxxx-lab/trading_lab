@@ -1,5 +1,31 @@
 ﻿# Реестр экспериментов
 
+## V48 exact integer replay of V47 — FRONTIER PASS, STABILITY STRICT NO-GO
+
+- Config SHA `3b7ae0e4...`, seal `5c7e9e0`, implementation `ba414cc`; canonical
+  `v48_v47_exact_integer_execution_v1_20260902T102529Z_3b7ae0e4`.
+- Frozen V39 mapped targets are scaled before integer sizing: stability `1.10x` with
+  gross cap `2.20`, margin buffer `2.50` and a `20%` carry cash block; frontier
+  `1.50x`, gross cap `3.00`, margin buffer `2.00`, no carry. Exact next OPEN,
+  contract specs, 1% lagged-volume capacity, atomic rolls and `1/1, 2/2, 4/2`
+  cost scenarios are inherited. Missing/risk constraints cancel or clip, never bypass.
+- Stability exact CAGR primary/doubled/stress/delayed
+  `30.5718%/30.2803%/29.3878%/29.3871%`, Sharpe `1.333/1.324/1.292/1.292`, MDD
+  `18.7223%/18.8064%/18.9368%/18.9368%`, worst year down to `-1.3933%`. It passes
+  every shared/economic gate except the separately required `5/5` primary positive
+  years (`2025 -0.1492%`), so its strict verdict is `NO_GO`, not selected post hoc.
+- Frontier exact CAGR `39.8604%/39.0021%/38.4612%/38.4612%`, Sharpe
+  `1.300/1.279/1.266/1.266`, MDD `23.9696%/23.6966%/23.9102%/23.9102%`, worst year
+  down to `-3.5999%`, `4/5` positive years. It passes every presealed exact gate.
+- Execution evidence: maximum participation only `0.4374% < 1%`; zero participation
+  clips, liquidity/roll cancels, margin rejects, critical failures or unresolved halts.
+  Frontier has `671/662/668` filled legs primary/doubled/stress. Overall verdict
+  `EXACT_EXECUTION_GATES_PASS`, passing mode exactly `frontier`; live false because
+  this is still same-history public-data execution, not broker/forward confirmation.
+- Manifest/metrics/ledger/orders/positions/targets/audit SHA
+  `395ce5c8.../ee23220b.../e3a52a7e.../0a61fe0d.../7a0dfe87.../c2ce730a.../
+  b3196782...`. V48 scale/caps/buffers/gates must not be tuned on this history.
+
 ## V47 V39 margin-feasible normalized risk ladder — same-history PASS, exact replay required
 
 - Config SHA `0b3524f4...`, seal `a20d16e`, implementation `234a23e`; canonical

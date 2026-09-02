@@ -3,6 +3,34 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V48 exact frontier — NEW LEAD, 38.46–39.86% CAGR, forward confirmation required
+
+V48 SHA `3b7ae0e4...`, seal `5c7e9e0`, implementation `ba414cc`; canonical
+`runs/v48_v47_exact_integer_execution_v1_20260902T102529Z_3b7ae0e4/`. Он заново
+проигрывает scaled frozen V39 targets через integer contracts, factual next OPEN,
+1% lagged-volume capacity, atomic rolls, exact costs и doubled margin reserve.
+
+Frontier `1.50x` прошёл все presealed exact gates:
+
+- primary/doubled/stress/delayed CAGR
+  `39.8604% / 39.0021% / 38.4612% / 38.4612%`;
+- Sharpe `1.300 / 1.279 / 1.266 / 1.266`;
+- MDD `23.9696% / 23.6966% / 23.9102% / 23.9102%`;
+- worst year `-2.9305% / -3.1054% / -3.5999% / -3.5999%`, `4/5` positive years;
+- max participation `0.4374%`, zero clips, liquidity/roll cancels, margin rejects,
+  critical failures и unresolved halts.
+
+Это новый исторический lead и первый вариант, близкий к 50%, который сохранил более
+`38%` CAGR даже после exact integer/capacity/margin/cost replay. Stability mode тоже
+сильный (`29.39–30.57%`, Sharpe `1.29–1.33`, MDD менее `19%`), но строгий `NO_GO`:
+primary имеет только `4/5` positive years из-за `2025 -0.1492%`, поэтому режимы не
+выбирались после результата.
+
+V48 всё ещё не live GO: это масштабирование известного same-history winner, public
+OHLC/spec proxy, а не broker fills или independent forward. Следующий обязательный
+этап — запечатанный forward exact-execution admission для масштаба `1.50x`; scale,
+gross cap, margin buffer и gates по 2021–2025 больше не менять.
+
 ## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
 
 V47 SHA `0b3524f4...`, seal `a20d16e`, implementation `234a23e`; canonical
@@ -144,8 +172,9 @@ Primary/doubled/stress CAGR `25,5683%/25,1454%/24,6187%`, Sharpe
 сценариях; все CAGR выше 20%, primary имеет 5/5 positive years. Все пять presealed
 gates true, verdict `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`.
 
-Это сильнейший текущий вариант для цели «не менее 20% более предсказуемо», но не
-доказательство live и не 50%: оба market-parent используют overlapping history, V39
+До exact V48 это был сильнейший stability-вариант для цели «не менее 20% более
+предсказуемо», но не доказательство live и не 50%: оба market-parent используют
+overlapping history, V39
 adaptive, cash-carry не имеет historical bid/ask execution, idle-yield instrument не
 верифицирован. Веса/50% RUONIA/DTE/signal после результата не менять. Следующий шаг —
 forward-синхронизация V39, cash-carry quotes и фактической доходности разрешённого
