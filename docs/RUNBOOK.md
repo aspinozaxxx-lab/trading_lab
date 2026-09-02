@@ -1480,6 +1480,24 @@ Canonical V42R2 idle-fund cost stress:
 интервале и требует 9/9 комбинаций. Результат диагностический и не разрешает выбирать
 LQDT/TMON до 60 forward пар.
 
+### V49 exact double-risk canonical audit
+
+V49 уже выполнен ровно один раз на `gpu-mlserver`; повторный economic run запрещён.
+Проверять immutable result можно только read-only audit-командой на сервере:
+
+```bash
+cd /opt/trading_lab
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
+  .venv/bin/python -m market_lab.futures_v49_v39_double_risk_exact_execution \
+  --audit-directory \
+  /srv/trading_lab_data/runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+```
+
+Ожидается `all_true: true`. Canonical implementation commit `540741a`, config SHA
+`37b4fcb0...`, manifest SHA `b806e811...`. Не запускать модуль без
+`--audit-directory`, не менять scale/cap/buffer/gates и не переносить расчёт на
+локальную Windows-машину.
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:

@@ -1,5 +1,31 @@
 ﻿# Реестр экспериментов
 
+## V49 V39 exact double-risk — NO-GO at the presealed 45% primary gate
+
+- Config SHA `37b4fcb0...`, seal `ad22fb4`, implementation commit `540741a`, exact
+  implementation SHA `1ddb838a...`; canonical
+  `v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0`.
+- Один presealed candidate: frozen V39 mapped targets `2.00x`, gross cap `4.00`,
+  doubled initial-margin reserve, exact integer contracts, next factual OPEN, atomic
+  rolls, `1%` lagged-volume participation, no broad carry. Scale search и adaptive
+  result-dependent scaling запрещены и не выполнялись.
+- Exact CAGR primary/doubled/stress/execution-stress
+  `43.6833%/42.9769%/40.3841%/40.3841%`; Sharpe
+  `1.306/1.277/1.248/1.248`; MDD `22.9721%/23.5018%/24.6617%/24.6617%`; worst year
+  не ниже `-3.7918%`, primary `4/5` positive years.
+- Execution complete: maximum participation `0.5904% < 1%`; zero clips, initial-margin
+  rejects, critical failures и unresolved halts. Filled legs `671/667/663`; costs
+  `124 334/244 135/343 432` RUB в primary/doubled/stress.
+- Strict verdict `NO_GO`: единственный failed required gate — primary CAGR
+  `43.6833% < 45%`; reported 50% stretch gate также false. Все four-scenario floors
+  `>=40%`, Sharpe/MDD/worst-year и execution gates прошли.
+- Server-only run выполнен ровно один раз из pushed commit `540741a`, dates-before-2026
+  true. Независимый artifact/metric replay дал `all_true=true`; manifest/metrics/audit
+  SHA `b806e811.../eb24680a.../60a88ce6...`.
+- Это выбранная после V48 same-history sensitivity, не independent validation. Run не
+  повторять; соседние scales, cap, buffer и gates по этому outcome не настраивать.
+  Следующий допустимый тест — только отдельный presealed post-seal paper/forward arm.
+
 ## V27 authenticated official FRED component — SEALED, KEY NOT CONFIGURED
 
 - Config SHA `2954c5a4...` и implementation `4a283074...` добавляют официальный

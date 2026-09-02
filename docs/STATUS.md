@@ -3,7 +3,39 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V48 exact frontier — NEW LEAD, 38.46–39.86% CAGR, forward confirmation required
+## V49 exact double-risk — BEST EXACT CAGR, strict NO-GO at 45% primary gate
+
+V49 config SHA `37b4fcb0...`, seal `ad22fb4`, implementation commit `540741a`,
+implementation SHA `1ddb838a...`; canonical
+`runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0/`.
+Единственный заранее зафиксированный режим ровно удваивает frozen V39 mapped targets:
+scale `2.00x`, gross cap `4.00`, margin buffer `2.00`, participation `1%`, carry `0`.
+Ни scale sweep, ни выбор режима после результата не выполнялись. Расчёт выполнен ровно
+один раз на `gpu-mlserver` из commit `540741a`; все даты строго раньше 2026.
+
+Результат — лучший exact integer/capacity/margin historical CAGR, но строгий `NO_GO`:
+
+- primary/doubled/stress/execution-stress CAGR
+  `43.6833% / 42.9769% / 40.3841% / 40.3841%`;
+- Sharpe `1.306 / 1.277 / 1.248 / 1.248`;
+- MDD `22.9721% / 23.5018% / 24.6617% / 24.6617%`;
+- worst year `-3.3889% / -3.5929% / -3.7918% / -3.7918%`, primary `4/5`
+  positive years;
+- maximum participation `0.5904%`, zero clips, margin rejects, critical failures и
+  unresolved halts; primary/doubled/stress total costs
+  `124 334 / 244 135 / 343 432` RUB.
+
+Провален ровно один обязательный gate: primary CAGR `43.6833% < 45%`; отдельный 50%
+stretch gate также false. Все scenario CAGR остаются выше `40%`, а gates Sharpe/MDD/
+worst-year/execution прошли. Внешний replay-аудит — `all_true=true`; manifest/metrics/
+audit SHA `b806e811.../eb24680a.../60a88ce6...`.
+
+Это post-V48 adaptive same-history sensitivity, а не независимое подтверждение и не
+обещание доходности. Не запускать V49 повторно и не перебирать `2.01x`, `2.1x`, caps,
+margin buffer или gates по уже увиденному результату. Допустим только заранее
+запечатанный paper/forward arm на будущих post-seal наблюдениях; live trading false.
+
+## V48 exact frontier — FORWARD BASELINE, 38.46–39.86% CAGR
 
 V48 SHA `3b7ae0e4...`, seal `5c7e9e0`, implementation `ba414cc`; canonical
 `runs/v48_v47_exact_integer_execution_v1_20260902T102529Z_3b7ae0e4/`. Он заново
@@ -1869,6 +1901,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
+### P0 — post-seal paper arm V49 без повторного historical tuning
+
+1. Не повторять canonical V49 и не проверять соседние scales/caps/buffers на 2021–2025.
+   Historical verdict остаётся `NO_GO`, даже если разрыв до primary gate всего
+   `1.3167` п.п.
+2. До первого V49 forward decision отдельно запечатать ровно один paper arm: scale
+   `2.00x`, gross cap `4.00`, margin buffer `2.00`, participation `1%`, V39 signs/zeros
+   и exact execution без изменений. Начало допускается только после нового seal;
+   уже собранные 2026 observations нельзя backfill-ить как unseen V49 outcome.
+3. Использовать те же независимые component sources и warmup, что V48, но вести V49
+   отдельно: V48 `1.50x` остаётся заранее выбранным baseline, V49 не заменяет его.
+4. До полного warmup/evaluation не считать CAGR и не выбирать arm. Любой paper pass
+   требует broker-exact IM/fees/fills и второго unseen периода; live trading запрещён.
+
 ### P0 — forward-подтверждение V41 cash-carry sleeve
 
 1. Не менять V41 80/20, 50% RUONIA, DTE 30–90, times, cashflow haircut или costs.
@@ -2170,6 +2216,7 @@ revision chain и page evidence. Локальная LLM извлекает фа�
 - `runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf/metrics.json`
 - `runs/v28_pre2018_unseen_20260901T082728Z_4f9e6663/metrics.json`
 - `runs/v29_risk_first_roll_20260901T085436Z_d92f8cf2/metrics.json`
+- `runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0/metrics.json`
 
 При переносе или восстановлении данных сначала сверяй hashes из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md), затем открывай артефакт.

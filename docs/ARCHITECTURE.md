@@ -830,6 +830,17 @@ audit по sealed protocol id и раздельно считает оба FRED r
 `v48_frontier_forward_readiness_v3` добавляет только route/key-availability state к
 неизменной V48 economics.
 
+### `market_lab.futures_v49_v39_double_risk_exact_execution`
+
+Однорежимный aggressive development runner поверх frozen V48/V39 inputs. Он умножает
+mapped targets ровно на `2.00`, разрешает gross до `4.00`, сохраняет doubled
+initial-margin reserve и повторно использует exact integer ledger V48. Sign и zero
+states не меняются, broad carry отсутствует, соседние scales запрещены. Runner пишет
+ledger/orders/positions/targets/metrics/report, byte-manifest и runtime audit; отдельный
+`--audit-directory` заново считает metrics/gates и проверяет hashes без повторного PnL
+run. Canonical V49 имеет строгий `NO_GO` при `43.6833% < 45%` primary CAGR; код не
+является live path.
+
 ### `market_lab.ops.forward_collector` и systemd
 
 Кроссплатформенный operational dispatcher запускает 13 forward jobs на
