@@ -1498,6 +1498,22 @@ Canonical уже находится в
 для подбора time/DTE/hurdle/haircut/costs запрещён. Проверять canonical по его
 `manifest.json`, `audit.json` и SHA, не перезаписывать output.
 
+Broad historical source расширяет только coverage с 61 до 339 contracts:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_broad_stock_futures_cash_carry_intraday_source
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_broad_stock_futures_cash_carry_intraday_source --audit-only
+```
+
+Перед запуском убедиться, что output V1 отсутствует и на диске достаточно места.
+Collector делает тысячи official requests и может работать долго; не запускать его
+параллельно с первыми critical forward snapshots. Config SHA `6bc8f4a2...` требует
+ровно 339 contracts, 29 covered stocks и физически ограничивает candles датой
+`<2026-01-01`. После завершения сначала audit/docs/commit, затем отдельный economic seal;
+не запускать прежний V1 runner напрямую на новом bundle.
+
 ## 6. Диагностика частых проблем
 
 - `FileNotFoundError` для `PROJECT_ROOT/data` или `runs`: проверь junctions.

@@ -903,6 +903,13 @@ open, exit, spec или settlement не доказан, результат unres
 
 ## Технический долг путей
 
+`market_lab.futures.moex_broad_stock_futures_cash_carry_intraday_source` — отдельный
+source-only контур расширения cash-carry. Он детерминированно выбирает 339 historical
+outright series по fixed stock order, проверяет current description/units, собирает
+только 10m RFUD candles до 2026 и replay-аудирует raw responses. Он не импортируется
+экономическим V1 runner автоматически: новый bundle получает отдельный protocol и не
+может изменить frozen threshold/DTE/time/haircut/costs без нового seal.
+
 Часть новых модулей вычисляет `PROJECT_ROOT / "data"` и `PROJECT_ROOT / "runs"` напрямую.
 Пока это поддерживается локальными junctions. Если появится необходимость Linux/CI или
 нескольких data roots, следующий рефакторинг должен ввести один validated settings object,
