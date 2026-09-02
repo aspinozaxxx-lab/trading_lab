@@ -31,7 +31,14 @@ def _archive(year: int, *, protected: bool = False) -> bytes:
     config = source.load_config()
     markets = config["universe"]["markets"]
     report_date = "2026-01-06" if protected else None
-    rows = [_row(year, "IRRELEVANT MARKET", "999999")]
+    rows = [
+        _row(year, "IRRELEVANT MARKET", "999999"),
+        _row(
+            year,
+            "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+            markets["WTI"]["cftc_contract_market_code"],
+        ),
+    ]
     rows.extend(
         _row(
             year,
@@ -69,7 +76,7 @@ def test_parse_selects_exact_markets_and_applies_conservative_delay() -> None:
 
     assert list(frame.columns) == config["schema"]["normalized_columns"]
     assert set(frame["logical_market"]) == {"WTI", "GOLD"}
-    assert record["source_rows"] == 3
+    assert record["source_rows"] == 4
     assert record["selected_rows"] == 2
     assert frame["report_date"].eq(pd.Timestamp("2021-01-02")).all()
     assert frame["available_at_utc"].eq(pd.Timestamp("2021-01-10 04:59:59+00:00")).all()

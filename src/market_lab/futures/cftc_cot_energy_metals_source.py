@@ -153,24 +153,33 @@ def parse_annual_archive(
         if frame[column].dtype == object:
             frame[column] = frame[column].str.strip()
     configured = config["universe"]["markets"]
-    code_to_market = {
-        str(item["cftc_contract_market_code"]): logical for logical, item in configured.items()
+    identity_to_market = {
+        (
+            str(item["cftc_contract_market_code"]),
+            str(item["exact_market_and_exchange_name"]),
+        ): logical
+        for logical, item in configured.items()
     }
-    selected = frame.loc[frame["CFTC_Contract_Market_Code"].isin(code_to_market)].copy()
+    identities = zip(
+        frame["CFTC_Contract_Market_Code"],
+        frame["Market_and_Exchange_Names"],
+        strict=True,
+    )
+    frame["logical_market"] = [identity_to_market.get(identity) for identity in identities]
+    selected = frame.loc[frame["logical_market"].notna()].copy()
     if selected.empty:
         raise ValueError(f"CFTC {year} selected markets are absent")
-    selected["logical_market"] = selected["CFTC_Contract_Market_Code"].map(code_to_market)
     for logical, item in configured.items():
         rows = selected.loc[selected["logical_market"].eq(logical)]
         if rows.empty:
             raise ValueError(f"CFTC {year} market missing: {logical}")
         if (
-            not rows["Market_and_Exchange_Names"]
+            not rows["CFTC_Contract_Market_Code"].eq(str(item["cftc_contract_market_code"])).all()
+            or not rows["Market_and_Exchange_Names"]
             .eq(str(item["exact_market_and_exchange_name"]))
             .all()
         ):
-            actual_names = sorted(rows["Market_and_Exchange_Names"].unique())
-            raise ValueError(f"CFTC {year} market name drift for {logical}: {actual_names}")
+            raise ValueError(f"CFTC {year} exact market identity drift for {logical}")
     selected["report_date"] = pd.to_datetime(
         selected["Report_Date_as_YYYY-MM-DD"], errors="raise"
     ).dt.normalize()
