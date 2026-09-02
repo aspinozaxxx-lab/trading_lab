@@ -1,0 +1,187 @@
+﻿protocol_id: moex_broad_stock_futures_cash_carry_intraday_source_v1
+protocol_version: 1
+status: sealed_after_metadata_only_339_contract_preflight_before_any_selected_candles
+declared_at_utc: '2026-09-02T06:39:00Z'
+scope: source_only_no_basis_returns_targets_signals_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Build an immutable official-MOEX 10-minute futures panel for every historical
+  outright contract of the fixed thirty-stock universe in 2023-2025. This expands
+  the prior five-underlying/61-contract cash-and-carry source without choosing assets,
+  contracts or dates from price, basis, return, signal or PnL.
+
+period:
+  start: '2023-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+  every_candle_timestamp_must_be_before_protected_from: true
+
+metadata_only_preseal_evidence:
+  retrieved_on: '2026-09-02'
+  official_series_filter: show_expired_1_and_exact_underlying_asset
+  quote_candle_basis_return_signal_or_pnl_read: false
+  fixed_stocks_checked: 30
+  stocks_with_at_least_one_historical_outright: 29
+  exact_selected_contracts: 339
+  only_missing_stock: ENPG
+  asset_code_changes_preserved_from_series: [PLZL_to_PLZLM]
+
+universe:
+  exact_stock_order:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+  exact_outright_contract_count_by_stock:
+    AFKS: 12
+    AFLT: 12
+    ALRS: 12
+    BSPB: 10
+    CBOM: 10
+    CHMF: 12
+    ENPG: 0
+    GAZP: 12
+    GMKN: 12
+    IRAO: 12
+    LKOH: 12
+    MAGN: 12
+    MGNT: 12
+    MOEX: 12
+    MTSS: 12
+    NLMK: 12
+    NVTK: 12
+    PHOR: 12
+    PLZL: 12
+    ROSN: 12
+    RTKM: 12
+    RUAL: 12
+    SBER: 12
+    SBERP: 12
+    SNGS: 12
+    SNGSP: 12
+    TATN: 12
+    TATNP: 7
+    TRNFP: 12
+    VTBR: 12
+
+contract_selection:
+  request_one_series_response_per_exact_underlying_asset: true
+  show_expired: 1
+  expiration_date_inside_declared_period: true
+  underlying_asset_must_equal_stock: true
+  name_must_contain_hyphen: true
+  secid_regex: '^[A-Z0-9]{2,3}[FGHJKMNQUVXZ][0-9]$'
+  calendar_spreads_and_perpetuals_forbidden: true
+  asset_code_is_preserved_not_mapped_to_current_vintage: true
+  sort: [stock_order, expiration_date, secid]
+  exact_total_must_equal: 339
+  no_contract_for_ENPG_is_explicit_missing_coverage_not_zero_imputation: true
+  price_volume_basis_return_signal_or_pnl_must_not_affect_selection: true
+
+official_sources:
+  provider: Moscow_Exchange_MOEX_ISS
+  access_mode: anonymous_public_ISS_current_vintage
+  series: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  description_template: https://iss.moex.com/iss/securities/{secid}.json
+  candles_template: https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities/{secid}/candles.json
+  candle_interval_minutes: 10
+  page_limit: 500
+
+description_gates:
+  exact_SECID: true
+  TYPE_must_equal_futures: true
+  RFUD_board_required: true
+  ASSETCODE_must_equal_selected_series_row: true
+  positive_integer_historical_description_LOTSIZE_required: true
+  FRSTTRADE_LSTTRADE_LSTDELDATE_preserved: true
+  description_is_current_vintage_not_point_in_time: true
+
+temporal_semantics:
+  candle_begin_and_end_are_exchange_time_Europe_Moscow: true
+  candle_is_available_at_its_end_timestamp: true
+  request_from: max_period_start_series_start_description_first_trade
+  request_till: min_period_end_series_expiration_description_last_trade
+  stable_monotonic_pagination_required: true
+  missing_candle_is_missing_never_zero: true
+
+dependencies:
+  fixed_universe_source:
+    file: configs/moex_forward_broad_stock_futures_carry_source_v1.yaml
+    sha256: 5cd396e0033f26d161227dfbbdaef8812769d852dd3940d9e8f5bf8c8faabf70
+  spot_source:
+    root: data/processed/stocks_10m_pre2026_v1
+    manifest_sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042
+    used_by_this_source_collection: false
+
+collection:
+  preserve_all_series_descriptions_and_candle_pages_exactly: true
+  immutable_atomic_output: true
+  raw_replay_exact_required: true
+  partial_collection_cannot_be_promoted: true
+  network_retries: 3
+  request_timeout_seconds: 30
+
+output:
+  directory: data/processed/info_radar/moex-broad-stock-futures-carry-intraday-2023-2025-v1
+  contents_in_git: false
+  immutable: true
+
+quality_gates:
+  exact_339_contract_catalog_replayed: true
+  all_candle_timestamps_before_2026: true
+  unique_contract_timestamp: true
+  exact_raw_and_processed_hashes: true
+  explicit_contract_and_stock_coverage: true
+  no_basis_returns_targets_signals_predictions_equity_or_pnl: true
+
+future_economic_protocol_not_active_here:
+  retain_frozen_V1_entry_threshold_DTE_time_cashflow_haircut_and_costs: true
+  broad_universe_is_the_only_intended_mechanism_change: true
+  compare_equal_capital_and_concentration_capped_portfolios: true
+  primary_doubled_zero_cashflow_and_delayed_fill_stresses_required: true
+  execution_remains_unproved_without_forward_BID_OFFER_and_broker_logs: true
+
+forbidden_output_fragments:
+  - basis
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Anonymous historical candles have no BID/OFFER, queue, aggressor side or broker reject.
+  - Current descriptions do not prove historical lot, fee, margin or corporate-action rules.
+  - ENPG has no selected 2023-2025 outright contract and remains explicit missing coverage.
+  - A wider source can increase opportunity count but cannot guarantee profit or live validity.
