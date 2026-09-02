@@ -1,0 +1,77 @@
+﻿protocol_id: futures_v27_forward_fred_api_component_v1
+protocol_version: 1
+status: sealed_before_first_authenticated_FRED_response_or_value
+declared_at_utc: '2026-09-02T11:13:41Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Capture the same official FRED STLFSI4 current vintage through the reachable official
+  Web API when a user-owned API key is configured, without exposing the credential or
+  changing V27/V39/V48 economics, availability, joins or gates.
+
+parent_component_source:
+  protocol_path: configs/futures_v27_forward_components_v1.yaml
+  protocol_sha256: 242d2684a76699c97fa7bc521ffd44045ee111b4f976f6e37fcfa4613da58110
+  implementation_path: src/market_lab/futures/moex_v27_forward_component_source.py
+  implementation_sha256: 026fef9f655eef01d2b3cab529637d853313622734c21e97b3de81ff29ce0a3f
+  inherited_output_columns_and_availability: byte_identical
+
+official_api:
+  provider: Federal_Reserve_Bank_of_St_Louis_FRED
+  endpoint: https://api.stlouisfed.org/fred/series/observations
+  documentation: https://fred.stlouisfed.org/docs/api/fred/series_observations.html
+  series_id: STLFSI4
+  file_type: json
+  observation_lookback_days: 400
+  observation_end: retrieval_UTC_date
+  realtime_start: retrieval_UTC_date
+  realtime_end: retrieval_UTC_date
+  output_type: 1
+  sort_order: asc
+  limit: 100000
+
+authentication:
+  environment_variable: FRED_API_KEY
+  required_format: exactly_32_lowercase_alphanumeric_characters
+  command_line_argument: forbidden
+  config_or_source_literal: forbidden
+  manifest_query_or_URL: redacted
+  raw_response_or_error_log: must_not_contain_key
+  key_hash_or_length_persistence: forbidden
+
+normalization:
+  component: macro_fred
+  response_observations_date_field: date
+  response_observations_value_field: value
+  missing_value_marker: '.'
+  series_id_output: stlfsi4
+  effective_date: observation_date
+  model_available_at: byte_identical_STLFSI4_conservative_release_rule
+  forward_available_at: max_model_available_at_and_actual_retrieval
+  source_current_vintage: true
+  duplicate_observation_date: reject
+  empty_response: reject
+
+route_selection:
+  if_FRED_API_KEY_configured: authenticated_API_only
+  if_FRED_API_KEY_absent: existing_anonymous_fredgraph_component_may_be_attempted
+  fallback_after_authenticated_HTTP_or_parse_failure: forbidden
+  selection_by_market_outcome: forbidden
+
+storage:
+  root: data/forward/v27-validation-v3-components
+  raw_JSON_gzip: required
+  processed_macro_parquet: required
+  immutable_manifest_and_replay_audit: required
+  signal_return_target_prediction_or_pnl: forbidden
+
+state_at_seal:
+  FRED_API_KEY_configured: false
+  authenticated_FRED_snapshots: 0
+  anonymous_FRED_snapshots: 0
+  component_market_execution_dates: 1
+  component_market_decision_dates: 0
+  component_CBR_snapshots: 1
+  forward_economic_outcomes_computed: false
+
