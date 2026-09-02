@@ -177,7 +177,7 @@ def build_curve_state(protocol: Protocol) -> pd.DataFrame:
                 )
         rows.append(row)
     state = pd.DataFrame(rows).sort_values("date", ignore_index=True)
-    valid = state["complete"].copy()
+    valid = state.loc[state["complete"]].copy()
     valid["curve"] = 365.0 * np.log(valid["next_close"] / valid["front_close"]) / (
         valid["next_dte"] - valid["front_dte"]
     )
