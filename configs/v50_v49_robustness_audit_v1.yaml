@@ -1,0 +1,137 @@
+﻿protocol_id: v50_v49_robustness_audit_v1
+protocol_version: 1
+status: sealed_before_any_v49_daily_curve_resampling
+declared_at_utc: '2026-09-02T15:41:37Z'
+research_only: true
+post_selection_diagnostic: true
+live_trading_allowed: false
+
+objective: >-
+  Measure whether the already observed exact V49 equity curves retain internal support
+  for at least 20% CAGR across fixed historical block-resampling, rolling-window and
+  leave-one-year-out diagnostics. Report 50% only as an aspirational diagnostic.
+
+relationship_to_prior_work: >-
+  V49 is already observed and remains strict NO_GO at its 45% primary development gate.
+  V50 cannot change any signal, target, multiplier, margin, capacity, execution, cost,
+  gate or verdict. Resampling frequencies are not calibrated future probabilities and
+  cannot substitute for the separately sealed post-2026 forward arm.
+
+parent_v49:
+  config_path: configs/v49_v39_double_risk_exact_execution_v1.yaml
+  protocol_sha256: 37b4fcb0e346b1a03f414899891bcecb3cc71f3103a2d54d54184a52bf981f3d
+  implementation_path: src/market_lab/futures_v49_v39_double_risk_exact_execution.py
+  implementation_sha256: 1ddb838a0b62cfee9c666362a74527ded5e1bfc81ca0e0e1d429bc17cfca9acb
+  metrics_sha256: eb24680a72976488a1a982d81f5902414a3154342ced6e0d7f1ba977a3c71bf4
+  immutable_verdict: NO_GO
+  expected_combined_metrics:
+    primary:
+      total_return: 5.122431721618415
+      cagr: 0.43683314522838046
+      sharpe: 1.306069329420717
+      maximum_drawdown: 0.22972108398282343
+    doubled:
+      total_return: 4.973410521187744
+      cagr: 0.4297685084640197
+      sharpe: 1.2772596775767664
+      maximum_drawdown: 0.23501759084287588
+    stress:
+      total_return: 4.451158501993486
+      cagr: 0.40384102151465706
+      sharpe: 1.2482364854039607
+      maximum_drawdown: 0.24661742024406696
+
+implementation:
+  path: src/market_lab/futures_v50_v49_robustness.py
+  sha256: 292e237c55932d79a1262bd12945b1521f6dfefd509568cc85c3981d9e484a91
+  reused_robustness_path: src/market_lab/futures_v27_robustness.py
+  reused_robustness_sha256: 795bb570090bb44db5eeaba487b696f5149bc2d86f3f11bde29703c02b7022a0
+
+input:
+  canonical_run_directory: v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+  expected_rows: 1272
+  allowed_columns:
+    - session_date
+    - double_risk_primary_combined_nav
+    - double_risk_doubled_combined_nav
+    - double_risk_stress_combined_nav
+  forbidden_columns:
+    - prices
+    - targets
+    - orders
+    - positions
+    - asset_returns
+    - data_from_2026_or_later
+  artifacts:
+    combined_ledger.parquet:
+      bytes: 108633
+      sha256: 7702330475b06150f0e73ea06c5a3f75ad94d34190a229d581483090debcb434
+    metrics.json:
+      bytes: 15761
+      sha256: eb24680a72976488a1a982d81f5902414a3154342ced6e0d7f1ba977a3c71bf4
+    manifest.json:
+      bytes: 1747
+      sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c
+    audit.json:
+      bytes: 743
+      sha256: 60a88ce6605b3a2f3b5fdb17d57872f1c86fdc5c49a574b1b3e328f81c2ba638
+
+dates:
+  expected_minimum_session: '2020-12-30'
+  expected_maximum_session: '2025-12-30'
+  forbidden_from: '2026-01-01'
+
+analysis:
+  annualization_sessions: 252
+  metric_replay_absolute_tolerance: 1.0e-12
+  calendar_years: [2021, 2022, 2023, 2024, 2025]
+  rolling_window_sessions: [252, 504]
+  rolling_windows_are_overlapping_descriptive_only: true
+  bootstrap_method: circular_moving_block
+  block_sessions: [5, 21, 63, 126]
+  bootstrap_replications_per_scenario_block: 25000
+  bootstrap_total_paths: 300000
+  bootstrap_batch_size: 250
+  seed_base: 50049000
+  seed_formula: seed_base_plus_scenario_index_times_10000_plus_block_sessions
+  quantiles: [0.05, 0.25, 0.50, 0.75, 0.95]
+  bootstrap_horizon: exact_parent_session_count_and_elapsed_calendar_years
+  bootstrap_threshold_cagr: [0.0, 0.20, 0.50]
+  bootstrap_threshold_maximum_drawdown: 0.40
+  deflated_sharpe_trial_counts: [50, 100, 250]
+  leave_one_year_out_clock: retained_observations_divided_by_252
+  strategy_parameter_search: false
+
+diagnostic_gates:
+  minimum_20:
+    minimum_stress_joint_20_40_frequency: 0.75
+    minimum_stress_q05_cagr: 0.20
+    stress_252d_fraction_cagr_ge_20: 0.65
+    stress_504d_fraction_cagr_ge_20: 0.75
+    every_stress_leave_year_out_cagr_ge: 0.20
+  aspirational_50:
+    minimum_stress_joint_50_40_frequency: 0.50
+    minimum_stress_median_cagr: 0.50
+  interpretation: >-
+    A minimum-20 pass is internal evidence that the selected historical path is not
+    obviously fragile under the fixed diagnostics. It is not a forward probability.
+    A 50 pass is aspirational internal support only. Neither permits live trading.
+
+forbidden_followups:
+  - changing_V49_scale_cap_margin_capacity_costs_signals_or_gates
+  - selecting_a_block_or_window_length_after_results
+  - dropping_the_worst_scenario_block_window_or_year
+  - reporting_resampling_frequency_as_a_calibrated_forward_probability
+  - calling_same_history_robustness_an_independent_holdout
+  - using_2026_or_later_prices_returns_targets_or_pnl
+  - live_trading_without_forward_and_broker_exact_admission
+
+limitations:
+  independent_holdout: false
+  selected_same_history: true
+  bootstrap_assumes_historical_blocks_are_representative: true
+  bootstrap_frequencies_are_not_calibrated_probabilities: true
+  rolling_windows_overlap: true
+  only_five_calendar_years: true
+  historical_public_specs_and_execution_are_not_broker_fills: true
+  live_promotion_possible: false
