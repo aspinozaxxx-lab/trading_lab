@@ -10,6 +10,8 @@
 - Config SHA `15fb471a...`, seal `8ae3dc3`, boundary `2026-09-02`. Decision/fill source
   stores only BID/OFFER, lot/minstep, settlement, exchange/retrieval clocks and exact raw.
   iNAV is excluded pending index-data rights; yield/return/signal/trade/PnL are forbidden.
+- Implementation `d03a8b7`; exact 15:49:00/15:59:00 Windows tasks are registered and
+  `Ready` before the first quote snapshot.
 - Readiness 60 complete pairs + 20 calibration + 60 unseen evaluation. A later economic
   seal must buy at OFFER, sell at BID and pin broker fees, taxes and settlement netting.
 

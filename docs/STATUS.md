@@ -56,7 +56,7 @@ unseen evaluation; fill retrieval обязан быть позже decision. Д�
 экономика/PnL запрещены, до окончания unseen evaluation запрещена annualization.
 Подробности: [FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md](FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md).
 
-### Forward LQDT idle cash — SEALED, automation pending, 0/60 pairs
+### Forward LQDT idle cash — SEALED, tasks READY, 0/60 pairs
 
 Проверен конкретный механизм вместо условных 50% RUONIA. LQDT (`RU000A1014L8`, ПДУ
 №3915) — торгуемый на TQBR БПИФ денежного рынка; официальная цель — доход через РЕПО
@@ -68,7 +68,9 @@ Source SHA `15fb471a...`, seal `8ae3dc3` предшествует official quote
 forward-only TQBR snapshot 15:49/15:59 сохраняют BID/OFFER, lot/minstep, settlement и
 clocks; iNAV LQDTM не собирается из-за нерешённых условий коммерческого использования
 индексных данных. Readiness 0/60 + 20 calibration + 60 unseen; paper yield/PnL пока
-запрещён. [FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
+запрещён. Implementation `d03a8b7`; tasks `TradingLabForwardLqdtDecision/Fill` имеют
+status `Ready` и exact next run `2026-09-02 15:49:00/15:59:00` МСК.
+[FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
 
 ## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
 
