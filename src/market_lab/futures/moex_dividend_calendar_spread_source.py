@@ -11,7 +11,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Final
+from typing import Any, Final
 
 import yaml
 
@@ -149,6 +149,16 @@ def load_protocol(
 
 @contextmanager
 def _dividend_registry() -> Iterator[None]:
+    original_discover = base.discover_spreads
+
+    def discover_in_sealed_period(
+        payload: dict[str, Any],
+        asset: DividendAssetSpec,
+        source_start: date = SOURCE_START,
+        source_end: date = SOURCE_END,
+    ) -> Any:
+        return original_discover(payload, asset, source_start, source_end)
+
     names = {
         "SOURCE_START": SOURCE_START,
         "SOURCE_END": SOURCE_END,
@@ -159,6 +169,7 @@ def _dividend_registry() -> Iterator[None]:
         "EXPECTED_REGULAR_ADJACENT_COUNTS": EXPECTED_REGULAR_ADJACENT_COUNTS,
         "EXPECTED_NEAR_DATE_MATCH_COUNTS": EXPECTED_NEAR_DATE_MATCH_COUNTS,
         "FuturesAssetSpec": DividendAssetSpec,
+        "discover_spreads": discover_in_sealed_period,
         "FORBIDDEN_OUTPUT_FRAGMENTS": (
             *base.FORBIDDEN_OUTPUT_FRAGMENTS,
             "prediction",
