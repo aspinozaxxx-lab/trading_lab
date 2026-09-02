@@ -1,0 +1,84 @@
+protocol_id: moex_stock_futures_cash_carry_intraday_source_v3
+protocol_version: 3
+status: sealed_before_any_selected_contract_intraday_candle_values
+declared_at_utc: '2026-09-02T03:51:00Z'
+scope: source_only_no_basis_returns_targets_signals_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Enrich the immutable V2 daily stock-futures bundle with official MOEX contract
+  descriptions and 10-minute RFUD candles for the same preselected 61 contracts.
+  This enables a later separately sealed synchronous covered cash-and-carry test.
+
+period: {start: '2023-01-01', end: '2025-12-31', protected_from: '2026-01-01'}
+
+universe:
+  logical_assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  exact_contract_count: 61
+  expected_assetcodes: {GAZR: GAZR, SBRF: SBRF, ROSN: ROSN, TATN: TATN, NOTK: NOTK}
+  expected_lot_size_shares: 100
+  expected_type: futures
+  expected_board: RFUD
+  contract_selection_source: pinned_v2_contracts_parquet
+  selection_uses_intraday_price_basis_return_or_pnl: false
+
+v2_source:
+  root: data/processed/info_radar/moex-stock-futures-cash-carry-source-2023-2025-v2
+  manifest: {file: manifest.json, sha256: 001b50c177ceb55d97ea8c643762e339fc5052023982c60c81839cb315cd1365}
+  contracts: {file: contracts.parquet, sha256: 50d872d1b5abba3259a9fb317d3eb19f83abc97b584cc96a99aff058312807d9, rows: 61}
+  futures_daily: {file: futures_daily.parquet, sha256: 20b999831c1fc178d977cbac528a4f4ecf49b17fe9c1b3e3b324a8b1e827bbf6, rows: 16589}
+  rms_cashflows: {file: rms_cashflows.parquet, sha256: 24948583b64ee620b5bc5dbe4ac46bdbf4a54900d15dd5cf1a39ffca487d0816, rows: 4625}
+  raw: {file: official_moex_responses.jsonl.gz, sha256: 071c4efa1f342c9fccad2e3bdacabe9a3762fbaf2b8da7d6291579f68d31541e, rows: 265}
+
+spot_source:
+  root: data/processed/stocks_10m_pre2026_v1
+  manifest: {file: manifest.json, sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042}
+
+official_sources:
+  description_template: https://iss.moex.com/iss/securities/{secid}.json
+  candles_template: https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities/{secid}/candles.json
+  interval_minutes: 10
+  page_limit: 500
+  access_mode: anonymous_public_ISS_current_vintage
+
+temporal_semantics:
+  candle_begin_and_end_are_exchange_time_Europe_Moscow: true
+  candle_is_available_at_its_end_timestamp: true
+  protected_ceiling_exclusive: '2026-01-01T00:00:00+03:00'
+  no_backfill_beyond_declared_period: true
+
+collection:
+  preserve_description_and_every_candle_page_exactly: true
+  stable_monotonic_pagination_required: true
+  exact_ohlcv_schema_and_replay_required: true
+  missing_values_never_zero_imputed: true
+  immutable_atomic_output: true
+
+quality_gates:
+  all_61_descriptions_match_secid_assetcode_board_type_and_lotsize: true
+  timestamps_unique_within_contract: true
+  all_timestamps_before_protected_ceiling: true
+  raw_replay_exact: true
+  no_basis_returns_targets_signals_predictions_equity_or_pnl: true
+
+output:
+  directory: data/processed/info_radar/moex-stock-futures-cash-carry-intraday-2023-2025-v3
+  contents_in_git: false
+  immutable: true
+
+limitations:
+  contract_description_is_current_vintage_not_historically_timestamped: true
+  candles_have_no_bid_ask_queue_or_aggressor_side: true
+  anonymous_ISS_history_can_be_revised: true
+  historical_fees_margin_and_broker_funding_spread_not_in_source: true
+  source_cannot_authorize_live_or_claim_profit: true
+
+forbidden_after_collection:
+  - computing_basis_returns_signals_or_pnl_before_a_separate_pushed_economic_protocol
+  - selecting_contracts_dates_or_assets_by_intraday_result
+  - using_same_candle_close_as_a_preknown_fill
+  - using_any_row_at_or_after_2026_01_01
+  - live_trading_or_profit_guarantees
+
+forbidden_output_fragments: [basis, return, target, label, signal, prediction, equity, pnl, profit]
