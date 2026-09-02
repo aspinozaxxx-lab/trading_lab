@@ -1,0 +1,122 @@
+﻿protocol_id: moex_forward_money_market_fund_pool_source_v1
+protocol_version: 1
+status: sealed_before_first_forward_pool_quote_or_depth_snapshot
+declared_at_utc: '2026-09-02T05:10:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Collect an immutable forward-only comparison panel of four fixed RUB money-market
+  exchange funds at the V41 decision/following-observation times. Preserve executable
+  BID/OFFER, best depth and settlement metadata without ranking funds or computing
+  yield, return, signal, trade or PnL.
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill_before_earliest_source_date: forbidden
+  source_date_must_equal_current_Europe_Moscow_date: true
+  protected_historical_experiments_must_never_read_this_source: true
+
+fixed_universe:
+  board: TQBR
+  currency: RUB
+  security_type: exchange_ppif
+  funds:
+    LQDT: {isin: RU000A1014L8, registration_number: '3915'}
+    SBMM: {isin: RU000A103RF1, registration_number: '4607'}
+    AKMM: {isin: RU000A104X08, registration_number: '5012'}
+    TMON: {isin: RU000A106DL2, registration_number: '5229'}
+  metadata_observed_before_seal:
+    - all four SECID/ISIN/REGNUMBER/TYPE identities match official MOEX descriptions
+    - all four have primary active TQBR board
+  add_remove_or_substitute_after_values: forbidden
+
+role_constraints:
+  idle_asset_sleeve_only: true
+  fund_units_must_be_zero_while_corresponding_cash_carry_sleeve_is_active: true
+  simultaneous_fund_and_cash_collateral_credit: forbidden
+  broker_collateral_admission_is_not_inferred: true
+  selection_or_ranking_during_source_collection: forbidden
+
+stages:
+  decision:
+    scheduled_local_time: '15:49:00'
+    interpretation: liquidation_quote_after_frozen_15_40_cash_carry_decision_bar
+  fill:
+    scheduled_local_time: '15:59:00'
+    interpretation: following_quote_observation_not_guaranteed_execution
+  allowed_stage_arguments: [decision, fill]
+  same_stage_same_source_date_duplicate: forbidden
+
+official_source:
+  endpoint_template: https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/{secid}.json
+  access_mode: anonymous_public_ISS_may_be_delayed
+  request_blocks: [securities, marketdata]
+
+required_fields:
+  identifiers: [SECID, BOARDID, ISIN]
+  security_metadata: [LOTSIZE, MINSTEP, SETTLEDATE]
+  quotes: [BID, OFFER]
+  best_depth: [BIDDEPTH, OFFERDEPTH]
+  optional_depth_context: [BIDDEPTHT, OFFERDEPTHT, NUMBIDS, NUMOFFERS]
+  clocks_any_available: [SYSTIME, UPDATETIME, SEQNUM]
+  positive_two_sided_quote_and_depth_required: true
+  crossed_or_locked_quote: invalid
+  missing_quote_depth_clock_or_settlement: invalid_not_zero
+  all_four_funds_required_for_complete_valid_snapshot: true
+
+temporal_semantics:
+  retrieval_at_utc_is_hard_not_before_availability_time: true
+  exchange_clock_is_preserved_not_trusted_as_retrieval_clock: true
+  anonymous_delay_is_unresolved_until_measured: true
+  fill_snapshot_must_have_later_retrieval_at_than_decision: true
+  purchase_sale_or_capacity_is_never_inferred_from_quote: true
+
+economic_separation:
+  no_fund_ranking_before_60_complete_discovery_pairs: true
+  later_calibration_selection_rule_must_be_sealed_before_calibration_outcomes: true
+  later_rule_must_include_buy_offer_sell_bid_broker_fee_tax_and_settlement: true
+  later_selected_rule_requires_60_unseen_evaluation_pairs: true
+  official_iNAV_values_not_collected_due_to_unresolved_commercial_use_terms: true
+  current_or_historical_manager_performance_must_not_select_the_source_universe: true
+
+collection:
+  preserve_every_HTTP_JSON_payload_exactly_as_canonical_JSON: true
+  atomic_immutable_snapshot: true
+  one_snapshot_directory_per_source_date_and_stage: true
+  network_retries: 3
+  request_timeout_seconds: 30
+
+output:
+  root: data/forward/moex-money-market-fund-pool-v1
+  contents_in_git: false
+  snapshot_prefix: snapshot
+  immutable: true
+
+readiness:
+  discovery_complete_decision_fill_pairs: 60
+  calibration_pairs_after_discovery: 20
+  unseen_evaluation_pairs_after_calibration: 60
+  economic_selection_before_discovery: forbidden
+  annualization_before_unseen_evaluation: forbidden
+
+forbidden_outputs:
+  - yield
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+  - rank
+  - score
+
+limitations:
+  - Fixed fund membership does not prove equal risk, fees, taxation or portfolio holdings.
+  - Public depth can be delayed or disappear before order arrival.
+  - Quote depth does not prove queue position, rejection, partial fill or market impact.
+  - Broker-specific zero-fee promotions and settlement netting are not assumed.
+  - Source collection cannot guarantee profit or authorize live trading.
