@@ -1,0 +1,95 @@
+﻿protocol_id: futures_v42r1_v41_idle_fund_cost_stress_v1
+protocol_version: 1
+status: corrected_only_v41_parent_protocol_sha_before_any_v42_metric
+declared_at_utc: '2026-09-02T05:15:43Z'
+research_only: true
+live_trading_allowed: false
+
+correction:
+  superseded_protocol: futures_v42_v41_idle_fund_cost_stress_v1
+  superseded_sha256: b54f4792a88279f2539163a0a9e2671125c9179bc5a047288f71e1ffbb6e48e5
+  preflight_failure: declared_V41_protocol_sha_did_not_match_parent_identity
+  metrics_or_combined_nav_computed_before_correction: false
+  only_changed_field: parents.v41.protocol_sha256
+
+objective: >-
+  Stress the already-observed V41 result with official maximum idle-fund expenses,
+  conservative tax retention and explicit fund-to-cash-carry switching friction.
+  This is a robustness diagnostic only: it cannot select a fund, retune V41 or create
+  independent evidence.
+
+parents:
+  v41:
+    root: runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128
+    protocol_sha256: 4541812897ee7356d7e64ba2ccf953e8ef8e1a16bcd4733d13b77f310507ca82
+    ledger: {file: combined_ledger.parquet, sha256: 38bdd2cead83c152e80aa91a4aa4b09e205f84d0a9199a02b1b0b08d1c53e572, rows: 1272}
+    metrics: {file: metrics.json, sha256: 000ae99b090e5da5020d55074722a6995ab592a904053d889bd7e2b2fb7bfeb8}
+    manifest: {file: manifest.json, sha256: 586e1b2dc58444a40aa649772f85b326616d7eca9bec54f85d01f830216ab591}
+    audit: {file: audit.json, sha256: 7dfc4696242a64e6e1afdb4e6b9e5a930b7d895dc2c48b3129edcccf38e2339f}
+  idle_cash:
+    root: runs/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa
+    protocol_sha256: a4c03aaa5b9832fe92b3f5c86db5d41a56acc74253e3f30280bd2a0bb59f0905
+    ledger: {file: daily_ledger.parquet, sha256: 6931002173644bca69072f97cf9dd643a3ed7625933e554c45cf68c65e51fe52, rows: 1827}
+    metrics: {file: metrics.json, sha256: 2ddc7ba45e4092eab40ed828aaa5ea265a96250d3a6bb9d29d741847d70b8217}
+    manifest: {file: manifest.json, sha256: 018044c6c51ac18258237c82077b7bfd8ede190f485c52904649c0b00db153a7}
+    audit: {file: audit.json, sha256: 22a17cd640a7fd490b75762fef5400a5ba7136b3b341fa09b6ce40a884066d38}
+
+frozen_inheritance:
+  v39_weight: 0.80
+  cash_carry_weight: 0.20
+  rebalance_after_initial_allocation: never
+  v39_signals_positions_and_returns_unchanged: true
+  cash_carry_trades_positions_cashflows_and_market_costs_unchanged: true
+  idle_ruonia_fraction_before_new_costs: 0.50
+
+cost_scenarios:
+  lqdt_contractual_max:
+    annual_fund_expense_ratio: 0.0029364
+    gross_idle_income_retention_after_tax_proxy: 0.87
+    fund_trade_one_way_fraction: 0.0005
+    official_source: https://www.wealthim.ru/products/bpif/wimfl/
+    interpretation: official_max_TER_plus_13pct_gain_tax_proxy_plus_5bps_each_switch
+  high_cost_tmon_contractual_max:
+    annual_fund_expense_ratio: 0.01199
+    gross_idle_income_retention_after_tax_proxy: 0.87
+    fund_trade_one_way_fraction: 0.0010
+    official_source: https://cdn.t-capital-funds.ru/static/documents/rules_amendments_011_TMON.pdf
+    interpretation: official_max_remuneration_and_expenses_plus_tax_proxy_plus_10bps_each_switch
+  zero_idle_yield_with_switching:
+    annual_fund_expense_ratio: 0.0
+    gross_idle_income_retention_after_tax_proxy: 0.0
+    fund_trade_one_way_fraction: 0.0010
+    official_source: none_mechanical_failure_stress
+    interpretation: no_idle_income_at_all_but_10bps_paid_on_each_required_switch
+
+switching_accounting:
+  charge_initial_purchase_of_all_initially_idle_sleeves: true
+  charge_absolute_change_in_eligible_fraction: true
+  charge_terminal_liquidation_of_all_remaining_idle_sleeves: true
+  entry_and_exit_active_dates_inherited: true
+  no_market_impact_or_queue_claim: true
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  same_history_post_result_diagnostic: true
+  parameter_or_fund_selection_from_results: forbidden
+
+required_gates:
+  all_nine_market_x_cost_CAGR_gte: 0.20
+  all_nine_MDD_strictly_better_than_corresponding_v39: true
+  no_parent_market_return_changed: true
+  no_live_promotion: true
+
+outputs:
+  root: runs/v42r1_v41_idle_fund_cost_stress_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, daily_ledger.parquet]
+
+limitations:
+  - The 13 percent daily income retention haircut is a conservative proxy, not investor-specific tax accounting.
+  - Official fund expense ceilings are current-vintage and do not prove historical realized tracking difference.
+  - Switching bps are fixed stresses, not observed historical fund quotes.
+  - All market outcomes were already observed; this cannot be an independent validation or select a fund.
+  - Historical evidence cannot guarantee profit or authorize live trading.
