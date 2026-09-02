@@ -1,0 +1,124 @@
+﻿protocol_id: futures_v45_rvi_calendar_corridor_v1
+protocol_version: 1
+status: sealed_after_source_audit_before_any_curve_signal_trade_or_pnl
+declared_at_utc: '2026-09-02T09:47:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  The adjacent-month RVI futures slope is a directly traded volatility-risk mechanism
+  independent of V39 directional trend. Extreme normalized slopes should revert toward
+  their trailing robust corridor often enough that a bounded two-leg position with a
+  close profit corridor and a distant stop remains positive after conservative costs.
+
+source:
+  root: data/processed/info_radar/moex-rvi-futures-daily-2019-2025-v1
+  protocol_sha256: bb4aec1d8f5c93bfdcae555c5c159c6da7334644db246822ce5ae69cdc2d7149
+  implementation_sha256: 84d2fbad51861087c84c3171754347302a63196945e12a55a6efb14fb642d512
+  manifest: {file: manifest.json, sha256: 1222c6488fbf42b96047c961a3051ee0d888ba8672d407a054beb0e13adb3bed}
+  series: {file: series.parquet, sha256: 4d215bfbc9d5116982d6d8e615e49987a8269959152ee668ace7a01703478dfe, rows: 84}
+  daily: {file: daily_history.parquet, sha256: 0d20e9b27905f146c7096ce5f1f1501cc7cdf8b373b4064536a44daf580cfcc3, rows: 4372}
+  raw: {file: raw_responses.jsonl.gz, sha256: c9cacbaaad827fb042730780a88ce3dc1238633c1869e0c575b3287edbe15285, rows: 85}
+  audit: {file: audit.json, sha256: c054b4e8eb5f41f363927c30e3fa30ef5114c546563c1d85cd7ff3244e19be95}
+  audit_all_true: true
+  outcomes_absent_at_seal: true
+
+dates:
+  warmup_start: '2019-01-01'
+  evaluation_start: '2021-01-01'
+  evaluation_end: '2025-12-18'
+  protected_from: '2026-01-01'
+  annualization_sessions: 252
+
+pair_selection:
+  exact_asset_code: RVI
+  front_and_next_by_expiration_after_each_completed_session: true
+  front_days_to_expiry_min: 7
+  front_days_to_expiry_max: 35
+  expiration_gap_days_min: 20
+  expiration_gap_days_max: 40
+  require_both_prior_close_positive: true
+  require_both_prior_positive_volume_and_trades: true
+  selection_uses_future_values: false
+
+signal:
+  curve: annualized_log_next_close_over_front_close
+  formula: 365 * log(next_close / front_close) / (next_dte - front_dte)
+  rolling_complete_pair_observations: 63
+  minimum_prior_observations: 42
+  center: trailing_median_strictly_prior
+  scale: 1.4826_times_trailing_median_absolute_deviation_strictly_prior
+  scale_floor: 0.000001
+  entry_absolute_z_gte: 1.5
+  direction: mean_reversion_long_front_short_next_when_z_positive_reverse_when_negative
+  take_profit_absolute_z_lte: 0.5
+  adverse_stop_absolute_z_gte: 4.0
+  adverse_stop_requires_same_sign_as_entry: true
+  maximum_holding_sessions: 20
+  force_exit_front_dte_lte: 5
+  one_open_pair_maximum: true
+  same_session_reentry: false
+
+execution:
+  decision_after_complete_pair_close: true
+  entry: next_factual_common_open_only
+  entry_signal_expires_after_exchange_sessions: 1
+  require_both_entry_positive_volume_and_trades: true
+  minimum_entry_volume_each_leg: 10
+  maximum_entry_fraction_of_each_leg_daily_volume: 0.10
+  integer_equal_contracts_each_leg: true
+  point_value_proxy: prior_complete_row_VALUE_div_VOLUME_div_WAPRICE
+  maximum_point_value_relative_leg_difference: 0.05
+  gross_notional_proxy: contracts_times_point_value_times_front_plus_next_entry_price
+  gross_notional_cap_nav: 0.50
+  stop_risk_budget_nav: 0.0075
+  stop_risk_proxy: contracts_times_point_value_times_2.5_trailing_raw_spread_MAD
+  exit: next_factual_common_open_after_completed_close_condition
+  require_both_exit_positive_volume_and_trades: true
+  maximum_exit_fraction_of_each_leg_daily_volume: 0.50
+  maximum_exit_retry_sessions: 5
+  unresolved_entry_or_exit_invalidates_canonical_economics: true
+  initial_nav_rub: 1000000.0
+
+cost_scenarios:
+  primary:
+    adverse_rvi_points_per_leg_per_side: 0.10
+  doubled:
+    adverse_rvi_points_per_leg_per_side: 0.20
+  stress:
+    adverse_rvi_points_per_leg_per_side: 0.40
+  all_scenarios_required: true
+  no_settlement_fill_fallback: true
+
+evaluation:
+  report_trade_count_win_rate_profit_factor_and_exit_reasons: true
+  report_cagr_sharpe_mdd_annual_returns_and_worst_year: true
+  report_capacity_rejections_and_unresolved_execution: true
+  report_incremental_correlation_to_frozen_v39_daily_returns_if_dates_overlap: true
+  no_variant_or_parameter_selection: true
+  no_neural_model: true
+
+promotion_gates:
+  minimum_completed_trades: 30
+  primary_cagr_gte: 0.10
+  doubled_cagr_gte: 0.075
+  stress_total_return_gt: 0.0
+  primary_sharpe_gte: 1.0
+  primary_maximum_drawdown_lte: 0.15
+  primary_positive_calendar_years_gte: 4
+  execution_complete_all_scenarios: true
+  promotion_only_to_separately_sealed_v41_portfolio_test: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v45_rvi_calendar_corridor
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, trades.parquet, daily_ledger.parquet, curve_state.parquet]
+
+limitations:
+  - Public daily OHLC has no historical bid/ask and cannot prove atomic calendar fills.
+  - VALUE/VOLUME/WAPRICE is a point-value proxy, not a historical broker specification.
+  - Same-history 2021-2025 evidence is development only and is not an independent holdout.
+  - Thin next-month volume can reject otherwise valid signals and can make fills optimistic.
+  - Historical evidence cannot guarantee profit or authorize live trading.
