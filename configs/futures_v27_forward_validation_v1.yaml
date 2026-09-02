@@ -1,0 +1,194 @@
+﻿protocol_id: futures_v27_forward_validation_v1
+protocol_version: 1
+status: sealed_before_any_postseal_v27_market_price_return_target_or_pnl
+declared_at_utc: '2026-09-02T00:22:33Z'
+research_only: true
+live_trading_allowed: false
+
+objective:
+  statement: >-
+    Independently validate the byte-identical V27 weekly four-market trend portfolio,
+    STLFSI4 and 20-percent key-rate governors, 2x cap, causal RUONIA collateral and
+    all three cost scenarios on data first captured after this seal.
+  target_return_range_percent: [20.0, 50.0]
+  minimum_acceptable_cagr_percent: 20.0
+  prior_v27_is_development_evidence_only: true
+  no_parameter_selection_from_forward_evaluation: true
+
+parent_v27:
+  protocol: configs/futures_v27_key_rate_extreme_governor.yaml
+  protocol_sha256: 7a9a44cf7b09c7820a514b2706e332744a3b30ced8b7d3d4c8bdf7448a3194fe
+  implementation_sha256: 8c86f97be3ae0cef09f4f4d1a79a609f1063e7ca0eebab1a67a4c69a267dea66
+  v12_signal_implementation_sha256: 27ca77002391df82edca57a2bfc02e2a0b1971693f7be37b190945b1fd512275
+  canonical_run: runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf
+  metrics_sha256: 5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654
+  development_primary_cagr: 0.283752
+  development_primary_sharpe: 1.2119
+  development_primary_maximum_drawdown: 0.207138
+  independent_confirmation_status: missing
+
+frozen_economics:
+  universe: [SI, RI, BR, MIX]
+  signal: byte_identical_v12_core4_risk_adjusted_multi_horizon_trend
+  log_momentum_horizons_sessions: [21, 63, 126, 252]
+  volatility_lookback_sessions: 60
+  covariance_lookback_sessions: 60
+  decision_schedule: last_factual_session_of_each_W_SUN_week
+  annual_target_volatility: 0.20
+  base_gross_cap: 1.0
+  v27_multiplier_after_governors: 2.0
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  stlfsi4_structural_boundary: 0.0
+  stlfsi4_maximum_age_calendar_days: 14
+  key_rate_boundary_percent: 20.0
+  key_rate_comparison: greater_than_or_equal_goes_to_cash
+  key_rate_maximum_age_calendar_days: 7
+  ruonia_applied_rate_fraction: 0.50
+  operational_buffer_fraction: 0.10
+  collateral_reinvested_into_sizing: false
+  unexecutable_target_policy: cancel_and_clip
+  maximum_participation: 0.01
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+
+forward_boundary:
+  seal_moscow_date: '2026-09-02'
+  earliest_allowed_market_source_date: '2026-09-02'
+  historical_2026_market_backfill: forbidden
+  pre2026_parent_data_for_forward_signal_warmup: forbidden
+  missing_session_or_gap: missing_never_forward_fill
+  actual_retrieval_timestamp_required: true
+  source_snapshots_immutable: true
+  old_experiments_may_not_read_forward_source: true
+
+market_source:
+  provider: MOEX_ISS
+  endpoint: https://iss.moex.com/iss/engines/futures/markets/forts/securities.json
+  assets_query: {SI: Si, RI: RTS, BR: BR, MIX: MIX}
+  collect_all_listed_contracts_for_each_asset: true
+  active_contract_rule: byte_identical_causal_v5_roll_planner
+  roll_confirmation_days: 2
+  roll_hard_fallback_sessions: 5
+  roll_dominance_ratio: 1.0
+  roll_requires_both_volume_and_open_interest_dominance: true
+  current_snapshot_schedule_moscow:
+    decision_eod: '23:45:00'
+    execution_observation: '10:05:00'
+  access_mode: public_delayed
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+  current_snapshot_fields:
+    security:
+      - SECID
+      - BOARDID
+      - ASSETCODE
+      - LASTTRADEDATE
+      - LASTDELDATE
+      - MINSTEP
+      - STEPPRICE
+      - INITIALMARGIN
+      - BUYSELLFEE
+      - SCALPERFEE
+      - PREVSETTLEPRICE
+    marketdata:
+      - SECID
+      - BOARDID
+      - BID
+      - OFFER
+      - OPEN
+      - HIGH
+      - LOW
+      - LAST
+      - SETTLEPRICE
+      - NUMTRADES
+      - VOLTODAY
+      - OPENPOSITION
+      - SYSTIME
+      - TRADEDATE
+
+macro_sources:
+  stlfsi4:
+    provider: Federal_Reserve_Bank_of_St_Louis_FRED
+    series_id: STLFSI4
+    endpoint: https://fred.stlouisfed.org/graph/fredgraph.csv
+    retrieval: daily_snapshot_current_vintage_with_raw_bytes
+    available_at: following_Thursday_23_59_59_America_Chicago
+    admission: available_at_not_after_weekly_decision
+  cbr_key_rate:
+    provider: Bank_of_Russia
+    endpoint: https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx
+    method: KeyRateXML
+    retrieval: daily_snapshot_with_raw_request_and_response
+    available_at: effective_date_plus_one_calendar_day_00_00_Europe_Moscow
+  ruonia:
+    provider: Bank_of_Russia
+    endpoint: https://www.cbr.ru/hd_base/ruonia/dynamics/
+    retrieval: daily_snapshot_with_raw_response
+    available_at: publication_date_plus_one_calendar_day_00_00_Europe_Moscow
+
+source_quality_gates:
+  exact_four_asset_responses: true
+  all_current_listed_contracts_preserved: true
+  security_marketdata_identity_exact_for_selected_rows: true
+  exact_trade_date_at_or_after_seal: true
+  raw_bytes_urls_request_bodies_and_hashes_preserved: true
+  source_schema_and_identity_replay_exact: true
+  prices_and_macro_values_available_only_at_actual_retrieval_or_later: true
+  no_duplicate_asset_contract_source_date_snapshot_kind: true
+  forbidden_derived_columns_absent: true
+
+sequential_validation:
+  warmup_common_sessions: 252
+  warmup_use: signal_state_only_no_reported_pnl
+  evaluation_common_sessions_minimum: 504
+  evaluation_weekly_decisions_minimum: 104
+  evaluation_calendar_years_minimum: 2
+  no_calibration_on_evaluation_pnl: true
+  parameters_or_thresholds_selected_during_forward_period: 0
+  interim_reports: operational_coverage_only_no_promotion
+  second_unseen_confirmation_required_after_numeric_go: true
+
+execution_evidence:
+  decision: after_immutable_eod_snapshot
+  order_not_before: next_factual_session
+  parent_proxy_ledger_preserved: true
+  observed_bid_offer_paper_ledger_required_as_additional_conservative_comparison: true
+  missing_bid_offer_or_open: reject_never_synthetic_fill
+  broker_order_log_required_before_live: true
+  broker_exact_margin_fee_and_collateral_rules_required_before_live: true
+
+promotion_gates:
+  source_and_temporal_checks_all_true: true
+  zero_critical_failures: true
+  zero_unresolved_exits: true
+  primary_cagr_minimum: 0.20
+  doubled_cagr_minimum: 0.20
+  stress_cagr_minimum: 0.20
+  primary_sharpe_minimum: 1.0
+  all_scenarios_maximum_drawdown_maximum: 0.30
+  positive_calendar_years_minimum: 2
+  worst_calendar_year_minimum: 0.0
+  observed_quote_paper_net_return_positive: true
+  no_gross_participation_or_margin_breach: true
+  live_trading_allowed_after_numeric_go: false
+
+forbidden:
+  - changing_signal_horizon_or_covariance_after_forward_data
+  - changing_STLFSI4_zero_boundary_or_age
+  - changing_key_rate_20_percent_boundary_or_age
+  - changing_2x_multiplier_RUONIA_haircut_buffer_or_costs
+  - choosing_assets_contracts_or_years_by_forward_outcome
+  - historical_2026_backfill
+  - annualizing_a_short_window_as_stable_20_or_50_percent_evidence
+  - promoting_without_second_unseen_confirmation_and_broker_exact_audit
+
+output:
+  source_root: data/forward/v27-validation-v1
+  paper_root: runs/v27-forward-validation-v1
+  immutable: true
+  contents_in_git: false
+
+forbidden_source_columns: [return, returns, label, target, prediction, pnl, profit, equity]
