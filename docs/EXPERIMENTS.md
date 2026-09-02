@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## Broad historical stock-futures carry intraday source V1 — SEALED, values unopened
+
+- Metadata-only official series preflight found 339 outright 2023–2025 contracts for
+  29 of the fixed 30 stocks; ENPG has explicit zero coverage. No selected candle,
+  basis, return, signal or PnL was read.
+- Config SHA `6bc8f4a2...`, seal `6726883`; collector/test commit `1b169f7`. The source
+  rejects spreads/perpetuals, preserves historical asset-code changes, validates RFUD
+  descriptions/units and forbids every candle at or after `2026-01-01`.
+- The only later economic change allowed is breadth. V1 entry threshold, DTE, time,
+  cashflow haircut and costs stay frozen; executable BID/OFFER still requires the
+  separate forward source.
+
 ## Forward broad 30-stock futures carry V1 — SEALED, 0/20 discovery sessions
 
 - Metadata-only official series/description probe found RFUD `TYPE=futures` coverage

@@ -133,6 +133,24 @@ single-stock calendar-spread family не масштабируется на ве�
 узким forward challenger; создавать фиктивные дальние контракты или считать outright
 BBO атомарным multileg fill запрещено.
 
+### Broad historical cash-carry source — SEALED, collector ready, values unopened
+
+Metadata-only `show_expired=1` preflight по exact `underlying_asset` нашёл `339`
+outright-контрактов 2023–2025 для `29/30` fixed stocks: по 12 серий у большинства,
+10 у `BSPB/CBOM`, 7 у `TATNP`, 0 у `ENPG`. Calendar spreads и perpetuals исключаются
+закрытым SECID/name rule; исторические `asset_code` сохраняются, включая переход
+`PLZL -> PLZLM`. Ни candle, basis, return, signal, trade, PnL во время preflight не
+читались.
+
+Source config SHA `6bc8f4a2...`, seal `6726883`; collector/test commit `1b169f7`.
+Collector жёстко ограничивает candles датой `<2026-01-01`, проверяет description
+`TYPE=futures`, RFUD board, exact asset code и положительный integer `LOTSIZE`, хранит
+все raw series/description/candle pages и делает replay audit. Targeted tests `2/2`,
+scoped Ruff clean. Тяжёлую загрузку запускать после первых operational forward-срезов,
+чтобы не мешать задачам 10:05/10:09. После source completion допустим ровно один новый
+economic protocol: frozen V1 threshold/DTE/time/haircut/costs, меняется только breadth.
+Это новая проверка возможности поднять частоту и диверсификацию, не найденная прибыль.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

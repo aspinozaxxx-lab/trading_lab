@@ -758,6 +758,13 @@ overnight/1W/2W/1M/3M, но MOEX отдельно указывает, что и�
 SBER/SBERP`. Это оставляет single-stock calendar carry полезным узким challenger, но
 не broad sleeve и не доказательство атомарного исполнения.
 
+Отдельный metadata-only `show_expired=1` screen исторических outright futures дал
+`339` контрактов 2023–2025 для `29/30` fixed stocks; calendar spread rows исключены,
+`ENPG` имеет явное нулевое покрытие. Это разблокирует source-only расширение прежнего
+cash-carry intraday bundle с 61 до 339 контрактов. Protocol SHA `6bc8f4a2...` был
+запечатан до свечей; будущая экономика обязана сохранить V1 threshold/DTE/time/haircut/
+costs и менять только universe breadth.
+
 Самый полезный следующий слой — не ещё один пересмотр historical threshold, а
 timestamped forward microstructure collector:
 
