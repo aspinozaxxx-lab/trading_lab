@@ -102,7 +102,7 @@ MARKET_COLUMNS: Final[tuple[str, ...]] = (
     "LOW",
     "LAST",
     "WAPRICE",
-    "VOLUME",
+    "VOLTODAY",
     "VALTODAY",
     "VALUE",
     "NUMTRADES",

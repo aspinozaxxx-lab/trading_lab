@@ -61,7 +61,7 @@ def _venue_payload(secids: list[str], board: str) -> dict[str, Any]:
             "LOW": 98.0 + index,
             "LAST": 100.05 + index,
             "WAPRICE": 100.0 + index,
-            "VOLUME": 10000 + index,
+            "VOLTODAY": 10000 + index,
             "VALTODAY": 1000000 + index,
             "VALUE": 10000 + index,
             "NUMTRADES": 100 + index,
