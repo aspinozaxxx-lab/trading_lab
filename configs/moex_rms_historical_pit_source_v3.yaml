@@ -1,0 +1,55 @@
+﻿protocol_id: moex_rms_historical_pit_source_v3
+protocol_version: 3
+status: sealed_after_full_range_date_only_probe_before_historical_risk_or_cashflow_values
+declared_at_utc: '2026-09-02T01:34:38Z'
+research_only: true
+live_trading_allowed: false
+
+inheritance:
+  parent_protocol_id: moex_rms_historical_pit_source_v2
+  parent_config_path: configs/moex_rms_historical_pit_source_v2.yaml
+  parent_config_sha256: 09033a57ef154e229a721843a23d98cd5f6a6970c5b7f51a13e4bba2946c2516
+  merge_rule: recursive_mapping_override
+  parent_output_created: false
+
+correction:
+  reason: >-
+    A full-range date-only probe established that cashflow is event-driven and can
+    legitimately remain unchanged for more than 14 calendar days. The longest
+    observed as-of age was 55 days. No historical MR, CF or parameter value was
+    inspected before sealing this correction.
+  only_effective_changes:
+    - protocol_id
+    - protocol_version
+    - status
+    - declared_at_utc
+    - source.tables.cashflow.maximum_snapshot_age_calendar_days
+    - output.directory
+  v1_output_created: false
+  v2_output_created: false
+
+preseal_temporal_metadata_probe:
+  table: cashflow
+  requested_from: '2023-06-13'
+  requested_till: '2025-12-31'
+  requested_calendar_dates: 933
+  nonempty_dates: 933
+  empty_dates: 0
+  maximum_observed_snapshot_age_calendar_days: 55
+  multiple_returned_tradedates_count: 0
+  future_returned_tradedates_count: 0
+  values_requested_from_iss: [tradedate]
+  historical_mr_cf_or_parameter_values_read: false
+
+objective:
+  source_only: true
+  economic_hypothesis_selected: false
+  returns_targets_predictions_or_pnl_allowed: false
+
+overrides:
+  source:
+    tables:
+      cashflow:
+        maximum_snapshot_age_calendar_days: 62
+  output:
+    directory: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v3
