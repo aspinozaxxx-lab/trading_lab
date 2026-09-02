@@ -1,0 +1,50 @@
+﻿protocol_id: moex_ofz_total_return_source_r1
+protocol_version: 1
+status: sealed_after_v1_current_date_preflight_failure_before_historical_rows
+declared_at_utc: '2026-09-02T16:36:23Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v1:
+  config_path: configs/moex_ofz_total_return_source_v1.yaml
+  protocol_sha256: c43f7366a0960a9628daef94b6b1128612fb698bd79d5ea1c3065a8daad03778
+  implementation_path: src/market_lab/futures/moex_ofz_total_return_source.py
+  implementation_sha256: 11aa44c762d16d3c743e8ad7711a5922614969df57c9e5778ad1d35cfe435e49
+  failed_preflight_observed_only_dates_and_counts: true
+  failed_rows: 59
+  failed_minimum_date: '2026-09-01'
+  failed_maximum_date: '2026-09-01'
+
+implementation:
+  path: src/market_lab/futures/moex_ofz_total_return_source_r1.py
+  sha256: 9f8a5c606c2aaeb5409939bffa94361ce555ce91a8a30182d73d1e1b0fd8f435
+
+transport_correction:
+  defect: board_wide_history_ignores_from_till_without_explicit_date
+  corrected_request: explicit_date_parameter_for_each_sealed_calendar_day
+  date_enumeration: every_calendar_day_in_sealed_range
+  weekends_and_holidays: requested_and_preserved_as_empty_official_responses
+  per_date_cursor: followed_until_exact_total
+  daily_container_format: ofz_daily_history_raw_container_v1
+  embedded_response_bytes_and_sha256: true
+  V1_output_created: false
+  V1_bondization_requested: false
+  market_fields_or_economics_changed: false
+  historical_price_yield_coupon_or_cashflow_value_printed_before_R1_seal: false
+  V1_code_and_config_immutable: true
+
+inherited_without_change:
+  date_range: ['2021-01-01', '2025-12-31']
+  board: TQOB
+  security_filter: SECID_starts_with_SU
+  required_history_columns: parent_v1_exact
+  bondization_blocks: [coupons, amortizations, offers]
+  forbidden_outcomes: [return, label, target, prediction, signal, position, order, pnl]
+  output_root: data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1
+  economic_protocol_requires_separate_seal: true
+
+limitations:
+  - Daily enumeration is a transport correction, not a trading-calendar assumption.
+  - Empty official responses are evidence of no returned board history, not zero return.
+  - All parent current-vintage, execution and live-trading limitations remain unchanged.
+
