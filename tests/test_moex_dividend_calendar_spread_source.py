@@ -36,12 +36,15 @@ def test_shared_registry_is_restored_after_adapter_context() -> None:
     original_assets = base.ASSETS
     original_spec = base.FuturesAssetSpec
     original_discover = base.discover_spreads
+    original_history_parser = base.parse_spread_history_page
 
     with source._dividend_registry():
         assert base.ASSETS == source.ASSETS
         assert base.FuturesAssetSpec is source.DividendAssetSpec
         assert base.discover_spreads is not original_discover
+        assert base.parse_spread_history_page is not original_history_parser
 
     assert original_assets == base.ASSETS
     assert base.FuturesAssetSpec is original_spec
     assert base.discover_spreads is original_discover
+    assert base.parse_spread_history_page is original_history_parser

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import shutil
@@ -156,6 +157,7 @@ def load_protocol(
 @contextmanager
 def _dividend_registry() -> Iterator[None]:
     original_discover = base.discover_spreads
+    original_history_parser = base.parse_spread_history_page
 
     def discover_in_sealed_period(
         payload: dict[str, Any],
@@ -164,6 +166,18 @@ def _dividend_registry() -> Iterator[None]:
         source_end: date = SOURCE_END,
     ) -> Any:
         return original_discover(payload, asset, source_start, source_end)
+
+    def parse_history_with_blank_assetcode(
+        payload: dict[str, Any], catalog_row: dict[str, Any]
+    ) -> Any:
+        normalized = copy.deepcopy(payload)
+        block = normalized.get("history")
+        if isinstance(block, dict) and "assetcode" in block.get("columns", ()):
+            index = block["columns"].index("assetcode")
+            for row in block.get("data", ()):
+                if row[index] == "":
+                    row[index] = None
+        return original_history_parser(normalized, catalog_row)
 
     names = {
         "SOURCE_START": SOURCE_START,
@@ -176,6 +190,7 @@ def _dividend_registry() -> Iterator[None]:
         "EXPECTED_NEAR_DATE_MATCH_COUNTS": EXPECTED_NEAR_DATE_MATCH_COUNTS,
         "FuturesAssetSpec": DividendAssetSpec,
         "discover_spreads": discover_in_sealed_period,
+        "parse_spread_history_page": parse_history_with_blank_assetcode,
         "FORBIDDEN_OUTPUT_FRAGMENTS": (
             *base.FORBIDDEN_OUTPUT_FRAGMENTS,
             "prediction",
