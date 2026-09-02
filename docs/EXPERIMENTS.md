@@ -1,5 +1,27 @@
 ﻿# Реестр экспериментов
 
+## V37 cross-market intraday breakout — canonical NO-GO
+
+- Frozen 30-stock source manifest `5a7a4873...`; config SHA `15c6d67c...`, seal
+  `f8dd07f`. One-sided top-three Donchian continuation, all-stock breadth/value/correlation
+  state, fixed MLP threshold `0,60`, next-open execution, trailing `0,6%/0,4%`, stop
+  `1,8%`, 24-bar maximum and `1x/2x/3,5x` costs were fixed before targets/PnL.
+- Implementation `b12876f` pushed before outcomes. Initial run failed before target/PnL
+  and without output because Parquet restored timestamp as index; parser-only correction
+  `6cd2c0a` was pushed before resume.
+- Canonical `runs/v37_cross_market_breakout_20260902T011012Z_15c6d67c/`; metrics
+  `4023a7ea...`, identity `ead762ab...`, audit `1279ea48...`, manifest `a000b2a3...`;
+  independent artifact replay all true. Counts: 6 392 candidates, 6 355 observed,
+  5 045 ungated OOS signals, 10 090 predictions, 1 030 evaluation sessions.
+- Full MLP: one signal, zero trades, one capacity unresolved (`1,994% > 1%`);
+  aggregate MLP: zero signals. Ungated primary: 751 trades, CAGR `−9,0797%`, Sharpe
+  `−1,2835`, MDD `35,5776%`, one positive year; doubled CAGR `−23,2151%`, stress
+  `−83,7847%`. Long-only primary CAGR `−6,6135%`, all years nonpositive.
+- Verdict `NO_GO`. Gross continuation is too weak after costs and the largest factual
+  participation need is `42,716%`; probability threshold, sign, corridor, stop,
+  leverage, universe and years may not be tuned on these outcomes. Next action requires
+  new information or a genuinely forward period.
+
 ## V27 independent forward validation — ACTIVE, 0/253 price warmup
 
 - Parent development V27: SHA `7a9a44cf...`, canonical metrics `5fc1f271...`; primary

@@ -1,7 +1,31 @@
 ﻿# Текущее состояние исследования
 
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V36 гипотез защищены и не используются.
+`2025-12-31`; данные 2026 для текущих V8–V37 гипотез защищены и не используются.
+
+## Последний результат: V37 cross-market intraday breakout — NO-GO
+
+V37 проверил принципиально иной target на frozen 30-stock 10m source: one-sided
+трёхакционный Donchian continuation с breadth всех бумаг, fixed full/aggregate MLP
+threshold `0,60`, next-open entry, trailing-profit corridor `0,6%/0,4%`, distant stop
+`1,8%`, maximum 24 bars и costs `1x/2x/3,5x`. Config SHA `15c6d67c...`, seal
+`f8dd07f`; implementation `b12876f` был pushed до target/PnL. Первый run остановился
+до outcomes/output на timestamp-index decode; parser-only correction `6cd2c0a` была
+pushed до возобновления.
+
+Canonical `runs/v37_cross_market_breakout_20260902T011012Z_15c6d67c/`; metrics SHA
+`4023a7ea...`, identity `ead762ab...`, audit `1279ea48...`, manifest `a000b2a3...`;
+artifact replay полностью true. Получено 6 392 candidates, 6 355 с наблюдаемым path,
+5 045 OOS signals ungated и 10 090 neural predictions. Full MLP оставил один signal,
+но factual participation `1,994%` превысил 1%, поэтому trade `0`, unresolved `1`;
+aggregate MLP оставил 0 signals.
+
+Ungated primary/doubled/stress CAGR `−9,0797%/−23,2151%/−83,7847%`, primary Sharpe
+`−1,2835`, MDD `35,5776%`, 751 trades, worst year `−17,4140%`. Long-only ungated
+primary CAGR `−6,6135%`, Sharpe `−1,2434`, все четыре года неположительны. Required
+participation отдельных candidates достигало `42,716%`; costs primary ungated
+`360 741,67 ₽`. Verdict `NO_GO`: threshold/sign/exit/stop/leverage/ticker/year больше
+не менять на этой истории. Price-only 10m continuation не является источником 20%.
 
 ## Главная активная проверка: V27 forward validation
 

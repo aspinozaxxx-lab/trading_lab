@@ -1168,6 +1168,17 @@ audited `risk_source_date`, отклоняет дату раньше `2026-09-02
 полные paginated raw pages и replayable Parquet трёх таблиц. Не добавлять `from/till`,
 не считать PnL до 60 discovery dates; далее нужны 20 calibration и 60 unseen evaluation.
 
+V37 canonical audit only; experiment не повторять:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.stocks_v37_cross_market_breakout `
+  --audit-directory `
+  D:\Projects\trading_lab_data\runs\v37_cross_market_breakout_20260902T011012Z_15c6d67c
+```
+
+Ожидание: все artifact/runtime checks true, verdict `NO_GO`. Config, threshold, sign,
+exit corridor, stop, leverage, universe и years после результата не менять.
+
 Forward CNY quotes/funding collector:
 
 ```powershell
