@@ -1,0 +1,90 @@
+﻿protocol_id: futures_v43_v39_broad_carry_ruonia_stability_v1
+protocol_version: 1
+status: sealed_before_any_v39_broad_carry_combined_equity_or_metric
+declared_at_utc: '2026-09-02T08:50:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  The frozen 80/20 no-rebalance blend should retain V39's return engine while the
+  unit-corrected 29-stock cash-carry sleeve with causal idle RUONIA improves downside
+  stability. Both predeclared capital-allocation views and all four execution/cashflow
+  scenarios are evaluated without choosing a view after seeing the combined outcomes.
+
+inheritance:
+  frozen_allocation_source: futures_v40r1_v39_cash_carry_stability_v1
+  frozen_allocation_source_sha256: 05ce1266def6fde2598647615f3349c8ef2d0a3c8455f9b93dea4921d8e812a2
+  v39_weight: 0.80
+  broad_cash_carry_weight: 0.20
+  rebalance_after_initial_allocation: never
+  weight_search_after_v41: false
+  view_selection_after_outcome: forbidden
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    primary: {file: combined_ledger_primary.parquet, sha256: 1820996ba32b3ef2c313cf9d2fbcffb40eff3f7869a72db042814313c1908976, rows: 1272}
+    doubled: {file: combined_ledger_doubled.parquet, sha256: 5a4751ce2d7d6c2b32dd27d4cf2044a35159291a191042757c75355d0019a616, rows: 1272}
+    stress: {file: combined_ledger_stress.parquet, sha256: da088adc061786ab2d5b43858dbeeef2af4c007c9849e538e207da937bd26561, rows: 1272}
+  broad_cash_carry_ruonia:
+    root: runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172
+    protocol_sha256: e5d91172a7b78fa25cabe2568d09c33975d472896c40b871e3d33ff6f071907c
+    manifest: {file: manifest.json, sha256: 9fa21e58187a55a0367cf09142f6b91fa7a444314a04e72c539d256342c5227e}
+    metrics: {file: metrics.json, sha256: aca91c52771b1e6f682bdef2a3577a3adf10532f3883b86c607c5f8bfc592cd5}
+    ledger: {file: daily_ledger.parquet, sha256: d04539a419e72ce4a506d8db8c1c187bae89eed3642dfbe2648117df5fafa955, rows: 1827}
+    audit: {file: audit.json, sha256: 4fbad76d8506b57a3e8bfea9bcc8d4381e997fe8c80ed8fffc1df3190d773e2f}
+  v41_benchmark:
+    root: runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128
+    protocol_sha256: 4541812897ee7356d7e64ba2ccf953e8ef8e1a16bcd4733d13b77f310507ca82
+    manifest: {file: manifest.json, sha256: 586e1b2dc58444a40aa649772f85b326616d7eca9bec54f85d01f830216ab591}
+    metrics: {file: metrics.json, sha256: 000ae99b090e5da5020d55074722a6995ab592a904053d889bd7e2b2fb7bfeb8}
+
+views: [equal_sleeves, active_cap]
+
+scenario_mapping:
+  primary: {v39: primary, broad_cash_carry: primary, v41_benchmark: primary}
+  doubled: {v39: doubled, broad_cash_carry: doubled, v41_benchmark: doubled}
+  stress: {v39: stress, broad_cash_carry: zero_cashflow_stress, v41_benchmark: stress}
+  execution_stress: {v39: stress, broad_cash_carry: delayed_fill_stress, v41_benchmark: stress}
+
+alignment:
+  v39_session_calendar_is_authoritative: true
+  broad_cash_carry_nav_asof_v39_session_date: true
+  broad_cash_carry_missing_after_start: forward_fill_last_audited_nav
+  broad_cash_carry_before_start: forbidden_same_start_is_2020_12_30
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  same_history_adaptive_evidence_not_independent_holdout: true
+
+required_gates_per_view:
+  all_four_scenario_CAGR_gte: 0.20
+  all_four_scenario_MDD_strictly_better_than_corresponding_v39: true
+  all_four_scenario_Sharpe_gte_corresponding_v39: true
+  all_four_scenario_worst_year_gte_corresponding_v39: true
+  primary_positive_years_gte: 5
+  live_promotion_forbidden: true
+
+benchmark_diagnostic:
+  comparison_only_no_gate_or_view_selection: true
+  improves_v41_definition: >-
+    Corresponding primary, doubled and stress scenarios all have CAGR and Sharpe no
+    lower, MDD no higher, and worst year no lower than frozen V41.
+
+outputs:
+  root: runs/v43_v39_broad_carry_ruonia_stability_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet]
+
+limitations:
+  - Both market parents use overlapping historical data; this is not independent confirmation.
+  - The 50% RUONIA realization instrument and historical bid/ask execution are not proved.
+  - Historical RMS cashflows remain projected; zero-cashflow stress removes all of them.
+  - Active-cap is a normalized capital view, not a broker-verified margin or integer sizing model.
+  - Fixed normalized allocation ignores investor-specific integer contract sizing.
+  - Historical evidence cannot guarantee profit or authorize live trading.
