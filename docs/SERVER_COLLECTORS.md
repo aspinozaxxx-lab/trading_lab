@@ -82,7 +82,9 @@ ssh gpu-mlserver 'TRADING_LAB_PYTHON=/opt/trading_lab_runtime/cpython-3.11.4/bin
 
 Installer не заменяет существующие data directories, создаёт symlinks
 `data/runs/models` только при безопасном отсутствии и проверяет systemd units до
-enable. Значение `FRED_API_KEY` или будущего `MOEX_ALGOPACK_TOKEN` допускается только в
+enable. После `daemon-reload` он перезапускает timers, чтобы изменение `OnCalendar`
+сразу обновило фактический next elapse; одного `enable --now` для уже active timer
+недостаточно. Значение `FRED_API_KEY` или будущего `MOEX_ALGOPACK_TOKEN` допускается только в
 `/etc/trading-lab/collector.env`; ключи нельзя коммитить, передавать аргументами или
 печатать в journal.
 

@@ -71,7 +71,10 @@ mapfile -t timer_units < <(
   find "$repo_root/deploy/systemd" -maxdepth 1 -type f -name 'trading-lab-*.timer' \
     -printf '%f\n' | sort
 )
-systemctl enable --now "${timer_units[@]}"
+systemctl enable "${timer_units[@]}"
+# `enable --now` does not restart an already-active timer after its OnCalendar changed.
+# Restart every installed timer so the loaded next-elapse state matches the deployed bytes.
+systemctl restart "${timer_units[@]}"
 
 echo "Installed Trading Lab collectors. Secrets, if authorized, belong only in:"
 echo "  /etc/trading-lab/collector.env"

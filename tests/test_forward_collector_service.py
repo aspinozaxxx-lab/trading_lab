@@ -253,3 +253,10 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     assert "OnCalendar=Tue..Sat *-*-* 01:15:00" in v27_decision_timer
     assert "OnCalendar=Tue..Sat *-*-* 06:00:00" in v27_decision_timer
     assert "OnCalendar=Mon..Fri *-*-* 23:45:00" not in v27_decision_timer
+
+    installer = (subject.PROJECT_ROOT / "scripts" / "install_linux_collectors.sh").read_text(
+        encoding="utf-8"
+    )
+    assert 'systemctl enable "${timer_units[@]}"' in installer
+    assert 'systemctl restart "${timer_units[@]}"' in installer
+    assert "systemctl enable --now" not in installer
