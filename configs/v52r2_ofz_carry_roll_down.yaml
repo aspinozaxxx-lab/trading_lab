@@ -1,0 +1,42 @@
+﻿protocol_id: v52r2_ofz_carry_roll_down
+protocol_version: 1
+status: sealed_after_r1_legacy_currency_identity_failure_before_any_ofz_trade_or_return
+declared_at_utc: '2026-09-02T18:05:00Z'
+research_only: true
+live_trading_allowed: false
+
+parent_r1:
+  config_path: configs/v52r1_ofz_carry_roll_down.yaml
+  protocol_sha256: 491e53c3d8d5fe4e5be931b41bc876be277dd4079beaccdf6fd83a3c9aea31eb
+  wrapper_path: src/market_lab/futures_v52r1_ofz_carry_roll_down.py
+  corrected_shared_engine_path: src/market_lab/futures_v52_ofz_carry_roll_down.py
+  corrected_shared_engine_sha256: 066dab2181b7a301289af0568a77b005ccb24b483c9803728d0ec8ea449197b1
+  canonical_failed_run: v52r1_ofz_carry_roll_down_20260902T172038Z_491e53c3
+  failed_run_manifest_sha256: bf80f9b68016e783bfe1214641dd7342502474d53a892b6ec3e812b88de3f09f
+
+observed_identity_failure:
+  decisions: 60
+  selected_decision_rows: 0
+  trades: 0
+  positions: 0
+  months_with_any_eligible_candidate: 0
+  source_currency_id_for_SU262: SUR
+  source_face_unit_for_SU262: RUB
+  market_price_yield_or_return_value_printed: false
+  OFZ_return_or_pnl_computed: false
+
+semantic_correction:
+  economic_currency: Russian_ruble
+  incorrect_literal_history_currency_id: RUB
+  correct_MOEX_ISS_legacy_history_currency_id: SUR
+  face_unit_remains: RUB
+  duration_liquidity_top_count_weights_rebalance_costs_gates_and_portfolio_changed: false
+  wrapper_path: src/market_lab/futures_v52r2_ofz_carry_roll_down.py
+
+output_override:
+  root: runs/v52r2_ofz_carry_roll_down
+  immutable_timestamped_run: true
+
+limitations:
+  - This correction maps the MOEX legacy ruble code only; it cannot alter any outcome gate.
+  - All V52 and R1 source, execution, accounting and live-trading limitations remain.

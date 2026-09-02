@@ -8,6 +8,7 @@ import pytest
 import yaml
 
 from market_lab import futures_v52_ofz_carry_roll_down as v52
+from market_lab import futures_v52r2_ofz_carry_roll_down as v52r2
 
 
 def _config() -> dict:
@@ -130,3 +131,12 @@ def test_empty_trade_result_has_stable_artifact_schema() -> None:
     assert tuple(result.trades.columns) == v52.TRADE_COLUMNS
     assert result.positions.empty
     assert tuple(result.positions.columns) == v52.POSITION_COLUMNS
+
+
+def test_r2_changes_only_legacy_currency_identity_and_output() -> None:
+    protocol = v52r2.load_protocol()
+    assert protocol.payload["selection"]["currency_id"] == "SUR"
+    assert protocol.payload["selection"]["face_unit"] == "RUB"
+    assert protocol.payload["selection"]["selected_security_count"] == 3
+    assert protocol.payload["selection"]["minimum_trailing_median_value_rub"] == 10_000_000.0
+    assert protocol.payload["outputs"]["root"] == "runs/v52r2_ofz_carry_roll_down"
