@@ -1,0 +1,105 @@
+protocol_id: moex_forward_stock_futures_cash_carry_source_v1
+protocol_version: 1
+status: sealed_before_first_forward_stock_futures_quote_snapshot
+declared_at_utc: '2026-09-02T04:32:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Collect immutable forward-only synchronous best BID/OFFER evidence for the frozen
+  covered stock-futures cash-carry family. Preserve decision and following-fill
+  snapshots without computing basis, signals, trades, returns or PnL.
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill_before_earliest_source_date: forbidden
+  source_date_must_equal_current_Europe_Moscow_date: true
+  protected_historical_experiments_must_never_read_this_source: true
+
+universe:
+  logical_assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  spot_secids: {GAZR: GAZP, SBRF: SBER, ROSN: ROSN, TATN: TATN, NOTK: NVTK}
+  futures_assetcodes: {GAZR: GAZR, SBRF: SBRF, ROSN: ROSN, TATN: TATN, NOTK: NOTK}
+  spot_board: TQBR
+  futures_board: RFUD
+  required_futures_lot_size_shares: 100
+  contract_type: futures
+
+contract_selection:
+  metadata_only_before_quotes: true
+  eligible_calendar_days_to_last_trade: {minimum: 30, maximum: 90}
+  choose: nearest_last_trade_then_lexicographic_secid
+  no_eligible_contract: preserve_snapshot_with_explicit_sleep_reason
+  selection_must_not_use_price_basis_return_signal_or_pnl: true
+
+stages:
+  decision:
+    scheduled_local_time: '15:49:00'
+    interpretation: quote_observed_after_frozen_15_40_decision_bar
+  fill:
+    scheduled_local_time: '15:59:00'
+    interpretation: following_snapshot_execution_evidence_not_guaranteed_fill
+  allowed_stage_arguments: [decision, fill]
+  same_stage_same_source_date_duplicate: forbidden
+
+official_sources:
+  futures_series: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  contract_description_template: https://iss.moex.com/iss/securities/{secid}.json
+  spot_marketdata_template: https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/{secid}.json
+  futures_marketdata_template: https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  access_mode: anonymous_public_ISS_may_be_delayed
+
+required_quote_fields:
+  identifiers: [SECID, BOARDID]
+  prices: [BID, OFFER]
+  clocks_any_available: [SYSTIME, UPDATETIME, SEQNUM]
+  positive_two_sided_quote_required_for_valid_pair: true
+  crossed_or_locked_quote: invalid
+  missing_quote_or_clock: invalid_not_zero
+
+temporal_semantics:
+  retrieval_at_utc_is_hard_lower_bound_on_availability: true
+  exchange_clock_is_preserved_not_trusted_as_retrieval_clock: true
+  anonymous_delay_is_unresolved_until_measured: true
+  decision_snapshot_cannot_be_used_as_fill: true
+  fill_snapshot_must_have_later_retrieval_at_than_decision: true
+
+collection:
+  preserve_every_HTTP_JSON_payload_exactly_as_canonical_JSON: true
+  atomic_immutable_snapshot: true
+  one_snapshot_directory_per_source_date_and_stage: true
+  no_partial_valid_status_if_any_asset_pair_is_invalid: true
+  network_retries: 3
+  request_timeout_seconds: 30
+
+output:
+  root: data/forward/moex-stock-futures-cash-carry-v1
+  contents_in_git: false
+  snapshot_prefix: snapshot
+  immutable: true
+
+readiness:
+  discovery_complete_decision_fill_pairs: 60
+  calibration_pairs_after_discovery: 20
+  unseen_evaluation_pairs_after_calibration: 60
+  paper_signal_or_pnl_before_discovery_and_separate_economic_seal: forbidden
+  annualization_before_unseen_evaluation_complete: forbidden
+
+forbidden_outputs:
+  - basis
+  - fair_value
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Anonymous ISS quotes may be delayed and are not proof of order placement or queue priority.
+  - Best BID/OFFER does not prove executable size, rejection rate, margin or delivery handling.
+  - Forward cash-carry still requires a byte-pinned broker fee/margin/cash-instrument rule.
+  - Source collection cannot guarantee profit or authorize live trading.
