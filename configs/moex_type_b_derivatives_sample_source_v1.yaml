@@ -1,0 +1,102 @@
+﻿protocol_id: moex_type_b_derivatives_sample_source_v1
+protocol_version: 1
+status: sealed_before_archive_download_or_market_value_read
+declared_at_utc: '2026-09-02T20:17:30Z'
+scope: official_source_and_parser_preflight_only
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve and parse the free official MOEX derivatives Type B sample for 2024-10-01
+  to validate millisecond Top-of-Book option event reconstruction and future
+  defined-risk execution mechanics. One sample day cannot estimate profitability.
+
+source:
+  provider: Moscow_Exchange
+  product: derivatives_all_trades_and_best_orders_type_B_sample
+  url: http://ftp.moex.com/pub/info/data/Derivatives%20Market/OrderLog20241001_B.7z
+  official_description: https://www.moex.com/a1681
+  official_service_description: https://www.moex.com/a2863
+  archive_filename: OrderLog20241001_B.7z
+  source_trade_date: '2024-10-01'
+  expected_content_length_bytes: 101968982
+  expected_last_modified: 'Mon, 24 Feb 2025 15:47:07 GMT'
+  transport_note: official_ftp_host_serves_file_over_http_and_has_incomplete_tls_chain
+  download_host: gpu-mlserver
+  archive_sha256: discover_once_then_pin_in_immutable_manifest
+
+official_layout:
+  market: futures_and_options
+  product_type: top_of_book_type_B
+  time_precision: microseconds_since_March_2016
+  instrument_column_aliases: [SYMBOL, SECCODE]
+  system_column: SYSTEM
+  option_system_values: [C, P]
+  side_column_aliases: [TYPE, BUYSELL]
+  timestamp_column_aliases: [MOMENT, TIME]
+  trade_id_column_aliases: [ID_DEAL, TRADENO]
+  price_column: PRICE
+  volume_column: VOLUME
+  trade_row: nonempty_trade_id
+  quote_row: empty_trade_id
+
+temporal_semantics:
+  timezone: Europe/Moscow
+  source_date_must_equal: '2024-10-01'
+  stable_order: event_timestamp_then_original_row_number
+  identical_timestamp_tie_break_is_file_order_only: true
+  no_future_fill_or_bar_aggregation: true
+
+admission:
+  archive_content_length_exact: true
+  archive_sha256_recorded: true
+  seven_zip_crc_test_required: true
+  member_listing_recorded_before_value_parse: true
+  header_schema_recorded_before_value_parse: true
+  option_rows_only_in_processed_output: true
+  system_must_be_C_or_P: true
+  side_must_be_B_or_S: true
+  positive_price_and_volume_required: true
+  event_time_within_source_date_required: true
+  raw_row_count_replay_exact: true
+  processed_row_count_replay_exact: true
+  original_row_number_preserved: true
+
+outputs:
+  root: data/processed/options/moex-type-b-derivatives-sample-2024-10-01-v1
+  raw_archive: OrderLog20241001_B.7z
+  archive_listing: archive_listing.json
+  schema_report: schema_report.json
+  option_events: option_events.parquet
+  manifest: manifest.json
+  immutable: true
+  git_allowed: false
+
+allowed_processed_columns:
+  - source_date
+  - event_at_moscow
+  - original_row_number
+  - secid
+  - option_system
+  - side
+  - event_kind
+  - trade_id
+  - price
+  - volume
+
+forbidden_columns:
+  - return
+  - returns
+  - label
+  - target
+  - prediction
+  - position
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - The free archive is one sample date and is not a performance backtest.
+  - Type B proves historical best-quote updates and trades, not broker latency or queue.
+  - No strategy, signal, target, return or PnL may be computed from this protocol.
+  - Economic work requires a separate pre-outcome seal and additional independent days.
