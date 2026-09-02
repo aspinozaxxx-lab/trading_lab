@@ -23,14 +23,23 @@ transport exception. Чтобы не переписывать sealed V2/paper/V3
 отдельный compatibility protocol SHA `ae70f0d4...`: original build `f38a41f0...`,
 approved build `7a6f5732...`. Он fail-closed запрещает новые endpoints/query,
 normalization/schema/availability changes, cache, backfill, partial persistence и любое
-изменение economics. Первый запуск `2026-09-02 10:05` не сохранил snapshot, поскольку
-FRED сбросил соединение после всех retries; readiness поэтому остаётся `0`, без
-подстановки старого/current-vintage значения.
+изменение economics. Первый atomic запуск `2026-09-02 10:05` не сохранил snapshot,
+поскольку FRED сбросил соединение после всех retries; никакое старое/current-vintage
+значение не подставлялось.
+
+Чтобы outage одного провайдера не стирал независимо полученный официальный рынок,
+до первого decision snapshot запечатан component source SHA `242d2684...`. Реализация
+`026fef9f...` сохраняет `market_execution`, `market_decision`, `macro_fred` и
+`macro_cbr` в отдельных immutable каталогах; readiness `d7b4d30a...` аудитит каждый.
+Компонент остаётся atomic внутри себя. При этом completed MOEX не удаляется из-за FRED,
+а macro можно присоединить только если его actual `retrieved_at <= decision_at`;
+будущий snapshot не ремонтирует прошлое решение.
 
 ## Источник
 
-`market_lab.futures.moex_v27_forward_validation_source` сохраняет два immutable вида
-snapshot по будням:
+Scheduled source теперь использует
+`market_lab.futures.moex_v27_forward_component_source` и сохраняет два immutable market
+component по будням:
 
 - `execution_observation` в 10:05 мск: фактический next-session open и bid/offer;
 - `decision_eod` в 23:45 мск: полные текущие цепочки SI/RI/BR/MIX после сессии.
@@ -39,8 +48,8 @@ snapshot по будням:
 actual retrieval и exchange timestamp. Для `decision_eod` V2 дополнительно сохраняет
 raw official daily history каждого unexpired контракта; только его `CLOSE` идёт в
 сигнал, а `VOLUME/OPENPOSITION` — в causal roll. Missing history row отклоняет весь
-snapshot; `LAST` и `SETTLEPRICE` никогда не подменяют `CLOSE`. Одновременно сохраняются
-raw current-vintage FRED `STLFSI4`, CBR RUONIA и KeyRateXML. Для macro history
+snapshot; `LAST` и `SETTLEPRICE` никогда не подменяют `CLOSE`. Отдельно пытаются
+сохраниться raw current-vintage FRED `STLFSI4` и paired CBR RUONIA+KeyRateXML. Для macro
 `forward_available_at = max(model_available_at, actual_retrieval)`, поэтому текущий
 vintage не выдаётся за исторически известный оригинал.
 
@@ -70,19 +79,25 @@ preflight commit `05a1f74` ничего не вычисляет кроме sourc
 ```powershell
 .\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v27_forward_validation_readiness `
-  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+  market_lab.futures.v27_forward_component_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
 Tasks: `TradingLabV27ForwardExecution` и `TradingLabV27ForwardDecision`. Wrapper не
-создаёт второй audited snapshot одинакового `kind + source_date`. Каталоги forward data
-и будущего paper PnL находятся вне Git.
+создаёт второй audited market component одинакового `kind + source_date`; macro
+сохраняется максимум один раз на текущую UTC/source date. Required market failure
+останавливает task, optional FRED/CBR failure остаётся явным в readiness. Каталоги
+forward data и будущего paper PnL находятся вне Git.
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_paper_preflight `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
+
+Старый paper preflight пока указывает на пустой atomic V2 и сохраняется только как
+sealed reference. До реализации component-aware paper ledger economics всё равно
+запрещена.
 
 Hard fallback за пять сессий до expiry требует official machine-readable calendar
 MOEX. Он доступен через `https://iss.moex.com/iss/calendars/futures`, но текущая среда

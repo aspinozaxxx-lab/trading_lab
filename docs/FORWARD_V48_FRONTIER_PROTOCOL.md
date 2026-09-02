@@ -32,7 +32,10 @@ universe или execution mark запрещено.
 - никакого backfill, forward-fill, midpoint или historical OPEN вместо quote.
 
 Transport compatibility SHA `ae70f0d4...` разрешает только exact retry текущего
-запроса. Persistent FRED outage отклоняет весь snapshot; старое значение не подставляется.
+запроса. Source-mapping correction SHA `019f970e...` переводит V48 на component source
+SHA `242d2684...`: persistent FRED outage отклоняет только FRED component, а уже
+записанные MOEX/CBR не удаляются. Старое значение не подставляется; поздний FRED
+доступен лишь решениям после его actual retrieval.
 
 ## Последовательные границы
 
@@ -51,12 +54,11 @@ Transport compatibility SHA `ae70f0d4...` разрешает только exact 
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.v48_frontier_forward_readiness `
+  market_lab.futures.v48_frontier_forward_readiness_v2 `
   --option-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1 `
-  --futures-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+  --component-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
-На момент seal: option `1/54`, V27 CLOSE `0/253`, execution dates `0`, invalid
-snapshots `0/0`, `paper_economics_may_start=false`, `annualization_allowed=false`,
-`live_trading_allowed=false`.
-
+Текущий state: option `1/54`, V27 CLOSE `0/253`, execution dates `1`, CBR `1`, FRED
+`0`, invalid snapshots `0`, `paper_economics_may_start=false`,
+`annualization_allowed=false`, `live_trading_allowed=false`.

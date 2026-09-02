@@ -15,8 +15,9 @@
 - Promotion floor — `>=20%` CAGR во всех cost scenarios; `35%` — stretch gate, не
   обещание. Также нужны Sharpe `>=1`, MDD `<=40%`, worst full year `>=-15%`, два
   positive years, zero critical/unresolved, второй unseen pass и broker reconciliation.
-- Текущий source-only readiness: option `1/54`, CLOSE `0/253`, execution `0`, invalid
-  `0/0`, paper economics false. Команда и rationale находятся в
+- Source-mapping correction SHA `019f970e...` сохраняет тот же fixed mode, но читает
+  independent V27 components. Текущий readiness: option `1/54`, CLOSE `0/253`,
+  execution `1`, CBR `1`, FRED `0`, invalid `0`, paper economics false. Команда в
   `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
 
 ## V27 forward transport continuity V1 — SEALED BEFORE FIRST SNAPSHOT
@@ -28,9 +29,13 @@
 - Approved delta: до трёх повторов exact GET/POST после `requests` transport exception
   и восстановление `SessionLike.post` в Protocol scope. Endpoints, query, economics,
   schema, timestamps и replay не менялись; substitution/cache/backfill запрещены.
-- Scheduled `execution_observation` в 10:05 завершился без snapshot: FRED устойчиво
-  сбрасывал соединение после всех retries. Fail-closed сохранён, поэтому V27 remains
-  `0/253`; incomplete market-only snapshot не выдаётся за valid evidence.
+- Atomic scheduled `execution_observation` в 10:05 завершился без snapshot: FRED
+  устойчиво сбрасывал соединение после всех retries. Затем до первого market decision
+  запечатан component source SHA `242d2684...`: каждый MOEX/FRED/CBR component остаётся
+  atomic сам по себе, но failure одного не стирает другие. Первый execution snapshot
+  (`25` rows) и CBR (`550` rows) имеют raw replay all true; FRED явно `0`. Economics,
+  endpoint/query/schema и availability rules не изменились; future macro не может
+  ремонтировать past decision.
 
 ## V48 exact integer replay of V47 — FRONTIER PASS, STABILITY STRICT NO-GO
 
@@ -624,7 +629,9 @@
 - First 2026-09-02 execution attempt produced no snapshot because the official FRED
   STLFSI4 response timed out for all three 30-second attempts. No cache or zero was
   substituted. A transport-only 1s/2s retry was added; economics and readiness remain
-  unchanged at zero.
+  unchanged. Component correction subsequently preserved one audited MOEX execution
+  date and one CBR vintage independently; price-decision warmup remains zero and FRED
+  remains missing.
 
 ## MOEX RMS risk/cashflow forward source — ACTIVE, 0/60 discovery
 

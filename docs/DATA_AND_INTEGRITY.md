@@ -402,7 +402,7 @@ Forward CNY source физически отделён в
 quotes/funding Parquet, manifest и replay audit. Старые experiments не могут читать этот
 path; readiness считает только audited unique dates и не вычисляет PnL.
 
-V27 forward validation отделён в `data/forward/v27-validation-v2/`. V1 source был
+V27 atomic forward reference отделён в `data/forward/v27-validation-v2/`. V1 source был
 superseded до первого snapshot: current `LAST` не эквивалентен official daily `CLOSE`.
 V2 хранит оба raw current chain и exact-date history по каждому EOD-контракту. Signal
 использует только history `CLOSE`, roll — history `VOLUME/OPENPOSITION`; missing row
@@ -411,7 +411,15 @@ V2 хранит оба raw current chain и exact-date history по каждом
 Macro snapshots могут содержать earlier observation dates только как current vintage,
 причём их `forward_available_at` не раньше actual retrieval. Уникальность определяется
 по `snapshot_kind + source_date`; decision/open snapshots одной даты не являются
-дубликатами. Старый V27 runner не имеет доступа к этому path.
+дубликатами. Atomic V2 остался пустым: FRED outage не позволил создать первый snapshot.
+
+Scheduled successor физически отделён в
+`data/forward/v27-validation-v3-components/`. `market_execution`, `market_decision`,
+`macro_fred` и `macro_cbr` имеют собственные immutable manifest/raw/Parquet/audit и
+actual retrieval. Failure одного component не удаляет другой; partial data внутри
+component запрещены. Macro присоединяется только при `retrieved_at <= decision_at`,
+future macro не backfill-ит past decision. Старые V27 runners не имеют доступа к обоим
+forward paths.
 
 MOEX RMS forward source отделён в `data/forward/moex-rms-risk-cashflow-v2/`. Каждый
 snapshot хранит paginated raw JSON и отдельные Parquet `staticparams/limits/cashflow`.

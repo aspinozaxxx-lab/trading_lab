@@ -30,17 +30,22 @@ V48 всё ещё не live GO: это масштабирование извес
 OHLC/spec proxy, а не broker fills или independent forward. Forward protocol V1 уже
 запечатан до первого V27 snapshot: SHA `1fbc8c10...`, единственный режим `frontier`,
 scale `1.50`, gross cap `3.00`, margin buffer `2.00`, participation `1%`, carry `0`.
-Readiness: option levels `1/54`, V27 official CLOSE `0/253`, execution dates `0`;
-signals/returns/PnL и annualization пока запрещены. Scale, cap, buffer, execution marks
-и gates по 2021–2025 больше не менять; см. `docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
+Source mapping correction SHA `019f970e...` перевёл readiness на независимые V27
+components без изменения режима. Сейчас: option levels `1/54`, official CLOSE `0/253`,
+execution dates `1`, CBR `1`, FRED `0`; signals/returns/PnL и annualization запрещены.
+Scale, cap, buffer, execution marks и gates по 2021–2025 больше не менять; см.
+`docs/FORWARD_V48_FRONTIER_PROTOCOL.md`.
 
 V39/V27 readiness также восстановлен после fail-closed identity alert. До первого V27
 snapshot был запечатан transport-only compatibility SHA `ae70f0d4...`: он разрешает
 только exact collector implementation `7a6f5732...` с тремя повторами того же запроса
 и исправленной Protocol-signature. Economics, endpoints, normalization, schema и
-availability не менялись; cache/backfill/partial snapshot запрещены. Первый запуск
-в 10:05 не сохранил данных из-за persistent FRED disconnect, поэтому счётчик честно
-остаётся `0`, а не подменяется неполным или задним срезом.
+availability не менялись; cache/backfill запрещены. Atomic V2 действительно остался
+`0`, потому что persistent FRED disconnect отклонял весь snapshot. До первого decision
+или PnL запечатан component protocol SHA `242d2684...`: MOEX, FRED и CBR теперь имеют
+собственные immutable timestamps. Первый execution component (`25` rows) и CBR
+component (`550` rows) прошли raw replay без единого failed check; FRED остаётся явно
+missing и не может задним числом ремонтировать прошлое решение.
 
 ## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
 
@@ -696,8 +701,16 @@ partial current week не считается завершённой. Сейча�
 Первый execution run `2026-09-02 10:05` и ручной retry не создали snapshot: официальный
 FRED STLFSI4 endpoint трижды дал 30-second read timeout. Market/CBR bytes не были
 частично опубликованы, cache/zero substitution запрещены, readiness остаётся 0.
-Transport-only retry `1s/2s` добавлен без изменения economics; 6 scoped tests и Ruff
-clean. Следующий scheduled day попробует снова, а отсутствие даты останется explicit.
+Transport-only retry `1s/2s` добавлен без изменения economics.
+
+Этот availability coupling исправлен новым source-storage boundary до первого decision:
+component config SHA `242d2684...`, implementation `026fef9f...`, readiness
+`d7b4d30a...`; V48 source-mapping correction SHA `019f970e...`. Scheduled wrapper
+сначала сохраняет required MOEX component, затем независимо пытается CBR и FRED.
+Фактически сохранены и replay-аудированы execution `1` (`25` rows) и CBR `1`
+(`550` rows); invalid `0`, FRED `0`, decision `0`. FRED failure теперь даёт concise
+warning, но не удаляет market evidence. Любой join требует macro `retrieved_at <=
+decision_at`; поздний FRED не ремонтирует прошлое.
 
 Отдельный operational blocker: hard fallback ролла требует official future-session
 calendar MOEX. Endpoint найден, но без `MOEX_ALGOPACK_TOKEN` возвращает HTML. Generic

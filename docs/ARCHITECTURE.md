@@ -815,6 +815,13 @@ transport-only реализации: current collector обязан входит
 единственный V48 frontier mode (`1.50x`, gross `3x`, margin buffer `2x`, participation
 `1%`) и до joint warmup выводит только source counts, никогда signal/return/PnL.
 
+`moex_v27_forward_component_source` — storage-only successor до первого forward
+decision: MOEX execution, MOEX official CLOSE, FRED и CBR сохраняются как четыре
+независимых atomic components. `v27_forward_component_readiness` не объединяет future
+macro с past decision и показывает provider gaps отдельно. Запечатанный V48 correction
+использует `v48_frontier_forward_readiness_v2`; V48 economics и все gates из V1
+остаются byte-identical.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

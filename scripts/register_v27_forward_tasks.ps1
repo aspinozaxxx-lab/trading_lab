@@ -46,9 +46,9 @@ Register-V27Task `
     -TaskName "TradingLabV27ForwardExecution" `
     -SnapshotKind "execution_observation" `
     -At "10:05" `
-    -Description "V27 V2 forward-only next-session open/quote observation plus macro vintage."
+    -Description "V27 V3 componentized next-session MOEX observation; CBR/FRED persist independently."
 Register-V27Task `
     -TaskName "TradingLabV27ForwardDecision" `
     -SnapshotKind "decision_eod" `
     -At "23:45" `
-    -Description "V27 V2 official CLOSE EOD chains plus macro vintage."
+    -Description "V27 V3 componentized official CLOSE chains; CBR/FRED persist independently."
