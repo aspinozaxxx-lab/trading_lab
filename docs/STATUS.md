@@ -62,6 +62,17 @@ readiness eligible/preboundary/invalid `1/0/0`, complete sessions `0/20`. Поз
 success. Canonical V2 root:
 `/srv/trading_lab_data/data/forward/moex-options-surface-v2-timestamps-margin`.
 
+До просмотра clock/BBO/margin quality был запечатан отдельный source-diagnostic SHA
+`b26c35c6...`, seal commit `6c41de3`; implementation `a3be7ba`. Первый immutable report
+`quality_snapshot_20260902T212518751694Z_b26c35c6` прошёл replay `9/9`, quality/identity/
+audit SHA `c110b722.../ef413dd5.../31138bf9...`. Из `2 280` contracts двусторонняя
+положительная котировка была у `527`, соседних двусторонних пар — `486`; crossed/locked
+`0/0`, все три margin fields положительны у всех rows. Но ночной срез старый: median
+`market_update` lag `188,95` минуты, `0` rows в пределах 15 минут, `1 000` в пределах
+60 минут, `1 280` старше часа. Это не дисквалифицирует дневной поток, но запрещает
+выдавать наличие BID/OFFER за свежую исполнимую котировку. Dispatcher теперь запускает
+тот же sealed quality report после каждого V2 capture; economics по-прежнему отсутствует.
+
 ## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
 
 V60 config SHA `40145868...`, seal/deploy commit `f132dd8`, implementation SHA
@@ -2271,7 +2282,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Не менять их signs/windows/multipliers по уже увиденному outcome.
 2. Держать активным server intraday timer option admission V2 SHA `fb598938...` и
    отдельный V1 EOD compatibility timer; каждый V2 eligible snapshot обязан быть
-   post-boundary и пройти полный source replay.
+   post-boundary, пройти полный source replay и sealed quality diagnostic SHA
+   `b26c35c6...`.
 3. До 20 complete sessions не вычислять features, labels, returns или PnL. После gate
    один раз запечатать экономический protocol до чтения следующих outcomes.
 4. Сравнить full-surface neural timing с price-only ablation, fixed skew/term rule и

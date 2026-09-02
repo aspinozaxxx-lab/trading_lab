@@ -19,6 +19,7 @@ trail. Это исследовательский код, не инвестици
 windows опускаются ниже 20%. Новая активная ветка собирает timestamped intraday option
 surface V2 на `gpu-mlserver` и проверяет только defined-risk конструкции по observed
 BID/OFFER. Отдельный вечерний V1 snapshot сохраняет совместимость frozen V39/V49.
+Каждый V2 capture автоматически получает counts-only clock/BBO/margin quality audit.
 Исторический Type B sample подтвердил механику, но показал высокий four-side crossing
 friction и содержит лишь один день. Детали: [текущее состояние](docs/STATUS.md).
 

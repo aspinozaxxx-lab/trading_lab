@@ -37,6 +37,13 @@
   skew/term rule, always-abstain; defined-risk and observed OFFER/BID only.
 - First V2 snapshot `20260902T212518751694Z`: source audit `22/22`; readiness
   eligible/preboundary/invalid `1/0/0`, complete discovery sessions `0/20`.
+- Non-economic quality protocol SHA `b26c35c6...` was sealed in `6c41de3` before clock,
+  BBO and margin summaries; implementation `a3be7ba`. Canonical warmup report replay
+  `9/9`, quality/identity/audit SHA `c110b722.../ef413dd5.../31138bf9...`.
+- Warmup quality: 2 280 contracts, 527 two-sided positive quotes, 486 adjacent
+  two-sided pairs, crossed/locked `0/0`, positive three-way margin coverage 2 280/2 280.
+  Night snapshot market-update median lag `188.95m`; `0/1000/1280` rows were `<=15m`,
+  `<=60m`, and `>60m`. This is source-quality evidence, not a trading threshold or PnL.
 
 ## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
 

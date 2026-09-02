@@ -1179,6 +1179,27 @@ full-surface neural timing, price-only ablation, fixed skew/term rule и always-
 `initial_margin_exchange_time` обязательно в каждом V2 snapshot. Public depth/queue
 не заявляется: эти ISS fields оказались полностью пустыми.
 
+Sealed counts-only clock/BBO/margin quality report для одного V2 snapshot:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_option_surface_quality_v1 `
+  --snapshot <v2-snapshot-path> `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v2-quality-v1
+```
+
+Replay-аудит:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_option_surface_quality_v1 `
+  --audit-directory <quality-report-path>
+```
+
+Server dispatcher выполняет этот diagnostic автоматически после каждого intraday V2
+capture. Ошибка parent replay или negative exchange-clock lag делает service failed;
+report не сохраняет BID/OFFER/strike values, features, returns или PnL.
+
 V1 продолжает собственные неизменные readiness-контракты. Для V39/V49 использовать
 только прежний root `data/forward/moex-options-surface-v1` и соответствующие команды
 ниже; V2 нельзя подставлять в frozen protocol без новой версии и нового seal.

@@ -45,6 +45,9 @@ skip, deterministic decision/fill identity, source-date probes, independent V27
 components и отсутствие anonymous fallback после authenticated FRED failure.
 Job `option-surface` пишет root `moex-options-surface-v2-timestamps-margin`, а
 `option-surface-eod` — прежний `moex-options-surface-v1`; смешивать эти roots нельзя.
+После каждого V2 capture тот же service публикует sealed counts-only quality report в
+`moex-options-surface-v2-quality-v1`; failure source replay/clock validation виден в
+journal и не скрывается успешным capture.
 
 ## Проверка и журнал
 

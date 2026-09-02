@@ -467,6 +467,12 @@ V1 snapshots не backfill-ятся и не считаются в V2 readiness. 
 `snapshot_20260902T212518751694Z` прошёл source audit `22/22`; это forward source
 evidence, не historical outcome и не PnL.
 
+Его производный counts-only quality report хранится отдельно в
+`data/forward/moex-options-surface-v2-quality-v1/`. Protocol SHA `b26c35c6...`; первый
+report quality/identity/audit SHA `c110b722.../ef413dd5.../31138bf9...`, replay `9/9`.
+Report не содержит raw prices/strikes или economic fields. Clock-lag bins descriptive:
+их запрещено превращать в strategy thresholds по уже увиденным observations.
+
 Weekly option-state V3 хранится в
 `data/processed/options/moex-core4-options-weekly-2021-2025-v3/`. Config SHA
 `a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3`, implementation

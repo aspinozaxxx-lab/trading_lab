@@ -112,11 +112,16 @@ def test_option_surface_is_direct_and_never_deduplicated_by_source_date(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
     calls: list[tuple[str, ...]] = []
-    monkeypatch.setattr(
-        subject,
-        "_run_module",
-        lambda module, *arguments, **kwargs: calls.append((module, *arguments)) or "",
-    )
+
+    def record(module: str, *arguments: str, **kwargs: object) -> str:
+        calls.append((module, *arguments))
+        if module == "market_lab.futures.moex_forward_option_surface_source_v2":
+            snapshot = Path(arguments[1]) / f"snapshot_{len(calls)}"
+            snapshot.mkdir(parents=True)
+            return f"{snapshot}\n"
+        return "quality\n"
+
+    monkeypatch.setattr(subject, "_run_module", record)
 
     subject.run_job("option-surface", tmp_path)
     subject.run_job("option-surface", tmp_path)
@@ -131,9 +136,37 @@ def test_option_surface_is_direct_and_never_deduplicated_by_source_date(
             expected_output,
         ),
         (
+            subject.OPTION_QUALITY_MODULE,
+            "--snapshot",
+            str(Path(expected_output) / "snapshot_1"),
+            "--output-root",
+            str(
+                (
+                    tmp_path
+                    / "data"
+                    / "forward"
+                    / "moex-options-surface-v2-quality-v1"
+                ).resolve()
+            ),
+        ),
+        (
             "market_lab.futures.moex_forward_option_surface_source_v2",
             "--output-root",
             expected_output,
+        ),
+        (
+            subject.OPTION_QUALITY_MODULE,
+            "--snapshot",
+            str(Path(expected_output) / "snapshot_3"),
+            "--output-root",
+            str(
+                (
+                    tmp_path
+                    / "data"
+                    / "forward"
+                    / "moex-options-surface-v2-quality-v1"
+                ).resolve()
+            ),
         ),
     ]
 

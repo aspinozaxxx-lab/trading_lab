@@ -758,6 +758,14 @@ outputs до отдельного post-discovery seal запрещены.
 Dispatcher сохраняет два независимых jobs: `option-surface` пишет V2 внутридневно,
 `option-surface-eod` пишет V1 один раз в конце дня для frozen V39/V49 consumers.
 
+### `market_lab.futures.moex_forward_option_surface_quality_v1`
+
+Byte-sealed source diagnostic запускается после каждого intraday V2 capture. Он сначала
+требует полный parent raw replay, затем публикует только row/quote-state/pair/margin
+counts и exchange-clock lag summaries. Самих BID/OFFER/strike values, features, labels,
+returns, signals, trades или PnL в report нет. Identity pin-ит parent manifest/Parquet,
+config и implementation; audit детерминированно перестраивает весь report.
+
 ### Historical Type B option pipeline
 
 `moex_type_b_derivatives_sample_source_v3` проверяет exact archive/member/header/CRC,

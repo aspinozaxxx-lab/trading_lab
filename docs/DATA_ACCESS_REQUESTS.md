@@ -20,6 +20,16 @@ collector. Перед оплатой нужен письменный ответ 
 
 ### Проверка официальной документации 2026-09-02
 
+Повторная проверка `2026-09-03` уточнила лицензионную развилку. Действующий официальный
+enterprise-тариф указывает `50 000 RUB/month` за внутреннее использование полного
+AlgoPack до 10 логинов, тогда как публичная пользовательская визуализация рекламирует
+подписку `600 RUB/month`. Это разные способы использования; дешёвая подписка сама по
+себе не доказывает право на unattended non-display ML collector. До письменного ответа
+MOEX и test token покупка остаётся запрещена:
+
+- `https://www.moex.com/media/tarify-na-informacionnye-i-tehnicheskie-uslugi-1.pdf`;
+- `https://www.moex.com/ru/derivatives/open-positions-online.aspx`.
+
 - MOEX ALGOPACK заявляет Super Candles с более чем 50 flow/book features, 5-минутным
   обновлением и историей с 2020 года. Официальный futures REST endpoint
   `/iss/datashop/algopack/fo/tradestats.json` требует подписку и при авторизации

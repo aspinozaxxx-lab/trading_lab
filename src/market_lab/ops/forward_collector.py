@@ -110,6 +110,9 @@ PROBED_JOBS: Final[dict[str, dict[str, Any]]] = {
 V27_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_component_source"
 V27_FRED_API_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_fred_api_component_source"
 V27_READINESS_MODULE: Final[str] = "market_lab.futures.v27_forward_component_readiness_v2"
+OPTION_QUALITY_MODULE: Final[str] = (
+    "market_lab.futures.moex_forward_option_surface_quality_v1"
+)
 V27_PROBE_URL: Final[str] = (
     "https://iss.moex.com/iss/engines/futures/markets/forts/"
     "securities.json?assets=Si&iss.meta=off&iss.only=marketdata"
@@ -198,9 +201,31 @@ def _probe_unique_date(spec: dict[str, Any]) -> str:
     return source_date
 
 
-def _run_direct(job: DirectJob, storage_root: Path) -> None:
+def _captured_directory(stdout: str, expected_root: Path) -> Path:
+    lines = [line.strip() for line in stdout.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError("direct collector did not report its snapshot directory")
+    snapshot = Path(lines[-1]).resolve()
+    root = expected_root.resolve()
+    if not snapshot.is_dir() or root not in snapshot.parents:
+        raise RuntimeError(f"collector reported an invalid snapshot directory: {snapshot}")
+    return snapshot
+
+
+def _run_direct(job_name: str, job: DirectJob, storage_root: Path) -> None:
     output = _output_root(storage_root, job.output_name)
-    _run_module(job.module, "--output-root", str(output))
+    stdout = _run_module(job.module, "--output-root", str(output))
+    if job_name != "option-surface":
+        return
+    snapshot = _captured_directory(stdout, output)
+    quality_output = _output_root(storage_root, "moex-options-surface-v2-quality-v1")
+    _run_module(
+        OPTION_QUALITY_MODULE,
+        "--snapshot",
+        str(snapshot),
+        "--output-root",
+        str(quality_output),
+    )
 
 
 def _run_staged(spec: tuple[str, str, str], storage_root: Path) -> None:
@@ -310,7 +335,7 @@ def _run_v27(job_name: str, storage_root: Path) -> None:
 
 def run_job(job_name: str, storage_root: Path) -> None:
     if job_name in DIRECT_JOBS:
-        _run_direct(DIRECT_JOBS[job_name], storage_root)
+        _run_direct(job_name, DIRECT_JOBS[job_name], storage_root)
     elif job_name in STAGED_JOBS:
         _run_staged(STAGED_JOBS[job_name], storage_root)
     elif job_name in PROBED_JOBS:
