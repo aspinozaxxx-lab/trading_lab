@@ -37,6 +37,10 @@ DIRECT_JOBS: Final[dict[str, DirectJob]] = {
         "market_lab.futures.moex_forward_broad_stock_futures_carry_source_v2",
         "moex-broad-stock-futures-carry-v2-delayed",
     ),
+    "option-surface": DirectJob(
+        "market_lab.futures.moex_forward_option_surface_source",
+        "moex-options-surface-v1",
+    ),
 }
 
 STAGED_JOBS: Final[dict[str, tuple[str, str, str]]] = {
@@ -96,17 +100,6 @@ PROBED_JOBS: Final[dict[str, dict[str, Any]]] = {
         "table": "staticparams",
         "date_column": "tradedate",
         "manifest_path": ("risk_source_date",),
-    },
-    "option-surface": {
-        "module": "market_lab.futures.moex_forward_option_surface_source",
-        "output_name": "moex-options-surface-v1",
-        "url": (
-            "https://iss.moex.com/iss/engines/futures/markets/options/"
-            "securities.json?assets=Si&iss.meta=off&iss.only=marketdata"
-        ),
-        "table": "marketdata",
-        "date_column": "TRADE_SESSION_DATE",
-        "manifest_path": ("counts", "source_dates"),
     },
 }
 

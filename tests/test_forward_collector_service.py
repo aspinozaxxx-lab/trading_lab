@@ -107,6 +107,36 @@ def test_matching_snapshot_audits_before_accepting(
     assert audited == [("test.module", snapshot)]
 
 
+def test_option_surface_is_direct_and_never_deduplicated_by_source_date(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    calls: list[tuple[str, ...]] = []
+    monkeypatch.setattr(
+        subject,
+        "_run_module",
+        lambda module, *arguments, **kwargs: calls.append((module, *arguments)) or "",
+    )
+
+    subject.run_job("option-surface", tmp_path)
+    subject.run_job("option-surface", tmp_path)
+
+    expected_output = str(
+        (tmp_path / "data" / "forward" / "moex-options-surface-v1").resolve()
+    )
+    assert calls == [
+        (
+            "market_lab.futures.moex_forward_option_surface_source",
+            "--output-root",
+            expected_output,
+        ),
+        (
+            "market_lab.futures.moex_forward_option_surface_source",
+            "--output-root",
+            expected_output,
+        ),
+    ]
+
+
 def test_v27_uses_authenticated_route_only_when_key_is_valid(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
