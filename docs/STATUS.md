@@ -1128,7 +1128,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    фактическая комиссия и margin calls.
 3. Начать forward-only snapshot потока `CNYRUBF`/ближайших CR после отдельного seal;
    сохранять bid/ask, `SWAPRATE`, specs/IM и retrieval time. Historical 2026 backfill
-   запрещён. До заранее заданного paper периода PnL не считать.
+   запрещён. Source SHA `1305af9d...`, collector `13371f2`, readiness `7abf796` уже
+   pushed. Task `TradingLabForwardCnyRelativeValue` имеет status `Ready`, следующий
+   запуск `2026-09-02 18:30`, затем Mon–Fri. Сейчас 0/40 discovery, 0/20 calibration,
+   0/60 unseen evaluation; до заранее заданного paper периода PnL не считать.
 4. Автоматический option-surface collector оставить активным: сейчас 1/60 discovery,
    затем 20 calibration и 40 unseen evaluation; naked short options запрещены.
 

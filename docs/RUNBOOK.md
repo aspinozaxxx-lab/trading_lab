@@ -1132,6 +1132,23 @@ CNY perpetual source и исправленный economic run:
 trades. V1 economic run с suffix `5b2d6be7` не удалять, но его numeric GO invalid из-за
 point-value error. V1/V2 повторно не запускать и historical thresholds не менять.
 
+Forward CNY quotes/funding collector:
+
+```powershell
+.\scripts\register_forward_cny_relative_value_task.ps1
+.\scripts\collect_forward_cny_relative_value.ps1
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_cny_relative_value_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-cny-relative-value-v1
+```
+
+Task `TradingLabForwardCnyRelativeValue` запускается Mon–Fri 18:30 мск. Wrapper до
+записи отклоняет/пропускает уже сохранённую quote date, collector запрещает любую дату
+до `2026-09-02`, архивирует raw current responses и только post-seal history
+`CNYRUBF`. Первый economic seal запрещён до 40 audited unique dates; затем нужны 20
+calibration и 60 unseen evaluation. Collateral yield нельзя добавлять без отдельного
+byte-pinned broker rule/haircut protocol.
+
 ### Forward equity TradeStats/OrderStats/OBStats
 
 Collector требует ALGOPACK token: public fallback намеренно отсутствует, потому что

@@ -56,6 +56,11 @@
   pair yield was `13,8903%` with RUONIA `20,85%`; all entries failed the hurdle.
 - Verdict `NO_GO`. Do not tune threshold/date/direction on 2023–2025. A collateralized
   version requires independently proven yield/haircut rules and forward confirmation.
+- Forward source SHA `1305af9d...` и code `13371f2` были pushed до первого post-seal
+  quote. Он детерминированно сохраняет exact `CNYRUBF` и два ближайших CR, public
+  bid/offer, current IM/spec/fees, actual retrieval и funding history только начиная с
+  `2026-09-02`; return/target/PnL отсутствуют. Readiness `7abf796` требует последовательные
+  40 discovery + 20 calibration + 60 unseen evaluation дат. На момент записи 0/120.
 
 Этот файл фиксирует научную память проекта. `Canonical` означает выбранный для аудита
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны

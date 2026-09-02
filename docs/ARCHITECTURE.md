@@ -790,6 +790,15 @@ spread и commissions умножаются на contract point value 1 000, а f
 MOEX остаётся `SWAPRATE × lot`. V2 identity pin-ит correction, parent implementation,
 ledger и все source hashes; corrected canonical verdict `NO_GO`.
 
+### `market_lab.futures.moex_forward_cny_relative_value_source`
+
+Forward-only collector после seal `2026-09-02`. На actual retrieval он выбирает exact
+`CNYRUBF` и детерминированно два ближайших quarterly `CR[HMUZ][0-9]`, сохраняет
+bid/offer, IM, lot/spec/fees, exchange timestamp и историю `SWAPRATE`, но не вычисляет
+signal/return/PnL. Каждый snapshot immutable и raw-replayable. Read-only
+`forward_cny_relative_value_readiness` считает только полностью audited unique quote
+dates по фазам 40/20/60; scheduler запускается в 18:30 мск по будням.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

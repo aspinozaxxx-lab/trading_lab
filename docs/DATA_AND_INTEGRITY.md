@@ -390,8 +390,17 @@ CNY economic run metrics `f1da93e6...`, identity `252fee8b...`, audit `da712d33.
 artifact manifest `fc96b608...`; no protected rows and no execution failures.
 
 Perpetual V1 output отсутствует: exact requested range дал cursor 937, а config ожидал
-764 от более позднего probe start. V2 config SHA `9dbf7e77...` фиксирует только эту
-разницу; до V2 implementation push запрещено читать price/SWAPRATE values.
+764 от более позднего probe start. V2 source immutable: manifest `1664a012...`, Parquet
+`3b1ee181...`, 937 rows, audit 33/33. Economic V1 output сохранён как INVALID из-за
+point-value units; только unit-corrected V2 SHA `6a0a7cbe...` является допустимым
+economic evidence и имеет verdict `NO_GO`.
+
+Forward CNY source физически отделён в
+`data/forward/moex-cny-relative-value-v1/`. Ни один snapshot не может иметь quote date
+раньше seal `2026-09-02`; funding history также обрезается этой датой и всегда строго
+предшествует retrieval Moscow date. Каждый каталог хранит gzip raw current/history,
+quotes/funding Parquet, manifest и replay audit. Старые experiments не могут читать этот
+path; readiness считает только audited unique dates и не вычисляет PnL.
 
 ## Protocol seals
 

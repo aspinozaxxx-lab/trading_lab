@@ -55,6 +55,13 @@ RUONIA. Следующая новая информация для этой ве�
 collateral, haircut/IM и forward bid/ask/funding snapshots, а не новый historical
 threshold по уже просмотренным 2023–2025 ставкам.
 
+Этот forward source уже реализован и запечатан: exact `CNYRUBF` + два ближайших CR,
+public-delayed quotes, current IM/spec/fee fields, actual retrieval и post-seal funding
+history. Task работает по будням в 18:30 мск; readiness требует 40/20/60 unique dates.
+Он не доказывает доход на collateral: для этого всё ещё нужен договор/тариф конкретного
+брокера с effective dates, haircut, допустимыми активами, VM debit и правом клиента на
+coupon/repo/money-market yield.
+
 ## Что уже есть
 
 ### MOEX calendar spreads — source complete, derived panel sealed
