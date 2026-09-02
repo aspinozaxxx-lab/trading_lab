@@ -883,6 +883,14 @@ TQBR/RFUD BID/OFFER и exchange clocks, не сохраняя basis или outco
 60/20/60 пар предназначен сначала для измерения доступности, задержки и качества
 двухсторонних котировок; он не заменяет broker order/fill log и cash-instrument terms.
 
+Для cash-instrument terms выбран отдельный проверяемый challenger — LQDT. Официальная
+карточка MOEX подтверждает ISIN `RU000A1014L8`/ПДУ №3915, материалы УК — CCP-repo
+money-market objective, а риск-сообщение MOEX/NCC от 13.07.2026 — отсутствие LQDT в
+расширенном списке обеспечения. Последний факт запрещает double-counting: пай только в
+idle sleeve и должен быть продан перед cash-carry. Source SHA `15fb471a...`, seal
+`8ae3dc3`; собираются только TQBR BID/OFFER/settlement/clocks. iNAV исключён до
+отдельного разрешения условий использования индексных данных.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и

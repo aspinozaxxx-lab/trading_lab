@@ -29,6 +29,8 @@
     отдельного разрешения пользователя.
 13. [Forward cash-carry protocol](docs/FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md) —
     синхронный BID/OFFER-контур для проверки исполнимости V41 stabilizing sleeve.
+14. [Forward LQDT idle-cash protocol](docs/FORWARD_LQDT_IDLE_CASH_PROTOCOL.md) —
+    проверка исполнимого доходного инструмента только для неактивного капитала V41.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

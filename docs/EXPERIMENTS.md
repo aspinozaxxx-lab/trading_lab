@@ -1,5 +1,18 @@
 ﻿# Реестр экспериментов
 
+## Forward LQDT idle-cash source V1 — SEALED, 0/60 discovery pairs
+
+- LQDT fixed before quotes: ISIN `RU000A1014L8`, fund rules №3915, TQBR. Official
+  manager material describes CCP-repo money-market objective; official MOEX/NCC notice
+  effective 2026-07-15 does not admit it to the expanded collateral list.
+- Therefore the frozen hypothesis is idle-only: LQDT units must be zero while the
+  corresponding stock-futures cash-carry sleeve is active. No collateral double count.
+- Config SHA `15fb471a...`, seal `8ae3dc3`, boundary `2026-09-02`. Decision/fill source
+  stores only BID/OFFER, lot/minstep, settlement, exchange/retrieval clocks and exact raw.
+  iNAV is excluded pending index-data rights; yield/return/signal/trade/PnL are forbidden.
+- Readiness 60 complete pairs + 20 calibration + 60 unseen evaluation. A later economic
+  seal must buy at OFFER, sell at BID and pin broker fees, taxes and settlement netting.
+
 ## Forward stock-futures cash-carry source V1 — SEALED, 0/60 discovery pairs
 
 - Config SHA `b25fe86c...`, seal `a193e0d`, boundary `2026-09-02`; historical backfill

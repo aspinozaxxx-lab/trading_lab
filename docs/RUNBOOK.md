@@ -1356,6 +1356,24 @@ wrapper только replay-аудирует и пропускает; повре
 60 unseen evaluation. Полный контракт:
 [FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md](FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md).
 
+Forward LQDT idle-cash execution evidence:
+
+```powershell
+.\scripts\register_forward_lqdt_idle_cash_tasks.ps1
+.\scripts\collect_forward_lqdt_idle_cash.ps1 -Stage decision
+.\scripts\collect_forward_lqdt_idle_cash.ps1 -Stage fill
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_lqdt_idle_cash_readiness `
+  --output-root `
+  D:\Projects\trading_lab_data\data\forward\moex-lqdt-idle-cash-v1
+```
+
+Tasks используют те же exact 15:49:00/15:59:00 МСК. Не запускать до stage time и не
+перезаписывать snapshot. LQDT нельзя учитывать одновременно как пай и как свободный
+cash/collateral; будущая продажа оценивается только по BID. iNAV LQDTM не собирать до
+разрешения вопроса о договоре на индексные данные. Полный контракт:
+[FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:

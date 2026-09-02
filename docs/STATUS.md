@@ -56,6 +56,20 @@ unseen evaluation; fill retrieval обязан быть позже decision. Д�
 экономика/PnL запрещены, до окончания unseen evaluation запрещена annualization.
 Подробности: [FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md](FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md).
 
+### Forward LQDT idle cash — SEALED, automation pending, 0/60 pairs
+
+Проверен конкретный механизм вместо условных 50% RUONIA. LQDT (`RU000A1014L8`, ПДУ
+№3915) — торгуемый на TQBR БПИФ денежного рынка; официальная цель — доход через РЕПО
+с ЦК. Однако сообщение MOEX/NCC с 15 июля 2026 не включает LQDT в расширенный список
+обеспечения. Поэтому допустимая гипотеза совпадает с V41: LQDT только в неактивном
+sleeve и ноль паёв во время stock-futures позиции, без двойного использования капитала.
+
+Source SHA `15fb471a...`, seal `8ae3dc3` предшествует official quote values. Два
+forward-only TQBR snapshot 15:49/15:59 сохраняют BID/OFFER, lot/minstep, settlement и
+clocks; iNAV LQDTM не собирается из-за нерешённых условий коммерческого использования
+индексных данных. Readiness 0/60 + 20 calibration + 60 unseen; paper yield/PnL пока
+запрещён. [FORWARD_LQDT_IDLE_CASH_PROTOCOL.md](FORWARD_LQDT_IDLE_CASH_PROTOCOL.md).
+
 ## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
 
 Единственный weight `80/20`, отсутствие rebalancing и scenario mapping были запечатаны
@@ -1410,6 +1424,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Anonymous ISS не доказывает latency, size, queue или fill.
 4. Параллельно получить byte-pinned broker fee/margin/order-log и конкретный
    cash/MMF/REPO instrument rule. Без них даже успешный quote-forward остаётся paper.
+5. LQDT выбран как отдельный idle-only challenger, source SHA `15fb471a...`, seal
+   `8ae3dc3`. Запустить tasks 15:49/15:59 и paired readiness; не считать его залогом,
+   не читать iNAV без подтверждения лицензии и не строить PnL до 60 пар.
 
 ### P0 — независимая forward-проверка V27
 
