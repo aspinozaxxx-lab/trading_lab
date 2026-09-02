@@ -1,0 +1,95 @@
+﻿protocol_id: futures_v44_v41_stock_breadth_governor_v1
+protocol_version: 1
+status: sealed_before_any_daily_stock_breadth_state_or_governed_nav_metric
+declared_at_utc: '2026-09-02T09:17:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A broad deterioration across all thirty stocks is a causal equity-risk state that
+  can reduce V41 drawdowns without adding leverage. On a state transition, move half
+  of the frozen V39 allocation into the already frozen cash-carry idle-RUONIA sleeve;
+  otherwise preserve holdings without daily rebalancing.
+
+parents:
+  v41:
+    root: runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128
+    protocol_sha256: 4541812897ee7356d7e64ba2ccf953e8ef8e1a16bcd4733d13b77f310507ca82
+    manifest: {file: manifest.json, sha256: 586e1b2dc58444a40aa649772f85b326616d7eca9bec54f85d01f830216ab591}
+    metrics: {file: metrics.json, sha256: 000ae99b090e5da5020d55074722a6995ab592a904053d889bd7e2b2fb7bfeb8}
+    ledger: {file: combined_ledger.parquet, sha256: 38bdd2cead83c152e80aa91a4aa4b09e205f84d0a9199a02b1b0b08d1c53e572, rows: 1272}
+  stocks:
+    root: data/processed/stocks_10m_pre2026_v1
+    manifest: {file: manifest.json, sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042, bytes: 15515, total_rows: 4527436}
+    loader: {file: src/market_lab/stocks/cross_sectional_intraday.py, sha256: f31e0b80b69bbb58ec93125ae3738782a143d82faa8153c0adf45ad5f267a230}
+    universe_source_config: {file: configs/stocks_v35_cross_sectional_intraday.yaml, sha256: 257422c0ce2824e3a12252f1759e01fdee29c321f11190bd3b09d9a2b4984388}
+    exact_tickers: 30
+    fixed_current_universe_survivorship_disclosure: true
+
+breadth:
+  daily_close: final_exact_common_ten_minute_bar_close_per_Moscow_session
+  return_lookback_sessions: 63
+  inherited_horizon_reason: V39_already_freezes_63_session_horizon
+  asset_state: close_t_divided_by_close_t_minus_63_minus_one_strictly_positive
+  breadth_fraction: positive_asset_states_divided_by_exact_30
+  minimum_available_assets: 30
+  risk_off_if_strictly_below: 0.3333333333333333
+  threshold_reason: at_least_two_thirds_of_stocks_nonpositive
+  signal_available_after_final_bar_close: true
+  applied_to_first_strictly_later_V41_session: true
+  missing_or_warmup_state: preserve_previous_state_initial_normal
+  no_threshold_lookback_or_sign_search: true
+
+allocation:
+  normal: {v39: 0.80, cash_carry_ruonia: 0.20}
+  risk_off: {v39: 0.40, cash_carry_ruonia: 0.60}
+  rebalance_only_on_state_transition: true
+  no_rebalance_while_state_unchanged: true
+  initial_state: normal
+  leverage_added: false
+  component_signals_trades_costs_and_navs_unchanged: true
+
+scenarios:
+  primary:
+    v41_component_columns: [v39_primary_nav, cash_carry_ruonia_primary_nav]
+    benchmark: primary
+    one_way_cost_per_component_bps: 5.0
+  doubled:
+    v41_component_columns: [v39_doubled_nav, cash_carry_ruonia_doubled_nav]
+    benchmark: doubled
+    one_way_cost_per_component_bps: 10.0
+  stress:
+    v41_component_columns: [v39_stress_nav, cash_carry_ruonia_stress_nav]
+    benchmark: stress
+    one_way_cost_per_component_bps: 20.0
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  same_history_adaptive_evidence_not_independent_holdout: true
+
+required_gates:
+  all_scenario_CAGR_gte: 0.20
+  all_scenario_Sharpe_gte_V41: true
+  all_scenario_MDD_strictly_better_than_V41: true
+  all_scenario_worst_year_gte_V41: true
+  primary_positive_years_gte: 5
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v44_v41_stock_breadth_governor_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, daily_ledger.parquet, breadth_states.parquet]
+
+post_outcome_rules:
+  change_lookback_threshold_scale_cost_or_sign_on_same_history: forbidden
+  select_subset_of_stocks_or_years: forbidden
+  failed_result_action: forward_breadth_or_new_information_only
+
+limitations:
+  - The fixed current thirty-stock universe has survivorship bias and is not PIT constituents.
+  - Stock candles are current-vintage and do not prove historical close-auction execution.
+  - Reallocation is a normalized portfolio proxy without integer sizing or broker margin rules.
+  - V41 and stock breadth overlap the same development history; this is not independent confirmation.
+  - Historical evidence cannot guarantee profit or authorize live trading.
