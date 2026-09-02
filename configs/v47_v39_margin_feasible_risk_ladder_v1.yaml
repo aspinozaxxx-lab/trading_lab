@@ -1,0 +1,122 @@
+﻿protocol_id: futures_v47_v39_margin_feasible_risk_ladder_v1
+protocol_version: 1
+status: sealed_after_margin_only_feasibility_before_any_scaled_return_or_metric
+declared_at_utc: '2026-09-02T10:10:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Scaling only frozen V39 market PnL within factual prior-session margin headroom can
+  move the historical return frontier toward 50% without borrowing cash or changing
+  any signal. A lower stability mode may retain broad carry, while an aggressive mode
+  reserves all non-margin cash as collateral. Both modes and all stresses are reported;
+  no mode is selected after outcomes.
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    primary: {file: combined_ledger_primary.parquet, sha256: 1820996ba32b3ef2c313cf9d2fbcffb40eff3f7869a72db042814313c1908976, rows: 1272}
+    doubled: {file: combined_ledger_doubled.parquet, sha256: 5a4751ce2d7d6c2b32dd27d4cf2044a35159291a191042757c75355d0019a616, rows: 1272}
+    stress: {file: combined_ledger_stress.parquet, sha256: da088adc061786ab2d5b43858dbeeef2af4c007c9849e538e207da937bd26561, rows: 1272}
+  broad_carry:
+    root: runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172
+    protocol_sha256: e5d91172a7b78fa25cabe2568d09c33975d472896c40b871e3d33ff6f071907c
+    manifest: {file: manifest.json, sha256: 9fa21e58187a55a0367cf09142f6b91fa7a444314a04e72c539d256342c5227e}
+    ledger: {file: daily_ledger.parquet, sha256: d04539a419e72ce4a506d8db8c1c187bae89eed3642dfbe2648117df5fafa955, rows: 1827}
+    audit: {file: audit.json, sha256: 4fbad76d8506b57a3e8bfea9bcc8d4381e997fe8c80ed8fffc1df3190d773e2f}
+
+margin_only_feasibility_probe:
+  return_or_scaled_nav_computed: false
+  source: strictly_prior_modeled_initial_margin_div_combined_ending_equity
+  maximum_prior_margin_fraction:
+    primary: 0.5088963076144744
+    doubled: 0.5023477777069953
+    stress: 0.5031023488200274
+  margin_stress_multiplier: 1.25
+  stability_max_committed_fraction_under_margin_stress: 0.8997324229699022
+  frontier_max_committed_fraction_under_margin_stress: 0.9541805767771394
+
+modes:
+  stability:
+    v39_market_pnl_scale: 1.10
+    broad_carry_cash_fraction: 0.20
+    minimum_stressed_free_cash_fraction: 0.10
+  frontier:
+    v39_market_pnl_scale: 1.50
+    broad_carry_cash_fraction: 0.00
+    minimum_stressed_free_cash_fraction: 0.04
+  select_mode_after_outcome: false
+  signal_target_or_contract_change: none
+
+accounting:
+  initial_nav_rub: 1000000.0
+  v39_market_pnl: ending_cash_minus_starting_cash_excludes_original_collateral_interest
+  market_return_denominator: prior_parent_combined_ending_equity
+  free_cash_fraction: 1_minus_scaled_strictly_prior_margin_fraction_minus_carry_cash_fraction
+  collateral_return: free_cash_fraction_times_half_ruonia_daily_return
+  carry_return: fixed_cash_fraction_times_frozen_active_cap_daily_return
+  total_daily_return: scaled_market_return_plus_collateral_return_plus_carry_return
+  compound_daily: true
+  borrowing_forbidden: true
+  negative_free_cash_invalidates_mode_scenario: true
+  original_v39_collateral_interest_not_double_counted: true
+  carry_half_ruonia_income_not_double_counted_outside_carry_block: true
+
+scenarios:
+  primary:
+    v39: primary
+    carry_column: overlay_active_cap_primary_nav
+    margin_multiplier: 1.00
+  doubled:
+    v39: doubled
+    carry_column: overlay_active_cap_doubled_nav
+    margin_multiplier: 1.00
+  stress:
+    v39: stress
+    carry_column: overlay_active_cap_zero_cashflow_stress_nav
+    margin_multiplier: 1.25
+  execution_stress:
+    v39: stress
+    carry_column: overlay_active_cap_delayed_fill_stress_nav
+    margin_multiplier: 1.25
+
+dates:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  annualization_sessions: 252
+
+gates:
+  stability:
+    all_scenario_cagr_gte: 0.20
+    all_scenario_sharpe_gte: 1.20
+    all_scenario_mdd_lte: 0.25
+    all_scenario_worst_year_gte: -0.05
+    primary_positive_years_gte: 5
+    minimum_stressed_free_cash_fraction_gte: 0.10
+  frontier:
+    primary_cagr_gte: 0.40
+    all_scenario_cagr_gte: 0.35
+    all_scenario_sharpe_gte: 1.00
+    all_scenario_mdd_lte: 0.35
+    all_scenario_worst_year_gte: -0.10
+    primary_positive_years_gte: 4
+    minimum_stressed_free_cash_fraction_gte: 0.04
+  aspirational_primary_cagr_report_level: 0.45
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v47_v39_margin_feasible_risk_ladder_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet]
+
+limitations:
+  - Scaling a known same-history winner is risk engineering, not independent alpha.
+  - Modeled margin is not a broker guarantee and can jump beyond the 25% stress.
+  - Daily proportional scaling is a normalized proxy; integer contract sizing is not replayed.
+  - Public carry execution and the realizable collateral instrument remain unproved.
+  - Historical results cannot guarantee profit or authorize live trading.
