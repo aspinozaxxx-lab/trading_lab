@@ -58,6 +58,12 @@ NAV. R2 SHA `02a61505...`, seal `ab9b44a` исправил только моме
 post-result same-history robustness: он не выбирает фонд, не подтверждает execution и
 не повышает V41 до live. Verdict `ROBUST_TO_DECLARED_IDLE_COST_STRESSES`.
 
+Проверка реализации: scoped ruff clean, 13 related tests passed. Полный suite через
+`.venv`: `1128 passed, 7 skipped`; два прежних V8 context failures остались только
+из-за отсутствующего external `data/processed/futures_v8/manifest_8c26216529a9b73b.json`.
+Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
+нарушений вне V42; они не исправлялись в этом эксперименте.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.
