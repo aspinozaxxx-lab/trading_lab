@@ -64,7 +64,7 @@ post-result same-history robustness: он не выбирает фонд, не �
 Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
 нарушений вне V42; они не исправлялись в этом эксперименте.
 
-### Forward cross-market BBO — SEALED, task READY, 0/20 discovery sessions
+### Forward cross-market BBO V1 — FIRST SNAPSHOT AUDITED, depth unavailable, task paused
 
 Открыт новый forward-only путь вместо дальнейшего same-history leverage tuning.
 Config SHA `80d5202d...`, seal `95ca5b3` зафиксировал до первого значения 30 TQBR
@@ -95,7 +95,17 @@ Scoped Ruff clean, source/replay/readiness tests `6/6`. Полная регре�
 external `data/processed/futures_v8/manifest_8c26216529a9b73b.json`. Подробности:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
 
-### Broad 30-stock futures cash-carry — SEALED, task READY, 0/20 discovery sessions
+Первый scheduled snapshot `2026-09-02 10:09` сохранён immutable: 39 rows, 4 raw
+responses, raw SHA `12313e19...`, normalized SHA `c3206543...`, audit `15/15 true`.
+Он честно `invalid_core`: anonymous ISS вернул positive two-sided BBO для `38/39`,
+но `BIDDEPTH/OFFERDEPTH` пусты у всех 39; aggregate equity depth присутствует у 34,
+aggregate futures depth отсутствует. `CNYRUB_TOM` в этом срезе не имел two-sided BBO.
+`UPDATETIME` отстаёт от retrieval/SYSTIME примерно на 15 минут, поэтому anonymous
+source не годится для realtime 10m timing. Task V1 disabled в `10:12`, snapshot не
+переписывать. Следующий допустимый V2 должен считать BBO completeness отдельно,
+оставлять depth unresolved и не называться realtime без AlgoPack/broker entitlement.
+
+### Broad 30-stock futures cash-carry V1 — FIRST SNAPSHOT AUDITED, depth unavailable
 
 Metadata-only probe без quotes/PnL подтвердил matching active RFUD futures для всех
 `30/30` акций фиксированного V35 universe. Все выбранные 30–120 DTE контракты имеют
@@ -117,6 +127,14 @@ Collector `5266903` делает series + filtered TQBR + filtered RFUD, про�
 calibration и 60 unseen sessions. Это прямой путь увеличить частоту стабильного
 fully-funded sleeve с 5 до 30 активов, но metadata coverage ещё не прибыль и не live.
 [FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
+
+Первый scheduled snapshot `2026-09-02 10:09` сохранил 30/30 exact pairs и три raw
+responses; raw SHA `487fc1c5...`, pairs SHA `4d831ef4...`, audit `15/15 true`.
+Все 30 spot/futures pairs имеют two-sided BBO, exact units и clocks, но V1 status
+`invalid_pairs`: best depth отсутствует у обеих ног, aggregate depth есть для 30 spot
+и отсутствует для 30 futures. Это entitlement limitation, не parser/schema failure.
+Task V1 disabled в `10:12`; отдельный V2 может копить delayed executable-side quotes,
+но размер/queue/fill останутся unresolved до broker/AlgoPack evidence.
 
 ### Дополнительный source screen — funding curve ограничена лицензией, calendar breadth узкий
 
@@ -425,6 +443,12 @@ partial current week не считается завершённой. Сейча�
 0/504 unseen evaluation. До завершения warmup PnL запрещён; до 504 evaluation sessions
 никакая короткая annualization не является доказательством 20–50%. Полный порядок:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
+
+Первый execution run `2026-09-02 10:05` и ручной retry не создали snapshot: официальный
+FRED STLFSI4 endpoint трижды дал 30-second read timeout. Market/CBR bytes не были
+частично опубликованы, cache/zero substitution запрещены, readiness остаётся 0.
+Transport-only retry `1s/2s` добавлен без изменения economics; 6 scoped tests и Ruff
+clean. Следующий scheduled day попробует снова, а отсутствие даты останется explicit.
 
 Отдельный operational blocker: hard fallback ролла требует official future-session
 calendar MOEX. Endpoint найден, но без `MOEX_ALGOPACK_TOKEN` возвращает HTML. Generic

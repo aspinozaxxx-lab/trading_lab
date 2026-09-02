@@ -8,6 +8,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 import pandas as pd
+import requests
 
 from market_lab.futures import moex_v27_forward_validation_source as source
 
@@ -179,6 +180,31 @@ class _Session:
         assert headers["SOAPAction"] == "http://web.cbr.ru/KeyRateXML"
         assert timeout == 30.0
         return _Response(_key_rate_xml(), "text/xml")
+
+
+class _TransientGetSession(_Session):
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def get(
+        self, url: str, *, headers: Mapping[str, str], timeout: float
+    ) -> _Response:
+        self.calls += 1
+        if self.calls < 3:
+            raise requests.ReadTimeout("synthetic transient timeout")
+        return _Response(b"ok")
+
+
+def test_transient_http_get_retries_three_times(monkeypatch) -> None:
+    session = _TransientGetSession()
+    sleeps: list[int] = []
+    monkeypatch.setattr(source.time, "sleep", sleeps.append)
+
+    response = source._get_with_retries(session, "https://example.test")
+
+    assert response.content == b"ok"
+    assert session.calls == 3
+    assert sleeps == [1, 2]
 
 
 def test_config_seals_byte_identical_v27_and_long_forward_window() -> None:

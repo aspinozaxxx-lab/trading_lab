@@ -9,6 +9,7 @@ import hashlib
 import json
 import shutil
 import tempfile
+import time
 from collections.abc import Mapping
 from datetime import date, datetime, timedelta
 from io import StringIO
@@ -95,6 +96,41 @@ class SessionLike(Protocol):
     def get(
         self, url: str, *, headers: Mapping[str, str], timeout: float
     ) -> ResponseLike: ...
+
+
+def _get_with_retries(
+    client: SessionLike, url: str, *, attempts: int = 3
+) -> ResponseLike:
+    if attempts <= 0:
+        raise ValueError("V27 HTTP attempts must be positive")
+    for attempt in range(attempts):
+        try:
+            return client.get(url, headers={"User-Agent": USER_AGENT}, timeout=30.0)
+        except requests.RequestException:
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(2**attempt)
+    raise AssertionError("unreachable V27 GET retry state")
+
+
+def _post_with_retries(
+    client: SessionLike,
+    url: str,
+    *,
+    data: bytes,
+    headers: Mapping[str, str],
+    attempts: int = 3,
+) -> ResponseLike:
+    if attempts <= 0:
+        raise ValueError("V27 HTTP attempts must be positive")
+    for attempt in range(attempts):
+        try:
+            return client.post(url, data=data, headers=headers, timeout=30.0)
+        except requests.RequestException:
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(2**attempt)
+    raise AssertionError("unreachable V27 POST retry state")
 
     def post(
         self,
@@ -458,11 +494,7 @@ def collect(
     market_raw: dict[str, bytes] = {}
     market_frames = []
     for logical_asset in config["frozen_economics"]["universe"]:
-        response = client.get(
-            market_url(config, logical_asset),
-            headers={"User-Agent": USER_AGENT},
-            timeout=30.0,
-        )
+        response = _get_with_retries(client, market_url(config, logical_asset))
         response.raise_for_status()
         market_raw[logical_asset] = bytes(response.content)
         market_frames.append(
@@ -484,7 +516,7 @@ def collect(
         for row in current_market.itertuples(index=False):
             source_date = pd.Timestamp(row.source_date)
             url = history_url(config, str(row.secid), source_date)
-            response = client.get(url, headers={"User-Agent": USER_AGENT}, timeout=30.0)
+            response = _get_with_retries(client, url)
             response.raise_for_status()
             identity = (
                 str(row.logical_asset),
@@ -507,17 +539,14 @@ def collect(
     market = attach_official_history(current_market, history_frames, snapshot_kind)
 
     start, end = macro_bounds(retrieval)
-    fred_response = client.get(
-        fred_url(retrieval), headers={"User-Agent": USER_AGENT}, timeout=30.0
-    )
+    fred_response = _get_with_retries(client, fred_url(retrieval))
     fred_response.raise_for_status()
     ruonia_url = info_radar.build_cbr_ruonia_url(start, end)
-    ruonia_response = client.get(
-        ruonia_url, headers={"User-Agent": USER_AGENT}, timeout=30.0
-    )
+    ruonia_response = _get_with_retries(client, ruonia_url)
     ruonia_response.raise_for_status()
     key_body = info_radar.build_cbr_key_rate_soap(start, end)
-    key_response = client.post(
+    key_response = _post_with_retries(
+        client,
         info_radar.CBR_DAILY_INFO_ENDPOINT,
         data=key_body,
         headers={
@@ -525,7 +554,6 @@ def collect(
             "Content-Type": "text/xml; charset=utf-8",
             "SOAPAction": "http://web.cbr.ru/KeyRateXML",
         },
-        timeout=30.0,
     )
     key_response.raise_for_status()
     raw_macro = {

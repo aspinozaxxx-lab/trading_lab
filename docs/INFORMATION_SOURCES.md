@@ -765,6 +765,13 @@ cash-carry intraday bundle с 61 до 339 контрактов. Protocol SHA `6b
 запечатан до свечей; будущая экономика обязана сохранить V1 threshold/DTE/time/haircut/
 costs и менять только universe breadth.
 
+Первый immutable public-ISS snapshot `2026-09-02 10:09` показал фактическую границу
+anonymous доступа: BBO есть у 38/39 cross instruments и у всех 30 stock/futures pairs,
+но best depth пуст у всех ног, aggregate futures depth тоже пуст, а quote `UPDATETIME`
+отстаёт примерно на 15 минут. Raw replay обеих source families exact. Поэтому public
+ISS допустим как delayed forward BBO, но не как realtime 10m microstructure source;
+для текущего timing и size нужны authorized AlgoPack или broker market-data/order logs.
+
 Самый полезный следующий слой — не ещё один пересмотр historical threshold, а
 timestamped forward microstructure collector:
 

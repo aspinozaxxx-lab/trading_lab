@@ -24,6 +24,10 @@
 - Tests and raw replay `5/5`; readiness/task commit `4d1cf7a`. Task is Ready, Mon–Fri
   10:09, PT10M for PT8H31M. Discovery requires 20 sessions × at least 30 complete
   snapshots, then separate seal, 20 calibration and 60 unseen sessions. Live false.
+- First 10:09 snapshot is immutable and replay-valid but status `invalid_pairs`:
+  30/30 pairs have two-sided BBO/units/clocks, while anonymous ISS supplies no best
+  depth and no aggregate futures depth. V1 task was paused after this source finding;
+  raw SHA `487fc1c5...`, pairs SHA `4d831ef4...`.
 
 ## Forward cross-market BBO V1 — SEALED, 0/20 discovery sessions
 
@@ -47,6 +51,10 @@
 - Task `TradingLabForwardCrossMarketBBO10m` is `Ready`; exact Scheduler definition is
   Mon–Fri 10:09, repetition PT10M for PT8H31M. Source/replay/readiness tests `6/6`;
   full suite `1134 passed, 7 skipped` plus the same two missing-external-V8 failures.
+- First 10:09 snapshot replayed exactly (`15/15`) but is `invalid_core`: 38/39
+  two-sided BBO, 0/39 best depth and about 15-minute anonymous delay. V1 task was
+  paused; raw SHA `12313e19...`, normalized SHA `c3206543...`. This rules out calling
+  public ISS a realtime neural-timing feed.
 
 ## V42R2 V41 idle-fund cost stress — ROBUST ABOVE 20%, diagnostic only
 
@@ -311,6 +319,10 @@
   zero critical/unresolved и observed-quote paper profit.
 - Даже numeric GO не разрешает live: требуется второй unseen period и broker-exact
   collateral/margin/fees/order audit.
+- First 2026-09-02 execution attempt produced no snapshot because the official FRED
+  STLFSI4 response timed out for all three 30-second attempts. No cache or zero was
+  substituted. A transport-only 1s/2s retry was added; economics and readiness remain
+  unchanged at zero.
 
 ## MOEX RMS risk/cashflow forward source — ACTIVE, 0/60 discovery
 
