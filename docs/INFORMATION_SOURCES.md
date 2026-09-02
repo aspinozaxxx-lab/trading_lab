@@ -928,6 +928,23 @@ RUONIA использована в V15/V26/V27; key rate — в V27. Причи�
 
 ## Следующая проверяемая гипотеза
 
+Official MOEX discovery after V53 identified a new independent fixed-income return
+route. MOEX documents deliverable futures on baskets of 2/4/6/10-year government
+bonds and archived calendar spreads; ISS identity-only probes found quarterly RGBI
+contracts `RBM2..RBZ5` plus current `RGBIF`. The RGBI contract was launched on
+`2022-02-28`, so it can support only 2022–2025 development and must not be described as
+a five-year holdout. Official roots:
+
+- `https://www.moex.com/a1368` — OFZ basket futures and maturity buckets;
+- `https://www.moex.com/n41303` — RGBI futures launch and contract mechanics;
+- `https://www.moex.com/en/derivatives/spreads/spreads_parameters.aspx` — archived
+  exchange calendar spreads;
+- `https://www.moex.com/a1506` — dated basket constituents and conversion ratios.
+
+Next action is source-only V54: freeze RB/RGBIF identities, daily history schema,
+contract specs and protected date ceiling before reading prices or returns. Old
+O2/O4/O6 series stop around 2022 and cannot be forward-filled or treated as live.
+
 Covered stock–futures source теперь готов: 485 141 синхронизируемых 10m futures candles,
 61 exact specs (`LOTSIZE=100`) и pinned RMS PIT cashflow. Economic V1 дал низкий CAGR,
 но высокий Sharpe и 14/15 прибыльных trades даже в zero-cashflow doubled-cost stress.

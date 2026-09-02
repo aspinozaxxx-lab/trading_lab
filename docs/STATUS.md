@@ -57,6 +57,28 @@ Source остаётся неизменяемой основой. Первый ec
 повторный carry/roll-down parameter search на 2021–2025 запрещён. Подробности — в
 `docs/MOEX_OFZ_SOURCE.md`. Live trading запрещён.
 
+## V53R1 OFZ curve governor — NO-GO, 25.96–28.59% CAGR
+
+V53 config SHA `838ee791...`, implementation commit `c428a76`, SHA `a9cdfc4d...`
+запечатал один sign-only state до curve/V49 join: liquid SU262 `2–4y` против `5–7y`,
+inverted factor `1.25`, normal `0.75`, missing `0`. Первый output имел exact state и
+ledger replay, но audit false из-за `numpy.bool_ -> "True"`. R1 SHA `61c18f55...`,
+commit `870ae4a`, corrected engine `94897e75...` изменил только builtin-bool cast.
+
+Canonical run `runs/v53r1_ofz_curve_v49_governor_20260902T173750Z_61c18f55/`:
+
+- states inverted/normal/missing `20/37/3`, valid months `57/60`, V49 coverage `96.93%`;
+- primary/doubled/stress CAGR `28.5942%/28.0275%/25.9556%`;
+- Sharpe `1.078/1.053/1.011`, MDD `25.49%/26.08%/27.09%`;
+- primary и all-scenario CAGR/Sharpe gates false, 50% false; verdict `NO_GO`;
+- external replay `all_true=true`; manifest/metrics/audit SHA
+  `796c4aba.../97468194.../0f1190c9...`.
+
+Governor уничтожил значительную часть frozen V49 edge и не улучшил predictability.
+Не инвертировать sign, не менять buckets/liquidity и factors `1.25/0.75` на этой
+истории. Следующий independent mechanism — собственная торговая доходность RGBI/OFZ
+futures, не ещё один governor V49.
+
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
 
 V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
@@ -2018,17 +2040,18 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V53 presealed OFZ curve-state mechanism
+### P0 — V54 official RGBI/OFZ futures independent return engine
 
-1. V52R2 завершён `NO_GO`; не менять его maturity/liquidity/top-3/weight/costs и не
-   выбирать лучший OFZ по уже увиденной доходности.
-2. Разрешён только принципиально иной target на том же новом source: до просмотра
-   зависимости с V49 запечатать один sign-only monthly curve state из liquid SU262
-   buckets `2–4y` и `5–7y`, без threshold/window sweep.
-3. Сначала source/state artifact без PnL и audit `available_at`; затем один frozen
-   defensive governor V49. Direction, scale, delay и gates фиксируются до join с V49.
-4. Любой normalized pass требует отдельного exact integer/cost/margin replay и forward
-   TQOB BBO. Использовать current-vintage bondization как predictor запрещено.
+1. V53R1 завершён `NO_GO`; его curve sign/buckets/factors не менять и не инвертировать.
+2. Official MOEX discovery подтвердил quarterly RGBI futures `RB*` с `2022` по `2025`,
+   current perpetual `RGBIF`, а также архивные deliverable baskets `O2/O4/O6` и
+   exchange calendar spreads. Сначала запечатать source-only identities/dates/schema;
+   prices, returns и PnL до source seal не читать.
+3. Предпочтительный новый target — собственный causal trend/basis return RGBI futures,
+   а не V49 governor. Contract roll, specs, settlement, volume and missing must be
+   explicit; discontinued O2/O4/O6 нельзя zero-fill после 2022.
+4. После audited source запечатать ровно одну strategy, exact next-OPEN/settlement,
+   integer lots, costs and margin. Никаких horizon/threshold/direction sweeps.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 

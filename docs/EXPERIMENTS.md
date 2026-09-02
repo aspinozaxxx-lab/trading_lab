@@ -21,6 +21,20 @@
   `116734b7.../14fce225.../b4a99d11...`. No 2026 market rows were used. Do not tune
   V52 on this history; next admissible use is a separately presealed curve-state target.
 
+## V53R1 OFZ curve-state V49 governor — NO-GO
+
+- V53 SHA `838ee791...`, commit `c428a76`, implementation `a9cdfc4d...` sealed one
+  curve sign and factors `1.25 inverted / 0.75 normal / 0 missing` before the join.
+- R1 SHA `61c18f55...`, commit `870ae4a`, engine `94897e75...` changed only a
+  `numpy.bool_` serialization cast; state, returns, metrics and gates were unchanged.
+- Canonical run `v53r1_ofz_curve_v49_governor_20260902T173750Z_61c18f55`: states
+  `20 inverted / 37 normal / 3 missing`, covered V49 sessions `96.9315%`.
+- Primary/doubled/stress CAGR `28.5942%/28.0275%/25.9556%`, Sharpe
+  `1.0782/1.0534/1.0105`, MDD `25.4890%/26.0840%/27.0928%`.
+- Verdict `NO_GO`; external replay `all_true=true`, manifest/metrics/audit SHA
+  `796c4aba.../97468194.../0f1190c9...`. Do not invert sign or change factors/buckets.
+  The next mechanism must generate its own return; official RGBI futures are queued.
+
 ## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED
 
 - V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the
