@@ -21,11 +21,11 @@ import requests
 import yaml
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v1.yaml"
-CONFIG_SHA256: Final[str] = "33a57278f9466f1d1fd04fef06d1a1c73b87c22126f951f8670208ffbab7a699"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/moex_rms_historical_pit_source_v2.yaml"
+CONFIG_SHA256: Final[str] = "09033a57ef154e229a721843a23d98cd5f6a6970c5b7f51a13e4bba2946c2516"
 MODULE_PATH: Final[Path] = Path(__file__).resolve()
 DEFAULT_OUTPUT_ROOT: Final[Path] = (
-    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v1"
+    PROJECT_ROOT / "data/processed/info_radar/moex-rms-historical-pit-2018-2025-v2"
 )
 USER_AGENT: Final[str] = "market-lab-moex-rms-pit/1.0 (research)"
 TABLES: Final[tuple[str, ...]] = ("limits", "staticparams", "cashflow")
@@ -73,10 +73,11 @@ def load_config() -> dict[str, Any]:
         raise ValueError("MOEX RMS historical config seal mismatch")
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
     if (
-        config.get("protocol_id") != "moex_rms_historical_pit_source_v1"
+        config.get("protocol_id") != "moex_rms_historical_pit_source_v2"
         or config.get("live_trading_allowed") is not False
         or config["objective"]["returns_targets_predictions_or_pnl_allowed"] is not False
         or str(config["temporal_boundary"]["protected_from"]) != "2026-01-01"
+        or config["correction"]["parent_output_created"] is not False
         or config["future_hypothesis_constraints"]["structural_margin_rule_threshold"]
         != "zero_change_only_not_percentile_fit"
     ):
@@ -119,8 +120,22 @@ def parse_page(
         raise ValueError(f"MOEX RMS historical {table} cursor invalid")
     if len(frame):
         dates = pd.to_datetime(frame["tradedate"], errors="raise").dt.date.unique()
-        if len(dates) != 1 or dates[0] != query_date:
-            raise ValueError(f"MOEX RMS historical {table} query/tradedate mismatch")
+        if len(dates) != 1:
+            raise ValueError(f"MOEX RMS historical {table} returned multiple dates")
+        returned_date = dates[0]
+        semantics = config["source"]["tables"][table]["date_semantics"]
+        if semantics == "exact_or_empty":
+            if returned_date != query_date:
+                raise ValueError(f"MOEX RMS historical {table} query/tradedate mismatch")
+        elif semantics == "latest_snapshot_as_of_query_date":
+            age = (query_date - returned_date).days
+            maximum_age = int(
+                config["source"]["tables"][table]["maximum_snapshot_age_calendar_days"]
+            )
+            if age < 0 or age > maximum_age:
+                raise ValueError(f"MOEX RMS historical {table} invalid as-of age")
+        else:
+            raise ValueError(f"MOEX RMS historical {table} unknown date semantics")
     return frame, index, total
 
 
@@ -156,6 +171,9 @@ def fetch_date(
         if index != start or (total is not None and page_total != total):
             raise ValueError(f"MOEX RMS historical {table} pagination drift")
         total = page_total
+        if len(frame):
+            frame = frame.copy()
+            frame["archive_query_date"] = pd.Timestamp(query_date)
         frames.append(frame)
         pages.append(
             {
@@ -197,10 +215,18 @@ def normalize_table(
 ) -> pd.DataFrame:
     required = config["source"]["tables"][table]["required_columns"]
     if frame.empty:
-        columns = list(required) + ["source_table", "available_at_utc", "retrieved_at_utc"]
+        columns = list(required) + [
+            "archive_query_date",
+            "source_table",
+            "available_at_utc",
+            "retrieved_at_utc",
+        ]
         return pd.DataFrame(columns=columns)
-    output = frame.loc[:, required].copy()
+    output = frame.loc[:, list(required) + ["archive_query_date"]].copy()
     output["tradedate"] = pd.to_datetime(output["tradedate"], errors="raise").dt.normalize()
+    output["archive_query_date"] = pd.to_datetime(
+        output["archive_query_date"], errors="raise"
+    ).dt.normalize()
     updates = pd.to_datetime(output["updatetime"], errors="raise").dt.tz_localize(
         MOSCOW_TIMEZONE, ambiguous="raise", nonexistent="raise"
     ).dt.tz_convert("UTC")
@@ -208,10 +234,28 @@ def normalize_table(
         raise ValueError("MOEX RMS historical tradedate crossed 2026")
     if updates.ge(pd.Timestamp("2026-01-01T00:00:00Z")).any():
         raise ValueError("MOEX RMS historical updatetime crossed 2026")
+    if output["archive_query_date"].ge(PROTECTED_FROM).any():
+        raise ValueError("MOEX RMS historical query date crossed 2026")
     output["source_table"] = table
     output["available_at_utc"] = updates
     output["retrieved_at_utc"] = retrieved_at.tz_convert("UTC")
     key = config["source"]["tables"][table]["unique_key"]
+    if table == "cashflow":
+        ages = (output["archive_query_date"] - output["tradedate"]).dt.days
+        maximum_age = int(
+            config["source"]["tables"][table]["maximum_snapshot_age_calendar_days"]
+        )
+        if ages.lt(0).any() or ages.gt(maximum_age).any():
+            raise ValueError("MOEX RMS historical cashflow escaped bounded as-of window")
+        comparison_columns = [column for column in required if column not in key]
+        revisions = output.groupby(key, dropna=False)[comparison_columns].nunique(
+            dropna=False
+        )
+        if revisions.gt(1).any().any():
+            raise ValueError("MOEX RMS historical cashflow retrospective revision")
+        output = output.sort_values("archive_query_date", kind="stable").drop_duplicates(
+            key, keep="first"
+        )
     if output.duplicated(key).any():
         raise ValueError(f"duplicate MOEX RMS historical {table} key")
     forbidden = {str(value).lower() for value in config["forbidden_columns"]}
@@ -402,6 +446,8 @@ def audit(output_root: Path) -> dict[str, bool]:
             )
             raw_exact &= index == int(item["start"])
             if len(frame):
+                frame = frame.copy()
+                frame["archive_query_date"] = pd.Timestamp(item["query_date"])
                 rebuilt[item["table"]].append(frame)
     checks["all_raw_pages_exact"] = raw_exact
     for table in TABLES:

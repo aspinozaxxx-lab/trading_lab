@@ -7,6 +7,8 @@ from collections.abc import Mapping
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import pandas as pd
+
 from market_lab.futures import moex_rms_historical_pit_source as source
 
 
@@ -58,6 +60,19 @@ class _Session:
         return _Response(_payload(table, query["date"][0]))
 
 
+class _AsOfCashflowSession(_Session):
+    def get(
+        self, url: str, *, headers: Mapping[str, str], timeout: float
+    ) -> _Response:
+        parsed = urlparse(url)
+        query = parse_qs(parsed.query)
+        table = parsed.path.rsplit("/", 1)[-1].removesuffix(".json")
+        returned_date = (
+            "2025-12-30" if table == "cashflow" else query["date"][0]
+        )
+        return _Response(_payload(table, returned_date))
+
+
 def test_config_seals_structural_zero_change_rule_and_pre2026_boundary() -> None:
     config = source.load_config()
 
@@ -67,6 +82,9 @@ def test_config_seals_structural_zero_change_rule_and_pre2026_boundary() -> None
         == "zero_change_only_not_percentile_fit"
     )
     assert config["objective"]["returns_targets_predictions_or_pnl_allowed"] is False
+    assert config["source"]["tables"]["cashflow"]["date_semantics"] == (
+        "latest_snapshot_as_of_query_date"
+    )
 
 
 def test_small_archive_collects_and_raw_replays(tmp_path: Path) -> None:
@@ -88,3 +106,28 @@ def test_small_archive_collects_and_raw_replays(tmp_path: Path) -> None:
     assert manifest["raw_page_count"] == 3
     assert manifest["contains_returns_targets_predictions_or_pnl"] is False
     assert manifest["processed"]["limits"]["rows"] == 2
+
+
+def test_cashflow_asof_repeats_keep_earliest_query_date(tmp_path: Path) -> None:
+    output = tmp_path / "rms-asof"
+    ranges = {
+        table: (
+            ("2025-12-30", "2025-12-31")
+            if table == "cashflow"
+            else ("2025-12-30", "2025-12-30")
+        )
+        for table in source.TABLES
+    }
+
+    source.collect(
+        output,
+        date_ranges=ranges,
+        session=_AsOfCashflowSession(),
+        retrieved_at="2026-09-02T01:30:00Z",
+    )
+    cashflow = pd.read_parquet(output / "cashflow.parquet")
+
+    assert len(cashflow) == 2
+    assert cashflow["tradedate"].dt.date.astype(str).eq("2025-12-30").all()
+    assert cashflow["archive_query_date"].dt.date.astype(str).eq("2025-12-30").all()
+    assert all(source.audit(output).values())
