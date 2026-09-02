@@ -62,12 +62,21 @@ history. Task работает по будням в 18:30 мск; readiness тр
 брокера с effective dates, haircut, допустимыми активами, VM debit и правом клиента на
 coupon/repo/money-market yield.
 
-Для сильнейшего directional/collateral кандидата запущен отдельный V27 forward source:
-полные SI/RI/BR/MIX chains в 10:05 и 23:45 мск плюс original captured current vintages
+Для сильнейшего directional/collateral кандидата запущен отдельный V27 V2 forward source:
+полные SI/RI/BR/MIX chains в 10:05 и 23:45 мск, official daily history каждого EOD
+контракта плюс original captured current vintages
 FRED STLFSI4, CBR RUONIA и key rate. Он сохраняет raw bytes и не содержит signal/return/
-PnL. 252 новых sessions нужны только для causal warmup; independent evaluation требует
+PnL. V2 нужен потому, что current `LAST` не является official daily `CLOSE`; подмена
+запрещена и missing history row отклоняет snapshot. 252 новых sessions нужны только
+для causal warmup; поскольку 252 доходности требуют 253 price levels, paper preflight
+начинает economics только после 253 common official CLOSE. Independent evaluation требует
 ещё 504 sessions. Это медленнее исторического backtest, но впервые даёт доказательство,
 которое нельзя получить повторным подбором на 2021–2025.
+
+Для точного hard fallback ролла найден official machine-readable futures calendar
+MOEX: `https://iss.moex.com/iss/calendars/futures`. Документация указывает `tradedate`,
+`is_traded`, `updatetime`; текущий доступ без token возвращает HTML. Поэтому нужен
+`MOEX_ALGOPACK_TOKEN`; generic weekdays запрещены как источник скрытой ошибки.
 
 ## Что уже есть
 

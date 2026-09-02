@@ -12,6 +12,12 @@ Forward protocol SHA `c1acf97b...` запечатан `2026-09-02` до post-sea
 STLFSI4 boundary `0`, key-rate boundary `20%`, RUONIA haircut `50%`, costs, buffer,
 capacity или universe по forward outcome.
 
+До первого сохранённого snapshot выявлена семантическая ошибка источника: current
+MOEX `LAST` — последняя внутрисессионная сделка, а byte-identical V12/V27 требует
+official daily `CLOSE`. Поэтому V1 source не используется. Корректирующий V2 SHA
+`f4a7d016...`/commit `941e0b9` не меняет экономику или параметры и был запечатан до
+просмотра post-seal CLOSE. Реализация commit `09e73c4` имеет SHA `f38a41f0...`.
+
 ## Источник
 
 `market_lab.futures.moex_v27_forward_validation_source` сохраняет два immutable вида
@@ -21,7 +27,10 @@ snapshot по будням:
 - `decision_eod` в 23:45 мск: полные текущие цепочки SI/RI/BR/MIX после сессии.
 
 Каждый snapshot содержит raw MOEX JSON всех listed contracts, current specs/IM/fees,
-OHLC/settle/volume/OI, actual retrieval и exchange timestamp. Одновременно сохраняются
+actual retrieval и exchange timestamp. Для `decision_eod` V2 дополнительно сохраняет
+raw official daily history каждого unexpired контракта; только его `CLOSE` идёт в
+сигнал, а `VOLUME/OPENPOSITION` — в causal roll. Missing history row отклоняет весь
+snapshot; `LAST` и `SETTLEPRICE` никогда не подменяют `CLOSE`. Одновременно сохраняются
 raw current-vintage FRED `STLFSI4`, CBR RUONIA и KeyRateXML. Для macro history
 `forward_available_at = max(model_available_at, actual_retrieval)`, поэтому текущий
 vintage не выдаётся за исторически известный оригинал.
@@ -31,8 +40,12 @@ pre-2026 warmup запрещены. Missing session/contract/quote остаёт�
 
 ## Последовательная проверка
 
-1. Первые 252 common `decision_eod` sessions — только warmup четырёх momentum horizons
-   и covariance. PnL этого периода не является результатом.
+Paper protocol SHA `d68f0595...`/commit `51acd4c` запечатан до первого valid snapshot;
+preflight commit `05a1f74` ничего не вычисляет кроме source/readiness checks.
+
+1. Для 252 return observations нужны 253 common `decision_eod` price sessions. Это
+   warmup четырёх momentum horizons и covariance; PnL периода не является результатом.
+   Partial current `W-SUN` week не считается завершённой.
 2. Следующие минимум 504 sessions / 104 weekly decisions / два полных календарных года —
    первая независимая evaluation без изменения параметров.
 3. Требуются CAGR `>=20%` во всех трёх cost-сценариях, Sharpe `>=1`, MDD `<=30%`, два
@@ -49,9 +62,21 @@ pre-2026 warmup запрещены. Missing session/contract/quote остаёт�
 .\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_validation_readiness `
-  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v1
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
 
 Tasks: `TradingLabV27ForwardExecution` и `TradingLabV27ForwardDecision`. Wrapper не
 создаёт второй audited snapshot одинакового `kind + source_date`. Каталоги forward data
 и будущего paper PnL находятся вне Git.
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.v27_forward_paper_preflight `
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+```
+
+Hard fallback за пять сессий до expiry требует official machine-readable calendar
+MOEX. Он доступен через `https://iss.moex.com/iss/calendars/futures`, но текущая среда
+не имеет `MOEX_ALGOPACK_TOKEN`; без него endpoint вернул HTML. Generic business days и
+календарь, восстановленный из будущих цен, запрещены. Source продолжает накапливаться,
+но paper economics/promotion остаётся fail-closed до авторизации календаря.

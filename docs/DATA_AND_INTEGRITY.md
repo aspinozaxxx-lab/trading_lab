@@ -402,7 +402,11 @@ Forward CNY source физически отделён в
 quotes/funding Parquet, manifest и replay audit. Старые experiments не могут читать этот
 path; readiness считает только audited unique dates и не вычисляет PnL.
 
-V27 forward validation отделён в `data/forward/v27-validation-v1/`. Market source date
+V27 forward validation отделён в `data/forward/v27-validation-v2/`. V1 source был
+superseded до первого snapshot: current `LAST` не эквивалентен official daily `CLOSE`.
+V2 хранит оба raw current chain и exact-date history по каждому EOD-контракту. Signal
+использует только history `CLOSE`, roll — history `VOLUME/OPENPOSITION`; missing row
+отклоняет snapshot. Market source date
 не может быть раньше `2026-09-02`; pre-seal 2026 prices и pre-2026 warmup запрещены.
 Macro snapshots могут содержать earlier observation dates только как current vintage,
 причём их `forward_available_at` не раньше actual retrieval. Уникальность определяется

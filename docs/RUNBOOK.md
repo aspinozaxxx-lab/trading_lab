@@ -1138,14 +1138,20 @@ V27 independent forward validation:
 .\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_validation_readiness `
-  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v1
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.v27_forward_paper_preflight `
+  --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
 
 Tasks `TradingLabV27ForwardExecution` (10:05) и `TradingLabV27ForwardDecision` (23:45)
-работают Mon–Fri. Каждый snapshot raw-replayable и содержит полные SI/RI/BR/MIX chains
-плюс captured STLFSI4/RUONIA/key-rate vintage. Не запускать market backfill до
-`2026-09-02`; первые 252 decision dates — только warmup, следующие 504 — immutable
-evaluation. До завершения warmup PnL/CAGR запрещены. Подробности:
+работают Mon–Fri. Каждый V2 snapshot raw-replayable и содержит полные SI/RI/BR/MIX
+chains плюс captured STLFSI4/RUONIA/key-rate vintage; EOD дополнительно требует
+official history `CLOSE/VOLUME/OPENPOSITION` каждого контракта. Не запускать market backfill до
+`2026-09-02`; первые 253 common CLOSE дают 252 return sessions и являются только
+warmup, следующие 504 — immutable evaluation. До завершения warmup PnL/CAGR запрещены.
+Для exact hard fallback нужен `MOEX_ALGOPACK_TOKEN`; generic weekdays запрещены.
+Подробности:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
 
 Forward CNY quotes/funding collector:

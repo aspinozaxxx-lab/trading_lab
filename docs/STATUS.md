@@ -6,16 +6,27 @@
 ## Главная активная проверка: V27 forward validation
 
 Сильнейший development-кандидат V27 (`28,3752%` CAGR, Sharpe `1,2119`, MDD
-`20,7138%`) теперь имеет независимый forward seal SHA `c1acf97b...`, commit `a79fd4c`.
-Source code `83230e4`, readiness `74878c3` были pushed до первого post-seal market
-snapshot. V27 signal/risk/governors/collateral/costs byte-identical; backfill market
-data `2026-01-01..2026-09-01` запрещён.
+`20,7138%`) имеет независимый forward V1 seal SHA `c1acf97b...`, commit `a79fd4c`.
+До первого snapshot обнаружено, что current `LAST` не равен официальному дневному
+`CLOSE`, который использует V12/V27. V1 source поэтому superseded без данных. Чистая
+source-коррекция V2 SHA `f4a7d016...` запечатана commit `941e0b9` до просмотра
+post-seal CLOSE; реализация commit `09e73c4`, SHA `f38a41f0...`, сохраняет отдельный
+official history row каждого контракта и полностью replay-аудируется. Экономика и
+параметры не изменены; backfill market data `2026-01-01..2026-09-01` запрещён.
 
 Tasks `TradingLabV27ForwardExecution` (10:05 мск) и
-`TradingLabV27ForwardDecision` (23:45 мск) имеют status `Ready`. Сейчас 0/252 warmup,
+`TradingLabV27ForwardDecision` (23:45 мск) имеют status `Ready`. Paper contract SHA
+`d68f0595...`/commit `51acd4c` и fail-closed preflight `05a1f74` также опубликованы
+до первого snapshot. В нём 252 return sessions требуют 253 common official CLOSE;
+partial current week не считается завершённой. Сейчас 0/253 price warmup,
 0/504 unseen evaluation. До завершения warmup PnL запрещён; до 504 evaluation sessions
 никакая короткая annualization не является доказательством 20–50%. Полный порядок:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
+
+Отдельный operational blocker: hard fallback ролла требует official future-session
+calendar MOEX. Endpoint найден, но без `MOEX_ALGOPACK_TOKEN` возвращает HTML. Generic
+weekdays запрещены; отсутствие авторизации не мешает накоплению source, но блокирует
+paper economics/promotion.
 
 ## Последний результат: V36-R1 multi-era online expert ensemble NO-GO
 
