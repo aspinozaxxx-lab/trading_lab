@@ -1,5 +1,30 @@
 ﻿# Реестр экспериментов
 
+## V47 V39 margin-feasible normalized risk ladder — same-history PASS, exact replay required
+
+- Config SHA `0b3524f4...`, seal `a20d16e`, implementation `234a23e`; canonical
+  `v47_v39_margin_feasible_risk_ladder_v1_20260902T101210Z_0b3524f4`.
+- Two modes were fixed from margin-only fields before scaled returns and remain jointly
+  reported: stability scales V39 market PnL `1.10x` plus fixed `20%` broad carry;
+  frontier scales V39 market PnL `1.50x` with no carry. Original V39 collateral is
+  removed before scaling, then free cash receives half-RUONIA; stress raises modeled
+  margin `25%`. No signal, target direction or contract identity changes.
+- Stability primary/doubled/stress/execution CAGR
+  `34.6195%/34.0527%/32.5127%/32.5103%`, Sharpe `1.344/1.323/1.276/1.276`, MDD
+  `21.7215%/21.8587%/21.1099%/21.1099%`. Primary has `5/5` positive years; stress
+  worst year is about `-0.054%`; minimum stressed free-cash proxy `10.82%`.
+- Frontier CAGR `43.8458%/43.0582%/41.7016%/41.7016%`, Sharpe
+  `1.259/1.240/1.212/1.212`, MDD `28.7759%/28.9491%/28.0063%/28.0063%`, worst year
+  down to `-3.6320%`; minimum stressed free-cash proxy `5.67%`. Both modes pass all
+  presealed same-history gates, but neither reaches the reported aspirational `45%`
+  primary level.
+- Verdict `RISK_LADDER_PASSES_SAME_HISTORY_GATES`, never live. This is proportional
+  normalized scaling of a known winner, not an integer-contract replay. The frozen
+  execution ledger already applies a `2x` initial-margin buffer, so V48 must replay
+  exact orders/capacity before any execution-feasible claim; V47 weights are not to be
+  tuned from this result. Manifest/metrics/ledger/audit SHA
+  `f478bd74.../67d7df1a.../1d9a4200.../db7cef21...`.
+
 ## V46 V39 margin-headroom broad-carry overlay — canonical NO-GO
 
 - Config SHA `b18ed5bc...`, seal `ed18e79`, implementation `775e0ce`; canonical

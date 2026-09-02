@@ -3,6 +3,26 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
+
+V47 SHA `0b3524f4...`, seal `a20d16e`, implementation `234a23e`; canonical
+`runs/v47_v39_margin_feasible_risk_ladder_v1_20260902T101210Z_0b3524f4/`. Он
+масштабирует только market PnL frozen V39, не умножая его исходный collateral income,
+и отдельно начисляет half-RUONIA на свободный cash. Два режима запечатаны заранее и
+не выбираются после результата.
+
+- Stability (`1.10x` market + `20%` carry): CAGR
+  `34.6195%/34.0527%/32.5127%/32.5103%`, Sharpe `1.344–1.276`, MDD `21.11–21.86%`;
+  primary `5/5` positive years, stress worst year около `-0.054%`.
+- Frontier (`1.50x` market, no carry): CAGR
+  `43.8458%/43.0582%/41.7016%/41.7016%`, Sharpe `1.259–1.212`, MDD `28.01–28.95%`,
+  worst year не ниже `-3.632%`.
+
+Оба режима прошли presealed same-history gates и это ближайший корректный результат к
+целевым 50%. Но V47 остаётся normalized proxy: exact integer contracts, 1% capacity и
+двойной initial-margin buffer исходного ledger ещё не replayed. Поэтому следующий шаг
+V48 — exact execution audit; до него это не execution-feasible и не live GO.
+
 ## V46 full-V39 + margin-headroom carry overlay — NO-GO
 
 V46 проверил способ не разбавлять V39 до 80%, а использовать фиксированные 20%
