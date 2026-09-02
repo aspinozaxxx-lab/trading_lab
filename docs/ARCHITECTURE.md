@@ -849,6 +849,16 @@ Read-only admission поверх audited option/V27 components. В отличи�
 PnL. Duplicate market component date исключается fail-closed. Arm identity всегда
 `2.00x/4.00/2.00/1%`; V48/V49 outcome comparison отсутствует.
 
+### `market_lab.futures.moex_ofz_total_return_source` + R1/R2
+
+Source-only pipeline получает TQOB history и bondization без derived outcomes. R1
+перечисляет каждый calendar date explicit `date=` и складывает byte-identical daily
+responses в gzip-compressed audited container; это не synthetic trading calendar.
+R2 меняет только schedule pagination на global `start`. Base normalizers строят
+`ofz_history.parquet` и `ofz_bondization.parquet`; audit без сети распаковывает все raw
+bytes, повторяет normalization и сверяет frames/SHA/rows/identity/protected boundary.
+Current-vintage schedules имеют actual-retrieval availability и запрещены как predictor.
+
 ### `market_lab.futures_v51_v42r2_robustness`
 
 V51 читает только `date`, boolean `is_v39_session` и девять frozen V42R2 combined NAV.

@@ -1509,6 +1509,21 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
 `--audit-directory`, не менять scale/cap/buffer/gates и не переносить расчёт на
 локальную Windows-машину.
 
+### Official MOEX OFZ source R2 audit
+
+Canonical collection уже завершена; повторный download запрещён. Network-independent
+raw replay выполняется только на `gpu-mlserver`:
+
+```bash
+cd /opt/trading_lab
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
+  .venv/bin/python -m market_lab.futures.moex_ofz_total_return_source_r2 --audit
+```
+
+Ожидается `all_true: true`. Config SHA `227b1641...`, implementation commit
+`7ae803b`, manifest/audit SHA `102b4add.../809eef13...`. Не запускать без `--audit`,
+не переносить bundle в Git и не читать price/yield values до V52 economic seal.
+
 ### V51 read-only all-nine V42R2 robustness artifact audit
 
 Canonical V51 выполнен один раз на `gpu-mlserver`. Повторять bootstrap run нельзя;

@@ -1,5 +1,21 @@
 ﻿# Реестр экспериментов
 
+## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED, ECONOMICS SEALED NEXT
+
+- V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the
+  board-wide endpoint ignored `from/till`. R1 `bdd7b19b.../9f8a5c60...` changed only
+  to explicit daily requests and stopped before output on schedule cursor semantics.
+- R2 config SHA `227b1641...`, implementation commit `7ae803b`, SHA `70f6e58c...`
+  preserves R1 history and uses global `start` for each bondization block.
+- Canonical immutable source has `70 896` rows × `83` securities × `1 271` dates;
+  positive trades/value/close `67 249`, coupons/amortizations/offers `676/32/0`.
+- Manifest/audit/history/bondization SHA
+  `102b4add.../809eef13.../f045482b.../d69be407...`; network-independent raw replay
+  `all_true=true`, protected market rows `0`.
+- No return/label/target/prediction/signal/position/order/PnL was computed. Market values
+  remain unopened for strategy design. Next action is a separate pre-outcome V52 seal,
+  not exploratory duration/top-N/weight search; see `docs/MOEX_OFZ_SOURCE.md`.
+
 ## V51 all-nine V42R2 robustness audit — INTERNAL 20% SUPPORT NOT CONFIRMED
 
 - Config SHA `2a1e467b...`, implementation commit `5a00d74`, SHA `3e38079b...`;

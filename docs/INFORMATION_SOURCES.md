@@ -436,6 +436,16 @@ snapshot — только development source. Независимое подтв�
 архивирования страницы после каждой публикации. Raw не распространяется без проверки
 прав; при цитировании нужна ссылка на ЦБ.
 
+### MOEX OFZ history + bondization — audited independent return-engine source
+
+R2 SHA `227b1641...` собрал official TQOB `SU*` market history `2021–2025` и
+current-vintage coupon/amortization schedules: `70 896` rows, `83` securities,
+`1 271` dates, `676/32/0` coupon/amortization/offer events. Raw responses полностью
+replayable, audit `all_true=true`; manifest `102b4add...`. Source содержит prices/yields
+для будущего отдельного economic protocol, но не содержит derived return/target/PnL.
+До V52 seal market values не читать; bondization не использовать как predictor.
+Подробности: [MOEX_OFZ_SOURCE.md](MOEX_OFZ_SOURCE.md).
+
 ### Minfin OFZ auction results — current-vintage официальный event corpus
 
 Официальный архив Минфина содержит датированные карточки результатов первичных

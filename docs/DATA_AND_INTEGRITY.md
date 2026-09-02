@@ -230,6 +230,9 @@ identity и должен проверяться перед чтением.
 | Minfin OFZ auction events, current-vintage | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/minfin_ofz_auction_events.parquet` | `a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480` |
 | Minfin OFZ auction manifest | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/manifest.json` | `c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52` |
 | Minfin OFZ auction raw pages | `data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/official_minfin_ofz_auction_pages.jsonl.gz` | `f56af34a15a284e74f8364daf3abd6ae7d2978a01b22443e33ced079d72133c7` |
+| MOEX OFZ daily history R2 | `data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/ofz_history.parquet` | `f045482bc8e4cdacd32a3b991cc5ba4e7d5ec6e5eb6df86944730d40f1bab817` |
+| MOEX OFZ bondization R2 | `data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/ofz_bondization.parquet` | `d69be407f565b69e663dd338ae90cc70e9970ca47734c2ad24b5f11799dc1297` |
+| MOEX OFZ source manifest | `data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/manifest.json` | `102b4add04273020f156e53177a639770d46a0192dec5e9bf2d6bf8c1da04770` |
 | CBR macro-survey forecasts, current-vintage | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/cbr_macro_survey_forecasts.parquet` | `a139ead81d1e06495afcd680ff1cb7903f2a102165c9f7bd7a074577c7069d6a` |
 | CBR macro-survey manifest | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/manifest.json` | `faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe` |
 | CBR macro-survey raw workbook | `data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1/official_cbr_macro_survey_current_vintage.xlsx` | `a715edf614799186278656970380aa0ba6abcfb801bfa2e92806cdc9fdb06944` |

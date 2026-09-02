@@ -43,6 +43,8 @@
     systemd timers, каталоги, журнал и безопасный аварийный откат.
 20. [Forward V49 double-risk](docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md) — лучший exact
     historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill.
+21. [Official MOEX OFZ source](docs/MOEX_OFZ_SOURCE.md) — новый audited источник
+    независимого carry/roll-down engine и точные запреты до V52 economic seal.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

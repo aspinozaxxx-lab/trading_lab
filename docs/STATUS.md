@@ -3,6 +3,31 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Новый independent return-engine source: official MOEX OFZ — AUDITED, NO PNL YET
+
+Source V1 SHA `c43f7366...`/implementation `11aa44c7...` был sealed после schema
+probe, но остановился без output: board-wide ISS игнорировал `from/till` и вернул
+текущую дату 2026. R1 SHA `bdd7b19b...` исправил только explicit daily transport и
+прошёл всю history in-memory, затем fail-closed на namespaced bondization cursor.
+R2 SHA `227b1641...`, implementation commit `7ae803b`, SHA `70f6e58c...` заменил
+только schedule pagination на global `start`; economic fields не менялись.
+
+Canonical external source
+`data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/`:
+
+- `70 896` TQOB `SU*` rows, `1 271` dates, `83` securities;
+- `67 249` rows с positive trades/value/close;
+- `676` coupon, `32` amortization, `0` offer events;
+- history/bondization SHA `f045482b.../d69be407...`;
+- manifest/audit SHA `102b4add.../809eef13...`, raw replay `all_true=true`;
+- return/label/signal/target/order/position/PnL отсутствуют, market rows 2026+ `0`.
+
+Это первая новая экономически независимая основа после V50/V51: OFZ carry/roll-down
+может диверсифицировать V39, но пока никакая доходность не рассчитана. Не открывать
+market values до отдельного V52 seal; не выбирать duration, liquidity, top-N, weight
+или rebalance day по уже увиденным returns. Следующий протокол описан в
+`docs/MOEX_OFZ_SOURCE.md`. Live trading запрещён.
+
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
 
 V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
@@ -1963,6 +1988,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — V52 independent OFZ carry/roll-down до чтения market values
+
+1. Canonical source R2 уже immutable/audited: config `227b1641...`, manifest
+   `102b4add...`, history/bondization `f045482b.../d69be407...`. Collection не
+   повторять; разрешён только `--audit`.
+2. До открытия price/yield values запечатать ровно один SU262 monthly carry/roll-down
+   rule с fixed maturity, prior liquidity, top-N, next-session OPEN, dirty-price and
+   explicit coupon accounting и `10/20/40` bps costs. Рекомендуемая спецификация — в
+   `docs/MOEX_OFZ_SOURCE.md`.
+3. Не делать duration/top-N/liquidity/weight sweep. Missing price/cashflow — sleep или
+   unresolved; WAP/CLOSE не считать bid/ask fill.
+4. После standalone результата проверить только заранее запечатанный fully-funded
+   portfolio с frozen V49/V42R2 и те же V50/V51 q05/rolling/leave-year gates. Даже pass
+   требует forward TQOB BBO, broker fees/tax/settlement и второго unseen периода.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
