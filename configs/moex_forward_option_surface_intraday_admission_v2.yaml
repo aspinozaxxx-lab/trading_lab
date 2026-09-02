@@ -1,0 +1,87 @@
+﻿protocol_id: moex_forward_option_surface_intraday_admission_v2
+protocol_version: 2
+status: sealed_before_first_timestamped_v2_snapshot_after_boundary
+declared_at_utc: '2026-09-02T21:22:00Z'
+scope: forward_source_only_no_signal_no_label_no_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Accumulate timestamped and margin-aware point-in-time MOEX option surfaces for
+  defined-risk cross-asset intraday timing. V1 ended with zero complete sessions, so V2
+  starts a clean boundary before the first full session and forbids V1 backfill.
+
+parent_source:
+  config_path: configs/moex_forward_option_surface_source_v2.yaml
+  config_sha256: f9a0646279913c75bda7ed5f0e50bbe6ae89905a44dbd6a1a1653aedc7f8d3c4
+  implementation_path: src/market_lab/futures/moex_forward_option_surface_source_v2.py
+  implementation_sha256: 74d015a6add9f4e93a48a9f38d28753d65f3994b7f753a013edaf50f0993486b
+  output_root: data/forward/moex-options-surface-v2-timestamps-margin
+  existing_v2_snapshot_count_at_declaration: 0
+  v1_complete_sessions_at_declaration: 0
+  v1_snapshots_counted_for_v2: false
+
+forward_boundary:
+  earliest_eligible_retrieved_at_utc: '2026-09-02T21:25:00Z'
+  historical_or_v1_or_preboundary_backfill_counted: false
+  source_date_without_post_boundary_retrieval_is_eligible: false
+
+schedule:
+  timezone: Europe/Moscow
+  weekdays: [Mon, Tue, Wed, Thu, Fri]
+  regular_grid: '10:09_through_22:59_every_10_minutes'
+  late_grid: ['23:09', '23:19', '23:29', '23:39', '23:55']
+  maximum_expected_gap_minutes: 16
+  persistent_catchup: false
+  single_authoritative_host: gpu-mlserver
+  local_windows_tasks_enabled: false
+
+required_v2_observations:
+  market_update_time: nonnull
+  last_trade_time: nonnull
+  exchange_sequence_number: nonnull
+  initial_margin_exchange_time: nonnull
+  bid_offer: preserved_raw
+  public_depth_or_queue_claim: forbidden
+
+session_admission:
+  minimum_valid_snapshots: 30
+  minimum_retrieval_span_minutes: 300
+  maximum_gap_minutes: 25
+  every_snapshot_parent_raw_replay_required: true
+  all_four_assets_required_per_snapshot: true
+  required_v2_observations_complete: true
+  invalid_snapshot_invalidates_only_itself: true
+  incomplete_session_is_warmup_but_not_complete: true
+
+sequential_phases:
+  discovery_complete_sessions: 20
+  calibration_complete_sessions: 20
+  unseen_evaluation_complete_sessions: 60
+  economic_protocol_may_be_sealed_only_after_discovery: true
+  calibration_or_evaluation_backfill: forbidden
+
+future_hypothesis_comparisons_fixed_before_values:
+  full_surface_cross_asset_neural_timing: true
+  price_only_underlying_ablation: true
+  fixed_skew_term_structure_rule: true
+  always_abstain: true
+  defined_risk_spreads_only: true
+  naked_short_options: forbidden
+  entry_requires_later_observed_offer: true
+  exit_requires_later_observed_bid: true
+  timestamp_sequence_margin_used_for_staleness_and_admission_only: true
+  public_delayed_BBO_is_not_realtime_queue_or_fill_proof: true
+
+forbidden_outputs: [return, label, target, prediction, signal, trade, position, equity, pnl]
+
+outputs:
+  readiness_module: market_lab.futures.forward_option_intraday_readiness_v2
+  parent_snapshot_root: data/forward/moex-options-surface-v2-timestamps-margin
+  economic_output: none_until_separate_post_discovery_seal
+
+limitations:
+  - Anonymous ISS quotes are delayed and do not expose depth or queue position.
+  - Exchange clocks improve staleness checks but do not prove client latency or fill.
+  - Twenty discovery sessions are for schema and state design, not performance selection.
+  - Even a future unseen paper pass cannot guarantee 20% or authorize live trading.
