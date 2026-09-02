@@ -10,6 +10,8 @@
 - Every valid snapshot requires five positive non-locked TQBR/RFUD BID/OFFER pairs and
   an exchange clock. Raw canonical JSON is replayed; basis/signal/trade/return/PnL are
   forbidden outputs. No eligible contract is an explicit sleep, not a zero.
+- Implementation `a8f0139`, scheduler correction `766c6f8`; both Windows tasks are
+  registered and `Ready` at exact 15:49:00/15:59:00 Moscow time.
 - Readiness requires 60 complete ordered decision/fill pairs, then 20 calibration and
   60 unseen evaluation. Paper economics is forbidden before discovery; annualization
   is forbidden before unseen evaluation. Live remains false.

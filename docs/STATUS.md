@@ -48,6 +48,9 @@ quote = invalid всего snapshot. Raw canonical JSON replay exact, backfill �
 
 Модули `moex_forward_stock_futures_cash_carry_source` и
 `forward_stock_futures_cash_carry_readiness`, wrappers и Windows tasks готовы.
+Implementation `a8f0139`, exact-second scheduler correction `766c6f8`; tasks
+`TradingLabForwardCashCarryDecision` и `TradingLabForwardCashCarryFill` имеют status
+`Ready`, ближайшие запуски `2026-09-02 15:49:00/15:59:00` МСК.
 Readiness: `0/60` complete decision/fill discovery pairs, затем 20 calibration и 60
 unseen evaluation; fill retrieval обязан быть позже decision. До 60 пар новая
 экономика/PnL запрещены, до окончания unseen evaluation запрещена annualization.
