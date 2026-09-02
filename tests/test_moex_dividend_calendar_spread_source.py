@@ -48,3 +48,12 @@ def test_shared_registry_is_restored_after_adapter_context() -> None:
     assert base.FuturesAssetSpec is original_spec
     assert base.discover_spreads is original_discover
     assert base.parse_spread_history_page is original_history_parser
+
+
+def test_blank_uppercase_assetcode_is_normalized_without_mutating_raw() -> None:
+    raw = {"history": {"columns": ["SECID", "ASSETCODE"], "data": [["X", ""]]}}
+
+    normalized = source._blank_assetcode_as_missing(raw)
+
+    assert normalized["history"]["data"] == [["X", None]]
+    assert raw["history"]["data"] == [["X", ""]]

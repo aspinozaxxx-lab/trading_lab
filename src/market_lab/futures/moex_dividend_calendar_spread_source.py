@@ -154,6 +154,19 @@ def load_protocol(
     )
 
 
+def _blank_assetcode_as_missing(payload: dict[str, Any]) -> dict[str, Any]:
+    normalized = copy.deepcopy(payload)
+    block = normalized.get("history")
+    columns = block.get("columns", ()) if isinstance(block, dict) else ()
+    normalized_columns = [str(column).lower() for column in columns]
+    if isinstance(block, dict) and "assetcode" in normalized_columns:
+        index = normalized_columns.index("assetcode")
+        for row in block.get("data", ()):
+            if row[index] == "":
+                row[index] = None
+    return normalized
+
+
 @contextmanager
 def _dividend_registry() -> Iterator[None]:
     original_discover = base.discover_spreads
@@ -170,14 +183,7 @@ def _dividend_registry() -> Iterator[None]:
     def parse_history_with_blank_assetcode(
         payload: dict[str, Any], catalog_row: dict[str, Any]
     ) -> Any:
-        normalized = copy.deepcopy(payload)
-        block = normalized.get("history")
-        if isinstance(block, dict) and "assetcode" in block.get("columns", ()):
-            index = block["columns"].index("assetcode")
-            for row in block.get("data", ()):
-                if row[index] == "":
-                    row[index] = None
-        return original_history_parser(normalized, catalog_row)
+        return original_history_parser(_blank_assetcode_as_missing(payload), catalog_row)
 
     names = {
         "SOURCE_START": SOURCE_START,
