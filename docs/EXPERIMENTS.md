@@ -59,6 +59,29 @@
 - Verdict `NO_GO`; external replay `all_true=true`, manifest/metrics/audit SHA
   `7feade35.../dd64fe35.../42af2681...`. No exact replay and no parameter tuning.
 
+## V56 outright RVI outlier short corridor — INVALID, NEGATIVE COMPLETE SUBSET
+
+- Config SHA `bc1c3f2b...`, seal commit `85bc27e`, implementation commit `e9e8ce1`,
+  SHA `ba196276...`; exact source hashes were copied to `gpu-mlserver` before the
+  only historical run. No local historical calculation was performed.
+- One fixed candidate used short front RVI at next OPEN after `30 <= close < 45`,
+  TP `24`, stop `45`, maximum 20 sessions, 5-day expiry buffer, integer contracts,
+  `1%` stop-risk, `1x` gross and `0.10/0.20/0.40` point costs per side.
+- Canonical `v56_rvi_outlier_short_corridor_v1_20260902T181304Z_bc1c3f2b`:
+  `326` signals, `58` non-overlap candidates, `27` complete trades, `22` rejects,
+  `2` unresolved entries and `21` unresolved marks. Exit reasons are 5 stop, 17
+  expiry and 5 maximum-holding; no take-profit exits.
+- Complete-subset CAGR primary/doubled/stress is
+  `-0.2575%/-0.3435%/-0.5163%`; primary Sharpe `-0.262`, gross/net PnL
+  `-8,481/-12,689 RUB`, profit factor `0.731`, positive years `2/5`.
+- Sealed verdict is `INVALID_UNRESOLVED_EXECUTION_OR_MARKS`, and all return/Sharpe/
+  profit-factor/stability gates fail independently of invalidity. External server
+  replay `all_true=true`; manifest/metrics/audit SHA
+  `f19f49df.../1375e535.../f244faa1...`.
+- Do not repair/tune thresholds, direction, holding, DTE or sizing on this outcome.
+  A next option-premium test needs factual historical bid/offer and defined-risk legs;
+  aggregate OI or theoretical prices cannot be substituted for execution.
+
 ## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED
 
 - V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the

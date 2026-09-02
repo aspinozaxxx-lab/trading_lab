@@ -1,0 +1,167 @@
+﻿protocol_id: cftc_cot_energy_metals_source_v1
+protocol_version: 1
+status: sealed_before_any_2018_2025_position_value
+declared_at_utc: '2026-09-02T18:35:00Z'
+scope: source_only_no_moex_price_return_target_signal_trade_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Build an immutable, target-free and causally delayed panel of official CFTC
+  Disaggregated Futures Only positions for WTI crude oil and Gold. The source may later
+  support one separately implemented BR cross-market positioning-flow hypothesis.
+
+official_sources:
+  provider: U.S. Commodity Futures Trading Commission
+  historical_index: https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm
+  variable_names: https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalViewable/CFTC_023168.html
+  release_schedule: https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm
+  report_family: Disaggregated_Futures_Only
+  annual_archives:
+    2018: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2018.zip
+    2019: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2019.zip
+    2020: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2020.zip
+    2021: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2021.zip
+    2022: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2022.zip
+    2023: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2023.zip
+    2024: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2024.zip
+    2025: https://www.cftc.gov/files/dea/history/fut_disagg_txt_2025.zip
+  archive_bytes_and_retrieval_timestamp_required: true
+  archive_years_outside_exact_set_forbidden: true
+
+universe:
+  exact_order: [WTI, GOLD]
+  markets:
+    WTI:
+      cftc_contract_market_code: '067651'
+      exact_market_and_exchange_name: CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE
+    GOLD:
+      cftc_contract_market_code: '088691'
+      exact_market_and_exchange_name: GOLD - COMMODITY EXCHANGE INC.
+  duplicate_code_date_policy: fail_closed
+  missing_market_year_policy: fail_closed
+
+dates:
+  source_start: '2018-01-01'
+  source_end: '2025-12-31'
+  protected_from: '2026-01-01'
+
+schema:
+  required_input_columns:
+    - Market_and_Exchange_Names
+    - As_of_Date_Form_YYYY-MM-DD
+    - CFTC_Contract_Market_Code
+    - Open_Interest_All
+    - Prod_Merc_Positions_Long_All
+    - Prod_Merc_Positions_Short_All
+    - Swap_Positions_Long_All
+    - Swap__Positions_Short_All
+    - Swap__Positions_Spread_All
+    - M_Money_Positions_Long_All
+    - M_Money_Positions_Short_All
+    - M_Money_Positions_Spread_All
+    - Other_Rept_Positions_Long_All
+    - Other_Rept_Positions_Short_All
+    - Other_Rept_Positions_Spread_All
+    - NonRept_Positions_Long_All
+    - NonRept_Positions_Short_All
+    - Traders_Tot_All
+    - Contract_Units
+    - FutOnly_or_Combined
+  normalized_columns:
+    - report_date
+    - available_at_utc
+    - logical_market
+    - market_and_exchange_name
+    - cftc_contract_market_code
+    - open_interest
+    - producer_long
+    - producer_short
+    - swap_long
+    - swap_short
+    - swap_spreading
+    - managed_money_long
+    - managed_money_short
+    - managed_money_spreading
+    - other_reportable_long
+    - other_reportable_short
+    - other_reportable_spreading
+    - nonreportable_long
+    - nonreportable_short
+    - total_traders
+    - contract_units
+    - source_archive_year
+  derived_position_ratios_or_changes_in_source: false
+  moex_prices_returns_labels_targets_signals_trades_or_pnl_allowed: false
+
+temporal_semantics:
+  report_date: CFTC Tuesday as-of date
+  official_usual_release: Friday_15_30_America_New_York_subject_to_holiday_delay
+  complete_historical_release_calendar_available: false
+  conservative_available_at: report_date_plus_7_calendar_days_at_23_59_59_America_New_York
+  rationale: >-
+    CFTC states that reports are usually released Friday and holiday releases may be
+    delayed. Because a complete historical release calendar is unavailable, every row
+    is delayed through the end of the following Tuesday before any MOEX decision.
+  same_report_week_use_forbidden: true
+  no_backfill_to_earlier_decision: true
+
+quality_gates:
+  exact_eight_archive_urls_and_years: true
+  zip_integrity_and_single_csv_member_each: true
+  exact_required_schema_each_year: true
+  exact_market_code_and_name_match: true
+  two_markets_present_each_year: true
+  report_dates_strictly_before_2026: true
+  report_dates_within_declared_archive_year: true
+  unique_market_report_date: true
+  positions_nonnegative_or_explicit_missing: true
+  positive_open_interest_for_admitted_rows: true
+  raw_replay_exact: true
+  source_and_processed_hashes_exact: true
+  no_market_outcomes: true
+  immutable_output: true
+
+frozen_later_v58_hypothesis:
+  economic_statement: >-
+    A persistent quarterly change in WTI managed-money net positioning reflects
+    institutional commodity-flow continuation that should transfer directionally to
+    MOEX Brent futures after the conservative CFTC publication lag.
+  target_asset: BR
+  primary_feature: >-
+    current_WTI_managed_money_net_share_minus_value_13_admitted_reports_ago
+  managed_money_net_share_formula: >-
+    (managed_money_long - managed_money_short) / open_interest
+  direction_rule: positive_long_BR_negative_short_BR_exact_zero_cash
+  lookback_admitted_reports: 13
+  decision_schedule: last_factual_MOEX_session_of_W_SUN_week
+  CFTC_row_must_have_available_at_lte_decision: true
+  maximum_source_age_calendar_days: 14
+  execution: factual_next_BR_open_same_contract
+  BR_volatility_lookback_sessions: 20
+  annual_volatility_target: 0.30
+  maximum_absolute_target: 2.0
+  other_assets_target: zero
+  baselines: [always_cash, BR_price_only_63_session_trend_same_risk_execution]
+  cost_scenarios_ticks_and_fee_multipliers:
+    primary: [1, 1]
+    doubled: [2, 2]
+    stress: [4, 2]
+  minimum_all_scenario_CAGR: 0.20
+  primary_sharpe_gte: 1.0
+  maximum_all_scenario_MDD: 0.30
+  minimum_primary_positive_years: 4
+  aspirational_primary_CAGR: 0.50
+  no_threshold_sign_lookback_risk_or_asset_change_after_source_values: true
+
+outputs:
+  root: data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1
+  immutable: true
+  required: [manifest.json, manifest.sha256, audit.json, cot_positions.parquet, raw_archives.zip]
+
+limitations:
+  - CFTC trader classifications can change and do not identify individual traders.
+  - Tuesday positions are deliberately delayed beyond the usual Friday release.
+  - WTI positioning is a cross-benchmark proxy for MOEX Brent, not the same contract.
+  - This source alone contains no executable MOEX price or profit evidence.
+  - Historical evidence cannot guarantee profit or authorize live trading.

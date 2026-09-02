@@ -116,6 +116,34 @@ Trend не даёт требуемые 20% и exact specs replay не оправ
 roll, direction или costs на этой истории. Следующий механизм — отдельная RVI
 volatility-risk-premium corridor, а не соседний RGBI horizon.
 
+## V56 outright RVI short corridor — INVALID AND ECONOMICALLY NEGATIVE
+
+Config SHA `bc1c3f2b...` был отдельно запечатан/pushed commit `85bc27e` до market
+values; implementation commit `e9e8ce1`, SHA `ba196276...`. Единственный кандидат:
+short front RVI после completed `30 <= close < 45`, factual next OPEN, TP `<=24`,
+distant stop `>=45`, 20-session maximum, expiry buffer `5`, `1%` stop-risk, `1x`
+gross cap и costs `0.10/0.20/0.40` points per side. V45 curve thresholds не
+использовались. Canonical server run:
+`runs/v56_rvi_outlier_short_corridor_v1_20260902T181304Z_bc1c3f2b/`.
+
+- `326` signal sessions, `58` non-overlap candidates, `27` complete trades;
+  `22` rejects, `2` unresolved entries и `21` unresolved daily marks;
+- exits: `5` distant stops, `17` expiry buffers, `5` maximum holding, `0` TP;
+- complete-subset primary/doubled/stress CAGR
+  `-0.2575%/-0.3435%/-0.5163%`, Sharpe `-0.262/-0.349/-0.519`;
+- primary gross/net PnL `-8,481/-12,689 RUB`, profit factor `0.731`, `2/5`
+  positive years; stress net `-25,313 RUB`;
+- sealed verdict `INVALID_UNRESOLVED_EXECUTION_OR_MARKS`; every economic return,
+  Sharpe, stability and profit-factor gate also fails on the fully marked subset;
+- independent server replay `all_true=true`; manifest/metrics/audit SHA
+  `f19f49df.../1375e535.../f244faa1...`.
+
+Даже идеальный repair пропусков не меняет отрицательный gross edge уже доказанных
+сделок. Не менять `30/24/45`, holding, DTE, sizing, direction или costs по этому
+outcome и не создавать V56.1. Следующая работа должна использовать новый return
+mechanism; historical defined-risk option premium требует отдельного исполнимого
+bid/offer source, а не THEOR_PRICE или OI.
+
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
 
 V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
@@ -2077,17 +2105,25 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V56 presealed RVI volatility-risk-premium corridor
+### P0 — V57 official CFTC COT causal source, затем presealed BR return test
 
-1. V53R1 завершён `NO_GO`; его curve sign/buckets/factors не менять и не инвертировать.
-2. V55 RGBI trend завершён `NO_GO`; его horizon/vol target/cap/roll/direction не
-   менять. V54 source остаётся полезным, но новая RGBI strategy требует unseen data.
-3. Использовать уже audited RVI futures source для принципиально иного target:
-   outright short elevated front volatility, profit-taking corridor и distant stop.
-   Entry level, TP, stop, maximum holding, roll and risk фиксируются до outcomes.
-4. Один candidate, factual next OPEN, no ordinary back-adjustment, `1x/2x/stress`
-   costs и tail-loss gates обязательны. V45 calendar-spread corridor не ретюнить и
-   не переносить его result-dependent thresholds.
+1. V56 закрыт: sealed verdict invalid из-за unresolved, а fully marked subset уже
+   имеет отрицательные gross/net edge. `30/24/45`, sign, holding, DTE и sizing не
+   менять; V56.1 запрещён.
+2. Собрать на `gpu-mlserver` target-free official CFTC Disaggregated Futures Only
+   annual archives `2018–2025` только для exact WTI и Gold market codes. Raw ZIP,
+   schema, rows, hashes и replay обязательны; 2026 файл и значения запрещены.
+3. Поскольку CFTC не публикует полный historical release calendar, назначить каждому
+   Tuesday report консервативный `available_at = report_date + 7 calendar days,
+   23:59:59 America/New_York`; не использовать обычный Friday как недоказанный факт.
+4. До чтения MOEX BR outcomes отдельно запечатать один sign/horizon/risk rule. Новый
+   mechanism должен торговать собственный BR return на factual next OPEN и сравниваться
+   с always-cash и BR price-only baselines; COT нельзя использовать для post-outcome
+   threshold/sign search или как ещё один V49 governor.
+5. Historical defined-risk option premium остаётся приоритетным параллельным источником,
+   но public ISS не содержит executable bid/offer. Нужен лицензированный MOEX Type B
+   (all trades + top of book, derivatives available since 2016) либо forward surface;
+   покупка только после отдельного разрешения пользователя.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
