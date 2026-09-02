@@ -6,6 +6,7 @@ from typing import Any
 import pandas as pd
 import pytest
 
+from market_lab.futures import forward_cross_market_bbo_readiness as readiness_module
 from market_lab.futures import moex_forward_cross_market_bbo_source as source
 
 
@@ -168,6 +169,10 @@ def test_collect_and_audit_round_trip(tmp_path: Path) -> None:
     assert final.name == "snapshot_20260902T1009_moscow"
     checks = source.audit(final)
     assert all(checks.values()), checks
+    readiness = readiness_module.readiness(tmp_path)
+    assert readiness["counts"]["complete_core_snapshots"] == 1
+    assert readiness["counts"]["complete_sessions"] == 0
+    assert readiness["gates"]["annualization_allowed"] is False
     with pytest.raises(FileExistsError):
         source.collect(
             tmp_path,
@@ -182,3 +187,10 @@ def test_source_context_rejects_off_slot_and_weekend() -> None:
         source._source_context(config, "2026-09-02T07:12:00Z")
     with pytest.raises(ValueError, match="weekdays"):
         source._source_context(config, "2026-09-05T07:09:00Z")
+
+
+def test_empty_readiness_stays_source_only(tmp_path: Path) -> None:
+    payload = readiness_module.readiness(tmp_path)
+    assert payload["counts"]["snapshot_directories"] == 0
+    assert payload["next_action"] == "continue_immutable_ten_minute_source_collection"
+    assert payload["market_outcomes_or_pnl_computed"] is False

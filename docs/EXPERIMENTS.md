@@ -1,5 +1,22 @@
 ﻿# Реестр экспериментов
 
+## Forward cross-market BBO V1 — SEALED, 0/20 discovery sessions
+
+- Config SHA `80d5202d...`, seal `95ca5b3` precedes all real snapshot values.
+  Fixed universe: 30 TQBR equities, metadata-nearest SI/RI/BR/MIX, CNYRUB_TOM and
+  context-only LQDT/SBMM/AKMM/TMON. Historical backfill and post-result substitution
+  are forbidden.
+- Implementation `33b002c` collects four bulk public ISS responses every ten minutes
+  from 10:09 through 18:39 Moscow. It stores executable-side BBO, best/total depth,
+  order counts, cumulative activity/OI and exchange/retrieval clocks, but no returns,
+  labels, targets, signal, prediction, trade, equity or PnL.
+- Core is 35 instruments and requires positive non-locked BBO and best depth. Readiness
+  requires at least 30 complete snapshots in each of 20 source-only discovery sessions,
+  followed by a separate economic seal, 20 calibration and 60 unseen sessions.
+- Future comparisons are fixed now: full cross-market neural timing, price-only
+  ablation, fixed rule and always-abstain under primary/doubled/stress costs. Public
+  BBO is not queue/fill proof; live remains false.
+
 ## V42R2 V41 idle-fund cost stress — ROBUST ABOVE 20%, diagnostic only
 
 - Config SHA `02a61505...`, seal `ab9b44a`. Fixed V41 80/20, all V39 returns and all

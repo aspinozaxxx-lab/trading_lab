@@ -88,6 +88,31 @@ Get-Content .\configs\futures_v9_structural_execution.sha256
 До загрузки Parquet/NPZ сверяй путь, SHA и temporal maximum из
 [DATA_AND_INTEGRITY.md](DATA_AND_INTEGRITY.md).
 
+### Forward cross-market BBO каждые 10 минут
+
+Ручной запуск только внутри sealed slot `10:09..18:39` МСК:
+
+```powershell
+.\scripts\run_forward_cross_market_bbo.ps1
+```
+
+Readiness и exact replay отдельного снимка:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_cross_market_bbo_readiness
+
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.moex_forward_cross_market_bbo_source `
+  --audit-directory <snapshot-directory>
+```
+
+Windows task `TradingLabForwardCrossMarketBBO10m` запускается по будням каждые 10
+минут с 10:09 до 18:39. Не запускать historical backfill и не удалять invalid snapshot:
+он является частью operational evidence. До 20 полных discovery sessions outcomes и
+PnL запрещены. Полный контракт:
+[FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
+
 ## 4. Воспроизведение V9
 
 ### Structural proxy

@@ -64,6 +64,25 @@ post-result same-history robustness: он не выбирает фонд, не �
 Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
 нарушений вне V42; они не исправлялись в этом эксперименте.
 
+### Forward cross-market BBO — SEALED, collector ready, 0/20 discovery sessions
+
+Открыт новый forward-only путь вместо дальнейшего same-history leverage tuning.
+Config SHA `80d5202d...`, seal `95ca5b3` зафиксировал до первого значения 30 TQBR
+акций, ближайшие metadata-only SI/RI/BR/MIX, `CNYRUB_TOM` и context
+`LQDT/SBMM/AKMM/TMON`. Implementation `33b002c` делает четыре bulk ISS-запроса на
+снимок и сохраняет BBO, лучшую/общую depth, number of orders, cumulative activity/OI,
+exchange clocks и actual retrieval. Returns/labels/signals/trades/PnL отсутствуют.
+
+Срезы назначены каждые 10 минут `10:09..18:39` МСК. Core требует все 30 акций, четыре
+фьючерса и CNY с положительными non-locked BID/OFFER и best depth; context fund может
+быть invalid отдельно. Readiness сейчас `0` snapshots и `0/20` source-discovery
+sessions; нужно минимум 30 complete core snapshots в день. Затем только после нового
+economic seal: 20 calibration и 60 unseen sessions. Это инфраструктура для continuous
+neural timing, all-market correlations и нового volatile-corridor теста, не найденная
+прибыль и не live promotion. AlgoPack token отсутствует, поэтому order/cancel flow пока
+не собирается. Подробности:
+[FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

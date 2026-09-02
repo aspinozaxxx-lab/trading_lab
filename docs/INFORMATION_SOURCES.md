@@ -5,6 +5,15 @@
 схемы, `available_at` и отдельного sealed-протокола. Техническая доступность API не
 означает право на перераспространение данных.
 
+Новый public forward source `moex-cross-market-bbo-v1` запечатан до первого значения:
+30 TQBR акций, metadata-nearest SI/RI/BR/MIX, CNYRUB_TOM и четыре фонда денежного
+рынка собираются синхронно каждые 10 минут. Он сохраняет BID/OFFER, depth, cumulative
+activity/OI и actual retrieval, поэтому поддерживает continuous timing и cross-asset
+гипотезы на собственной будущей истории. Это не замена AlgoPack: без token отсутствуют
+TradeStats/OrderStats/OBStats и cancel/aggressive-flow признаки. Discovery требует 20
+сессий минимум по 30 complete core snapshots; до отдельного economic seal outcomes не
+вычисляются. См. [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
+
 Фактический public pipeline-check выполнен один раз:
 `data/forward/moex-microstructure-v1/snapshot_20260901T214719330521Z/`. Source date
 `2026-08-18`, retrieval `2026-09-01T21:47:19Z`, 4 raw requests, 8 normalized FUTOI
