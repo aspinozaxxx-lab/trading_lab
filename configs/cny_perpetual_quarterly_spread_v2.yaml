@@ -1,0 +1,59 @@
+﻿protocol_id: cny_perpetual_quarterly_spread_v2
+protocol_version: 2
+status: sealed_unit_correction_before_corrected_return_or_pnl
+research_only: true
+live_trading_allowed: false
+
+parent:
+  protocol_id: cny_perpetual_quarterly_spread_v1
+  config: configs/cny_perpetual_quarterly_spread_v1.yaml
+  config_sha256: 5b2d6be704d100f1f4e7984c698c5137567b445ce76e1135bf84c30dce3a692e
+  implementation_commit: ad5a4c9
+  invalid_run: runs/cny_perpetual_quarterly_spread_v1_20260902T000440Z_5b2d6be7
+  invalid_metrics_sha256: 109f501794d3c858603106a1ea16866ab677084cd3f405f057c7eb4945481438
+
+diagnosis:
+  category: cash_unit_model_error
+  detected_from: economically_impossible_quantity_and_cagr_after_first_v1_run
+  parent_numeric_result_valid: false
+  parent_promotion_result_valid: false
+  source_data_or_swaprate_error_detected: false
+  explanation: >-
+    Both futures quote a CNY price for a contract containing 1000 CNY. V1 multiplied
+    SwapRate by the 1000-CNY lot but failed to multiply price PnL, price notional,
+    spread cash cost, and commission cash base by the same contract point value.
+  no_corrected_return_or_pnl_read_before_this_seal: true
+
+exact_corrections:
+  point_value_rub_per_price_unit:
+    old: 1.0
+    new: 1000.0
+    basis: lot_size_cny_for_rub_per_cny_quote
+  price_pnl_rub: quote_price_change_times_1000
+  gross_notional_rub: quote_price_times_1000
+  spread_cash_rub: quote_spread_times_1000
+  commission_base_rub: quote_price_times_1000
+  funding_cash_rub: SwapRate_times_1000_unchanged
+  margin_and_buffer: fractions_of_corrected_gross_notional
+
+inherited_without_change:
+  - hypothesis_and_short_perpetual_long_quarterly_direction
+  - source_hashes_and_temporal_limits
+  - development_and_evaluation_periods
+  - fixed_candidate_schedule
+  - causal_20_session_swaprate_admission
+  - ruonia_hurdle
+  - primary_and_stress_cost_rates
+  - capital_fractions_and_zero_cross_margin
+  - promotion_gates_and_forward_confirmation_requirement
+
+forbidden:
+  - threshold_search
+  - direction_flip
+  - alternate_entry_days
+  - contract_subset_search
+  - parent_numeric_result_as_evidence
+
+output:
+  root: runs/cny_perpetual_quarterly_spread_v2
+  immutable_timestamped: true
