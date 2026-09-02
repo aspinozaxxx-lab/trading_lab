@@ -1,0 +1,132 @@
+﻿protocol_id: futures_v56_rvi_outlier_short_corridor_v1
+protocol_version: 1
+status: sealed_after_source_audit_before_any_v56_market_value_signal_trade_or_pnl
+declared_at_utc: '2026-09-02T18:20:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Elevated outright front RVI futures contain a directly traded volatility-risk premium:
+  after a completed close enters a fixed high-volatility band, selling the same contract
+  at the next factual open and taking profit inside a normal-volatility corridor should
+  earn a positive convexity premium often enough to exceed 20% annualized return, while
+  a distant absolute stop, expiry buffer, causal sizing and tail gates constrain crashes.
+
+independence:
+  mechanism: outright_front_contract_volatility_risk_premium
+  not_v45_calendar_curve: true
+  not_v14_portfolio_governor: true
+  not_v55_rgbi_trend: true
+  one_candidate_only: true
+  no_parameter_search_or_sign_flip_after_outcome: true
+
+source:
+  root: data/processed/info_radar/moex-rvi-futures-daily-2019-2025-v1
+  protocol_sha256: bb4aec1d8f5c93bfdcae555c5c159c6da7334644db246822ce5ae69cdc2d7149
+  implementation_sha256: 84d2fbad51861087c84c3171754347302a63196945e12a55a6efb14fb642d512
+  manifest: {file: manifest.json, sha256: 1222c6488fbf42b96047c961a3051ee0d888ba8672d407a054beb0e13adb3bed}
+  series: {file: series.parquet, sha256: 4d215bfbc9d5116982d6d8e615e49987a8269959152ee668ace7a01703478dfe, rows: 84}
+  daily: {file: daily_history.parquet, sha256: 0d20e9b27905f146c7096ce5f1f1501cc7cdf8b373b4064536a44daf580cfcc3, rows: 4372}
+  raw: {file: raw_responses.jsonl.gz, sha256: c9cacbaaad827fb042730780a88ce3dc1238633c1869e0c575b3287edbe15285, rows: 85}
+  audit: {file: audit.json, sha256: c054b4e8eb5f41f363927c30e3fa30ef5114c546563c1d85cd7ff3244e19be95}
+  audit_all_true: true
+  outcomes_absent_at_seal: true
+
+dates:
+  source_start: '2019-01-01'
+  evaluation_start: '2021-01-01'
+  evaluation_end: '2025-12-18'
+  protected_from: '2026-01-01'
+  annualization_sessions: 252
+
+contract_selection:
+  exact_asset_code: RVI
+  nearest_unexpired_contract_after_each_completed_session: true
+  front_days_to_expiry_min: 10
+  front_days_to_expiry_max: 35
+  require_signal_close_positive: true
+  require_signal_positive_volume_and_trades: true
+  no_back_adjustment: true
+  no_return_across_contract_change: true
+
+signal:
+  decision_after_completed_daily_close: true
+  entry_close_gte: 30.0
+  entry_close_lt: 45.0
+  direction: short_same_front_contract
+  take_profit_close_lte: 24.0
+  distant_stop_close_gte: 45.0
+  maximum_holding_exchange_sessions: 20
+  force_exit_days_to_expiry_lte: 5
+  completed_close_trigger_precedence: [distant_stop, take_profit, expiry_buffer, maximum_holding]
+  one_open_position_maximum: true
+  same_session_reentry: false
+  no_dynamic_thresholds_or_model: true
+
+execution:
+  entry: next_factual_open_same_contract_only
+  entry_signal_expires_after_exchange_sessions: 1
+  reject_if_entry_open_gte_distant_stop: true
+  minimum_signal_session_volume: 10
+  maximum_contracts_fraction_of_signal_session_volume: 0.10
+  require_entry_session_positive_volume_and_trades_as_ex_post_fill_evidence: true
+  maximum_contracts_fraction_of_entry_session_volume: 0.10
+  point_value_proxy: signal_session_VALUE_div_VOLUME_div_WAPRICE
+  maximum_entry_point_value_relative_drift: 0.05
+  integer_contracts: true
+  stop_risk_budget_nav: 0.01
+  stop_risk_proxy: contracts_times_signal_point_value_times_stop_minus_entry_open
+  gross_notional_cap_nav: 1.0
+  gross_notional_proxy: contracts_times_signal_point_value_times_entry_open
+  quantity_sizing_nav_basis: initial_nav_only
+  exit: next_factual_open_same_contract_after_completed_close_condition
+  maximum_exit_retry_sessions: 5
+  require_exit_session_positive_volume_and_trades_as_ex_post_fill_evidence: true
+  maximum_contracts_fraction_of_exit_session_volume: 0.50
+  daily_mark_to_market: same_contract_completed_close
+  missing_daily_mark_or_entry_or_exit_invalidates_canonical_economics: true
+  no_settlement_fill_fallback: true
+  initial_nav_rub: 1000000.0
+
+cost_scenarios:
+  primary: {adverse_rvi_points_per_contract_per_side: 0.10}
+  doubled: {adverse_rvi_points_per_contract_per_side: 0.20}
+  stress: {adverse_rvi_points_per_contract_per_side: 0.40}
+  all_scenarios_required: true
+
+evaluation:
+  report_signal_candidate_rejection_trade_and_unresolved_counts: true
+  report_win_rate_profit_factor_exit_reasons_and_worst_trade: true
+  report_cagr_sharpe_mdd_annual_returns_worst_year_and_tail_loss: true
+  report_capacity_point_value_gross_and_risk_caps: true
+  no_variant_or_parameter_selection: true
+
+promotion_gates:
+  minimum_completed_trades: 20
+  primary_cagr_gte: 0.20
+  doubled_cagr_gte: 0.18
+  stress_cagr_gte: 0.10
+  primary_sharpe_gte: 1.0
+  primary_maximum_drawdown_lte: 0.25
+  stress_maximum_drawdown_lte: 0.30
+  primary_worst_calendar_year_gte: -0.15
+  primary_positive_calendar_years_gte: 4
+  primary_worst_trade_nav_fraction_gte: -0.05
+  primary_profit_factor_gte: 1.25
+  unresolved_entries_exits_or_marks_eq: 0
+  promotion_only_to_separately_sealed_exact_cost_capacity_portfolio_test: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v56_rvi_outlier_short_corridor_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, trades.parquet, daily_ledger.parquet, front_state.parquet]
+
+limitations:
+  - Public daily OHLC has no historical bid/ask or queue and cannot prove an opening fill.
+  - VALUE/VOLUME/WAPRICE is a causal point-value proxy, not an exact historical contract specification.
+  - Daily close-triggered stops can gap beyond 45 before the next factual open.
+  - Same-history 2021-2025 evidence is development only and cannot establish predictable profit.
+  - Short volatility has severe tail risk; passing this screen would require an independent unseen validation.
+  - Historical evidence cannot guarantee profit or authorize live trading.
