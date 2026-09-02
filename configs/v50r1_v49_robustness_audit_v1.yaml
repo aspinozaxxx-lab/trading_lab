@@ -1,0 +1,27 @@
+﻿protocol_id: v50r1_v49_robustness_audit_v1
+protocol_version: 1
+status: sealed_after_v50_preflight_metric_mismatch_before_any_resampling
+declared_at_utc: '2026-09-02T15:52:32Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v50:
+  config_path: configs/v50_v49_robustness_audit_v1.yaml
+  protocol_sha256: 0e626e1761f28e73f36d54f58f7d04bb6c892dac9d7158e9396570f545d8fbea
+  failed_preflight_no_output: true
+
+implementation:
+  wrapper_path: src/market_lab/futures_v50r1_v49_robustness.py
+  wrapper_sha256: b35bd178bd86b6315cc19f2d5c77b1fcb530647d759531df6a31041d59cd0495
+  engine_path: src/market_lab/futures_v50_v49_robustness.py
+  engine_sha256: 292e237c55932d79a1262bd12945b1521f6dfefd509568cc85c3981d9e484a91
+
+metric_correction:
+  incorrect_V27_calendar_year_days: 365.2425
+  correct_V49_calendar_year_days: 365.25
+  correction_scope: canonical_V49_metric_replay_only
+  bootstrap_calendar_year_days_unchanged: 365.2425
+  bootstrap_seeds_blocks_replications_windows_gates_changed: false
+  strategy_or_execution_changed: false
+  V50_output_created_before_correction: false
+
