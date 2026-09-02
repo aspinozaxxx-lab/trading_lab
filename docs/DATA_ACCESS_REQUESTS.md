@@ -1,5 +1,23 @@
 ﻿# Запросы платных и лицензируемых данных
 
+## P0 — AlgoPack и право на автоматическую обработку
+
+Public delayed ISS достаточен для source discovery, но не даёт realtime timing,
+best depth/queue и aggressive/cancel flow. Официальная AlgoPack-страница предлагает
+подписку и описывает обновления вплоть до realtime/1m/5m; публичное сообщение указывает
+розничную цену `600 RUB/month`. Однако отдельная официальная страница MOEX прямо
+относит автоматическую обработку для algo trading/risk management к non-display use и
+публикует тариф `7 500 RUB/month` за один рынок для резидента:
+
+- `https://data.moex.com/products/algopack`;
+- `https://www.moex.com/ru/products/nondisplay`.
+
+Поэтому `600 RUB` нельзя автоматически считать достаточной лицензией для нашего
+collector. Перед оплатой нужен письменный ответ `algopack@moex.com`: разрешает ли
+персональная подписка локальное non-display обучение/сигналы без распространения и
+какие рынки/TradeStats/OrderStats/OBStats/depth доступны через API token. До ответа —
+`SLEEPING_NO_CREDENTIALS_NO_SPEND`; токен в Git/log/raw не сохранять.
+
 ## P0 — original-timestamp dividend disclosures
 
 ### Зачем

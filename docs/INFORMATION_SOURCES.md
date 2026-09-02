@@ -1,5 +1,17 @@
 ﻿# Дополнительные источники информации
 
+Официальный source-only аудит same-expiry фьючерсов RUONIA (`RR`) и RUSFAR (`MF`)
+завершён отдельным bundle `moex-ruonia-rusfar-futures-daily-2019-2025-v1`:
+`79` пар, `36 737` daily rows, `444` raw responses, replay `14/14 true`. Экономический
+route поставлен в `SLEEPING_NO_TRADES`: positive activity после 2022 года отсутствует
+у RUONIA и почти отсутствует у RUSFAR, поэтому settlement нельзя выдавать за
+исполняемый spread. Официальные описания:
+`https://www.moex.com/msn/en-ruonia` и `https://www.moex.com/msn/ru-futrusfar`.
+
+Metadata-only проверка старых фьючерсов на ОФЗ (`O2/O4/O6/OX/OV`) также не дала
+текущего маршрута: найденные серии прекратились не позднее июня 2022 года. Ни история
+settlement, ни наличие security metadata сами по себе не являются evidence ликвидности.
+
 Этот документ — очередь новых point-in-time данных, а не список готовых торговых
 сигналов. Источник допускается к PnL только после фиксации прав, raw-архива, SHA-256,
 схемы, `available_at` и отдельного sealed-протокола. Техническая доступность API не
@@ -13,6 +25,13 @@ activity/OI и actual retrieval, поэтому поддерживает continu
 TradeStats/OrderStats/OBStats и cancel/aggressive-flow признаки. Discovery требует 20
 сессий минимум по 30 complete core snapshots; до отдельного economic seal outcomes не
 вычисляются. См. [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
+
+После десяти V2 срезов выявлено устойчивое entitlement-ограничение: anonymous CETS ISS
+не возвращает BID/OFFER `CNYRUB_TOM`, хотя сохраняет clocks/last. V3 не скрывает этот
+факт: spot остаётся optional unresolved, а отдельный exact `CNYRUBF` добавлен как core
+currency state. Первый V3 snapshot дал 35/35 core и raw replay 18/18; никаких returns,
+labels, signals или PnL не вычислялось. Это повышает полноту forward feature source,
+но не превращает delayed public ISS в realtime feed.
 
 Отдельный broad cash-carry source использует тот же fixed 30-stock universe, но добавляет
 matching single-stock futures. Metadata-only проверка дала coverage `30/30`; sealed

@@ -3,6 +3,37 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V44 breadth governor — NO-GO; V41 remains lead
+
+V44 проверил независимую защитную гипотезу: prior-close breadth всего fixed
+30-stock universe должен был заранее переводить V41 из `80/20` в `40/60` при доле
+положительного 63-session momentum ниже `1/3`. Protocol SHA `0343758a...`, seal
+`ca16574`, implementation `a4a4b19`, timestamp-index repair `bca9e86`; canonical run
+`v44_v41_stock_breadth_governor_v1_20260902T092313Z_0343758a`.
+
+На `1 435` valid states получилось `425` risk-off sessions и `58` transitions.
+Primary/doubled/stress CAGR `19.0388% / 18.1239% / 16.1276%`, Sharpe
+`1.3146 / 1.2566 / 1.1372`, MDD `16.9736% / 17.1447% / 16.6651%`, worst year
+`+2.8874% / +1.7434% / -1.3993%`. Защита улучшила часть primary/doubled stability,
+но не прошла обязательный 20% return gate ни в одном cost scenario и ухудшила stress
+Sharpe/worst year. Verdict `NO_GO`; повторная настройка lookback/threshold/scale/sign
+по этой истории запрещена. V41 остаётся историческим lead, но не live-разрешением.
+
+## RUONIA/RUSFAR spread source — COMPLETE, market economically sleeping
+
+Официальный same-expiry futures route RUONIA (`RR`) против RUSFAR (`MF`) прошёл
+source-only аудит. Protocol SHA `0e7db967...`, seal `8296184`, implementation
+`7f2e25d`; external bundle `moex-ruonia-rusfar-futures-daily-2019-2025-v1` содержит
+`79` exact-expiry pairs, `36 737` rows и `444` raw responses. Replay audit `14/14 true`;
+manifest/pairs/daily/raw/audit SHA
+`e5d3dad1.../e17b702b.../261ce00e.../b1d6e35f.../0f7c68d6...`.
+
+Экономический тест не запускается: positive trade-activity rows всего `1 523` у
+RUONIA и `636` у RUSFAR, после 2022 года RUONIA leg полностью без таких наблюдений,
+а `34 592 / 36 737` строк не имеют OPEN/CLOSE. Settlement-only PnL не доказывает
+двухногое исполнение. Статус `SOURCE_COMPLETE_ECONOMIC_SLEEP_NO_TRADES`, не PnL
+`NO_GO`; live trading запрещён.
+
 ## V43 broad carry challenger — 20% GATE PASSED, V41 REMAINS LEAD
 
 Broad carry idle-RUONIA V1 сохранил ровно 29 unit-corrected сделок. Canonical
@@ -89,7 +120,28 @@ post-result same-history robustness: он не выбирает фонд, не �
 Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
 нарушений вне V42; они не исправлялись в этом эксперименте.
 
-### Delayed-BBO V2 — SEALED, AUTOMATION CONFIRMED, source discovery active
+### Cross-market V3 — COMPLETE CORE SOURCE, discovery active
+
+Cross V2 завершён как source-design dead end: все десять immutable срезов
+`10:29..11:59` имели ровно `34/35`, потому что anonymous CETS ISS возвращал для
+`CNYRUB_TOM` clocks/last, но не BID/OFFER. Это не zero quote и не основание скрывать
+пропуск.
+
+V3 SHA `f680f8bb...`, seal `aab247a`, implementation `e204316` был зафиксирован после
+ограниченного source-availability probe, но до первого persisted V3 snapshot. Он
+сохраняет `CNYRUB_TOM` как optional unresolved и добавляет exact `CNYRUBF` как core
+currency state; 30 акций, SI/RI/BR/MIX, четыре фонда, schedule и запрет outcomes не
+меняются. Первый immutable `11:59` snapshot имеет `40` rows, `35/35` complete core,
+`5` raw responses, manifest/normalized/raw/audit SHA
+`0cef4c96.../a722ebd6.../240d30b8.../a159eea1...`, replay audit `18/18 true`.
+Readiness audit на `12:29`: `4/4` complete snapshots, `0` invalid, `0/20` sessions;
+annualization/PnL запрещены.
+
+Task `TradingLabForwardCrossMarketBBO10mV3` включён с `12:09`, V2 cross task
+отключён, broad V2 продолжает работать. Public ISS всё ещё примерно на 15 минут
+задержан и не даёт depth, поэтому V3 решает completeness, но не realtime/queue/fill.
+
+### Delayed-BBO V2 — SEALED, source limitation recorded
 
 V1 установил фактическое ограничение anonymous ISS: BBO задержан примерно на 15 минут,
 а best depth не выдаётся. До следующей quote запечатаны source-only corrections:

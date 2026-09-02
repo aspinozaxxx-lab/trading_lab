@@ -91,3 +91,18 @@ AlgoPack TradeStats/OrderStats/OBStats; после появления `MOEX_ALGO
 identity, но depth хранит как unresolved; realtime, size, queue и fill не утверждаются.
 Wrapper: `scripts/run_forward_cross_market_bbo_v2.ps1`; task:
 `TradingLabForwardCrossMarketBBO10mV2`. V1 task отключён.
+
+## V3: CNY source-completeness correction
+
+Десять V2 slots подряд дали одинаковые `34/35`: у `CNYRUB_TOM` были exchange clocks
+и сделки, но anonymous CETS ISS не отдавал BID/OFFER. V3 SHA `f680f8bb...`, seal
+`aab247a` не zero-impute этот ряд и не смешивает экономические объекты: spot остаётся
+optional `unresolved`, а отдельный exact `CNYRUBF` становится core currency state.
+Официальная карточка контракта:
+`https://www.moex.com/ru/derivatives/perpetual-futures/CNYRUBF`; MOEX указывает лот
+1 000 CNY и cash-settled one-day automatic prolongation.
+
+Первый persisted V3 snapshot `2026-09-02 11:59` имеет 40 rows, 35/35 complete core,
+пять raw responses и audit 18/18. V3 task заменил только cross V2 task; broad V2
+остался активен. Source остаётся примерно 15-minute delayed без depth, поэтому current
+bucket timing, queue и fill всё ещё не доказаны.

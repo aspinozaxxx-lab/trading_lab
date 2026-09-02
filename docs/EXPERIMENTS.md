@@ -1,5 +1,44 @@
 ﻿# Реестр экспериментов
 
+## V44 V41 + stock-breadth governor — canonical NO-GO
+
+- Protocol SHA `0343758a...`, seal `ca16574`, implementation `a4a4b19`, mechanical
+  timestamp-index repair `bca9e86`; canonical run
+  `v44_v41_stock_breadth_governor_v1_20260902T092313Z_0343758a`.
+- Independent prior-close breadth state использует fixed 30-stock universe,
+  `63` sessions momentum и заранее заданный risk-off threshold `1/3`. Только при
+  смене состояния доли V41 меняются с `80/20` на `40/60`; leverage отсутствует,
+  transition costs заданы `5/10/20 bps` на компонент.
+- Получено `1 435` valid states, `425` risk-off sessions и `58` transitions.
+  Primary/doubled/stress CAGR: `19.0388% / 18.1239% / 16.1276%`; Sharpe:
+  `1.3146 / 1.2566 / 1.1372`; MDD: `16.9736% / 17.1447% / 16.6651%`; worst year:
+  `+2.8874% / +1.7434% / -1.3993%`.
+- Governor улучшил primary Sharpe, MDD и worst year, но не прошёл заранее заданный
+  `CAGR >= 20%` ни в одном cost scenario, а в stress ухудшил и Sharpe, и worst year.
+  Verdict `NO_GO`; V41 остаётся lead. Lookback, threshold, scale, sign и costs на этой
+  истории не подбираются повторно.
+- Manifest/metrics/ledger/breadth/audit SHA:
+  `ce19a6e7.../b3c47fbf.../7c9bef90.../6b90085b.../71614586...`.
+
+## MOEX RUONIA/RUSFAR futures daily source V1 — SOURCE COMPLETE, ECONOMIC SLEEP
+
+- Официальная MOEX-конструкция предлагает same-expiry spread между фьючерсами
+  RUONIA (`RR`) и RUSFAR (`MF`). Source protocol SHA `0e7db967...`, seal `8296184`,
+  implementation commit `7f2e25d` был зафиксирован до загрузки истории; bundle:
+  `moex-ruonia-rusfar-futures-daily-2019-2025-v1`.
+- Raw-replay audit `14/14 true`: `79` exact-expiry pairs, `36 737` daily rows,
+  `444` immutable raw responses; outcomes, signals, returns и PnL отсутствуют.
+  Manifest/pairs/daily/raw/audit SHA:
+  `e5d3dad1.../e17b702b.../261ce00e.../b1d6e35f.../0f7c68d6...`.
+- Источник выявил execution blocker: positive trade-activity rows всего `1 523` для
+  RUONIA и `636` для RUSFAR. После 2022 года RUONIA leg не имеет ни одного такого
+  ряда; у RUSFAR их лишь `14` в 2024 и `14` в 2025. `34 592 / 36 737` строк не имеют
+  OPEN/CLOSE, хотя settlement заполнен.
+- Поэтому economic backtest по settlement-only observations запрещён: он выдавал бы
+  синтетическую доходность без исполнимого двухногого рынка. Состояние
+  `SOURCE_COMPLETE_ECONOMIC_SLEEP_NO_TRADES`; это не PnL `NO_GO` и не повод менять
+  заранее запечатанный протокол на той же истории.
+
 ## V43 V39 + broad carry idle-RUONIA — FORWARD CANDIDATE, DOES NOT REPLACE V41
 
 - Config SHA `e816f05f...`, seal `8c9f1a8` froze the inherited 80/20 initial
@@ -95,7 +134,21 @@
   actions while historical futures quotes and RMS per-share cashflows use their own
   units. Do not use these metrics or select winners/losers from them.
 
-## Forward delayed-BBO V2 sources — SEALED, automation confirmed
+## Forward cross-market V3 — COMPLETE CORE SOURCE, automation enabled
+
+- Cross V2 завершил source discovery после десяти slots `10:29..11:59`: каждый был
+  raw-replay valid, но ровно 34/35 core из-за отсутствующего anonymous BID/OFFER для
+  `CNYRUB_TOM`. Нулём это не заменяется; V2 cross task отключён.
+- V3 source SHA `f680f8bb...`, seal `aab247a`, implementation `e204316` сохраняет spot
+  CNY optional/unresolved и добавляет exact `CNYRUBF` как core currency context.
+  First persisted 11:59 snapshot: 40 rows, 35/35 complete core, 5 raw responses;
+  manifest/normalized/raw/audit SHA
+  `0cef4c96.../a722ebd6.../240d30b8.../a159eea1...`, audit 18/18 true.
+- `TradingLabForwardCrossMarketBBO10mV3` включён каждые десять минут; V2 cross
+  отключён. Broad V2 остаётся включён и complete 30/30. V3 всё ещё имеет delayed BBO
+  без depth, поэтому это source completeness, не realtime или fill evidence.
+
+## Forward delayed-BBO V2 sources — SEALED, limitation recorded
 
 - Before any V2 quote, cross config SHA `d4d8910c...` and broad config SHA
   `cb753e01...` were sealed in commit `b152720`. V2 changes source completeness only:
