@@ -155,7 +155,9 @@ def _safe_output_root(value: str) -> Path:
     return PROJECT_ROOT / relative
 
 
-def request_urls(config: dict[str, Any]) -> dict[str, str]:
+def request_urls(
+    config: dict[str, Any], futures_secids: list[str] | tuple[str, ...]
+) -> dict[str, str]:
     common = {
         "iss.meta": "off",
         "iss.only": "securities,marketdata",
@@ -172,11 +174,23 @@ def request_urls(config: dict[str, Any]) -> dict[str, str]:
             ),
         }
     )
+    equity_secids = list(config["universe"]["equities"]["secids"]) + list(
+        config["universe"]["idle_cash_context"]["secids"]
+    )
+    venue_secids = {
+        "equities": equity_secids,
+        "futures": list(futures_secids),
+        "fx": list(config["universe"]["fx"]["secids"]),
+    }
+    if len(set(equity_secids)) != 34 or not futures_secids:
+        raise ValueError("cross-market server-side request universe is incomplete")
+    venue_urls = {}
+    for kind, secids in venue_secids.items():
+        query = urlencode({**common, "securities": ",".join(secids)})
+        venue_urls[kind] = f"{sources[f'{kind}_bulk']}?{query}"
     return {
         "series": f"{sources['futures_series']}?{series_query}",
-        "equities": f"{sources['equities_bulk']}?{urlencode(common)}",
-        "futures": f"{sources['futures_bulk']}?{urlencode(common)}",
-        "fx": f"{sources['fx_bulk']}?{urlencode(common)}",
+        **venue_urls,
     }
 
 
@@ -521,7 +535,16 @@ def collect(
     own_client = client is None
     raw: list[dict[str, Any]] = []
     try:
-        for kind, url in request_urls(config).items():
+        series_url = request_urls(config, ["metadata_selection_pending"])["series"]
+        series_payload = active.get_json(series_url)
+        raw.append({"kind": "series", "url": series_url, "payload": series_payload})
+        selected = select_futures_contracts(series_payload, source_date, config)
+        futures_secids = [
+            contract[0] for contract in selected.values() if contract is not None
+        ]
+        urls = request_urls(config, futures_secids)
+        for kind in ("equities", "futures", "fx"):
+            url = urls[kind]
             raw.append({"kind": kind, "url": url, "payload": active.get_json(url)})
         frame = normalize_snapshot(
             raw,

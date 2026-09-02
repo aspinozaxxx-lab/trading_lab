@@ -108,9 +108,11 @@ def _context() -> tuple[dict[str, Any], pd.Timestamp, pd.Timestamp]:
 
 def test_protocol_and_urls_are_fixed() -> None:
     config = source.load_config()
-    urls = source.request_urls(config)
+    urls = source.request_urls(config, ["SiZ6", "RIZ6", "BRZ6", "MXZ6"])
     assert set(urls) == {"series", "equities", "futures", "fx"}
     assert "marketdata.columns=" in urls["equities"]
+    assert "securities=AFKS%2CAFLT" in urls["equities"]
+    assert "securities=SiZ6%2CRIZ6%2CBRZ6%2CMXZ6" in urls["futures"]
     assert len(config["universe"]["equities"]["secids"]) == 30
 
 
