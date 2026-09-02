@@ -1,0 +1,88 @@
+﻿protocol_id: futures_v27_forward_validation_v2
+protocol_version: 2
+status: sealed_before_first_forward_snapshot_and_before_postseal_official_close_inspection
+declared_at_utc: '2026-09-02T00:36:42Z'
+research_only: true
+live_trading_allowed: false
+
+parent_forward_v1:
+  protocol: configs/futures_v27_forward_validation_v1.yaml
+  protocol_sha256: c1acf97bbeb950452346b6961010ea3df1aeeb05ce24f95130579b69e5b5724e
+  inheritance: all_economics_boundaries_macro_sources_validation_gates_and_forbidden_actions
+
+correction_scope:
+  reason: >-
+    The current MOEX marketdata LAST field is an intraday last trade and is not
+    the official daily CLOSE consumed by the byte-identical parent V12/V27 signal.
+  economic_hypothesis_changed: false
+  parameters_changed: 0
+  market_outcomes_inspected_before_seal: false
+  v1_canonical_snapshots_exist_at_seal: false
+  v1_source_status: superseded_before_first_snapshot
+
+market_source_v2:
+  provider: MOEX_ISS
+  current_chain_endpoint: https://iss.moex.com/iss/engines/futures/markets/forts/securities.json
+  official_daily_history_endpoint_template: >-
+    https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  assets_query: {SI: Si, RI: RTS, BR: BR, MIX: MIX}
+  chain_identity_source: current_chain_endpoint
+  execution_observation_source: current_chain_endpoint
+  decision_eod_price_and_activity_source: official_daily_history_endpoint_template
+  decision_eod_required_history_fields:
+    - SECID
+    - BOARDID
+    - TRADEDATE
+    - OPEN
+    - HIGH
+    - LOW
+    - CLOSE
+    - SETTLEPRICE
+    - NUMTRADES
+    - VOLUME
+    - OPENPOSITION
+  decision_eod_history_query:
+    from: exact_current_chain_TRADEDATE
+    till: exact_current_chain_TRADEDATE
+    start: 0
+  decision_signal_price: CLOSE
+  decision_roll_volume: VOLUME
+  decision_roll_open_interest: OPENPOSITION
+  last_is_signal_close: false
+  settle_is_signal_close: false
+  history_row_trade_date_must_equal_chain_trade_date: true
+  one_history_row_per_listed_unexpired_contract_required: true
+  missing_history_row_policy: reject_entire_snapshot
+  history_pagination_policy: reject_if_more_than_one_exact_date_row
+  synthetic_or_forward_fill: forbidden
+  raw_current_chain_and_each_history_response_preserved: true
+  actual_retrieval_timestamp_required: true
+  access_mode: public_delayed
+
+snapshot_semantics:
+  execution_observation:
+    current_bid_offer_open_last_preserved: true
+    official_daily_close_required: false
+  decision_eod:
+    current_chain_security_metadata_preserved: true
+    current_marketdata_preserved_for_diagnostics_only: true
+    official_history_OHLC_activity_preserved: true
+    derived_signal_close_column: official_history_CLOSE
+    derived_roll_volume_column: official_history_VOLUME
+    derived_roll_open_interest_column: official_history_OPENPOSITION
+
+forward_boundary:
+  inherited_from_v1: true
+  seal_moscow_date: '2026-09-02'
+  earliest_allowed_market_source_date: '2026-09-02'
+  historical_2026_market_backfill: forbidden
+  pre2026_parent_data_for_forward_signal_warmup: forbidden
+  source_snapshots_immutable: true
+
+output:
+  source_root: data/forward/v27-validation-v2
+  paper_root: runs/v27-forward-validation-v2
+  immutable: true
+  contents_in_git: false
+
+forbidden_source_columns: [return, returns, label, target, prediction, pnl, profit, equity]
