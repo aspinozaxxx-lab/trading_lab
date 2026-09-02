@@ -1,0 +1,111 @@
+﻿protocol_id: moex_stock_futures_cash_carry_source_v1
+protocol_version: 1
+status: sealed_after_identity_only_preflight_before_outight_futures_or_dividend_values
+declared_at_utc: '2026-09-02T03:38:00Z'
+scope: source_only_no_basis_returns_targets_signals_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve official MOEX outright single-stock futures daily history and realized
+  dividend reference for a later separately sealed fully funded covered cash-and-carry
+  test: long stock, short same-underlying futures, no naked borrow.
+
+period:
+  start: '2023-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+  price_or_dividend_rows_at_or_after_protected_from: forbidden
+
+universe:
+  logical_assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  equity_secids: {GAZR: GAZP, SBRF: SBER, ROSN: ROSN, TATN: TATN, NOTK: NVTK}
+  asset_codes: {GAZR: GAZR, SBRF: SBRF, ROSN: ROSN, TATN: TATN, NOTK: NOTK}
+  exact_contract_count: 61
+  exact_contract_counts: {GAZR: 12, SBRF: 12, ROSN: 12, TATN: 13, NOTK: 12}
+  exact_secids:
+    GAZR: [GZH3, GZH4, GZH5, GZH6, GZM3, GZM4, GZM5, GZU3, GZU4, GZU5, GZZ4, GZZ5]
+    SBRF: [SRH3, SRH4, SRH5, SRH6, SRM3, SRM4, SRM5, SRU3, SRU4, SRU5, SRZ4, SRZ5]
+    ROSN: [RNH3, RNH4, RNH5, RNH6, RNM3, RNM4, RNM5, RNU3, RNU4, RNU5, RNZ4, RNZ5]
+    TATN: [TTH3, TTH4, TTH5, TTH6, TTM3, TTM4, TTM5, TTU3, TTU4, TTU5, TTZ3, TTZ4, TTZ5]
+    NOTK: [NKH3, NKH4, NKH5, NKM3, NKM4, NKM5, NKU3, NKU4, NKU5, NKZ3, NKZ4, NKZ5]
+  selection_source: union_of_near_and_far_legs_in_presealed_53_spread_catalog
+  selection_uses_futures_price_spot_return_dividend_value_basis_or_pnl: false
+
+identity_source:
+  root: data/processed/info_radar/moex-dividend-calendar-spreads-2023-2025-v1
+  manifest: {file: manifest.json, sha256: a8c1b0b0b9a163908c86c42542daa9607e311cd58e161b2235b5ecf7020362ca}
+  catalog: {file: catalog.parquet, sha256: 4efa085e909e76ea7bcf218261f908ec65f7f1fe0a4c2a7bed719cd9c887c0b3, rows: 53}
+  raw: {file: official_moex_responses.jsonl.gz, sha256: 439a514a34fe72ead9e993591aefd3333cc5b6f6c4c40153584028d65a429a76, rows: 222}
+
+existing_spot_source:
+  root: data/processed/stocks_10m_pre2026_v1
+  manifest: {file: manifest.json, sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042}
+  source_manifest_sha256: 20840effce8ba682c31f3367f88439f0ab3fd26d35ae4c1f8f77a5db159970a0
+  files:
+    GAZP: {file: GAZP_TQBR_10m_pre2026.parquet, sha256: 2db5078e58f307704ab32eb7cf9160ef0ee696f172586116d1976d73c4174eda, rows: 153905}
+    SBER: {file: SBER_TQBR_10m_pre2026.parquet, sha256: 7fdbbd98d00d0b3daf36951075a75769ad1037523e882f6e63263c32021c1a62, rows: 153891}
+    ROSN: {file: ROSN_TQBR_10m_pre2026.parquet, sha256: a595a196724175e9a9e331c6cad96cb0ee5a55c487d8fb63f4c1ec02985ebb34, rows: 153887}
+    TATN: {file: TATN_TQBR_10m_pre2026.parquet, sha256: 9cee661b109be051efa5c25ebd1c6a58abe809095f3536727373d234f6e0fc39, rows: 153766}
+    NVTK: {file: NVTK_TQBR_10m_pre2026.parquet, sha256: 8d67ac3b62d5919bc36957cfa38246b69a347e33fca69df1315cdf83917de7f4, rows: 153654}
+
+anticipated_cashflow_source:
+  root: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4
+  manifest: {file: manifest.json, sha256: e88360d3f1a3476e3e34a67b947fb7aa1a656a2c290aa46e27add84dd397b2e3}
+  cashflow: {file: cashflow.parquet, sha256: be7f9a32bf2b085edb01df4cee8d3a895be10b182e9708fd5e033616dfefad19, rows: 10817}
+  audit: {file: audit.json, sha256: 013c6e234521fc5d6eebf143bddb3c35392251c414dc014e749f672b8726824c}
+
+ruonia_source:
+  root: data/processed/info_radar/cbr-dev-2018-2025-v1
+  manifest: {file: manifest.json, sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c}
+  daily: {file: cbr_daily.parquet, sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d}
+
+official_sources:
+  futures_series: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  futures_board_template: https://iss.moex.com/iss/securities/{secid}.json
+  futures_history_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  dividend_template: https://iss.moex.com/iss/securities/{equity_secid}/dividends.json
+  dividend_required_columns: [secid, isin, registryclosedate, value, currencyid]
+  history_board: RFUD
+
+collection:
+  preserve_series_boards_history_and_dividend_pages_exactly: true
+  stable_cursor_total_required: true
+  signed_prices_allowed: false
+  missing_values: preserve_never_zero_impute
+  daily_available_at: trade_date_plus_one_calendar_day_00_00_Europe_Moscow
+  dividend_reference_availability: outcome_only_never_signal_clock
+  immutable_atomic_output: true
+
+quality_gates:
+  exact_61_contract_identities: true
+  every_contract_board_resolved: true
+  every_raw_response_url_bytes_or_json_preserved: true
+  exact_schema_cursor_and_raw_replay: true
+  protected_rows_zero: true
+  duplicate_contract_date_zero: true
+  realized_dividends_are_outcome_reference_not_point_in_time_signal: true
+  no_basis_returns_targets_signals_predictions_equity_or_pnl: true
+
+output:
+  directory: data/processed/info_radar/moex-stock-futures-cash-carry-source-2023-2025-v1
+  contents_in_git: false
+  immutable: true
+
+limitations:
+  futures_and_dividend_history_are_current_vintage: true
+  dividend_reference_does_not_prove_original_announcement_time: true
+  historical_contract_multiplier_margin_fees_and_order_queue_not_proved: true
+  anonymous_ISS_daily_is_not_bid_ask_execution: true
+  source_cannot_authorize_live_or_claim_profit: true
+
+forbidden_after_collection:
+  - computing_basis_returns_signals_or_pnl_before_a_separate_pushed_economic_protocol
+  - selecting_assets_contracts_dates_or_dividends_by_future_cash_carry_result
+  - using_realized_dividend_reference_in_entry_signal
+  - using_same_day_close_as_preknown_fill
+  - using_any_market_or_dividend_row_at_or_after_2026_01_01
+  - inventing_historical_multiplier_margin_fee_or_queue
+  - live_trading_or_profit_guarantees
+
+forbidden_output_fragments: [basis, return, target, label, signal, prediction, equity, pnl, profit]
