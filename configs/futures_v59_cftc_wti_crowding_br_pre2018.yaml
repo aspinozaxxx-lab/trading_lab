@@ -1,0 +1,66 @@
+﻿protocol_id: futures_v59_cftc_wti_crowding_br_pre2018_v1
+protocol_version: 1
+status: sealed_after_pre2018_cftc_source_audit_before_v59_join_or_pnl
+declared_at_utc: '2026-09-02T19:25:00Z'
+research_only: true
+adaptive_reverse_chronology: true
+live_trading_allowed: false
+
+parent_mechanics:
+  v58_protocol_sha256: 637eb6c44991b8f07b5c74cd844fa4178c8d4f0cc5fe3378c2dc11ebbb26fc31
+  v58_implementation_sha256: d89d784218cc3b7ab06a608e5e512b9c4f6bb283df6563d94a828e0be9d1b4f2
+  only_economic_change: continuation_sign_to_contrarian_crowding_sign
+
+dates:
+  warmup_start: '2012-01-03'
+  warmup_end: '2012-12-31'
+  evaluation_start: '2013-01-01'
+  evaluation_end: '2017-12-01'
+  protected_from: '2018-01-01'
+
+inputs:
+  cftc_positions: {path: data/processed/info_radar/cftc-cot-energy-metals-2012-2017-v1/cot_positions.parquet, sha256: c86412348b044c40e1bd79383f537e0a8c0adc5371cd602679c476b8f2fd8800, bytes: 77965, rows: 626}
+  cftc_manifest: {path: data/processed/info_radar/cftc-cot-energy-metals-2012-2017-v1/manifest.json, sha256: 8ea54168f39f6af112fa9922659a5386bb49fd931270b281719fcf4eb2b9efa2, bytes: 3699}
+  cftc_raw: {path: data/processed/info_radar/cftc-cot-energy-metals-2012-2017-v1/raw_archives.zip, sha256: c93a4c1506b9651c3e05ffddb632e4029def238cbbf4f8e9ae0d6eaadb22ce85, bytes: 9324816}
+  cftc_audit: {path: data/processed/info_radar/cftc-cot-energy-metals-2012-2017-v1/audit.json, sha256: c0cbf0afe25f56d1f9f9a24ac1b426b553dcd5127c9d1115c5931c86aac0e840, bytes: 491}
+  market_panel: {path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/panel.parquet, sha256: d1043ea73a1f4f86e7477c2a3664d08b409148d879435de2889560a1c2a8579c, bytes: 336575, rows: 5916}
+  active_contract_map: {path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/active_contract_map.parquet, sha256: b3ce75f9f7a67a2176741ebb7491ebc760070ef03c9ec3cf28a076542a7f728f, bytes: 372390, rows: 5916}
+  contract_observations: {path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/contract_observations.parquet, sha256: 7f6fb372335e55919fd300070366447d7088c9c35ad9a707ef2a7508607da5c0, bytes: 1198041, rows: 28797}
+  spec_proxy: {path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/spec_proxy.parquet, sha256: d7cecd862229d6564bd5657d96e867c3e9984c6fd47ed671d0121293cef2ab2a, bytes: 2526262, rows: 28797}
+  market_audit: {path: data/processed/futures_pre2018/moex-core4-causal-derived-2012-2017-v3/audit.json, sha256: e98b0c9e72eed532bd99241d6d0859f08d093cd7fc190a0e0e20bbf97a963c86, bytes: 6072}
+
+signal:
+  feature: current_WTI_managed_money_net_share_minus_value_13_admitted_reports_ago
+  direction: positive_short_BR_negative_long_BR_exact_zero_cash
+  lookback_admitted_reports: 13
+  maximum_source_age_calendar_days: 14
+  threshold: none
+  schedule: last_factual_BR_session_of_W_SUN_week
+
+risk_execution:
+  inherited_byte_identical_from_v58_except_dates_and_sign: true
+  BR_log_volatility_lookback_sessions: 20
+  annual_volatility_target: 0.30
+  maximum_absolute_target: 2.0
+  price_baseline_lookback_sessions: 63
+  next_factual_open_and_exact_rolls: true
+  initial_cash_rub: 1000000.0
+  maximum_participation: 0.01
+  margin_buffer: 2.0
+  costs: {primary: [1, 1], doubled: [2, 2], stress: [4, 2]}
+
+promotion_gates:
+  all_scenarios_cagr_gte: 0.20
+  primary_sharpe_gte: 1.0
+  all_scenarios_mdd_lte: 0.30
+  primary_positive_years_gte: 4
+  all_scenarios_execution_complete: true
+  no_live_promotion: true
+
+outputs:
+  root: runs/v59_cftc_wti_crowding_br_pre2018_v1
+
+limitations:
+  - Reverse-chronology validation was motivated by observed V58 failure and is not pristine.
+  - Existing pre-2018 MOEX OHLC/spec history is approximate and cannot prove opening fills.
+  - Historical evidence cannot guarantee profit or authorize live trading.
