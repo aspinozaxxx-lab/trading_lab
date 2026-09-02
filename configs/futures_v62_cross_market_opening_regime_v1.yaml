@@ -1,0 +1,191 @@
+﻿protocol_id: futures_v62_cross_market_opening_regime_v1
+protocol_version: 1
+status: sealed_before_first_v62_market_outcome_read
+research_only: true
+live_trading_allowed: false
+
+outcome_boundary:
+  all_market_prices_returns_targets_predictions_signals_equity_and_pnl_for_v62_unread_before_seal: true
+  metadata_schema_counts_and_timestamp_coverage_may_be_read_before_seal: true
+  one_canonical_economic_read_only_after_commit_push_and_exact_server_deploy: true
+  post_outcome_parameter_sign_horizon_threshold_feature_or_risk_tuning_inside_v62: forbidden
+  protected_market_timestamp_from: '2026-01-01T00:00:00Z'
+
+hypothesis:
+  statement: >-
+    The transition from the previous 18:40 Moscow main-session close into the first
+    hour of the next main session is a distinct information event. A small neural
+    classifier that observes synchronized gap, opening reaction, volatility and
+    breadth across BR, MIX, RI and SI can distinguish continuation from gap reversal
+    and abstain when neither direction clears a fixed confidence threshold.
+  distinction_from_prior_intraday_families:
+    - only the structurally predeclared opening decisions are eligible, never every bar
+    - previous-main-close to current-main-open gaps are explicit primary features
+    - the target is a fixed sixty-minute next-open to exact-open direction
+    - every decision sees all four futures and may trade each asset independently
+    - fixed probability thresholds replace calibration-tail threshold search
+  economic_role: independent_intraday_sleeve_candidate_for_later_presealed_blend
+
+source:
+  historical_root_argument_required: true
+  expected_relative_root: data/processed/futures_v7_10m
+  top_manifest_relative_path: data/processed/futures_v7_10m/manifest_2018-01-01_2025-12-31.json
+  top_manifest_sha256: f620ff77a5368c93d6415fc1b5785f9eaaba6cef873a4425fcd98e9b69f3ba01
+  active_map_relative_path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+  active_map_sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+  spec_proxy_relative_path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+  spec_proxy_sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+  official_source: anonymous_MOEX_ISS
+  assets: [BR, MIX, RI, SI]
+  source_asset_aliases: {BR: BR, MIX: MIX, RTS: RI, Si: SI}
+  missing_or_nonpositive_ohlcv: mask_never_impute
+  roll_or_session_gap_return_bridge: forbidden
+
+clock:
+  timezone: Europe/Moscow
+  source_timestamp_semantics: ten_minute_bar_open
+  previous_main_close_bar_open: '18:40:00'
+  previous_main_close_known_at: '18:50:00'
+  decision_bar_opens: ['10:00:00', '10:30:00', '11:00:00']
+  decision_after_bar_minutes: 10
+  entry: next_exact_ten_minute_same_contract_bar_open
+  target_exit: sixth_exact_ten_minute_successor_open_after_entry
+  target_horizon_minutes: 60
+  same_contract_exact_clock_path_required: true
+  overnight_positions: forbidden
+  latest_forced_exit_open: '12:20:00'
+
+candidate:
+  rolling_gap_scale_sessions: 60
+  rolling_horizon_volatility_sessions: 60
+  rolling_previous_session_shape_sessions: 20
+  minimum_history_sessions: 60
+  minimum_absolute_own_gap_z: 0.75
+  alternative_minimum_cross_market_gap_dispersion: 1.00
+  all_four_assets_required_at_decision: true
+  exact_previous_main_close_required_for_all_assets: true
+  maximum_one_trade_per_asset_per_session: true
+  later_decision_allowed_only_if_asset_has_not_entered_earlier: true
+
+features:
+  causal_train_fold_transforms_only: true
+  asset_identity_one_hot: true
+  decision_identity_one_hot: true
+  per_asset_for_all_four_markets:
+    - standardized_overnight_gap
+    - opening_return_through_decision
+    - previous_main_session_return
+    - previous_main_session_realized_volatility
+    - rolling_sixty_session_gap_volatility
+    - rolling_sixty_session_target_horizon_volatility
+  cross_market:
+    - gap_z_mean
+    - gap_z_dispersion
+    - gap_z_minimum
+    - gap_z_maximum
+    - opening_return_mean
+    - opening_return_dispersion
+    - positive_gap_breadth
+    - positive_opening_return_breadth
+    - RI_minus_MIX_gap_z
+    - SI_minus_BR_gap_z
+  calendar: [weekday_sine, weekday_cosine]
+  normalization: training_slice_median_iqr
+  missing_feature_policy: training_median_plus_missing_indicator
+  forbidden: [future_bar, future_return, target, prediction, signal, equity, pnl, calendar_year_identity]
+
+target:
+  kind: binary_positive_sixty_minute_return_before_trading_cost
+  return: entry_exact_open_to_exit_exact_open_same_contract
+  label_positive_if_raw_return_strictly_positive: true
+  missing_entry_exit_or_exact_path: unresolved_and_not_a_training_row
+  target_never_used_for_candidate_or_feature_eligibility: true
+
+models:
+  primary:
+    family: sklearn_MLPClassifier_fixed_ensemble
+    hidden_layers: [32, 16]
+    activation: relu
+    solver: adam
+    alpha: 0.001
+    learning_rate_init: 0.0005
+    batch_size: 256
+    maximum_iterations: 80
+    early_stopping: true
+    validation_fraction_from_training_only: 0.15
+    no_improvement_iterations: 8
+    seeds: [6201, 6202, 6203]
+    ensemble: arithmetic_mean_without_seed_selection
+  ablations:
+    - logistic_regression_L2_C_0_1_same_features
+    - deterministic_gap_fade_same_candidates_and_execution
+    - deterministic_gap_continuation_same_candidates_and_execution
+  no_hyperparameter_or_architecture_search: true
+
+folds:
+  expanding_outer_test_years: [2021, 2022, 2023, 2024, 2025]
+  first_training_start: '2018-01-01'
+  training_end: prior_calendar_year
+  purge_sessions_before_test: 2
+  retrain_frequency: once_before_each_test_year
+  minimum_training_candidates: 1000
+  minimum_class_rows_each: 200
+  oos_targets_unread_during_inference: true
+  calibration_or_threshold_search: forbidden
+
+policy:
+  long_probability_threshold: 0.60
+  short_probability_threshold: 0.40
+  between_thresholds: wait
+  direction: long_above_long_threshold_short_below_short_threshold
+  choose_earliest_passing_decision_per_asset_session: true
+  probability_tie_or_nonfinite: wait
+  pyramiding: false
+
+execution_and_risk:
+  initial_cash_rub: 1000000.0
+  target_gross_per_asset: 0.60
+  maximum_asset_gross: 0.75
+  maximum_portfolio_gross: 2.00
+  integer_contracts: truncate_toward_zero
+  signal_bar_volume_participation: 0.0025
+  factual_entry_and_exit_volume_participation_cap: 0.01
+  insufficient_integer_or_capacity: no_fill_explicit
+  unknown_specification: no_fill_explicit
+  collateral_interest: zero
+  scenarios:
+    primary: {slippage_ticks_per_side: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_side: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_side: 4, fee_multiplier: 2.0}
+  daily_mark: latest_completed_trade_exit_equity_then_cash
+  simultaneous_trade_order: [BR, MIX, RI, SI]
+
+reporting:
+  metrics: [candidate_count, prediction_count, trade_count, cagr, sharpe, maximum_drawdown, worst_year, positive_years, turnover, costs, long_short_balance, maximum_participation]
+  per_year_asset_decision_and_direction: true
+  exact_source_model_prediction_trade_equity_and_metric_artifacts: true
+  independent_hash_and_causality_audit: true
+
+promotion_gate:
+  primary_cagr_minimum: 0.20
+  doubled_cagr_minimum: 0.20
+  stress_cagr_minimum: 0.15
+  primary_sharpe_minimum: 1.0
+  primary_maximum_drawdown_ceiling: 0.30
+  minimum_positive_test_years: 4
+  worst_test_year_minimum: 0.0
+  minimum_completed_trades: 250
+  unresolved_count_maximum: 0
+  primary_cagr_advantage_over_every_ablation: 0.02
+  primary_sharpe_advantage_over_every_ablation: 0.10
+  aspirational_cagr: 0.50
+  any_pass_is_development_only_and_requires_new_forward_confirmation: true
+  live_promotion_allowed: false
+
+forbidden_after_seal:
+  - reading_or_using_any_2026_or_later_market_price_return_target_or_pnl
+  - changing_feature_candidate_decision_horizon_label_model_threshold_risk_or_cost_rules
+  - selecting_a_best_seed_year_asset_direction_or_decision_as_the_reported_strategy
+  - treating_an_ablation_as_primary_after_viewing_results
+  - blending_with_V41_V49_or_any_parent_before_a_new_sealed_blend_protocol
+  - repeating_the_canonical_economic_run
