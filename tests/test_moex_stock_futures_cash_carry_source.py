@@ -10,11 +10,15 @@ from market_lab.futures import moex_stock_futures_cash_carry_source as source
 def test_protocol_and_identity_catalog_are_exact() -> None:
     protocol = source.load_protocol()
     catalog, raw_series = source.build_contract_catalog(protocol)
+    cashflows = source._load_rms_cashflows(protocol)
 
     assert protocol.config_sha256 == source.CONFIG_SHA256
     assert len(catalog) == 61
     assert len(raw_series) == 5
     assert catalog.groupby("logical_asset").size().to_dict() == source.EXPECTED_COUNTS
+    assert tuple(cashflows.columns) == source.RMS_COLUMNS
+    assert set(cashflows["logical_asset"]) == set(source.ASSETS)
+    assert pd.to_datetime(cashflows["available_at_utc"], utc=True).dt.year.max() <= 2025
 
 
 def test_dividend_parser_filters_period_and_marks_outcome_only() -> None:

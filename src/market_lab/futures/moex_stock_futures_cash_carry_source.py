@@ -29,10 +29,10 @@ from market_lab.io_utils import atomic_write_bytes, write_json
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
 CONFIG_PATH: Final[Path] = (
-    PROJECT_ROOT / "configs/moex_stock_futures_cash_carry_source_v1.yaml"
+    PROJECT_ROOT / "configs/moex_stock_futures_cash_carry_source_v2.yaml"
 )
 CONFIG_SHA256: Final[str] = (
-    "a97377752e7f64997be1b5307c9e042983ccf5e8d983cd5fb9b2679211053c14"
+    "ffef45246bf728d400641d6de8c3272e55aa0c25c908f50b5b4cbfdc5880195d"
 )
 SOURCE_START: Final[date] = date(2023, 1, 1)
 SOURCE_END: Final[date] = date(2025, 12, 31)
@@ -44,6 +44,13 @@ EQUITY_SECIDS: Final[dict[str, str]] = {
     "ROSN": "ROSN",
     "TATN": "TATN",
     "NOTK": "NVTK",
+}
+RMS_ASSETCODES: Final[dict[str, str]] = {
+    "GAZR": "GAZPF",
+    "SBRF": "SBRF",
+    "ROSN": "ROSN",
+    "TATN": "TATN",
+    "NOTK": "NOTK",
 }
 EXPECTED_COUNTS: Final[dict[str, int]] = {
     "GAZR": 12,
@@ -102,6 +109,19 @@ DIVIDEND_COLUMNS: Final[tuple[str, ...]] = (
     "value",
     "currency_id",
     "outcome_reference_only",
+    "retrieved_at_utc",
+)
+RMS_COLUMNS: Final[tuple[str, ...]] = (
+    "logical_asset",
+    "tradedate",
+    "assetcode",
+    "t",
+    "cf",
+    "cfrisk",
+    "updatetime",
+    "archive_query_date",
+    "source_table",
+    "available_at_utc",
     "retrieved_at_utc",
 )
 FORBIDDEN: Final[tuple[str, ...]] = (
@@ -170,7 +190,7 @@ def load_protocol() -> Protocol:
     if (
         actual != CONFIG_SHA256
         or declared != actual
-        or payload.get("protocol_id") != "moex_stock_futures_cash_carry_source_v1"
+        or payload.get("protocol_id") != "moex_stock_futures_cash_carry_source_v2"
         or payload.get("scope")
         != "source_only_no_basis_returns_targets_signals_or_pnl"
         or payload.get("live_trading_allowed") is not False
@@ -179,6 +199,7 @@ def load_protocol() -> Protocol:
         or date.fromisoformat(period["protected_from"]) != PROTECTED_FROM
         or tuple(universe["logical_assets"]) != ASSETS
         or universe["equity_secids"] != EQUITY_SECIDS
+        or universe["rms_assetcodes"] != RMS_ASSETCODES
         or {key: int(value) for key, value in universe["exact_contract_counts"].items()}
         != EXPECTED_COUNTS
         or int(universe["exact_contract_count"]) != sum(EXPECTED_COUNTS.values())
@@ -482,6 +503,33 @@ def _fetch_dividends(
     )
 
 
+def _load_rms_cashflows(protocol: Protocol) -> pd.DataFrame:
+    section = protocol.payload["anticipated_cashflow_source"]
+    path = _project_path(section["root"], "data") / section["cashflow"]["file"]
+    frame = pd.read_parquet(path)
+    expected = set(RMS_COLUMNS) - {"logical_asset"}
+    if set(frame.columns) != expected:
+        raise ValueError("stock cash-carry RMS cashflow schema drifted")
+    inverse = {value: key for key, value in RMS_ASSETCODES.items()}
+    output = frame.loc[frame["assetcode"].astype(str).isin(inverse)].copy()
+    output.insert(0, "logical_asset", output["assetcode"].astype(str).map(inverse))
+    trade_dates = pd.to_datetime(output["tradedate"], errors="raise")
+    archive_dates = pd.to_datetime(output["archive_query_date"], errors="raise")
+    available = pd.to_datetime(output["available_at_utc"], errors="raise", utc=True)
+    mask = (
+        trade_dates.dt.date.between(SOURCE_START, SOURCE_END)
+        & archive_dates.dt.date.between(SOURCE_START, SOURCE_END)
+        & available.dt.date.lt(PROTECTED_FROM)
+    )
+    output = output.loc[mask, RMS_COLUMNS].sort_values(
+        ["archive_query_date", "logical_asset", "tradedate", "available_at_utc"],
+        ignore_index=True,
+    )
+    if output.empty or output["logical_asset"].isna().any():
+        raise ValueError("stock cash-carry RMS cashflow coverage is empty")
+    return output
+
+
 def _raw_bytes(records: list[dict[str, Any]]) -> bytes:
     lines = [
         json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
@@ -575,67 +623,52 @@ def collect(protocol: Protocol, client: shared.OfficialMoexClient | None = None)
             if not daily.empty:
                 daily_frames.append(daily)
             contract_rows.append(enriched)
-        retrieved_at = pd.Timestamp.now(tz="UTC")
-        dividend_frames: list[pd.DataFrame] = []
-        for asset in ASSETS:
-            dividends, dividend_raw = _fetch_dividends(active, asset, retrieved_at)
-            raw_records.extend(dividend_raw)
-            if not dividends.empty:
-                dividend_frames.append(dividends)
+        cashflows = _load_rms_cashflows(protocol)
         catalog = pd.DataFrame(contract_rows, columns=CONTRACT_COLUMNS).sort_values(
             ["logical_asset", "expiration", "secid"], ignore_index=True
         )
         daily = pd.concat(daily_frames, ignore_index=True).sort_values(
             ["trade_date", "logical_asset", "expiration", "secid"], ignore_index=True
         )
-        dividends = (
-            pd.concat(dividend_frames, ignore_index=True).sort_values(
-                ["registry_close_date", "logical_asset"], ignore_index=True
-            )
-            if dividend_frames
-            else pd.DataFrame(columns=DIVIDEND_COLUMNS)
-        )
         if len(catalog) != 61 or daily.duplicated(["trade_date", "contract_id"]).any():
             raise ValueError("stock cash-carry source catalog/daily identity failed")
-        if any(_forbidden(frame) for frame in (catalog, daily, dividends)):
+        if any(_forbidden(frame) for frame in (catalog, daily, cashflows)):
             raise ValueError("stock cash-carry source leaked outcome columns")
         if pd.to_datetime(daily["trade_date"]).dt.date.ge(PROTECTED_FROM).any():
             raise ValueError("stock cash-carry daily source crossed protected period")
-        if not dividends.empty and pd.to_datetime(dividends["registry_close_date"]).dt.date.ge(
+        if pd.to_datetime(cashflows["available_at_utc"], utc=True).dt.date.ge(
             PROTECTED_FROM
         ).any():
-            raise ValueError("stock cash-carry dividend source crossed protected period")
+            raise ValueError("stock cash-carry cashflow source crossed protected period")
         paths = {
             "contracts": temporary / "contracts.parquet",
             "futures_daily": temporary / "futures_daily.parquet",
-            "realized_dividends": temporary / "realized_dividends.parquet",
+            "rms_cashflows": temporary / "rms_cashflows.parquet",
             "raw": temporary / "official_moex_responses.jsonl.gz",
         }
         _write_parquet(paths["contracts"], catalog)
         _write_parquet(paths["futures_daily"], daily)
-        _write_parquet(paths["realized_dividends"], dividends)
+        _write_parquet(paths["rms_cashflows"], cashflows)
         atomic_write_bytes(paths["raw"], _raw_bytes(raw_records))
         artifacts = {
             "contracts": _artifact(paths["contracts"], len(catalog)),
             "futures_daily": _artifact(paths["futures_daily"], len(daily)),
-            "realized_dividends": _artifact(
-                paths["realized_dividends"], len(dividends)
-            ),
+            "rms_cashflows": _artifact(paths["rms_cashflows"], len(cashflows)),
             "raw": _artifact(paths["raw"], len(raw_records)),
         }
         manifest = {
-            "bundle_id": "moex-stock-futures-cash-carry-source-2023-2025-v1",
+            "bundle_id": "moex-stock-futures-cash-carry-source-2023-2025-v2",
             "created_at_utc": datetime.now(UTC).isoformat(),
             "protocol_sha256": protocol.config_sha256,
             "implementation_sha256": sha256_file(Path(__file__)),
             "source_only": True,
             "contains_basis_returns_targets_signals_predictions_equity_or_pnl": False,
-            "realized_dividends_outcome_reference_only": True,
+            "rms_cashflows_are_pinned_point_in_time_observations": True,
             "live_trading_allowed": False,
             "counts": {
                 "contracts": len(catalog),
                 "futures_daily_rows": len(daily),
-                "realized_dividend_rows": len(dividends),
+                "rms_cashflow_rows": len(cashflows),
                 "raw_responses": len(raw_records),
                 "by_asset": {
                     asset: int(catalog["logical_asset"].eq(asset).sum()) for asset in ASSETS
@@ -671,12 +704,14 @@ def audit(protocol: Protocol) -> dict[str, bool]:
         "implementation_sha_exact": manifest["implementation_sha256"]
         == sha256_file(Path(__file__)),
         "source_only": manifest["source_only"] is True,
-        "outcome_reference_only": manifest["realized_dividends_outcome_reference_only"]
+        "rms_cashflows_pit": manifest[
+            "rms_cashflows_are_pinned_point_in_time_observations"
+        ]
         is True,
         "live_forbidden": manifest["live_trading_allowed"] is False,
     }
     frames: dict[str, pd.DataFrame] = {}
-    for name in ("contracts", "futures_daily", "realized_dividends"):
+    for name in ("contracts", "futures_daily", "rms_cashflows"):
         declaration = manifest["artifacts"][name]
         path = root / declaration["file"]
         checks[f"{name}_sha_exact"] = sha256_file(path) == declaration["sha256"]
@@ -694,10 +729,10 @@ def audit(protocol: Protocol) -> dict[str, bool]:
     checks["raw_rows_exact"] = len(raw) == raw_declaration["rows"]
     catalog = frames["contracts"]
     daily = frames["futures_daily"]
-    dividends = frames["realized_dividends"]
+    cashflows = frames["rms_cashflows"]
     checks["catalog_columns_exact"] = tuple(catalog.columns) == CONTRACT_COLUMNS
     checks["daily_columns_exact"] = tuple(daily.columns) == DAILY_COLUMNS
-    checks["dividend_columns_exact"] = tuple(dividends.columns) == DIVIDEND_COLUMNS
+    checks["rms_columns_exact"] = tuple(cashflows.columns) == RMS_COLUMNS
     checks["contract_count_exact"] = len(catalog) == 61
     checks["asset_counts_exact"] = {
         asset: int(catalog["logical_asset"].eq(asset).sum()) for asset in ASSETS
@@ -706,16 +741,16 @@ def audit(protocol: Protocol) -> dict[str, bool]:
     checks["daily_before_protected"] = bool(
         daily.empty or pd.to_datetime(daily["trade_date"]).dt.date.lt(PROTECTED_FROM).all()
     )
-    checks["dividends_before_protected"] = bool(
-        dividends.empty
-        or pd.to_datetime(dividends["registry_close_date"]).dt.date.lt(PROTECTED_FROM).all()
+    checks["cashflows_before_protected"] = bool(
+        not cashflows.empty
+        and pd.to_datetime(cashflows["available_at_utc"], utc=True)
+        .dt.date.lt(PROTECTED_FROM)
+        .all()
     )
     index = catalog.set_index("contract_id", drop=False)
     replay_daily: list[pd.DataFrame] = []
-    replay_dividends: list[pd.DataFrame] = []
     board_count = 0
     series_count = 0
-    dividend_page_count = 0
     for item in raw:
         kind = item["kind"]
         if kind == "series":
@@ -742,23 +777,9 @@ def audit(protocol: Protocol) -> dict[str, bool]:
             if not frame.empty:
                 replay_daily.append(frame)
             continue
-        if kind == "dividends":
-            retrieved = pd.Timestamp(item["retrieved_at_utc"])
-            frame, _ = _parse_dividends(item["payload"], item["logical_asset"], retrieved)
-            if not frame.empty:
-                replay_dividends.append(frame)
-            dividend_page_count += 1
-            continue
         raise ValueError(f"unknown stock cash-carry raw kind: {kind}")
     replayed_daily = pd.concat(replay_daily, ignore_index=True).sort_values(
         ["trade_date", "logical_asset", "expiration", "secid"], ignore_index=True
-    )
-    replayed_dividends = (
-        pd.concat(replay_dividends, ignore_index=True).sort_values(
-            ["registry_close_date", "logical_asset"], ignore_index=True
-        )
-        if replay_dividends
-        else pd.DataFrame(columns=DIVIDEND_COLUMNS)
     )
     try:
         pd.testing.assert_frame_equal(replayed_daily, daily, check_dtype=False)
@@ -766,13 +787,12 @@ def audit(protocol: Protocol) -> dict[str, bool]:
     except AssertionError:
         checks["raw_daily_replay_exact"] = False
     try:
-        pd.testing.assert_frame_equal(replayed_dividends, dividends, check_dtype=False)
-        checks["raw_dividend_replay_exact"] = True
+        pd.testing.assert_frame_equal(_load_rms_cashflows(protocol), cashflows, check_dtype=False)
+        checks["pinned_rms_replay_exact"] = True
     except AssertionError:
-        checks["raw_dividend_replay_exact"] = False
+        checks["pinned_rms_replay_exact"] = False
     checks["raw_series_count_exact"] = series_count == len(ASSETS)
     checks["raw_board_count_exact"] = board_count == len(catalog)
-    checks["raw_dividend_pages_present"] = dividend_page_count >= len(ASSETS)
     if not all(checks.values()):
         raise ValueError(f"stock cash-carry source audit failed: {checks}")
     return checks
