@@ -1,0 +1,104 @@
+﻿protocol_id: futures_v48_v47_exact_integer_execution_v1
+protocol_version: 1
+status: sealed_before_any_scaled_exact_order_position_or_pnl
+declared_at_utc: '2026-09-02T10:19:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  The V47 normalized stability and frontier modes retain economically useful return
+  after scaling the frozen V39 targets themselves, exact integer sizing, factual next
+  open execution, 1% lagged-volume capacity, doubled margin reserve and all costs.
+  Capacity and margin clipping are accepted outcomes, never bypassed.
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    governed_weights: {file: weekly_v39_governed_weights.parquet, sha256: 18bbd806e03cb16f2e40252dad0fd90ef673bb9a5d6236a44e84a5166d71cdb8, rows: 1672}
+    mapped_targets: {file: mapped_targets.parquet, sha256: 86fb4cdc66d6158a2ba31b3555db26c0c6c47d52a37cd4257361fb7642905737, rows: 1208}
+  v47_benchmark:
+    root: runs/v47_v39_margin_feasible_risk_ladder_v1_20260902T101210Z_0b3524f4
+    protocol_sha256: 0b3524f46220b3c372de702f04f5979f987974674490ac3662e412a5c330212e
+    manifest: {file: manifest.json, sha256: f478bd7456590fe09ace63aa115dedbb222a0a0d7a242a962e3cd1cca1230071}
+    metrics: {file: metrics.json, sha256: 67d7df1a4a45c0c258f8b781b935f49a8e32d460b8c66adf967af09fe45f4264}
+  broad_carry:
+    root: runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172
+    protocol_sha256: e5d91172a7b78fa25cabe2568d09c33975d472896c40b871e3d33ff6f071907c
+    manifest: {file: manifest.json, sha256: 9fa21e58187a55a0367cf09142f6b91fa7a444314a04e72c539d256342c5227e}
+    ledger: {file: daily_ledger.parquet, sha256: d04539a419e72ce4a506d8db8c1c187bae89eed3642dfbe2648117df5fafa955, rows: 1827}
+
+modes:
+  stability:
+    mapped_target_multiplier: 1.10
+    maximum_gross_notional_multiple: 2.20
+    initial_margin_buffer_multiplier: 2.50
+    broad_carry_cash_fraction: 0.20
+    carry_accounting: add_only_frozen_carry_nav_above_displaced_half_ruonia_baseline
+  frontier:
+    mapped_target_multiplier: 1.50
+    maximum_gross_notional_multiple: 3.00
+    initial_margin_buffer_multiplier: 2.00
+    broad_carry_cash_fraction: 0.00
+    carry_accounting: none
+  select_mode_after_outcome: false
+
+execution:
+  engine: frozen_v39_portfolio_ledger_with_generalized_sealed_gross_normalizer
+  initial_cash_rub: 1000000.0
+  exact_integer_contracts: true
+  next_factual_open: true
+  roll_atomicity: asset
+  maximum_lagged_volume_participation: 0.01
+  missing_or_unexecutable: cancel_and_clip
+  terminal_policy: carry
+  scaled_target_direction_and_zero_states_unchanged: true
+  margin_or_gross_limit_bypass_forbidden: true
+
+scenarios:
+  primary: {slippage_ticks: 1, fee_multiplier: 1.0, carry: primary}
+  doubled: {slippage_ticks: 2, fee_multiplier: 2.0, carry: doubled}
+  stress: {slippage_ticks: 4, fee_multiplier: 2.0, carry: zero_cashflow_stress}
+  execution_stress: {slippage_ticks: 4, fee_multiplier: 2.0, carry: delayed_fill_stress}
+
+dates:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+
+gates:
+  shared:
+    execution_complete: true
+    zero_critical_failures: true
+    zero_unresolved_halts: true
+    maximum_participation_lte: 0.01
+    all_nav_positive: true
+  stability:
+    all_scenario_cagr_gte: 0.20
+    all_scenario_sharpe_gte: 1.00
+    all_scenario_mdd_lte: 0.30
+    all_scenario_worst_year_gte: -0.10
+    primary_positive_years_gte: 5
+  frontier:
+    primary_cagr_gte: 0.35
+    all_scenario_cagr_gte: 0.30
+    all_scenario_sharpe_gte: 0.90
+    all_scenario_mdd_lte: 0.40
+    all_scenario_worst_year_gte: -0.15
+    primary_positive_years_gte: 4
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v48_v47_exact_integer_execution_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet, orders.parquet, positions.parquet, scaled_targets.parquet]
+
+limitations:
+  - This reuses 2021-2025 outcomes and is not independent confirmation.
+  - Historical specs and public OHLC are proxies rather than broker fill logs.
+  - Margin offsets and broker house requirements can be worse than the sealed buffer.
+  - Carry execution and the cash instrument remain historically unproved.
+  - Historical evidence cannot guarantee profit or authorize live trading.
