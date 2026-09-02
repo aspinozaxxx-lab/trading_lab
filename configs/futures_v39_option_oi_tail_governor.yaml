@@ -1,0 +1,158 @@
+﻿protocol_id: futures_v39_option_oi_tail_governor_v1
+protocol_version: 1
+status: predeclared_after_target_free_source_audit_before_option_state_pnl_join
+declared_at_utc: '2026-09-02T02:36:00Z'
+research_only: true
+sealed_before_outcomes: true
+live_trading_allowed: false
+
+relationship_to_prior_work: >-
+  V39 preserves the frozen V27 signal, STLFSI4 and key-rate governors, exact 2x
+  leverage, RUONIA collateral, capacity policy, futures execution and costs. It adds
+  one asset-specific veto from lagged aggregate option open-interest composition.
+  Options are never traded and settlement prices are never treated as fills.
+
+parent_v27:
+  protocol_path: configs/futures_v27_key_rate_extreme_governor.yaml
+  protocol_sha256: 7a9a44cf7b09c7820a514b2706e332744a3b30ced8b7d3d4c8bdf7448a3194fe
+  implementation_path: src/market_lab/futures_v27_key_rate_extreme_governor.py
+  implementation_sha256: 8c86f97be3ae0cef09f4f4d1a79a609f1063e7ca0eebab1a67a4c69a267dea66
+  canonical_run: runs/v27_key_rate_governor_20260901T052350Z_7a9a44cf
+  metrics_sha256: 5fc1f271acf8f9df711006bca24e6bc40425bf097c21e989eb0296baeb0e7654
+  identity_sha256: 3f8f705dc755ea26039390c6ed306a006dfc3ea331f2bf6474b659b9c1c77384
+  combined_reference:
+    primary: {cagr: 0.28375239823077547, sharpe: 1.2119172724470118, maximum_drawdown: 0.20713841628396878}
+    doubled: {cagr: 0.276201382811615, sharpe: 1.1917550495705265, maximum_drawdown: 0.20940952178675276}
+    stress: {cagr: 0.2736428665095234, sharpe: 1.1838727815643257, maximum_drawdown: 0.2105110847663768}
+
+source:
+  provider: Moscow_Exchange_MOEX_ISS
+  official_interface: https://www.moex.com/a8531
+  archive_protocol_path: configs/moex_options_weekly_state_source_v3.yaml
+  archive_protocol_sha256: a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3
+  archive_implementation_path: src/market_lab/futures/moex_options_weekly_state_source_v3.py
+  archive_implementation_sha256: c709d35a7fbd8845ec46fa476e40476d98f9f4524428a92a16a718d1f56aa3bb
+  archive_root: data/processed/options/moex-core4-options-weekly-2021-2025-v3
+  manifest_sha256: 0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66
+  audit_sha256: e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec
+  processed:
+    path: options_weekly_core4.parquet
+    bytes: 12209731
+    sha256: fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d
+    rows: 1327744
+    minimum_tradedate: '2021-01-08'
+    maximum_tradedate: '2025-12-30'
+    allowed_columns: [tradedate, logical_asset, option_type, openposition]
+  job_count: 1044
+  unique_dates: 261
+  asset_week_groups: 1044
+  groups_with_positive_call_and_put_open_interest: 1044
+  raw_replay_audit_all_true_required: true
+  contains_returns_targets_predictions_or_pnl: false
+  option_price_columns_used_by_v39: false
+
+hypothesis:
+  statement: >-
+    An unusually large weekly increase in an asset's aggregate put share of option open
+    interest can identify a left-tail hedge-demand shock and veto only a frozen-V27
+    long. A symmetric unusually large decrease can identify call-side pressure and veto
+    only a short. Non-extreme and directionally compatible states pass unchanged.
+  economic_mechanism:
+    - aggregate_all_strikes_maturities_and_week_codes_without_selection
+    - use_open_interest_composition_not_option_execution_prices
+    - compare_scale_free_weekly_put_share_changes_with_own_trailing_history
+    - veto_only_a_direction_exposed_to_the_detected_tail_pressure
+    - never_increase_or_reverse_the_parent_target
+  primary_comparison: frozen_V27_scenario_references
+
+dates:
+  source_start: '2021-01-08'
+  oos_start: '2021-01-01'
+  oos_end: '2025-12-31'
+  forbidden_from: '2026-01-01'
+  timezone: Europe/Moscow
+
+universe:
+  exact_order: [SI, RI, BR, MIX]
+  option_asset_mapping: {SI: SI, RI: RI, BR: BR, MIX: MIX}
+
+information_set:
+  decision_at: 23_59_59_Europe_Moscow_on_each_frozen_V27_weekly_decision_date
+  source_state_selection: latest_source_date_strictly_before_decision_date
+  maximum_selected_state_age_calendar_days: 10
+  state_aggregation: sum_nonnegative_OPENPOSITION_by_asset_option_type_over_all_rows
+  put_share_formula: put_open_interest_divided_by_call_plus_put_open_interest
+  weekly_change: selected_put_share_minus_put_share_selected_at_previous_parent_decision
+  baseline_observations: 52
+  baseline_contains_only_changes_strictly_before_current_change: true
+  quantile_method: linear
+  lower_quantile: 0.10
+  upper_quantile: 0.90
+  warmup_policy_before_52_prior_changes: pass_parent_unchanged
+  unexpected_missing_or_stale_after_warmup: cash_asset
+  no_zero_imputation: true
+
+option_oi_governor:
+  id: lagged_weekly_option_put_share_tail_direction_veto
+  long_cash_condition: parent_target_positive_and_current_change_strictly_above_trailing_q90
+  short_cash_condition: parent_target_negative_and_current_change_strictly_below_trailing_q10
+  equality_policy: pass
+  neutral_parent_target_policy: remain_zero
+  non_extreme_or_directionally_compatible_policy: pass
+  admitted_scale: 1.0
+  cash_scale: 0.0
+  application: multiply_each_frozen_V27_asset_target_before_exact_2x
+  scale_can_increase_parent_risk: false
+  global_cross_asset_cash_switch: false
+  option_trade_created: false
+  strike_maturity_week_or_activity_filter: none
+
+capital_execution_and_costs:
+  inherited_byte_identical_from_V27: true
+  target_weight_multiplier_after_all_governors: 2.0
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  collateral_RUONIA_fraction: 0.50
+  operational_buffer_fraction: 0.10
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+
+validation:
+  scheme: one_fixed_adaptive_development_variant
+  model_training: none
+  number_of_variants: 1
+  parameter_selection_after_outcome: forbidden
+  same_2021_2025_period_is_not_independent: true
+  forward_confirmation_required: true
+
+promotion_rule:
+  scope: challenger_for_new_forward_confirmation_only_never_live
+  require_all:
+    - every_parent_and_option_source_identity_raw_replay_schema_and_temporal_check_true
+    - at_least_one_long_or_short_tail_veto_on_a_nonzero_parent_target
+    - zero_critical_failures_and_zero_unresolved_halts_in_all_scenarios
+    - every_scenario_combined_CAGR_at_least_0_20
+    - every_scenario_combined_MDD_not_worse_than_its_frozen_V27_reference
+    - primary_combined_Sharpe_at_least_frozen_V27_primary
+    - primary_combined_worst_year_not_worse_than_frozen_V27_primary
+    - primary_positive_years_at_least_4_of_5
+    - no_order_time_gross_participation_or_margin_breach
+  independent_confirmation_required: true
+
+forbidden_followups_on_same_outcomes:
+  - changing_52_week_window_or_10_90_quantiles
+  - changing_strict_inequalities_warmup_or_ten_day_age
+  - inverting_put_call_interpretation_or_applying_shock_to_both_directions
+  - selecting_strikes_maturities_week_codes_assets_or_activity_filters
+  - switching_from_open_interest_to_volume_after_result
+  - adding_partial_scale_leverage_or_option_trades
+  - changing_V27_signal_governors_collateral_execution_or_costs
+  - treating_a_pass_as_independent_or_live_evidence
+
+outputs:
+  root: runs
+  run_prefix: v39_option_oi_tail_governor
+  immutable: true
+  contents_in_git: false
