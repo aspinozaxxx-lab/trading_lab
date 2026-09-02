@@ -16,6 +16,9 @@
   aspirational report не являются обещанием. Live false даже после numeric pass.
 - Source-only module `market_lab.futures.v49_double_risk_forward_readiness`; полный
   контракт: `docs/FORWARD_V49_DOUBLE_RISK_PROTOCOL.md`.
+- Implementation/deploy commit `a6cd0af`; server tests `3 passed`. Первый authoritative
+  readiness дал option/CLOSE `0/54 + 0/253`, post-seal execution/FRED/CBR `0/0/0`,
+  excluded preseal option/components `1/2`, invalid `0`; signal/target/PnL false.
 
 ## V49 V39 exact double-risk — NO-GO at the presealed 45% primary gate
 

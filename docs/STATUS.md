@@ -34,6 +34,10 @@ audit SHA `b806e811.../eb24680a.../60a88ce6...`.
 обещание доходности. Не запускать V49 повторно и не перебирать `2.01x`, `2.1x`, caps,
 margin buffer или gates по уже увиденному результату. Допустим только заранее
 запечатанный paper/forward arm на будущих post-seal наблюдениях; live trading false.
+Forward V1 теперь запечатан SHA `520bd3d4...`, boundary
+`2026-09-02T12:30:04Z`, implementation/deploy commit `a6cd0af`. Первый server
+readiness: option `0/54`, CLOSE `0/253`, execution/FRED/CBR `0/0/0`; один preseal
+option snapshot и два preseal components исключены, invalid `0`, PnL/CAGR false.
 
 ## V48 exact frontier — FORWARD BASELINE, 38.46–39.86% CAGR
 
@@ -1907,6 +1911,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    `2026-09-02T12:30:04Z`; source counts V49 начинаются с нуля. Не повторять canonical
    V49 и не проверять соседние scales/caps/buffers на 2021–2025. Historical verdict
    остаётся `NO_GO`, даже если разрыв до primary gate всего `1.3167` п.п.
+   Первый server readiness подтвердил `0/54 + 0/253`, preseal exclusions `1 + 2`,
+   invalid `0`; implementation и server deploy commit `a6cd0af`.
 2. До первого V49 forward decision отдельно запечатать ровно один paper arm: scale
    `2.00x`, gross cap `4.00`, margin buffer `2.00`, participation `1%`, V39 signs/zeros
    и exact execution без изменений. Начало допускается только после нового seal;

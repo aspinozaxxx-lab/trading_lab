@@ -61,3 +61,7 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
 Вывод содержит только post-seal source counts, invalid/excluded counts и phase. Поля
 `contains_signal_return_target_prediction_or_pnl` и `live_trading_allowed` всегда
 `false`.
+
+Первый authoritative run после deploy commit `a6cd0af`: option/CLOSE
+`0/54 + 0/253`, execution/FRED/CBR `0/0/0`; один option snapshot и два components,
+retrieved до seal, явно исключены; invalid `0`.
