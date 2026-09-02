@@ -1,0 +1,126 @@
+﻿protocol_id: moex_rms_historical_pit_source_v1
+protocol_version: 1
+status: sealed_after_schema_and_dates_metadata_before_historical_risk_or_cashflow_values
+declared_at_utc: '2026-09-02T01:13:07Z'
+research_only: true
+live_trading_allowed: false
+
+objective:
+  statement: >-
+    Preserve official point-in-time MOEX derivatives risk parameters and anticipated
+    cashflow archives through 2025 for new margin-stress, dividend-fair-value and
+    defined-risk option hypotheses without reading any 2026 market outcome.
+  source_only: true
+  economic_hypothesis_selected: false
+  returns_targets_predictions_or_pnl_allowed: false
+
+preseal_inspection:
+  response_schemas_read: true
+  dates_metadata_read: true
+  historical_mr_cf_or_parameter_values_read: false
+  official_ranges:
+    limits: ['2018-05-22', '2026-09-01']
+    staticparams: ['2023-06-13', '2026-09-01']
+    cashflow: ['2023-06-13', '2026-08-26']
+
+source:
+  provider: Moscow_Exchange_MOEX_ISS
+  official_interface: https://www.moex.com/a8531
+  documentation_announcement: https://www.moex.com/n56498
+  base_endpoint: https://iss.moex.com/iss/rms/engines/futures/objects
+  access_mode: public_historical_archive
+  bearer_token_required: false
+  query_parameter: date
+  request_date_must_equal_returned_tradedate: true
+  tables:
+    limits:
+      endpoint: limits.json
+      requested_from: '2018-05-22'
+      requested_till: '2025-12-31'
+      required_columns: [tradedate, assetcode, mr1, mr2, mr3, lk1, lk2, title, group_title, updatetime]
+      unique_key: [tradedate, assetcode]
+    staticparams:
+      endpoint: staticparams.json
+      requested_from: '2023-06-13'
+      requested_till: '2025-12-31'
+      required_columns:
+        - tradedate
+        - assetcode
+        - mdtimeicl
+        - mdtimeecl
+        - freq
+        - count
+        - spread
+        - autoshiftnummr
+        - autoshiftnumir
+        - futmonrange
+        - csmonrange
+        - futmontime
+        - csmontime
+        - futmonnum
+        - csmonnum
+        - futshift
+        - csshift
+        - somc
+        - windowsize
+        - volatnum
+        - rangefut
+        - rangecs
+        - mdrule
+        - negativeprices
+        - allfirstpriority
+        - nvolat
+        - minprice
+        - optionmodel
+        - ncl
+        - nclopt
+        - radius
+        - code_mcs
+        - updatetime
+      unique_key: [tradedate, assetcode]
+    cashflow:
+      endpoint: cashflow.json
+      requested_from: '2023-06-13'
+      requested_till: '2025-12-31'
+      required_columns: [tradedate, assetcode, t, cf, cfrisk, updatetime]
+      unique_key: [tradedate, assetcode, t]
+  cursor_suffix: .cursor
+  pagination_start_parameter: start
+  raw_response_bytes_url_hash_and_retrieval_required: true
+
+temporal_boundary:
+  protected_from: '2026-01-01'
+  query_date_at_or_after_protected_from: forbidden
+  returned_tradedate_at_or_after_protected_from: forbidden
+  row_updatetime_at_or_after_protected_from: forbidden
+  requested_dates_are_calendar_grid: true
+  empty_nonpublication_dates_preserved_in_request_log: true
+  no_forward_fill_between_archive_dates: true
+  row_available_at: parsed_original_updatetime_Europe_Moscow
+  actual_retrieval_at_preserved_separately: true
+
+source_quality_gates:
+  exact_required_schema: true
+  cursor_total_complete_for_each_request: true
+  returned_tradedate_equals_request_date: true
+  unique_keys_exact: true
+  all_raw_pages_replay_exact: true
+  source_and_processed_hashes_exact: true
+  no_2026_rows_or_update_times: true
+  no_price_return_target_prediction_or_pnl_columns: true
+  immutable_output: true
+
+future_hypothesis_constraints:
+  structural_margin_rule_threshold: zero_change_only_not_percentile_fit
+  margin_increase_may_only_reduce_risk: true
+  cashflow_change_may_not_use_future_revision: true
+  economic_protocol_required_before_any_market_join_or_pnl: true
+  same_2023_2025_market_period_is_development_not_independent_validation: true
+  forward_confirmation_required: true
+
+output:
+  directory: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v1
+  immutable: true
+  contents_in_git: false
+
+forbidden_columns: [price, open, high, low, close, return, returns, label, target, prediction, pnl, profit, equity]
