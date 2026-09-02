@@ -3,6 +3,31 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V43 broad carry challenger — 20% GATE PASSED, V41 REMAINS LEAD
+
+Broad carry idle-RUONIA V1 сохранил ровно 29 unit-corrected сделок. Canonical
+`runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172/`;
+metrics/manifest/ledger/audit `aca91c52.../9fa21e58.../d04539a4.../4fbad76d...`.
+Equal-sleeves CAGR primary/doubled/zero/delayed
+`7,1376%/7,0879%/6,2483%/6,2452%`, active-cap
+`8,4986%/8,3599%/5,9489%/5,9406%`; все годы положительны, MDD не выше
+`0,3572%/1,0305%`. Это стабильный cash sleeve, но отдельно он не достигает 20%.
+
+V43 SHA `e816f05f...`, seal `8c9f1a8`, implementation `01f0ea4` заранее зафиксировал
+тот же 80/20 no-rebalance вес, оба broad views и четыре stress. Canonical
+`runs/v43_v39_broad_carry_ruonia_stability_v1_20260902T084341Z_e816f05f/`;
+metrics/manifest/ledger/audit `abdaab13.../3b47e1ad.../f0464c1b.../de9367a3...`, audit
+`8/8 true`.
+
+Equal-sleeves CAGR `25,4371%/25,0231%/24,5837%/24,5834%`, active-cap
+`25,5853%/25,1630%/24,5522%/24,5514%` для primary/doubled/zero-cashflow/
+delayed-fill. Оба views проходят все presealed gates против V39 и имеют 5/5 positive
+primary years. Но ни один не доминирует V41: active-cap прибавляет лишь
+`0,0171/0,0177 п.п.` CAGR в primary/doubled и теряет `0,0665 п.п.` в stress; MDD
+совпадает с V41 до показанной точности. Поэтому V41 остаётся lead, V43 — отдельный
+forward breadth challenger. Выбирать view по этому результату, менять вес или делать
+live promotion запрещено.
+
 ## Новый лучший stability candidate: V41 V39 + cash-carry + idle RUONIA — GO TO FORWARD
 
 Cash-carry V2 SHA `a4c03aaa...`, seal `3265bd8` добавил только доход на свободный

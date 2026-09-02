@@ -1,5 +1,26 @@
 ﻿# Реестр экспериментов
 
+## V43 V39 + broad carry idle-RUONIA — FORWARD CANDIDATE, DOES NOT REPLACE V41
+
+- Config SHA `e816f05f...`, seal `8c9f1a8` froze the inherited 80/20 initial
+  allocation, no rebalancing, both `equal_sleeves`/`active_cap` views and four
+  scenarios before any combined outcome. Implementation `01f0ea4` was pushed before
+  the canonical replay.
+- Canonical
+  `runs/v43_v39_broad_carry_ruonia_stability_v1_20260902T084341Z_e816f05f/`;
+  metrics/manifest/ledger/audit SHA
+  `abdaab13.../3b47e1ad.../f0464c1b.../de9367a3...`; all 8 audit checks pass.
+- Equal-sleeves primary/doubled/zero-cashflow/delayed-fill CAGR
+  `25.4371%/25.0231%/24.5837%/24.5834%`; active-cap
+  `25.5853%/25.1630%/24.5522%/24.5514%`. Every presealed gate passes for both views:
+  all CAGR exceed 20%, Sharpe/MDD/worst year improve versus corresponding V39 and
+  primary has 5/5 positive years.
+- Neither predeclared view dominates V41 across CAGR, Sharpe, MDD and worst year.
+  Active-cap improves V41 primary/doubled CAGR by only `0.0171/0.0177 p.p.` but loses
+  `0.0665 p.p.` under zero-cashflow stress. Verdict remains
+  `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`; V41 stays the lead and V43 is a separate
+  breadth challenger. No post-outcome view selection or live promotion is allowed.
+
 ## Broad cash-carry split-adjustment source V1 — COMPLETE AND AUDITED
 
 - A post-run source-validity check found 27 contracts where current-vintage
@@ -30,7 +51,7 @@
   low-drawdown sleeve candidate, not live evidence. Do not select its profitable
   stocks post-hoc; forward BID/OFFER and broker terms remain required.
 
-## Broad cash-carry R1 + idle RUONIA V1 — SEALED, outcome unopened
+## Broad cash-carry R1 + idle RUONIA V1 — CASH-SLEEVE FORWARD CANDIDATE
 
 - Config SHA `e5d91172...` preserves the exact 29 R1 trades and both predeclared
   portfolio views. It adds only 50% causal RUONIA to inactive capital, exactly the
@@ -39,6 +60,15 @@
   ineligible. Active-cap eligibility is one minus the conservative maximum of current
   and previous parent exposure. All four parent scenarios stay unchanged; no new
   trade, allocation, threshold or cashflow decision is permitted.
+- Canonical
+  `runs/stock_futures_cash_carry_broad_idle_ruonia_v1_20260902T083317Z_e5d91172/`;
+  metrics/manifest/ledger/audit SHA
+  `aca91c52.../9fa21e58.../d04539a4.../4fbad76d...`; all 7 audit checks pass.
+- Equal-sleeve primary/doubled/zero/delayed CAGR
+  `7.1376%/7.0879%/6.2483%/6.2452%`, MDD at most `0.3572%`; active-cap
+  `8.4986%/8.3599%/5.9489%/5.9406%`, MDD at most `1.0305%`. All years and scenarios
+  are positive. Verdict `CASH_SLEEVE_FORWARD_CANDIDATE`, not standalone 20% and not
+  broker-confirmed idle yield.
 
 ## Broad stock-futures cash-carry economic V1 — INVALID UNIT IDENTITY
 

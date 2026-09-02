@@ -6,6 +6,7 @@ from typing import Any
 
 import pandas as pd
 
+from market_lab.futures import forward_cross_market_bbo_v3_readiness as readiness
 from market_lab.futures import moex_forward_cross_market_bbo_source as v1
 from market_lab.futures import moex_forward_cross_market_bbo_source_v3 as v3
 
@@ -45,6 +46,14 @@ def test_protocol_and_exact_cny_url_are_fixed() -> None:
     assert config["protocol_id"] == "moex_forward_cross_market_bbo_source_v3"
     assert "securities=CNYRUBF" in url
     assert config["v3_correction"]["expected_core_rows"] == 35
+
+
+def test_empty_readiness_remains_source_only(tmp_path) -> None:
+    payload = readiness.readiness(tmp_path)
+
+    assert payload["counts"]["snapshot_directories"] == 0
+    assert payload["market_outcomes_or_pnl_computed"] is False
+    assert payload["gates"]["annualization_allowed"] is False
 
 
 def test_normalize_replaces_only_core_currency_identity(monkeypatch) -> None:

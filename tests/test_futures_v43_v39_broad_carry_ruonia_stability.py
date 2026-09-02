@@ -26,3 +26,15 @@ def test_broad_cash_parent_covers_exact_v39_boundary() -> None:
     dates = pd.to_datetime(cash["date"])
     assert dates.min() == pd.Timestamp("2020-12-30")
     assert dates.max() == pd.Timestamp("2025-12-30")
+
+
+def test_canonical_replay_passes_both_views_without_post_outcome_selection() -> None:
+    ledger, metrics = v43.build(v43.load_protocol())
+
+    assert len(ledger) == 1272
+    assert metrics["view_selection_after_outcome"] is False
+    assert metrics["verdict"] == "GO_TO_FORWARD_PORTFOLIO_CONFIRMATION"
+    for result in metrics["views"].values():
+        assert result["verdict"] == "GO_TO_FORWARD_PORTFOLIO_CONFIRMATION"
+        assert all(result["gates"].values())
+        assert result["improves_v41_all_four_metrics"] is False
