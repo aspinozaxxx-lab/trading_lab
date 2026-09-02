@@ -33,6 +33,8 @@ MOJIBAKE_MARKERS = (  # Tipichnye sledy nevernoi dekodirovki.
     "\u0420\u040e",
 )
 BYTE_SEALED_NO_BOM_EXCEPTIONS = {  # Identity-pinned files cannot be rewritten post-outcome.
+    "src/market_lab/futures/moex_options_surface_history_v2.py",
+    "src/market_lab/futures_v38_moex_margin_risk_governor.py",
     "configs/futures_v10_triangular_relative_value.sha256",
     "configs/futures_v10_triangular_relative_value.yaml",
     "configs/futures_v11_liquidity_buffered_open.sha256",

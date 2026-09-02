@@ -28,6 +28,15 @@ quotes `312/115/65/40`, settlement и underlying settlement 2 062/2 062. Manifes
 pre-2026 experiments. Evaluation order зафиксирован в
 [FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
 
+Subscriber ZIP не был последней доступной публичной историей: отдельный sealed V2
+использует official ISS exact-date options history с server-side `assetcode`. Январский
+пилот 2021 дал 105 318 SI/RI/BR/MIX contract-day rows и прошёл raw replay 9/9. Он полезен
+для settlement/surface-state исследования, но фактически торгуемые строки редки:
+positive volume/trades 7 887, `CLOSE` 7 868, а historical bid/ask и `THEOR_PRICE`
+отсутствуют. Поэтому следующая дополнительная информация — official exact expiry/spec
+reference и лицензированный MOEX historical Type B/A quotes/orders; бесплатный EOD
+SETTLEPRICE не является заменой исполнимой котировки.
+
 Вторая новая family — USD/RUB cash-and-carry. После schema/cursor-only probe source
 config `moex_fx_spot_source_v1` был sealed/pushed (`bd7f138`), а collector — отдельным
 commit `a049b51`, до чтения market values. Canonical public MOEX ISS bundle содержит

@@ -1098,6 +1098,18 @@ Manual verification завершилась `Last Result: 0` и сохранил�
 экономического protocol пока заблокировано. Wrapper пропускает существующую дату только
 после успешного replay-аудита; повреждённый immutable snapshot не мешает записать замену.
 
+Historical public MOEX option EOD pilot V2 уже canonical; повторять collection в тот же
+path нельзя. Допустим только read-only raw replay:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_options_surface_history_v2 `
+  --audit-only `
+  --output-root D:\Projects\trading_lab_data\data\processed\options\moex-core4-options-pilot-2021-01-v2
+```
+
+Ожидание: 9/9 true, 105 318 rows, 1 133 pages. Source не разрешает historical option
+PnL: нет bid/ask, `THEOR_PRICE` пуст, а SETTLEPRICE запрещено трактовать как fill.
+
 ### MOEX USD/RUB TOM source for future cash-and-carry
 
 Canonical source уже создан и immutable. Повторный read-only replay audit:

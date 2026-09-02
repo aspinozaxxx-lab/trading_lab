@@ -30,6 +30,24 @@ MDD `20,2538%`, worst year `−0,5832%`. Все CAGR выше 20%, primary MDD �
 global switch и inversion больше не тестировать. Источник остаётся полезен для forward
 execution/margin admission и экономически иной dividend/defined-risk option family.
 
+## Новый historical source: public MOEX option EOD pilot V2 — SOURCE COMPLETE
+
+После subscriber-only monthly ZIP найден официальный public ISS endpoint exact-date
+history для рынка options. Source V2 SHA `685fb7e9...` и seal `cecda6f` были pushed до
+чтения значений января 2021; collector commit `affed25`. Canonical
+`data/processed/options/moex-core4-options-pilot-2021-01-v2/`: 124 asset-date запроса,
+1 133 raw pages, 105 318 rows, 6 956 SECID, даты `2021-01-04..2021-01-29`; SI/RI/BR/MIX
+`58 742/18 956/17 010/10 610`. Manifest `0211e452...`, processed `9a37fb55...`, raw ZIP
+`76474c32...`, audit `6f069c60...`; повторный raw replay 9/9 true.
+
+Это качественный источник settlement/contract states, но ещё не источник честной
+опционной доходности: `THEOR_PRICE` отсутствует во всех строках, `CLOSE` есть только в
+7 868, positive volume/trades — в 7 887 (около 7,5%), historical bid/ask отсутствуют.
+Нельзя считать settlement/theoretical value ценой исполнения. До official exact
+expiry/spec mapping и licensed Type B/A bid/ask/order history historical option PnL не
+запечатывать. Практический путь — продолжать forward option collector: readiness 1/60,
+invalid 0; затем 20 calibration и 40 unseen evaluation.
+
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 
 V37 проверил принципиально иной target на frozen 30-stock 10m source: one-sided

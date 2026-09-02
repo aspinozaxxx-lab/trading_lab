@@ -1,4 +1,4 @@
-"""Tests for the sealed public exact-date MOEX option history pilot V2."""
+﻿"""Tests for the sealed public exact-date MOEX option history pilot V2."""
 
 from __future__ import annotations
 

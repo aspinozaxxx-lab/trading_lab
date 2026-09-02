@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## Public MOEX option EOD history pilot V2 — source-only, complete
+
+- Config SHA `685fb7e9...`, seal `cecda6f`; implementation `affed25` были pushed до
+  чтения январских значений. Источник не вычисляет return/target/prediction/PnL.
+- Canonical `data/processed/options/moex-core4-options-pilot-2021-01-v2/`: 105 318
+  rows, 6 956 SECID, 124 jobs, 1 133 pages; SI/RI/BR/MIX
+  `58 742/18 956/17 010/10 610`; calls/puts по 52 659. Manifest `0211e452...`,
+  Parquet `9a37fb55...`, raw ZIP `76474c32...`; independent replay 9/9 true.
+- Execution coverage недостаточен: `CLOSE` 7 868, positive volume/trades 7 887,
+  positive open interest 17 215, `THEOR_PRICE` 0 nonmissing; historical bid/ask нет.
+- Verdict `SOURCE_COMPLETE / ECONOMICS_BLOCKED`. Не использовать SETTLEPRICE как fill
+  и не строить historical premium PnL до exact expiry/spec reference и licensed
+  quote/order history. Экономическая ветка остаётся forward-only, defined-risk.
+
 ## V38 official MOEX MR1 asset-specific governor — canonical NO-GO
 
 - Historical source V4 config SHA `83bcabed...` was sealed before MR1/CF values.

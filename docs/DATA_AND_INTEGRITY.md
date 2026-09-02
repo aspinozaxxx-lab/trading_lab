@@ -434,6 +434,19 @@ V1–V3 output отсутствуют: их fail-closed остановки не�
 путём ручного dedup/forward-fill. Ни один из source файлов не содержит prices, returns,
 targets, predictions или PnL.
 
+Public MOEX option EOD pilot V2 хранится в
+`data/processed/options/moex-core4-options-pilot-2021-01-v2/`. Config SHA
+`685fb7e9ee5776cfc21dee3c3946ce3e63050c54ec0de02918d98d953308c14a`, implementation
+SHA `acabc5f8de5e075d3d47acf58fab99095a279755cbf7faea9d7ef98941e7d24c`, manifest
+`0211e452fb60ea895b3992844f22060d908b05e01e0c30526f9e0fbfb57784c6`, audit
+`6f069c6068956a6a394155a9babe5781e7ec875112c512af8ddb4a07d4a65faa`, raw ZIP
+`76474c3289cd1c991eb75c371aa9d00ff475682528a1b1be07177e3010e939f9`, processed
+`9a37fb5597f6ffc5d44805eb76cf0c9175af0d53cabbdd8f27175c6974db167d`. Exact-date
+server-side asset filters дали 105 318 rows и 1 133 immutable raw pages; audit 9/9.
+Availability — следующий календарный день после `TRADEDATE`. Source может поддержать
+признаки поверхности/settlement state, но не execution: bid/ask отсутствуют, поэтому
+любой downstream обязан fail-closed отклонять SETTLEPRICE как fill.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:
