@@ -124,7 +124,8 @@ history. Task работает по будням в 18:30 мск; readiness тр
 coupon/repo/money-market yield.
 
 Для сильнейшего directional/collateral кандидата запущен отдельный V27 V2 forward source:
-полные SI/RI/BR/MIX chains в 10:05 и 23:45 мск, official daily history каждого EOD
+полные SI/RI/BR/MIX chains в 10:05 и после публикации EOD по retry grid
+00:45/01:15/06:00 мск Tue–Sat, official daily history каждого
 контракта плюс original captured current vintages
 FRED STLFSI4, CBR RUONIA и key rate. Он сохраняет raw bytes и не содержит signal/return/
 PnL. V2 нужен потому, что current `LAST` не является official daily `CLOSE`; подмена

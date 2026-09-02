@@ -246,3 +246,10 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     )
     assert "OnCalendar=Mon..Fri *-*-* 23:57:00" in option_eod_timer
     assert "Unit=trading-lab-collector@option-surface-eod.service" in option_eod_timer
+    v27_decision_timer = (unit_root / "trading-lab-v27-decision.timer").read_text(
+        encoding="utf-8-sig"
+    )
+    assert "OnCalendar=Tue..Sat *-*-* 00:45:00" in v27_decision_timer
+    assert "OnCalendar=Tue..Sat *-*-* 01:15:00" in v27_decision_timer
+    assert "OnCalendar=Tue..Sat *-*-* 06:00:00" in v27_decision_timer
+    assert "OnCalendar=Mon..Fri *-*-* 23:45:00" not in v27_decision_timer

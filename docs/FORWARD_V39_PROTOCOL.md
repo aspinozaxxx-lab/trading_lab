@@ -19,8 +19,9 @@ q10/q90, sign, scale, universe, warmup, execution, costs или collateral.
 - `moex-options-surface-v1` в 23:55 мск: actual retrieval, SI/RI/BR/MIX option chains,
   open interest, bid/offer и raw replay. V39 агрегирует только call/put OI по всем
   strikes/maturities/week codes и не создаёт option orders;
-- `v27-validation-v2` в 10:05/23:45 мск: official daily `CLOSE`, execution quotes,
-  specs/fees/IM и captured macro vintages. `LAST`/`SETTLEPRICE` не заменяют `CLOSE`.
+- `v27-validation-v2`: execution в 10:05, official daily `CLOSE` после публикации по
+  retry grid 00:45/01:15/06:00 мск Tue–Sat, specs/fees/IM и captured macro vintages.
+  `LAST`/`SETTLEPRICE` не заменяют `CLOSE`.
 
 Backfill 2026 и перенос historical 2021–2025 option states в forward warmup запрещены.
 Первый option snapshot `2026-09-01` был получен после source seal и может участвовать

@@ -1117,11 +1117,14 @@ post-seal CLOSE; реализация commit `09e73c4`, SHA `f38a41f0...`, со�
 official history row каждого контракта и полностью replay-аудируется. Экономика и
 параметры не изменены; backfill market data `2026-01-01..2026-09-01` запрещён.
 
-Tasks `TradingLabV27ForwardExecution` (10:05 мск) и
-`TradingLabV27ForwardDecision` (23:45 мск) имеют status `Ready`. Paper contract SHA
+Authoritative server execution timer остаётся 10:05 мск. Decision 23:45 оказался раньше
+полной публикации official history и правильно завершился без output. Неизменный retry
+в 00:45 создал 25-row market decision и прошёл полный replay. Operational schedule V2
+SHA `48f16f2c...` фиксирует Tue–Sat 00:45/01:15/06:00: первый success сохраняется,
+следующие attempts только аудитят и skip-ят ту же source date. Paper contract SHA
 `d68f0595...`/commit `51acd4c` и fail-closed preflight `05a1f74` также опубликованы
 до первого snapshot. В нём 252 return sessions требуют 253 common official CLOSE;
-partial current week не считается завершённой. Сейчас 0/253 price warmup,
+partial current week не считается завершённой. Сейчас 1/253 price warmup,
 0/504 unseen evaluation. До завершения warmup PnL запрещён; до 504 evaluation sessions
 никакая короткая annualization не является доказательством 20–50%. Полный порядок:
 [FORWARD_V27_PROTOCOL.md](FORWARD_V27_PROTOCOL.md).
@@ -1135,8 +1138,8 @@ Transport-only retry `1s/2s` добавлен без изменения economic
 component config SHA `242d2684...`, implementation `026fef9f...`, readiness
 `d7b4d30a...`; V48 source-mapping correction SHA `019f970e...`. Scheduled wrapper
 сначала сохраняет required MOEX component, затем независимо пытается CBR и FRED.
-Фактически сохранены и replay-аудированы execution `1` (`25` rows) и CBR `1`
-(`550` rows); invalid `0`, FRED `0`, decision `0`. FRED failure теперь даёт concise
+Фактически сохранены и replay-аудированы execution `1` (`25` rows), decision `1`
+(`25` rows) и CBR `1` (`550` rows); invalid `0`, FRED `0`. FRED failure теперь даёт concise
 warning, но не удаляет market evidence. Любой join требует macro `retrieved_at <=
 decision_at`; поздний FRED не ремонтирует прошлое.
 

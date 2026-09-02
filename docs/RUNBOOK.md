@@ -1265,9 +1265,10 @@ hashes, verdict `GO_TO_NEW_FORWARD_CONFIRMATION`. Same-history V39 tuning зап
   --futures-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
 
-На `2026-09-02` ожидание: option `1/54`, futures CLOSE `0/253`, invalid `0/0`,
-`paper_economics_may_start=false`. Tasks уже зарегистрированы отдельно: option 23:55,
-V27 decision 23:45 и execution 10:05 мск. Новый collector/task для V39 не нужен.
+На `2026-09-02` после publication retry: option warmup начат, futures CLOSE `1/253`,
+invalid `0`; `paper_economics_may_start=false`. Tasks зарегистрированы отдельно: V1
+option EOD 23:57, V27 decision 00:45/01:15/06:00 Tue–Sat и execution 10:05 мск. Новый
+collector/task для V39 не нужен.
 
 ### MOEX USD/RUB TOM source for future cash-and-carry
 
@@ -1322,7 +1323,6 @@ point-value error. V1/V2 повторно не запускать и historical 
 V27 independent forward validation:
 
 ```powershell
-.\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_component_readiness_v2 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
@@ -1331,8 +1331,14 @@ V27 independent forward validation:
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
 
+Legacy Windows registration script не запускать, пока authoritative timers работают на
+`gpu-mlserver`.
+
 Server timers `trading-lab-v27-execution.timer` (10:05) и
-`trading-lab-v27-decision.timer` (23:45) работают Mon–Fri. Dispatcher сохраняет
+`trading-lab-v27-decision.timer` (00:45/01:15/06:00 Tue–Sat) работают на сервере.
+Schedule correction SHA `48f16f2c...`: прежний 23:45 запуск не имел полного official
+history coverage, а первый неизменный 00:45 retry создал 25-row decision component и
+прошёл полный replay. Dispatcher сохраняет
 required MOEX market component первым, затем
 независимо пытается CBR и FRED. Каждый component raw-replayable; EOD market дополнительно требует
 official history `CLOSE/VOLUME/OPENPOSITION` каждого контракта. Не запускать market backfill до

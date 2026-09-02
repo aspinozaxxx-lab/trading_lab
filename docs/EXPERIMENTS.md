@@ -910,7 +910,7 @@
   leverage, universe and years may not be tuned on these outcomes. Next action requires
   new information or a genuinely forward period.
 
-## V27 independent forward validation — ACTIVE, 0/253 price warmup
+## V27 independent forward validation — ACTIVE, 1/253 price warmup
 
 - Parent development V27: SHA `7a9a44cf...`, canonical metrics `5fc1f271...`; primary
   CAGR `28,3752%`, Sharpe `1,2119`, MDD `20,7138%`, но same-period adaptive и не live.
@@ -920,14 +920,15 @@
   исправляет только это соответствие, параметры не меняет. Historical 2026 market
   backfill запрещён.
 - V2 сохраняет полные SI/RI/BR/MIX chains, отдельный official history row каждого
-  EOD-контракта и raw STLFSI4/RUONIA/key-rate vintages. Tasks 10:05/23:45 мск
-  переназначены на V2 и `Ready`.
+  EOD-контракта и raw STLFSI4/RUONIA/key-rate vintages. 23:45 оказался раньше полной
+  публикации history; operational schedule SHA `48f16f2c...` использует fail-closed
+  retries 00:45/01:15/06:00 Tue–Sat, execution остаётся 10:05.
 - Paper SHA `d68f0595...`/seal `51acd4c`, preflight `05a1f74`: для 252 return
   observations нужны 253 common price sessions; partial week запрещено считать
   завершённой. Official calendar authorization пока отсутствует, generic weekdays
   запрещены.
 - Требуется 253 common price sessions warmup без reported PnL, затем минимум 504 unseen
-  evaluation sessions / 104 weekly decisions / два года. На момент записи 0/253 и
+  evaluation sessions / 104 weekly decisions / два года. На момент записи 1/253 и
   0/504. Gates: all-cost CAGR `>=20%`, Sharpe `>=1`, MDD `<=30%`, положительные годы,
   zero critical/unresolved и observed-quote paper profit.
 - Даже numeric GO не разрешает live: требуется второй unseen period и broker-exact
@@ -936,8 +937,8 @@
   STLFSI4 response timed out for all three 30-second attempts. No cache or zero was
   substituted. A transport-only 1s/2s retry was added; economics and readiness remain
   unchanged. Component correction subsequently preserved one audited MOEX execution
-  date and one CBR vintage independently; price-decision warmup remains zero and FRED
-  remains missing.
+  date and one CBR vintage independently. Post-publication retry added one audited
+  decision date; price warmup is now `1/253`, FRED remains missing.
 
 ## MOEX RMS risk/cashflow forward source — ACTIVE, 0/60 discovery
 

@@ -1,8 +1,10 @@
-[Unit]
-Description=Trading Lab V27 end-of-day decision snapshot
+﻿[Unit]
+Description=Trading Lab V27 post-publication official-close snapshot
 
 [Timer]
-OnCalendar=Mon..Fri *-*-* 23:45:00
+OnCalendar=Tue..Sat *-*-* 00:45:00
+OnCalendar=Tue..Sat *-*-* 01:15:00
+OnCalendar=Tue..Sat *-*-* 06:00:00
 AccuracySec=1s
 Persistent=false
 Unit=trading-lab-collector@v27-decision.service

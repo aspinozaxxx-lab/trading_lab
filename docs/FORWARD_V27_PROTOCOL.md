@@ -48,10 +48,19 @@ anonymous route запрещён. Это транспортная замена �
 
 Scheduled source теперь использует
 `market_lab.futures.moex_v27_forward_component_source` и сохраняет два immutable market
-component по будням:
+component:
 
 - `execution_observation` в 10:05 мск: фактический next-session open и bid/offer;
-- `decision_eod` в 23:45 мск: полные текущие цепочки SI/RI/BR/MIX после сессии.
+- `decision_eod` после публикации official history: retry grid 00:45/01:15/06:00 мск
+  Tue–Sat для предыдущей торговой даты.
+
+Первый server attempt в 23:45 мск `2026-09-02` правильно завершился без output: хотя
+current chain уже существовал, хотя бы у одного listed контракта ещё не было exact
+official history row. Не читая market/PnL values, повторный неизменный запрос в 00:45
+получил полный component на 25 contracts и прошёл raw replay. Operational schedule V2
+SHA `48f16f2c...` запечатан до будущих session outcomes. Повторные 01:15/06:00 attempts
+аудитят и пропускают уже сохранённый `kind + source_date`; они не создают дубликат и не
+меняют время доступности первого успешного snapshot.
 
 Каждый snapshot содержит raw MOEX JSON всех listed contracts, current specs/IM/fees,
 actual retrieval и exchange timestamp. Для `decision_eod` V2 дополнительно сохраняет
@@ -86,11 +95,13 @@ preflight commit `05a1f74` ничего не вычисляет кроме sourc
 ## Операции
 
 ```powershell
-.\scripts\register_v27_forward_tasks.ps1
 .\.venv\Scripts\python.exe -m `
   market_lab.futures.v27_forward_component_readiness_v2 `
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
+
+Legacy Windows registration script не запускать при активном `gpu-mlserver`; локальные
+tasks отключены и не являются authoritative scheduler.
 
 Server timers: `trading-lab-v27-execution.timer` и
 `trading-lab-v27-decision.timer`. Dispatcher не

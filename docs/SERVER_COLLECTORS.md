@@ -35,7 +35,7 @@
 | `trading-lab-*-fill.timer` | cash-carry/LQDT/fund-pool | 15:59 |
 | `trading-lab-cny-relative-value.timer` | CNY relative value | 18:30 |
 | `trading-lab-moex-rms.timer` | MOEX RMS | 23:35 |
-| `trading-lab-v27-decision.timer` | V27 official CLOSE | 23:45 |
+| `trading-lab-v27-decision.timer` | V27 official CLOSE after publication | Tue–Sat 00:45/01:15/06:00 retries |
 | `trading-lab-option-surface.timer` | timestamped option surface V2 | 10:09–22:59 каждые 10 минут; 23:09/19/29/39/55 |
 | `trading-lab-option-surface-eod.timer` | V1 compatibility for V39/V49 | 23:57 |
 | `trading-lab-v27-execution.timer` | V27 observed execution | 10:05 |
