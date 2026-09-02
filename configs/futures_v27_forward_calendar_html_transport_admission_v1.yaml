@@ -1,0 +1,66 @@
+﻿protocol_id: futures_v27_forward_calendar_html_transport_admission_v1
+protocol_version: 1
+status: sealed_before_first_persisted_public_page_calendar_response
+declared_at_utc: '2026-09-02T22:51:56Z'
+scope: source_transport_and_counts_only_readiness_no_strategy_economics
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Admit one byte-pinned public-page implementation of the official MOEX futures
+  calendar into server collection and counts-only readiness without changing the
+  frozen five-session roll fallback or any V27, V39, V48, V49 economic rule.
+
+source_protocol:
+  path: configs/futures_v27_forward_calendar_html_transport_v1.yaml
+  sha256: 8380d1a0f090a93bcf91e9a97fb8f461cfe9887cd0ccb7ef20e1a8f280b029a9
+  implementation_path: src/market_lab/futures/moex_forward_futures_calendar_source_v1.py
+  implementation_sha256: c4a0742867f3d32be53565a01b7baf79c212a8f0dae787fdd1b2d4807cda18df
+  existing_persisted_snapshots_at_seal: 0
+
+readiness:
+  implementation_path: src/market_lab/futures/moex_forward_futures_calendar_readiness_v1.py
+  implementation_sha256: e5a28df159372726a134153840ac9d2e3bb2802786de8b521f584fef9b47ae4f
+  latest_snapshot_must_be_retrieved_at_lte_decision_at: true
+  minimum_known_future_sessions_to_rule_out_five_session_fallback: 6
+  unknown_or_missing_date_blocks_roll_decision: true
+  returns_targets_predictions_or_pnl_computed: false
+
+server_schedule:
+  dispatcher_path: src/market_lab/ops/forward_collector.py
+  dispatcher_sha256: dae459c4fb48b02b0da6d35b64152abe4b98b1ab89d7dabd65a386186feff908
+  job: futures-calendar
+  output_root: data/forward/moex-futures-calendar-html-v1
+  timer_path: deploy/systemd/trading-lab-futures-calendar.timer
+  timer_sha256: 1f5ab6e42082265ff4772b62876febb30a436ab1acadd4d333f2da6eb08ee781
+  schedule_moscow: daily_00_20
+  runtime_host: gpu-mlserver
+  local_Windows_task_created_or_enabled: false
+
+frozen_economic_invariants:
+  hard_fallback_sessions: 5
+  volume_and_open_interest_confirmation_days: 2
+  V27_V39_V48_V49_signal_or_weight_changed: false
+  scale_cap_margin_capacity_cost_or_execution_mark_changed: false
+  warmup_evaluation_or_promotion_gate_changed: false
+  generic_weekday_or_observed_price_calendar_substitution: forbidden
+  historical_2026_calendar_vintage_reconstruction: forbidden
+
+verification_before_seal:
+  synthetic_source_and_readiness_and_dispatcher_tests_passed: 17
+  scoped_ruff_clean: true
+  diff_check_clean: true
+  actual_calendar_state_values_persisted: 0
+  forward_return_target_prediction_or_pnl_computed: false
+
+first_live_source_action_after_this_seal:
+  deploy_exact_pushed_commit_to_gpu_mlserver: required
+  run_systemd_collector_job_once: required
+  raw_replay_audit_all_true: required
+  readiness_next_six_sessions_known: required
+  publication_or_live_trading_from_readiness: forbidden
+
+limitations:
+  - The page transport can change independently of the documented calendar semantics.
+  - Current-vintage retrieval cannot repair or reconstruct an earlier decision.
+  - Calendar readiness is operational evidence only and says nothing about return.

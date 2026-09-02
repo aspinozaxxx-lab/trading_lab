@@ -43,6 +43,7 @@ def test_inventory_covers_every_active_windows_collector() -> None:
         "moex-rms",
         "option-surface",
         "option-surface-eod",
+        "futures-calendar",
         "v27-decision",
         "v27-execution",
     }
@@ -251,7 +252,7 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     service = (unit_root / "trading-lab-collector@.service").read_text(encoding="utf-8-sig")
     timers = sorted(unit_root.glob("trading-lab-*.timer"))
     timer_text = "\n".join(path.read_text(encoding="utf-8-sig") for path in timers)
-    assert len(timers) == 14
+    assert len(timers) == 15
     assert "User=trading-lab" in service
     assert "ProtectSystem=strict" in service
     assert "ReadWritePaths=/srv/trading_lab_data" in service
@@ -273,6 +274,11 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     )
     assert "OnCalendar=Mon..Fri *-*-* 23:57:00" in option_eod_timer
     assert "Unit=trading-lab-collector@option-surface-eod.service" in option_eod_timer
+    calendar_timer = (unit_root / "trading-lab-futures-calendar.timer").read_text(
+        encoding="utf-8-sig"
+    )
+    assert "OnCalendar=*-*-* 00:20:00" in calendar_timer
+    assert "Unit=trading-lab-collector@futures-calendar.service" in calendar_timer
     v27_decision_timer = (unit_root / "trading-lab-v27-decision.timer").read_text(
         encoding="utf-8-sig"
     )

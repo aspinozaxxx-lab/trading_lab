@@ -45,6 +45,10 @@ DIRECT_JOBS: Final[dict[str, DirectJob]] = {
         "market_lab.futures.moex_forward_option_surface_source",
         "moex-options-surface-v1",
     ),
+    "futures-calendar": DirectJob(
+        "market_lab.futures.moex_forward_futures_calendar_source_v1",
+        "moex-futures-calendar-html-v1",
+    ),
 }
 
 STAGED_JOBS: Final[dict[str, tuple[str, str, str]]] = {
