@@ -1,0 +1,47 @@
+﻿protocol_id: moex_ofz_total_return_source_r2
+protocol_version: 1
+status: sealed_after_r1_schedule_cursor_failure_before_any_output
+declared_at_utc: '2026-09-02T16:45:17Z'
+research_only: true
+live_trading_allowed: false
+
+parent_r1:
+  config_path: configs/moex_ofz_total_return_source_r1.yaml
+  protocol_sha256: bdd7b19b75cfc1cda5662220fb3e6361b927afc1603aaee68776adf839f7ae1f
+  implementation_path: src/market_lab/futures/moex_ofz_total_return_source_r1.py
+  implementation_sha256: 9f8a5c606c2aaeb5409939bffa94361ce555ce91a8a30182d73d1e1b0fd8f435
+
+implementation:
+  path: src/market_lab/futures/moex_ofz_total_return_source_r2.py
+  sha256: 70f6e58cd7cca493ae17a1c5459a2899c8c2ab3e705c98dc33f1d0fa26cee00f
+
+transport_correction:
+  defect: namespaced_block_start_shifts_data_but_cursor_INDEX_remains_zero
+  incorrect_parameter: per_block_namespaced_start
+  correct_parameter: global_start
+  observed_schema_only_probe:
+    security_id: SU26238RMFS4
+    block: coupons
+    requested_start: 20
+    namespaced_cursor_index: 0
+    global_cursor_index: 20
+  R1_output_created: false
+  R1_history_completed_in_memory: true
+  R1_failed_before_schedule_completion: true
+  market_price_yield_coupon_or_cashflow_value_printed: false
+  market_fields_or_economics_changed: false
+  R1_daily_history_transport_unchanged: true
+  parent_V1_and_R1_immutable: true
+
+inherited_without_change:
+  date_range: ['2021-01-01', '2025-12-31']
+  daily_container_format: ofz_daily_history_raw_container_v1
+  required_market_and_schedule_fields: parent_exact
+  forbidden_outcomes: [return, label, target, prediction, signal, position, order, pnl]
+  output_root: data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1
+  economic_protocol_requires_separate_seal: true
+
+limitations:
+  - This is a schedule pagination correction only and does not change source economics.
+  - All V1 and R1 current-vintage, execution and live-trading limitations remain.
+
