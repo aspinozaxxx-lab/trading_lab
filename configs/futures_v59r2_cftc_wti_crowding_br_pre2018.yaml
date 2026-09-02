@@ -1,0 +1,11 @@
+﻿protocol_id: futures_v59r2_cftc_wti_crowding_br_pre2018_v1
+status: sealed_risk_first_roll_after_invalid_v59r1_before_valid_economics
+declared_at_utc: '2026-09-02T19:20:00Z'
+research_only: true
+live_trading_allowed: false
+parent_r1_sha256: a79613a3926cbe83f6a276fd211968618b4174190bb18b59b8150e4525526018
+only_change:
+  roll_only_decision_target: flat_cash_exit_old_contract
+  new_contract_entry: next_ordinary_weekly_decision_only
+  rationale: avoid_unfillable_atomic_two_leg_roll_without_inventing_new_leg_liquidity
+unchanged: [CFTC_sign, lag_13, source_age_14, vol_20, target_30_percent, cap_2x, participation_1_percent, costs, dates, gates]

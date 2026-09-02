@@ -18,8 +18,12 @@ from market_lab import futures_v12_core4_correlation_trend as v12
 from market_lab import futures_v58_cftc_wti_positioning_br as v58
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[2]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v59r1_cftc_wti_crowding_br_pre2018.yaml"
-CONFIG_SHA256: Final[str] = "a79613a3926cbe83f6a276fd211968618b4174190bb18b59b8150e4525526018"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v59r2_cftc_wti_crowding_br_pre2018.yaml"
+CONFIG_SHA256: Final[str] = "4ca4f1ad8ad7d0f2235b7343cd0c45cecfd838cbcaea757ace3efce55e5f1619"
+R1_CONFIG_PATH: Final[Path] = (
+    PROJECT_ROOT / "configs/futures_v59r1_cftc_wti_crowding_br_pre2018.yaml"
+)
+R1_CONFIG_SHA256: Final[str] = "a79613a3926cbe83f6a276fd211968618b4174190bb18b59b8150e4525526018"
 PARENT_CONFIG_PATH: Final[Path] = (
     PROJECT_ROOT / "configs/futures_v59_cftc_wti_crowding_br_pre2018.yaml"
 )
@@ -36,6 +40,9 @@ def load_protocol() -> dict[str, Any]:
         raise ValueError("V59 protocol byte drift")
     stated = CONFIG_PATH.with_suffix(".sha256").read_text(encoding="utf-8-sig").split()[0]
     correction = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    if v58.sha256_file(R1_CONFIG_PATH) != R1_CONFIG_SHA256:
+        raise ValueError("V59R1 correction byte drift")
+    r1 = yaml.safe_load(R1_CONFIG_PATH.read_text(encoding="utf-8-sig"))
     if v58.sha256_file(PARENT_CONFIG_PATH) != PARENT_CONFIG_SHA256:
         raise ValueError("V59 parent protocol byte drift")
     protocol = yaml.safe_load(PARENT_CONFIG_PATH.read_text(encoding="utf-8-sig"))
@@ -43,15 +50,14 @@ def load_protocol() -> dict[str, Any]:
     risk = protocol["risk_execution"]
     if (
         stated != CONFIG_SHA256
-        or correction.get("protocol_id") != "futures_v59r1_cftc_wti_crowding_br_pre2018_v1"
+        or correction.get("protocol_id") != "futures_v59r2_cftc_wti_crowding_br_pre2018_v1"
         or correction.get("status")
-        != "sealed_execution_only_correction_after_invalid_v59_before_any_valid_v59_economics"
+        != "sealed_risk_first_roll_after_invalid_v59r1_before_valid_economics"
         or correction.get("live_trading_allowed") is not False
-        or correction["parent"]["sha256"] != PARENT_CONFIG_SHA256
-        or correction["only_change"]["unexecutable_target_policy"]["from"] != "retry"
-        or correction["only_change"]["unexecutable_target_policy"]["to"] != "cancel_and_clip"
-        or correction["only_change"]["sign_lag_risk_cap_costs_dates_and_gates_unchanged"]
-        is not True
+        or correction["parent_r1_sha256"] != R1_CONFIG_SHA256
+        or correction["only_change"]["roll_only_decision_target"] != "flat_cash_exit_old_contract"
+        or r1["parent"]["sha256"] != PARENT_CONFIG_SHA256
+        or r1["only_change"]["unexecutable_target_policy"]["to"] != "cancel_and_clip"
         or protocol.get("live_trading_allowed") is not False
         or protocol["parent_mechanics"]["v58_protocol_sha256"] != v58.CONFIG_SHA256
         or signal["direction"] != "positive_short_BR_negative_long_BR_exact_zero_cash"
@@ -120,6 +126,26 @@ def build_contrarian_signals(panel: pd.DataFrame, cftc: pd.DataFrame) -> pd.Data
     if signals["decision_date"].ge(PROTECTED).any():
         raise ValueError("V59 signal crosses protected boundary")
     return signals
+
+
+def _risk_first_rolls(build: v58.TargetBuild) -> v58.TargetBuild:
+    roll_only = set(
+        build.decision_audit.loc[
+            build.decision_audit["roll_required"] & ~build.decision_audit["weekly_rebalance"],
+            "decision_date",
+        ]
+    )
+    targets = build.targets.copy()
+    mask = targets["decision_date"].isin(roll_only)
+    targets.loc[mask, "target_weight"] = 0.0
+    targets.loc[mask, "contract_id"] = pd.NA
+    targets.loc[mask, "provenance"] = "v59r2_risk_first_roll_exit_to_cash"
+    return v58.TargetBuild(
+        targets=targets,
+        decision_audit=build.decision_audit,
+        weekly_decisions=build.weekly_decisions,
+        roll_decisions=build.roll_decisions,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -218,6 +244,8 @@ def compute(
         evaluation_start=START,
         evaluation_end=END,
     )
+    candidate = _risk_first_rolls(candidate)
+    baseline = _risk_first_rolls(baseline)
     market = v12.build_execution_market(observations, specs)
     market = market.loc[market["asset_code"].eq("BR")].copy()
     dates = pd.to_datetime(market["session_date"], errors="raise")
@@ -289,7 +317,7 @@ def run_experiment(output_root: Path) -> Path:
     paths, checks = verify_inputs(protocol)
     result = compute(protocol, paths, checks)
     timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    name = f"v59r1_cftc_wti_crowding_br_pre2018_v1_{timestamp}_{CONFIG_SHA256[:8]}"
+    name = f"v59r2_cftc_wti_crowding_br_pre2018_v1_{timestamp}_{CONFIG_SHA256[:8]}"
     output_root = output_root.resolve()
     output_root.mkdir(parents=True, exist_ok=True)
     final = output_root / name
