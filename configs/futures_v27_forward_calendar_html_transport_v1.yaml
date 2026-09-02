@@ -1,0 +1,104 @@
+﻿protocol_id: futures_v27_forward_calendar_html_transport_v1
+protocol_version: 1
+status: sealed_after_schema_only_public_page_inspection_before_calendar_state_values_or_persisted_response
+declared_at_utc: '2026-09-02T22:44:18Z'
+scope: source_only_official_calendar_transport_no_market_outcomes_no_economic_change
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Capture the official MOEX futures trading calendar exposed as structured __NEXT_DATA__
+  inside the public trading-calendar page when the documented direct ISS calendar URL
+  returns an authorization HTML page. Preserve the frozen five-session hard fallback,
+  archive exact response bytes, and admit a calendar only after its actual retrieval.
+
+parent_paper_protocol:
+  path: configs/futures_v27_forward_paper_v1.yaml
+  sha256: d68f0595ab383e618f4daf1c810190fbb0479d2c6e667655bc597294d5839a76
+  preflight_path: src/market_lab/futures/v27_forward_paper_preflight.py
+  preflight_sha256: 426be4d51be51dee9bd4a85c096ee3fde7832ef049922b31018a379943c1e938
+  roll_planner_path: src/market_lab/futures/roll.py
+  roll_planner_sha256: d398f485a57297e6d55977e56adfe939ca6ed5bca9c002fbebba90644eecd93f
+  hard_fallback_sessions_unchanged: 5
+
+official_source:
+  provider: Moscow_Exchange
+  documented_iss_endpoint: https://iss.moex.com/iss/calendars/futures
+  documentation: https://www.moex.com/files/4rkd3yjkghfhqz4h7g8rewetx4
+  public_page_endpoint: https://www.moex.com/ru/tradingcalendar
+  query:
+    market: derivatives-market
+    type: trading
+  response_media_type: text/html
+  embedded_container: script_id___NEXT_DATA___application_json
+  root_path: props.pageProps.recursiveComponentContentProps
+  unique_component_signature: initData.offDays.futures
+  market_key: futures
+  record_fields: [tradedate, is_traded, reason]
+  allowed_is_traded_values: [0, 1, null]
+  allowed_reason_values: [H, W, N, T, null]
+  direct_ISS_or_calendar_value_fallback: forbidden
+
+transport_discovery:
+  inspected_at_utc: '2026-09-02T22:42:00Z'
+  runtime_host: gpu-mlserver
+  direct_documented_endpoint_status: HTTP_200_text_html_not_JSON
+  public_page_status: HTTP_200_text_html
+  embedded_schema_and_container_seen: true
+  date_key_names_seen_during_structure_walk: true
+  is_traded_or_reason_values_read: false
+  market_price_return_target_prediction_or_pnl_read: false
+  strategy_parameter_or_gate_changed: false
+
+request:
+  method: GET
+  headers:
+    User-Agent: >-
+      Mozilla/5.0 (compatible; MarketLabResearch/1.0;
+      +https://github.com/aspinozaxxx-lab/trading_lab)
+    Accept: text/html
+    Accept-Encoding: identity
+    Connection: close
+  timeout_seconds: 30
+  attempts: 3
+  backoff_seconds: [1, 2]
+  cookies_or_authentication: forbidden
+  alternate_route_after_failure: forbidden
+
+causality:
+  earliest_eligible_retrieval_at_utc: '2026-09-02T22:44:18Z'
+  calendar_available_at: actual_response_retrieved_at_utc
+  snapshot_may_support_decision_only_if_retrieved_at_lte_decision_at: true
+  source_updatetime_missing_policy: retrieval_is_conservative_lower_bound
+  null_is_traded_policy: unavailable_never_infer
+  missing_date_policy: unavailable_never_infer
+  historical_2026_backfill: forbidden
+  generic_weekday_substitution: forbidden
+  inference_from_market_prices_or_observed_sessions: forbidden
+
+storage:
+  root: data/forward/moex-futures-calendar-html-v1
+  raw_html_gzip: required
+  normalized_calendar_parquet: required
+  immutable_manifest_and_replay_audit: required
+  overwrite_or_mutate_snapshot: forbidden
+  response_cookies_or_credentials_may_be_stored: false
+  return_label_signal_target_prediction_equity_or_pnl: forbidden
+
+consumer_contract:
+  select_latest_snapshot_with_retrieved_at_lte_decision_at: true
+  require_complete_known_states_from_decision_through_expiration: true
+  session_identity: tradedate_when_is_traded_equals_1
+  weekend_session_trade_session_date_not_needed_for_counting_unique_trading_dates: true
+  hard_fallback_or_promotion_when_calendar_incomplete: blocked
+  signal_direction_scale_cap_margin_cost_or_gate_changed: false
+
+state_at_seal:
+  persisted_calendar_snapshots: 0
+  calendar_state_values_used_by_paper_engine: 0
+  forward_decision_target_order_position_or_pnl_computed: false
+
+limitations:
+  - The public page is an official current-vintage transport but its HTML layout may change.
+  - Retrieval proves availability no earlier than retrieval and cannot reconstruct older vintages.
+  - A valid calendar removes only an operational blocker and does not prove profitability.
