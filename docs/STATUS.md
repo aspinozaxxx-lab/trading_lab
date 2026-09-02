@@ -3,6 +3,25 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Intraday MOEX option surface — SOURCE-ONLY COLLECTION ACTIVE
+
+Для принципиально новой гипотезы непрерывного выбора момента сделки запечатан admission
+config SHA `b325dc26...`, eligibility boundary `2026-09-02T20:05:00Z`; source и parser
+остались byte-pinned к уже аудированному option-surface collector. Старые snapshots не
+backfill-ятся и считаются только `excluded_preboundary`.
+
+Commit/deploy `ef1a9d1` перенёс authoritative schedule на `gpu-mlserver`: Mon–Fri
+10:09–22:59 МСК каждые 10 минут плюс 23:09/19/29/39/55. Локальные Windows tasks
+остаются выключены. Readiness требует для одной complete session не менее 30 valid
+срезов, span `>=300` минут и max gap `<=25` минут. До 20 complete discovery sessions
+запрещены features, labels, returns и PnL; далее заранее разделены 20 calibration и 60
+unseen sessions.
+
+Будущий sealed economic protocol сравнит full-surface neural timing, price-only
+ablation, fixed skew/term rule и always-abstain. Только defined-risk конструкции;
+исполнение по наблюдаемому OFFER на входе и BID на выходе, naked short запрещён. Это
+сбор нового причинного источника, а не заявление о найденной доходности.
+
 ## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
 
 V60 config SHA `40145868...`, seal/deploy commit `f132dd8`, implementation SHA
@@ -2206,28 +2225,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V59 independent pre-2018 CFTC crowding test
+### P0 — intraday option-surface discovery и defined-risk volatility family
 
-1. V58 trend/continuation sign закрыт как резко отрицательный. Не переворачивать sign
-   на уже увиденном `2021–2025` и не менять lag/risk/cap.
-2. До чтения CFTC `2012–2017` values запечатать source identities и одну экономически
-   отдельную crowding/mean-reversion гипотезу: рост managed-money net share означает
-   short BR, падение — long BR; остальные mechanics допускаются только byte-identical
-   V58.
-3. Собрать старые annual archives и выполнить target-free raw replay только на
-   `gpu-mlserver`; затем один раз проверить на existing independent pre-2018 MOEX BR.
-4. Только если inverse sign проходит не менее 20% во всех costs, Sharpe/MDD/stability и
-   затем согласуется с уже увиденным периодом без дальнейшего tuning, считать механизм
-   кандидатом для нового unseen forward paper.
-5. Historical defined-risk option premium остаётся приоритетным параллельным источником,
-   но public ISS не содержит executable bid/offer. Нужен лицензированный MOEX Type B
-   (all trades + top of book, derivatives available since 2016) либо forward surface;
-   покупка только после отдельного разрешения пользователя. Официальный T-Invest API
-   не является бесплатной заменой: его historical archive содержит минутные OHLCV
-   candles, тогда как `GetOrderBook` — текущий snapshot, не исторический BBO. По
-   официальному тарифу MOEX Type B стоит от USD 150 за market-month или USD 50 за
-   instrument-month без VAT. Бесплатные MOEX Type B sample пригодны только для parser/
-   schema preflight, не для многолетнего economic test.
+1. V58/V59 CFTC закрыты, V60 прошёл development, V61 не подтвердил minimum 20%.
+   Не менять их signs/windows/multipliers по уже увиденному outcome.
+2. Держать активным только server timer нового option admission SHA `b325dc26...`;
+   каждый eligible snapshot обязан быть post-boundary и пройти полный source replay.
+3. До 20 complete sessions не вычислять features, labels, returns или PnL. После gate
+   один раз запечатать экономический protocol до чтения следующих outcomes.
+4. Сравнить full-surface neural timing с price-only ablation, fixed skew/term rule и
+   always-abstain; использовать только defined-risk конструкции, observed OFFER/BID,
+   size/capacity и запрет naked short.
+5. Historical MOEX Type B остаётся отдельным ускорителем, но покупка требует разрешения
+   пользователя. Public delayed snapshot нельзя трактовать как доказательство queue/fill.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 

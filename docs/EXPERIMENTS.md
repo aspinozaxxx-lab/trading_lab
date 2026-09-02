@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## Intraday option-surface admission — source-only, active
+
+- Config SHA `b325dc263639ffa97e0c25ac95340b7bae339ca64f0f6b7fd6ba5de441cbed44`,
+  boundary `2026-09-02T20:05:00Z`, deploy commit `ef1a9d1`.
+- Authoritative `gpu-mlserver` collector: every 10 minutes during the MOEX derivatives
+  session; local Windows tasks disabled. Existing pre-boundary observations excluded.
+- Gate: 20 complete discovery sessions, each with `>=30` valid snapshots, `>=300` minute
+  span and `<=25` minute maximum gap. No economic outcomes are computed before this.
+- Predeclared future arms: full-surface neural timing, price-only ablation, fixed
+  skew/term rule, always-abstain; defined-risk and observed OFFER/BID only.
+
 ## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
 
 - V60 SHA/code `40145868.../4a3e38e5...`, seal `f132dd8`. One predeclared rule uses

@@ -50,6 +50,9 @@
 23. [Текущее состояние](docs/STATUS.md), раздел V60/V61 — causal `2x/1x` shadow-equity
     governor прошёл development, но fixed robustness не подтвердил minimum 20%; его
     126-session rule и multipliers больше не настраивать на той же истории.
+24. [Runbook](docs/RUNBOOK.md), раздел Forward MOEX option surfaces — intraday
+    admission SHA `b325dc26...`, server schedule и запрет экономических расчётов до
+    20 полных post-boundary discovery-сессий.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

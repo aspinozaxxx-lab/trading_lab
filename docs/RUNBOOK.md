@@ -1142,21 +1142,38 @@ Read-only audit:
 
 Каждый запуск создаёт новый каталог под
 `data/forward/moex-options-surface-v1/`; overwrite и historical backfill запрещены.
-Собирать один EOD snapshot на торговую дату. Первый реальный snapshot —
+Первый реальный snapshot —
 `snapshot_20260901T230311250639Z`, 2 062 rows, audit 17/17. До 60 discovery + 20
 calibration + 40 unseen evaluation snapshots экономический protocol не запускать; см.
 [FORWARD_OPTION_PROTOCOL.md](FORWARD_OPTION_PROTOCOL.md).
 
-Автоматический wrapper сначала делает source-date-only SI probe и не вызывает collector,
-если эта торговая дата уже сохранена:
+Локальный legacy wrapper ниже сохраняет source-date-only EOD semantics, но Windows task
+отключена. Внутридневной server service вызывает immutable Python collector напрямую;
+существующий timestamp не перезаписывается:
 
 ```powershell
 .\scripts\collect_forward_option_surface.ps1
 ```
 
-Authoritative server timer — `trading-lab-option-surface.timer`, Mon–Fri 23:55 МСК;
-локальная Windows task отключена. Проверка timer приведена в
+Authoritative server timer — `trading-lab-option-surface.timer`, Mon–Fri каждые 10 минут
+с 10:09 до 22:59 МСК и в 23:09/19/29/39/55; локальная Windows task отключена.
+Проверка timer приведена в
 `docs/SERVER_COLLECTORS.md`.
+
+Read-only readiness нового intraday admission (config SHA `b325dc26...`, eligibility
+boundary `2026-09-02T20:05:00Z`):
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.forward_option_intraday_readiness `
+  --output-root D:\Projects\trading_lab_data\data\forward\moex-options-surface-v1
+```
+
+Старые snapshot учитываются только как `excluded_preboundary`. Полная торговая сессия
+требует не менее 30 valid snapshots, span не менее 300 минут и maximum gap не более
+25 минут. Экономические features, labels и PnL запрещены до 20 полных discovery-сессий;
+затем заранее фиксируются 20 calibration и 60 unseen sessions. Будущие сравнения:
+full-surface neural timing, price-only ablation, fixed skew/term rule и always-abstain;
+только defined-risk позиции с наблюдаемыми OFFER на входе и BID на выходе.
 
 Полный replay-аудит всех накопленных snapshot и точный gate 60/20/40:
 
