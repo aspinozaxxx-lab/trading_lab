@@ -35,6 +35,19 @@
   `796c4aba.../97468194.../0f1190c9...`. Do not invert sign or change factors/buckets.
   The next mechanism must generate its own return; official RGBI futures are queued.
 
+## V54 official RGBI quarterly futures — SOURCE AUDITED, ECONOMICS SEALED NEXT
+
+- Config SHA `fe49459e...`, implementation commit `5249e68`, SHA `c9f8a3b6...`;
+  sealed after identity/date/schema probe and before market values or returns.
+- Fixed universe is all 15 `RBM2,RBU2,…,RBZ5` quarterly contracts. `RGBIF` starts
+  after the development boundary; spread SECIDs and stopped O2/O4/O6 are excluded.
+- Bundle `moex-rgbi-futures-daily-2022-2025-v1`: 15 series, 1,607 daily rows,
+  1,402 positive-activity and complete OPEN/CLOSE rows, 24 raw responses.
+- Series/daily/raw SHA `6dce9f16.../f993a6b0.../ce762a9e...`; manifest/audit
+  `60dbb74c.../c054b4e8...`; raw replay `all_true=true`, outcomes absent.
+- Next V55 must seal one own-return strategy before values. This short 2022–2025
+  development period is not an independent holdout and cannot prove predictability.
+
 ## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED
 
 - V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the

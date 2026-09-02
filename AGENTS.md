@@ -45,6 +45,8 @@
     historical CAGR, строгий `NO_GO` и отдельный post-seal paper arm без backfill.
 21. [Official MOEX OFZ source](docs/MOEX_OFZ_SOURCE.md) — новый audited источник
     независимого carry/roll-down engine и точные запреты до V52 economic seal.
+22. [Текущее состояние](docs/STATUS.md), раздел V54 — audited RGBI futures source
+    `2022–2025`; market values нельзя читать для design до отдельного V55 seal.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

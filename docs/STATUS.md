@@ -79,6 +79,22 @@ Governor уничтожил значительную часть frozen V49 edge 
 истории. Следующий independent mechanism — собственная торговая доходность RGBI/OFZ
 futures, не ещё один governor V49.
 
+## V54 official RGBI futures source — AUDITED, NO PNL YET
+
+Source config SHA `fe49459e...`, implementation commit `5249e68`, SHA `c9f8a3b6...`
+был sealed после identity/date/schema-only probe и до market values. Canonical external
+bundle `data/processed/info_radar/moex-rgbi-futures-daily-2022-2025-v1/`:
+
+- exact 15 quarterly series `RBM2…RBZ5`, `1 607` daily rows, 24 raw responses;
+- `1 402` positive-activity и `1 402` complete OPEN/CLOSE rows;
+- series/daily/raw SHA `6dce9f16.../f993a6b0.../ce762a9e...`;
+- manifest/audit SHA `60dbb74c.../c054b4e8...`, raw replay `all_true=true`;
+- curve/basis/return/label/signal/trade/PnL отсутствуют, 2026+ rows `0`.
+
+`RGBIF` начался только `2025-12-23` и исключён; archived calendar spreads и stopped
+O2/O4/O6 также не смешивались с quarterly RGBI. Market values пока не использовать
+для выбора horizon/direction/roll/risk. Следующий V55 должен быть sealed первым.
+
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
 
 V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
@@ -2040,18 +2056,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V54 official RGBI/OFZ futures independent return engine
+### P0 — V55 presealed RGBI futures independent return engine
 
 1. V53R1 завершён `NO_GO`; его curve sign/buckets/factors не менять и не инвертировать.
-2. Official MOEX discovery подтвердил quarterly RGBI futures `RB*` с `2022` по `2025`,
-   current perpetual `RGBIF`, а также архивные deliverable baskets `O2/O4/O6` и
-   exchange calendar spreads. Сначала запечатать source-only identities/dates/schema;
-   prices, returns и PnL до source seal не читать.
-3. Предпочтительный новый target — собственный causal trend/basis return RGBI futures,
-   а не V49 governor. Contract roll, specs, settlement, volume and missing must be
-   explicit; discontinued O2/O4/O6 нельзя zero-fill после 2022.
-4. После audited source запечатать ровно одну strategy, exact next-OPEN/settlement,
-   integer lots, costs and margin. Никаких horizon/threshold/direction sweeps.
+2. V54 source уже immutable/audited: config `fe49459e...`, manifest `60dbb74c...`,
+   daily `f993a6b0...`. Collection не повторять; разрешён только raw replay audit.
+3. До открытия market values запечатать один causal trend candidate: deterministic
+   front roll, forward causal adjustment, prior 63-session momentum, prior 20-session
+   volatility target `25%`, cap `3x`, next factual OPEN and fixed cost stresses.
+4. Это normalized development proxy до historical specs. Pass допускает только один
+   exact integer/spec/margin/cost replay; horizon, direction, vol target, cap и roll
+   после outcome не менять. 2022–2025 слишком короток для independent holdout claim.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 
