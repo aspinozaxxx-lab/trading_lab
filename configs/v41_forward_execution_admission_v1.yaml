@@ -1,0 +1,79 @@
+﻿protocol_id: v41_forward_execution_admission_v1
+protocol_version: 1
+status: sealed_before_first_joint_forward_quote_or_depth_snapshot
+declared_at_utc: '2026-09-02T05:03:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Count only jointly synchronized V41 forward dates whose immutable stock, futures and
+  LQDT raw snapshots prove positive two-sided best-quote depth. Reject dates that cannot
+  support one frozen covered-carry unit of 100 shares and one futures contract, without
+  computing basis, yield, return, signal, trade or PnL.
+
+parents:
+  stock_futures:
+    protocol_id: moex_forward_stock_futures_cash_carry_source_v1
+    config_sha256: b25fe86c1aaccb6e615647b3f84efb3c45df33185e71debee497702e5ac2c4c6
+    root: data/forward/moex-stock-futures-cash-carry-v1
+  idle_cash:
+    protocol_id: moex_forward_lqdt_idle_cash_source_v1
+    config_sha256: 15fb471a2a940b1dabeab6d16f82a8c1fd3e8b863b28936202c42eb4f8f4e1fa
+    root: data/forward/moex-lqdt-idle-cash-v1
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill: forbidden
+  parent_snapshot_audits_must_all_pass: true
+
+joint_timing:
+  required_stages: [decision, fill]
+  maximum_same_stage_retrieval_skew_seconds: 30
+  stock_fill_must_be_after_stock_decision: true
+  LQDT_fill_must_be_after_LQDT_decision: true
+  no_timestamp_inference: true
+
+depth_admission:
+  source_fields: [BIDDEPTH, OFFERDEPTH]
+  preserve_optional_context_fields: [BIDDEPTHT, OFFERDEPTHT, NUMBIDS, NUMOFFERS]
+  missing_or_nonpositive_depth: invalid_not_zero
+  spot:
+    shares_per_covered_unit: 100
+    required_order_lots_formula: shares_per_covered_unit_divided_by_current_LOTSIZE
+    noninteger_required_order_lots: invalid
+    both_bid_and_offer_depth_must_cover_required_order_lots: true
+  futures:
+    contracts_per_covered_unit: 1
+    both_bid_and_offer_depth_must_cover_contracts: true
+    contract_LOTSIZE_100_still_required_by_parent: true
+  LQDT:
+    both_bid_and_offer_depth_must_be_positive: true
+    allocation_capacity_gate_deferred_until_separate_capital_and_broker_seal: true
+    units_must_be_zero_while_corresponding_cash_carry_sleeve_is_active: true
+
+readiness:
+  discovery_complete_joint_dates: 60
+  calibration_joint_dates_after_discovery: 20
+  unseen_evaluation_joint_dates_after_calibration: 60
+  economic_protocol_before_discovery: forbidden
+  annualization_before_unseen_evaluation: forbidden
+
+forbidden_outputs:
+  - basis
+  - yield
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Reported public depth can be delayed and can disappear before an order arrives.
+  - Best-level depth does not prove queue position, rejection, partial fill or market impact.
+  - LQDT capacity remains unresolved until capital and broker settlement rules are sealed.
+  - Broker fees, margin, taxes and settlement netting remain unresolved.
+  - Passing this source gate cannot guarantee profit or authorize live trading.
