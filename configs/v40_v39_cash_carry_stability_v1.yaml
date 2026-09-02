@@ -1,0 +1,68 @@
+protocol_id: futures_v40_v39_cash_carry_stability_v1
+protocol_version: 1
+status: sealed_before_any_combined_equity_return_or_metric
+declared_at_utc: '2026-09-02T04:12:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A fixed initial 80% allocation to frozen V39 and 20% to the independently defined
+  covered stock-futures cash-carry sleeve can retain at least 20% CAGR while reducing
+  maximum drawdown in every cost scenario.
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    primary: {file: combined_ledger_primary.parquet, sha256: 1820996ba32b3ef2c313cf9d2fbcffb40eff3f7869a72db042814313c1908976, rows: 1272}
+    doubled: {file: combined_ledger_doubled.parquet, sha256: 5a4751ce2d7d6c2b32dd27d4cf2044a35159291a191042757c75355d0019a616, rows: 1272}
+    stress: {file: combined_ledger_stress.parquet, sha256: da088adc061786ab2d5b43858dbeeef2af4c007c9849e538e207da937bd26561, rows: 1272}
+    equity_column: combined_ending_equity
+  cash_carry:
+    root: runs/stock_futures_cash_carry_intraday_v1_20260902T040404Z_aa35b0d8
+    protocol_sha256: aa35b0d864483b30e0b6ffec67dec9b5efeab945362dc9cf5b91e60c06c1885e
+    manifest: {file: manifest.json, sha256: 9025f572c9d5ffddfca556cfbaa36ceb0372aa5d3e98c1059b8ffceb866a8c29}
+    metrics: {file: metrics.json, sha256: e9eee0c320d74be6924f5344662761dc865f520066e88e4ef545834de0683ecd}
+    ledger: {file: daily_ledger.parquet, sha256: 10435a84b97e695dfe8318d8df17c9acea9d7d9276848e5296465ae7c4cdfe7c, rows: 781}
+    trades: {file: trades.parquet, sha256: cae7d2992afee8b0a67e199cd8d25fd06e7995bc813266d358ad5b43bd2d3815, rows: 15}
+
+allocation:
+  v39_initial_weight: 0.80
+  cash_carry_initial_weight: 0.20
+  rebalance_after_initial_allocation: never
+  cash_carry_before_first_observation: flat_at_one
+  missing_cash_carry_dates_after_start: forward_fill_last_audited_nav
+  missing_v39_dates: forbidden
+  leverage_or_weight_optimization: none
+
+scenario_mapping:
+  primary: {v39: primary, cash_carry: primary}
+  doubled: {v39: doubled, cash_carry: doubled}
+  stress: {v39: stress, cash_carry: zero_cashflow_stress}
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  same_history_adaptive_evidence_not_independent_holdout: true
+
+required_gates:
+  all_scenario_CAGR_gte: 0.20
+  all_scenario_MDD_strictly_better_than_corresponding_v39: true
+  all_scenario_Sharpe_gte_corresponding_v39: true
+  all_scenario_worst_year_gte_corresponding_v39: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v40_v39_cash_carry_stability_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet]
+
+limitations:
+  - Both parents were evaluated on overlapping historical data; diversification is not independent confirmation.
+  - Cash-carry RMS cashflow is a proxy, and stress maps it to zero credit.
+  - Fixed initial allocation assumes capital can be partitioned despite integer contracts.
+  - No bid/ask or broker margin archive proves cash-carry execution.
+  - Historical results cannot guarantee profit or authorize live trading.
