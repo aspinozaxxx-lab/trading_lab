@@ -39,7 +39,24 @@ R1 перешёл на explicit `date=` для каждого календарн
 - Historical LOTSIZE/fees/tax и eligibility OFZ as futures collateral не доказаны.
 - Пропуски нельзя заменять нулями, WAP/CLOSE нельзя объявлять executable bid/ask.
 
-## Следующий V52 seal до чтения market values
+## V52/V52R1/V52R2 result
+
+V52 был запечатан до market values с monthly SU262 `2–7y`, trailing median VALUE
+`10m RUB`, top-3 YIELDATWAP, equal weights, next common OPEN и `10/20/40` bps.
+R1 исправил только empty artifact schema. R2 отдельно исправил MOEX legacy identity
+`CURRENCYID=SUR` при неизменном `FACEUNIT=RUB`; числовая экономика не менялась.
+
+Canonical R2 run `v52r2_ofz_carry_roll_down_20260902T172306Z_8a2e97e2` имеет
+standalone CAGR `4.5140%/3.6422%/1.9194%`, Sharpe `0.555/0.457/0.262`, MDD
+`22.92–25.69%`. Fixed 85/15 V49/OFZ mix дал `39.4530–36.2516%` CAGR, то есть не
+улучшил frozen V49. Verdict `NO_GO`, external R2 replay `all_true=true`.
+
+Не менять V52 duration, liquidity floor, top count, weights, rebalance day или costs
+на этой истории. Следующий допустимый experiment должен иметь иной target, например
+заранее запечатанный sign-only OFZ curve state, и не может использовать current-vintage
+bondization как predictor.
+
+## Архивная preseal-спецификация V52
 
 До открытия `ofz_history.parquet` и вычисления любой доходности зафиксировать ровно
 один economic candidate. Рекомендуемый механизм для preseal:
@@ -63,4 +80,3 @@ R1 перешёл на explicit `date=` для каждого календарн
 
 Даже pass требует forward TQOB bid/offer collector, broker fees/tax/settlement
 reconciliation и второго unseen периода; live trading остаётся запрещён.
-

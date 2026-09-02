@@ -3,7 +3,38 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Новый independent return-engine source: official MOEX OFZ — AUDITED, NO PNL YET
+## V52R2 OFZ carry/roll-down — NO-GO, 1.92–4.51% CAGR
+
+V52 был запечатан до первого чтения market values: config SHA `ee995ff4...`, commit
+`2b25672`, implementation `a7752bd0...`. Первый server run остановился до output на
+валидном пустом trade-frame. R1 SHA `491e53c3...` исправил только empty artifact
+schema; его audited result доказал `0` selected rows/сделок, потому что MOEX history
+использует legacy `CURRENCYID=SUR`, а протокол буквально требовал `RUB`.
+
+R2 semantic-only correction SHA `8a2e97e2...`, commit `87340af`, сохранила
+`FACEUNIT=RUB` и все duration/liquidity/top-3/weights/execution/cost/gates, заменив
+только source identity `RUB -> SUR`. Canonical server run
+`runs/v52r2_ofz_carry_roll_down_20260902T172306Z_8a2e97e2/`, external replay
+`all_true=true`, manifest/metrics/audit SHA
+`116734b7.../14fce225.../b4a99d11...`.
+
+- `60` monthly decisions, `171` selected rows, `56` completed rebalances,
+  `687` scenario trades и `11 088` position rows; один unresolved rebalance;
+- standalone CAGR `4.5140% / 3.6422% / 1.9194%` при `10/20/40` bps, Sharpe
+  `0.555/0.457/0.262`, MDD `22.92%/23.78%/25.69%`;
+- primary `4/5` positive years, doubled `3/5`, stress `2/5`; `11` conservative
+  unresolved schedule cashflows в каждом scenario;
+- fixed fully-funded `85% V49 + 15% OFZ` CAGR
+  `39.4530%/38.7578%/36.2516%/36.2516%`, MDD `22.43–24.15%`;
+- обязательные standalone return/Sharpe/MDD/cashflow gates провалены, 50% false,
+  verdict `NO_GO`.
+
+OFZ sleeve немного снижает часть drawdown, но существенно разбавляет V49 и не является
+новым сильным return engine. Не менять maturity `2–7`, liquidity `10m`, top-3,
+monthly rebalance, `85/15` или costs по этому outcome. Допустим новый principled target
+на OFZ curve state только после отдельного seal; live trading запрещён.
+
+## Official MOEX OFZ source — AUDITED
 
 Source V1 SHA `c43f7366...`/implementation `11aa44c7...` был sealed после schema
 probe, но остановился без output: board-wide ISS игнорировал `from/till` и вернул
@@ -22,10 +53,8 @@ Canonical external source
 - manifest/audit SHA `102b4add.../809eef13...`, raw replay `all_true=true`;
 - return/label/signal/target/order/position/PnL отсутствуют, market rows 2026+ `0`.
 
-Это первая новая экономически независимая основа после V50/V51: OFZ carry/roll-down
-может диверсифицировать V39, но пока никакая доходность не рассчитана. Не открывать
-market values до отдельного V52 seal; не выбирать duration, liquidity, top-N, weight
-или rebalance day по уже увиденным returns. Следующий протокол описан в
+Source остаётся неизменяемой основой. Первый economic test завершён V52R2 `NO_GO`;
+повторный carry/roll-down parameter search на 2021–2025 запрещён. Подробности — в
 `docs/MOEX_OFZ_SOURCE.md`. Live trading запрещён.
 
 ## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
@@ -1989,20 +2018,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — V52 independent OFZ carry/roll-down до чтения market values
+### P0 — V53 presealed OFZ curve-state mechanism
 
-1. Canonical source R2 уже immutable/audited: config `227b1641...`, manifest
-   `102b4add...`, history/bondization `f045482b.../d69be407...`. Collection не
-   повторять; разрешён только `--audit`.
-2. До открытия price/yield values запечатать ровно один SU262 monthly carry/roll-down
-   rule с fixed maturity, prior liquidity, top-N, next-session OPEN, dirty-price and
-   explicit coupon accounting и `10/20/40` bps costs. Рекомендуемая спецификация — в
-   `docs/MOEX_OFZ_SOURCE.md`.
-3. Не делать duration/top-N/liquidity/weight sweep. Missing price/cashflow — sleep или
-   unresolved; WAP/CLOSE не считать bid/ask fill.
-4. После standalone результата проверить только заранее запечатанный fully-funded
-   portfolio с frozen V49/V42R2 и те же V50/V51 q05/rolling/leave-year gates. Даже pass
-   требует forward TQOB BBO, broker fees/tax/settlement и второго unseen периода.
+1. V52R2 завершён `NO_GO`; не менять его maturity/liquidity/top-3/weight/costs и не
+   выбирать лучший OFZ по уже увиденной доходности.
+2. Разрешён только принципиально иной target на том же новом source: до просмотра
+   зависимости с V49 запечатать один sign-only monthly curve state из liquid SU262
+   buckets `2–4y` и `5–7y`, без threshold/window sweep.
+3. Сначала source/state artifact без PnL и audit `available_at`; затем один frozen
+   defensive governor V49. Direction, scale, delay и gates фиксируются до join с V49.
+4. Любой normalized pass требует отдельного exact integer/cost/margin replay и forward
+   TQOB BBO. Использовать current-vintage bondization как predictor запрещено.
 
 ### P0 — post-seal paper arm V49 без повторного historical tuning
 

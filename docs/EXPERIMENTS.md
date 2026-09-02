@@ -1,6 +1,27 @@
 ﻿# Реестр экспериментов
 
-## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED, ECONOMICS SEALED NEXT
+## V52R2 official OFZ carry/roll-down — NO-GO
+
+- V52 config SHA `ee995ff4...`, implementation commit `2b25672`, SHA `a7752bd0...`
+  был запечатан до market values. Первый run не создал output: все trade frames были
+  empty, а writer вызвал `pandas_concat_no_objects`.
+- R1 SHA `491e53c3...`, commit `8883dc5` изменил только explicit empty schemas. Он
+  корректно опубликовал zero-trade `NO_GO` и выявил source identity: `SU262`
+  использует `CURRENCYID=SUR`, `FACEUNIT=RUB`.
+- R2 SHA `8a2e97e2...`, commit `87340af` изменил только literal legacy currency code;
+  все economic parameters и gates сохранены. Canonical run
+  `v52r2_ofz_carry_roll_down_20260902T172306Z_8a2e97e2`.
+- `60` decisions, `56` rebalances, `687` scenario trades. Standalone CAGR for
+  10/20/40 bps: `4.51396%/3.64216%/1.91945%`; Sharpe
+  `0.55545/0.45741/0.26192`; MDD `22.9203%/23.7813%/25.6924%`.
+- Fixed `85% V49 + 15% OFZ` CAGR is
+  `39.45296%/38.75784%/36.25155%/36.25155%`; it does not beat V49 and fails 50%.
+  Standalone return/Sharpe/MDD and unresolved-cashflow gates fail; verdict `NO_GO`.
+- External replay with the R2 loader is `all_true=true`; manifest/metrics/audit SHA
+  `116734b7.../14fce225.../b4a99d11...`. No 2026 market rows were used. Do not tune
+  V52 on this history; next admissible use is a separately presealed curve-state target.
+
+## Official MOEX OFZ history + bondization R2 — SOURCE AUDITED
 
 - V1 config/code SHA `c43f7366.../11aa44c7...` stopped without output because the
   board-wide endpoint ignored `from/till`. R1 `bdd7b19b.../9f8a5c60...` changed only
