@@ -1,0 +1,229 @@
+﻿protocol_name: stocks-v37-cross-market-breakout
+protocol_version: 37
+declared_at_utc: '2026-09-02T00:59:22Z'
+research_status: predeclared_before_v37_targets_or_pnl_no_2026_no_live
+sealed_before_outcomes: true
+research_only: true
+live_trading_allowed: false
+
+objective:
+  hypothesis: >-
+    A new intraday high or low that follows a six-bar directional build-up, broad
+    confirmation across all thirty liquid stocks and high relative traded value has
+    continuation persistence. A full cross-stock neural gate can reject false
+    breakouts better than an aggregate-only gate while a trailing profit corridor
+    harvests volatile moves and a distant stop limits failed regimes.
+  distinction_from_v35: >-
+    V35 traded six-stock residual mean reversion for an exact sixty-minute horizon.
+    V37 trades one-sided three-stock Donchian continuation with a path-dependent
+    trailing exit, distant stop and expanding all-market state. It does not invert the
+    V35 residual score, threshold or label.
+  primary_comparison: full_cross_stock_mlp_vs_aggregate_only_mlp_vs_ungated_breakout
+  reject_if: primary_or_doubled_cagr_below_20_percent_or_instability_gate_fails
+
+source:
+  directory: data/processed/stocks_10m_pre2026_v1
+  manifest_path: data/processed/stocks_10m_pre2026_v1/manifest.json
+  manifest_sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042
+  manifest_bytes: 15515
+  source_loader: src/market_lab/stocks/cross_sectional_intraday.py
+  source_loader_sha256: f31e0b80b69bbb58ec93125ae3738782a143d82faa8153c0adf45ad5f267a230
+  expected_rows: 4527436
+  expected_tickers: 30
+  minimum_timestamp_utc: '2018-01-03T06:50:00Z'
+  maximum_timestamp_utc: '2025-12-30T20:40:00Z'
+  protected_2026_read_allowed: false
+  required_columns: [open, high, low, close, volume, value, timestamp]
+
+universe:
+  tickers:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+  synchronization: exact_common_thirty_asset_timestamps
+  survivorship_disclosure: fixed_current_development_universe_not_point_in_time_constituents
+  missing_asset_policy: no_candidate
+
+timing:
+  timezone: Europe/Moscow
+  source_timestamp_semantics: ten_minute_bar_open
+  decision: after_source_bar_close
+  decision_local_time_start: '11:00:00'
+  decision_local_time_end: '17:00:00'
+  decision_stride_bars: 1
+  entry: next_exact_common_bar_open
+  maximum_holding_bars: 24
+  exit_trigger: completed_bar_close_then_next_exact_common_open
+  forced_exit_local_open: '18:30:00'
+  overnight_positions: forbidden
+  maximum_concurrent_baskets: 1
+  purge_sessions: 1
+
+candidate:
+  lookback_exact_same_session_bars: 6
+  breakout_fraction_beyond_prior_high_or_low: 0.0015
+  direction_build_up_return_bars: 3
+  direction_build_up_sign_must_match: true
+  breadth_confirmation_fraction: 0.60
+  selected_leg_count: 3
+  selected_direction: strongest_confirmed_side
+  selected_minimum_cross_sectional_value_rank: 0.50
+  minimum_available_assets: 30
+  same_ticker_duplicate_forbidden: true
+  one_sided_equal_notional_basket: true
+  simultaneous_long_and_short_legs: false
+
+features:
+  same_session_exact_predecessors_only: true
+  per_stock_blocks:
+    - log_return_1_bar
+    - log_return_3_bars
+    - log_return_6_bars
+    - donchian_breakout_fraction
+    - cross_sectional_log_value_rank
+    - trailing_36_bar_correlation_to_equal_weight_market
+  aggregate_blocks:
+    - equal_weight_market_returns_1_3_6
+    - positive_breadth_1_3_6
+    - cross_sectional_return_dispersion_1_3_6
+    - mean_and_max_breakout_strength_by_side
+    - mean_pairwise_correlation_proxy
+    - selected_leg_value_and_volatility_statistics
+    - causal_time_of_day_sine_cosine
+  correlation_lookback_bars: 36
+  correlation_minimum_bars: 24
+  normalization: train_fold_standard_scaler_only
+  finite_clipping: 8.0
+  missing_feature_policy: train_median_plus_missing_indicator
+  forbidden_features: [future_price, future_return, target, label, pnl, year_identity]
+
+exit:
+  hard_stop_adverse_fraction_from_entry: 0.018
+  trailing_activation_favorable_fraction: 0.006
+  trailing_retrace_fraction_from_best_completed_close: 0.004
+  hard_stop_precedence_over_trailing_same_bar: true
+  maximum_holding_bars: 24
+  trigger_bar_is_not_fill_bar: true
+  fill: next_exact_common_open_after_trigger
+  missing_successor: unresolved_not_zero
+
+target:
+  basket_return: equal_notional_three_leg_entry_open_to_causal_exit_open
+  model_label: doubled_cost_net_return_strictly_positive
+  target_never_enters_candidate_or_feature_eligibility: true
+  target_path_may_not_cross_session: true
+  missing_entry_exit_or_path: unresolved_not_zero
+
+model:
+  family: sklearn_mlp_classifier_fixed_ensemble
+  full_hidden_layers: [64, 32]
+  aggregate_hidden_layers: [24, 12]
+  activation: relu
+  solver: adam
+  alpha: 0.0005
+  batch_size: 512
+  learning_rate_init: 0.0005
+  maximum_iterations: 70
+  early_stopping: true
+  validation_fraction_from_training_only: 0.15
+  no_improvement_iterations: 8
+  seeds: [1729, 2718]
+  ensemble: arithmetic_mean_without_seed_selection
+  fixed_trade_probability_threshold: 0.60
+  probability_threshold_search: forbidden
+  minimum_training_candidates: 500
+  single_class_or_insufficient_history: sleep
+
+folds:
+  expanding_oos_years: [2022, 2023, 2024, 2025]
+  first_training_start: '2020-02-20'
+  training_end: prior_calendar_year_with_one_session_purge
+  calibration: none
+  test: exact_oos_calendar_year
+  retrain_frequency: once_before_each_oos_year
+  oos_targets_unread_during_inference: true
+  hyperparameter_search: false
+
+portfolio:
+  initial_capital_rub: 1000000.0
+  target_basket_gross: 1.50
+  maximum_total_gross: 1.50
+  maximum_single_leg_absolute_weight: 0.50
+  signal_value_participation: 0.0025
+  factual_entry_exit_value_participation_limit: 0.01
+  capacity_sizing_source: minimum_completed_decision_entry_exit_bar_value
+  fractional_notional_proxy: true
+  historical_lot_size_and_short_locate_missing: true
+  one_way_commission_bps: 5.0
+  one_way_slippage_bps: 5.0
+  doubled_cost_multiplier: 2.0
+  stress_cost_multiplier: 3.5
+  annual_short_borrow_rate: 0.20
+  stress_annual_short_borrow_rate: 0.30
+  short_borrow_day_count: ACT_365_exact_minutes
+  unresolved_capacity_policy: fail_closed_and_mark_run_invalid_for_live
+
+baselines:
+  - ungated_breakout_same_candidate_exit_and_ledger
+  - aggregate_only_mlp_same_fixed_probability_threshold
+  - long_only_ungated_breakout_diagnostic
+
+reporting:
+  scenarios: [primary, doubled, stress]
+  required_artifacts:
+    - candidates
+    - predictions
+    - trades
+    - daily_equity
+    - fold_records
+    - metrics
+    - identity
+    - audit
+    - report
+  gates:
+    primary_cagr_minimum: 0.20
+    doubled_cagr_minimum: 0.20
+    stress_total_return_minimum: 0.0
+    primary_sharpe_minimum: 1.0
+    primary_maximum_drawdown_ceiling: 0.30
+    minimum_positive_oos_years: 3
+    worst_oos_year_minimum: 0.0
+    minimum_completed_trades: 200
+    unresolved_count_maximum: 0
+    maximum_participation: 0.01
+    aspirational_cagr: 0.50
+  live_promotion_allowed: false
+  reason: missing_short_locates_lot_sizes_corporate_action_adjustment_and_forward_confirmation
+
+post_outcome_rules:
+  rerun_same_protocol: forbidden
+  change_breakout_breadth_exit_probability_cost_universe_or_leverage_on_same_history: forbidden
+  select_best_direction_year_ticker_or_baseline_as_primary: forbidden
+  failed_result_action: new_information_or_forward_period_only
