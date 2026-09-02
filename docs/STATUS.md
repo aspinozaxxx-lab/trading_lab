@@ -85,6 +85,20 @@ option/futures snapshots `0/0`; paper economics и CAGR reporting false. Пос�
 warmup потребуются 504 sessions/104 weeks/two full years. Полный контракт:
 [FORWARD_V39_PROTOCOL.md](FORWARD_V39_PROTOCOL.md).
 
+## Новая независимая ветка: dividend-adjusted single-stock spreads — SOURCE SEALED
+
+RMS cashflow не покрывает SI/RI/BR/MIX, зато даёт 4 994 point-in-time anticipated
+cashflow rows на 170 dates для GAZR/SBRF/ROSN/TATN/NOTK. Official series metadata
+подтвердил 53 dated same-root calendar spreads `2023-03-17..2025-12-19`; все 53 exact
+archive codes присутствуют в public MOEX spread archive. Price/Bid/Ask/PnL до seal не
+читались.
+
+Source-only config SHA `ad9a3008...`, seal commit `3e8dd71`. Будущий механизм —
+dividend-adjusted near/far fair value с atomic exchange spread, экономически отличный
+от провалившихся core4 price-only rules. Экономическое правило ещё не задано; следующий
+шаг — immutable raw collection/replay. До отдельного pushed strategy protocol returns,
+threshold/sign selection и PnL запрещены.
+
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 
 V37 проверил принципиально иной target на frozen 30-stock 10m source: one-sided

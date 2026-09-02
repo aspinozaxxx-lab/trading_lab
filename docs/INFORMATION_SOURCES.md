@@ -104,6 +104,13 @@ clock, поэтому V2 хранит его как current vintage с `availabl
 приписывает дату risk tables. После 60 discovery dates источник может поддержать
 dividend-fair-value и cross-asset hypotheses; до этого labels/PnL запрещены.
 
+Historical RMS cashflow открыл отдельную single-stock spread family. Для
+GAZR/SBRF/ROSN/TATN/NOTK доступны 4 994 anticipated-cashflow states, а official series
+и archive-list metadata подтверждают 53 calendar spreads за 2023–2025. Source protocol
+`ad9a3008...` уже sealed до цен. Эта ветка может проверить dividend-adjusted carry,
+тогда как прежние Calendar Spread V1–V4 использовали только SI/RI/BR/MIX price geometry;
+смешивать эти выводы или подбирать старые thresholds запрещено.
+
 Отдельно завершён historical point-in-time RMS V4 до `2025-12-31`: 189 682 states
 `limits`, 88 639 `staticparams`, 10 817 unique cashflow events, 4 647 raw responses;
 manifest `e88360d3...`, audit `013c6e23...`, replay 11/11. Первый sealed economic use

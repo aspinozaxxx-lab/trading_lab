@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## Dividend-adjusted single-stock calendar spreads — source V1 sealed
+
+- Source-only SHA `ad9a3008...`, seal `3e8dd71` precedes all selected spread prices.
+  Universe GAZR/SBRF/ROSN/TATN/NOTK selected only by positive PIT cashflow coverage and
+  official exchange spread metadata, never returns.
+- Cashflow coverage: 4 994 rows, 170 dates. Metadata: 53 spreads = `10/10/10/12/11`;
+  every derived archive code exists in the official public list.
+- Status: collector/output/economics pending. This is a new dividend-adjusted
+  market-neutral family, not Calendar Spread V5 and not a post-hoc threshold change.
+
 ## V39 weekly option-OI tail governor — canonical GO to forward confirmation
 
 - Weekly source V3 config `a1ec093e...`, implementation `c709d35a...`; canonical
