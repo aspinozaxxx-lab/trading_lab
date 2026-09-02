@@ -1455,6 +1455,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Anonymous ISS не доказывает latency, size, queue или fill.
 4. Параллельно получить byte-pinned broker fee/margin/order-log и конкретный
    cash/MMF/REPO instrument rule. Без них даже успешный quote-forward остаётся paper.
+   Exchange baseline уже уточнён: current MOEX stock-futures taker BaseFutFee
+   `0,011385%` на сторону, но это не включает broker/NCC pass-through; frozen 5 bps
+   assumption до broker document не снижать.
 5. LQDT выбран как отдельный idle-only challenger, source SHA `15fb471a...`, seal
    `8ae3dc3`. Запустить tasks 15:49/15:59 и paired readiness; не считать его залогом,
    не читать iNAV без подтверждения лицензии и не строить PnL до 60 пар.

@@ -922,6 +922,21 @@ Official disclosure roots:
 - AKMM: `https://www.alfacapital.ru/disclosure/pifs/bpif-akmm/pif-rules`;
 - TMON: `https://t-capital-funds.ru/documents/mutual_funds/TMON/documents/`.
 
+Current exchange-cost baseline также проверен по официальным действующим документам.
+Тарифы срочного рынка MOEX действуют с `23.03.2026`; для обычных фондовых фьючерсов
+BaseFutFee равен `0,003795%` для адресной стороны и `0,011385%` для поздней стороны
+безадресной заявки. Формула использует absolute futures price и фактические
+`W(f)/R(f)` из спецификации, округление и minimum `0,01 RUB`; ранняя пассивная заявка
+исключена из указанного fee case. Byte SHA-256 загруженной current DOCX редакции:
+`6152215f969c5132cca50b18afb24d5a6b3446bc0c325e99630e2cdd3038838`.
+
+Тарифы НКЦ, действующие с `01.07.2026`, являются платой участника клиринга, а не
+доказательством суммы, которую брокер переложит на клиента. Поэтому frozen historical
+V41 assumption `5 bps` на сторону фьючерса пока не понижается: exchange-only часть
+меньше, но broker markup, clearing pass-through и account plan не зафиксированы.
+Официальные архивы: `https://www.moex.com/ru/documents/3838` и
+`https://www.nationalclearingcentre.ru/catalog/0204/106`.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и
