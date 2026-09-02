@@ -1,0 +1,155 @@
+﻿protocol_id: futures_v58_cftc_wti_positioning_br_v1
+protocol_version: 1
+status: sealed_after_cftc_source_audit_before_any_v58_br_outcome
+declared_at_utc: '2026-09-02T18:45:00Z'
+research_only: true
+adaptive_same_history: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A persistent quarterly change in WTI managed-money net positioning reflects
+  institutional commodity-flow continuation that should transfer directionally to
+  MOEX Brent futures after the conservative CFTC publication lag.
+
+independence:
+  mechanism: official_external_positioning_flow_to_cross_benchmark_brent
+  one_candidate_only: true
+  no_parameter_sign_threshold_risk_or_asset_search: true
+  no_use_as_v49_governor: true
+  no_gold_signal_in_v58: true
+
+dates:
+  source_start: '2018-01-01'
+  warmup_end: '2020-12-31'
+  evaluation_start: '2021-01-01'
+  evaluation_end: '2025-12-30'
+  protected_from: '2026-01-01'
+  timezone: Europe/Moscow
+  annualization_sessions: 252
+
+inputs:
+  cftc_positions:
+    path: data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1/cot_positions.parquet
+    sha256: d155bf553545af14b4d8df12979a8a1dadb835a8f6dd159e222031e0b8c6209b
+    bytes: 98150
+    rows: 836
+    minimum_report_date: '2018-01-02'
+    maximum_report_date: '2025-12-30'
+    allowed_columns: [report_date, available_at_utc, logical_market, open_interest, managed_money_long, managed_money_short]
+  cftc_manifest:
+    path: data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1/manifest.json
+    sha256: e0151b2b86b45ffc62043d3d24856e68221bc75b47fdbc004abb4e2cf3fcfb68
+    bytes: 4470
+  cftc_raw:
+    path: data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1/raw_archives.zip
+    sha256: 3defacb97bb070c0645536bcb379077e822215fc02a5fc86599a52640cb1a3c9
+    bytes: 16637830
+  cftc_audit:
+    path: data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1/audit.json
+    sha256: 500413b2991a534f240e737b848d40806e808ce062d20732415479a014f23055
+  cftc_protocol_sha256: 22878af63002e1db0db4f4fb51c385d6da3851cd19e8d03deaee526af9c5fa01
+  cftc_implementation_sha256: cdaa6389578c794f061277cc01b619133f3fb33648bf3ec9800d7e2e1a668f60
+  panel:
+    path: data/processed/futures_v5/development_panel_2018_2025.parquet
+    sha256: e334e0ed37e634908769b1aa5a9a9e5ff717aacd4faefcfd104c82aa23936236
+    bytes: 633616
+    rows: 8100
+    minimum_timestamp: '2018-01-03'
+    maximum_timestamp: '2025-12-30'
+    allowed_columns: [trade_date, asset_code, close]
+  active_contract_map:
+    path: data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet
+    sha256: 40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823
+    bytes: 500949
+    rows: 8100
+    decision_maximum_timestamp: '2025-12-29'
+    effective_maximum_timestamp: '2025-12-30'
+    allowed_columns: [decision_date, effective_date, observed_through, asset_code, contract_id, plan_tradable, roll]
+  contract_observations:
+    path: data/processed/futures_v5/development_panel_2018_2025_contract_observations.parquet
+    sha256: a1c650780d08e31668829bc5bb07d0aeb25239d44f8f3620cb2d054ded70acf6
+    bytes: 1873470
+    rows: 66052
+    minimum_timestamp: '2018-01-03'
+    maximum_timestamp: '2025-12-30'
+    allowed_columns: [trade_date, logical_asset, canonical_contract_id, open, high, low, close, settle, volume]
+  spec_proxy:
+    path: data/processed/futures_v5_specs_v1/spec_proxy_2018-01-01_2025-12-31_87372f337a75eeb4/spec_proxy.parquet
+    sha256: 8494235f8782a258ed86d448c1c57adf2d313062da06845211991bda2f76d682
+    bytes: 6218382
+    rows: 66052
+    minimum_timestamp: '2018-01-03'
+    maximum_timestamp: '2025-12-30'
+    allowed_columns: [session_date, asset_symbol, contract_id, sizing_point_value, sizing_observed_session_date, sizing_lag_sessions, sizing_usable, realized_accounting_point_value, realized_available_after_session, tick_size, conservative_fee_per_side, modeled_initial_margin, spec_proxy_version, approximate, research_only, historical_exchange_exact, broker_exact]
+  inherited_code:
+    v12_helpers: {path: src/market_lab/futures_v12_core4_correlation_trend.py, sha256: 27ca77002391df82edca57a2bfc02e2a0b1971693f7be37b190945b1fd512275}
+    execution_dataset: {path: src/market_lab/futures/execution_dataset.py, sha256: fc83cbf1f08fb38084488a41e618cc103c0ba27b0563b0d12293eca15548c663}
+    portfolio_ledger: {path: src/market_lab/futures/portfolio_ledger.py, sha256: 2b93564e13a006b4a1c4b1270a42064681e8286749c128c885cb5d89972ac9c2}
+
+signal:
+  target_asset: BR
+  cftc_market: WTI
+  admitted_row: latest_available_at_or_before_decision_timestamp
+  maximum_source_age_calendar_days: 14
+  managed_money_net_share_formula: (managed_money_long-managed_money_short)/open_interest
+  feature: current_net_share_minus_value_13_admitted_reports_ago
+  lookback_admitted_reports: 13
+  direction: positive_long_negative_short_exact_zero_cash
+  thresholds: none
+  decision_schedule: last_factual_BR_session_of_each_W_SUN_week
+  decision_timestamp: 23_59_59_Europe_Moscow_after_completed_close
+
+risk:
+  BR_log_return_volatility_lookback_sessions: 20
+  annualization_sessions: 252
+  annual_volatility_target: 0.30
+  maximum_absolute_target: 2.0
+  unavailable_nonpositive_or_nonfinite_volatility_target: zero
+  formula: sign_times_minimum_of_2_and_0_30_div_prior_20_session_annualized_log_volatility
+  no_volatility_floor: true
+
+baseline:
+  always_cash: true
+  price_only_63_session_trend:
+    signal: sign_of_current_BR_close_div_BR_close_63_sessions_ago_minus_1
+    exact_zero: cash
+    schedule_risk_execution_costs: identical_to_cftc_candidate
+
+execution:
+  decision_to_fill: next_factual_effective_date_open
+  active_contract: exact_BR_contract_known_at_decision
+  roll: mandatory_old_exit_plus_new_entry_at_factual_open_when_nonzero_target
+  integer_quantity: truncate_toward_zero
+  initial_cash_rub: 1000000.0
+  maximum_participation_of_prior_contract_volume: 0.01
+  maximum_gross_notional_multiple: 2.0
+  initial_margin_buffer_multiple: 2.0
+  settlement_accounting: factual_variation_margin_with_open_gap_and_settlement_mark
+  execution_atomicity: asset
+  terminal_policy: carry_with_terminal_exit_cost_reserve
+  scenarios:
+    primary: {slippage_ticks_per_leg: 1, conservative_fee_multiplier: 1.0}
+    doubled: {slippage_ticks_per_leg: 2, conservative_fee_multiplier: 2.0}
+    stress: {slippage_ticks_per_leg: 4, conservative_fee_multiplier: 2.0}
+
+promotion_gates:
+  all_scenarios_execution_complete: true
+  all_scenarios_cagr_gte: 0.20
+  primary_sharpe_gte: 1.0
+  all_scenarios_maximum_drawdown_lte: 0.30
+  primary_positive_calendar_years_gte: 4
+  aspirational_primary_cagr_gte: 0.50
+  independent_unseen_confirmation_required: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v58_cftc_wti_positioning_br_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, signals.parquet, candidate_targets.parquet, baseline_targets.parquet, candidate_ledger_primary.parquet, baseline_ledger_primary.parquet]
+
+limitations:
+  - CFTC classifications may change and WTI is only a proxy for MOEX Brent.
+  - Public daily MOEX OHLC cannot prove bid/ask, queue or exact opening fills.
+  - Point value, fees and margin are conservative research proxies rather than broker-exact history.
+  - The 2021-2025 period is adaptive development, not an independent holdout.
+  - Historical evidence cannot guarantee profit or authorize live trading.
