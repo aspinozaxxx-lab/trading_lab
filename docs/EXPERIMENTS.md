@@ -1,5 +1,23 @@
 ﻿# Реестр экспериментов
 
+## V42R2 V41 idle-fund cost stress — ROBUST ABOVE 20%, diagnostic only
+
+- Config SHA `02a61505...`, seal `ab9b44a`. Fixed V41 80/20, all V39 returns and all
+  15 cash-carry trades remain unchanged. Three predeclared cost cases cross all three
+  market scenarios; no fund or parameter is selected from outcomes.
+- LQDT max TER/tax/5 bps gives CAGR `25.4527%/25.0290%/24.5090%` across
+  primary/doubled/stress. High-cost TMON max/tax/10 bps gives
+  `25.3549%/24.9306%/24.4162%`. Zero idle yield plus 10 bps switching still gives
+  `25.0185%/24.5917%/24.0969%`.
+- All nine CAGR gates exceed 20%; all MDD remain below corresponding V39. Canonical
+  `runs/v42r2_v41_idle_fund_cost_stress_v1_20260902T052406Z_02a61505/`, metrics/
+  manifest/audit/ledger `39f55595.../66a86c5f.../f93ca87b.../312d07e4...`.
+- V42R1 output `...T052021Z...` is invalidated: initial purchase appeared in reported
+  turnover but was not applied to NAV. R2 changes only its application at the first
+  following interval; parent inputs and economics are identical.
+- Verdict `ROBUST_TO_DECLARED_IDLE_COST_STRESSES`, but this is observed-history
+  robustness, not independent confirmation, fund selection or live authorization.
+
 ## Forward money-market fund pool V1 — SEALED, 0/60 discovery pairs
 
 - Fixed pre-value universe: LQDT, SBMM, AKMM and TMON on TQBR with exact official

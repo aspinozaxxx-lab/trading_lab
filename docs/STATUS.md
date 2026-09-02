@@ -37,6 +37,27 @@ adaptive, cash-carry не имеет historical bid/ask execution, idle-yield in
 forward-синхронизация V39, cash-carry quotes и фактической доходности разрешённого
 cash instrument; live false.
 
+### V42R2 real idle-fund cost stress — ROBUST ABOVE 20%, same-history only
+
+После V41 запечатан только cost diagnostic, без изменения сигналов, сделок и 80/20.
+R1 был сохранён invalid: initial fund purchase входил в turnover, но не применялся к
+NAV. R2 SHA `02a61505...`, seal `ab9b44a` исправил только момент списания начальных
+5/10 bps; economic parameters и parent inputs не менялись. Canonical
+`runs/v42r2_v41_idle_fund_cost_stress_v1_20260902T052406Z_02a61505/`; metrics
+`39f55595...`, manifest `66a86c5f...`, audit `f93ca87b...`, ledger `312d07e4...`.
+
+Три заранее заданных idle-cost stress пересечены с primary/doubled/stress market:
+
+- LQDT max TER `0,29364%` + 13% tax proxy + 5 bps one-way: CAGR
+  `25,4527%/25,0290%/24,5090%`;
+- TMON max `1,199%` + tax proxy + 10 bps: `25,3549%/24,9306%/24,4162%`;
+- zero idle yield + 10 bps switching: `25,0185%/24,5917%/24,0969%`.
+
+Все 9 CAGR выше 20%, все MDD `16,8030–17,5249%` лучше соответствующего V39. Значит,
+условный бесплатный idle-yield не является причиной прохождения 20% gate. Но это
+post-result same-history robustness: он не выбирает фонд, не подтверждает execution и
+не повышает V41 до live. Verdict `ROBUST_TO_DECLARED_IDLE_COST_STRESSES`.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.
@@ -1448,6 +1469,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ### P0 — forward-подтверждение V41 cash-carry sleeve
 
 1. Не менять V41 80/20, 50% RUONIA, DTE 30–90, times, cashflow haircut или costs.
+   V42R2 уже доказал только same-history устойчивость CAGR к fund TER/tax/switching;
+   не использовать его для изменения веса или выбора фонда до forward discovery.
 2. Проверять tasks `TradingLabForwardCashCarryDecision` (15:49) и
    `TradingLabForwardCashCarryFill` (15:59), затем paired readiness. Сейчас 0/60
    discovery, 0/20 calibration, 0/60 unseen evaluation.

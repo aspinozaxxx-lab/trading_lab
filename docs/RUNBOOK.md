@@ -1405,6 +1405,18 @@ Universe LQDT/SBMM/AKMM/TMON фиксирован seal `ac299a7`; не доба�
 котировок. До 60 ordered pairs запрещены ranking, yield и PnL. Полный контракт:
 [FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md](FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md).
 
+Canonical V42R2 idle-fund cost stress:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v42r2_v41_idle_fund_cost_stress
+```
+
+Использовать только config SHA `02a61505...`. V42R1 run `...T052021Z...` invalid:
+он не применил initial purchase cost к NAV. R2 обязан списывать её на первом следующем
+интервале и требует 9/9 комбинаций. Результат диагностический и не разрешает выбирать
+LQDT/TMON до 60 forward пар.
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:
