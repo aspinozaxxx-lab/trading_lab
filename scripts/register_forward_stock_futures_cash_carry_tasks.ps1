@@ -15,6 +15,13 @@ function Register-CashCarryTask {
         [string]$At,
         [string]$Description
     )
+    $timeParts = $At.Split(":")
+    if ($timeParts.Count -ne 2) {
+        throw "Scheduled time must be HH:mm: $At"
+    }
+    $triggerTime = [datetime]::Today.AddHours([int]$timeParts[0]).AddMinutes(
+        [int]$timeParts[1]
+    )
     $action = New-ScheduledTaskAction `
         -Execute "powershell.exe" `
         -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$collector`" -Stage $Stage" `
@@ -23,7 +30,7 @@ function Register-CashCarryTask {
         -Weekly `
         -WeeksInterval 1 `
         -DaysOfWeek Monday,Tuesday,Wednesday,Thursday,Friday `
-        -At $At
+        -At $triggerTime
     $settings = New-ScheduledTaskSettingsSet `
         -StartWhenAvailable `
         -ExecutionTimeLimit (New-TimeSpan -Minutes 8) `
