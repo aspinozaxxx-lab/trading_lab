@@ -1,0 +1,123 @@
+﻿protocol_id: moex_dividend_calendar_spread_source_v1
+protocol_version: 1
+status: sealed_after_metadata_and_cashflow_coverage_before_single_stock_spread_prices
+declared_at_utc: '2026-09-02T03:05:00Z'
+scope: source_only_no_returns_targets_signals_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve official MOEX single-stock calendar-spread EOD history for five assets with
+  point-in-time anticipated cashflows, enabling a later separately sealed
+  dividend-adjusted market-neutral carry hypothesis.
+
+hypothesis_support:
+  future_target_family: dividend_adjusted_single_stock_calendar_spread_carry
+  strategy_or_economic_rule_fixed_here: false
+  returns_targets_signals_or_pnl_allowed: false
+  motivation:
+    - anticipated_dividends_affect_far_minus_near_futures_fair_value
+    - atomic_exchange_calendar_spreads_reduce_common_stock_directional_beta
+    - single_stock_family_is_distinct_from_failed_core4_price_only_spread_rules
+  no_profit_assumption_from_source_availability: true
+
+period:
+  start: '2023-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+  price_requests_at_or_after_protected_from: forbidden
+  far_2026_leg_metadata_without_market_values: allowed
+
+universe:
+  logical_assets: [GAZR, SBRF, ROSN, TATN, NOTK]
+  official_asset_codes: {GAZR: GAZR, SBRF: SBRF, ROSN: ROSN, TATN: TATN, NOTK: NOTK}
+  security_prefixes: {GAZR: GZ, SBRF: SR, ROSN: RN, TATN: TT, NOTK: NK}
+  selection_reason: positive_point_in_time_cashflow_coverage_and_exchange_spread_metadata
+  selection_uses_price_return_or_pnl: false
+
+cashflow_source:
+  protocol_path: configs/moex_rms_historical_pit_source_v4.yaml
+  protocol_sha256: 83bcabed33afccbdb92ca3a1dbdc3f00e6d7ab71134a9d4e1c3ef1d93f51e5ae
+  implementation_path: src/market_lab/futures/moex_rms_historical_pit_source.py
+  implementation_sha256: 0411f83b21e0b3de63ab90fb3b2780c4fc57fd596a2a64a5f299057a642a1133
+  root: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4
+  manifest_sha256: e88360d3f1a3476e3e34a67b947fb7aa1a656a2c290aa46e27add84dd397b2e3
+  audit_sha256: 013c6e234521fc5d6eebf143bddb3c35392251c414dc014e749f672b8726824c
+  cashflow_path: cashflow.parquet
+  cashflow_sha256: be7f9a32bf2b085edb01df4cee8d3a895be10b182e9708fd5e033616dfefad19
+  selected_coverage:
+    total_rows: 4994
+    unique_archive_query_dates: 170
+    GAZR: {rows: 477, dates: 137, first: '2024-04-08', last: '2025-12-30'}
+    SBRF: {rows: 593, dates: 137, first: '2024-04-08', last: '2025-12-30'}
+    ROSN: {rows: 1264, dates: 170, first: '2023-06-13', last: '2025-12-30'}
+    TATN: {rows: 1547, dates: 152, first: '2023-06-13', last: '2025-12-30'}
+    NOTK: {rows: 1113, dates: 147, first: '2023-08-29', last: '2025-12-30'}
+  source_only_values_read_before_seal: coverage_counts_dates_and_schema
+  cashflow_change_fair_value_or_pnl_read_before_seal: false
+
+official_spread_sources:
+  series_endpoint: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  series_parameters: {show_expired: 1, iss.only: series}
+  boards_template: https://iss.moex.com/iss/securities/{secid}.json
+  history_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  archive_list_endpoint: https://www.moex.com/webservice/ArchiveSpreads.asmx/GetSpreadList
+  archive_page_template: https://www.moex.com/en/derivatives/spreads/archive-spreads.aspx?code={archive_code}
+  official_interface: https://www.moex.com/a8531
+  spread_documentation: https://www.moex.com/en/spreads
+  redistribution_review_required: true
+
+metadata_preflight:
+  completed_before_seal: true
+  prices_bid_ask_last_returns_or_pnl_read: false
+  exact_dated_spread_counts: {GAZR: 10, SBRF: 10, ROSN: 10, TATN: 12, NOTK: 11}
+  exact_total_dated_spreads: 53
+  archive_list_item_counts: {GAZR: 56, SBRF: 56, ROSN: 55, TATN: 21, NOTK: 17}
+  all_53_selected_archive_codes_present: true
+  near_expiration_range: ['2023-03-17', '2025-12-19']
+  standard_quarterly_same_root_pattern: two_letter_root_month_digit_concatenated_pair
+
+collection:
+  preserve_series_archive_lists_boards_history_pages_archive_pages_and_csv_exactly: true
+  history_board: RFUD
+  maximum_history_page_size: server_cursor
+  require_stable_cursor_total: true
+  public_archive_current_vintage_preserved_separately_from_ISS: true
+  availability_rule: trade_date_plus_one_calendar_day_00_00_Europe_Moscow
+  same_day_use: forbidden
+  missing_values: preserve_never_zero_impute
+  signed_spread_price: allowed
+  negative_activity_fields: reject
+  immutable_atomic_output: true
+
+quality_gates:
+  exact_53_metadata_identities: true
+  all_archive_codes_resolved: true
+  every_raw_response_hash_and_url_preserved: true
+  exact_schema_and_cursor_replay: true
+  protected_price_rows_zero: true
+  duplicate_spread_date_zero: true
+  cashflow_source_identity_and_replay_exact: true
+  no_returns_targets_signals_predictions_equity_or_pnl: true
+
+limitations:
+  history_is_current_vintage_not_original_daily_vintage: true
+  EOD_bid_ask_is_not_order_time_queue: true
+  historical_contract_specs_fees_margin_and_multileg_fills_not_yet_proved: true
+  source_cannot_authorize_live_or_claim_profit: true
+
+output:
+  directory: data/processed/info_radar/moex-dividend-calendar-spreads-2023-2025-v1
+  contents_in_git: false
+  immutable: true
+
+forbidden_after_collection:
+  - computing_returns_or_pnl_before_a_separate_pushed_economic_protocol
+  - selecting_assets_spreads_dates_dividend_sign_or_threshold_by_future_returns
+  - coalescing_ISS_and_archive_prices_or_filling_missing_with_zero
+  - using_same_day_cashflow_or_spread_state
+  - changing_the_five_asset_universe_after_outcome
+  - treating_EOD_or_settlement_as_guaranteed_multileg_fill
+  - live_trading_or_profit_guarantees
+
+forbidden_output_fragments: [return, target, label, signal, prediction, equity, pnl, profit]
