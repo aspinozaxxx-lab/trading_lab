@@ -412,7 +412,11 @@ def collect(protocol: Protocol | None = None, client: JsonClient | None = None) 
         catalog = select_catalog(series_raw, active_protocol)
         specs: list[dict[str, Any]] = []
         candle_frames: list[pd.DataFrame] = []
-        for row in catalog.to_dict("records"):
+        for contract_number, row in enumerate(catalog.to_dict("records"), start=1):
+            print(
+                f"[{contract_number}/339] {row['stock_secid']} {row['secid']}",
+                flush=True,
+            )
             url = _description_url(active_protocol, str(row["secid"]))
             payload = active.get_json(url)
             spec = parse_description(payload, row)
