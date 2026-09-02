@@ -1,0 +1,214 @@
+﻿protocol_id: moex_forward_broad_stock_futures_carry_source_v1
+protocol_version: 1
+status: sealed_after_metadata_only_30_of_30_coverage_before_any_pair_quotes
+declared_at_utc: '2026-09-02T06:20:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Accumulate immutable synchronized public-MOEX executable-side quotes for a broad
+  fully-funded long-stock/short-single-stock-futures cash-and-carry family. Expand the
+  sparse five-stock historical sleeve to every metadata-valid pair in the already fixed
+  thirty-stock universe without computing basis, fair value, signals, trades or PnL.
+
+metadata_only_preseal_evidence:
+  retrieved_on: '2026-09-02'
+  official_series_endpoint: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  fixed_stocks_checked: 30
+  stocks_with_active_matching_underlying: 30
+  selected_30_to_120_dte_contracts_with_RFUD_board: 30
+  selected_contract_TYPE_futures: 30
+  selected_contract_lot_size_range_shares: [1, 10000]
+  quote_price_return_basis_signal_or_pnl_read_during_metadata_probe: false
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill: forbidden
+  protected_historical_experiments_must_never_read_this_source: true
+
+universe:
+  spot_board: TQBR
+  futures_board: RFUD
+  exact_stock_order:
+    - AFKS
+    - AFLT
+    - ALRS
+    - BSPB
+    - CBOM
+    - CHMF
+    - ENPG
+    - GAZP
+    - GMKN
+    - IRAO
+    - LKOH
+    - MAGN
+    - MGNT
+    - MOEX
+    - MTSS
+    - NLMK
+    - NVTK
+    - PHOR
+    - PLZL
+    - ROSN
+    - RTKM
+    - RUAL
+    - SBER
+    - SBERP
+    - SNGS
+    - SNGSP
+    - TATN
+    - TATNP
+    - TRNFP
+    - VTBR
+  quarterly_futures_asset_code_by_stock:
+    AFKS: AFKS
+    AFLT: AFLT
+    ALRS: ALRS
+    BSPB: BSPB
+    CBOM: CBOM
+    CHMF: CHMFM
+    ENPG: ENPG
+    GAZP: GAZR
+    GMKN: GMKN
+    IRAO: IRAO
+    LKOH: LKOH
+    MAGN: MAGN
+    MGNT: MGNT
+    MOEX: MOEX
+    MTSS: MTSI
+    NLMK: NLMK
+    NVTK: NOTKM
+    PHOR: PHOR
+    PLZL: PLZLM
+    ROSN: ROSN
+    RTKM: RTKM
+    RUAL: RUAL
+    SBER: SBRF
+    SBERP: SBPR
+    SNGS: SNGR
+    SNGSP: SNGP
+    TATN: TATN
+    TATNP: TATP
+    TRNFP: TRNF
+    VTBR: VTBR
+  excluded_perpetual_asset_codes: [GAZPF, SBERF]
+
+contract_selection:
+  use_only_official_series_metadata_before_quote_request: true
+  minimum_calendar_days_to_expiry: 30
+  maximum_calendar_days_to_expiry: 120
+  choose: nearest_expiration_then_lexicographic_secid
+  asset_code_and_underlying_stock_must_match_fixed_mapping: true
+  is_traded_must_equal_one: true
+  no_eligible_contract: explicit_invalid_pair_not_substitution
+  price_volume_basis_return_signal_or_pnl_must_not_affect_selection: true
+
+unit_identity:
+  futures_TYPE_must_equal_futures: true
+  futures_and_spot_LOTSIZE_must_be_positive_integers: true
+  shares_per_futures_contract: futures_LOTSIZE
+  spot_lots_per_futures_contract: futures_LOTSIZE_divided_by_spot_LOTSIZE
+  spot_lots_per_futures_contract_must_be_positive_integer: true
+  fractional_or_assumed_units: forbidden
+
+schedule:
+  timezone: Europe/Moscow
+  trading_weekdays_only: true
+  first_snapshot_local_time: '10:09:00'
+  last_snapshot_local_time: '18:39:00'
+  interval_minutes: 10
+  duplicate_scheduled_slot: forbidden
+
+official_sources:
+  provider: Moscow_Exchange_MOEX_ISS
+  access_mode: anonymous_public_ISS_may_be_delayed
+  futures_series: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  spots_bulk: https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json
+  futures_bulk: https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities.json
+  server_side_exact_securities_filter_required: true
+  all_three_raw_payloads_preserved: true
+
+required_fields:
+  securities: [SECID, BOARDID, LOTSIZE, MINSTEP]
+  marketdata:
+    - SECID
+    - BOARDID
+    - BID
+    - OFFER
+    - BIDDEPTH
+    - OFFERDEPTH
+  optional_depth_activity_and_clock:
+    - BIDDEPTHT
+    - OFFERDEPTHT
+    - NUMBIDS
+    - NUMOFFERS
+    - VOLUME
+    - VALTODAY
+    - OPENPOSITION
+    - SYSTIME
+    - UPDATETIME
+    - SEQNUM
+  positive_nonlocked_BID_OFFER_and_positive_best_depth_required: true
+  missing_is_invalid_never_zero: true
+
+temporal_semantics:
+  retrieved_at_utc_is_hard_lower_bound_on_availability: true
+  exchange_clocks_preserved_not_substituted_for_retrieval: true
+  one_snapshot_can_only_inform_a_strictly_later_decision: true
+  anonymous_delay_must_be_measured: true
+
+collection:
+  HTTP_requests_per_snapshot: 3
+  request_order: [series_metadata, filtered_spots_bulk, filtered_futures_bulk]
+  atomic_immutable_snapshot_directory: true
+  all_30_pairs_required_for_complete_status: true
+  partial_and_invalid_rows_preserved: true
+  request_timeout_seconds: 30
+  network_retries: 3
+
+output:
+  root: data/forward/moex-broad-stock-futures-carry-v1
+  contents_in_git: false
+  snapshot_prefix: snapshot
+  immutable: true
+
+readiness:
+  discovery_sessions_source_only: 20
+  minimum_complete_snapshots_per_session: 30
+  calibration_sessions_after_separate_economic_seal: 20
+  unseen_evaluation_sessions_after_calibration: 60
+  basis_or_opportunity_ranking_before_discovery: forbidden
+  return_signal_trade_or_pnl_before_separate_economic_seal: forbidden
+  annualization_before_unseen_evaluation: forbidden
+
+future_economic_requirements_not_active_in_source:
+  direction: fully_funded_long_spot_short_futures_only
+  buy_spot_at: OFFER
+  sell_futures_at: BID
+  liquidation_uses_opposite_executable_sides: true
+  stock_principal_futures_margin_and_operational_buffer_all_reserved: true
+  dividends_use_only_original_timestamp_disclosure_with_correction_chain: true
+  broker_exchange_clearing_fees_taxes_and_settlement_required: true
+  primary_doubled_zero_dividend_and_delayed_fill_stresses_required: true
+  concentration_capacity_and_overlapping_contract_limits_required: true
+
+forbidden_outputs:
+  - basis
+  - fair_value
+  - annualized_yield
+  - opportunity_rank
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Public BBO and displayed depth do not prove queue priority, fills or broker acceptance.
+  - Contract LOTSIZE validates units but not delivery, corporate-action or tax handling.
+  - Dividend recommendation timing remains unavailable without licensed disclosures.
+  - Broad source accumulation cannot guarantee profit or authorize live trading.
