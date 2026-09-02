@@ -1,0 +1,92 @@
+﻿protocol_id: moex_rgbi_futures_daily_source_v1
+protocol_version: 1
+status: sealed_after_identity_date_and_schema_probe_before_market_values_or_outcomes
+declared_at_utc: '2026-09-02T19:20:00Z'
+scope: source_only_no_curve_basis_return_label_signal_trade_or_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol: >-
+  Quarterly RGBI futures can provide an independent tradable fixed-income trend or
+  basis return engine rather than another V49 governor. A later protocol may use only
+  causal prior-session information and factual next-session execution.
+
+official_sources:
+  provider: MOEX_ISS
+  series_endpoint: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  history_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  product_context: https://www.moex.com/n41303
+  contract_search: https://www.moex.com/en/derivatives/contracts.aspx
+  access_mode: anonymous_public_current_vintage_EOD
+
+availability_probe_only:
+  performed_at_utc: '2026-09-02T19:10:00Z'
+  market_price_return_basis_label_signal_trade_or_pnl_computed: false
+  asset_code: RGBI
+  secid_regex: '^RB[HMUZ][2-5]$'
+  exact_quarterly_series_2022_2025: 15
+  exact_secids: [RBM2, RBU2, RBZ2, RBH3, RBM3, RBU3, RBZ3, RBH4, RBM4, RBU4,
+    RBZ4, RBH5, RBM5, RBU5, RBZ5]
+  first_expiration: '2022-06-01'
+  last_expiration: '2025-12-01'
+  first_history_date: '2022-02-28'
+  RGBIF_start_date: '2025-12-23'
+  RGBIF_excluded_because_after_development_history: true
+  calendar_spread_secids_excluded: true
+  O2_O4_O6_discontinued_series_excluded: true
+  values_used_for_series_selection: false
+
+schema_probe_only:
+  derived_curve_basis_or_outcome_not_computed: true
+  required_history_columns: [BOARDID, TRADEDATE, SECID, OPEN, LOW, HIGH, CLOSE,
+    OPENPOSITIONVALUE, VALUE, VOLUME, OPENPOSITION, SETTLEPRICE, SWAPRATE, WAPRICE,
+    CHANGE, QTY, NUMTRADES, SHORTNAME, ASSETCODE]
+
+collection:
+  board: RFUD
+  start: '2022-02-28'
+  end: '2025-12-01'
+  protected_from: '2026-01-01'
+  series_show_expired: 1
+  require_exact_15_series: true
+  preserve_all_missing_market_observations: true
+  pagination_until_cursor_total: true
+  preserve_raw_series_and_history_responses: true
+  atomic_immutable_output: true
+
+forbidden_derived_columns: [curve, spread, basis, return, returns, label, target,
+  signal, prediction, trade, pnl, profit, equity]
+
+quality_gates:
+  exact_asset_and_secid_identity: true
+  exact_series_count_and_order: true
+  every_history_row_before_2026: true
+  raw_replay_exact: true
+  duplicate_contract_date_forbidden: true
+  missing_price_or_activity_not_zero_imputed: true
+  source_values_not_used_for_contract_selection: true
+  report_factual_open_settle_and_activity_coverage: true
+  live_promotion_forbidden: true
+
+output:
+  root: data/processed/info_radar/moex-rgbi-futures-daily-2022-2025-v1
+  contents_in_git: false
+  immutable: true
+  required: [manifest.json, manifest.sha256, audit.json, series.parquet,
+    daily_history.parquet, raw_responses.jsonl.gz]
+
+future_economic_protocol_constraints:
+  source_audit_must_pass_before_seal: true
+  one_candidate_only: true
+  decision_uses_complete_prior_session_values: true
+  next_factual_open_or_settle_execution_required: true
+  exact_contract_roll_and_missing_required: true
+  integer_lots_costs_margin_and_capacity_required: true
+  no_horizon_threshold_direction_roll_or_cost_selection_after_outcome: true
+  same_history_2022_2025_is_short_development_not_holdout: true
+
+limitations:
+  - Public EOD history has no historical bid/ask, queue or broker fill proof.
+  - RGBI futures begin in 2022, leaving less than four years of development history.
+  - Current-vintage archived rows do not prove original publication timestamps.
+  - A source audit or later historical pass cannot authorize live trading.
