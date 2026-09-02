@@ -1,0 +1,100 @@
+﻿protocol_id: moex_stock_split_adjustment_source_v1
+protocol_version: 1
+status: sealed_after_official_split_facts_observed_before_corrected_economic_replay
+declared_at_utc: '2026-09-02T08:15:00Z'
+scope: source_identity_only_no_basis_return_signal_trade_or_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve official MOEX notices needed to reconcile current-vintage back-adjusted
+  stock candles with historical futures contract lots. This source invalidates the
+  naive use of description LOTSIZE as the number of adjusted spot shares; it does not
+  select opportunities or compute economics.
+
+dependency:
+  root: data/processed/info_radar/moex-broad-stock-futures-carry-intraday-2023-2025-v1
+  manifest: {file: manifest.json, sha256: 58581f7630c50c4173653473911165a0401e836611c3047800ccd4d65fe1fb62}
+  specs: {file: contract_specs.parquet, sha256: 94104d5cfc40ebe3e5c628b31b1761e75217d766f6323f87c659d50f4f2b6202, rows: 339}
+
+events:
+  - stock_secid: TRNFP
+    action: split
+    factor_new_shares_per_old_share: 100
+    equity_effective_date: '2024-02-21'
+    futures_resume_date: '2024-02-21'
+    old_contract_last_trade_before: '2024-02-21'
+    adjusted_spot_units_formula: historical_contract_lot_times_100
+    historical_cashflow_per_share_formula: divide_by_100_before_effective_date
+    equity_notice: https://www.moex.com/n67684
+    futures_notice: https://www.moex.com/n67756
+    equity_required_fragments: ['1:100', '21 февраля 2024']
+    futures_required_fragments: ['Лот', '1 акция']
+  - stock_secid: GMKN
+    action: split
+    factor_new_shares_per_old_share: 100
+    equity_effective_date: '2024-04-08'
+    futures_resume_date: '2024-04-08'
+    old_contract_last_trade_before: '2024-04-08'
+    adjusted_spot_units_formula: historical_contract_lot_times_100
+    historical_cashflow_per_share_formula: divide_by_100_before_effective_date
+    equity_notice: https://www.moex.com/n68799
+    futures_notice: https://www.moex.com/n68778
+    equity_required_fragments: ['1:100', '08 апреля 2024']
+    futures_required_fragments: ['Лот', '10 акций']
+  - stock_secid: PLZL
+    action: split
+    factor_new_shares_per_old_share: 10
+    equity_effective_date: '2025-03-27'
+    futures_parameter_change_date: '2025-03-25'
+    old_contract_last_trade_before: '2025-03-25'
+    adjusted_spot_units_formula: historical_contract_lot_times_10
+    historical_cashflow_per_share_formula: divide_by_10_before_effective_date
+    equity_notice: https://www.moex.com/n88888
+    futures_notice: https://www.moex.com/n77982
+    equity_required_fragments: ['1:10', '27 марта 2025']
+    futures_required_fragments: ['10', '100 акций']
+  - stock_secid: VTBR
+    action: consolidation
+    factor_old_shares_per_new_share: 5000
+    equity_effective_date: '2024-07-15'
+    futures_resume_date: '2024-07-16'
+    old_contract_last_trade_before: '2024-07-15'
+    adjusted_spot_units_formula: historical_contract_lot_divided_by_5000
+    historical_cashflow_per_share_formula: multiply_by_5000_before_effective_date
+    equity_notice: https://www.moex.com/n71160
+    futures_notice: https://www.moex.com/n71114
+    equity_required_fragments: ['5000:1', '15 июля 2024']
+    futures_required_fragments: ['Лот', '100 акций']
+
+collection:
+  method: HTTPS_GET
+  expected_responses: 8
+  preserve_raw_html_base64_in_gzip_jsonl: true
+  normalized_events_exactly_equal_config: true
+  response_status_must_be_200: true
+  content_type_must_contain_text_html: true
+  minimum_raw_bytes_per_response: 50000
+  retries: 3
+  timeout_seconds: 30
+
+output:
+  directory: data/processed/info_radar/moex-stock-split-adjustments-2024-2025-v1
+  immutable: true
+  contents_in_git: false
+
+quality_gates:
+  exact_4_events_and_8_urls: true
+  exact_27_pre_action_contracts_adjusted: true
+  raw_hashes_and_replay_exact: true
+  adjusted_spot_units_positive_integer_for_every_affected_contract: true
+  only_TRNFP_GMKN_PLZL_VTBR_are_adjusted: true
+  no_basis_returns_targets_signals_predictions_equity_or_pnl: true
+
+limitations:
+  - Notices prove split/consolidation dates and public contract parameters, not fills.
+  - The source corrects unit identity only and cannot rescue a strategy by selection.
+  - Historical stock candles remain current-vintage and may contain other adjustments.
+  - No output can authorize live trading or guarantee profit.
+
+forbidden_output_fragments: [basis, return, target, label, signal, prediction, equity, pnl, profit]

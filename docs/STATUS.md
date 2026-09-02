@@ -209,6 +209,22 @@ exact `lot_size_shares`; ENPG missing, CBOM/RUAL имеют explicit zero cashfl
 заданных portfolio view: 1/29 equal sleeves и 10% active concentration cap. Следующее
 действие — implementation/tests, затем один canonical run без настройки по результату.
 
+Canonical V1 `...T080545Z_0279da39` технически прошёл внутренний audit и дал 45 trades,
+но внешняя unit-validity проверка обнаружила structural mismatch, поэтому verdict
+переопределён как `INVALID_HISTORICAL_UNIT_IDENTITY`, а не экономический `NO_GO`.
+Back-adjusted TQBR и исторические futures/RMS имеют разные share basis у 27 контрактов:
+TRNFP 5, GMKN 6, PLZL 9, VTBR 7. Например, старые PLZL имеют price ratio около 100
+при description LOTSIZE 10; pre-consolidation VTBR — ratio около 20 при LOTSIZE
+100000. Все V1 metrics (`0.59%` primary equal-sleeve CAGR и отрицательные stresses)
+запрещено использовать для выбора активов или нового threshold.
+
+Официальные MOEX notices подтверждают corporate actions: TRNFP split 1:100 с
+21.02.2024, GMKN 1:100 с 08.04.2024, PLZL 1:10 в марте 2025 и VTBR consolidation
+5000:1 в июле 2024. Source correction SHA `2416baf3...` фиксирует восемь notice URLs,
+dates/factors и exact 27 pre-action contracts до corrected replay. Сначала собрать и
+byte-pin raw notices, затем sealed R1 может изменить только unit basis, не universe,
+signal, time, DTE, hurdle, costs или portfolio views.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

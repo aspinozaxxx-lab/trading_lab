@@ -1,6 +1,17 @@
 ﻿# Реестр экспериментов
 
-## Broad stock-futures cash-carry economic V1 — SEALED, outcome unopened
+## Broad cash-carry split-adjustment source V1 — SEALED, collection pending
+
+- A post-run source-validity check found 27 contracts where current-vintage
+  back-adjusted TQBR prices and historical futures quote units disagree with naïve
+  `LOTSIZE`: 5 TRNFP, 6 GMKN, 9 PLZL and 7 VTBR contracts. These are exactly the four
+  fixed-universe stocks with official 2024–2025 split/consolidation notices.
+- Source config SHA `2416baf3...` freezes eight official MOEX notice URLs, action dates
+  and factors before corrected economic replay: TRNFP 1:100, GMKN 1:100, PLZL 1:10,
+  VTBR consolidation 5000:1. It preserves raw HTML and produces only the exact 27
+  affected contract identities and adjusted spot units, never PnL.
+
+## Broad stock-futures cash-carry economic V1 — INVALID UNIT IDENTITY
 
 - Config SHA `0279da39...` freezes the old V1 15:40/15:50 timing, 30–90 DTE,
   five-DTE exit, 50% PIT-RMS haircut, `max(20%, RUONIA+4%)`, 30% futures reserve and
@@ -13,6 +24,17 @@
   active-position concentration-cap view. Primary, doubled, zero-cashflow and one-bar
   delayed-fill stress use identical admissions. This is same-history development and
   cannot authorize live trading.
+- Canonical run
+  `runs/stock_futures_cash_carry_broad_v1_20260902T080545Z_0279da39/` initially
+  reported 11,711 decisions, 45 trades and `NO_GO`: equal-sleeve primary/doubled/zero/
+  delayed CAGR `0.5885%/0.4744%/−1.1953%/−1.1681%`; active-cap
+  `0.1988%/−0.1944%/−5.3312%/−5.1101%`.
+- The economic verdict is invalid, not an admissible NO-GO. Examples: 2023–2024 PLZL
+  futures/spot price ratio is about 100 while current description `LOTSIZE=10`; old
+  TRNFP/GMKN ratios are about 100 with `LOTSIZE=1`; pre-consolidation VTBR ratio is
+  about 20 with `LOTSIZE=100000`. The spot archive is back-adjusted for corporate
+  actions while historical futures quotes and RMS per-share cashflows use their own
+  units. Do not use these metrics or select winners/losers from them.
 
 ## Forward delayed-BBO V2 sources — SEALED, automation confirmed
 
