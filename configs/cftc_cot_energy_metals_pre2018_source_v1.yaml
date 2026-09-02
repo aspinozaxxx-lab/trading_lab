@@ -2,6 +2,11 @@
 protocol_version: 1
 status: sealed_before_any_2012_2017_position_value
 declared_at_utc: '2026-09-02T19:00:00Z'
+header_only_2012_date_correction_at_utc: '2026-09-02T19:15:00Z'
+header_only_2012_date_correction: >-
+  Header-only inspection proved that 2012 alone uses Report_Date_as_MM_DD_YYYY;
+  it is renamed in memory to the canonical date field before parsing while the raw
+  official ZIP remains byte-exact. V59 economics are unchanged.
 scope: source_only_no_moex_price_return_target_signal_trade_or_pnl
 research_only: true
 live_trading_allowed: false
@@ -35,6 +40,8 @@ dates:
   protected_from: '2018-01-01'
 
 schema:
+  year_specific_date_aliases:
+    2012: {Report_Date_as_MM_DD_YYYY: Report_Date_as_YYYY-MM-DD}
   required_input_columns:
     - Market_and_Exchange_Names
     - Report_Date_as_YYYY-MM-DD

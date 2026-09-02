@@ -20,7 +20,9 @@ def _archive(year: int) -> bytes:
         market = config["universe"]["markets"][logical]
         row = {
             "Market_and_Exchange_Names": market["exact_market_and_exchange_names"][0],
-            "Report_Date_as_YYYY-MM-DD": f"{year}-01-03",
+            (
+                "Report_Date_as_MM_DD_YYYY" if year == 2012 else "Report_Date_as_YYYY-MM-DD"
+            ): "01/03/2012" if year == 2012 else f"{year}-01-03",
             "CFTC_Contract_Market_Code": market["cftc_contract_market_code"],
             "Contract_Units": "CONTRACTS",
             "FutOnly_or_Combined": "FutOnly",

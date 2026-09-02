@@ -19,7 +19,7 @@ from market_lab.io_utils import atomic_write_bytes, atomic_write_text, write_jso
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
 CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/cftc_cot_energy_metals_pre2018_source_v1.yaml"
-CONFIG_SHA256: Final[str] = "02eeb237b4f909b9bb74d3e73f14905c838e0673241f26511fb4e01e6677c8b3"
+CONFIG_SHA256: Final[str] = "1d8fb69b0860440c186adb80ee7d138ce1bdcdf8589f465dd6e6ed32f723c42f"
 YEARS: Final[tuple[int, ...]] = tuple(range(2012, 2018))
 
 
@@ -51,6 +51,37 @@ def load_config() -> dict[str, Any]:
     return config
 
 
+def _parse_archive(
+    payload: bytes, year: int, config: dict[str, Any]
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Normalize the header-only 2012 date alias without altering stored raw bytes."""
+    parse_payload = payload
+    if year == 2012:
+        member_name, csv_bytes = base._annual_member(payload, year)
+        text = base._decode_csv(csv_bytes)
+        old = "Report_Date_as_MM_DD_YYYY"
+        new = "Report_Date_as_YYYY-MM-DD"
+        if old not in text.splitlines()[0]:
+            raise ValueError("CFTC 2012 sealed date alias is absent")
+        normalized_csv = text.replace(old, new, 1).encode("utf-8")
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+            archive.writestr(member_name, normalized_csv)
+        parse_payload = buffer.getvalue()
+    frame, record = base.parse_annual_archive(parse_payload, year, config)
+    member_name, csv_bytes = base._annual_member(payload, year)
+    record.update(
+        {
+            "member": member_name,
+            "archive_sha256": base._sha_bytes(payload),
+            "archive_bytes": len(payload),
+            "csv_sha256": base._sha_bytes(csv_bytes),
+            "csv_bytes": len(csv_bytes),
+        }
+    )
+    return frame, record
+
+
 def collect(
     output_root: Path | None = None,
     *,
@@ -74,7 +105,7 @@ def collect(
     for raw_year, url in config["official_sources"]["annual_archives"].items():
         year = int(raw_year)
         payload = base._download(str(url), session)
-        frame, record = base.parse_annual_archive(payload, year, config)
+        frame, record = _parse_archive(payload, year, config)
         record["url"] = str(url)
         frames.append(frame)
         records.append(record)
@@ -176,7 +207,7 @@ def audit_bundle(output: Path) -> dict[str, Any]:
     }
     metadata, annual = _raw_records(raw_path)
     checks["six_raw_archives"] = set(annual) == set(YEARS)
-    frames = [base.parse_annual_archive(annual[year], year, config)[0] for year in YEARS]
+    frames = [_parse_archive(annual[year], year, config)[0] for year in YEARS]
     rebuilt = pd.concat(frames, ignore_index=True).sort_values(
         ["report_date", "logical_market"], kind="mergesort", ignore_index=True
     )
