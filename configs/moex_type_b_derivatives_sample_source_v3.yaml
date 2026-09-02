@@ -1,0 +1,98 @@
+﻿protocol_id: moex_type_b_derivatives_sample_source_v3
+protocol_version: 3
+status: sealed_after_null_clear_discovery_before_full_value_parse
+declared_at_utc: '2026-09-02T20:25:25Z'
+scope: official_source_and_parser_preflight_only
+research_only: true
+live_trading_allowed: false
+
+parent_v2:
+  config_path: configs/moex_type_b_derivatives_sample_source_v2.yaml
+  config_sha256: 52919f7ce9b0bfa6d617d5e46568781c3e16d3974be42ac39f8e0693a11513f3
+  failure: first_PRICE_and_VOLUME_null_quote_event_at_raw_row_2530
+  output_created: false
+  rows_read_before_failure_including_header: 2531
+
+source:
+  provider: Moscow_Exchange
+  product: derivatives_all_trades_and_best_orders_type_B_sample
+  url: http://ftp.moex.com/pub/info/data/Derivatives%20Market/OrderLog20241001_B.7z
+  official_description: https://www.moex.com/a1681
+  official_service_description: https://www.moex.com/a2863
+  official_trading_hours: https://www.moex.com/s400
+  archive_filename: OrderLog20241001_B.7z
+  source_trade_date: '2024-10-01'
+  expected_content_length_bytes: 101968982
+  archive_sha256: afccc1602d81c15dd064eadd44dd91a3aff53bcb3213fe96840f0b8188601e30
+  download_host: gpu-mlserver
+
+archive_identity:
+  outer_member_count: 4
+  members:
+    20241001_fut_deal.7z: {bytes: 7279815, crc32: 043BB567}
+    20241001_fut_tick.7z: {bytes: 63652909, crc32: 1192195A}
+    20241001_opt_deal.7z: {bytes: 164342, crc32: 8AD9321E}
+    20241001_opt_tick.7z: {bytes: 30865366, crc32: 9DA774C3}
+  option_tick_csv: {name: 20241001_opt_tick.csv, bytes: 303693996, crc32: ABEFB20C}
+  option_deal_csv: {name: 20241001_opt_deal.csv, bytes: 1198920, crc32: 5F1974FF}
+
+headers:
+  option_tick: ['#SYMBOL', SYSTEM, TYPE, MOMENT, DEAL_ID, PRICE, VOLUME]
+  option_deal: ['#SYMBOL', SYSTEM, MOMENT, ID_DEAL, PRICE_DEAL, VOLUME, OPEN_POS, DIRECTION]
+
+temporal_semantics:
+  timezone: Europe/Moscow
+  raw_moment_digits_allowed: [17, 20]
+  fraction_digits_allowed: [3, 6]
+  earliest_allowed_event_at_moscow: '2024-09-30T18:45:00+03:00'
+  latest_allowed_event_at_moscow: '2024-10-01T18:59:59.999999+03:00'
+  source_trade_date_can_include_previous_calendar_evening: true
+  stable_order: event_timestamp_then_original_row_number
+
+tick_semantics:
+  trade: DEAL_ID_nonempty_and_PRICE_VOLUME_positive
+  best_quote_update: DEAL_ID_empty_and_PRICE_VOLUME_positive
+  best_quote_clear: DEAL_ID_empty_and_PRICE_VOLUME_both_null_literal
+  one_of_PRICE_VOLUME_null: forbidden
+  trade_with_null_PRICE_or_VOLUME: forbidden
+  clear_removes_last_observed_best_on_that_SECID_and_side: true
+  side_values: [B, S]
+  option_system_values: [C, P]
+  no_midpoint_or_synthetic_fill: true
+
+deal_semantics:
+  trade_id_price_volume_required_positive: true
+  open_interest_integer_nonnegative: true
+  direction_values: [B, S]
+
+admission:
+  config_and_parent_sha_exact: true
+  archive_bytes_sha_crc_and_members_exact: true
+  csv_headers_exact: true
+  every_event_in_corrected_session_window: true
+  raw_and_processed_row_counts_replay_exact: true
+  original_row_number_preserved: true
+  tick_trade_ids_unique_when_nonempty: true
+  deal_trade_ids_unique: true
+  null_clear_count_reported: true
+  forbidden_derived_columns_absent: true
+
+outputs:
+  root: data/processed/options/moex-type-b-derivatives-sample-2024-10-01-v3
+  raw_archive: OrderLog20241001_B.7z
+  archive_listing: archive_listing.json
+  schema_report: schema_report.json
+  option_tick_events: option_tick_events.parquet
+  option_deals: option_deals.parquet
+  manifest: manifest.json
+  audit: audit.json
+  immutable: true
+  git_allowed: false
+
+forbidden_columns: [return, returns, label, target, prediction, position, equity, pnl, profit]
+
+limitations:
+  - This is one free sample trade date, not a performance sample.
+  - The event stream validates parser and quote-state mechanics only.
+  - Historical queue position, broker latency and fill ownership remain unknown.
+  - No signal, target, return, trade simulation or PnL may be computed here.
