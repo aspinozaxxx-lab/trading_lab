@@ -1,0 +1,69 @@
+﻿protocol_id: moex_rms_historical_pit_source_v4
+protocol_version: 4
+status: sealed_after_full_range_key_only_probes_before_historical_risk_or_cashflow_values
+declared_at_utc: '2026-09-02T01:46:07Z'
+research_only: true
+live_trading_allowed: false
+
+inheritance:
+  parent_protocol_id: moex_rms_historical_pit_source_v3
+  parent_config_path: configs/moex_rms_historical_pit_source_v3.yaml
+  parent_config_sha256: e08ab9b0721b65906f150a2098181d3a12ae3da653324c8cafba5b0494a3124a
+  merge_rule: recursive_mapping_override
+  parent_output_created: false
+
+correction:
+  reason: >-
+    Full-range key-only probes established that limits and staticparams can contain
+    multiple intraday states for one tradedate and assetcode. Adding original
+    updatetime makes both keys unique without discarding real states. No historical
+    MR, CF or parameter value was inspected before sealing this correction.
+  only_effective_changes:
+    - protocol_id
+    - protocol_version
+    - status
+    - declared_at_utc
+    - source.tables.limits.unique_key
+    - source.tables.staticparams.unique_key
+    - output.directory
+  v1_output_created: false
+  v2_output_created: false
+  v3_output_created: false
+
+preseal_key_metadata_probes:
+  limits:
+    requested_from: '2018-05-22'
+    requested_till: '2025-12-31'
+    requested_calendar_dates: 2781
+    nonempty_dates: 1932
+    pair_key: [tradedate, assetcode]
+    pair_duplicate_dates: 79
+    maximum_pair_multiplicity: 5
+    triple_key: [tradedate, assetcode, updatetime]
+    triple_duplicate_dates: 0
+  staticparams:
+    requested_from: '2023-06-13'
+    requested_till: '2025-12-31'
+    requested_calendar_dates: 933
+    pair_key: [tradedate, assetcode]
+    pair_duplicate_dates: 336
+    maximum_pair_multiplicity: 4
+    triple_key: [tradedate, assetcode, updatetime]
+    triple_duplicate_dates: 0
+  values_requested_from_iss: [tradedate, assetcode, updatetime]
+  historical_mr_cf_or_parameter_values_read: false
+
+objective:
+  source_only: true
+  economic_hypothesis_selected: false
+  returns_targets_predictions_or_pnl_allowed: false
+
+overrides:
+  source:
+    tables:
+      limits:
+        unique_key: [tradedate, assetcode, updatetime]
+      staticparams:
+        unique_key: [tradedate, assetcode, updatetime]
+  output:
+    directory: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4
