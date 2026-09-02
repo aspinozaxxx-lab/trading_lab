@@ -1,0 +1,142 @@
+﻿protocol_id: moex_options_surface_source_v2
+protocol_version: 2
+status: sealed_after_schema_cursor_key_metadata_before_2021_pilot_market_values
+declared_at_utc: '2026-09-02T02:08:34Z'
+scope: source_only_no_strategy_no_returns_no_pnl
+research_only: true
+live_trading_allowed: false
+
+correction:
+  parent_protocol_id: moex_options_surface_source_v1
+  parent_config_sha256: 2b28a1805eaf12ecf866562819a4b84d31d70b5ab2737a85130dbc9b19157fa8
+  parent_output_created: false
+  reason: >-
+    The sealed monthly ZIP endpoint returned subscriber-only HTML and V1 stopped without
+    output. Official public ISS exact-date history exposes the same EOD market fields
+    with server-side assetcode filtering and cursor pagination.
+  economic_hypothesis_changed: false
+
+preseal_inspection:
+  official_history_schema_read: true
+  exact_date_cursor_counts_read: true
+  secid_and_tradedate_metadata_read: true
+  2021_pilot_market_values_read: false
+  bounded_2025_transport_sample_market_values_read: true
+  current_2026_endpoint_accidentally_returned_values: true
+  current_2026_values_persisted_or_used: false
+  current_2026_values_forbidden_from_all_historical_experiments: true
+  january_2021_metadata:
+    calendar_requests: 124
+    nonempty_asset_dates: 76
+    unique_nonempty_dates: 19
+    expected_rows:
+      Si: 58742
+      RTS: 18956
+      BR: 17010
+      MIX: 10610
+      total: 105318
+
+objective:
+  statement: >-
+    Establish whether official free exact-date MOEX option EOD history has enough
+    schema, causal timing and core-four coverage for a later separately sealed
+    defined-risk option-spread hypothesis.
+  source_only: true
+  signal_returns_targets_predictions_or_pnl_allowed: false
+
+dates:
+  pilot_start: '2021-01-01'
+  pilot_end: '2021-01-31'
+  protected_from: '2026-01-01'
+  requested_dates_are_calendar_grid: true
+
+source:
+  provider: Moscow_Exchange_MOEX_ISS
+  official_interface: https://www.moex.com/a8531
+  endpoint: https://iss.moex.com/iss/history/engines/futures/markets/options/securities.json
+  access_mode: public_delayed_exact_date_history
+  bearer_token_required: false
+  date_parameter: date
+  asset_parameter: assetcode
+  assets: [Si, RTS, BR, MIX]
+  logical_mapping: {Si: SI, RTS: RI, BR: BR, MIX: MIX}
+  cursor_block: history.cursor
+  data_block: history
+  pagination_start_parameter: start
+  page_size: 100
+  required_columns:
+    - TRADEDATE
+    - BOARDID
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - OPENPOSITIONVALUE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - SETTLEPRICE
+    - WAPRICE
+    - CHANGE
+    - QTY
+    - NUMTRADES
+    - THEOR_PRICE
+  raw_response_bytes_url_hash_and_retrieval_required: true
+
+selection:
+  short_code_roots: [RI, MX, SI, BR]
+  root_mapping: {RI: RI, MX: MIX, SI: SI, BR: BR}
+  parser_implementation: market_lab.futures.moex_options_surface_source.parse_option_short_code
+  official_short_code_fields: root_strike_settlement_option_month_year_optional_week
+  exact_expiry_day_inference: forbidden
+  server_asset_and_parsed_root_must_match: true
+  unparsed_core_prefix_policy: fail_closed
+  selection_uses_market_value_or_future_outcome: false
+
+temporal_semantics:
+  source_date: final_trading_results_date
+  conservative_available_at: next_calendar_date_00_00_Europe_Moscow
+  admissible_join: source_date_strictly_before_decision_date
+  same_day_signal_allowed: false
+  historical_final_archive: true
+  original_revision_vintage_proved: false
+  corrections_may_exist: true
+
+quality_gates:
+  exact_required_schema: true
+  cursor_total_complete_for_every_asset_date: true
+  expected_january_metadata_counts_exact: true
+  parsed_core_rows_positive: true
+  core_prefixed_unparsed_zero: true
+  duplicate_date_board_security_zero: true
+  server_asset_and_parsed_asset_exact: true
+  protected_rows_zero: true
+  raw_pages_replay_exact: true
+  source_and_processed_hashes_exact: true
+  no_returns_targets_predictions_or_pnl: true
+  immutable_output: true
+
+limitations:
+  historical_bid_ask_or_order_book_available: false
+  HIGHBID_LOWOFFER_not_in_admitted_schema: true
+  THEOR_PRICE_is_not_tradable_quote: true
+  SETTLEPRICE_is_not_order_time_fill: true
+  exact_expiry_day_requires_separate_official_reference: true
+  historical_contract_specs_fees_and_margin_not_proved: true
+  pilot_cannot_support_economic_or_live_claim: true
+
+output:
+  directory: data/processed/options/moex-core4-options-pilot-2021-01-v2
+  immutable: true
+  contents_in_git: false
+
+forbidden_after_pilot:
+  - computing_strategy_returns_or_pnl_before_a_separate_feature_and_strategy_seal
+  - selecting_strikes_maturities_days_assets_or_sides_by_future_returns
+  - treating_THEOR_PRICE_or_SETTLEPRICE_as_observed_bid_or_ask
+  - using_any_2026_current_probe_value
+  - overwriting_the_pilot_output
+  - live_trading_or_profit_guarantees
+
+forbidden_columns: [return, returns, label, target, prediction, pnl, profit, equity]
