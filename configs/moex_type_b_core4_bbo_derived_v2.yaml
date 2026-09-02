@@ -1,0 +1,84 @@
+﻿protocol_id: moex_type_b_core4_bbo_derived_v2
+protocol_version: 2
+status: sealed_after_same_timestamp_artifact_discovery_before_corrected_replay
+declared_at_utc: '2026-09-02T20:40:10Z'
+scope: source_only_prior_distinct_timestamp_bbo_context
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Reconstruct executable historical BBO context using only quote state from a strictly
+  earlier exchange timestamp. Events earlier in file order but sharing the trade
+  timestamp can represent the incoming crossing order and are unavailable to a new order.
+
+parent_v1:
+  root: data/processed/options/moex-type-b-core4-bbo-2024-10-01-v1
+  protocol_sha256: 37b96e58548e0f4f2f6ab2ad3cdefb874b9909469eb575b5da33c74052d44db0
+  implementation_sha256: 452b383757a32724e3efbd71cc68a12b97a470cd0fef0fb4ed9e7092f78c8624
+  manifest_sha256: 1d7d5e06dbe56645ba4d1f514b4575a143bd8243f134f0a10d89af3e6aabf2ea
+  audit_sha256: b5ed7042633b446308ad4da06f6b7a4c59b0585f3084434379b8ddc7ab4550a8
+  events_sha256: 6fc0f62679cfd38a7b622bf50780dac2d371d728e8a7817ec04e5f78c5aa98a4
+  events_rows: 1671909
+  trade_context_sha256: 13683d0c28c7d7c3d26db99fddc1e7032104a105645d18aa3d7e8ed7790a9fca
+  trade_rows: 13670
+  invalid_execution_assumption: same_timestamp_earlier_file_rows_are_available
+  diagnostic_found_all_trades_at_both_sides_of_transient_locked_book: true
+  economic_output_created: false
+
+causal_timestamp_blocks:
+  grouping: exact_event_at_moscow_across_all_secids
+  ordering_within_block: original_row_number
+  trade_context_snapshot: state_at_end_of_previous_distinct_timestamp
+  quote_updates_and_clears_apply_only_after_all_trade_contexts_in_block_are_captured: true
+  final_block_state_applies_to_later_timestamps_only: true
+  state_output: one_final_row_per_touched_SECID_and_timestamp
+  initial_state: unknown
+  carry_across_source_dates: forbidden
+
+state_machine:
+  quote_update_sets_side_price_volume_and_update_timestamp: true
+  quote_clear_sets_side_price_volume_to_null_and_update_timestamp: true
+  trade_does_not_mutate_state: true
+  two_sided: bid_and_offer_both_positive
+  locked_or_crossed: bid_gte_offer
+  quote_age: current_timestamp_minus_side_last_update_timestamp
+  negative_quote_age: forbidden
+
+trade_context:
+  prior_timestamp_must_be_strictly_less_than_trade_timestamp: true
+  at_or_above_prior_offer_reported: true
+  at_or_below_prior_bid_reported: true
+  inside_prior_spread_reported: true
+  prior_locked_or_crossed_reported: true
+  unknown_side_remains_null: true
+  no_queue_or_fill_probability_inference: true
+
+admission:
+  config_and_parent_hashes_exact: true
+  parent_audit_all_true: true
+  every_parent_event_scanned_once: true
+  event_order_monotonic: true
+  every_mapped_trade_has_one_context: true
+  every_context_side_timestamp_strictly_prior_or_null: true
+  no_same_timestamp_quote_used_for_trade_context: true
+  state_replay_hashes_and_rows_exact: true
+  locked_or_crossed_contexts_reported_not_fixed: true
+  forbidden_derived_columns_absent: true
+
+outputs:
+  root: data/processed/options/moex-type-b-core4-bbo-2024-10-01-v2
+  bbo_after_timestamp: bbo_after_timestamp.parquet
+  trade_context: trade_context_prior_timestamp.parquet
+  structural_metrics: structural_metrics.json
+  manifest: manifest.json
+  audit: audit.json
+  immutable: true
+  git_allowed: false
+
+forbidden_columns: [return, returns, label, target, prediction, position, equity, pnl, profit]
+
+limitations:
+  - One sample date validates mechanics and coverage, never expected return.
+  - Strictly-prior Type B quotes still do not prove broker latency, queue or ownership.
+  - No spread threshold, holding period, strategy, return or PnL is selected here.
+  - Economic evaluation requires a separate pre-outcome seal and independent dates.
