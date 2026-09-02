@@ -4,9 +4,10 @@
 
 Historical V49 дал лучший exact CAGR лаборатории, но строгий `NO_GO`: primary
 `43,6833%` не достиг заранее заданных `45%`. Поэтому historical параметры больше не
-настраиваются. Config `configs/v49_double_risk_forward_validation_v1.yaml`, SHA
-`520bd3d4...`, фиксирует отдельный paper arm до первого V49 forward decision/target/
-order/position/PnL.
+настраиваются. Parent config `configs/v49_double_risk_forward_validation_v1.yaml`, SHA
+`520bd3d4...`, фиксирует forward-протокол. Отдельный исполняемый paper arm запечатан в
+`configs/v49_double_risk_paper_arm_v1.yaml`, SHA `56822e1e...`, до первого допустимого
+V49 decision/target/order/position/PnL.
 
 ## Неподвижный arm
 
@@ -21,10 +22,12 @@ V48 остаётся отдельным заранее выбранным baseli
 
 ## Новая временная граница
 
-Earliest eligible retrieval — `2026-09-02T12:30:04Z`. Readiness считает только
-snapshot, у которого `retrieved_at_utc` не раньше этой границы. Уже накопленные option,
-market, macro и execution snapshots исключены даже из V49 warmup; source date без
-post-seal retrieval недостаточна. Backfill 2026 запрещён.
+Parent boundary — `2026-09-02T12:30:04Z`; окончательная paper-arm boundary —
+`2026-09-02T19:16:00Z`. Paper readiness считает только snapshot, у которого
+`retrieved_at_utc` не раньше второй границы. На момент seal все пять eligible counts
+были нулевыми. Более ранние option, market, macro и execution snapshots исключены даже
+из V49 warmup; source date без post-seal retrieval недостаточна. Backfill 2026 и
+повторный перенос boundary запрещены.
 
 После границы заново требуются:
 
@@ -54,8 +57,10 @@ Authoritative команда выполняется на `gpu-mlserver`:
 
 ```bash
 cd /opt/trading_lab
-runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
-  .venv/bin/python -m market_lab.futures.v49_double_risk_forward_readiness
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
+  .venv/bin/python -m market_lab.futures.v49_double_risk_paper_readiness \
+  --option-root /srv/trading_lab_data/data/forward/moex-options-surface-v1 \
+  --component-root /srv/trading_lab_data/data/forward/v27-validation-v3-components
 ```
 
 Вывод содержит только post-seal source counts, invalid/excluded counts и phase. Поля

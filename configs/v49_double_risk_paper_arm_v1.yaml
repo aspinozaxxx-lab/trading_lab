@@ -1,0 +1,107 @@
+﻿protocol_id: v49_double_risk_paper_arm_v1
+protocol_version: 1
+status: sealed_before_first_eligible_V49_paper_decision_target_order_position_or_PnL
+declared_at_utc: '2026-09-02T19:16:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Run exactly one frozen V49 double-risk paper arm on observations retrieved after
+  this independent paper seal. Target at least 20% annualized return in every cost
+  scenario; 40% and 50% remain stretch/report-only levels and are not promises.
+
+parent_forward_protocol:
+  path: configs/v49_double_risk_forward_validation_v1.yaml
+  sha256: 520bd3d4bc5d920d3c624b4e9ca95f28dd87320f84a5e04cd9c7872e2f36cd64
+  readiness_path: src/market_lab/futures/v49_double_risk_forward_readiness.py
+  readiness_sha256: a2881c54189c5a7287300f6d8b857590e9ff2fb511e74bbeabb655853130d33a
+  historical_or_2026_outcome_reselection: forbidden
+
+fixed_arm:
+  name: double_risk
+  V39_mapped_target_multiplier: 2.00
+  maximum_gross_notional_multiple: 4.00
+  initial_margin_buffer_multiplier: 2.00
+  maximum_prior_official_volume_participation: 0.01
+  broad_carry_cash_fraction: 0.00
+  exact_integer_contracts: true
+  V39_signs_zeros_windows_and_quantiles_unchanged: true
+  comparison_or_selection_against_V48_after_forward_outcome: forbidden
+
+paper_boundary:
+  earliest_eligible_retrieved_at_utc: '2026-09-02T19:16:00Z'
+  observations_retrieved_before_this_seal_counted: false
+  historical_2026_backfill_counted: false
+  eligible_counts_at_seal:
+    option_weekly_levels: 0
+    market_decision_dates: 0
+    market_execution_dates: 0
+    macro_FRED_snapshots: 0
+    macro_CBR_snapshots: 0
+
+decision_and_execution:
+  universe: [SI, RI, BR, MIX]
+  decision_signal: byte_identical_V39_after_postseal_joint_warmup
+  decision_price: official_MOEX_daily_CLOSE
+  decision_option_state: latest_completed_week_strictly_before_decision_week
+  sizing_equity: prior_paper_equity
+  sizing_specs_and_initial_margin: latest_postseal_captured_before_order
+  next_session_execution_observation: required
+  buy_mark: observed_OFFER
+  sell_mark: observed_BID
+  missing_side_or_nonpositive_depth: cancel_asset_order
+  margin_or_gross_or_participation_failure: cancel_and_clip_without_bypass
+  roll_atomicity: asset
+  terminal_policy: carry_with_exit_cost_reserve
+  broker_fill_substitution: forbidden
+  synthetic_backfill_or_forward_fill: forbidden
+
+sequential_phases:
+  option_unique_weekly_levels_required: 54
+  futures_common_official_CLOSE_levels_required: 253
+  paper_economics_begins_only_after_joint_warmup: true
+  minimum_unseen_futures_sessions: 504
+  minimum_unseen_weekly_decisions: 104
+  minimum_full_calendar_years: 2
+  interim_CAGR_arm_selection_or_promotion: forbidden
+
+cost_scenarios:
+  primary:
+    quote_side: observed_bid_offer
+    captured_exchange_clearing_and_broker_fees_required: true
+  doubled:
+    exchange_clearing_and_broker_fee_multiplier: 2.0
+  stress:
+    observed_bid_offer_additional_adverse_ticks: 2
+    exchange_clearing_and_broker_fee_multiplier: 2.0
+
+promotion_gates:
+  all_scenario_CAGR_minimum: 0.20
+  stretch_all_scenario_CAGR: 0.40
+  aspirational_primary_CAGR_report_only: 0.50
+  all_scenario_sharpe_minimum: 1.00
+  maximum_drawdown_maximum: 0.40
+  worst_full_year_minimum: -0.15
+  positive_full_years_minimum: 2
+  maximum_observed_participation: 0.01
+  critical_failures_maximum: 0
+  unresolved_halts_maximum: 0
+  every_parent_snapshot_audit_required: true
+  broker_statement_reconciliation_before_live: required
+  second_unseen_confirmation_after_numeric_pass: required
+  live_trading_after_first_or_second_pass: forbidden_without_separate_admission
+
+forbidden_after_seal:
+  - counting_any_snapshot_retrieved_before_this_paper_seal
+  - changing_multiplier_gross_margin_capacity_carry_or_target_states
+  - selecting_V48_or_V49_from_interim_or_final_forward_outcome
+  - changing_warmup_evaluation_costs_or_promotion_gates
+  - replacing_observed_bid_offer_with_OPEN_midpoint_or_synthetic_fill
+  - reporting_annualized_result_before_full_evaluation
+  - live_trading_without_new_admission_and_broker_reconciliation
+
+outputs:
+  readiness_module: market_lab.futures.v49_double_risk_paper_readiness
+  source_only_until_postseal_joint_warmup_complete: true
+  paper_root: runs/v49-double-risk-paper-arm-v1
+  contents_in_git: false

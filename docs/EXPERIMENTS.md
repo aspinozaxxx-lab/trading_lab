@@ -192,6 +192,11 @@
 - Implementation/deploy commit `a6cd0af`; server tests `3 passed`. Первый authoritative
   readiness дал option/CLOSE `0/54 + 0/253`, post-seal execution/FRED/CBR `0/0/0`,
   excluded preseal option/components `1/2`, invalid `0`; signal/target/PnL false.
+- Независимый paper-arm config SHA `56822e1e...` запечатан
+  `2026-09-02T19:16:00Z` до следующего server snapshot. На этой границе все eligible
+  counts оставались нулевыми. Единственный arm и execution byte-identical по смыслу
+  parent protocol; отдельный readiness не считает ничего до новой границы. Повторный
+  seal запрещён, поскольку он произвольно сдвинет unseen window.
 
 ## V49 V39 exact double-risk — NO-GO at the presealed 45% primary gate
 

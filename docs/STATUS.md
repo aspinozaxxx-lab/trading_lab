@@ -292,6 +292,11 @@ Forward V1 теперь запечатан SHA `520bd3d4...`, boundary
 `2026-09-02T12:30:04Z`, implementation/deploy commit `a6cd0af`. Первый server
 readiness: option `0/54`, CLOSE `0/253`, execution/FRED/CBR `0/0/0`; один preseal
 option snapshot и два preseal components исключены, invalid `0`, PnL/CAGR false.
+Отдельный исполняемый paper-arm seal V1 создан до следующего server snapshot: config
+SHA `56822e1e...`, boundary `2026-09-02T19:16:00Z`. Он повторно фиксирует ровно один
+arm `2.00x/4.00/2.00/1%`, V39 signs/zeros и exact BID/OFFER execution; все пять
+eligible counts на границе равны нулю. Это устраняет двусмысленность старой очереди:
+новый arm уже запечатан, повторно обнулять boundary нельзя.
 
 ## V48 exact frontier — FORWARD BASELINE, 38.46–39.86% CAGR
 
@@ -2185,10 +2190,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    остаётся `NO_GO`, даже если разрыв до primary gate всего `1.3167` п.п.
    Первый server readiness подтвердил `0/54 + 0/253`, preseal exclusions `1 + 2`,
    invalid `0`; implementation и server deploy commit `a6cd0af`.
-2. До первого V49 forward decision отдельно запечатать ровно один paper arm: scale
-   `2.00x`, gross cap `4.00`, margin buffer `2.00`, participation `1%`, V39 signs/zeros
-   и exact execution без изменений. Начало допускается только после нового seal;
-   уже собранные 2026 observations нельзя backfill-ить как unseen V49 outcome.
+2. Выполнено до следующего server snapshot: отдельный paper config SHA `56822e1e...`,
+   boundary `2026-09-02T19:16:00Z`, ровно один arm `2.00x`, gross cap `4.00`, margin
+   buffer `2.00`, participation `1%`, V39 signs/zeros и exact execution без изменений.
+   Все eligible counts при seal были нулевыми. Не создавать ещё одну границу и не
+   backfill-ить уже собранные 2026 observations как unseen V49 outcome.
 3. Использовать те же независимые component sources и warmup, что V48, но вести V49
    отдельно: V48 `1.50x` остаётся заранее выбранным baseline, V49 не заменяет его.
 4. До полного warmup/evaluation не считать CAGR и не выбирать arm. Любой paper pass
