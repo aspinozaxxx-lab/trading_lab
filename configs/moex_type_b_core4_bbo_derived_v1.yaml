@@ -1,0 +1,101 @@
+﻿protocol_id: moex_type_b_core4_bbo_derived_v1
+protocol_version: 1
+status: sealed_after_parent_structural_counts_before_bbo_state_reconstruction
+declared_at_utc: '2026-09-02T20:33:30Z'
+scope: source_only_core4_identity_and_bbo_state_machine
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Join the official 2024-10-01 MOEX Type B option event sample to strictly-prior
+  core-four option identities and reconstruct causal best-bid/best-offer states with
+  explicit quote clears. Produce structural execution evidence only, never strategy PnL.
+
+type_b_parent:
+  root: data/processed/options/moex-type-b-derivatives-sample-2024-10-01-v3
+  protocol_id: moex_type_b_derivatives_sample_source_v3
+  protocol_sha256: c2c659f39ff6cfea9d8bdffca28ac15e968c14c3204f6173516f7dd949f4662a
+  manifest_sha256: 8317b7569591c4350d107a8cdba02f1ab40cfd07b24b2ff0c8abc772e40dfe35
+  audit_sha256: 9e9ad48fa52a00f892e2a6537197f2271b73be9f47330209ede5d90836aa0d4a
+  tick_sha256: b678a31c0fd1cee4815820e1136ba463f76c1cf695a75fd87a56c4b389a75532
+  tick_rows: 6561395
+  deal_sha256: cfb672aa7dab896379e528a2a5f828ff42d459c49b8fcad344ca193a2befde00
+  deal_rows: 16753
+
+identity_parent:
+  root: data/processed/options/moex-core4-options-weekly-2021-2025-v3
+  protocol_id: moex_options_weekly_state_source_v3
+  protocol_sha256: a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3
+  manifest_sha256: 0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66
+  audit_sha256: e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec
+  processed_sha256: fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d
+  processed_rows: 1327744
+  identity_date: '2024-09-27'
+  identity_date_must_be_strictly_before_event_trade_date: true
+  allowed_identity_columns: [secid, logical_asset, strike, option_type]
+  current_or_future_metadata_fallback: forbidden
+
+universe:
+  logical_assets: [SI, RI, BR, MIX]
+  mapping: exact_SECID_inner_join_to_identity_date
+  unmapped_events: excluded_and_reported
+  duplicate_identity: forbidden
+
+state_machine:
+  grouping_key: secid
+  ordering: event_at_moscow_then_original_row_number
+  quote_update_sets_exact_side_price_and_volume: true
+  quote_clear_sets_exact_side_price_and_volume_to_null: true
+  trade_event_does_not_change_bid_or_offer: true
+  output_after_every_input_event: true
+  initial_bid_and_offer: unknown
+  carry_across_source_trade_dates: forbidden
+  bid_side_code: B
+  offer_side_code: S
+  two_sided: bid_and_offer_both_positive
+  locked_or_crossed: bid_gte_offer
+  quote_age: current_event_time_minus_last_update_of_each_side
+  same_timestamp_tie_break: original_file_row_order
+
+trade_context:
+  context_is_state_strictly_before_trade_row: true
+  same_timestamp_earlier_file_rows_are_available: true
+  same_timestamp_later_file_rows_are_future: true
+  trade_at_or_above_offer_reported: true
+  trade_at_or_below_bid_reported: true
+  trade_inside_spread_reported: true
+  no_fill_probability_or_queue_inference: true
+
+admission:
+  all_parent_hashes_exact: true
+  parent_audits_all_true: true
+  source_date_before_2026: true
+  identities_strictly_prior: true
+  input_order_monotonic: true
+  every_input_row_classified_once: true
+  every_output_row_maps_to_core4_identity: true
+  state_replay_exact: true
+  no_state_survives_explicit_clear: true
+  no_trade_mutates_state: true
+  locked_or_crossed_states_reported_not_silently_fixed: true
+  forbidden_derived_columns_absent: true
+
+outputs:
+  root: data/processed/options/moex-type-b-core4-bbo-2024-10-01-v1
+  identity: core4_identity.parquet
+  events: core4_events.parquet
+  state: core4_bbo_state.parquet
+  trade_context: core4_trade_context.parquet
+  metrics: structural_metrics.json
+  manifest: manifest.json
+  audit: audit.json
+  immutable: true
+  git_allowed: false
+
+forbidden_columns: [return, returns, label, target, prediction, position, equity, pnl, profit]
+
+limitations:
+  - Structural counts from this single sample day cannot select an economic strategy.
+  - Best quotes do not prove the user's queue position, latency or broker fill.
+  - The strictly-prior weekly identity source is current-vintage, used only for static mapping.
+  - Economic thresholds and PnL require a separate seal and more independent days.
