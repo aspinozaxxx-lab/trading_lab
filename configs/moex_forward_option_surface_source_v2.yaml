@@ -1,0 +1,103 @@
+﻿protocol_id: moex_forward_option_surface_source_v2
+protocol_version: 2
+status: sealed_after_schema_and_nonnull_probe_before_first_v2_value
+declared_at_utc: '2026-09-02T21:18:00Z'
+scope: forward_source_only_timestamp_sequence_margin_no_signal_no_label_no_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve the raw exchange update clocks, sequence identity, last-trade quantity,
+  open-interest change and option margin fields that V1 discarded. This improves future
+  causal staleness and execution admission without computing any feature or outcome.
+
+parent_v1:
+  config_path: configs/moex_forward_option_surface_source_v1.yaml
+  config_sha256: a33c86b4440a0c14fceac4c5a2e3bdd580e3ff9964bfcb375a4ba09f83529eaa
+  implementation_path: src/market_lab/futures/moex_forward_option_surface_source.py
+  implementation_sha256: 6b844b8a39724f9c6920e5993c9bfd0b161d78399c9b98e35b42f8fbd96c4fde
+  output_root: data/forward/moex-options-surface-v1
+  v1_complete_intraday_sessions_at_seal: 0
+  v1_snapshots_may_not_be_copied_to_v2: true
+
+source:
+  provider: MOEX_ISS
+  endpoint: https://iss.moex.com/iss/engines/futures/markets/options/securities.json
+  query: {iss.meta: 'off', iss.only: 'securities,marketdata'}
+  requested_assets: [Si, RTS, BR, MIX]
+  asset_mapping: {Si: SI, RTS: RI, BR: BR, MIX: MIX}
+  access_mode: public_delayed
+  bearer_token_required: false
+  official_interface: https://www.moex.com/a8531
+  historical_backfill: forbidden
+
+schema_probe_only:
+  parent_snapshot: snapshot_20260902T205500357987Z
+  values_read: false
+  marketdata_columns_present:
+    - QUANTITY
+    - UPDATETIME
+    - TIME
+    - SEQNUM
+    - OICHANGE
+    - BIDDEPTH
+    - BIDDEPTHT
+    - NUMBIDS
+    - OFFERDEPTH
+    - OFFERDEPTHT
+    - NUMOFFERS
+  securities_columns_present: [PREVOPENPOSITION, IMNP, IMP, IMBUY, IMTIME]
+  updatetime_time_seqnum_systime_nonnull_for_every_row_all_four_assets: true
+  imtime_nonnull_for_every_security_row_all_four_assets: true
+  public_depth_fields_nonnull_rows_all_four_assets: 0
+  public_depth_fields_excluded_from_v2_normalized_output: true
+
+required_added_security_columns: [PREVOPENPOSITION, IMNP, IMP, IMBUY, IMTIME]
+required_added_marketdata_columns: [QUANTITY, UPDATETIME, TIME, SEQNUM, OICHANGE]
+
+normalized_added_columns:
+  previous_open_interest: PREVOPENPOSITION
+  initial_margin_non_covered: IMNP
+  initial_margin_sell: IMP
+  initial_margin_buy: IMBUY
+  initial_margin_exchange_time: IMTIME
+  last_trade_quantity: QUANTITY
+  market_update_time: UPDATETIME
+  last_trade_time: TIME
+  exchange_sequence_number: SEQNUM
+  open_interest_change: OICHANGE
+
+temporal_semantics:
+  earliest_eligible_retrieved_at_utc: '2026-09-02T21:25:00Z'
+  available_at: actual_retrieval_utc
+  raw_exchange_time_is_observed_not_assumed_available_earlier: true
+  exchange_sequence_is_identity_not_causal_delivery_proof: true
+  source_date_not_after_retrieval_moscow_date: true
+  forward_only: true
+  preboundary_or_v1_snapshot_copy: forbidden
+
+quality_gates:
+  parent_config_and_implementation_exact: true
+  all_four_responses_http_200: true
+  all_four_assets_nonempty: true
+  required_parent_and_added_columns_present: true
+  security_marketdata_identity_exact: true
+  unique_asset_board_secid: true
+  added_time_sequence_fields_nonnull: true
+  raw_replay_exact: true
+  forbidden_derived_columns_absent: true
+
+output:
+  root: data/forward/moex-options-surface-v2-timestamps-margin
+  snapshot_prefix: snapshot_
+  immutable: true
+  raw_gzip_in_git: false
+  processed_parquet_in_git: false
+
+forbidden_columns: [return, returns, label, target, prediction, signal, trade, position, pnl, profit, equity]
+
+limitations:
+  - Public delayed ISS does not expose option BBO depth or queue position.
+  - UPDATETIME and TIME are preserved raw and do not prove client delivery latency.
+  - Margin fields are current observations, not historical broker-exact requirements.
+  - No feature, strategy, return or PnL may be computed by this source.
