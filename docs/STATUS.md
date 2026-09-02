@@ -3,6 +3,35 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V51 robustness audit V42R2 — STABILITY PORTFOLIO ALSO FAILS INTERNAL 20%
+
+V51 config SHA `2a1e467b...`, implementation commit `5a00d74`, implementation SHA
+`3e38079b...`; canonical server-only run
+`runs/v51_v42r2_robustness_20260902T161549Z_2a1e467b/`. До resampling были
+обязательны все девять frozen V42R2 market-cost curves; выбор fund/cost scenario,
+веса `80/20`, V39 economics и execution запрещены. Выполнено `900 000` fixed-seed
+circular moving-block paths, blocks `5/21/63/126`, rolling `252/504` и пять
+leave-one-year-out исключений. Ни prices/targets/positions, ни данные 2026 не читались.
+
+Хотя observed CAGR всех девяти сценариев остаётся `24.0969–25.4527%`, строгий verdict
+`INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`; провалены все пять gates:
+
+- worst joint `CAGR >=20%` и `MDD <=30%` frequency `61.244% < 75%`;
+- worst bootstrap q05 CAGR `7.7086% < 20%`;
+- worst rolling 252-session fraction CAGR `>=20%`: `52.3017% < 65%`;
+- worst rolling 504-session fraction: `38.7516% < 75%`;
+- worst leave-one-year-out CAGR `15.7917% < 20%` при исключении 2022;
+- aspirational 50% false; worst median bootstrap CAGR `23.3705%`, worst joint 50/30
+  frequency лишь `1.276%`.
+
+Artifact replay `all_true=true`; metrics/manifest/identity SHA
+`2c3eabb4.../8385fd60.../8f899e9a...`. Deflated-Sharpe probability worst stress при
+250 trials `43.84%`. Вывод сильнее V50: 20% cash-carry allocation снижает MDD, но не
+создаёт независимый return engine и не устраняет зависимость от выдающегося 2022.
+Увеличивать carry weight по этому outcome или выбирать лучший fund запрещено. Для
+реального продвижения нужен новый uncorrelated causal mechanism с собственной
+доходностью, а затем frozen forward portfolio; live trading запрещён.
+
 ## V50R1 robustness audit V49 — 20% INTERNAL SUPPORT NOT CONFIRMED
 
 V50 был заранее запечатан SHA `0e626e17...`, но остановился в preflight без output и
@@ -1980,6 +2009,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 7. Проверять server timers `trading-lab-fund-pool-decision/fill.timer` и readiness фиксированного пула
    LQDT/SBMM/AKMM/TMON. До 60 пар не вычислять spread ranking, yield или PnL; состав
    пула после первого значения не менять.
+8. V51 уже проверил все девять V42R2 curves и провалил все internal-20 gates, включая
+   leave-2022-out `15.7917%`. Не увеличивать cash-carry weight и не выбирать fund по
+   этому outcome. Следующий historical mechanism допустим только с независимым return
+   engine; V41 продолжать лишь как frozen forward baseline.
 
 ### P0 — независимая forward-проверка V27
 

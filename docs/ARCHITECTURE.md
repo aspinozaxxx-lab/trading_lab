@@ -849,6 +849,20 @@ Read-only admission поверх audited option/V27 components. В отличи�
 PnL. Duplicate market component date исключается fail-closed. Arm identity всегда
 `2.00x/4.00/2.00/1%`; V48/V49 outcome comparison отсутствует.
 
+### `market_lab.futures_v51_v42r2_robustness`
+
+V51 читает только `date`, boolean `is_v39_session` и девять frozen V42R2 combined NAV.
+Полный 1 827-row cash calendar сохраняется для identity, но analysis использует ровно
+1 272 исходные V39 sessions, на которых V42R2 вычислял stored metrics. Parent config,
+runner/shared-engine и шесть artifacts byte-pinned; 365.25 observed clock воспроизводит
+V42R2, а bootstrap clock 365.2425 заранее сохранён от robustness engine.
+
+Все 9 market × idle-cost scenarios проходят одинаковые 4 block bootstraps, два rolling
+window, leave-one-year-out и deflated-Sharpe diagnostics. Assessment берёт минимум по
+всем сценариям, поэтому не может выбрать LQDT/TMON/zero-yield после результата.
+Canonical V51 провалил все пять internal 20% gates; модуль не изменяет V41/V42R2 и не
+выдаёт live admission.
+
 ### `market_lab.futures_v50_v49_robustness` и `futures_v50r1_v49_robustness`
 
 V50 читает из immutable V49 run только `session_date` и три combined NAV, сверяет

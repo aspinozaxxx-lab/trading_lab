@@ -1,5 +1,25 @@
 ﻿# Реестр экспериментов
 
+## V51 all-nine V42R2 robustness audit — INTERNAL 20% SUPPORT NOT CONFIRMED
+
+- Config SHA `2a1e467b...`, implementation commit `5a00d74`, SHA `3e38079b...`;
+  canonical server-only run `v51_v42r2_robustness_20260902T161549Z_2a1e467b`.
+- V51 читает только `date`, frozen `is_v39_session` mask и девять combined NAV из
+  byte-pinned V42R2. Все 9 market × idle-cost curves обязательны; fund/cost selection,
+  80/20 weight и V39 economics не меняются. `900 000` paths используют fixed seeds и
+  blocks `5/21/63/126`; rolling windows `252/504`, five leave-year-out и gates sealed
+  до resampling. Данные 2026 отсутствуют.
+- Observed CAGR range `24.0969–25.4527%`, MDD `16.8030–17.5249%`, но все пять
+  minimum-20 conditions false. Worst stress-zero-yield block-63 joint frequency
+  `61.244% <75%`, q05 `7.7086% <20%`; worst rolling 252/504 fractions
+  `52.3017%/38.7516%`; leave-2022-out minimum `15.7917%`.
+- Aspirational 50% false: worst median `23.3705%`, joint 50/30 frequency `1.276%`.
+  Worst 250-trial deflated-Sharpe probability `43.8398%`.
+- Verdict `INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`; artifact audit `all_true=true`,
+  metrics/manifest/identity SHA `2c3eabb4.../8385fd60.../8f899e9a...`. Это
+  same-history diagnostic, а не forecast. Не выбирать иной V41 weight/fund по результату;
+  следующий mechanism должен добавлять независимый causal return source.
+
 ## V50R1 V49 fixed robustness audit — INTERNAL 20% SUPPORT NOT CONFIRMED
 
 - Parent V50 config SHA `0e626e17...` был sealed до resampling, но preflight остановил

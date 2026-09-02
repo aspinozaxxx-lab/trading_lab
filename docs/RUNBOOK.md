@@ -1509,6 +1509,23 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
 `--audit-directory`, не менять scale/cap/buffer/gates и не переносить расчёт на
 локальную Windows-машину.
 
+### V51 read-only all-nine V42R2 robustness artifact audit
+
+Canonical V51 выполнен один раз на `gpu-mlserver`. Повторять bootstrap run нельзя;
+разрешён только replay существующих артефактов:
+
+```bash
+cd /opt/trading_lab
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
+  .venv/bin/python -m market_lab.futures_v51_v42r2_robustness \
+  --audit-directory \
+  /srv/trading_lab_data/runs/v51_v42r2_robustness_20260902T161549Z_2a1e467b
+```
+
+Ожидается `all_true: true`. Config SHA `2a1e467b...`, implementation commit
+`5a00d74`, metrics/manifest SHA `2c3eabb4.../8385fd60...`. Запуск без
+`--audit-directory` запрещён; на локальной Windows-машине расчёт не выполнять.
+
 ### V50R1 read-only robustness artifact audit
 
 V50 parent остановился до resampling и не создал output из-за несовпадения metric
