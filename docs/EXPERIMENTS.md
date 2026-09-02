@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## V59/R2 pre-2018 CFTC crowding — INVALID, NO USEFUL EDGE
+
+- Audited 2012–2017 CFTC source: `626` rows, replay `15/15` true; source config
+  `1d8fb69b...`, manifest/positions/raw/audit
+  `8ea54168.../c8641234.../c93a4c15.../c0cbf0af...`.
+- Contrarian sign was frozen before the join. V59 and R1 were invalidated by an
+  unfillable January 2013 roll; R2 `4ca4f1ad...` used conservative roll-only cash exits.
+- R2 remained invalid with `1754` critical expired-contract marks. Its interpretable
+  prefix had only `0.7174%/0.6124%/0.5768%` CAGR, far below 20%; no further repair or
+  tuning is justified. Replay `8/8` true; metrics SHA `33c8d40a...`.
+
 ## V57/V58 official CFTC WTI positioning → BR — V58 NO-GO
 
 - V57 source SHA/code `22878af6.../cdaa6389...`; immutable official CFTC bundle has

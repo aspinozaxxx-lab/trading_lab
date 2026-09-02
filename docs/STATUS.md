@@ -39,6 +39,24 @@ Canonical run
 pre-2018 периоде с заново собранным official CFTC source; только после такого
 подтверждения можно вернуться к combined-period проверке. Live trading запрещён.
 
+## V59/V59R2 pre-2018 CFTC crowding — INVALID EXECUTION, NO USEFUL EDGE
+
+Pre-2018 source config SHA `1d8fb69b...`, implementation `0dfed56b...`; official
+CFTC bundle содержит `626` строк (`313` WTI + `313` Gold),
+`2012-01-03…2017-12-26`, raw replay `15/15` true. Manifest/positions/raw/audit SHA
+`8ea54168.../c8641234.../c93a4c15.../c0cbf0af...`.
+
+V59 inverse/crowding sign был запечатан до source join; parent SHA `cf597ddc...`.
+Первый run invalid: atomic roll с нулевой capacity оставил expired `BRF3`. R1
+`a79613a3...` включил существующий `cancel_and_clip`, R2 `4ca4f1ad...` добавил
+risk-first cash exit только на roll-only decisions; sign/lag/risk/costs не менялись.
+Canonical diagnostic R2
+`v59r2_cftc_wti_crowding_br_pre2018_v1_20260902T190953Z_4ca4f1ad` всё ещё invalid:
+`1754` critical missing-contract marks после weekly+roll collision. До блокировки
+indicative primary/doubled/stress CAGR лишь `0.7174%/0.6124%/0.5768%`, поэтому новая
+execution-подгонка не оправдана. Replay `8/8` true; manifest/metrics/audit SHA
+`964e3481.../33c8d40a.../658e0577...`. Семью CFTC закрыть; live trading запрещён.
+
 ## V52R2 OFZ carry/roll-down — NO-GO, 1.92–4.51% CAGR
 
 V52 был запечатан до первого чтения market values: config SHA `ee995ff4...`, commit
