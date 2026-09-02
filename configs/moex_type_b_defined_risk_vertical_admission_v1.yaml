@@ -1,0 +1,106 @@
+﻿protocol_id: moex_type_b_defined_risk_vertical_admission_v1
+protocol_version: 1
+status: sealed_before_grid_age_or_vertical_opportunity_values
+declared_at_utc: '2026-09-02T20:46:05Z'
+scope: source_only_defined_risk_vertical_structural_admission
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Determine whether the official Type B sample contains enough strictly-prior,
+  non-crossed, fresh two-sided BBO states to form same-expiry adjacent-strike debit
+  verticals on SI, RI, BR and MIX. Count structural opportunities only; never PnL.
+
+bbo_parent:
+  root: data/processed/options/moex-type-b-core4-bbo-2024-10-01-v2
+  protocol_sha256: fdf8b6555010dadbe87e1194bd87ad476b8a37b7df510f06dbc685322ab1ffd2
+  implementation_sha256: 49c8d22fa46ac55953433b439ad6ff919f545d30fd0cb30dd8a523dfe6fc2430
+  manifest_sha256: e3a7934b1f36d4c6186b56b9318fd5766a73a6778e6795bae43d9fd8aa2012c2
+  audit_sha256: 7e2656d83c03ddde185469426547b20e52403582c95bf6be76211ce08a61a6e8
+  state_sha256: 8512b5e3fa11bd212199d1db4999f77d313e44b6ccc98db8fe3708fbd79b4be9
+  state_rows: 957259
+
+identity_parent:
+  root: data/processed/options/moex-core4-options-weekly-2021-2025-v3
+  protocol_sha256: a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3
+  manifest_sha256: 0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66
+  audit_sha256: e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec
+  processed_sha256: fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d
+  processed_rows: 1327744
+  identity_date: '2024-09-27'
+  identity_columns:
+    - secid
+    - logical_asset
+    - strike
+    - option_type
+    - encoded_expiry_month
+    - encoded_expiry_year_digit
+    - encoded_week_code
+  future_identity_fallback: forbidden
+
+observation_grid:
+  timezone: Europe/Moscow
+  source_trade_date: '2024-10-01'
+  previous_evening_first: '2024-09-30T19:10:00+03:00'
+  previous_evening_last: '2024-09-30T23:50:00+03:00'
+  main_first: '2024-10-01T07:10:00+03:00'
+  main_last: '2024-10-01T18:40:00+03:00'
+  frequency_minutes: 10
+  bbo_state_must_be_strictly_before_grid_timestamp: true
+  no_cross_date_state_carry: true
+
+freshness_sensitivity_seconds: [1, 5, 15, 60]
+
+pair_construction:
+  same_logical_asset: true
+  same_option_type: true
+  same_encoded_expiry_month_year_and_week: true
+  strikes: adjacent_distinct_only
+  calls: buy_lower_strike_at_offer_sell_higher_strike_at_bid
+  puts: buy_higher_strike_at_offer_sell_lower_strike_at_bid
+  both_legs_two_sided_and_not_locked_or_crossed: true
+  all_four_side_ages_lte_sensitivity_bucket: true
+  net_debit_must_be_strictly_positive: true
+  net_debit_must_be_strictly_less_than_strike_width: true
+  maximum_loss_is_entry_debit_before_fees: true
+  maximum_payoff_is_strike_width_before_fees: true
+  naked_short_options: forbidden
+  simultaneous_fill_assumed: false
+
+reported_only:
+  grid_timestamp_count: true
+  identity_and_pair_counts_by_asset: true
+  fresh_two_sided_leg_counts_by_age_bucket: true
+  admissible_vertical_counts_by_asset_type_and_age_bucket: true
+  timestamps_with_at_least_one_admissible_vertical: true
+  quote_volumes_available: true
+  returns_labels_targets_predictions_trades_positions_equity_pnl: forbidden
+
+admission:
+  all_parent_hashes_and_audits_exact: true
+  grid_predeclared: true
+  strict_prior_asof_join: true
+  no_same_timestamp_state: true
+  exact_prior_identity_only: true
+  every_pair_same_expiry_and_adjacent_strike: true
+  no_negative_or_zero_debit: true
+  no_debit_ge_strike_width: true
+  deterministic_replay_exact: true
+  forbidden_outputs_absent: true
+
+outputs:
+  root: data/processed/options/moex-type-b-defined-risk-vertical-admission-2024-10-01-v1
+  pair_inventory: pair_inventory.parquet
+  grid_leg_states: grid_leg_states.parquet
+  opportunities: vertical_opportunities.parquet
+  metrics: structural_metrics.json
+  manifest: manifest.json
+  audit: audit.json
+  immutable: true
+  git_allowed: false
+
+limitations:
+  - One sample date can validate structure and scale, not profitability or stability.
+  - A two-leg quote is not an atomic fill; long leg must fill before any short leg.
+  - Fees, exercise, assignment, margin, latency and broker rules are not modeled here.
+  - Economic rules require a separate seal and additional independent dates.
