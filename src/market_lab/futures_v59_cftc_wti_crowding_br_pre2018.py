@@ -81,7 +81,13 @@ def verify_inputs(protocol: dict[str, Any]) -> tuple[dict[str, Path], dict[str, 
     source_audit = json.loads(paths["cftc_audit"].read_text(encoding="utf-8-sig"))
     market_audit = json.loads(paths["market_audit"].read_text(encoding="utf-8-sig"))
     checks["cftc_audit_all_true"] = source_audit["all_true"] is True
-    checks["market_audit_all_true"] = market_audit["all_true"] is True
+    checks["market_audit_valid"] = (
+        market_audit["protected_from"] == "2018-01-01"
+        and market_audit["contains_returns_targets_labels_or_pnl"] is False
+        and int(market_audit["unresolved_roll_count"]) == 0
+        and int(market_audit["unresolved_exit_count"]) == 0
+        and int(market_audit["assets"]["BR"]["missing_mark_carry_count"]) == 0
+    )
     if not all(checks.values()):
         raise ValueError(f"V59 source audit failed: {checks}")
     return paths, checks
