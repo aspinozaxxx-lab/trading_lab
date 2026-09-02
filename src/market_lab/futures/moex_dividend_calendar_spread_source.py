@@ -40,7 +40,13 @@ EXPECTED_SPREAD_COUNTS: Final[dict[str, int]] = {
     "TATN": 12,
     "NOTK": 11,
 }
-EXPECTED_MISSING_DATE_SPREADS: Final[dict[str, tuple[str, ...]]] = {asset: () for asset in ASSETS}
+EXPECTED_MISSING_DATE_SPREADS: Final[dict[str, tuple[str, ...]]] = {
+    "GAZR": ("GZU2GZZ2",),
+    "SBRF": ("SRU2SRZ2",),
+    "ROSN": ("RNU2RNZ2",),
+    "TATN": ("TTU2TTZ2",),
+    "NOTK": ("NKU2NKZ2",),
+}
 EXPECTED_REGULAR_ADJACENT_COUNTS: Final[dict[str, int]] = dict(EXPECTED_SPREAD_COUNTS)
 EXPECTED_NEAR_DATE_MATCH_COUNTS: Final[dict[str, int]] = dict(EXPECTED_SPREAD_COUNTS)
 RMS_FILES: Final[dict[str, str]] = {

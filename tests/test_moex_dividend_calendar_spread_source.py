@@ -29,6 +29,7 @@ def test_dividend_asset_registry_is_closed() -> None:
         "GAZR",
         "GZ",
     )
+    assert source.EXPECTED_MISSING_DATE_SPREADS["GAZR"] == ("GZU2GZZ2",)
 
 
 def test_shared_registry_is_restored_after_adapter_context() -> None:
