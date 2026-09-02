@@ -35,6 +35,28 @@
   cash. Не ослаблять capital/hurdle. Следующий допустимый mechanism — margin-only
   perpetual/quarterly spread с observed prior-day SWAPRATE.
 
+## CNY perpetual/quarterly spread V1 — INVALID; V2 — NO-GO
+
+- Perpetual source V2: 937 active `CNYRUBF` rows `2022-04-26..2025-12-30`, 784
+  nonmissing exchange `SWAPRATE`, manifest `1664a012...`, Parquet `3b1ee181...`,
+  audit 33/33. Quarterly parent remains the exact 12-contract CR bundle.
+- V1 config SHA `5b2d6be7...` was sealed before rates/basis/PnL. Immutable run
+  `runs/cny_perpetual_quarterly_spread_v1_20260902T000440Z_5b2d6be7/` is invalid:
+  it applied `SWAPRATE × 1000`, but used point value 1 for price PnL, notional,
+  spreads and commissions. Its huge numeric GO is a unit artifact and is rejected.
+- V2 correction SHA `6a0a7cbe...`, seal `df9a7bb`, runner `48afc99` changed only
+  contract cash units to point value 1 000; schedule, direction, causal 20-session
+  funding estimate, costs, capital fractions, RUONIA+2% hurdle and gates are inherited.
+- Canonical corrected run:
+  `runs/cny_perpetual_quarterly_spread_v2_20260902T000944Z_6a0a7cbe/`; metrics
+  `d1a23519...`, identity `44211bd7...`, audit `c6d8cdd2...`, artifact manifest
+  `f79bb792...`; independent audit 15/15.
+- Development 2023–2024: 0/8 admissions, CAGR `0%` vs RUONIA `14,3844%`.
+  Evaluation 2025: 0/4, CAGR `0%` vs RUONIA `20,9377%`. Best sealed CRH5 expected
+  pair yield was `13,8903%` with RUONIA `20,85%`; all entries failed the hurdle.
+- Verdict `NO_GO`. Do not tune threshold/date/direction on 2023–2025. A collateralized
+  version requires independently proven yield/haircut rules and forward confirmation.
+
 Этот файл фиксирует научную память проекта. `Canonical` означает выбранный для аудита
 неизменяемый артефакт, а не разрешение на live trading. Все внешние run paths относительны
 к `D:\Projects\trading_lab_data`.

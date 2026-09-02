@@ -47,10 +47,13 @@ spread stress, margin cash и RUONIA opportunity cost; reverse carry запре�
 `36c2af69...`. Fully funded economic V1 дал zero admissions и закрыт, но dataset
 подтвердил пригодность CNY spot/quarterly execution.
 
-Отдельный metadata probe нашёл `CNYRUBF`: one-day auto-prolonged cash-settled futures,
-lot 1 000 CNY, история с exchange `SWAPRATE`. Source V1 не создал output из-за
-cursor-range mismatch 764/937. V2 SHA `9dbf7e77...` меняет только total для exact range
-`2022-04-26..2025-12-31`; prices/SWAPRATE ещё не читались и build pending.
+Отдельный `CNYRUBF` source завершён: one-day auto-prolonged cash-settled futures,
+lot 1 000 CNY, 937 active sessions и 784 observed exchange `SWAPRATE`; manifest
+`1664a012...`, Parquet `3b1ee181...`, audit 33/33. Economic unit-corrected V2 проверил
+short perpetual / long quarterly CR и дал `NO_GO`: zero-yield margin cash не обгоняет
+RUONIA. Следующая новая информация для этой ветки — byte-pinned правила доходности
+collateral, haircut/IM и forward bid/ask/funding snapshots, а не новый historical
+threshold по уже просмотренным 2023–2025 ставкам.
 
 ## Что уже есть
 

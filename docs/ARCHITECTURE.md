@@ -778,7 +778,17 @@ cost/capital/RUONIA semantics. Он завершён как operationally valid 
 
 V1 source-only collector `CNYRUBF` с exchange `SWAPRATE`. V1 не опубликовал output на
 cursor-total mismatch. Sealed V2 наследует все поля и меняет только 764 на 937 для
-расширенного exact range; отдельная V2 implementation/build ещё требуются.
+расширенного exact range. V2 implementation сохраняет 937 immutable rows, gzip raw
+pages, exact replay и availability после source trade date; canonical audit 33/33.
+
+### `market_lab.futures.cny_perpetual_quarterly_spread_v1/v2`
+
+V1 фиксирует short `CNYRUBF` / long quarterly CR, causal prior funding, simultaneous
+stressed fills и separate margins. Его первый run выявил unit defect и остаётся
+immutable INVALID. V2 — отдельный byte-sealed correction: quote price PnL, notional,
+spread и commissions умножаются на contract point value 1 000, а funding по правилам
+MOEX остаётся `SWAPRATE × lot`. V2 identity pin-ит correction, parent implementation,
+ledger и все source hashes; corrected canonical verdict `NO_GO`.
 
 ### `market_lab.futures.online_expert_ensemble`
 

@@ -1116,9 +1116,21 @@ CNY quarterly source replay:
   --audit-directory D:\Projects\trading_lab_data\runs\cny_cash_carry_v1_20260901T234628Z_1b9406d9
 ```
 
-Ожидание: source 157/157; economic audit 12/12 и `NO_GO`. Perpetual V1 output
-отсутствует. Продолжать только с `moex_cny_perpetual_source_v2` SHA `9dbf7e77...` и
-новым output suffix `-v2`; V1 config/code и failed attempt не переписывать.
+Ожидание: source 157/157; economic audit 12/12 и `NO_GO`.
+
+CNY perpetual source и исправленный economic run:
+
+```powershell
+.\.venv\Scripts\python.exe -m market_lab.futures.moex_cny_perpetual_source_v2 `
+  --audit `
+  --output-root D:\Projects\trading_lab_data\data\processed\fx_basis\moex-cny-perpetual-current-vintage-v2
+.\.venv\Scripts\python.exe -m market_lab.futures.cny_perpetual_quarterly_spread_v2 `
+  --audit-directory D:\Projects\trading_lab_data\runs\cny_perpetual_quarterly_spread_v2_20260902T000944Z_6a0a7cbe
+```
+
+Ожидание: source 33/33, economic audit 15/15, verdict `NO_GO`, 0/4 evaluation
+trades. V1 economic run с suffix `5b2d6be7` не удалять, но его numeric GO invalid из-за
+point-value error. V1/V2 повторно не запускать и historical thresholds не менять.
 
 ### Forward equity TradeStats/OrderStats/OBStats
 

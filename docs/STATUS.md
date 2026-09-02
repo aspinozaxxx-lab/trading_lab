@@ -79,12 +79,24 @@ positive-trade sessions и все четыре CR торгуются. Economic c
 `NO_GO`: 0/8 development и 0/4 evaluation entries перекрыли RUONIA+2% на полном
 spot/margin capital; evaluation CAGR `0%` против RUONIA `20,9377%`.
 
-Следующая капиталоэффективная ветка — futures/futures, без spot principal. `CNYRUBF`
-metadata подтверждает one-day auto-prolonged 1 000 CNY contract и history `SWAPRATE`.
-Source V1 правильно не создал output: probe `2023-01-01` дал 764 rows, а sealed range
-`2022-04-26..2025-12-31` — 937. Cursor-only V2 SHA `9dbf7e77...`, commit `2014593`,
-уже pushed; следующий шаг — отдельный V2 collector/build, затем sealed perpetual/CR
-spread economics без threshold/date/direction search.
+Капиталоэффективная futures/futures ветка также завершена. Source V2
+`data/processed/fx_basis/moex-cny-perpetual-current-vintage-v2/` содержит 937
+`CNYRUBF` sessions `2022-04-26..2025-12-30`, 784 nonmissing `SWAPRATE`; audit 33/33,
+manifest `1664a012...`, Parquet `3b1ee181...`. Economic V1 был запечатан до ставок,
+но оказался **невалиден по единицам**: funding умножался на lot 1 000, а price PnL,
+notional и costs — нет. Его immutable run
+`runs/cny_perpetual_quarterly_spread_v1_20260902T000440Z_5b2d6be7/` и абсурдный
+numeric GO запрещено использовать как evidence.
+
+Отдельный V2 unit correction SHA `6a0a7cbe...` и runner `48afc99` были pushed до
+corrected PnL. Canonical
+`runs/cny_perpetual_quarterly_spread_v2_20260902T000944Z_6a0a7cbe/`, metrics
+`d1a23519...`, audit `c6d8cdd2...`; independent audit 15/15. Corrected point value,
+notional, spread и commission равны quote cash × 1 000, funding остаётся
+`SWAPRATE × 1 000`. Результат `NO_GO`: 0/8 development и 0/4 evaluation entries;
+evaluation CAGR `0%` против RUONIA `20,9377%`. Лучший sealed entry CRH5 имел
+расчётные `13,8903%` при causal RUONIA `20,85%`, поэтому hurdle не прошёл.
+Threshold/date/direction и тот же zero-yield collateral больше не менять.
 
 ## Последний результат: V35 thirty-stock intraday residual basket NO-GO
 
@@ -1105,6 +1117,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — доходный collateral и forward CNY relative value
+
+1. V1 perpetual/quarterly numeric GO недействителен из-за ошибки contract units;
+   использовать только corrected V2 `NO_GO` и не перезаписывать оба run.
+2. Не ослаблять historical RUONIA hurdle и не выбирать контракты по уже просмотренным
+   2023–2025 estimates. Новый test допустим только как отдельная экономика доходного
+   collateral: byte-pinned broker/exchange rules, haircut, доступность вывода/залога,
+   фактическая комиссия и margin calls.
+3. Начать forward-only snapshot потока `CNYRUBF`/ближайших CR после отдельного seal;
+   сохранять bid/ask, `SWAPRATE`, specs/IM и retrieval time. Historical 2026 backfill
+   запрещён. До заранее заданного paper периода PnL не считать.
+4. Автоматический option-surface collector оставить активным: сейчас 1/60 discovery,
+   затем 20 calibration и 40 unseen evaluation; naked short options запрещены.
 
 ### P0 — forward equity microstructure вместо повторной настройки V35
 
