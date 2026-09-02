@@ -1149,7 +1149,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    key rate `20%`, 2x, RUONIA haircut `50%`, buffer/cost/capacity.
 2. Каждый следующий сеанс проверить обе scheduled tasks и
    `v27_forward_validation_readiness`; invalid snapshot не считать в coverage.
-3. Первые 252 unique decision dates — только warmup. Затем неизменяемый paper runner
+3. Первые 253 common official CLOSE дают 252 return sessions и являются только warmup.
+   Затем неизменяемый paper runner
    использует минимум 504 sessions; до этого не вычислять/публиковать V27 forward CAGR.
 4. Получить broker-exact collateral/IM/fee/order-log правила параллельно; numeric GO без
    них остаётся paper-only и требует второго unseen confirmation.
