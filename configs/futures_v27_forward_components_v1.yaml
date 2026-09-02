@@ -1,0 +1,96 @@
+﻿protocol_id: futures_v27_forward_components_v1
+protocol_version: 1
+status: sealed_before_first_component_snapshot
+declared_at_utc: '2026-09-02T10:52:04Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Preserve each independently available official forward source with its own actual
+  retrieval timestamp, so an outage at one macro provider cannot erase a valid MOEX
+  price or quote observation. Economic joins remain fail-closed and causal.
+
+parent_source:
+  protocol_path: configs/futures_v27_forward_validation_v2.yaml
+  protocol_sha256: f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932
+  implementation_path: src/market_lab/futures/moex_v27_forward_validation_source.py
+  implementation_sha256: 7a6f5732743f12ad8ec9bfcc1fca5d9bbae6aedde41af1b07d2c8ea0cae5c32c
+  inherited_economics_and_normalization: byte_identical
+  atomic_v2_snapshot_count_at_seal: 0
+
+correction_scope:
+  economic_hypothesis_changed: false
+  signal_position_or_target_changed: false
+  endpoint_query_or_normalization_changed: false
+  market_output_columns_changed: false
+  macro_output_columns_changed: false
+  availability_rule_changed: false
+  source_storage_atomicity_only: true
+  failed_component_substitution: forbidden
+  cache_backfill_or_forward_fill: forbidden
+
+components:
+  market_execution:
+    snapshot_kind: execution_observation
+    required_sources: [MOEX_current_SI, MOEX_current_RI, MOEX_current_BR, MOEX_current_MIX]
+    official_history_required: false
+    output: market.parquet
+  market_decision:
+    snapshot_kind: decision_eod
+    required_sources:
+      - MOEX_current_SI
+      - MOEX_current_RI
+      - MOEX_current_BR
+      - MOEX_current_MIX
+      - MOEX_exact_date_official_history_for_every_listed_contract
+    official_history_required: true
+    signal_price: official_CLOSE
+    output: market.parquet
+  macro_fred:
+    required_sources: [FRED_STLFSI4_current_vintage]
+    output: macro.parquet
+    required_series: [stlfsi4]
+  macro_cbr:
+    required_sources: [CBR_RUONIA_current_page, CBR_KeyRateXML]
+    output: macro.parquet
+    required_series: [ruonia, key_rate]
+
+storage:
+  root: data/forward/v27-validation-v3-components
+  immutable_component_directories: true
+  raw_response_for_every_required_request: true
+  raw_replay_required: true
+  manifest_and_audit_required: true
+  partial_snapshot_within_component: forbidden
+  completed_other_component_survives_failure: true
+
+forward_boundary:
+  earliest_market_source_date: '2026-09-02'
+  earliest_component_retrieval_at_utc: '2026-09-02T10:52:04Z'
+  historical_2026_backfill: forbidden
+  pre2026_signal_warmup: forbidden
+
+causal_join:
+  market_identity: [source_date, snapshot_kind]
+  duplicate_valid_identity: reject_all_duplicates
+  macro_selection: latest_valid_component_with_retrieved_at_lte_decision_at
+  macro_forward_available_at_must_be_lte_decision_at: true
+  future_macro_snapshot_may_repair_past_decision: false
+  missing_FRED_or_CBR_at_decision: cash_all_assets
+  missing_execution_observation: cancel_all_orders
+  no_cross_component_retrieval_timestamp_relabeling: true
+
+readiness:
+  price_warmup_common_official_CLOSE_sessions: 253
+  option_weekly_levels_inherited_V39: 54
+  unseen_evaluation_sessions: 504
+  unseen_weekly_decisions: 104
+  macro_counts_reported_separately: true
+  signal_return_target_prediction_or_pnl_before_join_warmup: forbidden
+
+operations:
+  one_wrapper_may_attempt_multiple_components_sequentially: true
+  earlier_completed_component_is_not_deleted_if_later_component_fails: true
+  retry_exact_request_only: true
+  live_order_submission: forbidden
+
