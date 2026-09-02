@@ -134,7 +134,13 @@ def build_breadth_states(protocol: Protocol) -> pd.DataFrame:
         if _sha(path) != item["sha256"]:
             raise ValueError(f"V44 stock artifact drifted: {ticker}")
         frame = pd.read_parquet(path, columns=["timestamp", "close"])
-        timestamp = pd.DatetimeIndex(pd.to_datetime(frame["timestamp"], utc=True))
+        if "timestamp" in frame.columns:
+            timestamp_values = frame.pop("timestamp")
+        elif frame.index.name == "timestamp":
+            timestamp_values = frame.index
+        else:
+            raise ValueError(f"V44 timestamp missing after decode: {ticker}")
+        timestamp = pd.DatetimeIndex(pd.to_datetime(timestamp_values, utc=True))
         if len(timestamp) and timestamp.max() >= pd.Timestamp("2026-01-01", tz="UTC"):
             raise ValueError("V44 decoded protected stock timestamp")
         series = pd.Series(
