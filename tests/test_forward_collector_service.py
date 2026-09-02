@@ -42,6 +42,7 @@ def test_inventory_covers_every_active_windows_collector() -> None:
         "cny-relative-value",
         "moex-rms",
         "option-surface",
+        "option-surface-eod",
         "v27-decision",
         "v27-execution",
     }
@@ -137,6 +138,25 @@ def test_option_surface_is_direct_and_never_deduplicated_by_source_date(
     ]
 
 
+def test_option_surface_eod_preserves_v39_v1_compatibility(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    calls: list[tuple[str, ...]] = []
+    monkeypatch.setattr(
+        subject,
+        "_run_module",
+        lambda module, *arguments, **kwargs: calls.append((module, *arguments)) or "",
+    )
+    subject.run_job("option-surface-eod", tmp_path)
+    assert calls == [
+        (
+            "market_lab.futures.moex_forward_option_surface_source",
+            "--output-root",
+            str((tmp_path / "data" / "forward" / "moex-options-surface-v1").resolve()),
+        )
+    ]
+
+
 def test_v27_uses_authenticated_route_only_when_key_is_valid(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
@@ -171,7 +191,7 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     service = (unit_root / "trading-lab-collector@.service").read_text(encoding="utf-8-sig")
     timers = sorted(unit_root.glob("trading-lab-*.timer"))
     timer_text = "\n".join(path.read_text(encoding="utf-8-sig") for path in timers)
-    assert len(timers) == 13
+    assert len(timers) == 14
     assert "User=trading-lab" in service
     assert "ProtectSystem=strict" in service
     assert "ReadWritePaths=/srv/trading_lab_data" in service
@@ -188,3 +208,8 @@ def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     assert "OnCalendar=Mon..Fri *-*-* 10..22:09/10:00" in option_timer
     assert "OnCalendar=Mon..Fri *-*-* 23:09,19,29,39,55:00" in option_timer
     assert "Persistent=false" in option_timer
+    option_eod_timer = (unit_root / "trading-lab-option-surface-eod.timer").read_text(
+        encoding="utf-8-sig"
+    )
+    assert "OnCalendar=Mon..Fri *-*-* 23:57:00" in option_eod_timer
+    assert "Unit=trading-lab-collector@option-surface-eod.service" in option_eod_timer
