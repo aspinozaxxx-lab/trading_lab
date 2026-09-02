@@ -1317,6 +1317,21 @@ $hash = (Get-FileHash .\configs\<new-config>.yaml -Algorithm SHA256).Hash.ToLowe
 Не используй этот пример записи SHA для изменения уже sealed config: тогда необходима новая
 версия протокола.
 
+### V40R1 fixed V39 + cash-carry stability blend
+
+Run command:
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v40_v39_cash_carry_stability
+```
+
+Canonical V40R1 is
+`runs/v40r1_v39_cash_carry_stability_v1_20260902T041248Z_05ce1266/`. The earlier
+`...T041223Z...` directory is noncanonical because the process failed only while
+printing a Unicode report to CP1251 after writing artifacts. Do not use either run to
+change the sealed 80/20 weight; verify canonical hashes from `docs/STATUS.md`.
+
 ### Covered stock–futures cash-and-carry V1
 
 Canonical source audits:

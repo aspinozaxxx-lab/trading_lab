@@ -1,5 +1,24 @@
 ﻿# Реестр экспериментов
 
+## V40R1 fixed 80/20 V39 + cash-carry stability blend — strict NO-GO
+
+- V40 SHA `125c4740...` failed before combined metrics on a declared parent row-count
+  typo. R1 SHA `05ce1266...`, seal `eddd16f` corrected only `781 -> 793`; allocation,
+  scenarios, dates and gates are byte-identical in economics. ASCII report correction
+  `b445f33` followed a post-write CP1251 print failure and did not change metrics.
+- Fixed initial capital: 80% frozen V39, 20% frozen cash-carry, no rebalancing. Stress
+  maps to V39 stress plus cash-carry zero-dividend/doubled-cost. No weight search.
+- Canonical `runs/v40r1_v39_cash_carry_stability_v1_20260902T041248Z_05ce1266/`;
+  metrics/manifest/audit/ledger
+  `8812dffb.../9460e514.../572221d6.../9bd3ebdc...`.
+- Primary/doubled/stress CAGR `25.0336%/24.6070%/24.1113%`, Sharpe
+  `1.2392/1.2188/1.1993`, MDD `17.4210%/17.5226%/16.8766%`. Every CAGR remains
+  above 20%; MDD improves by 2.56–2.64 pp and worst year improves in every scenario.
+  Primary has 5/5 positive years, with 2025 `+0.2264%` versus V39 `−0.5162%`.
+- Strict verdict `NO_GO`: Sharpe is lower by `0.0122/0.0129/0.0196`, violating the
+  presealed all-scenario non-degradation gate. Freeze 80/20; do not search weights on
+  this history. It is a risk-reduced alternative for forward comparison, not live GO.
+
 ## Covered stock–futures intraday cash-and-carry V1 — stable but standalone NO-GO
 
 - Source V2 SHA `ffef4524...` replaced a denied subscription-only CCI dividend route

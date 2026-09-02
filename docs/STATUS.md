@@ -3,6 +3,29 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
+
+Единственный weight `80/20`, отсутствие rebalancing и scenario mapping были запечатаны
+до combined equity. Первый V40 SHA `125c4740...` fail-closed остановился в parent
+preflight: ledger ошибочно объявлен 781 rows вместо factual 793; combined metrics не
+считались. R1 SHA `05ce1266...`, seal `eddd16f` изменил только row count. После
+успешной записи первый output `...T041223Z...` завершил процесс ошибкой печати Unicode
+`Δ` в CP1251; report-only ASCII correction `b445f33` не менял числа. Canonical:
+`runs/v40r1_v39_cash_carry_stability_v1_20260902T041248Z_05ce1266/`; metrics
+`8812dffb...`, manifest `9460e514...`, audit `572221d6...`, ledger `9bd3ebdc...`.
+
+Primary/doubled/stress CAGR `25,0336%/24,6070%/24,1113%`, Sharpe
+`1,2392/1,2188/1,1993`, MDD `17,4210%/17,5226%/16,8766%`. Относительно V39 MDD
+улучшена на `2,6111/2,6366/2,5583 п.п.`, worst year — на
+`0,7425/0,7509/0,4224 п.п.`; primary стал положительным во все пять лет, включая
+2025 `+0,2264%` вместо `−0,5162%`. Все stress CAGR остаются выше 20%.
+
+Strict verdict `NO_GO`, потому что заранее обязательный Sharpe gate ухудшился на
+`0,0122/0,0129/0,0196`; остальные три gates true. Это не повод подбирать вес после
+результата. Frozen 80/20 можно считать отдельной более консервативной historical
+альтернативой V39, но только новый forward период может решить, воспроизводится ли
+снижение drawdown. Live false, результат same-history adaptive.
+
 ## Новый стабильный sleeve: covered stock–futures cash-and-carry V1 — NO-GO standalone
 
 После провала несинхронного dividend-spread направления запечатан принципиально иной
