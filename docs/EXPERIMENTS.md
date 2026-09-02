@@ -1,6 +1,26 @@
 ﻿# Реестр экспериментов
 
-## Broad historical stock-futures carry intraday source V1 — SEALED, values unopened
+## Forward delayed-BBO V2 sources — SEALED, automation confirmed
+
+- Before any V2 quote, cross config SHA `d4d8910c...` and broad config SHA
+  `cb753e01...` were sealed in commit `b152720`. V2 changes source completeness only:
+  positive two-sided BBO, clocks and exact units are required; unavailable anonymous
+  depth remains explicit unresolved. Delayed public ISS is never called realtime or
+  fill evidence.
+- Implementation `7b7b031`. First immutable 10:29 snapshots replay exactly (`16/16`):
+  cross has 34/35 quote-complete core rows and status `invalid_core_quotes` because
+  `CNYRUB_TOM` is missing; broad has 30/30 and `complete_30_pair_quotes`. Cross raw/
+  normalized SHA `f9c94550.../c7c1037d...`; broad raw/pairs SHA
+  `cd6f4104.../bbb450ea...`.
+- The scheduled 10:39 repetition also exited 0. Cross remained 34/35; broad remained
+  30/30. Both snapshots pass raw replay. V1 tasks stay disabled; V2 tasks
+  `TradingLabForwardCrossMarketBBO10mV2` and
+  `TradingLabForwardBroadStockFuturesCarry10mV2` are enabled every 10 minutes.
+- Readiness after two snapshots: cross 0 quote-complete snapshots; broad 2, but 0/20
+  complete sessions until a session has at least 30. No basis, signal, trade, PnL,
+  annualization or live promotion is allowed.
+
+## Broad historical stock-futures carry intraday source V1 — COMPLETE AND AUDITED
 
 - Metadata-only official series preflight found 339 outright 2023–2025 contracts for
   29 of the fixed 30 stocks; ENPG has explicit zero coverage. No selected candle,
@@ -8,6 +28,10 @@
 - Config SHA `6bc8f4a2...`, seal `6726883`; collector/test commit `1b169f7`. The source
   rejects spreads/perpetuals, preserves historical asset-code changes, validates RFUD
   descriptions/units and forbids every candle at or after `2026-01-01`.
+- Canonical external bundle contains 339 specs, 2,132,435 candles and 4,800 exact raw
+  responses. Specs/candles/raw SHA are `94104d5c.../0f254379.../624460af...`;
+  manifest replay audit is `14/14 true`. Coverage is 29 stocks and ENPG remains
+  explicit missing. Values were first opened only after the source protocol seal.
 - The only later economic change allowed is breadth. V1 entry threshold, DTE, time,
   cashflow haircut and costs stay frozen; executable BID/OFFER still requires the
   separate forward source.

@@ -93,22 +93,24 @@ Get-Content .\configs\futures_v9_structural_execution.sha256
 Ручной запуск только внутри sealed slot `10:09..18:39` МСК:
 
 ```powershell
-.\scripts\run_forward_cross_market_bbo.ps1
+.\scripts\run_forward_cross_market_bbo_v2.ps1
 ```
 
 Readiness и exact replay отдельного снимка:
 
 ```powershell
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.forward_cross_market_bbo_readiness
+  market_lab.futures.forward_delayed_bbo_v2_readiness
 
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.moex_forward_cross_market_bbo_source `
+  market_lab.futures.moex_forward_cross_market_bbo_source_v2 `
   --audit-directory <snapshot-directory>
+
+.\scripts\register_forward_delayed_bbo_v2_tasks.ps1
 ```
 
-Windows task `TradingLabForwardCrossMarketBBO10m` запускается по будням каждые 10
-минут с 10:09 до 18:39. Не запускать historical backfill и не удалять invalid snapshot:
+Windows task `TradingLabForwardCrossMarketBBO10mV2` запускается по будням каждые 10
+минут с 10:09 до 18:39. V1 task отключён. Не запускать historical backfill и не удалять invalid snapshot:
 он является частью operational evidence. До 20 полных discovery sessions outcomes и
 PnL запрещены. Полный контракт:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
@@ -116,19 +118,20 @@ PnL запрещены. Полный контракт:
 ### Forward broad 30-stock futures carry
 
 ```powershell
-.\scripts\run_forward_broad_stock_futures_carry.ps1
+.\scripts\run_forward_broad_stock_futures_carry_v2.ps1
 
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.forward_broad_stock_futures_carry_readiness
+  market_lab.futures.forward_delayed_bbo_v2_readiness
 
 .\.venv\Scripts\python.exe -m `
-  market_lab.futures.moex_forward_broad_stock_futures_carry_source `
+  market_lab.futures.moex_forward_broad_stock_futures_carry_source_v2 `
   --audit-directory <snapshot-directory>
 ```
 
-Task `TradingLabForwardBroadStockFuturesCarry10m`: Mon–Fri, `10:09`, `PT10M` for
+Task `TradingLabForwardBroadStockFuturesCarry10mV2`: Mon–Fri, `10:09`, `PT10M` for
 `PT8H31M`. До 20 полных discovery sessions не считать basis/rank/PnL. Missing pair или
-fractional `LOTVOLUME/LOTSIZE` остаётся invalid и не заменяется нулём. Полный контракт:
+fractional `LOTVOLUME/LOTSIZE` остаётся invalid и не заменяется нулём. V2 хранит
+delayed BBO, а depth/size/queue/fill оставляет unresolved. Полный контракт:
 [FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
 
 ## 4. Воспроизведение V9

@@ -75,3 +75,12 @@ PT8H31M. Invalid snapshot сохраняется и не считается ну
 Public BBO/depth не доказывает queue/fill. Current contract metadata не заменяет broker
 delivery/tax rules. Наличие 30 пар не гарантирует, что basis после всех расходов будет
 положительным. Source не разрешает live trading.
+
+## V2: delayed-BBO source correction
+
+Первый V1 snapshot дал 30/30 двусторонних пар, но anonymous ISS не предоставил
+futures depth. До следующей котировки запечатан V2 config SHA `cb753e01...`, seal
+`b152720`: BBO/clocks/exact contract units обязательны, depth/size/queue/fill и
+realtime остаются unresolved. Wrapper:
+`scripts/run_forward_broad_stock_futures_carry_v2.ps1`; task:
+`TradingLabForwardBroadStockFuturesCarry10mV2`. V1 task отключён.

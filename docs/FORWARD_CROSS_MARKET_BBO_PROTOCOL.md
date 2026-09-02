@@ -82,3 +82,12 @@ Public BBO не доказывает queue priority или fill. Cumulative mark
 AlgoPack TradeStats/OrderStats/OBStats; после появления `MOEX_ALGOPACK_TOKEN` богатый
 источник подключается отдельным protocol, не задним backfill. Накопление snapshots не
 гарантирует прибыль и не разрешает торговлю реальными деньгами.
+
+## V2: delayed-BBO source correction
+
+После первого V1 snapshot anonymous ISS подтвердил двусторонний BBO, но не вернул
+значения best depth и показал задержку примерно 15 минут. До следующего значения были
+запечатаны V2 config SHA `d4d8910c...` и seal `b152720`. V2 требует BBO, clocks и
+identity, но depth хранит как unresolved; realtime, size, queue и fill не утверждаются.
+Wrapper: `scripts/run_forward_cross_market_bbo_v2.ps1`; task:
+`TradingLabForwardCrossMarketBBO10mV2`. V1 task отключён.

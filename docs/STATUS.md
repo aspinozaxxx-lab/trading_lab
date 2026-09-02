@@ -64,6 +64,29 @@ post-result same-history robustness: он не выбирает фонд, не �
 Новых regression failures нет. Repo-wide ruff всё ещё видит 58 legacy V8/V9/style
 нарушений вне V42; они не исправлялись в этом эксперименте.
 
+### Delayed-BBO V2 — SEALED, AUTOMATION CONFIRMED, source discovery active
+
+V1 установил фактическое ограничение anonymous ISS: BBO задержан примерно на 15 минут,
+а best depth не выдаётся. До следующей quote запечатаны source-only corrections:
+cross SHA `d4d8910c...`, broad SHA `cb753e01...`, seal `b152720`; implementation
+`7b7b031`. V2 требует BBO/clocks/identity/units, но явно оставляет depth, realtime,
+size, queue и fill unresolved. Universe, schedule, requests и будущая экономика V1 не
+изменены.
+
+Первые ручные immutable snapshots в 10:29 прошли replay `16/16`. Cross имеет 34/35
+quote-complete core rows (`CNYRUB_TOM` missing), status `invalid_core_quotes`, raw/
+normalized SHA `f9c94550.../c7c1037d...`. Broad имеет 30/30, status
+`complete_30_pair_quotes`, raw/pairs SHA `cd6f4104.../bbb450ea...`. Scheduled repeat
+10:39 завершился кодом 0 для обоих: cross снова 34/35, broad снова 30/30, audits all
+true. Readiness: cross `0` complete snapshots, broad `2`, complete sessions `0/20`.
+
+V1 tasks отключены. V2 tasks
+`TradingLabForwardCrossMarketBBO10mV2` и
+`TradingLabForwardBroadStockFuturesCarry10mV2` включены Mon–Fri, `10:09..18:39`,
+каждые 10 минут. Воспроизводимая регистрация находится в
+`scripts/register_forward_delayed_bbo_v2_tasks.ps1`. Это delayed source discovery,
+не realtime timing, не execution evidence и не найденная прибыль.
+
 ### Forward cross-market BBO V1 — FIRST SNAPSHOT AUDITED, depth unavailable, task paused
 
 Открыт новый forward-only путь вместо дальнейшего same-history leverage tuning.
@@ -151,7 +174,7 @@ single-stock calendar-spread family не масштабируется на ве�
 узким forward challenger; создавать фиктивные дальние контракты или считать outright
 BBO атомарным multileg fill запрещено.
 
-### Broad historical cash-carry source — SEALED, collector ready, values unopened
+### Broad historical cash-carry source — COMPLETE, 2.13M CANDLES AUDITED
 
 Metadata-only `show_expired=1` preflight по exact `underlying_asset` нашёл `339`
 outright-контрактов 2023–2025 для `29/30` fixed stocks: по 12 серий у большинства,
@@ -164,13 +187,20 @@ Source config SHA `6bc8f4a2...`, seal `6726883`; collector/test commit `1b169f7`
 Collector жёстко ограничивает candles датой `<2026-01-01`, проверяет description
 `TYPE=futures`, RFUD board, exact asset code и положительный integer `LOTSIZE`, хранит
 все raw series/description/candle pages и делает replay audit. Targeted tests `2/2`,
-scoped Ruff clean. Тяжёлую загрузку запускать после первых operational forward-срезов,
-чтобы не мешать задачам 10:05/10:09. После source completion допустим ровно один новый
-economic protocol: frozen V1 threshold/DTE/time/haircut/costs, меняется только breadth.
-Это новая проверка возможности поднять частоту и диверсификацию, не найденная прибыль.
+scoped Ruff clean. Collection завершён после первых operational forward-срезов, чтобы
+не мешать задачам 10:05/10:09. Допустим ровно один новый economic protocol: frozen V1
+threshold/DTE/time/haircut/costs, меняется только breadth. Это новая проверка
+возможности поднять частоту и диверсификацию, не найденная прибыль.
 Полная регрессия после source implementation: `1141 passed, 7 skipped`; два прежних
 V8 context failures остаются только из-за отсутствующего external manifest, новых
 failures нет.
+
+Canonical external bundle завершён в 10:35 и независимо replay-аудирован: 339 specs,
+`2,132,435` 10m candles, 4,800 raw responses; specs/candles/raw SHA
+`94104d5c.../0f254379.../624460af...`, audit `14/14 true`. Coverage 29/30; ENPG
+остаётся missing. Следующий шаг уже не collection: preseal и один economic breadth
+test с exact per-contract `lot_size_shares`, frozen 15:40/15:50, 30–90 DTE, exit 5
+DTE, haircut 50%, hurdle `max(20%, RUONIA+4%)` и теми же costs.
 
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
