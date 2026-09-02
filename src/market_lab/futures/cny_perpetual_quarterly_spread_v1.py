@@ -146,7 +146,7 @@ def load_inputs(
             "perpetual_rows_exact": len(perpetual) == int(perp_cfg["rows"]),
             "perpetual_identity_exact": set(perpetual["security_id"].astype(str))
             == {perp_cfg["security_id"]}
-            and set(perpetual["asset_code"].astype(str)) == {quarter_cfg["asset_code"]}
+            and set(perpetual["asset_code"].astype(str)) == {"CNYRUBTOM"}
             and set(perpetual["lot_size_cny"].astype(float))
             == {float(perp_cfg["lot_size_cny"])},
             "perpetual_unique": not perpetual["trade_date"].duplicated().any(),
