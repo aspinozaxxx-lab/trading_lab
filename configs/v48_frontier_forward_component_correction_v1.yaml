@@ -1,0 +1,69 @@
+﻿protocol_id: v48_frontier_forward_component_correction_v1
+protocol_version: 1
+status: sealed_before_first_market_decision_or_any_forward_economic_outcome
+declared_at_utc: '2026-09-02T11:03:36Z'
+research_only: true
+live_trading_allowed: false
+
+parent_forward:
+  protocol_path: configs/v48_frontier_forward_validation_v1.yaml
+  protocol_sha256: 1fbc8c10e3bbe9be2ebc39157b08889ff18aadbe193daa7cecb4f48e6ac54f24
+  inheritance: all_economics_mode_execution_cost_phase_and_promotion_gates
+
+source_correction:
+  reason: >-
+    The atomic V27 V2 source discarded valid MOEX and CBR observations whenever FRED
+    was unavailable. Independent component persistence removes that availability
+    coupling while preserving each actual retrieval time and every causal join gate.
+  economic_hypothesis_changed: false
+  V48_mode_or_parameter_changed: false
+  V39_signal_or_option_state_changed: false
+  endpoint_query_normalization_or_schema_changed: false
+  execution_mark_or_cost_changed: false
+  forward_outcomes_inspected_before_seal: false
+  source_only_values_inspected: true
+
+component_source:
+  protocol_path: configs/futures_v27_forward_components_v1.yaml
+  protocol_sha256: 242d2684a76699c97fa7bc521ffd44045ee111b4f976f6e37fcfa4613da58110
+  implementation_path: src/market_lab/futures/moex_v27_forward_component_source.py
+  implementation_sha256: 026fef9f655eef01d2b3cab529637d853313622734c21e97b3de81ff29ce0a3f
+  readiness_path: src/market_lab/futures/v27_forward_component_readiness.py
+  readiness_sha256: d7b4d30a560af0e56891043cae9e89d8664edcb4aba80fb9f9b91dfabbcb6d46
+  root: data/forward/v27-validation-v3-components
+
+option_source:
+  protocol_path: configs/moex_forward_option_surface_source_v1.yaml
+  protocol_sha256: a33c86b4440a0c14fceac4c5a2e3bdd580e3ff9964bfcb375a4ba09f83529eaa
+  root: data/forward/moex-options-surface-v1
+  semantics_changed: false
+
+causal_admission:
+  option_weekly_levels_required: 54
+  market_decision_common_official_CLOSE_required: 253
+  execution_component_required_before_order: true
+  latest_FRED_retrieved_at_lte_decision_at_required: true
+  latest_CBR_retrieved_at_lte_decision_at_required: true
+  future_macro_may_repair_past_decision: false
+  missing_macro_at_decision: cash_all_assets
+  missing_execution_at_order: cancel_all_orders
+  unseen_evaluation_sessions: 504
+  unseen_weekly_decisions: 104
+  annualization_before_evaluation_complete: forbidden
+
+state_at_seal:
+  atomic_V27_V2_valid_snapshots: 0
+  component_market_execution_dates: 1
+  component_market_decision_dates: 0
+  component_CBR_snapshots: 1
+  component_FRED_snapshots: 0
+  option_weekly_levels: 1
+  forward_signal_return_target_prediction_or_PnL_computed: false
+  paper_economics_may_start: false
+
+supersession:
+  V48_readiness_v1: source_mapping_superseded_before_first_market_decision
+  V27_atomic_V2_collector: retained_for_replay_only_no_new_scheduled_writes
+  V48_fixed_frontier_mode: unchanged
+  live_trading_allowed: false
+
