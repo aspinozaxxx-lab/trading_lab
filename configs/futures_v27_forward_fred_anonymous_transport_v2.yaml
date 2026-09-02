@@ -1,0 +1,76 @@
+﻿protocol_id: futures_v27_forward_fred_anonymous_transport_v2
+protocol_version: 2
+status: sealed_after_header_transport_probe_before_first_successful_component_response
+declared_at_utc: '2026-09-02T22:00:42Z'
+scope: anonymous_FRED_transport_headers_only_no_series_or_economic_change
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Capture the same official FRED STLFSI4 fredgraph CSV after the former custom User-Agent
+  was shown to time out at the CDN. Change only HTTP request headers, preserve the exact
+  endpoint, query, parser, availability rule and component schema, and never use market
+  or response values to select the route.
+
+parent_component_source:
+  protocol_path: configs/futures_v27_forward_components_v1.yaml
+  protocol_sha256: 242d2684a76699c97fa7bc521ffd44045ee111b4f976f6e37fcfa4613da58110
+  implementation_path: src/market_lab/futures/moex_v27_forward_component_source.py
+  implementation_sha256: 026fef9f655eef01d2b3cab529637d853313622734c21e97b3de81ff29ce0a3f
+  parser_path: src/market_lab/futures/moex_v27_forward_validation_source.py
+  parser_sha256: 7a6f5732743f12ad8ec9bfcc1fca5d9bbae6aedde41af1b07d2c8ea0cae5c32c
+
+official_source:
+  provider: Federal_Reserve_Bank_of_St_Louis_FRED
+  endpoint: https://fred.stlouisfed.org/graph/fredgraph.csv
+  series_id: STLFSI4
+  observation_lookback_days: 400
+  query_fields: [id, cosd, coed]
+  query_and_date_bounds_changed_from_parent: false
+  parser_and_output_columns_changed_from_parent: false
+  model_and_forward_availability_changed_from_parent: false
+
+transport_diagnosis:
+  diagnosed_at_utc: '2026-09-02T21:58:00Z'
+  service_user: trading-lab
+  prior_user_agent: market-lab-v27-forward-validation/2.0 (research)
+  prior_result: repeatable_read_timeout_15_to_30_seconds
+  candidate_user_agent: >-
+    Mozilla/5.0 (compatible; MarketLabResearch/1.0;
+    +https://github.com/aspinozaxxx-lab/trading_lab)
+  candidate_result: HTTP_200
+  candidate_response_bytes_in_transport_probe: 1108
+  response_payload_values_read: false
+  market_prices_returns_or_pnl_used: false
+
+request_headers:
+  User-Agent: >-
+    Mozilla/5.0 (compatible; MarketLabResearch/1.0;
+    +https://github.com/aspinozaxxx-lab/trading_lab)
+  Accept: text/csv
+  Accept-Encoding: identity
+  Connection: close
+
+retry:
+  attempts: 3
+  timeout_seconds: 30
+  backoff_seconds: [1, 2]
+  change_endpoint_query_or_parser_after_failure: forbidden
+  fallback_to_cache_or_other_series: forbidden
+
+storage:
+  root: data/forward/v27-validation-v3-components
+  raw_csv_gzip: required
+  processed_macro_parquet: required
+  immutable_manifest_and_replay_audit: required
+  signal_return_target_prediction_or_pnl: forbidden
+
+state_at_seal:
+  anonymous_FRED_snapshots: 0
+  authenticated_FRED_snapshots: 0
+  forward_economic_outcomes_computed: false
+
+limitations:
+  - A successful header probe does not guarantee future CDN availability.
+  - Current-vintage FRED observations remain available no earlier than actual retrieval.
+  - The transport correction does not prove return or authorize live trading.
