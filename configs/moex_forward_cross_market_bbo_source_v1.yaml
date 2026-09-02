@@ -1,0 +1,166 @@
+﻿protocol_id: moex_forward_cross_market_bbo_source_v1
+protocol_version: 1
+status: sealed_before_first_cross_market_snapshot
+declared_at_utc: '2026-09-02T05:40:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Accumulate immutable causal ten-minute public-MOEX snapshots for continuous trade
+  timing and cross-market learning. Preserve executable-side quotes, depth, cumulative
+  activity and exchange/retrieval clocks without computing returns, labels, signals,
+  predictions, trades or PnL.
+
+hypotheses_enabled_after_forward_accumulation:
+  - neural_selection_of_repeated_intraday_decision_times_instead_of_one_daily_forecast
+  - cross_asset_state_learning_across_equities_futures_fx_and_idle_cash_instruments
+  - spread_depth_and_activity_aware_abstention_and_execution_admission
+  - volatile_corridor_profit_taking_with_predeclared_distant_defined_stop
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill: forbidden
+  protected_historical_experiments_must_never_read_this_source: true
+  current_and_future_observations_only: true
+
+universe:
+  equities:
+    board: TQBR
+    secids:
+      - AFKS
+      - AFLT
+      - ALRS
+      - BSPB
+      - CBOM
+      - CHMF
+      - ENPG
+      - GAZP
+      - GMKN
+      - IRAO
+      - LKOH
+      - MAGN
+      - MGNT
+      - MOEX
+      - MTSS
+      - NLMK
+      - NVTK
+      - PHOR
+      - PLZL
+      - ROSN
+      - RTKM
+      - RUAL
+      - SBER
+      - SBERP
+      - SNGS
+      - SNGSP
+      - TATN
+      - TATNP
+      - TRNFP
+      - VTBR
+  futures:
+    board: RFUD
+    logical_assets: [SI, RI, BR, MIX]
+    nearest_contract_minimum_calendar_days_to_expiry: 7
+    selection: nearest_metadata_expiry_then_lexicographic_secid
+    selection_must_not_use_price_volume_return_label_signal_or_pnl: true
+  fx:
+    board: CETS
+    secids: [CNYRUB_TOM]
+  idle_cash_context:
+    board: TQBR
+    secids: [LQDT, SBMM, AKMM, TMON]
+    context_only_before_separate_execution_protocol: true
+
+schedule:
+  timezone: Europe/Moscow
+  trading_weekdays_only: true
+  first_snapshot_local_time: '10:09:00'
+  last_snapshot_local_time: '18:39:00'
+  interval_minutes: 10
+  snapshot_time_is_retrieval_not_assumed_exchange_publication_time: true
+  duplicate_scheduled_slot: forbidden
+
+official_sources:
+  provider: Moscow_Exchange_MOEX_ISS
+  access_mode: anonymous_public_ISS_may_be_delayed
+  futures_series: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  equities_bulk: https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json
+  futures_bulk: https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities.json
+  fx_bulk: https://iss.moex.com/iss/engines/currency/markets/selt/boards/CETS/securities.json
+  raw_HTTP_payloads_preserved: true
+
+required_market_fields:
+  identity: [SECID, BOARDID]
+  executable_prices: [BID, OFFER]
+  best_depth: [BIDDEPTH, OFFERDEPTH]
+  optional_total_depth: [BIDDEPTHT, OFFERDEPTHT, NUMBIDS, NUMOFFERS]
+  optional_state:
+    - TRADINGSTATUS
+    - OPEN
+    - HIGH
+    - LOW
+    - LAST
+    - WAPRICE
+    - VOLUME
+    - VALTODAY
+    - VALUE
+    - NUMTRADES
+    - OPENPOSITION
+  clocks_any_available: [SYSTIME, UPDATETIME, SEQNUM]
+  positive_nonlocked_two_sided_quote_required_for_core_validity: true
+  positive_best_depth_required_for_core_validity: true
+  missing_value_is_never_zero_imputed: true
+
+temporal_semantics:
+  retrieved_at_utc_is_hard_lower_bound_on_availability: true
+  exchange_clocks_preserved_but_not_substituted_for_retrieval_time: true
+  a_snapshot_can_only_be_a_feature_for_a_strictly_later_decision: true
+  anonymous_delay_must_be_measured_and_reported: true
+  future_label_requires_a_later_immutable_snapshot: true
+
+collection:
+  bulk_requests_per_snapshot: 4
+  atomic_immutable_snapshot_directory: true
+  preserve_partial_rows_with_explicit_snapshot_status: true
+  core_universe_requires_all_30_equities_4_futures_and_CNY: true
+  idle_cash_context_missing_does_not_invalidate_core: true
+  network_retries: 3
+  request_timeout_seconds: 30
+
+output:
+  root: data/forward/moex-cross-market-bbo-v1
+  contents_in_git: false
+  snapshot_prefix: snapshot
+  immutable: true
+
+readiness:
+  discovery_sessions_source_only: 20
+  calibration_sessions_after_separate_economic_seal: 20
+  unseen_evaluation_sessions_after_calibration: 60
+  minimum_complete_core_snapshots_per_session: 30
+  returns_labels_signals_predictions_trades_or_pnl_before_discovery: forbidden
+  annualization_before_unseen_evaluation: forbidden
+
+future_comparisons_predeclared:
+  - full_cross_market_neural_timing
+  - same_architecture_price_only_ablation
+  - fixed_non_neural_baseline
+  - always_abstain_baseline
+  - primary_doubled_and_stress_execution_costs
+
+forbidden_outputs:
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Anonymous ISS can be delayed and does not provide order-level queue priority.
+  - Repeated snapshots are observations, not evidence that a broker order would fill.
+  - Broker fees, margin, short locate, borrow and rejection logs remain separate inputs.
+  - Forward source accumulation cannot guarantee profit or authorize live trading.
