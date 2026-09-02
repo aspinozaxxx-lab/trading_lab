@@ -56,11 +56,11 @@ audit SHA `5954d258...`, 17/17 checks true. Двусторонние полож�
 
 ## Автоматическое накопление
 
-Windows task `TradingLabForwardOptionSurface` запускает
-`scripts/collect_forward_option_surface.ps1` Mon–Fri в 23:55 UTC+3. Wrapper сначала
+Server timer `trading-lab-option-surface.timer` запускает
+`market_lab.ops.forward_collector --job option-surface` Mon–Fri в 23:55 UTC+3. Dispatcher сначала
 запрашивает только текущую `TRADE_SESSION_DATE`; существующая дата означает clean skip,
 новая — единственный полный snapshot. Task использует `StartWhenAvailable`, запрещает
-параллельные экземпляры и останавливает зависший run через 10 минут. Состояние task и
+параллельные экземпляры и останавливает зависший run через 15 минут. Состояние timer и
 число уникальных source dates нужно проверять при каждом продолжении исследования.
 Проверка выполняется модулем `market_lab.futures.forward_option_readiness`: он повторяет
 raw replay audit, исключает invalid/duplicate dates из прогресса и держит явные gates

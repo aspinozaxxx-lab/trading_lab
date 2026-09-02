@@ -92,17 +92,17 @@ preflight commit `05a1f74` ничего не вычисляет кроме sourc
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v3-components
 ```
 
-Tasks: `TradingLabV27ForwardExecution` и `TradingLabV27ForwardDecision`. Wrapper не
+Server timers: `trading-lab-v27-execution.timer` и
+`trading-lab-v27-decision.timer`. Dispatcher не
 создаёт второй audited market component одинакового `kind + source_date`; macro
 сохраняется максимум один раз на текущую UTC/source date. Required market failure
 останавливает task, optional FRED/CBR failure остаётся явным в readiness. Каталоги
 forward data и будущего paper PnL находятся вне Git.
 
-Для authenticated FRED route ключ задаётся только вне репозитория, например в
-пользовательской переменной среды Windows. Не вставлять его в командную строку,
-PowerShell wrapper, YAML или документацию. После перезапуска процесса Планировщика
-wrapper сам выберет API route; readiness показывает только boolean `configured` и
-раздельные anonymous/authenticated counts.
+Для authenticated FRED route ключ задаётся только вне репозитория в server file
+`/etc/trading-lab/collector.env`. Не вставлять его в командную строку, YAML или
+документацию. Следующий service process сам выберет API route; readiness показывает
+только boolean `configured` и раздельные anonymous/authenticated counts.
 
 ```powershell
 .\.venv\Scripts\python.exe -m `

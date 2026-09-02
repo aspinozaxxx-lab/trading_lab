@@ -830,6 +830,16 @@ audit по sealed protocol id и раздельно считает оба FRED r
 `v48_frontier_forward_readiness_v3` добавляет только route/key-availability state к
 неизменной V48 economics.
 
+### `market_lab.ops.forward_collector` и systemd
+
+Кроссплатформенный operational dispatcher запускает 13 forward jobs на
+`gpu-mlserver`: повторяющиеся BBO/carry snapshots, три decision/fill пары, CNY, RMS,
+options и два V27 этапа. Он не содержит trading economics, но переносит idempotency и
+audit semantics прежних PowerShell wrappers. Systemd template работает от отдельного
+`trading-lab`, имеет read-only system/repo и единственный writable root
+`/srv/trading_lab_data`. Локальный Task Scheduler отключён, чтобы authoritative writer
+был ровно один.
+
 ### `market_lab.futures.online_expert_ensemble`
 
 Outcome-agnostic V36 core строит десять fixed causal experts на объединённом daily

@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo_root="${1:-/opt/trading_lab}"
 storage_root="${2:-/srv/trading_lab_data}"
-runtime_default="/opt/Tester/market-lab-seq-v1/python/cpython-3.11.4-linux-x86_64-gnu/bin/python3.11"
+runtime_default="/opt/trading_lab_runtime/cpython-3.11.4/bin/python3.11"
 python_runtime="${TRADING_LAB_PYTHON:-$runtime_default}"
 
 if [[ "$(id -u)" -ne 0 ]]; then

@@ -54,11 +54,18 @@ component SHA `2954c5a4...`, implementation `4a283074...`, V48 route correction
 не сериализуется, а после authenticated HTTP/parse failure anonymous fallback запрещён.
 Сейчас key configured `false`, anonymous/authenticated snapshots `0/0`.
 
-Все `16` Windows tasks `TradingLab*` переведены на фоновый запуск
-`powershell.exe -WindowStyle Hidden -NonInteractive`. XML verification подтвердил, что
-расписания, principal, Enabled/Disabled и остальные параметры не менялись. Все repo
-registration scripts также закрепляют hidden mode, поэтому окна не вернутся после
-перерегистрации; отдельная Windows Service не требуется.
+Forward collection перенесён на `gpu-mlserver`: commit `bd1f63c` добавил
+cross-platform dispatcher и 13 native systemd timers, серверные каталоги
+`/opt/trading_lab` и `/srv/trading_lab_data`, отдельного пользователя `trading-lab` и
+защищённый environment file вне Git. Все прежние данные (`311` files, `2 616 600`
+bytes) перенесены без изменения общего byte count. Первый автоматический server cycle
+`2026-09-02 14:59` создал cross-market и broad-carry snapshots; оба завершились
+`Result=success`, `ExecMainStatus=0` и прошли raw replay `all_true=true`.
+
+После этого все `16` локальных Windows tasks `TradingLab*` отключены (`13` active
+выключены, `3` уже были disabled). Definitions не удалены и остаются только аварийным
+fallback; одновременно с server timers включать их запрещено. Подробности —
+`docs/SERVER_COLLECTORS.md`.
 
 ## V47 normalized risk ladder — NEW HISTORICAL FRONTIER, exact execution unproved
 
@@ -1866,8 +1873,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 1. Не менять V41 80/20, 50% RUONIA, DTE 30–90, times, cashflow haircut или costs.
    V42R2 уже доказал только same-history устойчивость CAGR к fund TER/tax/switching;
    не использовать его для изменения веса или выбора фонда до forward discovery.
-2. Проверять tasks `TradingLabForwardCashCarryDecision` (15:49) и
-   `TradingLabForwardCashCarryFill` (15:59), затем paired readiness. Сейчас 0/60
+2. Проверять server timers `trading-lab-cash-carry-decision.timer` (15:49) и
+   `trading-lab-cash-carry-fill.timer` (15:59), затем paired readiness. Сейчас 0/60
    discovery, 0/20 calibration, 0/60 unseen evaluation.
 3. Invalid/sleep snapshot не считать парой; не заменять missing BID/OFFER/clock нулём.
    Anonymous ISS не доказывает latency, size, queue или fill.
@@ -1882,7 +1889,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 6. Канонический discovery count для V41 — joint depth admission `8183eb50...`, а не
    отдельные quote counts. Дата проходит только при 10 stock/futures depth gates,
    positive LQDT depth и same-stage skew `<=30s`.
-7. Проверять `TradingLabForwardFundPoolDecision/Fill` и readiness фиксированного пула
+7. Проверять server timers `trading-lab-fund-pool-decision/fill.timer` и readiness фиксированного пула
    LQDT/SBMM/AKMM/TMON. До 60 пар не вычислять spread ranking, yield или PnL; состав
    пула после первого значения не менять.
 
@@ -1890,8 +1897,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. Не менять parent V27 SHA `7a9a44cf...`, horizons `21/63/126/252`, STLFSI4 `0`,
    key rate `20%`, 2x, RUONIA haircut `50%`, buffer/cost/capacity.
-2. Каждый следующий сеанс проверить обе scheduled tasks и
-   `v27_forward_validation_readiness`; invalid snapshot не считать в coverage.
+2. Каждый следующий сеанс проверить server timers `trading-lab-v27-decision.timer` и
+   `trading-lab-v27-execution.timer`, затем component readiness; invalid snapshot не
+   считать в coverage.
 3. Первые 253 common official CLOSE дают 252 return sessions и являются только warmup.
    Затем неизменяемый paper runner
    использует минимум 504 sessions; до этого не вычислять/публиковать V27 forward CAGR.
@@ -1904,7 +1912,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    V1–V3 output не восстанавливать. V38 является canonical `NO_GO`, поэтому MR1
    threshold/age/persistence, MR2/MR3 substitution, global switch и sign inversion на
    2021–2025 запрещены.
-2. Проверять task `TradingLabForwardMoexRms` и readiness; сейчас 0/60 discovery.
+2. Проверять server timer `trading-lab-moex-rms.timer` и readiness; сейчас 0/60 discovery.
    Snapshot обязан быть post-seal, raw-replayed и не содержать price/return/PnL.
 3. MR1 использовать в будущем прежде всего как broker/exchange admission input:
    фактический margin reserve и capacity, а не как ещё один tuned alpha switch.
@@ -1931,8 +1939,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 3. Начать forward-only snapshot потока `CNYRUBF`/ближайших CR после отдельного seal;
    сохранять bid/ask, `SWAPRATE`, specs/IM и retrieval time. Historical 2026 backfill
    запрещён. Source SHA `1305af9d...`, collector `13371f2`, readiness `7abf796` уже
-   pushed. Task `TradingLabForwardCnyRelativeValue` имеет status `Ready`, следующий
-   запуск `2026-09-02 18:30`, затем Mon–Fri. Сейчас 0/40 discovery, 0/20 calibration,
+   pushed. Server timer `trading-lab-cny-relative-value.timer` запускается в 18:30
+   Mon–Fri. Сейчас 0/40 discovery, 0/20 calibration,
    0/60 unseen evaluation; до заранее заданного paper периода PnL не считать.
 4. Автоматический option-surface collector оставить активным: сейчас 1/60 discovery,
    затем 20 calibration и 40 unseen evaluation; naked short options запрещены.

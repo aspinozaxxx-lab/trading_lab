@@ -39,6 +39,8 @@
     — 30 fully-funded пар для расширения стабильного cash-carry sleeve.
 18. [Forward V48 frontier](docs/FORWARD_V48_FRONTIER_PROTOCOL.md) — единственный
     зафиксированный aggressive mode `1.50x` и его joint warmup/evaluation gates.
+19. [Серверные collectors](docs/SERVER_COLLECTORS.md) — authoritative `gpu-mlserver`,
+    systemd timers, каталоги, журнал и безопасный аварийный откат.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
@@ -92,3 +94,8 @@
 
 Некоторые модули пока вычисляют `PROJECT_ROOT/data` и `PROJECT_ROOT/runs`; junctions нужны
 для совместимости до отдельного рефакторинга путей.
+
+Forward collection выполняется только на `gpu-mlserver`. Все локальные Windows
+`TradingLab*` tasks отключены; не включай их, пока server timers активны. Не передавай
+серверу GitHub credentials и не сохраняй API tokens вне
+`/etc/trading-lab/collector.env`.

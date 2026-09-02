@@ -73,8 +73,9 @@ maximum hold, overlap и risk должны быть запечатаны до ca
   --audit-directory <snapshot-directory>
 ```
 
-Task `TradingLabForwardCrossMarketBBO10m` должен запускать wrapper по будням каждые
-10 минут с 10:09 до 18:39 МСК. Повтор одного slot fail-closed и не перезаписывает данные.
+Authoritative timer `trading-lab-cross-market.timer` на `gpu-mlserver` запускается по
+будням каждые 10 минут с 10:09 до 18:39 МСК. Повтор одного slot fail-closed и не
+перезаписывает данные.
 
 ## Ограничения
 
@@ -89,8 +90,8 @@ AlgoPack TradeStats/OrderStats/OBStats; после появления `MOEX_ALGO
 значения best depth и показал задержку примерно 15 минут. До следующего значения были
 запечатаны V2 config SHA `d4d8910c...` и seal `b152720`. V2 требует BBO, clocks и
 identity, но depth хранит как unresolved; realtime, size, queue и fill не утверждаются.
-Wrapper: `scripts/run_forward_cross_market_bbo_v2.ps1`; task:
-`TradingLabForwardCrossMarketBBO10mV2`. V1 task отключён.
+Исторический wrapper: `scripts/run_forward_cross_market_bbo_v2.ps1`; все локальные
+V1/V2/V3 Windows tasks теперь отключены, production job — server V3 dispatcher.
 
 ## V3: CNY source-completeness correction
 

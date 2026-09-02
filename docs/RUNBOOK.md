@@ -53,23 +53,22 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\market-lab.exe doctor
 ```
 
-### Фоновые scheduled collectors без всплывающих окон
+### Authoritative server collectors
 
-Все repo registration scripts создают PowerShell actions с
-`-WindowStyle Hidden -NonInteractive`. Поэтому отдельная Windows Service не нужна:
-Task Scheduler хранит расписание, запускает wrappers в фоне и продолжает сохранять
-данные во внешнее хранилище. После изменения registration script перерегистрировать
-только соответствующую задачу; вручную удалять tasks не требуется. Проверка:
+Forward snapshots собирает только `gpu-mlserver` через native systemd services/timers.
+Код находится в `/opt/trading_lab`, данные — в `/srv/trading_lab_data`, процесс работает
+от пользователя `trading-lab`. Все 16 локальных Windows definitions `TradingLab*`
+отключены и служат только recoverable fallback; не включать их, пока server timers
+активны.
 
 ```powershell
-schtasks.exe /query /fo CSV /v |
-  ConvertFrom-Csv |
-  Where-Object { $_.TaskName -like '\TradingLab*' } |
-  Select-Object TaskName, Status, 'Task To Run', 'Next Run Time'
+ssh gpu-mlserver 'systemctl list-timers --all --no-pager "trading-lab-*"'
+ssh gpu-mlserver 'systemctl --failed --no-pager "trading-lab-*"'
 ```
 
-У каждого PowerShell action должен присутствовать `-WindowStyle Hidden`. Не запускать
-collectors через видимый интерактивный `powershell.exe` в планировщике.
+Расписания, журнал, deployment и аварийный откат описаны в
+[SERVER_COLLECTORS.md](SERVER_COLLECTORS.md). PowerShell registration scripts больше не
+являются production scheduler и не должны запускаться на локальном компьютере.
 
 RTX 5090/CUDA environment использует отдельный полный lock:
 
@@ -127,8 +126,8 @@ Readiness и exact replay отдельного снимка:
 .\scripts\register_forward_delayed_bbo_v2_tasks.ps1
 ```
 
-Windows task `TradingLabForwardCrossMarketBBO10mV2` запускается по будням каждые 10
-минут с 10:09 до 18:39. V1 task отключён. Не запускать historical backfill и не удалять invalid snapshot:
+Server timer `trading-lab-cross-market.timer` запускает V3 по будням каждые 10 минут
+с 10:09 до 18:39. Все local V1/V2/V3 tasks отключены. Не запускать historical backfill и не удалять invalid snapshot:
 он является частью operational evidence. До 20 полных discovery sessions outcomes и
 PnL запрещены. Полный контракт:
 [FORWARD_CROSS_MARKET_BBO_PROTOCOL.md](FORWARD_CROSS_MARKET_BBO_PROTOCOL.md).
@@ -146,8 +145,8 @@ PnL запрещены. Полный контракт:
   --audit-directory <snapshot-directory>
 ```
 
-Task `TradingLabForwardBroadStockFuturesCarry10mV2`: Mon–Fri, `10:09`, `PT10M` for
-`PT8H31M`. До 20 полных discovery sessions не считать basis/rank/PnL. Missing pair или
+Server timer `trading-lab-broad-carry.timer`: Mon–Fri, каждые 10 минут
+`10:09..18:39`. До 20 полных discovery sessions не считать basis/rank/PnL. Missing pair или
 fractional `LOTVOLUME/LOTSIZE` остаётся invalid и не заменяется нулём. V2 хранит
 delayed BBO, а depth/size/queue/fill оставляет unresolved. Полный контракт:
 [FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md](FORWARD_BROAD_STOCK_FUTURES_CARRY_PROTOCOL.md).
@@ -1155,17 +1154,9 @@ calibration + 40 unseen evaluation snapshots экономический protocol
 .\scripts\collect_forward_option_surface.ps1
 ```
 
-Регистрация/воспроизводимое обновление Windows Task Scheduler:
-
-```powershell
-.\scripts\register_forward_option_surface_task.ps1
-schtasks.exe /Query /TN "TradingLabForwardOptionSurface" /V /FO LIST
-```
-
-На `2026-09-02` task `TradingLabForwardOptionSurface` active/Ready: Mon–Fri 23:55
-Europe/Istanbul, interactive user, `StartWhenAvailable`, `IgnoreNew`, timeout 10 минут.
-Manual verification завершилась `Last Result: 0` и сохранила snapshot count `1`, то
-есть duplicate-date guard сработал.
+Authoritative server timer — `trading-lab-option-surface.timer`, Mon–Fri 23:55 МСК;
+локальная Windows task отключена. Проверка timer приведена в
+`docs/SERVER_COLLECTORS.md`.
 
 Полный replay-аудит всех накопленных snapshot и точный gate 60/20/40:
 
@@ -1282,15 +1273,16 @@ V27 independent forward validation:
   --output-root D:\Projects\trading_lab_data\data\forward\v27-validation-v2
 ```
 
-Tasks `TradingLabV27ForwardExecution` (10:05) и `TradingLabV27ForwardDecision` (23:45)
-работают Mon–Fri. Wrapper сохраняет required MOEX market component первым, затем
+Server timers `trading-lab-v27-execution.timer` (10:05) и
+`trading-lab-v27-decision.timer` (23:45) работают Mon–Fri. Dispatcher сохраняет
+required MOEX market component первым, затем
 независимо пытается CBR и FRED. Каждый component raw-replayable; EOD market дополнительно требует
 official history `CLOSE/VOLUME/OPENPOSITION` каждого контракта. Не запускать market backfill до
 `2026-09-02`; первые 253 common CLOSE дают 252 return sessions и являются только
 warmup, следующие 504 — immutable evaluation. До завершения warmup PnL/CAGR запрещены.
 Macro разрешён только после собственного actual retrieval и не ремонтирует прошлые dates.
-Если пользовательская переменная Windows `FRED_API_KEY` содержит валидный официальный
-ключ, wrapper использует authenticated API component; иначе остаётся anonymous route.
+Если `/etc/trading-lab/collector.env` содержит валидный официальный `FRED_API_KEY`,
+dispatcher использует authenticated API component; иначе остаётся anonymous route.
 Ключ нельзя передавать аргументом или сохранять в repo/log/raw/manifest. После
 authenticated failure fallback запрещён. Readiness показывает раздельные route counts,
 но никогда значение ключа.
@@ -1307,7 +1299,7 @@ Forward MOEX RMS risk/cashflow source:
   --output-root D:\Projects\trading_lab_data\data\forward\moex-rms-risk-cashflow-v2
 ```
 
-Task `TradingLabForwardMoexRms` запускается Mon–Fri 23:35 мск. Wrapper пропускает уже
+Server timer `trading-lab-moex-rms.timer` запускается Mon–Fri 23:35 мск. Dispatcher пропускает уже
 audited `risk_source_date`, отклоняет дату раньше `2026-09-02`; collector сохраняет
 полные paginated raw pages и replayable Parquet трёх таблиц. Не добавлять `from/till`,
 не считать PnL до 60 discovery dates; далее нужны 20 calibration и 60 unseen evaluation.
@@ -1333,7 +1325,7 @@ Forward CNY quotes/funding collector:
   --output-root D:\Projects\trading_lab_data\data\forward\moex-cny-relative-value-v1
 ```
 
-Task `TradingLabForwardCnyRelativeValue` запускается Mon–Fri 18:30 мск. Wrapper до
+Server timer `trading-lab-cny-relative-value.timer` запускается Mon–Fri 18:30 мск. Dispatcher до
 записи отклоняет/пропускает уже сохранённую quote date, collector запрещает любую дату
 до `2026-09-02`, архивирует raw current responses и только post-seal history
 `CNYRUBF`. Первый economic seal запрещён до 40 audited unique dates; затем нужны 20
@@ -1470,7 +1462,8 @@ Forward fixed money-market fund pool:
   D:\Projects\trading_lab_data\data\forward\moex-money-market-fund-pool-v1
 ```
 
-Tasks `TradingLabForwardFundPoolDecision/Fill` используют exact 15:49:00/15:59:00 МСК.
+Server timers `trading-lab-fund-pool-decision/fill.timer` используют exact
+15:49:00/15:59:00 МСК.
 Universe LQDT/SBMM/AKMM/TMON фиксирован seal `ac299a7`; не добавлять фонд после чтения
 котировок. До 60 ordered pairs запрещены ranking, yield и PnL. Полный контракт:
 [FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md](FORWARD_MONEY_MARKET_FUND_POOL_PROTOCOL.md).

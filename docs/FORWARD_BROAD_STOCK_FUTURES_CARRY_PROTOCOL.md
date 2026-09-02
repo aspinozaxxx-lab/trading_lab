@@ -67,8 +67,9 @@ corporate actions и capacity. Dividend разрешён только из origi
   --audit-directory <snapshot-directory>
 ```
 
-Task `TradingLabForwardBroadStockFuturesCarry10m`: Mon–Fri, 10:09, repeat PT10M for
-PT8H31M. Invalid snapshot сохраняется и не считается нулём или допустимой парой.
+Authoritative timer `trading-lab-broad-carry.timer` на `gpu-mlserver`: Mon–Fri,
+10:09–18:39 каждые 10 минут. Invalid snapshot сохраняется и не считается нулём или
+допустимой парой.
 
 ## Ограничения
 
@@ -82,5 +83,5 @@ delivery/tax rules. Наличие 30 пар не гарантирует, что
 futures depth. До следующей котировки запечатан V2 config SHA `cb753e01...`, seal
 `b152720`: BBO/clocks/exact contract units обязательны, depth/size/queue/fill и
 realtime остаются unresolved. Wrapper:
-`scripts/run_forward_broad_stock_futures_carry_v2.ps1`; task:
-`TradingLabForwardBroadStockFuturesCarry10mV2`. V1 task отключён.
+`market_lab.ops.forward_collector --job broad-carry`; server timer указан выше. Все
+локальные V1/V2 Windows tasks отключены.
