@@ -459,6 +459,15 @@ Weekly option-state V3 хранится в
 может использовать state только при `source_date < decision_date`; same-date join
 запрещён. Все strikes/maturities/week codes остаются в агрегате без outcome selection.
 
+V39 canonical run:
+`runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`. Metrics SHA
+`52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113`, identity SHA
+`fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71`. Независимая
+проверка подтвердила все 17 artifact byte/size/row identities, identity→metrics hash,
+три сценария CAGR/Sharpe/MDD, rolling quantiles из строго предыдущих 52 changes и exact
+target multiplication. Successful runner code SHA хранится в identity; первый run до
+loader correction output не создал и экономическим evidence не является.
+
 ## Protocol seals
 
 Каждый новый config получает SHA-256 до outcome. Проверяй одновременно:

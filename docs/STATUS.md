@@ -48,7 +48,7 @@ expiry/spec mapping и licensed Type B/A bid/ask/order history historical option
 запечатывать. Практический путь — продолжать forward option collector: readiness 1/60,
 invalid 0; затем 20 calibration и 40 unseen evaluation.
 
-## Новая активная проверка: V39 weekly option-OI tail governor — SEALED
+## Последний результат: V39 weekly option-OI tail governor — GO TO FORWARD
 
 Пилот расширен в отдельный target-free weekly source V3, запечатанный commits
 `9a51a3c`/`f6327c7` до non-pilot values. Canonical
@@ -58,13 +58,25 @@ Manifest `0453f05c...`, audit `e09534ff...`, Parquet `fdd67cd9...`, raw ZIP
 `c1308810...`; независимый replay 11/11. Во всех 1 044 asset-week группах положительны
 и call, и put OI; source не содержит returns/targets/predictions/PnL.
 
-V39 SHA `3b5d3074...`, seal commit `700ff9a` pushed до первого join с V27/PnL. Единственное
+V39 SHA `3b5d3074...`, seal commit `700ff9a` и implementation commits
+`b9e5114`/`f184834` pushed до первого успешного join с V27/PnL. Единственное
 правило: latest source date строго раньше weekly decision; изменение aggregate put-share
 сравнивается с 10/90 квантилями только 52 предыдущих изменений того же asset. Long
 гасится лишь выше q90, short — лишь ниже q10; warmup проходит parent без изменений,
 missing/stale после warmup гасит asset. Опционы не торгуются, V27 execution/costs/2x
-не меняются. Реализация и один economic run ещё не выполнены; параметры после результата
-менять запрещено.
+не меняются.
+
+Canonical `runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`; metrics
+`52993f82...`, identity `fe60f262...`; 17/17 artifact identities и независимый replay
+primary/doubled/stress metrics, rolling q10/q90, scale и target rules полностью true.
+Из 1 044 OOS asset-weeks получены 97 put-tail и 101 call-tail state, 44 ненулевых target
+сокращены. Primary/doubled/stress CAGR `28,6849%/28,2235%/27,8287%`, Sharpe
+`1,2515/1,2317/1,2189`, MDD `20,0322%/20,1593%/19,4348%`; worst year
+`−0,5162%/−0,9560%/−1,4607%`. Все scenario CAGR выше 20%; относительно V27 улучшены
+CAGR, Sharpe, MDD и worst year во всех требуемых сравнениях. Verdict
+`GO_TO_NEW_FORWARD_CONFIRMATION`, live false: это adaptive same-history evidence, не
+независимое доказательство и не обещание 50%. Window/quantiles/signs/assets/scale больше
+не менять; добавить V39 к forward paper validation как заранее замороженный challenger.
 
 ## Последний результат: V37 cross-market intraday breakout — NO-GO
 

@@ -42,7 +42,10 @@ SETTLEPRICE не является заменой исполнимой котир
 каждая из 1 044 asset-week групп имеет call/put OI, поэтому можно причинно оценивать
 aggregate put-share без strike/maturity selection и без option fills. Первый заранее
 зафиксированный use — V39 tail-shock veto (52 прошлые недели, q10/q90); это development
-гипотеза, а не доказанный доход и не замена forward option quotes.
+гипотеза, а не замена forward option quotes. V39 прошёл все development gates:
+all-cost CAGR `27,83–28,68%`, Sharpe и MDD улучшились против V27. Источник поэтому
+повышен до frozen forward-challenger, но сам результат остаётся same-history и не
+разрешает live; option quotes продолжают накапливаться отдельно.
 
 Вторая новая family — USD/RUB cash-and-carry. После schema/cursor-only probe source
 config `moex_fx_spot_source_v1` был sealed/pushed (`bd7f138`), а collector — отдельным

@@ -1118,8 +1118,14 @@ Weekly option-state V3 также immutable; collection не повторять.
   --output-root D:\Projects\trading_lab_data\data\processed\options\moex-core4-options-weekly-2021-2025-v3
 ```
 
-Ожидание: 11/11 true, 1 327 744 rows, 13 802 pages, 261 dates. V39 config уже sealed
-SHA `3b5d3074...`, но до появления отдельного runner/run никакого V39 outcome нет.
+Ожидание: 11/11 true, 1 327 744 rows, 13 802 pages, 261 dates.
+
+V39 canonical run повторять нельзя:
+`runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`. Ожидание: metrics SHA
+`52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113`, identity SHA
+`fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71`, 17/17 artifact
+hashes, verdict `GO_TO_NEW_FORWARD_CONFIRMATION`. Same-history V39 tuning запрещён;
+следующий PnL только в заранее замороженном forward challenger.
 
 ### MOEX USD/RUB TOM source for future cash-and-carry
 

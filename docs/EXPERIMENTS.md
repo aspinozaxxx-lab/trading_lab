@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## V39 weekly option-OI tail governor — sealed, outcome pending
+## V39 weekly option-OI tail governor — canonical GO to forward confirmation
 
 - Weekly source V3 config `a1ec093e...`, implementation `c709d35a...`; canonical
   manifest `0453f05c...`, audit `e09534ff...`, Parquet `fdd67cd9...`, raw ZIP
@@ -9,8 +9,14 @@
 - Economic config SHA `3b5d3074...`, seal `700ff9a` precedes any option-state/PnL join.
   Fixed rule: lag one weekly source state; trailing 52 prior put-share changes; cash a
   long above q90 or a short below q10. Options are not traded.
-- Status: implementation and outcome pending. Do not change window, quantiles, direction,
-  warmup, age, assets or add volume/strike filters after the result.
+- Canonical `runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074/`; metrics
+  `52993f82...`, identity `fe60f262...`; 17/17 artifacts and independent metric/rule
+  replay true. Counts: 97 put shocks, 101 call shocks, 44 reduced nonzero targets.
+- Primary/doubled/stress CAGR `28,6849%/28,2235%/27,8287%`; Sharpe
+  `1,2515/1,2317/1,2189`; MDD `20,0322%/20,1593%/19,4348%`. Every predeclared gate
+  passed and each scenario improved MDD versus V27.
+- Verdict `GO_TO_NEW_FORWARD_CONFIRMATION`, never live. Do not change window, quantiles,
+  direction, warmup, age, assets or add volume/strike filters after this result.
 
 ## Public MOEX option EOD history pilot V2 — source-only, complete
 
