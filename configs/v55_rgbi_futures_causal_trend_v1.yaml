@@ -1,0 +1,103 @@
+﻿protocol_id: v55_rgbi_futures_causal_trend_v1
+protocol_version: 1
+status: sealed_before_any_RGBI_market_value_return_signal_trade_or_pnl
+declared_at_utc: '2026-09-02T19:45:00Z'
+research_only: true
+normalized_development_proxy: true
+independent_return_engine: true
+live_trading_allowed: false
+
+hypothesis: >-
+  A causal medium-horizon trend in the RGBI government-bond futures, scaled to a fixed
+  volatility target and executed at the next factual open, can provide an independent
+  rates return engine with at least twenty percent CAGR under cost stress and a
+  primary path toward the thirty-five to fifty percent region.
+
+candidate:
+  count: 1
+  universe: all_15_sealed_quarterly_RGBI_contracts
+  deterministic_front_contract: nearest_expiration_with_at_least_10_calendar_days
+  roll_days_before_expiration: 10
+  roll_adjustment: causal_forward_log_adjustment_using_same_prior_complete_session
+  missing_roll_overlap: sleep_until_resolved
+  signal_price: settle_price
+  signal_price_fallback: forbidden
+  momentum_sessions: 63
+  momentum: sum_of_valid_causal_forward_adjusted_log_returns
+  direction: sign_of_momentum
+  zero_momentum: cash
+  volatility_sessions: 20
+  volatility: prior_sample_std_of_adjusted_log_returns_times_sqrt_252
+  annual_volatility_target: 0.25
+  maximum_absolute_target: 3.0
+  minimum_or_dead_zone: none
+  horizon_direction_volatility_target_cap_or_roll_search: forbidden
+
+execution:
+  signal_after_complete_session_settle: true
+  target_effective: next_factual_session_open
+  execution_price: positive_OPEN
+  require_positive_NUMTRADES_and_VOLUME: true
+  holding_return: execution_OPEN_to_next_factual_OPEN_same_contract
+  contract_change_turnover: absolute_old_target_plus_absolute_new_target
+  same_contract_turnover: absolute_target_change
+  missing_execution_or_mark: sleep_and_unresolved_not_zero_return
+  terminal_position: mark_not_forced_liquidation
+  fractional_notional_proxy: true
+  exact_integer_specs_margin_or_capacity_proven: false
+
+cost_scenarios:
+  primary_5bps: {one_way_bps: 5.0}
+  doubled_10bps: {one_way_bps: 10.0}
+  stress_20bps: {one_way_bps: 20.0}
+
+input:
+  root: data/processed/info_radar/moex-rgbi-futures-daily-2022-2025-v1
+  source_protocol_sha256: fe49459e3ece14c954d60e397b71a834b712a254792d62b17476eb473c36430a
+  manifest: {file: manifest.json, sha256: 60dbb74c69f34257feb209ba76f265090f1140d26416249716b13543b94e9584}
+  audit: {file: audit.json, sha256: c054b4e8eb5f41f363927c30e3fa30ef5114c546563c1d85cd7ff3244e19be95}
+  series: {file: series.parquet, rows: 15, sha256: 6dce9f16e9ecebea9823e2c76398cea632145f0fb70a42db5aebe8c8d3faaeca}
+  daily: {file: daily_history.parquet, rows: 1607, sha256: f993a6b00f55ada824f019541ee81c85761460ec926e7490829f20b65848dff2}
+  raw: {file: raw_responses.jsonl.gz, rows: 24, sha256: ce762a9ea3799117cbc29fc0d10f9abaef7a343c794c85d0034baa6de4401bd9}
+
+dates:
+  start: '2022-02-28'
+  end: '2025-12-01'
+  protected_from: '2026-01-01'
+
+gates:
+  zero_protected_rows: true
+  zero_same_session_signal_execution: true
+  zero_roll_gap_imputation: true
+  minimum_signal_sessions: 500
+  minimum_executed_sessions: 450
+  maximum_unresolved_execution_fraction: 0.05
+  all_nav_positive: true
+  primary_cagr_gte: 0.35
+  all_scenario_cagr_gte: 0.20
+  all_scenario_sharpe_gte: 1.00
+  all_scenario_mdd_lte: 0.35
+  all_scenario_worst_year_gte: -0.15
+  primary_positive_years_gte: 3
+  aspirational_primary_cagr_gte: 0.50
+  aspirational_gate_is_reported_but_not_required_for_pass: true
+  exact_replay_required_before_forward: true
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v55_rgbi_futures_causal_trend_v1
+  immutable_timestamped_run: true
+  required: [continuous_state.parquet, decisions.parquet, scenario_ledger.parquet,
+    metrics.json, report.md, manifest.json, manifest.sha256, audit.json]
+
+limitations:
+  - Only 2022-02-28 through 2025-12-01 is available; this is short development history.
+  - Fractional exposure and bps costs are normalized proxies, not exact contract PnL.
+  - Public EOD OPEN does not prove bid/ask, queue, size or broker fill.
+  - A pass admits only one exact specs/integer/margin replay and cannot authorize live.
+
+forbidden_followups:
+  - changing_63_20_25pct_3x_10day_roll_or_direction_after_results
+  - selecting_a_cost_year_contract_or_market_regime_after_results
+  - ordinary_back_adjustment_that_rewrites_past
+  - using_2026_or_later_price_return_signal_position_trade_or_pnl
