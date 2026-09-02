@@ -3,6 +3,23 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V46 full-V39 + margin-headroom carry overlay — NO-GO
+
+V46 проверил способ не разбавлять V39 до 80%, а использовать фиксированные 20%
+свободного cash headroom как self-financing carry overlay. Config SHA `b18ed5bc...`,
+seal `ed18e79`, implementation `775e0ce`; canonical
+`runs/v46_v39_margin_headroom_carry_overlay_v1_20260902T100211Z_b18ed5bc/`.
+В расчёт добавляется только carry сверх вытесненного half-RUONIA baseline. Strictly
+prior margin разрешал overlay `1 271/1 272` sessions; максимум был `50.89%` против
+запечатанного порога `70%`.
+
+Primary CAGR достиг `28.8896%`, Sharpe `1.2594`, worst year `+0.0094%`, то есть
+получено `5/5` positive years без сокращения V39. Doubled CAGR `28.4171%`. Но
+zero-cashflow/delayed-fill stress дали лишь `27.7870%/27.7863%`, ухудшили V39 CAGR,
+Sharpe, MDD и worst year. Строгий verdict `NO_GO`; долю, baseline и headroom threshold
+после результата не менять. Это близкий к 29% primary кандидат, но не более надёжный
+all-stress вариант, поэтому V41 остаётся stability lead и live trading запрещён.
+
 ## V45 RVI calendar corridor — NO-GO
 
 Новый независимый volatility source успешно собран и raw-replay audited: protocol

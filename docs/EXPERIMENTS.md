@@ -1,5 +1,26 @@
 ﻿# Реестр экспериментов
 
+## V46 V39 margin-headroom broad-carry overlay — canonical NO-GO
+
+- Config SHA `b18ed5bc...`, seal `ed18e79`, implementation `775e0ce`; canonical
+  `v46_v39_margin_headroom_carry_overlay_v1_20260902T100211Z_b18ed5bc`.
+- Self-financing accounting preserves `100%` frozen V39 and commits a fixed initial
+  `20%` free-cash block to frozen broad active-cap carry only when strictly prior
+  modeled margin is `<=70%` NAV. Only carry value above the displaced cumulative
+  half-RUONIA baseline is added; no directional leverage, daily rebalancing or weight
+  search. Headroom passed on `1 271/1 272` sessions; maximum prior margin fraction
+  across scenarios was `50.89%`.
+- Primary improved V39: CAGR `28.8896%` (`+0.2047 п.п.`), Sharpe `1.2594`
+  (`+0.0079`), worst year `+0.0094%` instead of `-0.5162%`, giving `5/5` positive
+  years. Doubled CAGR `28.4171%`, with improved Sharpe and worst year.
+- Zero-cashflow and delayed-fill stresses failed the presealed dominance gates:
+  CAGR `27.7870% / 27.7863%` (`-0.0417/-0.0425 п.п.` vs V39), Sharpe lower by
+  `0.0018`, worst year lower by about `0.126 п.п.`, and all MDD worse by a tiny
+  `0.0003 п.п.`. Verdict `NO_GO`; do not tune the 20% fraction, headroom threshold,
+  baseline or scenario mapping on this history.
+- Manifest/metrics/ledger/audit SHA
+  `20e34a7d.../aa207826.../a7a25b5f.../a918238f...`; live trading false.
+
 ## V45 RVI adjacent-month calendar corridor — canonical NO-GO
 
 - Source protocol SHA `bb4aec1d...`, seal `fce9705`, implementation `14c93c1`;
