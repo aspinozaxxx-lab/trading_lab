@@ -24,6 +24,9 @@
     сильнейшего 28,38% development-кандидата без backfill и post-hoc tuning.
 11. [Forward V39 protocol](docs/FORWARD_V39_PROTOCOL.md) — совместная независимая
     проверка option-OI governor и frozen V27 execution без преждевременного CAGR.
+12. [Запросы лицензируемых данных](docs/DATA_ACCESS_REQUESTS.md) — какие платные
+    original-timestamp sources реально устраняют блокеры и что нельзя покупать без
+    отдельного разрешения пользователя.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

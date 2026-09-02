@@ -1313,10 +1313,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Snapshot обязан быть post-seal, raw-replayed и не содержать price/return/PnL.
 3. MR1 использовать в будущем прежде всего как broker/exchange admission input:
    фактический margin reserve и capacity, а не как ещё один tuned alpha switch.
-4. После 60 discovery отдельно запечатать только экономически иную family до PnL:
-   anticipated dividend cashflow для fair-value/roll ranking либо defined-risk option
-   regime. Нужны 20 calibration и 60 unseen evaluation snapshots; naked option risk и
-   historical 2026 backfill запрещены.
+4. Historical dividend-spread V1 уже завершён `NO_GO`: 31 RMS events, 0 following-quote
+   entries. Не повторять его после 60 discovery с изменённым lag/sign/threshold. Новый
+   dividend alpha допускается только от original-timestamp board/issuer disclosure,
+   которое объективно раньше RMS repricing.
+5. Предпочтительный источник — authenticated Interfax e-disclosure JSON Gateway с
+   event clock и correction chain; credentials отсутствуют, spend не разрешён. Exact
+   условия, тарифы и acceptance checklist: `docs/DATA_ACCESS_REQUESTS.md`. До отдельного
+   разрешения пользователя status `SLEEPING_NO_CREDENTIALS_NO_SPEND`.
+6. Defined-risk option regime остаётся отдельной forward family: 20 calibration и 40
+   unseen evaluation после discovery; naked option risk и historical 2026 backfill
+   запрещены.
 
 ### P0 — доходный collateral и forward CNY relative value
 
