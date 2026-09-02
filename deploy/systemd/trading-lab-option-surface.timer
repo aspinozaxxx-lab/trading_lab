@@ -1,9 +1,11 @@
 [Unit]
-Description=Trading Lab option-surface snapshot
+Description=Trading Lab option-surface snapshots every ten minutes
 
 [Timer]
-OnCalendar=Mon..Fri *-*-* 23:55:00
+OnCalendar=Mon..Fri *-*-* 10..22:09/10:00
+OnCalendar=Mon..Fri *-*-* 23:09,19,29,39,55:00
 AccuracySec=1s
+RandomizedDelaySec=0
 Persistent=false
 Unit=trading-lab-collector@option-surface.service
 
