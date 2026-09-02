@@ -11,6 +11,8 @@
   span and `<=25` minute maximum gap. No economic outcomes are computed before this.
 - Predeclared future arms: full-surface neural timing, price-only ablation, fixed
   skew/term rule, always-abstain; defined-risk and observed OFFER/BID only.
+- First scheduled eligible snapshot `20260902T200900329716Z`: parent replay 17/17 true;
+  readiness eligible/preboundary/invalid `1/2/0`, complete discovery sessions `0/20`.
 
 ## V60/V61 V49 shadow-equity governor — ROBUSTNESS DOES NOT SUPPORT 20
 

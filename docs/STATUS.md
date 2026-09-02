@@ -24,6 +24,11 @@ ablation, fixed skew/term rule и always-abstain. Только defined-risk ко
 исполнение по наблюдаемому OFFER на входе и BID на выходе, naked short запрещён. Это
 сбор нового причинного источника, а не заявление о найденной доходности.
 
+Первый штатный post-boundary tick `2026-09-02T20:09:00Z` создал
+`snapshot_20260902T200900329716Z`. Независимый raw replay: `17/17`, `all_true=true`;
+readiness: eligible `1`, preboundary exclusions `2`, invalid `0`, complete sessions
+`0/20`. Один срез корректно не считается полной сессией и не открывает economic seal.
+
 ## V60/V61 V49 shadow-equity governor — DEVELOPMENT GO, ROBUSTNESS NO-GO
 
 V60 config SHA `40145868...`, seal/deploy commit `f132dd8`, implementation SHA
