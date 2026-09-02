@@ -23,15 +23,15 @@ import yaml
 from market_lab.futures import info_radar, stlfsi_source
 
 PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
-CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v27_forward_validation_v1.yaml"
-CONFIG_SHA256: Final[str] = "c1acf97bbeb950452346b6961010ea3df1aeeb05ce24f95130579b69e5b5724e"
+CONFIG_PATH: Final[Path] = PROJECT_ROOT / "configs/futures_v27_forward_validation_v2.yaml"
+CONFIG_SHA256: Final[str] = "f4a7d0166a47cf0b6eab8b8af87c5039dc6bb315f2097b46b627a1ca5047d932"
 MODULE_PATH: Final[Path] = Path(__file__).resolve()
-DEFAULT_OUTPUT_ROOT: Final[Path] = PROJECT_ROOT / "data/forward/v27-validation-v1"
-USER_AGENT: Final[str] = "market-lab-v27-forward-validation/1.0 (research)"
+DEFAULT_OUTPUT_ROOT: Final[Path] = PROJECT_ROOT / "data/forward/v27-validation-v2"
+USER_AGENT: Final[str] = "market-lab-v27-forward-validation/2.0 (research)"
 SNAPSHOT_KINDS: Final[tuple[str, str]] = ("decision_eod", "execution_observation")
 MACRO_LOOKBACK_DAYS: Final[int] = 400
 JOIN_KEYS: Final[tuple[str, str]] = ("SECID", "BOARDID")
-MARKET_COLUMNS: Final[tuple[str, ...]] = (
+CURRENT_MARKET_COLUMNS: Final[tuple[str, ...]] = (
     "snapshot_kind",
     "source_date",
     "retrieved_at_utc",
@@ -61,6 +61,17 @@ MARKET_COLUMNS: Final[tuple[str, ...]] = (
     "open_interest",
     "exchange_systime",
 )
+OFFICIAL_HISTORY_COLUMNS: Final[tuple[str, ...]] = (
+    "official_open",
+    "official_high",
+    "official_low",
+    "official_close",
+    "official_settle",
+    "official_number_of_trades",
+    "official_volume",
+    "official_open_interest",
+)
+MARKET_COLUMNS: Final[tuple[str, ...]] = CURRENT_MARKET_COLUMNS + OFFICIAL_HISTORY_COLUMNS
 MACRO_COLUMNS: Final[tuple[str, ...]] = (
     "series_id",
     "observation_date",
@@ -117,21 +128,48 @@ def load_config() -> dict[str, Any]:
     ).split()[0]
     if actual != CONFIG_SHA256 or declared != CONFIG_SHA256:
         raise ValueError("V27 forward validation config seal mismatch")
-    config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
-    parent = PROJECT_ROOT / config["parent_v27"]["protocol"]
+    correction = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    parent_path = PROJECT_ROOT / correction["parent_forward_v1"]["protocol"]
+    parent_sha = _sha_file(parent_path)
+    parent = yaml.safe_load(parent_path.read_text(encoding="utf-8-sig"))
     if (
-        config.get("protocol_id") != "futures_v27_forward_validation_v1"
-        or config.get("live_trading_allowed") is not False
-        or config["forward_boundary"]["historical_2026_market_backfill"] != "forbidden"
-        or config["parent_v27"]["protocol_sha256"] != _sha_file(parent)
-        or config["frozen_economics"]["log_momentum_horizons_sessions"]
+        correction.get("protocol_id") != "futures_v27_forward_validation_v2"
+        or correction.get("live_trading_allowed") is not False
+        or correction["parent_forward_v1"]["protocol_sha256"] != parent_sha
+        or correction["correction_scope"]["economic_hypothesis_changed"] is not False
+        or int(correction["correction_scope"]["parameters_changed"]) != 0
+        or correction["market_source_v2"]["decision_signal_price"] != "CLOSE"
+        or correction["market_source_v2"]["last_is_signal_close"] is not False
+        or correction["market_source_v2"]["missing_history_row_policy"]
+        != "reject_entire_snapshot"
+        or correction["forward_boundary"]["historical_2026_market_backfill"]
+        != "forbidden"
+        or parent["parent_v27"]["protocol_sha256"]
+        != _sha_file(PROJECT_ROOT / parent["parent_v27"]["protocol"])
+        or parent["frozen_economics"]["log_momentum_horizons_sessions"]
         != [21, 63, 126, 252]
-        or int(config["sequential_validation"]["warmup_common_sessions"]) != 252
-        or int(config["sequential_validation"]["evaluation_common_sessions_minimum"])
+        or int(parent["sequential_validation"]["warmup_common_sessions"]) != 252
+        or int(parent["sequential_validation"]["evaluation_common_sessions_minimum"])
         != 504
     ):
         raise ValueError("V27 forward validation invariant drift")
-    return config
+    effective = dict(parent)
+    for key in (
+        "protocol_id",
+        "protocol_version",
+        "status",
+        "declared_at_utc",
+        "research_only",
+        "live_trading_allowed",
+        "parent_forward_v1",
+        "correction_scope",
+        "market_source_v2",
+        "snapshot_semantics",
+        "output",
+        "forbidden_source_columns",
+    ):
+        effective[key] = correction[key]
+    return effective
 
 
 def market_url(config: dict[str, Any], logical_asset: str) -> str:
@@ -140,6 +178,20 @@ def market_url(config: dict[str, Any], logical_asset: str) -> str:
         raise ValueError("undeclared V27 logical asset")
     query = {"iss.meta": "off", "iss.only": "securities,marketdata", "assets": source_asset}
     return f"{config['market_source']['endpoint']}?{urlencode(query)}"
+
+
+def history_url(config: dict[str, Any], secid: str, source_date: pd.Timestamp) -> str:
+    template = config["market_source_v2"]["official_daily_history_endpoint_template"]
+    endpoint = str(template).format(secid=secid)
+    exact_date = source_date.date().isoformat()
+    query = {
+        "iss.meta": "off",
+        "iss.only": "history",
+        "from": exact_date,
+        "till": exact_date,
+        "start": 0,
+    }
+    return f"{endpoint}?{urlencode(query)}"
 
 
 def macro_bounds(retrieval: pd.Timestamp) -> tuple[date, date]:
@@ -239,12 +291,77 @@ def normalize_market(
             "open_interest": pd.to_numeric(joined["OPENPOSITION"], errors="coerce"),
             "exchange_systime": joined["SYSTIME"].astype("string"),
         },
-        columns=MARKET_COLUMNS,
+        columns=CURRENT_MARKET_COLUMNS,
     )
     forbidden = {str(value).lower() for value in config["forbidden_source_columns"]}
     if forbidden & {str(column).lower() for column in output.columns}:
         raise ValueError("derived outcome escaped into V27 market snapshot")
     return output.sort_values(
+        ["logical_asset", "last_trade_date", "secid"], kind="stable", ignore_index=True
+    )
+
+
+def normalize_official_history(
+    raw: bytes,
+    *,
+    logical_asset: str,
+    secid: str,
+    boardid: str,
+    source_date: pd.Timestamp,
+    config: dict[str, Any],
+) -> pd.DataFrame:
+    """Replay one exact official daily row used by the signal and roll planner."""
+    payload = json.loads(raw.decode("utf-8-sig"))
+    required = config["market_source_v2"]["decision_eod_required_history_fields"]
+    history = _block(payload, "history", required)
+    selected = history.loc[
+        history["SECID"].astype(str).eq(secid)
+        & history["BOARDID"].astype(str).eq(boardid)
+    ].copy()
+    selected["TRADEDATE"] = pd.to_datetime(selected["TRADEDATE"], errors="raise")
+    selected = selected.loc[selected["TRADEDATE"].eq(source_date)].copy()
+    if len(selected) != 1:
+        raise ValueError("V27 V2 requires one exact official history row per contract")
+    row = selected.iloc[0]
+    numeric_map = {
+        "official_open": "OPEN",
+        "official_high": "HIGH",
+        "official_low": "LOW",
+        "official_close": "CLOSE",
+        "official_settle": "SETTLEPRICE",
+        "official_number_of_trades": "NUMTRADES",
+        "official_volume": "VOLUME",
+        "official_open_interest": "OPENPOSITION",
+    }
+    output: dict[str, object] = {
+        "logical_asset": logical_asset,
+        "boardid": boardid,
+        "secid": secid,
+        "source_date": source_date,
+    }
+    for target, source in numeric_map.items():
+        output[target] = pd.to_numeric(pd.Series([row[source]]), errors="coerce").iloc[0]
+    return pd.DataFrame([output])
+
+
+def attach_official_history(
+    market: pd.DataFrame,
+    history_frames: list[pd.DataFrame],
+    snapshot_kind: str,
+) -> pd.DataFrame:
+    keys = ["logical_asset", "boardid", "secid", "source_date"]
+    if snapshot_kind == "decision_eod":
+        if len(history_frames) != len(market):
+            raise ValueError("V27 V2 official history coverage is incomplete")
+        history = pd.concat(history_frames, ignore_index=True)
+        if history.duplicated(keys).any():
+            raise ValueError("V27 V2 official history identity is duplicated")
+        output = market.merge(history, on=keys, how="left", validate="one_to_one")
+    else:
+        output = market.copy()
+        for column in OFFICIAL_HISTORY_COLUMNS:
+            output[column] = float("nan")
+    return output.loc[:, MARKET_COLUMNS].sort_values(
         ["logical_asset", "last_trade_date", "secid"], kind="stable", ignore_index=True
     )
 
@@ -353,12 +470,41 @@ def collect(
                 market_raw[logical_asset], logical_asset, snapshot_kind, retrieval, config
             )
         )
-    market = pd.concat(market_frames, ignore_index=True).sort_values(
+    current_market = pd.concat(market_frames, ignore_index=True).sort_values(
         ["logical_asset", "last_trade_date", "secid"], kind="stable", ignore_index=True
     )
-    source_dates = market["source_date"].dt.date.astype(str).unique()
-    if len(source_dates) != 1 or market.duplicated(["logical_asset", "boardid", "secid"]).any():
+    source_dates = current_market["source_date"].dt.date.astype(str).unique()
+    if len(source_dates) != 1 or current_market.duplicated(
+        ["logical_asset", "boardid", "secid"]
+    ).any():
         raise ValueError("V27 market snapshot date or identity mismatch")
+    history_raw: dict[tuple[str, str, str, str], bytes] = {}
+    history_frames: list[pd.DataFrame] = []
+    if snapshot_kind == "decision_eod":
+        for row in current_market.itertuples(index=False):
+            source_date = pd.Timestamp(row.source_date)
+            url = history_url(config, str(row.secid), source_date)
+            response = client.get(url, headers={"User-Agent": USER_AGENT}, timeout=30.0)
+            response.raise_for_status()
+            identity = (
+                str(row.logical_asset),
+                str(row.boardid),
+                str(row.secid),
+                source_date.date().isoformat(),
+            )
+            payload = bytes(response.content)
+            history_raw[identity] = payload
+            history_frames.append(
+                normalize_official_history(
+                    payload,
+                    logical_asset=identity[0],
+                    boardid=identity[1],
+                    secid=identity[2],
+                    source_date=source_date,
+                    config=config,
+                )
+            )
+    market = attach_official_history(current_market, history_frames, snapshot_kind)
 
     start, end = macro_bounds(retrieval)
     fred_response = client.get(
@@ -417,6 +563,24 @@ def collect(
                 "stored_bytes": path.stat().st_size,
                 "stored_sha256": _sha_file(path),
             }
+        for identity, payload in history_raw.items():
+            logical_asset, boardid, secid, source_date = identity
+            safe_secid = "".join(character for character in secid if character.isalnum())
+            path = temporary / f"raw_history_{logical_asset}_{safe_secid}.json.gz"
+            path.write_bytes(gzip.compress(payload, mtime=0))
+            label = f"history_{logical_asset}_{safe_secid}"
+            raw_artifacts[label] = {
+                "path": path.name,
+                "url": history_url(config, secid, pd.Timestamp(source_date)),
+                "logical_asset": logical_asset,
+                "boardid": boardid,
+                "secid": secid,
+                "source_date": source_date,
+                "response_bytes": len(payload),
+                "response_sha256": _sha_bytes(payload),
+                "stored_bytes": path.stat().st_size,
+                "stored_sha256": _sha_file(path),
+            }
         macro_urls = {
             "fred_stlfsi4": fred_url(retrieval),
             "cbr_ruonia": ruonia_url,
@@ -451,6 +615,7 @@ def collect(
             "counts": {
                 "market_rows": len(market),
                 "market_rows_by_asset": market.groupby("logical_asset").size().to_dict(),
+                "official_history_rows": len(history_raw),
                 "source_dates": sorted(source_dates),
                 "macro_rows": len(macro),
                 "macro_rows_by_series": macro.groupby("series_id").size().to_dict(),
@@ -495,6 +660,7 @@ def audit(snapshot: Path) -> dict[str, bool]:
         "target_free": manifest["contains_return_label_target_prediction_or_pnl"] is False,
     }
     market_frames = []
+    history_frames: list[pd.DataFrame] = []
     macro_raw: dict[str, bytes] = {}
     for label, item in manifest["raw"].items():
         path = snapshot / item["path"]
@@ -512,10 +678,24 @@ def audit(snapshot: Path) -> dict[str, bool]:
             market_frames.append(
                 normalize_market(payload, logical_asset, snapshot_kind, retrieval, config)
             )
+        elif label.startswith("history_"):
+            history_frames.append(
+                normalize_official_history(
+                    payload,
+                    logical_asset=str(item["logical_asset"]),
+                    boardid=str(item["boardid"]),
+                    secid=str(item["secid"]),
+                    source_date=pd.Timestamp(item["source_date"]),
+                    config=config,
+                )
+            )
         else:
             macro_raw[label] = payload
-    rebuilt_market = pd.concat(market_frames, ignore_index=True).sort_values(
+    rebuilt_current_market = pd.concat(market_frames, ignore_index=True).sort_values(
         ["logical_asset", "last_trade_date", "secid"], kind="stable", ignore_index=True
+    )
+    rebuilt_market = attach_official_history(
+        rebuilt_current_market, history_frames, snapshot_kind
     )
     rebuilt_macro = pd.concat(
         [
@@ -549,6 +729,17 @@ def audit(snapshot: Path) -> dict[str, bool]:
             "market_identity_unique": not stored_frames["market"].duplicated(
                 ["logical_asset", "boardid", "secid"]
             ).any(),
+            "official_history_semantics_exact": bool(
+                stored_frames["market"][list(OFFICIAL_HISTORY_COLUMNS)]
+                .notna()
+                .any(axis=None)
+            )
+            if snapshot_kind == "decision_eod"
+            else bool(
+                stored_frames["market"][list(OFFICIAL_HISTORY_COLUMNS)]
+                .isna()
+                .all(axis=None)
+            ),
             "macro_series_exact": set(stored_frames["macro"]["series_id"])
             == {"stlfsi4", "ruonia", "key_rate"},
             "macro_forward_availability_not_before_retrieval": bool(

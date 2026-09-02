@@ -2,7 +2,7 @@
     [ValidateSet("decision_eod", "execution_observation")]
     [string]$SnapshotKind,
     [string]$RepositoryRoot = "D:\Projects\trading_lab",
-    [string]$OutputRoot = "D:\Projects\trading_lab_data\data\forward\v27-validation-v1"
+    [string]$OutputRoot = "D:\Projects\trading_lab_data\data\forward\v27-validation-v2"
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,7 +13,7 @@ if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
 
 $probeUrl = "https://iss.moex.com/iss/engines/futures/markets/forts/securities.json?assets=Si&iss.meta=off&iss.only=marketdata"
 $probe = Invoke-RestMethod -Uri $probeUrl -Method Get -TimeoutSec 30 -Headers @{
-    "User-Agent" = "market-lab-v27-forward-scheduler/1.0"
+    "User-Agent" = "market-lab-v27-forward-scheduler/2.0"
 }
 $columns = @($probe.marketdata.columns)
 $tradeDateIndex = [Array]::IndexOf($columns, "TRADEDATE")

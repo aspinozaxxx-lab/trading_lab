@@ -111,6 +111,36 @@ def _fred_csv() -> bytes:
     return b"observation_date,STLFSI4\n2026-08-28,-0.25\n"
 
 
+def _history_payload(secid: str) -> bytes:
+    required = source.load_config()["market_source_v2"][
+        "decision_eod_required_history_fields"
+    ]
+    row = {column: None for column in required}
+    row.update(
+        {
+            "SECID": secid,
+            "BOARDID": "RFUD",
+            "TRADEDATE": "2026-09-02",
+            "OPEN": 99_900.0,
+            "HIGH": 100_100.0,
+            "LOW": 99_800.0,
+            "CLOSE": 100_010.0,
+            "SETTLEPRICE": 100_000.0,
+            "NUMTRADES": 100,
+            "VOLUME": 1000,
+            "OPENPOSITION": 5000,
+        }
+    )
+    return json.dumps(
+        {
+            "history": {
+                "columns": list(row),
+                "data": [list(row.values())],
+            }
+        }
+    ).encode()
+
+
 class _Response:
     def __init__(self, content: bytes, content_type: str = "application/json") -> None:
         self.content = content
@@ -130,6 +160,9 @@ class _Session:
             return _Response(_fred_csv(), "text/csv")
         if "ruonia" in url:
             return _Response(_ruonia_html(), "text/html")
+        if "/history/" in url:
+            secid = urlparse(url).path.removesuffix(".json").rsplit("/", 1)[-1]
+            return _Response(_history_payload(secid))
         asset = parse_qs(urlparse(url).query)["assets"][0]
         return _Response(_market_payload(asset))
 
@@ -156,6 +189,8 @@ def test_config_seals_byte_identical_v27_and_long_forward_window() -> None:
     assert config["frozen_economics"]["ruonia_applied_rate_fraction"] == 0.5
     assert config["sequential_validation"]["warmup_common_sessions"] == 252
     assert config["sequential_validation"]["evaluation_common_sessions_minimum"] == 504
+    assert config["market_source_v2"]["decision_signal_price"] == "CLOSE"
+    assert config["correction_scope"]["parameters_changed"] == 0
 
 
 def test_market_normalization_keeps_full_chain_without_outcomes() -> None:
@@ -169,7 +204,7 @@ def test_market_normalization_keeps_full_chain_without_outcomes() -> None:
     )
 
     assert frame["secid"].tolist() == ["SiU6", "SiZ6"]
-    assert tuple(frame.columns) == source.MARKET_COLUMNS
+    assert tuple(frame.columns) == source.CURRENT_MARKET_COLUMNS
     assert frame["source_date"].dt.date.astype(str).unique().tolist() == ["2026-09-02"]
     assert not set(config["forbidden_source_columns"]) & set(frame.columns)
 
@@ -202,5 +237,25 @@ def test_collect_and_raw_replay_audit(tmp_path: Path) -> None:
     assert all(checks.values())
     assert len(market) == 8
     assert set(market["logical_asset"]) == {"SI", "RI", "BR", "MIX"}
+    assert market["official_close"].eq(100_010.0).all()
+    assert manifest_history_count(snapshot) == len(market)
     assert set(macro["series_id"]) == {"stlfsi4", "ruonia", "key_rate"}
     assert (snapshot / "audit.json").is_file()
+
+
+def manifest_history_count(snapshot: Path) -> int:
+    manifest = json.loads((snapshot / "manifest.json").read_text(encoding="utf-8-sig"))
+    return int(manifest["counts"]["official_history_rows"])
+
+
+def test_execution_snapshot_has_no_synthetic_official_close(tmp_path: Path) -> None:
+    snapshot = source.collect(
+        tmp_path,
+        snapshot_kind="execution_observation",
+        session=_Session(),
+        retrieved_at="2026-09-02T07:05:00Z",
+    )
+    market = pd.read_parquet(snapshot / "market.parquet")
+
+    assert market[list(source.OFFICIAL_HISTORY_COLUMNS)].isna().all(axis=None)
+    assert all(source.audit(snapshot).values())
