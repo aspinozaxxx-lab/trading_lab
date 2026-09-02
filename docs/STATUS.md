@@ -3,6 +3,36 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V50R1 robustness audit V49 — 20% INTERNAL SUPPORT NOT CONFIRMED
+
+V50 был заранее запечатан SHA `0e626e17...`, но остановился в preflight без output и
+до любого resampling: канонические V49 metrics использовали `365.25` дней в году, а
+заимствованный verifier V27 — `365.2425`. Единственная R1-поправка запечатана до
+результата SHA `5a5b36ca...`, implementation commit `0714967`, wrapper SHA
+`b35bd178...`; bootstrap clock, `300 000` paths, seeds, blocks `5/21/63/126`, rolling
+windows и gates не менялись. Canonical server-only run:
+`runs/v50_v49_robustness_20260902T155610Z_5a5b36ca/`.
+
+Verdict `INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`:
+
+- observed primary/doubled/stress CAGR точно воспроизведён как
+  `43.6833% / 42.9769% / 40.3841%`;
+- worst stress block joint frequency `CAGR >=20%` и `MDD <=40%` — `81.668%`, gate
+  `75%` пройден;
+- worst stress bootstrap CAGR q05 — только `10.4537%`, gate `20%` провален;
+- stress rolling 252/504-session доля окон с CAGR `>=20%` —
+  `60.1371% / 59.4278%` при gates `65% / 75%`, оба провалены;
+- leave-one-year-out stress минимум `21.4171%` (исключён 2022), gate `20%` пройден;
+- aspirational 50% support false; worst joint `CAGR >=50%`, `MDD <=40%` — `28.604%`.
+
+External artifact replay дал `all_true=true`; metrics/manifest/identity SHA
+`3b60978b.../a5002f6d.../46c9a0e1...`. Это same-history post-selection diagnostic, не
+forward probability. Он показывает временную концентрацию edge: повышение V49 scale
+не превращает его в относительно предсказуемые `20%`. V49/V50 не повторять, block/
+window/gates не выбирать по результату и не создавать соседний leverage variant.
+Главный путь остаётся post-seal forward V49/V48/V27 плюс экономически новая family на
+новых causal источниках; live trading запрещён.
+
 ## V49 exact double-risk — BEST EXACT CAGR, strict NO-GO at 45% primary gate
 
 V49 config SHA `37b4fcb0...`, seal `ad22fb4`, implementation commit `540741a`,
@@ -1921,6 +1951,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    отдельно: V48 `1.50x` остаётся заранее выбранным baseline, V49 не заменяет его.
 4. До полного warmup/evaluation не считать CAGR и не выбирать arm. Любой paper pass
    требует broker-exact IM/fees/fills и второго unseen периода; live trading запрещён.
+5. V50R1 уже показал, что same-history stability floor `20%` не подтверждён: q05
+   `10.4537%`, rolling gates false. Поэтому не компенсировать это новым плечом или
+   выбором удачных historical windows; ждать frozen post-seal observations и развивать
+   только новый causal source/mechanism с отдельным seal.
 
 ### P0 — forward-подтверждение V41 cash-carry sleeve
 

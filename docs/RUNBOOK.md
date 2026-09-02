@@ -1509,6 +1509,25 @@ runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
 `--audit-directory`, не менять scale/cap/buffer/gates и не переносить расчёт на
 локальную Windows-машину.
 
+### V50R1 read-only robustness artifact audit
+
+V50 parent остановился до resampling и не создал output из-за несовпадения metric
+calendar basis. Единственный canonical R1 уже выполнен на `gpu-mlserver`; повторять
+его без необходимости нельзя. Проверка существующего результата:
+
+```bash
+cd /opt/trading_lab
+runuser -u trading-lab -- env PYTHONDONTWRITEBYTECODE=1 \
+  .venv/bin/python -m market_lab.futures_v50r1_v49_robustness \
+  --audit-directory \
+  /srv/trading_lab_data/runs/v50_v49_robustness_20260902T155610Z_5a5b36ca
+```
+
+Ожидается `all_true: true`. R1 config SHA `5a5b36ca...`, implementation commit
+`0714967`, metrics/manifest SHA `3b60978b.../a5002f6d...`. Команда без
+`--audit-directory` создаёт новый bootstrap run и поэтому запрещена; локально этот
+расчёт не запускать.
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:

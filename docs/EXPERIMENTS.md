@@ -1,5 +1,30 @@
 ﻿# Реестр экспериментов
 
+## V50R1 V49 fixed robustness audit — INTERNAL 20% SUPPORT NOT CONFIRMED
+
+- Parent V50 config SHA `0e626e17...` был sealed до resampling, но preflight остановил
+  процесс без output: V49 stored CAGR использовал calendar basis `365.25`, reused V27
+  verifier — `365.2425`. Никаких bootstrap outcomes до исправления прочитано не было.
+- R1 correction SHA `5a5b36ca...`, implementation commit `0714967`, wrapper/engine SHA
+  `b35bd178.../292e237c...`. Исправлена только canonical V49 metric replay; все
+  `300 000` paths, seeds, четыре block length, два rolling window и gates остались
+  byte-sealed от V50.
+- Canonical server-only run:
+  `v50_v49_robustness_20260902T155610Z_5a5b36ca`. Observed stress CAGR/MDD
+  `40.3841%/24.6617%`; worst stress joint 20%/40% frequency `81.668%` прошла floor
+  `75%`, leave-one-year-out minimum CAGR `21.4171%` прошёл `20%`.
+- Три stability gate провалены: worst stress bootstrap q05 CAGR `10.4537% < 20%`;
+  доля 252-session окон с CAGR `>=20%` `60.1371% < 65%`; доля 504-session окон
+  `59.4278% < 75%`. Aspirational 50% false; worst joint frequency `28.604%`.
+- Verdict `INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`. Это selected-same-history
+  diagnostic, не calibrated probability и не holdout. Deflated Sharpe probability
+  stress при sensitivity `250` trials — `48.348%`, что дополнительно не поддерживает
+  сильное claim после большого числа исследований.
+- Runtime/artifact audit `all_true=true`; metrics/manifest/identity SHA
+  `3b60978b.../a5002f6d.../46c9a0e1...`. Не менять blocks, windows, gates или V49 risk
+  по этому outcome; следующий допустимый evidence — frozen post-seal forward либо
+  новый causal mechanism/source, не соседний historical scale.
+
 ## V49 double-risk forward V1 — SEALED, POST-SEAL COUNTS RESET TO ZERO
 
 - Config SHA `520bd3d4...` запечатан на `2026-09-02T12:30:04Z` до первого V49

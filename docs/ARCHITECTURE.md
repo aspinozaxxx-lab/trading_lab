@@ -849,6 +849,22 @@ Read-only admission поверх audited option/V27 components. В отличи�
 PnL. Duplicate market component date исключается fail-closed. Arm identity всегда
 `2.00x/4.00/2.00/1%`; V48/V49 outcome comparison отсутствует.
 
+### `market_lab.futures_v50_v49_robustness` и `futures_v50r1_v49_robustness`
+
+V50 читает из immutable V49 run только `session_date` и три combined NAV, сверяет
+parent hashes/metrics и выполняет фиксированный circular moving-block bootstrap,
+rolling-window, leave-one-year-out и deflated-Sharpe diagnostics. Prices, targets,
+orders, positions и данные 2026 в анализ не допускаются. R1 — минимальный wrapper,
+который только воспроизводит stored V49 CAGR с исходным calendar basis `365.25`;
+bootstrap basis `365.2425`, seeds, `300 000` replications, blocks, windows и gates V50
+не изменены. Original V50 implementation остаётся immutable как свидетельство
+preflight failure без output.
+
+Canonical V50R1 имеет verdict `INTERNAL_ROBUSTNESS_DOES_NOT_SUPPORT_20`: worst stress
+bootstrap q05 `10.4537%`, а доли rolling 252/504 окон выше 20% —
+`60.1371%/59.4278%`. Модуль является same-history diagnostic и никогда не выдаёт
+live admission.
+
 ### `market_lab.ops.forward_collector` и systemd
 
 Кроссплатформенный operational dispatcher запускает 13 forward jobs на
