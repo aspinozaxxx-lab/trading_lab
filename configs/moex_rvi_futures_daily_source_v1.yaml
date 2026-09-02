@@ -1,0 +1,125 @@
+﻿protocol_id: moex_rvi_futures_daily_source_v1
+protocol_version: 1
+status: sealed_after_source_availability_liquidity_and_schema_probe_before_curve_or_outcomes
+declared_at_utc: '2026-09-02T09:36:00Z'
+scope: source_only_no_curve_return_label_signal_trade_or_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol: >-
+  Adjacent monthly RVI futures expose a volatility term structure and a directly
+  traded volatility-risk mechanism distinct from the V39 trend parent. A separately
+  sealed two-leg corridor/convergence rule may improve portfolio return stability if
+  factual two-leg opens, activity and conservative costs are adequate.
+
+official_sources:
+  provider: MOEX_ISS
+  series_endpoint: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  history_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  product_context: https://www.moex.com/ru/derivatives/volatility
+  access_mode: anonymous_public_current_vintage_EOD
+
+availability_probe_only:
+  performed_at_utc: '2026-09-02T09:35:00Z'
+  curve_spread_return_label_signal_trade_or_pnl_computed: false
+  asset_code: RVI
+  secid_regex: '^VI[FGHJKMNQUVXZ][0-9]$'
+  exact_monthly_series_2019_2025: 84
+  first_expiration: '2019-01-17'
+  last_expiration: '2025-12-18'
+  existing_source_activity_screen:
+    values_used_for_series_selection: false
+    positive_volume_contract_days_2021: 382
+    positive_volume_contract_days_2022: 300
+    positive_volume_contract_days_2023: 413
+    positive_volume_contract_days_2024: 458
+    positive_volume_contract_days_2025: 369
+    volume_contracts_2021: 22464
+    volume_contracts_2022: 21563
+    volume_contracts_2023: 29181
+    volume_contracts_2024: 52564
+    volume_contracts_2025: 23609
+
+schema_probe_only:
+  derived_curve_or_outcome_not_computed: true
+  required_history_columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - OPENPOSITIONVALUE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - SETTLEPRICE
+    - SWAPRATE
+    - WAPRICE
+    - CHANGE
+    - QTY
+    - NUMTRADES
+    - SHORTNAME
+    - ASSETCODE
+
+collection:
+  board: RFUD
+  start: '2018-11-02'
+  end: '2025-12-18'
+  protected_from: '2026-01-01'
+  series_show_expired: 1
+  require_exact_84_series: true
+  preserve_all_missing_market_observations: true
+  pagination_until_cursor_total: true
+  preserve_raw_series_and_history_responses: true
+  atomic_immutable_output: true
+
+forbidden_derived_columns:
+  - curve
+  - spread
+  - basis
+  - return
+  - returns
+  - label
+  - target
+  - signal
+  - prediction
+  - trade
+  - pnl
+  - profit
+  - equity
+
+quality_gates:
+  exact_asset_and_secid_identity: true
+  exact_monthly_series_count: true
+  every_history_row_before_2026: true
+  raw_replay_exact: true
+  duplicate_contract_date_forbidden: true
+  missing_price_or_activity_not_zero_imputed: true
+  source_values_not_used_for_contract_selection: true
+  report_factual_open_and_trade_activity_coverage: true
+  live_promotion_forbidden: true
+
+output:
+  root: data/processed/info_radar/moex-rvi-futures-daily-2019-2025-v1
+  contents_in_git: false
+  immutable: true
+  required: [manifest.json, manifest.sha256, audit.json, series.parquet, daily_history.parquet, raw_responses.jsonl.gz]
+
+future_economic_protocol_constraints:
+  source_audit_must_pass_before_seal: true
+  adjacent_expirations_only: true
+  decision_uses_only_complete_prior_session_values: true
+  two_leg_next_common_open_execution_required: true
+  both_legs_positive_activity_required_at_execution: true
+  primary_doubled_and_stress_costs_required: true
+  distant_stop_and_bounded_holding_must_be_fixed_before_outcomes: true
+  no_threshold_tenor_direction_or_cost_selection_after_outcome: true
+  same_history_development_not_independent_confirmation: true
+
+limitations:
+  - Public EOD history has no historical bid/ask or proof of atomic two-leg fills.
+  - Current-vintage archived rows do not prove the original publication timestamp.
+  - A next-common-open proxy can still be optimistic in a thin volatility contract.
+  - Historical evidence cannot guarantee profit or authorize live trading.
