@@ -1,0 +1,76 @@
+﻿protocol_id: moex_type_b_vertical_execution_diagnostics_v1
+protocol_version: 1
+status: sealed_after_parent_counts_before_depth_or_friction_values
+declared_at_utc: '2026-09-02T20:58:00Z'
+scope: source_only_defined_risk_vertical_execution_diagnostics
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Measure displayed entry capacity and contemporaneous four-sided BBO crossing friction
+  for every already-admitted adjacent-strike debit vertical. This is a structural
+  execution diagnostic only and must not create a signal, trade, return or PnL.
+
+parent:
+  root: data/processed/options/moex-type-b-defined-risk-vertical-admission-2024-10-01-v1
+  protocol_sha256: f6c95bc1ed9dab6552b6adf05c8aa1ddcf77193c5385a033779eba7787bd4f27
+  implementation_sha256: cbacc5c5cb5fa273907c8a38d53a27aa9e021489ea78f778bef7c4937db8900b
+  manifest_sha256: 3455302aca155fd9a34e1386132b9d8daf9660ca33954a30703d08423e005876
+  audit_sha256: 6e062f04523809260940e8874fbd9fc27cf528194cb5747f6d40487470548b74
+  opportunities_sha256: cbfe3414c1ea55095fae9333f620b09fdabc0856904e659167618250cc5a8920
+  opportunities_rows: 1949
+  structural_only: true
+  single_sample_day_not_performance_evidence: true
+
+fixed_diagnostics:
+  freshness_seconds: [1, 5, 15, 60]
+  displayed_entry_capacity_contracts: min_long_offer_volume_and_short_bid_volume
+  displayed_exit_capacity_contracts: min_long_bid_volume_and_short_offer_volume
+  contemporaneous_exit_credit: long_bid_minus_short_offer
+  four_side_crossing_cost: entry_debit_minus_contemporaneous_exit_credit
+  crossing_cost_fraction_of_strike_width: four_side_crossing_cost_divided_by_strike_width
+  entry_debit_fraction_of_strike_width: entry_debit_divided_by_strike_width
+  no_fill_probability_or_queue_inference: true
+  no_atomic_two_leg_fill_assumption: true
+
+predeclared_capacity_thresholds_contracts: [1, 5, 10, 25]
+predeclared_crossing_cost_fraction_thresholds: [0.01, 0.02, 0.05, 0.10, 0.25]
+predeclared_quantiles: [0.10, 0.25, 0.50, 0.75, 0.90]
+
+reported_only:
+  rows_by_freshness_asset_and_option_type: true
+  capacity_threshold_counts_by_freshness: true
+  crossing_cost_threshold_counts_by_freshness: true
+  capacity_and_fraction_quantiles_by_freshness: true
+  nonpositive_or_nonfinite_price_volume_width: fail_closed
+  negative_four_side_crossing_cost_beyond_tolerance: fail_closed
+  returns_labels_targets_predictions_signals_trades_positions_equity_pnl: forbidden
+
+outputs:
+  root: data/processed/options/moex-type-b-vertical-execution-diagnostics-2024-10-01-v1
+  diagnostics: vertical_execution_diagnostics.parquet
+  metrics: structural_metrics.json
+  manifest: manifest.json
+  audit: audit.json
+  immutable: true
+  git_allowed: false
+
+forbidden_columns:
+  - return
+  - returns
+  - label
+  - target
+  - prediction
+  - signal
+  - trade
+  - position
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - One sample date measures displayed structure, never expected return or stability.
+  - Displayed volume does not prove queue priority, latency, simultaneous fill or ownership.
+  - Contemporaneous crossing cost is quote friction, not a simulated round-trip trade.
+  - Fees, exercise, assignment, margin and broker rules are not modeled here.
+  - Diagnostic thresholds cannot be reused as economic selection thresholds.
