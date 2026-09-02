@@ -1,0 +1,82 @@
+﻿protocol_id: moex_forward_option_surface_quality_v1
+protocol_version: 1
+status: sealed_after_v2_schema_before_clock_bbo_margin_quality_values
+declared_at_utc: '2026-09-02T21:35:51Z'
+scope: forward_source_quality_only_no_feature_no_label_no_return_no_pnl
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Determine whether the public-delayed timestamped option surface is structurally usable
+  for later defined-risk research. Report clock lag, quote-state coverage, adjacent
+  two-sided pair counts, sequence completeness and margin availability without emitting
+  market values or computing a feature, label, return, trade or PnL.
+
+parent_source:
+  config_path: configs/moex_forward_option_surface_source_v2.yaml
+  config_sha256: f9a0646279913c75bda7ed5f0e50bbe6ae89905a44dbd6a1a1653aedc7f8d3c4
+  implementation_path: src/market_lab/futures/moex_forward_option_surface_source_v2.py
+  implementation_sha256: 74d015a6add9f4e93a48a9f38d28753d65f3994b7f753a013edaf50f0993486b
+  admission_path: configs/moex_forward_option_surface_intraday_admission_v2.yaml
+  admission_sha256: fb598938c62364be33e352ed6bdc2c68f7bf6b44020a1c77d42c03211b6d12ce
+  snapshot_root: data/forward/moex-options-surface-v2-timestamps-margin
+  existing_snapshot_count_at_declaration: 1
+  quality_values_read_before_seal: false
+  parent_raw_replay_required: true
+
+eligibility:
+  earliest_retrieved_at_utc: '2026-09-02T21:25:00Z'
+  all_four_assets_required: [BR, MIX, RI, SI]
+  incomplete_discovery_session_allowed_for_source_diagnosis: true
+  v1_or_preboundary_snapshot_allowed: false
+
+reported_counts_only:
+  rows_by_asset: true
+  unique_expiries_by_asset: true
+  unique_strikes_by_asset: true
+  quote_states: [two_sided_positive, one_sided_positive, no_positive_quote, locked, crossed]
+  adjacent_two_sided_pairs_by_asset: true
+  exchange_sequence_nonnull_and_unique_by_asset: true
+  positive_margin_rows_by_field: [initial_margin_non_covered, initial_margin_sell, initial_margin_buy]
+
+clock_diagnostics:
+  exchange_timezone: Europe/Moscow
+  market_update_clock_column: market_update_time
+  last_trade_clock_column: last_trade_time
+  margin_clock_column: initial_margin_exchange_time
+  retrieval_clock_column: retrieved_at_utc
+  reporting_lag_minutes: [1, 5, 15, 60]
+  reporting_quantiles: [0.5, 0.9, 0.99]
+  negative_lag_is_invalid: true
+  thresholds_are_descriptive_not_strategy_selection: true
+
+output_contract:
+  root: data/forward/moex-options-surface-v2-quality-v1
+  immutable: true
+  parent_snapshot_path_and_sha_pinned: true
+  raw_price_or_strike_values_emitted: false
+  counts_and_clock_lag_summaries_only: true
+  deterministic_replay_required: true
+
+forbidden_outputs:
+  - bid
+  - offer
+  - strike
+  - settlement_price
+  - underlying_settlement_price
+  - return
+  - label
+  - target
+  - prediction
+  - signal
+  - trade
+  - position
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - Quote presence does not prove fill, queue priority, size or client delivery latency.
+  - Descriptive lag bins may not be converted into strategy thresholds on these observations.
+  - An incomplete warmup session can diagnose source quality but cannot count toward economics.
+  - The diagnostic cannot establish expected return or authorize live trading.
