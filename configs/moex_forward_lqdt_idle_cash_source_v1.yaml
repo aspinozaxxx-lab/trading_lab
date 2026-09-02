@@ -1,0 +1,125 @@
+﻿protocol_id: moex_forward_lqdt_idle_cash_source_v1
+protocol_version: 1
+status: sealed_before_first_forward_LQDT_quote_snapshot
+declared_at_utc: '2026-09-02T04:48:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Collect immutable forward-only LQDT best BID/OFFER and settlement metadata at the
+  same decision/following-observation times as the frozen stock-futures cash-carry
+  source. Test whether an idle asset sleeve can be liquidated without assuming
+  instantaneous 50% RUONIA, while computing no yield, return, signal, trade or PnL.
+
+forward_boundary:
+  earliest_source_date: '2026-09-02'
+  historical_backfill_before_earliest_source_date: forbidden
+  source_date_must_equal_current_Europe_Moscow_date: true
+  protected_historical_experiments_must_never_read_this_source: true
+
+instrument:
+  secid: LQDT
+  isin: RU000A1014L8
+  registration_number: '3915'
+  security_type: exchange_ppif
+  primary_board: TQBR
+  currency: RUB
+  manager: AO_VIM_Investments
+  intended_role: idle_sleeve_only_must_be_sold_before_cash_carry_activation
+  fractional_or_borrowed_units: forbidden
+
+preseal_official_evidence:
+  moex_security_card: https://www.moex.com/ru/listing/securities-cards.aspx?code=RU000A1014L8
+  manager_product_page: https://www.wealthim.ru/
+  manager_one_pager: https://www.wealthim.ru/upload/iblock/3c4/mbszb7t0t5r4fy0af2s07y2gm5o8w89v/LQDT_one_pager.pdf
+  moex_board_change_notice: https://www.moex.com/n99275
+  moex_current_risk_notice: https://www.moex.com/n102048
+  observed_metadata_before_seal:
+    - SECID=LQDT, ISIN=RU000A1014L8, REGNUMBER=3915, TYPE=exchange_ppif
+    - TQBR is primary and traded after the 2026-06-22 board migration
+    - fund objective is money-market income through central-counterparty repo
+    - LQDT is not in the expanded collateral list in the MOEX/NCC notice effective 2026-07-15
+  evidence_is_not_execution_or_broker_admission_proof: true
+
+stages:
+  decision:
+    scheduled_local_time: '15:49:00'
+    interpretation: liquidation_quote_after_frozen_15_40_cash_carry_decision_bar
+  fill:
+    scheduled_local_time: '15:59:00'
+    interpretation: following_quote_observation_not_guaranteed_execution
+  allowed_stage_arguments: [decision, fill]
+  same_stage_same_source_date_duplicate: forbidden
+
+official_source:
+  endpoint: https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/LQDT.json
+  access_mode: anonymous_public_ISS_may_be_delayed
+  request_blocks: [securities, marketdata]
+  expected_engine: stock
+  expected_market: shares
+  expected_board: TQBR
+
+required_fields:
+  identifiers: [SECID, BOARDID]
+  security_metadata: [LOTSIZE, MINSTEP, SETTLEDATE]
+  quote_prices: [BID, OFFER]
+  clocks_any_available: [SYSTIME, UPDATETIME, SEQNUM]
+  positive_two_sided_quote_required: true
+  crossed_or_locked_quote: invalid
+  missing_quote_clock_or_settlement: invalid_not_zero
+
+temporal_semantics:
+  retrieval_at_utc_is_hard_not_before_availability_time: true
+  exchange_clock_is_preserved_not_trusted_as_retrieval_clock: true
+  anonymous_delay_is_unresolved_until_measured: true
+  fill_snapshot_must_have_later_retrieval_at_than_decision: true
+  purchase_or_sale_is_never_inferred_from_quote: true
+
+economic_separation:
+  this_source_may_not_compute_yield_return_signal_trade_or_pnl: true
+  LQDT_units_must_be_zero_while_corresponding_cash_carry_sleeve_is_active: true
+  future_paper_protocol_must_use_buy_offer_and_sell_bid: true
+  settlement_netting_requires_byte_pinned_broker_rule: true
+  broker_commission_and_exchange_fee_must_be_separate: true
+  official_iNAV_values_not_collected_due_to_unresolved_commercial_use_terms: true
+  latest_causally_available_RUONIA_may_only_be_joined_after_separate_economic_seal: true
+
+collection:
+  preserve_every_HTTP_JSON_payload_exactly_as_canonical_JSON: true
+  atomic_immutable_snapshot: true
+  one_snapshot_directory_per_source_date_and_stage: true
+  network_retries: 3
+  request_timeout_seconds: 30
+
+output:
+  root: data/forward/moex-lqdt-idle-cash-v1
+  contents_in_git: false
+  snapshot_prefix: snapshot
+  immutable: true
+
+readiness:
+  discovery_complete_decision_fill_pairs: 60
+  calibration_pairs_after_discovery: 20
+  unseen_evaluation_pairs_after_calibration: 60
+  paper_economics_before_discovery_and_separate_seal: forbidden
+  annualization_before_unseen_evaluation_complete: forbidden
+
+forbidden_outputs:
+  - yield
+  - return
+  - target
+  - label
+  - signal
+  - prediction
+  - trade
+  - equity
+  - pnl
+  - profit
+
+limitations:
+  - LQDT is not proven to be broker-accepted futures collateral and is modeled only while idle.
+  - TQBR quote and settlement metadata do not prove same-account netting or cash availability.
+  - Anonymous ISS does not prove order latency, size, queue priority, rejection or fill.
+  - Fund price can decline and money-market income is not guaranteed.
+  - Broker tariff, taxes, exchange fees and exact account rules remain unresolved.
+  - Source collection cannot guarantee profit or authorize live trading.
