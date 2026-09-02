@@ -864,6 +864,25 @@ Covered stock–futures source теперь готов: 485 141 синхрони
 3. отдельный pre-sealed portfolio experiment, где frozen cash-carry sleeve добавляется
    к frozen V39 без изменения ни одного дочернего сигнала.
 
+Пункт 3 завершён V41: fixed 80/20 дал 24,62–25,57% CAGR и улучшил Sharpe/MDD/worst
+year во всех scenarios, когда свободные cash-carry sleeves получают только 50% causal
+RUONIA. Следующий источник теперь не новая historical feature, а operational evidence:
+
+- синхронные forward BID/OFFER акции и exact deliverable futures в decision/fill times;
+- broker margin/fee/reject logs для one-futures + 100-shares;
+- byte-pinned условия конкретного cash/MMF/REPO инструмента, его haircut, налоги,
+  settlement cutoff и фактическая реализуемая доля RUONIA;
+- original-timestamp dividend decision/payment evidence, если cashflow credit больше
+  нуля используется в forward accounting.
+
+Без этих данных V41 остаётся `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`, не live GO.
+
+Forward quote-source для первого пункта запечатан до значений: config SHA
+`b25fe86c...`, seal `a193e0d`, boundary `2026-09-02`. Он собирает decision/fill
+TQBR/RFUD BID/OFFER и exchange clocks, не сохраняя basis или outcomes. Readiness
+60/20/60 пар предназначен сначала для измерения доступности, задержки и качества
+двухсторонних котировок; он не заменяет broker order/fill log и cash-instrument terms.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и

@@ -1317,6 +1317,45 @@ $hash = (Get-FileHash .\configs\<new-config>.yaml -Algorithm SHA256).Hash.ToLowe
 Не используй этот пример записи SHA для изменения уже sealed config: тогда необходима новая
 версия протокола.
 
+### V41 idle-RUONIA stability candidate
+
+Canonical runners (do not rerun to tune parameters):
+
+```powershell
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.stock_futures_cash_carry_idle_ruonia_v2
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures_v41_v39_cash_carry_ruonia_stability
+```
+
+Canonical outputs:
+
+- `runs/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa/`;
+- `runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128/`.
+
+Проверять manifest/audit hashes из `docs/STATUS.md`. Нельзя менять 80/20, 50% RUONIA,
+cash-carry trades или V39 по этим metrics. Для forward нужно отдельно доказать
+исполняемые quotes и фактический cash instrument.
+
+Forward stock-futures cash-carry BID/OFFER:
+
+```powershell
+.\scripts\register_forward_stock_futures_cash_carry_tasks.ps1
+.\scripts\collect_forward_stock_futures_cash_carry.ps1 -Stage decision
+.\scripts\collect_forward_stock_futures_cash_carry.ps1 -Stage fill
+.\.venv\Scripts\python.exe -m `
+  market_lab.futures.forward_stock_futures_cash_carry_readiness `
+  --output-root `
+  D:\Projects\trading_lab_data\data\forward\moex-stock-futures-cash-carry-v1
+```
+
+Tasks работают Mon–Fri в 15:49/15:59 МСК. Сбор до времени stage, source date до
+`2026-09-02` и повтор той же date/stage отклоняются. Existing immutable snapshot
+wrapper только replay-аудирует и пропускает; повреждённый не перезаписывается.
+До 60 valid ordered pairs запрещены paper signal/PnL, затем нужны 20 calibration и
+60 unseen evaluation. Полный контракт:
+[FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md](FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md).
+
 ### V40R1 fixed V39 + cash-carry stability blend
 
 Run command:

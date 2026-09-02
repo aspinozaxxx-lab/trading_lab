@@ -1,5 +1,42 @@
 ﻿# Реестр экспериментов
 
+## Forward stock-futures cash-carry source V1 — SEALED, 0/60 discovery pairs
+
+- Config SHA `b25fe86c...`, seal `a193e0d`, boundary `2026-09-02`; historical backfill
+  forbidden. Universe and stock mapping are frozen to GAZR/SBRF/ROSN/TATN/NOTK.
+- Two immutable source-only snapshots per Moscow session: decision 15:49 and fill
+  observation 15:59. Futures selection uses only official metadata, exact LSTTRADE
+  30–90 days and LOTSIZE 100 before quotes are read.
+- Every valid snapshot requires five positive non-locked TQBR/RFUD BID/OFFER pairs and
+  an exchange clock. Raw canonical JSON is replayed; basis/signal/trade/return/PnL are
+  forbidden outputs. No eligible contract is an explicit sleep, not a zero.
+- Readiness requires 60 complete ordered decision/fill pairs, then 20 calibration and
+  60 unseen evaluation. Paper economics is forbidden before discovery; annualization
+  is forbidden before unseen evaluation. Live remains false.
+
+## V41 fixed V39 + cash-carry idle-RUONIA blend — GO to forward confirmation
+
+- Cash-carry V2 SHA `a4c03aaa...`, seal `3265bd8` preserves exact 15 parent trades and
+  credits 50% causal RUONIA only to inactive equal asset sleeves. Canonical
+  `runs/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa/`;
+  metrics/manifest/audit/ledger
+  `2ddc7ba4.../018044c6.../22a17cd.../69310021...`. Mean eligible fraction 87.10%,
+  no missing rates. Primary/doubled/zero CAGR `8.3450%/8.2022%/6.5768%`, MDD near
+  0.56%; no parent signal/trade/cost/cashflow changed.
+- V41 SHA `45418128...`, seal `67a1eef` inherits exact V40R1 80/20 initial allocation
+  and no-rebalance rule; it replaces only the zero-yield cash parent with frozen V2.
+  No weight search followed V40R1.
+- Canonical `runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128/`;
+  metrics/manifest/audit/ledger
+  `000ae99b.../586e1b2d.../7dfc4696.../38bdd2ce...`.
+- Primary/doubled/stress CAGR `25.5683%/25.1454%/24.6187%`, Sharpe
+  `1.2689/1.2478/1.2273`, MDD `17.3235%/17.4244%/16.7796%`, worst year
+  `+0.9087%/+0.4820%/-0.4482%`. All five presealed gates pass versus V39; primary
+  has 5/5 positive years. Verdict `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`, live false.
+- Freeze allocation, RUONIA fraction and all child rules. Required confirmation is a
+  new forward period with synchronous executable cash-carry quotes and a byte-pinned
+  broker/cash instrument rule; overlapping history is not independent evidence.
+
 ## V40R1 fixed 80/20 V39 + cash-carry stability blend — strict NO-GO
 
 - V40 SHA `125c4740...` failed before combined metrics on a declared parent row-count

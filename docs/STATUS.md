@@ -3,6 +3,56 @@
 Обновлено: **2026-09-02**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Новый лучший stability candidate: V41 V39 + cash-carry + idle RUONIA — GO TO FORWARD
+
+Cash-carry V2 SHA `a4c03aaa...`, seal `3265bd8` добавил только доход на свободный
+капитал: ровно 15 frozen trades V1 не изменялись; asset-sleeve с позицией от entry до
+exit включительно получает 0%, неактивный — 50% latest causally available RUONIA,
+actual/365. Canonical
+`runs/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa/`; metrics
+`2ddc7ba4...`, manifest `018044c6...`, audit `22a17cd...`, ledger `69310021...`.
+Mean eligible capital `87,10%`, missing rate dates `0`. Primary/doubled/zero-cashflow
+CAGR `8,3450%/8,2022%/6,5768%`, Sharpe `6,085/6,180/12,678`, MDD
+`0,5610%/0,5626%/0,5762%`; все годы положительны. Verdict
+`CASH_SLEEVE_FORWARD_CANDIDATE`, но historical broker instrument, реально платящий
+50% RUONIA с мгновенной ликвидностью, ещё не доказан.
+
+V41 SHA `45418128...`, seal `67a1eef` наследует без изменения presealed V40R1 вес
+80% V39 / 20% cash-carry, no rebalance; заменён только zero-yield cash parent на
+frozen V2. Canonical
+`runs/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128/`; metrics
+`000ae99b...`, manifest `586e1b2d...`, audit `7dfc4696...`, ledger `38bdd2ce...`.
+
+Primary/doubled/stress CAGR `25,5683%/25,1454%/24,6187%`, Sharpe
+`1,2689/1,2478/1,2273`, MDD `17,3235%/17,4244%/16,7796%`, worst year
+`+0,9087%/+0,4820%/−0,4482%`. Относительно V39 Sharpe улучшен на
+`0,0174/0,0161/0,0083`, MDD — на `2,7087/2,7348/2,6553 п.п.`, worst year — во всех
+сценариях; все CAGR выше 20%, primary имеет 5/5 positive years. Все пять presealed
+gates true, verdict `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`.
+
+Это сильнейший текущий вариант для цели «не менее 20% более предсказуемо», но не
+доказательство live и не 50%: оба market-parent используют overlapping history, V39
+adaptive, cash-carry не имеет historical bid/ask execution, idle-yield instrument не
+верифицирован. Веса/50% RUONIA/DTE/signal после результата не менять. Следующий шаг —
+forward-синхронизация V39, cash-carry quotes и фактической доходности разрешённого
+cash instrument; live false.
+
+### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
+
+Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.
+Collector сохраняет только official series/description и текущие TQBR/RFUD BID/OFFER
+для пяти frozen пар в 15:49/15:59 МСК. Контракт выбирается metadata-only по exact
+`LSTTRADE` 30–90 дней, `LOTSIZE=100`; no contract = explicit sleep, неполная/locked
+quote = invalid всего snapshot. Raw canonical JSON replay exact, backfill до
+`2026-09-02` и derived basis/signal/trade/PnL запрещены.
+
+Модули `moex_forward_stock_futures_cash_carry_source` и
+`forward_stock_futures_cash_carry_readiness`, wrappers и Windows tasks готовы.
+Readiness: `0/60` complete decision/fill discovery pairs, затем 20 calibration и 60
+unseen evaluation; fill retrieval обязан быть позже decision. До 60 пар новая
+экономика/PnL запрещены, до окончания unseen evaluation запрещена annualization.
+Подробности: [FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md](FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md).
+
 ## V40R1 stability blend 80% V39 + 20% cash-carry — risk reduced, strict NO-GO
 
 Единственный weight `80/20`, отсутствие rebalancing и scenario mapping были запечатаны
@@ -1346,6 +1396,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — forward-подтверждение V41 cash-carry sleeve
+
+1. Не менять V41 80/20, 50% RUONIA, DTE 30–90, times, cashflow haircut или costs.
+2. Проверять tasks `TradingLabForwardCashCarryDecision` (15:49) и
+   `TradingLabForwardCashCarryFill` (15:59), затем paired readiness. Сейчас 0/60
+   discovery, 0/20 calibration, 0/60 unseen evaluation.
+3. Invalid/sleep snapshot не считать парой; не заменять missing BID/OFFER/clock нулём.
+   Anonymous ISS не доказывает latency, size, queue или fill.
+4. Параллельно получить byte-pinned broker fee/margin/order-log и конкретный
+   cash/MMF/REPO instrument rule. Без них даже успешный quote-forward остаётся paper.
 
 ### P0 — независимая forward-проверка V27
 

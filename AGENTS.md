@@ -27,6 +27,8 @@
 12. [Запросы лицензируемых данных](docs/DATA_ACCESS_REQUESTS.md) — какие платные
     original-timestamp sources реально устраняют блокеры и что нельзя покупать без
     отдельного разрешения пользователя.
+13. [Forward cash-carry protocol](docs/FORWARD_STOCK_FUTURES_CASH_CARRY_PROTOCOL.md) —
+    синхронный BID/OFFER-контур для проверки исполнимости V41 stabilizing sleeve.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
