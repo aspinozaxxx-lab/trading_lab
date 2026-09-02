@@ -1,0 +1,65 @@
+﻿protocol_id: futures_v27_forward_decision_schedule_v2
+protocol_version: 2
+status: sealed_after_source_availability_diagnosis_before_future_session_outcomes
+declared_at_utc: '2026-09-02T21:47:38Z'
+scope: operational_retrieval_schedule_only_no_economic_change
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Retrieve the same frozen V27 official daily CLOSE only after MOEX has published one
+  exact history row for every listed unexpired contract. Preserve actual retrieval as
+  availability and retry safely without weakening exact-row coverage or changing any
+  signal, target, execution or economic parameter.
+
+parent_component_source:
+  config_path: configs/futures_v27_forward_components_v1.yaml
+  config_sha256: 242d2684a76699c97fa7bc521ffd44045ee111b4f976f6e37fcfa4613da58110
+  implementation_path: src/market_lab/futures/moex_v27_forward_component_source.py
+  implementation_sha256: 026fef9f655eef01d2b3cab529637d853313622734c21e97b3de81ff29ce0a3f
+  dispatcher_path: src/market_lab/ops/forward_collector.py
+  dispatcher_sha256_at_diagnosis: b0339c85c008989500b2a4b9b9d4bc9f41fa3b5d1f5f9ede7d5d08db93718fed
+
+observed_source_availability_only:
+  market_or_pnl_values_used_to_choose_schedule: false
+  failed_timer_utc: '2026-09-02T20:45:00Z'
+  failed_timer_moscow: '2026-09-02T23:45:00+03:00'
+  failure: missing_exact_official_history_row_for_at_least_one_listed_contract
+  output_created_by_failed_attempt: false
+  first_complete_retry_utc: '2026-09-02T21:45:10.616986Z'
+  first_complete_retry_moscow: '2026-09-03T00:45:10.616986+03:00'
+  source_trade_date: '2026-09-02'
+  parent_replay_all_true: true
+
+schedule:
+  timezone: Europe/Moscow
+  weekdays: [Tue, Wed, Thu, Fri, Sat]
+  attempts: ['00:45', '01:15', '06:00']
+  rationale: first_post_midnight_attempt_plus_two_fail_closed_retries
+  persistent_catchup: false
+  source_date_probe_required_before_each_attempt: true
+  duplicate_market_kind_source_date_policy: audit_and_skip
+  optional_macro_failure_may_not_delete_complete_market_component: true
+
+causal_semantics:
+  decision_market_available_at: actual_successful_retrieval_utc
+  source_trade_date_may_be_previous_moscow_calendar_date: true
+  next_execution_timer_earliest_moscow: '10:05'
+  same_session_close_fill: forbidden
+  use_current_last_or_settle_as_official_close: forbidden
+  partial_history_or_forward_fill: forbidden
+  2026_historical_backfill: forbidden
+
+unchanged:
+  parent_signal_and_weights: true
+  official_close_volume_open_interest_normalization: true
+  roll_rule_and_contract_mapping: true
+  cost_margin_capacity_and_leverage: true
+  warmup_evaluation_and_promotion_gates: true
+  economic_parameters_changed: 0
+
+limitations:
+  - The first successful publication time is one source-availability observation, not a guarantee.
+  - Retry times are operational reliability attempts and may not select or alter trades.
+  - A missing complete decision component remains missing and cannot be backfilled.
+  - Successful collection does not prove future return or authorize live trading.
