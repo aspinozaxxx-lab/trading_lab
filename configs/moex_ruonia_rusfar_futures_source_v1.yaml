@@ -1,0 +1,111 @@
+﻿protocol_id: moex_ruonia_rusfar_futures_source_v1
+protocol_version: 1
+status: sealed_after_metadata_and_schema_only_probe_before_any_historical_market_value
+declared_at_utc: '2026-09-02T09:08:00Z'
+scope: source_only_no_spread_return_signal_trade_or_pnl
+research_only: true
+live_trading_allowed: false
+
+hypothesis_for_later_protocol: >-
+  Same-expiry RUSFAR and RUONIA monthly futures expose the secured-versus-unsecured
+  overnight funding spread, an economic driver distinct from V39 directional markets.
+  A separately sealed relative-value strategy may improve portfolio stability if
+  observed liquidity and realistic two-leg execution are adequate.
+
+official_sources:
+  provider: MOEX_ISS
+  series_endpoint: https://iss.moex.com/iss/statistics/engines/futures/markets/forts/series.json
+  history_template: https://iss.moex.com/iss/history/engines/futures/markets/forts/boards/RFUD/securities/{secid}.json
+  product_page_ruonia: https://www.moex.com/msn/en-ruonia
+  product_page_rusfar: https://www.moex.com/msn/ru-futrusfar
+  access_mode: anonymous_public_current_vintage_EOD
+
+metadata_probe_only:
+  performed_at_utc: '2026-09-02T09:06:00Z'
+  prices_spreads_returns_labels_signals_trades_or_pnl_read: false
+  asset_codes:
+    ruonia: {asset_code: RUON, secid_regex: '^RR[FGHJKMNQUVXZ][0-9]$'}
+    rusfar: {asset_code: 1MFR, secid_regex: '^MF[FGHJKMNQUVXZ][0-9]$'}
+  exact_same_expiration_pairs_before_2026: 79
+  first_matching_expiration: '2019-06-28'
+  last_matching_expiration: '2025-12-30'
+  series_selection_uses_price_volume_or_future_outcome: false
+
+schema_probe_only:
+  performed_with_limit_zero: true
+  example_identity: MFZ5
+  historical_rows_read: 0
+  required_history_columns:
+    - BOARDID
+    - TRADEDATE
+    - SECID
+    - OPEN
+    - LOW
+    - HIGH
+    - CLOSE
+    - VALUE
+    - VOLUME
+    - OPENPOSITION
+    - SETTLEPRICE
+    - WAPRICE
+    - NUMTRADES
+    - SHORTNAME
+    - ASSETCODE
+
+collection:
+  board: RFUD
+  start: '2019-05-21'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  series_show_expired: 1
+  deterministic_pair_key: expiration_date
+  require_exact_79_pairs: true
+  keep_missing_market_observations_missing: true
+  pagination_until_cursor_total: true
+  preserve_raw_series_and_history_responses: true
+  atomic_immutable_output: true
+
+forbidden_derived_columns:
+  - spread
+  - basis
+  - return
+  - returns
+  - label
+  - target
+  - signal
+  - prediction
+  - trade
+  - pnl
+  - profit
+  - equity
+
+quality_gates:
+  exact_asset_and_secid_identity: true
+  same_expiration_pairing_exact: true
+  every_history_row_before_2026: true
+  raw_replay_exact: true
+  duplicate_contract_date_forbidden: true
+  missing_price_or_activity_not_zero_imputed: true
+  source_values_not_used_for_contract_selection: true
+  live_promotion_forbidden: true
+
+output:
+  root: data/processed/info_radar/moex-ruonia-rusfar-futures-daily-2019-2025-v1
+  contents_in_git: false
+  immutable: true
+  required: [manifest.json, manifest.sha256, audit.json, series_pairs.parquet, daily_history.parquet, raw_responses.jsonl.gz]
+
+future_economic_protocol_constraints:
+  source_audit_must_pass_before_seal: true
+  use_same_expiration_only: true
+  two_leg_next_session_execution_required: true
+  primary_and_doubled_costs_required: true
+  delayed_fill_and_one_leg_failure_stress_required: true
+  no_threshold_or_tenor_selection_after_outcome: true
+  same_history_development_not_independent_confirmation: true
+
+limitations:
+  - Public EOD history is current-vintage and does not prove historical intraday bid/ask.
+  - A two-leg close or settlement observation is not an atomic executable spread fill.
+  - RUSFAR licensing and non-display use rights require separate confirmation.
+  - Historical evidence cannot guarantee profit or authorize live trading.
