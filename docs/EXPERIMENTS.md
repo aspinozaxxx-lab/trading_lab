@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## Broad stock-futures cash-carry economic V1 — SEALED, outcome unopened
+
+- Config SHA `0279da39...` freezes the old V1 15:40/15:50 timing, 30–90 DTE,
+  five-DTE exit, 50% PIT-RMS haircut, `max(20%, RUONIA+4%)`, 30% futures reserve and
+  10/5 versus 20/10 bps costs before any broad candle value is used economically.
+- The only signal-family change is breadth: 29 historically covered stocks and exact
+  per-contract share counts from the already sealed 339-contract source. ENPG remains
+  missing; CBOM/RUAL have explicit zero cashflow mapping rather than imputation from
+  another asset.
+- Predeclared outputs compare 1/29 no-rebalance stock sleeves with a separate 10%
+  active-position concentration-cap view. Primary, doubled, zero-cashflow and one-bar
+  delayed-fill stress use identical admissions. This is same-history development and
+  cannot authorize live trading.
+
 ## Forward delayed-BBO V2 sources — SEALED, automation confirmed
 
 - Before any V2 quote, cross config SHA `d4d8910c...` and broad config SHA

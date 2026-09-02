@@ -202,6 +202,13 @@ Canonical external bundle завершён в 10:35 и независимо repl
 test с exact per-contract `lot_size_shares`, frozen 15:40/15:50, 30–90 DTE, exit 5
 DTE, haircut 50%, hurdle `max(20%, RUONIA+4%)` и теми же costs.
 
+Economic breadth protocol уже запечатан до чтения broad outcomes: SHA
+`0279da39...`. Он сохраняет все перечисленные V1 правила и меняет только universe и
+exact `lot_size_shares`; ENPG missing, CBOM/RUAL имеют explicit zero cashflow mapping.
+Обязательны primary/doubled/zero-cashflow/one-bar-delayed scenarios и два заранее
+заданных portfolio view: 1/29 equal sleeves и 10% active concentration cap. Следующее
+действие — implementation/tests, затем один canonical run без настройки по результату.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

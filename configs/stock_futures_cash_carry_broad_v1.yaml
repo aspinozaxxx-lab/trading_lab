@@ -1,0 +1,182 @@
+﻿protocol_id: stock_futures_cash_carry_broad_v1
+protocol_version: 1
+status: sealed_before_any_broad_basis_signal_return_trade_or_pnl
+declared_at_utc: '2026-09-02T07:45:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Applying the unchanged covered stock-futures cash-carry rule to every historically
+  covered member of the fixed thirty-stock universe can increase trade count and
+  diversification without directional leverage. Exact contract-specific share units
+  replace the old five-asset assumption of one hundred shares.
+
+evaluation:
+  start: '2023-01-01'
+  end: '2025-12-31'
+  protected_from: '2026-01-01'
+  parameter_fitting: none
+  interpretation: sealed_historical_breadth_test_not_independent_live_holdout
+
+sources:
+  futures_intraday:
+    root: data/processed/info_radar/moex-broad-stock-futures-carry-intraday-2023-2025-v1
+    manifest: {file: manifest.json, sha256: 58581f7630c50c4173653473911165a0401e836611c3047800ccd4d65fe1fb62}
+    specs: {file: contract_specs.parquet, sha256: 94104d5cfc40ebe3e5c628b31b1761e75217d766f6323f87c659d50f4f2b6202, rows: 339}
+    candles: {file: futures_10m.parquet, sha256: 0f25437954b1f6f055401ef96c23ee9b56cca54c599cdde0aa22a45948a8badf, rows: 2132435}
+    raw: {file: official_moex_responses.jsonl.gz, sha256: 624460afd7f777f70821804c6aee52a59398694c873a8b479faf2f3489b13cef, rows: 4800}
+  spot:
+    root: data/processed/stocks_10m_pre2026_v1
+    manifest: {file: manifest.json, sha256: 5a7a4873f01141682c9c53d0714d235187eec6b57e5449b23bb04e68c4593042}
+    artifact_hashes_and_rows_must_match_manifest: true
+  rms_cashflow:
+    root: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v4
+    manifest: {file: manifest.json, sha256: e88360d3f1a3476e3e34a67b947fb7aa1a656a2c290aa46e27add84dd397b2e3}
+    cashflow: {file: cashflow.parquet, sha256: be7f9a32bf2b085edb01df4cee8d3a895be10b182e9708fd5e033616dfefad19, rows: 10817}
+  rates:
+    root: data/processed/info_radar/cbr-dev-2018-2025-v1
+    manifest: {file: manifest.json, sha256: 3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c}
+    daily: {file: cbr_daily.parquet, sha256: bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d}
+    series_id: ruonia
+
+universe:
+  exact_stocks: [AFKS, AFLT, ALRS, BSPB, CBOM, CHMF, GAZP, GMKN, IRAO, LKOH, MAGN, MGNT, MOEX, MTSS, NLMK, NVTK, PHOR, PLZL, ROSN, RTKM, RUAL, SBER, SBERP, SNGS, SNGSP, TATN, TATNP, TRNFP, VTBR]
+  excluded_missing_contract_stock: ENPG
+  exact_contracts: 339
+  direction: long_contract_share_count_of_stock_short_one_futures
+  naked_stock_short_or_futures_long: forbidden
+  positions_per_stock: 1
+  contract_share_count_source: pinned_contract_specs_lot_size_shares
+  positive_integer_contract_share_count_required: true
+  rms_assetcode_by_futures_assetcode:
+    AFKS: AFKS
+    AFLT: AFLT
+    ALRS: ALRS
+    BSPB: BSPB
+    CBOM: null
+    CHMF: CHMF
+    GAZR: GAZPF
+    GMKN: GMKN
+    IRAO: IRAO
+    LKOH: LKOH
+    MAGN: MAGN
+    MGNT: MGNT
+    MOEX: MOEX
+    MTSI: MTSI
+    NLMK: NLMK
+    NOTK: NOTK
+    PHOR: PHOR
+    PLZL: PLZL
+    PLZLM: PLZLM
+    ROSN: ROSN
+    RTKM: RTKM
+    RUAL: null
+    SBRF: SBRF
+    SBPR: SBPR
+    SNGR: SNGR
+    SNGP: SNGP
+    TATN: TATN
+    TATP: TATP
+    TRNF: TRNF
+    VTBR: VTBR
+  null_rms_mapping_means_zero_expected_and_outcome_proxy_with_explicit_count: true
+
+decision:
+  timezone: Europe/Moscow
+  one_decision_candle_begin_per_day: '15:40:00'
+  decision_available_at_candle_end: true
+  primary_execution_candle_begin: '15:50:00'
+  delayed_stress_execution_candle_begin: '16:00:00'
+  same_candle_fill: forbidden
+  spot_and_futures_timestamp_must_match_exactly: true
+  both_candles_positive_volume_required: true
+  delayed_fill_required_for_global_admission: true
+  eligible_calendar_days_to_last_trade: {minimum: 30, maximum: 90}
+  contract_choice: nearest_last_trade_then_lexicographic_secid
+  scheduled_exit_calendar_days_to_last_trade: 5
+  hold_to_scheduled_exit_without_signal_tuning: true
+
+point_in_time_cashflow:
+  latest_available_snapshot_per_assetcode_and_event_date: true
+  required_available_at_lte_decision_at: true
+  event_date_t_must_be_after_entry_and_lte_last_trade_minus_5_days: true
+  projected_cashflow_haircut: 0.50
+  missing_cashflow: zero_for_signal_and_explicitly_counted
+  outcome_proxy: latest_RMS_value_available_by_exit_for_events_that_occurred_while_held
+  outcome_is_not_proof_of_actual_shareholder_payment: true
+
+entry_gate:
+  formula: >-
+    annualized locked proxy = (futures lot price + contract shares * 0.5 * PIT
+    cashflows - contract shares * spot price - ordinary round-trip costs) /
+    conservative capital * 365 / calendar days to scheduled exit
+  threshold: max_20pct_or_ruonia_plus_4pct
+  ruonia_required_and_point_in_time: true
+  no_entry_on_missing_ruonia: true
+
+capital:
+  stock_notional: contract_share_count_times_spot_price
+  futures_margin_reserve_fraction_of_futures_notional: 0.30
+  conservative_capital: stock_notional_plus_margin_reserve
+  borrowing: none_fully_funded
+  integer_unit_trade: one_futures_and_exact_contract_share_count
+
+costs:
+  ordinary: {spot_bps_per_side: 10.0, futures_bps_per_side: 5.0}
+  doubled: {spot_bps_per_side: 20.0, futures_bps_per_side: 10.0}
+  costs_include_commission_slippage_and_unobserved_spread_proxy: true
+
+scenarios:
+  primary: {cashflow_credit_fraction: 0.50, cost_model: ordinary, fill: primary}
+  doubled: {cashflow_credit_fraction: 0.50, cost_model: doubled, fill: primary}
+  zero_cashflow_stress: {cashflow_credit_fraction: 0.00, cost_model: doubled, fill: primary}
+  delayed_fill_stress: {cashflow_credit_fraction: 0.00, cost_model: doubled, fill: delayed}
+  identical_decisions_across_scenarios: true
+
+portfolio_views:
+  primary_equal_stock_sleeves:
+    initial_weight_per_stock: one_divided_by_29
+    rebalance: none
+    inactive_cash_yield: zero
+  secondary_active_concentration_cap:
+    maximum_weight_per_active_stock: 0.10
+    allocation_order: entry_date_then_stock_lexicographic
+    allocation: min_10pct_and_remaining_cash_at_entry_held_until_exit
+    overlapping_trade_rebalance: none
+    inactive_cash_yield: zero
+    interpretation: presealed_capacity_view_not_posthoc_selector
+
+outputs:
+  root: runs/stock_futures_cash_carry_broad_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, decisions.parquet, trades.parquet, daily_ledger.parquet]
+
+quality_gates:
+  exact_source_hashes: true
+  all_rows_before_2026: true
+  exact_timestamp_alignment: true
+  exact_contract_share_units: true
+  no_overlapping_position_within_stock: true
+  next_bar_and_delayed_fill_only: true
+  scenario_decisions_identical: true
+  report_decisions_signals_trades_unresolved_and_years: true
+  report_CAGR_Sharpe_MDD_primary_doubled_zero_and_delayed: true
+  raw_RMS_proxy_never_called_realized_dividend: true
+
+promotion:
+  historical_screen_can_only_be_NO_GO_or_FORWARD_CANDIDATE: true
+  equal_sleeve_primary_and_doubled_positive_CAGR: true
+  equal_sleeve_primary_Sharpe_gte: 1.0
+  equal_sleeve_primary_MDD_lte: 0.15
+  trades_gte: 20
+  equal_sleeve_positive_years_gte: 2
+  all_stress_MDD_lte: 0.20
+  objective_20pct_CAGR_is_reported_but_not_required_for_source_family_admission: true
+  live_promotion_forbidden: true
+
+limitations:
+  - RMS cashflows are risk-system projections, not verified paid dividends.
+  - Historical candles have no bid/ask, order queue, aggressor side or broker rejects.
+  - Current descriptions do not prove historical spot lot, multiplier, margin or fee rules.
+  - The same 2023-2025 history is a development breadth test, not independent confirmation.
+  - Historical results cannot guarantee profit or authorize live trading.
