@@ -1,0 +1,35 @@
+﻿protocol_id: v53r1_ofz_curve_v49_governor
+protocol_version: 1
+status: sealed_after_v53_numpy_bool_serialization_mismatch
+declared_at_utc: '2026-09-02T18:55:00Z'
+research_only: true
+live_trading_allowed: false
+
+parent_v53:
+  config_path: configs/v53_ofz_curve_v49_governor_v1.yaml
+  protocol_sha256: 838ee791d6105161c8c19c1b6211f0c53fd38d53c93555de9589c0a3b8959227
+  implementation_path: src/market_lab/futures_v53_ofz_curve_v49_governor.py
+  implementation_sha256_at_failed_audit: a9cdfc4d2ec3aeb6bd78cbaa65775700b8a6ef862dca6e3cd89a58c44f236607
+  failed_audit_run: v53_ofz_curve_v49_governor_v1_20260902T173550Z_838ee791
+
+observed_failure:
+  economic_verdict: NO_GO
+  artifact_hash_checks_true: true
+  curve_states_replay_exact: true
+  governed_ledger_replay_exact: true
+  metrics_replay_exact: false
+  mismatch: numpy_bool_serialized_by_default_str
+
+mechanical_correction:
+  cast_coverage_gate_to_builtin_bool: true
+  curve_state_factors_returns_metrics_and_gates_changed: false
+  corrected_engine_path: src/market_lab/futures_v53_ofz_curve_v49_governor.py
+  corrected_engine_sha256: 94897e75f090b8d213919be0b38cf41d5acd0da2352b21004692ade95f3b7f41
+  wrapper_path: src/market_lab/futures_v53r1_ofz_curve_v49_governor.py
+
+output_override:
+  root: runs/v53r1_ofz_curve_v49_governor
+
+limitations:
+  - R1 changes serialization type only and cannot change V53 economic NO-GO.
+  - All V53 normalized-proxy and live-trading limitations remain.

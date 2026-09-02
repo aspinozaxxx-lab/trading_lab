@@ -229,8 +229,9 @@ def evaluate(config: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame, dict[s
         >= int(gates["minimum_valid_state_months"]),
         "both_curve_states_observed": state_counts.get("normal", 0) > 0
         and state_counts.get("inverted", 0) > 0,
-        "minimum_state_covered_V49_session_fraction": covered
-        >= float(gates["minimum_state_covered_V49_session_fraction"]),
+        "minimum_state_covered_V49_session_fraction": bool(
+            covered >= float(gates["minimum_state_covered_V49_session_fraction"])
+        ),
         "all_nav_positive": all(
             group["governed_nav"].gt(0).all() for _, group in ledger.groupby("scenario")
         ),
