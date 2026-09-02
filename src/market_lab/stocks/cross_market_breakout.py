@@ -132,6 +132,17 @@ def preflight_source(config: dict[str, Any], project_root: Path) -> dict[str, bo
     return checks
 
 
+def decoded_timestamp(frame: pd.DataFrame, ticker: str) -> pd.DatetimeIndex:
+    """Accept the source timestamp whether Parquet restores it as a column or index."""
+    if "timestamp" in frame.columns:
+        timestamp_values = frame.pop("timestamp")
+    elif frame.index.name == "timestamp":
+        timestamp_values = frame.index
+    else:
+        raise ValueError(f"V37 timestamp missing after decode: {ticker}")
+    return pd.DatetimeIndex(pd.to_datetime(timestamp_values, utc=True))
+
+
 def load_panel(config: dict[str, Any], project_root: Path) -> BreakoutPanel:
     manifest = validate_source(config, project_root)
     source_root = (project_root / config["source"]["directory"]).resolve()
@@ -147,7 +158,7 @@ def load_panel(config: dict[str, Any], project_root: Path) -> BreakoutPanel:
         frame = pd.read_parquet(
             path, columns=["timestamp", "open", "high", "low", "close", "value"]
         )
-        timestamp = pd.DatetimeIndex(pd.to_datetime(frame.pop("timestamp"), utc=True))
+        timestamp = decoded_timestamp(frame, ticker)
         if timestamp.has_duplicates or not timestamp.is_monotonic_increasing:
             raise ValueError(f"V37 timestamp order invalid: {ticker}")
         frame.index = timestamp

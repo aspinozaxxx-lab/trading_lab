@@ -50,6 +50,17 @@ def test_protocol_and_source_metadata_are_byte_sealed() -> None:
     assert config["reporting"]["gates"]["primary_cagr_minimum"] == 0.20
 
 
+def test_timestamp_decoder_accepts_parquet_restored_index() -> None:
+    index = pd.DatetimeIndex(
+        pd.to_datetime(["2022-01-03T07:00:00Z"]), name="timestamp"
+    )
+    frame = pd.DataFrame({"open": [100.0]}, index=index)
+
+    decoded = core.decoded_timestamp(frame, "TEST")
+
+    assert decoded.equals(index)
+
+
 def test_breakout_decision_enters_next_open_and_exits_after_completed_trigger() -> None:
     candidates = core.build_candidates(_panel(), _config()).frame
 
