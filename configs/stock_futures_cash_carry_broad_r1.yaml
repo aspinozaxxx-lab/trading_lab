@@ -1,0 +1,83 @@
+﻿protocol_id: stock_futures_cash_carry_broad_r1
+protocol_version: 1
+status: sealed_after_invalid_v1_unit_diagnostic_before_corrected_r1_outcomes
+declared_at_utc: '2026-09-02T08:25:00Z'
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Replay the exact sealed broad V1 economics after correcting only the share basis
+  mismatch between current-vintage back-adjusted stock candles and historical futures
+  contract/RMS units for four official corporate actions. No asset, contract, date,
+  signal, threshold, cashflow haircut, cost or portfolio rule may change.
+
+parent_protocol:
+  config: {file: configs/stock_futures_cash_carry_broad_v1.yaml, sha256: 0279da39fb7dc704d1efdd9b64e82f0158d872827e7784905772bf52f9e64c6c}
+  implementation: {file: src/market_lab/futures/stock_futures_cash_carry_broad_v1.py, sha256: 7e7b9472eb7d717a21166e7695b3a65898ed444eb90cd6fd725ff0ad5c8dff19}
+  invalid_run_reference: runs/stock_futures_cash_carry_broad_v1_20260902T080545Z_0279da39
+  invalid_reason: back_adjusted_spot_and_historical_futures_cashflow_share_basis_mismatch
+  parent_metrics_must_not_be_used_for_selection_or_gates: true
+
+unit_correction_source:
+  root: data/processed/info_radar/moex-stock-split-adjustments-2024-2025-v1
+  manifest: {file: manifest.json, sha256: 09d6eb41d44f0526cd401549d192ccf89249e4104c361c5e7fa78f2c5cecfbd5}
+  events: {file: events.json, sha256: ce06df70651fcd3621af6c635eb87f7c9c59b4b1951fcc8f5d1d4c53b67c2211, rows: 4}
+  affected_contracts: {file: affected_contracts.parquet, sha256: 32939c5ff6eb893dfb28dbdc3b1b08cc50dcaa1f6f1c3b37ebd9becfe8aa8dbe, rows: 27}
+  raw: {file: official_moex_notices.jsonl.gz, sha256: 272e9700c0059674d7efd16628185d29e1d783b7c516c34dbc6dc9df585fe9af, rows: 8}
+
+correction:
+  affected_stocks_only: [TRNFP, GMKN, PLZL, VTBR]
+  affected_contracts_exact: 27
+  back_adjusted_spot_units:
+    affected_contract: source_back_adjusted_spot_units
+    unaffected_contract: parent_historical_contract_lot_shares
+  rms_cashflow_per_adjusted_share:
+    TRNF_before_2024_02_21: parent_cf_divided_by_100
+    GMKN_before_2024_04_08: parent_cf_divided_by_100
+    PLZL_before_2025_03_27: parent_cf_divided_by_10
+    VTBR_before_2024_07_15: parent_cf_times_5000
+    all_other_assetcode_event_dates: unchanged
+  cashflow_basis_switch_uses_event_date_t_not_revision_or_retrieval_date: true
+  preserve_parent_decision_and_exit_timestamps: true
+  preserve_parent_missing_and_global_delayed_fill_gate: true
+  preserve_parent_scenarios_and_portfolio_views: true
+
+source_quality_diagnostic:
+  ratio: futures_decision_close_divided_by_spot_decision_close_and_back_adjusted_spot_units
+  per_contract_statistic: median_over_positive_aligned_1540_rows
+  acceptable_inclusive_range: [0.75, 1.35]
+  contracts_with_at_least_one_aligned_row_required: 338
+  contracts_without_aligned_row_required: 1
+  diagnostic_cannot_select_or_exclude_contracts: true
+
+evaluation:
+  exact_parent_period: ['2023-01-01', '2025-12-31']
+  protected_from: '2026-01-01'
+  parameter_fitting: none
+  interpretation: corrected_same_history_development_replay_not_independent_holdout
+
+outputs:
+  root: runs/stock_futures_cash_carry_broad_r1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, decisions.parquet, trades.parquet, daily_ledger.parquet, unit_diagnostics.parquet]
+
+quality_gates:
+  parent_config_and_implementation_hash_exact: true
+  correction_source_hashes_exact: true
+  exactly_27_contract_units_changed: true
+  cashflow_adjustment_only_for_exact_action_assetcodes_and_pre_effective_event_dates: true
+  source_ratio_diagnostic_passes_before_economic_verdict_is_admissible: true
+  all_parent_economic_gates_unchanged: true
+  no_posthoc_asset_or_trade_exclusion: true
+  all_rows_before_2026: true
+
+promotion:
+  inherit_exact_parent_gates: true
+  source_quality_failure_overrides_economic_verdict_to_INVALID: true
+  live_promotion_forbidden: true
+
+limitations:
+  - R1 fixes a discovered current-vintage unit defect and is not independent validation.
+  - RMS cashflows remain projections rather than verified paid dividends.
+  - Historical candles still lack BID/OFFER, queue and broker execution evidence.
+  - Corrected historical results cannot guarantee profit or authorize live trading.

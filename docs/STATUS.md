@@ -225,6 +225,13 @@ dates/factors и exact 27 pre-action contracts до corrected replay. Снача
 byte-pin raw notices, затем sealed R1 может изменить только unit basis, не universe,
 signal, time, DTE, hurdle, costs или portfolio views.
 
+Correction source завершён: 4 events, 27 affected contracts, 8 raw HTML; events/
+affected/raw SHA `ce06df7.../32939c5f.../272e9700...`, replay audit `15/15 true`.
+Economic R1 уже запечатан SHA `c2aa6752...` до corrected outcomes. Он наследует parent
+implementation/config по exact hashes и меняет только adjusted spot units плюс
+per-share RMS basis до effective corporate-action dates. Price-unit gate заранее
+требует 338 контрактов с median normalized ratio `0.75..1.35` и один explicit missing.
+
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
 Source V1 SHA `b25fe86c...`, seal `a193e0d` зафиксирован до первого post-seal BID/OFFER.

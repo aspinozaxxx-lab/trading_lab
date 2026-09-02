@@ -10,6 +10,10 @@
   and factors before corrected economic replay: TRNFP 1:100, GMKN 1:100, PLZL 1:10,
   VTBR consolidation 5000:1. It preserves raw HTML and produces only the exact 27
   affected contract identities and adjusted spot units, never PnL.
+- Collection is complete: events/affected/raw SHA
+  `ce06df7.../32939c5f.../272e9700...`; 15/15 replay checks pass. Corrected economic
+  R1 SHA `c2aa6752...` is sealed before its outcomes. It inherits every V1 economic
+  rule and changes only adjusted spot/cashflow share basis for those exact events.
 
 ## Broad stock-futures cash-carry economic V1 — INVALID UNIT IDENTITY
 
