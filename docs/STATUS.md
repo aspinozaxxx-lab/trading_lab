@@ -150,6 +150,9 @@ scoped Ruff clean. Тяжёлую загрузку запускать после
 чтобы не мешать задачам 10:05/10:09. После source completion допустим ровно один новый
 economic protocol: frozen V1 threshold/DTE/time/haircut/costs, меняется только breadth.
 Это новая проверка возможности поднять частоту и диверсификацию, не найденная прибыль.
+Полная регрессия после source implementation: `1141 passed, 7 skipped`; два прежних
+V8 context failures остаются только из-за отсутствующего external manifest, новых
+failures нет.
 
 ### Forward cash-carry quotes — SEALED, automation ready, 0/60 pairs
 
