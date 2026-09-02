@@ -473,6 +473,18 @@ def _artifact(path: Path, rows: int | None = None) -> dict[str, Any]:
     return value
 
 
+def _accounting_replay_exact(trades: pd.DataFrame) -> bool:
+    if trades.empty:
+        return True
+    return all(
+        np.allclose(
+            trades[f"{scenario}_net_points"].to_numpy(dtype=float),
+            trades["gross_points"].to_numpy(dtype=float) - cost,
+        )
+        for scenario, cost in SCENARIO_COSTS.items()
+    )
+
+
 def _report(metrics: Mapping[str, Any]) -> str:
     evaluation = metrics["temporal_evaluation_2025"]
     lines = [
@@ -528,13 +540,7 @@ def run(output_root: Path) -> Path:
         audit = {
             "all_artifacts_present": True,
             "metrics_protocol_exact": metrics["protocol_sha256"] == CONFIG_SHA256,
-            "trade_accounting_replay_exact": all(
-                np.allclose(
-                    trades[f"{scenario}_net_points"],
-                    trades["gross_points"] - cost,
-                )
-                for scenario, cost in SCENARIO_COSTS.items()
-            ),
+            "trade_accounting_replay_exact": _accounting_replay_exact(trades),
             "protected_rows_zero": bool(
                 trades.empty or pd.to_datetime(trades["exit_date"]).lt(PROTECTED_FROM).all()
             ),
@@ -595,10 +601,7 @@ def audit_run(run_directory: Path) -> dict[str, bool]:
     checks["completed_trade_count_exact"] = len(trades) == metrics["counts"][
         "completed_trades"
     ]
-    checks["net_accounting_replay_exact"] = all(
-        np.allclose(trades[f"{scenario}_net_points"], trades["gross_points"] - cost)
-        for scenario, cost in SCENARIO_COSTS.items()
-    )
+    checks["net_accounting_replay_exact"] = _accounting_replay_exact(trades)
     checks["capital_return_absent"] = metrics["cagr_or_ruble_return_reported"] is False
     checks["protected_rows_zero"] = bool(
         trades.empty or pd.to_datetime(trades["exit_date"]).lt(PROTECTED_FROM).all()

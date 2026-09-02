@@ -62,3 +62,9 @@ def test_execution_uses_next_quote_and_bid_for_long_exit() -> None:
     assert trades.loc[0, "exit_fill"] == 10.0
     assert trades.loc[0, "gross_points"] == 1.0
     assert trades.loc[0, "primary_net_points"] == -1.0
+
+
+def test_empty_trade_accounting_replay_is_exact() -> None:
+    empty = pd.DataFrame(columns=experiment.TRADE_COLUMNS)
+
+    assert experiment._accounting_replay_exact(empty)
