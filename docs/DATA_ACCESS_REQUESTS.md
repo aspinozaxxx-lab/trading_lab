@@ -60,3 +60,25 @@ recommendation, а не только current-vintage payment facts. Без эт�
 По умолчанию `SLEEPING_NO_CREDENTIALS_NO_SPEND`. Пользователь должен отдельно разрешить
 подписку/test access. До этого приоритет — уже работающие forward V39/V27 collectors;
 они не требуют покупки нового исторического права.
+
+## P0 — broker execution, margin and idle-cash evidence без передачи доступа
+
+Для V41 и broad cash-carry сначала не нужен API-ключ брокера. Достаточен обезличенный
+byte-pinned пакет документов и экспортов, который пользователь может положить во
+внешний каталог `D:\Projects\trading_lab_data\data\raw\broker_evidence\`:
+
+1. PDF/HTML действующего тарифного плана с названием счёта и effective date;
+2. правила списания broker/exchange/clearing fees для TQBR и RFUD, включая minimum fee;
+3. таблица фактической initial margin и дополнительных broker multipliers по выбранным
+   stock futures, с timestamp выгрузки;
+4. правила зачёта long stock, short deliverable futures, variation margin, delivery и
+   достаточности денежных средств; рекламное «единая позиция» не заменяет формулу;
+5. условия LQDT/SBMM/AKMM/TMON: комиссия, settlement, возможность/невозможность залога,
+   haircut, cutoff и срок высвобождения денег после продажи;
+6. обезличенный CSV/JSON paper или минимального тестового счёта с submitted/accepted/
+   rejected/cancelled/filled timestamps, requested/filled quantity, price и всеми fees.
+
+Логин, пароль, refresh/access token, номер счёта, ФИО и participant identifiers в пакет
+не включать. Агент не отправляет заявки и не подключает live account без отдельного
+явного разрешения. Сначала ingestion фиксирует SHA/schema и только затем допускает
+paper execution audit; отсутствие любого поля остаётся unresolved, а не нулём.
