@@ -6,6 +6,7 @@ from typing import Any
 import pandas as pd
 import pytest
 
+from market_lab.futures import forward_broad_stock_futures_carry_readiness as readiness_module
 from market_lab.futures import moex_forward_broad_stock_futures_carry_source as source
 from market_lab.futures import moex_forward_cross_market_bbo_source as cross
 
@@ -205,9 +206,19 @@ def test_collect_and_raw_replay(tmp_path: Path) -> None:
     )
     checks = source.audit(final)
     assert all(checks.values()), checks
+    readiness = readiness_module.readiness(tmp_path)
+    assert readiness["counts"]["complete_30_pair_snapshots"] == 1
+    assert readiness["counts"]["complete_sessions"] == 0
+    assert readiness["basis_rank_return_signal_trade_or_pnl_computed"] is False
     with pytest.raises(FileExistsError):
         source.collect(
             tmp_path,
             client=FakeClient(_payloads(config)),
             retrieved_at="2026-09-02T07:09:31Z",
         )
+
+
+def test_empty_readiness(tmp_path: Path) -> None:
+    payload = readiness_module.readiness(tmp_path)
+    assert payload["counts"]["snapshot_directories"] == 0
+    assert payload["next_action"] == "continue_immutable_broad_pair_collection"
