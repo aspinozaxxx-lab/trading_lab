@@ -312,6 +312,7 @@ def run_experiment(output_root: Path) -> Path:
     protocol = load_protocol()
     parent = _parent_metrics(protocol)
     verified = v27.verify_inputs(v27.load_protocol())
+    v26_protocol = v26.load_protocol()
     source = verify_option_source(protocol)
     parent_root = PROJECT_ROOT / protocol["parent_v27"]["canonical_run"]
     parent_path = parent_root / "weekly_v27_monetary_governed_weights.parquet"
@@ -319,11 +320,22 @@ def run_experiment(output_root: Path) -> Path:
         raise ValueError("V39 parent weekly weights drift")
     parent_weights = pd.read_parquet(parent_path)
     governed = apply_option_governor(parent_weights, source)
-    active = pd.read_parquet(verified.paths["active_contract_map"])
-    observations = pd.read_parquet(verified.paths["contract_observations"])
-    specs = pd.read_parquet(verified.paths["spec_proxy"])
+    active = pd.read_parquet(
+        verified.paths["active_contract_map"],
+        columns=v26_protocol["inputs"]["active_contract_map"]["allowed_columns"],
+    )
+    observations = pd.read_parquet(
+        verified.paths["contract_observations"],
+        columns=v26_protocol["inputs"]["contract_observations"]["allowed_columns"],
+    )
+    specs = pd.read_parquet(
+        verified.paths["spec_proxy"],
+        columns=v26_protocol["inputs"]["spec_proxy"]["allowed_columns"],
+    )
     ruonia_frame = pd.read_parquet(
-        verified.paths["cbr_panel"], filters=[("series_id", "==", "ruonia")]
+        verified.paths["cbr_panel"],
+        columns=v26_protocol["inputs"]["cbr_panel"]["allowed_columns"],
+        filters=[("series_id", "==", "ruonia")],
     )
     ruonia = v15.verify_ruonia(ruonia_frame)
     target_build = v26.build_execution_targets(governed.weights, active)
