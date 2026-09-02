@@ -86,12 +86,14 @@ basis/yield/return/signal/trade/PnL и не решает LQDT allocation capacit
 fees, margin или settlement. Это предотвращает накопление 60 дней формально полных,
 но фактически неисполнимых котировок.
 
-### Fixed idle-fund pool — SEALED before values, implementation ready, 0/60 pairs
+### Fixed idle-fund pool — SEALED, tasks READY, 0/60 pairs
 
 Чтобы не привязывать V41 к одному LQDT, до чтения котировок зафиксирован пул
 `LQDT/SBMM/AKMM/TMON` с exact ISIN/ПДУ. Source SHA `37a3baeb...`, seal `ac299a7`.
 Два среза 15:49/15:59 сохраняют BID/OFFER, лучшую/общую depth, lot/minstep,
 settlement и clocks всех четырёх фондов; неполный фонд делает snapshot invalid.
+Implementation `3c2f1eb`; tasks `TradingLabForwardFundPoolDecision/Fill` зарегистрированы
+и имеют status `Ready`, ближайшие запуски `2026-09-02 15:49:00/15:59:00` МСК.
 
 До 60 полных пар нельзя ранжировать фонды. После discovery правило выбора сначала
 запечатывается, затем получает 20 calibration и 60 unseen пар. В экономику обязательно

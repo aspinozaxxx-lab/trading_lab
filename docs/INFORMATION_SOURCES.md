@@ -904,6 +904,24 @@ LQDT, SBMM, AKMM и TMON с официальными ISIN/ПДУ. Source SHA `37
 60 полных пар можно запечатать правило выбора; затем нужны 20 calibration и 60 unseen.
 Это проверка исполнимости и стоимости парковки капитала, не допущение о collateral.
 
+Official current rules раскрывают существенную неоднородность costs, поэтому рекламную
+доходность нельзя использовать вместо единого accounting. У ВИМ для LQDT опубликован
+максимальный TER `0,29364%` в год. Действующие ПДУ TMON с изменениями №11 указывают
+`1%` управляющей компании, до `0,051%` депозитарию/регистратору/бирже и максимальные
+расходы `0,148%`, то есть общий contractual ceiling `1,199%` до налогов и расходов
+самого инвестора. Страница AKMM подтверждает новую редакцию ПДУ от `06.08.2026`, а
+TMON — revision chain и annual expense reports. Эти значения служат будущими заранее
+известными cost inputs, но сейчас не разрешают ranking: сначала нужны 60 quote/depth
+пар, затем отдельный economic seal. Для SBMM current exact fee extraction остаётся
+unresolved; использовать сторонние агрегаторы вместо официального ПДУ запрещено.
+
+Official disclosure roots:
+
+- LQDT: `https://www.wealthim.ru/products/bpif/wimfl/`;
+- SBMM: `https://www.first-am.ru/individuals/etf/etf-sbmm/documents`;
+- AKMM: `https://www.alfacapital.ru/disclosure/pifs/bpif-akmm/pif-rules`;
+- TMON: `https://t-capital-funds.ru/documents/mutual_funds/TMON/documents/`.
+
 Актуальный MOEX CCI endpoint `/iss/cci/corp-actions/dividends` документирован, но
 anonymous response имеет `X-MicexPassport-Marker: denied`. Старый
 `/iss/securities/{secid}/dividends.json` теперь попадает в generic security route и

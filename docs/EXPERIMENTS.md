@@ -11,6 +11,8 @@
 - Discovery is 60 complete ordered pairs. Only then may a presealed selection rule use
   20 calibration pairs, followed by 60 unseen pairs. The future rule must account for
   offer-to-buy, bid-to-sell, broker fee, tax and liquidation before active cash-carry.
+- Implementation `3c2f1eb`; exact 15:49:00/15:59:00 Windows tasks were registered
+  `Ready` before the first pool snapshot.
 - This is an idle-only instrument comparison, not evidence that any fund is eligible
   broker collateral and not authorization for live trading.
 
