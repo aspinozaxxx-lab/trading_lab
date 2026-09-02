@@ -1,0 +1,68 @@
+﻿protocol_id: v49_double_risk_paper_calendar_admission_v1
+protocol_version: 1
+status: sealed_after_first_calendar_source_snapshot_before_first_V49_paper_economic_decision_or_pnl
+declared_at_utc: '2026-09-02T22:54:23Z'
+scope: readiness_only_calendar_admission_no_signal_weight_execution_or_gate_change
+research_only: true
+live_trading_allowed: false
+
+objective: >-
+  Replace the obsolete calendar-token-presence blocker in downstream V49 paper
+  readiness with audited official MOEX calendar evidence. The calendar can only add a
+  required fail-closed condition; it cannot start economics before the frozen V49
+  source warmup, execution and macro requirements are independently complete.
+
+parent_paper_arm:
+  protocol_path: configs/v49_double_risk_paper_arm_v1.yaml
+  protocol_sha256: 56822e1ea112bf795cebdda598539f737ee77c55a8e91d37b30e9684453520b3
+  readiness_v2_path: src/market_lab/futures/v49_double_risk_paper_readiness_v2.py
+  readiness_v2_sha256: b38bdcd7c637a637e10a4bdf6d0feec92b5a775102f3a41a84de9379fda2c383
+
+calendar_source_admission:
+  protocol_path: configs/futures_v27_forward_calendar_html_transport_admission_v1.yaml
+  protocol_sha256: 9dc8ef1f45c7f013ba170224b8ee9953398cd615af56e986a9886ce98c6cbef5
+  readiness_path: src/market_lab/futures/moex_forward_futures_calendar_readiness_v1.py
+  readiness_sha256: e5a28df159372726a134153840ac9d2e3bb2802786de8b521f584fef9b47ae4f
+  output_root: data/forward/moex-futures-calendar-html-v1
+  require_latest_snapshot_retrieved_at_lte_assessment: true
+  require_next_six_trading_sessions_known: true
+  any_invalid_snapshot_blocks: true
+
+successor_readiness_contract:
+  implementation_path: src/market_lab/futures/v49_double_risk_paper_readiness_v3.py
+  base_V2_paper_economics_may_start_must_be_true: true
+  official_calendar_source_ready_must_be_true: true
+  combined_paper_economics_may_start_is_logical_AND: true
+  calendar_can_override_false_base_readiness: false
+  annualization_still_requires_original_evaluation_complete: true
+  return_target_prediction_order_position_or_pnl_computed: false
+
+frozen_economic_invariants:
+  V39_signs_and_zeros_changed: false
+  V49_multiplier: 2.0
+  maximum_gross_notional_multiple: 4.0
+  initial_margin_buffer_multiplier: 2.0
+  maximum_prior_official_volume_participation: 0.01
+  hard_fallback_sessions: 5
+  signal_scale_cap_margin_capacity_cost_execution_or_gate_changed: false
+  parameter_selection_from_calendar_values: 0
+  historical_2026_backfill: forbidden
+
+state_at_seal:
+  calendar_snapshots_valid_invalid: [1, 0]
+  calendar_rows_known_trading_known_nontrading_unknown: [485, 474, 11, 0]
+  calendar_next_six_sessions_known: true
+  calendar_manifest_sha256: 19a2858e29ad3791fc72324bfb1c2fe88d36989e9759e00186109126327092d5
+  calendar_audit_sha256: 35a0283bcb25b7b468abb2c7a5ac069ad80091bf05275fc3f9da8c745f5277bf
+  postseal_option_levels_complete_required: [1, 54]
+  postseal_official_close_levels_complete_required: [1, 253]
+  postseal_execution_FRED_CBR_counts: [0, 1, 0]
+  postseal_causal_join_count: 0
+  V49_paper_economics_may_start: false
+  CAGR_reporting_allowed: false
+  forward_return_target_prediction_order_position_or_pnl_computed: false
+
+limitations:
+  - Calendar readiness removes one operational dependency but not the 253-session warmup.
+  - A current-vintage calendar cannot be applied to a decision made before retrieval.
+  - No readiness state proves future return or authorizes live trading.
