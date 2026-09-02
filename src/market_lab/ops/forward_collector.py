@@ -109,7 +109,10 @@ PROBED_JOBS: Final[dict[str, dict[str, Any]]] = {
 
 V27_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_component_source"
 V27_FRED_API_MODULE: Final[str] = "market_lab.futures.moex_v27_forward_fred_api_component_source"
-V27_READINESS_MODULE: Final[str] = "market_lab.futures.v27_forward_component_readiness_v2"
+V27_FRED_ANONYMOUS_V2_MODULE: Final[str] = (
+    "market_lab.futures.moex_v27_forward_fred_anonymous_transport_v2"
+)
+V27_READINESS_MODULE: Final[str] = "market_lab.futures.v27_forward_component_readiness_v3"
 OPTION_QUALITY_MODULE: Final[str] = (
     "market_lab.futures.moex_forward_option_surface_quality_v1"
 )
@@ -278,11 +281,13 @@ def _v27_existing(
             matches = retrieved.date().isoformat() == source_date
         if not matches:
             continue
-        module = (
-            V27_FRED_API_MODULE
-            if manifest.get("protocol_id") == "futures_v27_forward_fred_api_component_v1"
-            else V27_MODULE
-        )
+        protocol_id = manifest.get("protocol_id")
+        if protocol_id == "futures_v27_forward_fred_api_component_v1":
+            module = V27_FRED_API_MODULE
+        elif protocol_id == "futures_v27_forward_fred_anonymous_transport_v2":
+            module = V27_FRED_ANONYMOUS_V2_MODULE
+        else:
+            module = V27_MODULE
         _audit(module, manifest_file.parent)
         print(
             f"SKIP component={component} source_date={source_date} snapshot={manifest_file.parent}"
@@ -329,7 +334,14 @@ def _run_v27(job_name: str, storage_root: Path) -> None:
             V27_FRED_API_MODULE,
         )
     else:
-        _v27_component(output, "macro_fred", source_date, False, False)
+        _v27_component(
+            output,
+            "macro_fred",
+            source_date,
+            False,
+            False,
+            V27_FRED_ANONYMOUS_V2_MODULE,
+        )
     _run_module(V27_READINESS_MODULE, "--output-root", str(output))
 
 

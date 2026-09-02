@@ -219,6 +219,33 @@ def test_v27_uses_authenticated_route_only_when_key_is_valid(
     ]
 
 
+def test_v27_uses_anonymous_transport_v2_when_key_is_absent(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.delenv("FRED_API_KEY", raising=False)
+    monkeypatch.setattr(subject, "_probe_unique_date", lambda spec: "2026-09-02")
+    calls: list[tuple[str, str]] = []
+
+    def record_component(
+        output: Path,
+        component: str,
+        source_date: str,
+        match_source_date: bool,
+        required: bool,
+        module: str = subject.V27_MODULE,
+    ) -> None:
+        calls.append((component, module))
+
+    monkeypatch.setattr(subject, "_v27_component", record_component)
+    monkeypatch.setattr(subject, "_run_module", lambda *args, **kwargs: "{}")
+    subject._run_v27("v27-decision", tmp_path)
+    assert calls == [
+        ("market_decision", subject.V27_MODULE),
+        ("macro_cbr", subject.V27_MODULE),
+        ("macro_fred", subject.V27_FRED_ANONYMOUS_V2_MODULE),
+    ]
+
+
 def test_systemd_units_are_hardened_and_cover_all_jobs() -> None:
     unit_root = subject.PROJECT_ROOT / "deploy" / "systemd"
     service = (unit_root / "trading-lab-collector@.service").read_text(encoding="utf-8-sig")
