@@ -1,0 +1,152 @@
+﻿protocol_id: moex_rms_historical_pit_source_v2
+protocol_version: 2
+status: sealed_after_temporal_date_only_probes_before_historical_risk_or_cashflow_values
+declared_at_utc: '2026-09-02T01:25:31Z'
+research_only: true
+live_trading_allowed: false
+
+correction:
+  parent_protocol_id: moex_rms_historical_pit_source_v1
+  parent_config_sha256: 33a57278f9466f1d1fd04fef06d1a1c73b87c22126f951f8670208ffbab7a699
+  parent_output_created: false
+  reason: >-
+    Date-only temporal probes established that cashflow is an as-of endpoint: its
+    returned tradedate can precede the requested calendar date. Limits and
+    staticparams retain exact-date semantics. No historical MR, CF or parameter
+    values were inspected before sealing this correction.
+  parent_protocol_and_implementation_remain_immutable_in_git_history: true
+
+objective:
+  statement: >-
+    Preserve official point-in-time MOEX derivatives risk parameters and anticipated
+    cashflow archives through 2025 for new margin-stress, dividend-fair-value and
+    defined-risk option hypotheses without reading any 2026 market outcome.
+  source_only: true
+  economic_hypothesis_selected: false
+  returns_targets_predictions_or_pnl_allowed: false
+
+preseal_inspection:
+  response_schemas_read: true
+  dates_metadata_read: true
+  cashflow_returned_dates_for_selected_query_dates_read: true
+  historical_mr_cf_or_parameter_values_read: false
+  observed_temporal_semantics:
+    limits: exact_date_or_empty
+    staticparams: exact_date_or_empty
+    cashflow: latest_snapshot_as_of_query_date
+  official_ranges:
+    limits: ['2018-05-22', '2026-09-01']
+    staticparams: ['2023-06-13', '2026-09-01']
+    cashflow: ['2023-06-13', '2026-08-26']
+
+source:
+  provider: Moscow_Exchange_MOEX_ISS
+  official_interface: https://www.moex.com/a8531
+  documentation_announcement: https://www.moex.com/n56498
+  base_endpoint: https://iss.moex.com/iss/rms/engines/futures/objects
+  access_mode: public_historical_archive
+  bearer_token_required: false
+  query_parameter: date
+  tables:
+    limits:
+      endpoint: limits.json
+      date_semantics: exact_or_empty
+      requested_from: '2018-05-22'
+      requested_till: '2025-12-31'
+      required_columns: [tradedate, assetcode, mr1, mr2, mr3, lk1, lk2, title, group_title, updatetime]
+      unique_key: [tradedate, assetcode]
+    staticparams:
+      endpoint: staticparams.json
+      date_semantics: exact_or_empty
+      requested_from: '2023-06-13'
+      requested_till: '2025-12-31'
+      required_columns:
+        - tradedate
+        - assetcode
+        - mdtimeicl
+        - mdtimeecl
+        - freq
+        - count
+        - spread
+        - autoshiftnummr
+        - autoshiftnumir
+        - futmonrange
+        - csmonrange
+        - futmontime
+        - csmontime
+        - futmonnum
+        - csmonnum
+        - futshift
+        - csshift
+        - somc
+        - windowsize
+        - volatnum
+        - rangefut
+        - rangecs
+        - mdrule
+        - negativeprices
+        - allfirstpriority
+        - nvolat
+        - minprice
+        - optionmodel
+        - ncl
+        - nclopt
+        - radius
+        - code_mcs
+        - updatetime
+      unique_key: [tradedate, assetcode]
+    cashflow:
+      endpoint: cashflow.json
+      date_semantics: latest_snapshot_as_of_query_date
+      maximum_snapshot_age_calendar_days: 14
+      requested_from: '2023-06-13'
+      requested_till: '2025-12-31'
+      required_columns: [tradedate, assetcode, t, cf, cfrisk, updatetime]
+      unique_key: [tradedate, assetcode, t]
+      repeated_snapshot_policy: require_exact_values_then_keep_earliest_archive_query_date
+  cursor_suffix: .cursor
+  pagination_start_parameter: start
+  raw_response_bytes_url_hash_and_retrieval_required: true
+
+temporal_boundary:
+  protected_from: '2026-01-01'
+  query_date_at_or_after_protected_from: forbidden
+  returned_tradedate_at_or_after_protected_from: forbidden
+  row_updatetime_at_or_after_protected_from: forbidden
+  requested_dates_are_calendar_grid: true
+  empty_nonpublication_dates_preserved_in_request_log: true
+  limits_and_staticparams_returned_tradedate_equals_query_date: true
+  cashflow_returned_tradedate_not_after_query_date: true
+  cashflow_returned_page_has_exactly_one_tradedate: true
+  no_forward_fill_between_archive_dates: true
+  archive_query_date_preserved: true
+  normalized_cashflow_keeps_earliest_observed_query_date: true
+  row_available_at: parsed_original_updatetime_Europe_Moscow
+  actual_retrieval_at_preserved_separately: true
+
+source_quality_gates:
+  exact_required_schema: true
+  cursor_total_complete_for_each_request: true
+  exact_or_bounded_asof_date_semantics: true
+  repeated_cashflow_snapshot_values_exact: true
+  unique_keys_after_cashflow_normalization: true
+  all_raw_pages_replay_exact: true
+  source_and_processed_hashes_exact: true
+  no_2026_rows_or_update_times: true
+  no_price_return_target_prediction_or_pnl_columns: true
+  immutable_output: true
+
+future_hypothesis_constraints:
+  structural_margin_rule_threshold: zero_change_only_not_percentile_fit
+  margin_increase_may_only_reduce_risk: true
+  cashflow_change_may_not_use_future_revision: true
+  economic_protocol_required_before_any_market_join_or_pnl: true
+  same_2023_2025_market_period_is_development_not_independent_validation: true
+  forward_confirmation_required: true
+
+output:
+  directory: data/processed/info_radar/moex-rms-historical-pit-2018-2025-v2
+  immutable: true
+  contents_in_git: false
+
+forbidden_columns: [price, open, high, low, close, return, returns, label, target, prediction, pnl, profit, equity]
