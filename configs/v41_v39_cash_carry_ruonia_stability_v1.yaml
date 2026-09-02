@@ -1,0 +1,74 @@
+protocol_id: futures_v41_v39_cash_carry_ruonia_stability_v1
+protocol_version: 1
+status: sealed_before_any_v39_cash_ruonia_combined_equity_or_metric
+declared_at_utc: '2026-09-02T04:26:00Z'
+research_only: true
+live_trading_allowed: false
+
+hypothesis: >-
+  Keep the exact presealed V40R1 initial 80/20 allocation, but replace only its
+  zero-yield cash-carry parent with the frozen V2 parent that credits 50% causal
+  RUONIA to inactive asset sleeves. This should preserve all-scenario CAGR above
+  20%, reduce drawdown and worst year, and avoid V40R1's small Sharpe degradation.
+
+inheritance:
+  frozen_allocation_source: futures_v40r1_v39_cash_carry_stability_v1
+  frozen_allocation_source_sha256: 05ce1266def6fde2598647615f3349c8ef2d0a3c8455f9b93dea4921d8e812a2
+  v39_weight: 0.80
+  cash_carry_weight: 0.20
+  rebalance_after_initial_allocation: never
+  weight_search_after_v40r1: false
+
+parents:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    protocol_sha256: 3b5d3074f8ec93ffb3aa7170c332f19af7dcd55900a5f7902bc636dd595032a6
+    identity: {file: identity.json, sha256: fe60f262ed752935be7eb52618bdb3759de709b0f4a1507e86f7f131d2af0c71}
+    metrics: {file: metrics.json, sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113}
+    primary: {file: combined_ledger_primary.parquet, sha256: 1820996ba32b3ef2c313cf9d2fbcffb40eff3f7869a72db042814313c1908976, rows: 1272}
+    doubled: {file: combined_ledger_doubled.parquet, sha256: 5a4751ce2d7d6c2b32dd27d4cf2044a35159291a191042757c75355d0019a616, rows: 1272}
+    stress: {file: combined_ledger_stress.parquet, sha256: da088adc061786ab2d5b43858dbeeef2af4c007c9849e538e207da937bd26561, rows: 1272}
+  cash_carry_ruonia:
+    root: runs/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa
+    protocol_sha256: a4c03aaa5b9832fe92b3f5c86db5d41a56acc74253e3f30280bd2a0bb59f0905
+    manifest: {file: manifest.json, sha256: 018044c6c51ac18258237c82077b7bfd8ede190f485c52904649c0b00db153a7}
+    metrics: {file: metrics.json, sha256: 2ddc7ba45e4092eab40ed828aaa5ea265a96250d3a6bb9d29d741847d70b8217}
+    ledger: {file: daily_ledger.parquet, sha256: 6931002173644bca69072f97cf9dd643a3ed7625933e554c45cf68c65e51fe52, rows: 1827}
+    audit: {file: audit.json, sha256: 22a17cd640a7fd490b75762fef5400a5ba7136b3b341fa09b6ce40a884066d38}
+
+scenario_mapping:
+  primary: {v39: primary, cash_carry: primary}
+  doubled: {v39: doubled, cash_carry: doubled}
+  stress: {v39: stress, cash_carry: zero_cashflow_stress}
+
+alignment:
+  v39_session_calendar_is_authoritative: true
+  cash_carry_nav_asof_v39_session_date: true
+  cash_carry_missing_after_start: forward_fill_last_audited_nav
+  cash_carry_before_start: forbidden_same_start_is_2020_12_30
+
+evaluation:
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  same_history_adaptive_evidence_not_independent_holdout: true
+
+required_gates:
+  all_scenario_CAGR_gte: 0.20
+  all_scenario_MDD_strictly_better_than_corresponding_v39: true
+  all_scenario_Sharpe_gte_corresponding_v39: true
+  all_scenario_worst_year_gte_corresponding_v39: true
+  primary_positive_years_gte: 5
+  live_promotion_forbidden: true
+
+outputs:
+  root: runs/v41_v39_cash_carry_ruonia_stability_v1
+  immutable_timestamped_run: true
+  required: [manifest.json, manifest.sha256, audit.json, metrics.json, report.md, combined_ledger.parquet]
+
+limitations:
+  - Both market parents use overlapping historical data; this is not independent confirmation.
+  - A broker instrument realizing 50% RUONIA on idle cash is not historically proved.
+  - Cash-carry RMS cashflow remains a proxy; stress credits zero dividend.
+  - Fixed normalized allocation ignores investor-specific integer contract sizing.
+  - Historical evidence cannot guarantee profit or authorize live trading.
