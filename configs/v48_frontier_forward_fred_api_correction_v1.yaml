@@ -1,0 +1,55 @@
+﻿protocol_id: v48_frontier_forward_fred_api_correction_v1
+protocol_version: 1
+status: sealed_before_FRED_key_or_authenticated_response_and_before_market_decision
+declared_at_utc: '2026-09-02T11:18:27Z'
+research_only: true
+live_trading_allowed: false
+
+parent_component_correction:
+  protocol_path: configs/v48_frontier_forward_component_correction_v1.yaml
+  protocol_sha256: 019f970e53b4ab3227824fba417222efa6847476b7882fb2012ab57a99e1e1c2
+  inheritance: all_V48_economics_V39_signal_causal_join_and_promotion_gates
+
+authenticated_FRED_component:
+  protocol_path: configs/futures_v27_forward_fred_api_component_v1.yaml
+  protocol_sha256: 2954c5a41a2687b0f017f14ab53af023a9b60dc4a9576c3fdede455d71fdd568
+  implementation_path: src/market_lab/futures/moex_v27_forward_fred_api_component_source.py
+  implementation_sha256: 4a283074ce6b782e6f4e7c915758c438d443e38ff0f69c0f36e91ea02572df5c
+  component_identity: macro_fred
+  output_root: data/forward/v27-validation-v3-components
+
+route_policy:
+  if_FRED_API_KEY_valid_at_wrapper_start: authenticated_official_API_only
+  otherwise: existing_anonymous_fredgraph_route
+  fallback_after_authenticated_failure: forbidden
+  both_routes_are_same_official_series: STLFSI4
+  selection_by_signal_market_return_or_PnL: forbidden
+  manifest_must_identify_transport: true
+  credential_persistence: forbidden
+
+economic_invariants:
+  V48_mode_or_parameters_changed: false
+  V39_signal_window_quantiles_or_sign_changed: false
+  STLFSI4_series_or_release_availability_changed: false
+  macro_join_rule_changed: false
+  execution_cost_margin_capacity_or_quote_mark_changed: false
+  promotion_gates_changed: false
+
+readiness:
+  accepted_base_protocol: futures_v27_forward_components_v1
+  accepted_authenticated_protocol: futures_v27_forward_fred_api_component_v1
+  all_other_snapshot_protocols: reject
+  FRED_counts_split_by_transport: true
+  causal_latest_retrieved_at_lte_decision_at: required
+  no_signal_return_target_prediction_or_PnL: true
+
+state_at_seal:
+  FRED_API_KEY_configured: false
+  authenticated_FRED_snapshots: 0
+  anonymous_FRED_snapshots: 0
+  market_execution_dates: 1
+  market_decision_dates: 0
+  CBR_snapshots: 1
+  option_weekly_levels: 1
+  forward_economic_outcomes_computed: false
+
