@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## V64 SI tax-calendar — new free-data screen, prepared before outcomes
+
+- User deferred AlgoPack purchase and asked for other hypotheses on 2026-09-07.
+- New fixed calendar information, not V19 published Minfin operations or another trend
+  threshold. Short SI in the week before nominal tax anchor; same-direction control
+  14 days earlier. No fitting, price features, sign/window search or paid sources.
+- Three byte-pinned eras 2008–2011 / 2012–2017 / 2018–2025, separate capital and flat
+  boundaries; 18 integer-contract ledgers planned, 1×/2×/stress costs. No 2026 outcomes.
+- 17/17 synthetic tests passed before seal; economic result not yet calculated.
+  Source/cost/holiday/legal-vintage limitations: [V64_TAX_CALENDAR.md](V64_TAX_CALENDAR.md).
+
 ## MOEX access request — 2026-09-07, SENT VIA YANDEX MAIL
 
 - Follow-up retail tariff check after the user's 610 RUB question: live official

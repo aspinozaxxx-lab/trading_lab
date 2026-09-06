@@ -1,0 +1,92 @@
+﻿protocol_id: v64_si_tax_calendar_v1
+declared_at_utc: '2026-09-06T22:25:00Z'
+research_only: true
+live_trading_allowed: false
+sealed_before_outcomes: true
+hypothesis: >-
+  Predictable ruble demand before the nominal monthly tax anchor may create a
+  short-SI premium distinct from the prior trend and published Minfin-flow signals.
+  This is a fixed calendar proxy, not proof of actual exporter conversions or an
+  exact taxpayer-specific due-date calendar.
+relationship: new_calendar_information_mechanism_on_already_open_development_history
+input_catalogs:
+  early:
+    path: configs/futures_v31_pre2012_temporal_validation.yaml
+    sha256: 6dcb6dab554137525015c4408393141388f883ccf580f6d0425e255b0e445fd9
+  later:
+    path: configs/futures_v36_online_expert_ensemble.yaml
+    sha256: cb391e44f9da66b1edc1931b43e0124bafd6253a836de1f44dfdf33fefdfdf39
+eras:
+  - {id: early, catalog: early, selection: pre2012, start: '2008-01-01', end: '2011-12-31'}
+  - {id: middle, catalog: later, selection: 0, start: '2012-01-01', end: '2017-12-31'}
+  - {id: recent, catalog: later, selection: 1, start: '2018-01-01', end: '2025-12-31'}
+protected_from: '2026-01-01'
+signal:
+  asset: SI
+  old_nominal_anchor_day: 25
+  new_nominal_anchor_day: 28
+  new_rule_effective: '2023-01-01'
+  decision_window: '[anchor-7, anchor-1] inclusive calendar days'
+  primary_anchor_shift_days: 0
+  control_anchor_shift_days: -14
+  direction: -1.0
+  outside_window: flat
+  fit: none
+  parameter_search: false
+  price_features_or_labels_for_decisions: forbidden
+  decision: completed_factual_session
+  execution: next_factual_open_strictly_after_decision
+  stale_entry: cancel_at_execution_if_after_nominal_anchor_or_different_month
+  terminal: force_flat_at_last_available_active_map_effective_date_each_era
+execution:
+  initial_cash_rub: 1000000.0
+  independent_capital_restart_per_era: true
+  combine_era_NAVs_or_positions: false
+  target_gross: 1.0
+  hard_gross_cap: 1.0
+  integer_contracts: true
+  maximum_participation: 0.01
+  initial_margin_buffer: 2.0
+  collateral_interest: 0.0
+  unexecutable_target_policy: cancel_and_clip
+  scenarios:
+    primary: {slippage_ticks: 1, fee_multiplier: 1.0}
+    doubled: {slippage_ticks: 2, fee_multiplier: 2.0}
+    stress: {slippage_ticks: 4, fee_multiplier: 2.0}
+validation:
+  scheme: no_fit_fixed_rule_all_three_available_eras_year_by_year
+  nested_fitting: not_applicable_no_model_or_parameter_selection
+  independent_holdout: false
+  no_period_asset_sign_window_selection_after_outcome: true
+  primary_comparisons: [zero_yield_flat_cash, same_direction_control_14_days_earlier]
+  compare_after_costs: true
+  no_new_neural_model_unless_new_protocol_and_substantive_information: true
+screen_gates:
+  all_eras_and_arms_execution_complete: true
+  zero_critical_or_unresolved: true
+  terminal_flat: true
+  minimum_primary_round_trips_per_era: 12
+  primary_and_stress_tax_total_return_positive_every_era: true
+  primary_and_stress_tax_CAGR_exceeds_control_every_era: true
+  primary_positive_year_fraction_per_era: 0.60
+  aspirational_cagr_20_and_50_separate_not_screen_gate: true
+  pass_means_new_forward_validation_only: true
+limitations:
+  - historical_contract_specs_fees_margin_and_daily_open_are_research_proxies
+  - no_original_tick_BBO_or_broker_fills
+  - calendar_anchor_does_not_shift_for_holidays_or_taxpayer_deferrals
+  - control_holidays_and_exposure_can_differ_and_must_be_reported
+  - old_25_day_anchor_is_a_predeclared_calendar_proxy_not_certified_2008_legal_vintage
+  - public_2015_and_2022_FNS_articles_support_mechanism_not_observed_currency_flows
+  - current_history_already_seen_in_other_families_not_unseen
+sources:
+  old_rule: https://www.nalog.gov.ru/rn18/news/tax_doc_news/5639218/
+  old_rule_publication: '2015-07-09'
+  new_rule: https://www.nalog.gov.ru/rn92/news/activities_fts/12571840/
+  new_rule_law: 263-FZ_2022-07-14_effective_2023-01-01
+forbidden_followups:
+  - changing_direction_anchor_window_control_shift_or_size_after_results
+  - discarding_bad_years_eras_or_holidays_after_results
+  - claiming_ex_ante_exporter_flow_or_exact_tax_deadline_from_calendar_proxy
+  - relabeling_control_as_a_new_winner_if_primary_fails
+  - tuning_or_replaying_old_parent_strategies

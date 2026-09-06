@@ -1,0 +1,15 @@
+﻿{
+  "protocol_id": "v64_si_tax_calendar_v1",
+  "sealed_before_outcomes": true,
+  "files": {
+    "configs/v64_si_tax_calendar_v1.yaml": "e26e5156ec49c8187983526236aec9a9a65c9050125ebf1d1d0fa1fc8d8566f6",
+    "configs/futures_v31_pre2012_temporal_validation.yaml": "6dcb6dab554137525015c4408393141388f883ccf580f6d0425e255b0e445fd9",
+    "configs/futures_v36_online_expert_ensemble.yaml": "cb391e44f9da66b1edc1931b43e0124bafd6253a836de1f44dfdf33fefdfdf39",
+    "src/market_lab/futures_v64_si_tax_calendar.py": "c870a61c16ae40f0d9e3e8637cdba62574ff331270e3c93cebf6ceef04132935",
+    "src/market_lab/futures/portfolio_ledger.py": "2b93564e13a006b4a1c4b1270a42064681e8286749c128c885cb5d89972ac9c2",
+    "src/market_lab/futures/execution_dataset.py": "fc83cbf1f08fb38084488a41e618cc103c0ba27b0563b0d12293eca15548c663",
+    "src/market_lab/futures/spec_proxy.py": "213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e"
+  }
+}
