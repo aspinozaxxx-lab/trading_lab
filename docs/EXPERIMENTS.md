@@ -44,6 +44,19 @@
 - External AlgoPack request still not authorized or sent. Existing frozen economic
   families are closed or require source/broker evidence; no ready new test established.
 
+### Third consecutive blocked audit, 2026-09-06
+
+- Same external dependency revalidated: no permission for the drafted MOEX request,
+  no populated AlgoPack/Interfax credentials, insufficient forward discovery history.
+- Metadata still contain 168 option manifests for three source dates only. Thus even
+  the possible-session upper bound 3 is below the fixed 20-session gate; the preceding
+  full readiness counted 2 complete sessions. No repeated economic/source replay run.
+- Specific option timer remains active/waiting, next 2026-09-07 10:09 MSK; last capture
+  service success/0 unchanged. Existing collectors are not stopped or restarted.
+- No new economic evidence or profitability claim. Automatic research must wait for
+  user authority, usable licensed data or sufficient new observations. Keep the full
+  20%/50% objective unmet; do not substitute more documentation or closed-family tuning.
+
 ## V63 frozen profit attribution — completed, same driver dominates
 
 - Post-selection accounting diagnostic, not a new strategy or an independent holdout.
