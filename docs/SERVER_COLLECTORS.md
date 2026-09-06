@@ -70,7 +70,7 @@ MOEX futures calendar до первого persisted response. Первый run �
 
 ```bash
 ssh gpu-mlserver 'systemctl list-timers --all --no-pager "trading-lab-*"'
-ssh gpu-mlserver 'systemctl --failed --no-pager "trading-lab-*"'
+ssh gpu-mlserver 'systemctl list-units --state=failed --no-pager "trading-lab-*"'
 ssh gpu-mlserver 'journalctl -u "trading-lab-collector@*.service" --since today --no-pager'
 ```
 

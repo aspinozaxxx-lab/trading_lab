@@ -27,6 +27,28 @@ research units сохранился старый preflight V62 с legacy-path Pe
 Изменена только документация; encoding + V63 + source synthetic/seal tests 22/22,
 `git diff --check` clean. Экономические configs, код и canonical artifacts не менялись.
 
+### Независимая бесплатная ветка: verified wait, 2026-09-06 19:00 UTC
+
+Разрешения на внешний запрос пока нет. Read-only проверка уже работающего option V2
+source на сервере подтвердила `168` eligible snapshots, `0` invalid и `2/20` полных
+discovery-сессий. 2026-09-03 и 2026-09-04 имеют по `83` снимка, span около `826` минут,
+maximum gap около `16` минут; 2026-09-02 остаётся неполной сессией и не засчитывается.
+Calibration `0/20`, unseen evaluation `0/60`, economic protocol admission `false`.
+
+Все `168` parent manifests сопоставлены с `168` quality identities по hashes; нет
+unpaired/mismatch. Свежий replay последнего quality report
+`quality_snapshot_20260904T205500334111Z_b26c35c6` — `9/9`. Это не повторный полный
+quality replay всех 168 reports: полный source replay выполнен readiness, quality
+replay повторён только для последнего report, у остальных сверены связи и hashes.
+
+`trading-lab-option-surface.timer` фактически `active/waiting`, следующий запуск
+`2026-09-07 10:09 MSK`; последний service завершён `success/0` в `2026-09-04 23:55`.
+Новый capture/restart не выполнялся, protected market values пользователю/агенту не
+выводились, features/labels/PnL не вычислялись. Результат — проверенное ожидание данных,
+не новая прибыль и не основание ослабить 20-session gate. Для ускорения основного
+поиска остаётся нужен ответ пользователя на ограниченный запрос MOEX. Экономический
+дизайн опционной ветки разрешён только после 20 полных discovery-сессий.
+
 ## V63 frozen profit attribution — COMPLETED, SAME RETURN DRIVER
 
 Пользователь одобрил изменение порядка поиска: [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md).

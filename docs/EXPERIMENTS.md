@@ -27,6 +27,23 @@
 - Details and unsent request: [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md).
   Do not repeat the same access check as progress without new authority/credentials.
 
+### Free alternative checked: option V2 verified wait, 2026-09-06 19:00 UTC
+
+- Existing read-only readiness completed on `gpu-mlserver`; no new economic run.
+- 168 eligible / 0 invalid source snapshots; two complete sessions (2026-09-03/04,
+  83 snapshots each) and one incomplete session (2026-09-02). Discovery 2/20,
+  calibration 0/20, unseen evaluation 0/60; economic protocol admission remains false.
+- All 168 source manifests have hash-matched quality identities; no missing pairs
+  or identity mismatches. Latest quality report replay 9/9; other quality reports
+  received identity/hash checks, not a new full quality replay. Parent source replay
+  was run for all 168 snapshots by the existing readiness module.
+- Timer confirmed active/waiting now, next 2026-09-07 10:09 MSK; previous service
+  success/0 at 2026-09-04 23:55 MSK. No restart or duplicate capture.
+- No market values exposed, no feature/label/PnL calculation and no gate changes.
+  Waiting for new sessions is an external-state dependency, not a profitability result.
+- External AlgoPack request still not authorized or sent. Existing frozen economic
+  families are closed or require source/broker evidence; no ready new test established.
+
 ## V63 frozen profit attribution — completed, same driver dominates
 
 - Post-selection accounting diagnostic, not a new strategy or an independent holdout.

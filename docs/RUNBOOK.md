@@ -63,7 +63,7 @@ Forward snapshots собирает только `gpu-mlserver` через native
 
 ```powershell
 ssh gpu-mlserver 'systemctl list-timers --all --no-pager "trading-lab-*"'
-ssh gpu-mlserver 'systemctl --failed --no-pager "trading-lab-*"'
+ssh gpu-mlserver 'systemctl list-units --state=failed --no-pager "trading-lab-*"'
 ```
 
 Расписания, журнал, deployment и аварийный откат описаны в
