@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## V62 opening regime — pre-outcome causal admission V2
+## V62 opening regime — canonical economic NO-GO
 
 - Parent seal `e1c1ab6` / `21b31830...` was not executed before interruption. Only its
   config was committed; its unfinished implementation had causal defects and was replaced.
@@ -15,8 +15,33 @@
   morning eligibility; future exit volume cannot size entry; all future path failures
   remain visible after inference; chronological early stopping and complete initial-equity
   accounting. Counterfactual synthetic tests: 13/13 passed.
-- Source preflight and canonical server economics remain pending; no profitability or
-  stability conclusion exists for V62 yet. Parent and V2 configs must remain immutable.
+- Seal commit `8ae2f77` preceded the price-bearing run. Initial service attempt failed
+  before market load/output creation on legacy directory access. `f0012e5` staged the
+  444 byte-declared files (58 304 850 bytes), without altering source bytes or economics.
+  Service-user preflight: 218 market artifacts, 1 699 545 rows, 2 025 sessions,
+  8 064 causal plan rows; all identities valid, zero protected rows.
+- Canonical run: `/srv/trading_lab_data/runs/v62_opening_regime_v2_748d8e58/`;
+  metrics SHA `6814d37d...`, identity SHA `e6cb807e...`. Separate read-only audit
+  `_audit_v1` passed 157/157 artifact/schema/accounting/metric checks.
+- 7 259 candidate rows, 5 609 OOS predictions per arm, MLP 728 signals / 320 completed
+  trades / 11 no-fills / zero unresolved. All three MLP ledgers complete.
+- MLP primary/doubled/stress CAGR `−0.650831% / −1.594079% / −2.534317%`;
+  Sharpe `−0.232416 / −0.588933 / −0.927537`; daily MDD
+  `10.353524% / 11.705908% / 13.115094%`. Intraday marked MDD
+  `10.739934% / 12.154897% / 13.484279%`.
+- Primary calendar returns: 2021 `−1.879728%`, 2022 `−4.351612%`, 2023 `+0.611669%`,
+  2024 `+1.448676%`, 2025 `+1.046848%`; only 3/5 positive years. Final capital
+  967 952.19 RUB from 1 000 000; total costs 42 945.09 RUB; same-size gross PnL
+  +10 897.28 RUB. Long/short trades 210/110; maximum factual participation 1%.
+- Logistic complete: 508 trades, CAGR primary/doubled/stress
+  `−0.959072% / −2.632139% / −4.053731%`. Both deterministic baselines have unresolved
+  BR on `2025-02-25`; their truncated metrics are diagnostic only.
+- Verdict `NO_GO`. Primary economic failure is established independently of baseline
+  execution failures. Do not select profitable asset/side/hour slices, invert directions,
+  reduce confidence thresholds or change horizons/costs on this opened history.
+- Verification: local/server V62 13/13; full pytest 1 344 passed, 7 skipped, two existing
+  V8 external-path failures; scoped Ruff clean, 58 pre-existing full-Ruff findings.
+  Parent and V2 protocols, code and canonical artifacts remain immutable.
 
 ## Official MOEX futures calendar transport — source and V49 admission complete
 

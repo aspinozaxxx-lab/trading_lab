@@ -1,9 +1,9 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-03**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-06**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V62 opening regime — PRE-OUTCOME IMPLEMENTATION READY
+## V62 opening regime — CANONICAL ECONOMIC NO-GO
 
 Parent opening hypothesis `e1c1ab6`, config SHA `21b31830...`, was sealed but never
 executed. The interrupted uncommitted implementation was rejected during code review:
@@ -17,10 +17,50 @@ Candidate and label schemas are separate; outer and inner training use chronolog
 two-session purges. Entry requests use completed observations; exit capacity is applied
 only on each actual exit attempt, with the original 12:20 deadline.
 
-All 13 synthetic causal/accounting/model tests passed. Canonical server economics has
-not run yet. Next action: verify the transitive pre-2026 source chain on `gpu-mlserver`,
-then one immutable V62 V2 run after commit/push/deployment. Report all four arms and all
-three cost scenarios. No 2026 market outcomes or live capital may be used.
+V2 запечатан/pushed commit `8ae2f77` до первого price-bearing run. Первый service attempt
+от `trading-lab` завершился на чтении top manifest с `PermissionError`, до market load
+и до создания output directory. Commit `f0012e5` добавил перенос только declared inputs:
+444 файла / 58 304 850 bytes скопированы побайтно в
+`/srv/trading_lab_data/data/v62-legacy-source-v1/`. Старые архивы и права на их родительские
+каталоги не менялись. Повторный metadata-only preflight от service user подтвердил 218
+market artifacts / 1 699 545 rows, 2 025 sessions, 8 064 causal plan rows, protected rows 0.
+
+Единственный economic run завершён на сервере с `ExecMainStatus=0`:
+`/srv/trading_lab_data/runs/v62_opening_regime_v2_748d8e58/`.
+Metrics SHA `6814d37dafde68c96618431ce7b169848d521938d6625774df527aa3ec7ca1f3`,
+identity SHA `e6cb807ef9617d33f2a577525221d6deea6157c6043e91bb536cbc27650092fa`.
+Независимый audit в соседнем каталоге `_audit_v1` прошёл 157/157 checks, включая SHA,
+нефильтрованный inference universe, accounting conservation и replay CAGR/Sharpe/MDD.
+
+Всего 7 259 causal candidates; OOS 2021–2025 — 5 609 прогнозов на каждый из четырёх arms.
+MLP: 728 направленных решений, 320 завершённых сделок, 11 no-fill, unresolved 0 во всех
+трёх сценариях. Все primary/doubled/stress MLP ledgers прошли полный горизонт.
+
+| MLP scenario | CAGR | Sharpe | Daily MDD | Intraday marked MDD |
+|---|---:|---:|---:|---:|
+| Primary | −0,6508% | −0,2324 | 10,3535% | 10,7399% |
+| Doubled costs | −1,5941% | −0,5889 | 11,7059% | 12,1549% |
+| Stress | −2,5343% | −0,9275 | 13,1151% | 13,4843% |
+
+Primary годы: 2021 `−1,8797%`, 2022 `−4,3516%`, 2023 `+0,6117%`, 2024 `+1,4487%`,
+2025 `+1,0468%`. Итог капитала 1 000 000 → 967 952,19 RUB; fees + slippage 42 945,09
+RUB. Арифметический gross PnL тех же фактических размеров всего +10 897,28 RUB: издержки
+превысили выявленный эффект. Это decomposition ledger, не отдельный zero-cost backtest.
+
+Logistic baseline также complete и отрицательный: primary CAGR `−0,9591%`, 508 trades.
+Fixed fade/continuation arms остановились на незакрытом BR `2025-02-25`; их partial
+metrics не являются full-period CAGR. Их неполнота не отменяет самостоятельного
+экономического провала полной MLP. Все численные 20%/50% цели V62 не достигнуты.
+
+V62 закрыт: не менять thresholds, часы, направление, assets, costs или horizon на этой
+истории, не выбирать post-hoc SI/short-only и не исправлять fixed arms ради promotion.
+Лучшие прежние V41/V49/V60 остаются без нового независимого подтверждения. Следующий
+шаг — новая экономическая информация/механизм, либо продолжение frozen forward discovery;
+ещё одна перестановка price-only intraday features не обоснована.
+
+Проверки: V62 synthetic 13/13 локально и на сервере; full suite 1 344 passed, 7 skipped,
+две прежние V8 external-path failures. Scoped Ruff clean; полный Ruff содержит 58 старых
+V8/V9 замечаний. Новые модели и все market/run artifacts находятся вне Git.
 
 ## Official MOEX futures calendar — SOURCE READY, V49 READINESS V3
 

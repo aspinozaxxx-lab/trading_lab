@@ -59,9 +59,9 @@
 25. [Historical MOEX Type B options](docs/MOEX_TYPE_B_OPTION_SOURCE.md) — один бесплатный
     sample day, strict-prior BBO, defined-risk vertical coverage и высокий crossing
     friction; не использовать его для выбора economic threshold или CAGR.
-26. [Текущее состояние](docs/STATUS.md), раздел V62 — opening-regime hypothesis после
-    pre-outcome causal correction. Parent V1 не запускался; использовать только отдельный
-    V2 admission и one-shot server runner, сверив текущий canonical status до запуска.
+26. [Текущее состояние](docs/STATUS.md), раздел V62 — canonical economic `NO_GO`, 320
+    сделок и CAGR `−0,65% / −1,59% / −2,53%` при трёх costs. Parent V1 не запускался;
+    V2 завершён один раз, audit 157/157. Не повторять и не tune-ить opening family.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
