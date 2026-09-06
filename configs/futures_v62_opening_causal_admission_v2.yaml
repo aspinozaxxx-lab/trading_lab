@@ -1,0 +1,120 @@
+﻿protocol_id: futures_v62_opening_causal_admission_v2
+protocol_version: 2
+declared_at_utc: '2026-09-06T17:44:15Z'
+parent_path: configs/futures_v62_cross_market_opening_regime_v1.yaml
+parent_sha256: 21b318308789522a47cc9fdd4013a348e209011ede4dd59865bec5fae273dce0
+parent_seal_commit: e1c1ab6
+sealed_before_outcomes: true
+research_only: true
+live_trading_allowed: false
+
+reason:
+  classification: pre_outcome_causality_correction_and_implementation_admission
+  parent_economic_run_executed: false
+  market_values_or_V62_outcomes_used_for_correction: false
+  original_uncommitted_draft_defects:
+    - current_evening_bar_existence_determined_morning_candidate_eligibility
+    - future_target_path_existence_removed_inference_candidates
+    - future_exit_volume_determined_entry_size
+    - random_early_stopping_split_mixed_nearby_overlapping_targets
+    - day_one_loss_was_excluded_from_Sharpe_and_initial_drawdown_peak
+  draft_replaced_before_any_price_bearing_run: true
+  parent_config_is_preserved_byte_identical: true
+
+inherited_unchanged:
+  assets: [BR, MIX, RI, SI]
+  sources: exact_three_parent_hashes_and_transitive_raw_manifest_chain
+  decisions_bar_opens_moscow: ['10:00', '10:30', '11:00']
+  target: exact_same_contract_next_open_to_open_sixty_minutes_later
+  gap_volatility_window: 60
+  minimum_absolute_own_gap_z: 0.75
+  alternative_cross_market_gap_dispersion: 1.0
+  long_and_short_probabilities: [0.60, 0.40]
+  neural_architecture_and_seeds: parent_32_16_relu_6201_6202_6203
+  core_model_minimum_rows: 1000
+  core_minimum_rows_per_class: 200
+  OOS_years: [2021, 2022, 2023, 2024, 2025]
+  baseline_models: [logistic_C_0_1, gap_fade, gap_continuation]
+  capital_rub: 1000000
+  target_asset_gross: 0.60
+  maximum_asset_gross_at_fill: 0.75
+  maximum_portfolio_gross_at_admission: 2.00
+  signal_participation: 0.0025
+  factual_participation: 0.01
+  costs: {primary: [1, 1.0], doubled: [2, 2.0], stress: [4, 2.0]}
+  parent_promotion_and_incremental_advantage_gates: unchanged
+
+exact_information_contract:
+  calendar: all_effective_dates_of_byte_pinned_historical_plan
+  plan_admission: observed_through_lte_decision_date_strictly_before_effective_date
+  gap: log_current_1000_open_over_exact_previous_session_1840_close_of_same_current_planned_contract
+  previous_session: exact_immediate_previous_calendar_entry_never_previous_available_row
+  gap_scale: std_ddof_zero_of_sixty_prior_session_gaps_excluding_today
+  gap_scale_missing: strict_window_missing_remains_missing_and_sleeps
+  roll: current_planned_contract_at_both_gap_endpoints_even_if_not_previously_active
+  current_session_inputs: all_exact_completed_bars_from_1000_through_decision
+  previous_session_return: log_same_contract_previous_1840_close_over_1000_open
+  previous_session_RV: sqrt_sum_squared_exact_adjacent_close_returns_minimum_36
+  prior_shape_twenty_day_setting: unused_parent_placeholder_no_extra_feature_added
+  horizon_volatility: std_of_sixty_prior_daily_1010_to_1110_log_returns_not_candidate_filtered
+  horizon_volatility_unknown: missing_indicator_fitted_only_on_core
+  candidate_eligibility_reads_target_or_entry_exit_path_or_future_volume: false
+  current_session_evening_bar_required: false
+  label_table: separate_from_candidate_and_inference_schema
+  target_available_at: scheduled_exit_bar_end
+  invalid_future_path: retain_inference_candidate_mask_training_label
+  historical_original_delivery_vintage_proven: false
+  protected_market_rows_2026_or_later: forbidden
+
+chronological_inner_fit:
+  outer_purge: two_exact_global_sessions_before_test_year
+  validation: last_15_percent_of_available_training_candidate_dates
+  core_validation_purge: two_exact_global_sessions_before_validation_start
+  scaler_and_missing_transform_fit: core_only
+  MLP_epochs: at_most_80
+  early_stop_metric: chronological_validation_accuracy
+  improvement_tolerance: 0.0001
+  patience: 8
+  select_best_validation_epoch_per_seed: true
+  ensemble: mean_all_three_seeds_without_seed_selection
+  logistic: core_only_C_0_1_max_iter_400
+  outcome_columns_in_inference_schema: rejected
+
+causal_execution:
+  request_sizing: completed_decision_price_lagged_point_value_completed_volume_and_observable_equity
+  future_entry_volume_or_future_exit_information_in_request_sizing: forbidden
+  actual_fill_size: minimum_request_and_current_execution_bar_one_percent_volume_capacity
+  price_gap: reduce_or_reject_at_fill_under_same_asset_and_portfolio_caps
+  one_trade_per_asset_session: after_first_actual_entry_fill
+  failed_entry_request: later_predeclared_decision_may_try_again
+  exit_time: original_sixty_minute_target
+  partial_exit: fill_only_factual_one_percent_integer_capacity_and_carry_remaining_position
+  exit_retry: every_exact_ten_minutes_through_parent_1220_final_deadline
+  unclosed_position_at_deadline: halt_and_fail_economic_gate_without_synthetic_fill
+  missing_open_position_mark: record_unresolved_and_invalidate_economic_gate
+  mark_to_market: every_factual_ten_minute_open_and_every_final_daily_cash_balance
+  initial_margin: modeled_25_percent_of_notional_with_two_times_buffer
+  mark_gross_or_margin_breaches: report_separately_from_order_admission
+  same_timestamp_next_open: zero_latency_historical_execution_proxy_not_proven_fill
+  fees_and_point_values: parent_lagged_research_proxy_not_broker_exact
+  collateral_interest: zero
+  taxes: not_modeled
+
+reporting:
+  all_four_arms_and_three_cost_scenarios: required
+  incomplete_ledger_metrics: diagnostic_only_never_promoted
+  first_session_return_and_initial_equity_peak: included
+  intraday_mark_MDD_additional_ceiling: 0.30
+  independent_counterfactual_tests: required_before_market_load
+  model_artifacts: external_joblib_no_Git
+  one_canonical_run: immutable_server_output_after_commit_push_deploy
+
+implementation:
+  - path: src/market_lab/futures/opening_regime_v2.py
+    sha256: c2fe3421c21f2029aec273515c5625f091881c2d64adebebcd8fe4ab619dca26
+  - path: src/market_lab/futures/opening_execution_v2.py
+    sha256: 3e91689296c9faa04913296c95685bccdee8895f12409df17b930a84a432aa66
+  - path: src/market_lab/futures_v62_opening_regime_v2.py
+    sha256: 53e9bde21b93ae73cf403a3f2fad6a5120de50a9435fa24ef6f3f2b93b5ffab0
+  - path: tests/test_futures_v62_opening_regime_v2.py
+    sha256: be066d8cf6923d60789bed40a78206d7d8764ed4eb4da70041ca9df0e6690eb6

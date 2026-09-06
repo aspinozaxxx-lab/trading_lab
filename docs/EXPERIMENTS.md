@@ -1,5 +1,23 @@
 ﻿# Реестр экспериментов
 
+## V62 opening regime — pre-outcome causal admission V2
+
+- Parent seal `e1c1ab6` / `21b31830...` was not executed before interruption. Only its
+  config was committed; its unfinished implementation had causal defects and was replaced.
+- V2 admission `configs/futures_v62_opening_causal_admission_v2.yaml`, SHA `748d8e58...`,
+  pins features/models `c2fe3421...`, event ledger `3e916892...`, runner `53e9bde2...`
+  and synthetic tests `be066d8c...` before the first V62 price-bearing run.
+- Hypothesis: same-contract prior main-close to current main-open gap and the opening
+  reaction of all BR/MIX/RI/SI markets distinguish continuation from reversal. Three
+  decision bar opens: 10:00/10:30/11:00 Moscow; sixty-minute holding target; probabilities
+  0.60/0.40; fixed 32/16 MLP, three seeds, logistic/fade/continuation baselines.
+- Fixes before outcomes: current evening and future execution path cannot determine
+  morning eligibility; future exit volume cannot size entry; all future path failures
+  remain visible after inference; chronological early stopping and complete initial-equity
+  accounting. Counterfactual synthetic tests: 13/13 passed.
+- Source preflight and canonical server economics remain pending; no profitability or
+  stability conclusion exists for V62 yet. Parent and V2 configs must remain immutable.
+
 ## Official MOEX futures calendar transport — source and V49 admission complete
 
 - Source config `8380d1a0...` и implementation `c4a07428...` запечатаны/pushed

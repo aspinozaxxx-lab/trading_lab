@@ -3,6 +3,25 @@
 Обновлено: **2026-09-03**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V62 opening regime — PRE-OUTCOME IMPLEMENTATION READY
+
+Parent opening hypothesis `e1c1ab6`, config SHA `21b31830...`, was sealed but never
+executed. The interrupted uncommitted implementation was rejected during code review:
+current evening-bar existence and future target/exit volume affected morning eligibility
+or sizing. No V62 market prices or outcomes had been loaded.
+
+Separate pre-outcome admission V2 SHA `748d8e58...` preserves the parent strategy and
+fixes these causal defects. Morning candidates never receive labels or inspect the
+current evening. At a roll both gap endpoints use the same currently planned contract.
+Candidate and label schemas are separate; outer and inner training use chronological
+two-session purges. Entry requests use completed observations; exit capacity is applied
+only on each actual exit attempt, with the original 12:20 deadline.
+
+All 13 synthetic causal/accounting/model tests passed. Canonical server economics has
+not run yet. Next action: verify the transitive pre-2026 source chain on `gpu-mlserver`,
+then one immutable V62 V2 run after commit/push/deployment. Report all four arms and all
+three cost scenarios. No 2026 market outcomes or live capital may be used.
+
 ## Official MOEX futures calendar — SOURCE READY, V49 READINESS V3
 
 Прямой documented ISS route `iss.moex.com/iss/calendars/futures` без авторизации
