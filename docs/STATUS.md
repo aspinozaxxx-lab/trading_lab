@@ -3,10 +3,34 @@
 Обновлено: **2026-09-06**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## После V63 — проверка нового источника, нужен тестовый доступ
+
+2026-09-06 выполнена bounded source feasibility, не новый economic experiment.
+В server `moex-microstructure-v1` только один target-free FUTOI snapshot: четыре
+запроса, восемь строк, source audit 11/11; TradeStats/OBStats там не собирались.
+AlgoPack/Interfax credentials отсутствуют. Корпоративные условия AlgoPack относятся
+к юрлицам, поэтому нельзя объявлять корпоративную стоимость обязательной для личного
+исследования. Наличие персонального API и старой ссылки на демо также не доказывает
+доступ к нужной истории или права на наш ML workflow.
+
+Подготовлен, но не отправлен запрос MOEX на ограниченный тест истории агрессивных
+сделок и стакана, точные условия персонального использования и sample day. Нужна
+отдельная авторизация пользователя на внешний запрос; покупок, регистрации,
+акцепта условий, нового обучения и live trading не было. Подробности, доказательства
+и черновик: [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md).
+
+15 server timers по-прежнему запланированы; failed collector units нет. В failed
+research units сохранился старый preflight V62 с legacy-path PermissionError;
+его не перезапускали и не сбрасывали. Канонический завершённый V62 не менялся.
+Не повторять эту проверку при неизменных credentials/разрешениях как новый прогресс.
+До ответа работают прежние frozen forward протоколы и их gates, без protected PnL.
+Изменена только документация; encoding + V63 + source synthetic/seal tests 22/22,
+`git diff --check` clean. Экономические configs, код и canonical artifacts не менялись.
+
 ## V63 frozen profit attribution — COMPLETED, SAME RETURN DRIVER
 
 Пользователь одобрил изменение порядка поиска: [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md).
-Следующий шаг — accounting attribution V41/V49/V60 с V39 и cash-carry parent, без нового
+Выполнена accounting attribution V41/V49/V60 с V39 и cash-carry parent, без нового
 обучения, изменения targets/fills/weights или просмотра protected 2026 outcomes.
 
 До новых attribution values проверены input hashes/schemas/dates и формулы исходного кода.
@@ -16,7 +40,7 @@ futures summaries и order costs; не повторяет canonical executions.
 
 V41/cash canonical originals остаются локально вне Git; восемь точных файлов скопированы
 в новый server root `/srv/trading_lab_data/data/v63-profit-attribution-inputs-v1/`.
-Transfer SHA `9dce79e6...`; старые run directories не менялись. Протокол
+Transfer SHA `9dce79e6...`; старые run directories не менялись.
 Seal/push/deploy `35ed00c`, config SHA `983b1a17...`, code SHA `73357a01...` предшествовали
 одному завершённому server run. Canonical
 `/srv/trading_lab_data/runs/v63_frozen_profit_attribution_v1_983b1a17/`, metrics SHA
@@ -2423,10 +2447,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. Следовать [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md), не снижая цель 20%/50%.
 2. V63 завершён, 183/183 replay checks; не повторять diagnostic или parent runs.
-3. Следующий bounded шаг — source/execution feasibility истории агрессивных сделок
-   и стакана либо original-timestamp corporate events. Сначала пригодность истории,
-   доступ/права и исполнимость, затем отдельный sealed economic test и лишь после
-   него обоснованное усложнение модели. Не покупать доступ без разрешения пользователя.
+3. Bounded source feasibility 2026-09-06 выполнена; собственная готовая история
+   TradeStats/OBStats не установлена, credentials нет. Нужен разрешённый пользователем
+   запрос тестового доступа MOEX по [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md).
+   Не повторять inventory/поиск тех же условий без изменения доступа. После ответа:
+   source-only seal и sample audit, затем отдельный sealed economic test и лишь после
+   него обоснованное усложнение модели. Не покупать доступ без отдельного разрешения.
 4. Не превращать хорошие годы, часы или корреляции V63 в новую настроенную стратегию.
    Не создавать очередную смесь/scale V41/V49/V60: monthly risk overlap теперь измерен.
 

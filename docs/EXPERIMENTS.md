@@ -1,5 +1,32 @@
 ﻿# Реестр экспериментов
 
+## Post-V63 source feasibility — access gap, no economic experiment
+
+- 2026-09-06: bounded metadata/schema/hash inspection of server
+  `data/forward/moex-microstructure-v1`, no prices/returns/targets/PnL loaded.
+- Exactly one snapshot `snapshot_20260901T214719330521Z`: unauthenticated delayed
+  FUTOI, four requests / eight normalized rows. No TradeStats/OBStats/OrderStats
+  requests in that root. Manifest `8b781cb4...`; existing read-only audit 11/11.
+  Do not generalize this bounded inventory into a full-filesystem absence proof.
+- Presence-only credential check: no populated AlgoPack token or Interfax credentials.
+- Official MOEX section 34 explicitly concerns legal entities; corporate pricing
+  is not established as a necessary cost for this personal research workflow.
+  Individual API access exists under an offer; exact AlgoPack rights remain unverified.
+- MOEX still links to an old demo instruction referring to open interest. A currently
+  available free SuperCandles history trial is not established by that link.
+- A limited read-only access/rights/sample request is drafted, NOT sent. It requires
+  user authorization; no registration, terms acceptance, purchase or new collector.
+- Next candidate remains a flow/depth information test, not another price-only model.
+  Five-minute aggregates must not be treated as queue/fill or order-replenishment proof.
+- No new protocol/run, decisions, trades or financial metrics; not an economic NO-GO
+  and not a profitability improvement. Existing frozen forward protocols continue.
+- Operational read-only check: 15 scheduled server timers, zero failed collector
+  units. Old failed V62 preflight research unit left unchanged.
+- Documentation-only change; encoding + V63 + source synthetic/seal tests 22/22,
+  `git diff --check` clean. No economic config, implementation or canonical bytes changed.
+- Details and unsent request: [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md).
+  Do not repeat the same access check as progress without new authority/credentials.
+
 ## V63 frozen profit attribution — completed, same driver dominates
 
 - Post-selection accounting diagnostic, not a new strategy or an independent holdout.
