@@ -1,5 +1,20 @@
 ﻿# Реестр экспериментов
 
+## V63 frozen profit attribution — pre-outcome implementation
+
+- Post-selection accounting diagnostic, not a new strategy or an independent holdout.
+- Fixed curves V39/V41/V49/V60/cash, all primary/doubled/stress scenarios, same
+  2020-12-30..2025-12-30 calendar and RUB 1m reference capital.
+- Separate gross trading, costs, modeled idle yield and cash-carry net contribution;
+  retain partial 2020 cash accrual separately. Report all five full years, top-ten
+  positive-session log contribution and all-60-month correlations.
+- V49/V60 misleading `exact_futures_nav` columns include collateral; pure futures
+  contribution comes from frozen annual summaries and recorded order costs instead.
+- No reruns of parent execution, new fitting, protected 2026 values or weight tuning.
+- Eight declared V41/cash files copied unchanged to a new external server root;
+  transfer archive SHA `9dce79e6...`. V63 synthetic/seal 15/15, related + encoding
+  bundle 30/30, scoped Ruff clean; economic run pending seal.
+
 ## V62 opening regime — canonical economic NO-GO
 
 - Parent seal `e1c1ab6` / `21b31830...` was not executed before interruption. Only its

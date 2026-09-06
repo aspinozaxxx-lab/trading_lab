@@ -1,0 +1,85 @@
+﻿protocol_id: v63_frozen_profit_attribution_v1
+protocol_version: 1
+declared_at_utc: '2026-09-06T18:22:21Z'
+status: sealed_before_new_component_attribution_and_concentration_values
+research_only: true
+live_trading_allowed: false
+parameter_search: false
+implementation_sha256: 73357a015412ac336c9dd497ecea2f45c4bb245d37388ef7d61934b03cddca78
+
+purpose: >-
+  Determine whether frozen V41/V49/V60 profits originate mainly in trading,
+  modeled idle-cash income, or repeated scaling of the same V39 driver. This is
+  post-selection accounting diagnosis, not a new strategy or independent holdout.
+known_before_seal:
+  - Canonical aggregate returns and V50/V51/V61 robustness failures are already known.
+  - V49 and V60 exact_futures_nav is a duplicate combined NAV including idle income.
+  - Only input identities, schemas, dates and implementation formulas were inspected for this diagnostic.
+
+inputs:
+  v39:
+    root: runs/v39_option_oi_tail_governor_20260902T025023Z_3b5d3074
+    catalog: metrics.json
+    catalog_sha256: 52993f827af146af03ca240ee08af678487c59c95e02253844176183042d0113
+  cash:
+    root: data/v63-profit-attribution-inputs-v1/stock_futures_cash_carry_idle_ruonia_v2_20260902T041838Z_a4c03aaa
+    catalog: manifest.json
+    catalog_sha256: 018044c6c51ac18258237c82077b7bfd8ede190f485c52904649c0b00db153a7
+  v41:
+    root: data/v63-profit-attribution-inputs-v1/v41_v39_cash_carry_ruonia_stability_v1_20260902T042117Z_45418128
+    catalog: manifest.json
+    catalog_sha256: 586e1b2dc58444a40aa649772f85b326616d7eca9bec54f85d01f830216ab591
+  v49:
+    root: runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0
+    catalog: manifest.json
+    catalog_sha256: b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c
+  v60:
+    root: runs/v60_v49_equity_trend_governor_v1_20260902T193821Z_40145868
+    catalog: manifest.json
+    catalog_sha256: 5741a93d3a75965e8858d99b6ac7b643c479a421d4a950d98b350ad6a009f5d7
+
+input_admission:
+  hashes_and_bytes: every_selected_file_against_byte_pinned_catalog
+  columns_and_row_counts: exact_code_sealed_allowlists
+  date_only_read_before_any_nav_load: true
+  start: '2020-12-30'
+  end: '2025-12-30'
+  protected_from: '2026-01-01'
+  source_copy: eight_unchanged_files_only_into_new_external_root
+  source_transfer_archive_sha256: 9dce79e6797e98492c225c900fb8ffd94460edfefaad73bc520d991d9d36ff31
+
+analysis:
+  curves: [v39, v41, v49, v60, cash]
+  scenarios: [primary, doubled, stress]
+  execution_stress: verify_identical_to_stress_not_an_extra_independent_observation
+  reference_initial_capital_rub: 1000000.0
+  v41_weights: {v39: 0.80, cash: 0.20, rebalance: never}
+  cash_stress_mapping: zero_cashflow_stress
+  attribution: additive_ruble_accounting_not_additive_CAGR
+  initial_2020_cash_accrual: separate_partial_2020_row_on_the_common_session_calendar
+  calendar_year_end: last_observed_common_session_not_an_interpolated_Dec31
+  v49_v60_detail: annual_futures_returns_plus_recorded_order_costs_and_combined_NAV
+  common_CAGR_clock: 365.25
+  canonical_V39_CAGR_clock: 365.2425
+  canonical_other_CAGR_clock: 365.25
+  Sharpe: session_returns_including_initial_zero_sqrt252_no_risk_free_subtraction
+  cash_Sharpe: resample_existing_cash_NAV_to_common_session_calendar
+  concentration: all_five_calendar_year_log_contributions_and_top10_positive_session_log_contribution
+  cross_curve_comparison: all60_calendar_months_pairwise_correlations
+  conditional_comparison: all_observed_negative_V49_months_ex_post_descriptive_only
+  undefined_correlation_or_empty_conditional_sample: null_not_zero
+  leverage_comparison: frozen_pair_differences_not_a_pure_causal_or_unlevered_counterfactual
+
+reject_if:
+  - input_hash_schema_or_temporal_boundary_drift
+  - initial_capital_or_initial_flatness_not_verified
+  - parent_futures_execution_incomplete
+  - accounting_or_canonical_metric_replay_mismatch
+  - missing_component_or_nonfinite_value
+promotion: forbidden_this_diagnostic_cannot_pass_the_20_or_50_percent_goal
+forbidden_followups:
+  - select_weights_assets_years_hours_or_risk_scales_from_this_result
+  - rerun_or_modify_frozen_parent_economic_runs
+  - zero_cost_strategy_claim_from_accounting_gross_pnl
+  - treat_conditional_bad_months_as_a_causal_live_filter
+  - read_2026_market_outcomes_or_enable_live_trading

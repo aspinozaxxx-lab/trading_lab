@@ -3,6 +3,24 @@
 Обновлено: **2026-09-06**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V63 frozen profit attribution — PRE-OUTCOME IMPLEMENTATION
+
+Пользователь одобрил изменение порядка поиска: [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md).
+Следующий шаг — accounting attribution V41/V49/V60 с V39 и cash-carry parent, без нового
+обучения, изменения targets/fills/weights или просмотра protected 2026 outcomes.
+
+До новых attribution values проверены input hashes/schemas/dates и формулы исходного кода.
+`exact_futures_nav` у V49/V60 уже содержит collateral income и дублирует combined NAV;
+он не является отдельной pure-futures equity curve. V63 использует сохранённые annual
+futures summaries и order costs; не повторяет canonical executions.
+
+V41/cash canonical originals остаются локально вне Git; восемь точных файлов скопированы
+в новый server root `/srv/trading_lab_data/data/v63-profit-attribution-inputs-v1/`.
+Transfer SHA `9dce79e6...`; старые run directories не менялись. Протокол
+`configs/v63_frozen_profit_attribution_v1.yaml` и standalone diagnostic реализованы;
+V63 synthetic/seal tests 15/15, related + encoding bundle 30/30, scoped Ruff clean.
+Economic attribution pending; seal/push/deploy обязателен до run.
+
 ## V62 opening regime — CANONICAL ECONOMIC NO-GO
 
 Parent opening hypothesis `e1c1ab6`, config SHA `21b31830...`, was sealed but never
@@ -2382,6 +2400,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 доказывает spread, очередь, partial fills или intraday tradability.
 
 ## Очередь работ
+
+### P0 — одобренный новый порядок поиска, V63 attribution
+
+1. Следовать [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md), не снижая цель 20%/50%.
+2. Завершить V63 seal, один server diagnostic и независимую арифметическую проверку.
+3. По атрибуции назвать недостающий механизм/источник информации. Не превращать
+   хорошие годы, часы или корреляции из этого отчёта в новую настроенную стратегию.
 
 ### P0 — intraday option-surface discovery и defined-risk volatility family
 
