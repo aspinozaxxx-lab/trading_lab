@@ -64,3 +64,74 @@ cd /opt/trading_lab
 существующий каталог запрещён, в том числе после частичной ошибки. `--audit <run-path>`
 проверяет hashes и пересчитывает метрики из сохранённых ledgers, не повторяет сделки.
 Текущий результат/путь — [STATUS.md](STATUS.md); реестр — [EXPERIMENTS.md](EXPERIMENTS.md).
+
+## Канонический результат 2026-09-07 — NO_GO
+
+Экономический запуск выполнен один раз на `gpu-mlserver`, под `trading-lab`.
+До результатов запушен commit `238a0ed`; local synthetic/execution/encoding slice
+42/42, V64 server synthetic 17/17. Сначала metadata-only проверка обнаружила отсутствие
+старого source bundle на сервере; economics не запускались. Существующий byte-identical
+локальный bundle скопирован с запретом overwrite, после чего preflight прошёл 45/45.
+Никакие цены/доходности 2026 года в V64 не использованы, collectors не менялись.
+
+- Config SHA `e26e5156ec49c8187983526236aec9a9a65c9050125ebf1d1d0fa1fc8d8566f6`.
+- Closure SHA `b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff`.
+- Canonical `/srv/trading_lab_data/runs/v64_si_tax_calendar_v1_b60a02b4ba1d/`.
+- Metrics SHA `e6b1372dcfe59dde395bb418f20f6391435ce54df488250a904c03384540f277`.
+- Identity SHA `e272a725f268883201d4850df9bdfc7c2393181c5b15e050c9f18f611bcaee6d`.
+- Read-only identity/metric replay audit: 156/156. Все 18 execution ledgers complete,
+  terminal-flat, critical failures и unresolved halts — 0.
+
+| Era (фактические границы source) | Arm | CAGR 1× / 2× / stress | Sharpe 1× | MDD 1× | Round trips 1× |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 2008-10-08…2011-12-15 | Tax | 2,8228% / 2,4292% / 2,2876% | 0,528 | 9,3030% | 37 |
+| 2008-10-08…2011-12-15 | Control | −1,1166% / −1,5618% / −1,7777% | −0,170 | 10,8034% | 36 |
+| 2012-01-03…2017-12-01 | Tax | 2,0282% / 1,6571% / 1,5461% | 0,291 | 19,2656% | 70 |
+| 2012-01-03…2017-12-01 | Control | 0,5287% / 0,1575% / 0,0532% | 0,110 | 13,8733% | 71 |
+| 2018-01-03…2025-12-30 | Tax | −0,1589% / −0,2292% / −0,3149% | 0,019 | 25,1107% | 96 |
+| 2018-01-03…2025-12-30 | Control | 0,5827% / 0,2823% / 0,2595% | 0,110 | 19,6703% | 96 |
+
+Границы источника не означают полные календарные начальные/конечные годы или непрерывную
+историю между eras. Не суммировать их CAGR и не склеивать отдельные NAV в новый backtest.
+Целевое плечо до 1× не является непрерывной гарантией: между rebalance при изменении
+цен максимальное фактическое close-плечо primary достигало 1,028× / 1,066× / 1,087×.
+
+| Tax primary | Early | Middle | Recent |
+| --- | ---: | ---: | ---: |
+| Decision rows | 780 | 1 478 | 2 024 |
+| Nonzero targets | 170 | 328 | 449 |
+| Exposed / ledger sessions | 170 / 781 | 328 / 1 479 | 449 / 2 025 |
+| Expired calendar signals | 11 | 19 | 27 |
+| Filled legs (включая rebalance) | 125 | 210 | 258 |
+| Gross VM PnL, ₽ | 105 805,51 | 143 051,90 | 653,97 |
+| Costs, ₽ | 13 120,00 | 17 029,99 | 13 280,03 |
+| Net PnL, ₽ | 92 685,51 | 126 021,91 | −12 626,06 |
+| Turnover / starting equity | 80,062× | 150,899× | 196,421× |
+| Positive year segments | 2 / 4 | 2 / 6 | 5 / 8 |
+
+Primary source-unavailable target rows — 0 во всех eras. У control таких rows 6/2/0,
+expired signals 12/21/30; они явно сохраняются, не заменяются вымышленным исполнением.
+4 282 primary decisions дали 203 завершённых входа/выхода; filled legs и cost replays
+нельзя выдавать за дополнительные независимые сделки. Каждый era начинает с 1 млн ₽.
+
+Tax primary доходности годовых сегментов, после затрат:
+
+| Год | Доходность | Год | Доходность | Год | Доходность |
+| --- | ---: | --- | ---: | --- | ---: |
+| 2008 (часть) | −4,73% | 2014 | 20,65% | 2020 | −4,53% |
+| 2009 | 19,63% | 2015 | −0,54% | 2021 | 1,09% |
+| 2010 | −6,32% | 2016 | −6,57% | 2022 | 8,52% |
+| 2011 (до 15.12) | 2,35% | 2017 (до 01.12) | 2,00% | 2023 | −9,05% |
+| 2012 | −0,57% | 2018 | 1,79% | 2024 | −6,99% |
+| 2013 | −0,98% | 2019 | 5,61% | 2025 | 3,68% |
+
+Все unrounded yearly/cost/control metrics, targets, orders, positions и ledgers лежат
+в canonical run вне Git. Early/middle не достигли 60% положительных годовых сегментов;
+recent primary/stress отрицательны и уступают control. Verdict `NO_GO`, 20%/50% gates
+false, independent holdout false, live trading false. Это отрицательная проверка именно
+объявленной proxy; менять дату, знак, плечо или делать стратегию из control запрещено.
+Новая NN на этой же механике не обоснована результатом.
+
+Разрешённое продолжение — новый source/mechanism; текущий кандидат описан в
+[MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md). Для проверки V64
+достаточен `--audit` по указанному canonical пути; не повторять economic run.

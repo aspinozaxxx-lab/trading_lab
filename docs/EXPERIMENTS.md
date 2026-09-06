@@ -1,15 +1,44 @@
 ﻿# Реестр экспериментов
 
-## V64 SI tax-calendar — new free-data screen, prepared before outcomes
+## MOEX index announcements — source feasibility only, 2026-09-07
+
+- New candidate mechanism: passive-index demand after confirmed inclusion announcements.
+  Six public official releases inspected for three effective events in 2023–2025;
+  plus one extraordinary removal notice tied to a trading suspension.
+- Repeated releases for the same effective date are not independent events; waitlist
+  candidates are not confirmed additions. Current-vintage web timestamps are not
+  proof of original archived bytes. Search examples do not establish full coverage.
+- No price/return load, event PnL, corpus seal, subscription or collector deployment.
+  Next: sealed source-only corpus and PIT security/version audit, not model training.
+  Evidence and admission checklist: [MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md).
+
+## V64 SI tax-calendar — completed once, canonical NO_GO
 
 - User deferred AlgoPack purchase and asked for other hypotheses on 2026-09-07.
 - New fixed calendar information, not V19 published Minfin operations or another trend
   threshold. Short SI in the week before nominal tax anchor; same-direction control
   14 days earlier. No fitting, price features, sign/window search or paid sources.
 - Three byte-pinned eras 2008–2011 / 2012–2017 / 2018–2025, separate capital and flat
-  boundaries; 18 integer-contract ledgers planned, 1×/2×/stress costs. No 2026 outcomes.
-- 17/17 synthetic tests passed before seal; economic result not yet calculated.
-  Source/cost/holiday/legal-vintage limitations: [V64_TAX_CALENDAR.md](V64_TAX_CALENDAR.md).
+  boundaries; all 18 integer-contract ledgers completed, 1×/2×/stress costs. Inputs
+  end no later than 2025-12-30; no 2026 prices/outcomes used in this experiment.
+- Pre-outcome commit/push `238a0ed`; seal SHA
+  `b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff`.
+  Local targeted tests 42/42 (V64 17/17); server V64 tests 17/17, preflight 45/45.
+  Early source bundle was initially absent on server: preflight stopped before run;
+  exact existing local bundle copied without overwrite, then all metadata checks passed.
+- One economic run on `gpu-mlserver`, read-only audit 156/156. Canonical:
+  `/srv/trading_lab_data/runs/v64_si_tax_calendar_v1_b60a02b4ba1d/`.
+  Metrics SHA `e6b1372dcfe59dde395bb418f20f6391435ce54df488250a904c03384540f277`;
+  identity SHA `e272a725f268883201d4850df9bdfc7c2393181c5b15e050c9f18f611bcaee6d`.
+- Primary CAGR early/middle/recent: `2.8228% / 2.0282% / -0.1589%`;
+  doubled `2.4292% / 1.6571% / -0.2292%`; stress `2.2876% / 1.5461% / -0.3149%`.
+  Primary controls `-1.1166% / 0.5287% / 0.5827%`.
+- Primary 4,282 decisions, 947 nonzero targets, 203 round trips; no unresolved
+  execution failures. Positive year segments `2/4, 2/6, 5/8`: early/middle fail 60%;
+  recent primary/stress lose money and underperform control. All goal/live gates false.
+- Close this fixed calendar proxy as `NO_GO`; do not tune dates/sign/leverage or promote
+  its control. No neural training justified by this screen; no subscription purchased.
+  Full years, exposure and source/cost limitations: [V64_TAX_CALENDAR.md](V64_TAX_CALENDAR.md).
 
 ## MOEX access request — 2026-09-07, SENT VIA YANDEX MAIL
 
