@@ -1551,6 +1551,26 @@ Canonical V42R2 idle-fund cost stress:
 интервале и требует 9/9 комбинаций. Результат диагностический и не разрешает выбирать
 LQDT/TMON до 60 forward пар.
 
+### V63 completed profit-attribution audit
+
+Один canonical diagnostic завершён после seal/deploy `35ed00c`, config SHA
+`983b1a17...`. Parent executions не запускались; новый output immutable. Для проверки:
+
+```bash
+cd /opt/trading_lab
+sudo -n env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
+  OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python -m market_lab.futures_v63_profit_attribution \
+  --audit-directory /srv/trading_lab_data/runs/v63_frozen_profit_attribution_v1_983b1a17
+```
+
+Ожидается `all_passed: true`, `checks: 183`, metrics SHA `8b8a7532...`, identity
+`c230a436...`. Root нужен только для чтения старого root-owned V60 manifest; не менять
+его права и не запускать `--run` повторно. Collectors продолжают работать от `trading-lab`.
+`--preflight` читает selected artifact bytes/hashes и только date columns, без нового
+NAV analysis. Диагностика не разрешает настройку weights/scales и не подтверждает live.
+Интерпретация: [V63_PROFIT_ATTRIBUTION.md](V63_PROFIT_ATTRIBUTION.md).
+
 ### V49 exact double-risk canonical audit
 
 Source-only readiness отдельного post-seal paper arm:

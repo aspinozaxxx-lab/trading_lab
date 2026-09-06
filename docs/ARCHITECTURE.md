@@ -44,6 +44,17 @@ runs -> external junction ignored by Git
 
 ## Futures foundation
 
+`market_lab.futures_v63_profit_attribution` — standalone read-only diagnostic, не
+execution engine. Byte-pinned catalogs допускают только перечисленные immutable
+ledgers/metrics/order costs и проверяются по dates до NAV load. Модуль не импортирует
+старые strategy runners и не пересчитывает сделки. V39 даёт daily decomposition;
+V49/V60 — annual futures summaries плюс recorded costs и combined NAV. V41 наследует
+80/20, cash overlay выделяет свой cumulative idle income. Сравнение использует единый
+session calendar, но отдельно воспроизводит исходные calendar conventions метрик.
+Source SHA/config/code, aligned curves, additive ruble components и audit позволяют
+отделить один общий return driver от другого экономического источника. Детали:
+[V63_PROFIT_ATTRIBUTION.md](V63_PROFIT_ATTRIBUTION.md).
+
 Модули в `market_lab.futures` обеспечивают:
 
 - official ISS download и cached source archives;

@@ -3,7 +3,7 @@
 Обновлено: **2026-09-06**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V63 frozen profit attribution — PRE-OUTCOME IMPLEMENTATION
+## V63 frozen profit attribution — COMPLETED, SAME RETURN DRIVER
 
 Пользователь одобрил изменение порядка поиска: [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md).
 Следующий шаг — accounting attribution V41/V49/V60 с V39 и cash-carry parent, без нового
@@ -17,9 +17,27 @@ futures summaries и order costs; не повторяет canonical executions.
 V41/cash canonical originals остаются локально вне Git; восемь точных файлов скопированы
 в новый server root `/srv/trading_lab_data/data/v63-profit-attribution-inputs-v1/`.
 Transfer SHA `9dce79e6...`; старые run directories не менялись. Протокол
-`configs/v63_frozen_profit_attribution_v1.yaml` и standalone diagnostic реализованы;
-V63 synthetic/seal tests 15/15, related + encoding bundle 30/30, scoped Ruff clean.
-Economic attribution pending; seal/push/deploy обязателен до run.
+Seal/push/deploy `35ed00c`, config SHA `983b1a17...`, code SHA `73357a01...` предшествовали
+одному завершённому server run. Canonical
+`/srv/trading_lab_data/runs/v63_frozen_profit_attribution_v1_983b1a17/`, metrics SHA
+`8b8a7532...`, identity SHA `c230a436...`; repeat read-only audit 183/183.
+
+Главный вывод: у V49 primary net futures profit 4 518 093 ₽, modeled idle income
+604 339 ₽ из общей прибыли 5 122 432 ₽ на стартовый 1 млн за пять лет. Значит, дело
+не только в процентах. Но monthly correlation V49/V60 0,99337, V39/V41 0,99915:
+лидеры в значительной мере повторяют один return driver. 2022 дал 51,73% net log growth
+V49, а в 2025 его trading net −548 769 ₽ был частично компенсирован +334 009 ₽ процентов.
+
+Cash sleeve действительно отличается по динамике (corr с V49 −0,17439), но его
+primary CAGR всего 8,3450%; 59,28% всей прибыли sleeve — модельные проценты. В V41
+cash с его процентами дал лишь 4,65% совокупной прибыли. Новая смесь тех же родителей
+не является обоснованным следующим экспериментом. Цель 20%/50% не подтверждена.
+
+V63 synthetic/seal tests 15/15 локально/на сервере; related + encoding bundle 30/30,
+scoped Ruff clean. Первый service-user preflight остановился на root-owned V60 manifest
+до NAV analysis; завершённый diagnostic выполнен bounded root process без изменения
+прав старых артефактов. Детальный разбор, все costs/years/counts и ограничения:
+[V63_PROFIT_ATTRIBUTION.md](V63_PROFIT_ATTRIBUTION.md).
 
 ## V62 opening regime — CANONICAL ECONOMIC NO-GO
 
@@ -721,9 +739,9 @@ frozen V2. Canonical
 `000ae99b...`, manifest `586e1b2d...`, audit `7dfc4696...`, ledger `38bdd2ce...`.
 
 Primary/doubled/stress CAGR `25,5683%/25,1454%/24,6187%`, Sharpe
-`1,2689/1,2478/1,2273`, MDD `17,3235%/17,4244%/16,7796%`, worst year
+`1,2685/1,2482/1,2273`, MDD `17,3235%/17,4244%/16,7796%`, worst year
 `+0,9087%/+0,4820%/−0,4482%`. Относительно V39 Sharpe улучшен на
-`0,0174/0,0161/0,0083`, MDD — на `2,7087/2,7348/2,6553 п.п.`, worst year — во всех
+`0,0170/0,0164/0,0083`, MDD — на `2,7087/2,7348/2,6553 п.п.`, worst year — во всех
 сценариях; все CAGR выше 20%, primary имеет 5/5 positive years. Все пять presealed
 gates true, verdict `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`.
 
@@ -2401,12 +2419,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — одобренный новый порядок поиска, V63 attribution
+### P0 — новый источник информации после завершённого V63
 
 1. Следовать [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md), не снижая цель 20%/50%.
-2. Завершить V63 seal, один server diagnostic и независимую арифметическую проверку.
-3. По атрибуции назвать недостающий механизм/источник информации. Не превращать
-   хорошие годы, часы или корреляции из этого отчёта в новую настроенную стратегию.
+2. V63 завершён, 183/183 replay checks; не повторять diagnostic или parent runs.
+3. Следующий bounded шаг — source/execution feasibility истории агрессивных сделок
+   и стакана либо original-timestamp corporate events. Сначала пригодность истории,
+   доступ/права и исполнимость, затем отдельный sealed economic test и лишь после
+   него обоснованное усложнение модели. Не покупать доступ без разрешения пользователя.
+4. Не превращать хорошие годы, часы или корреляции V63 в новую настроенную стратегию.
+   Не создавать очередную смесь/scale V41/V49/V60: monthly risk overlap теперь измерен.
 
 ### P0 — intraday option-surface discovery и defined-risk volatility family
 

@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## V63 frozen profit attribution — pre-outcome implementation
+## V63 frozen profit attribution — completed, same driver dominates
 
 - Post-selection accounting diagnostic, not a new strategy or an independent holdout.
 - Fixed curves V39/V41/V49/V60/cash, all primary/doubled/stress scenarios, same
@@ -13,7 +13,21 @@
 - No reruns of parent execution, new fitting, protected 2026 values or weight tuning.
 - Eight declared V41/cash files copied unchanged to a new external server root;
   transfer archive SHA `9dce79e6...`. V63 synthetic/seal 15/15, related + encoding
-  bundle 30/30, scoped Ruff clean; economic run pending seal.
+  bundle 30/30, scoped Ruff clean. Server V63 tests also 15/15.
+- Seal/push/deploy `35ed00c`; config `983b1a17...`, implementation `73357a01...`.
+  Canonical `runs/v63_frozen_profit_attribution_v1_983b1a17/`, metrics `8b8a7532...`,
+  identity `c230a436...`; repeated read-only audit 183/183. One completed run only.
+- V49 primary net futures +4 518 093 RUB, modeled idle +604 339 RUB; total profit
+  +5 122 432 RUB from initial 1m. V60 +3 789 575 / +575 568 / +4 365 143 RUB.
+- Monthly corr V49/V60 0.99337, V39/V41 0.99915, cash/V49 -0.17439. Cash has different
+  dynamics but CAGR 8.3450% and 59.28% of its own profit is modeled idle interest.
+  Cash sleeve including interest contributes only 4.65% of total V41 profit.
+- 2022 contributes 51.73% / 55.28% of net log growth for V49/V60; top-ten positive
+  sessions 63.28% / 67.41% of net log growth, not of ruble profit or all positive gains.
+  In 2025 V49 trading net -548 769 RUB is partly offset by +334 009 RUB modeled yield.
+- Verdict `ATTRIBUTION_ONLY_NO_NEW_PROFITABILITY_OR_INDEPENDENT_VALIDATION`.
+  Next: source/execution feasibility of a genuinely different economic driver, not
+  new leverage or post-hoc mixture. Details: [V63_PROFIT_ATTRIBUTION.md](V63_PROFIT_ATTRIBUTION.md).
 
 ## V62 opening regime — canonical economic NO-GO
 
@@ -858,7 +872,7 @@
   metrics/manifest/audit/ledger
   `000ae99b.../586e1b2d.../7dfc4696.../38bdd2ce...`.
 - Primary/doubled/stress CAGR `25.5683%/25.1454%/24.6187%`, Sharpe
-  `1.2689/1.2478/1.2273`, MDD `17.3235%/17.4244%/16.7796%`, worst year
+  `1.2685/1.2482/1.2273`, MDD `17.3235%/17.4244%/16.7796%`, worst year
   `+0.9087%/+0.4820%/-0.4482%`. All five presealed gates pass versus V39; primary
   has 5/5 positive years. Verdict `GO_TO_FORWARD_PORTFOLIO_CONFIRMATION`, live false.
 - Freeze allocation, RUONIA fraction and all child rules. Required confirmation is a
