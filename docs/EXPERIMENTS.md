@@ -1,5 +1,38 @@
 ﻿# Реестр экспериментов
 
+## MOEX access request — 2026-09-07, SENT VIA YANDEX MAIL
+
+- Follow-up retail tariff check after the user's 610 RUB question: live official
+  AlgoPack card confirmed `PROMO`, one month, `610 ₽`, API/Python and Super Candles
+  alongside FUTOI/HI2/Mega Alerts/realtime data/calendar. Five-minute Super Candles
+  history advertised from 2020; raw order-book history/queue reconstruction not promised.
+  This corrects the earlier 600 RUB references and any visual-only reading of retail access.
+- Checkout entry led to the official DataShop login; no credentials entered, account/key
+  created, paid terms accepted or payment submitted. Login handed to user. Final checkout
+  amount/renewal/personal-ML offer remain unchecked; conditional willingness is not an
+  annual/recurring authorization. A bounded monthly source pilot is recommended, not
+  a financial finding. No collector, source/economic seal or canonical run changed.
+- User authorized the specific limited MOEX access/rights inquiry, without purchasing
+  a subscription or connecting a trading account. Prior lack-of-authority blocker resolved.
+- No callable mail-sending connector or plugin search/suggestion tool found. Initial
+  official feedback form filled but not submitted; contacts/CAPTCHA/agreement were pending.
+- User then opened Yandex Mail in Chrome. One email sent from the currently selected
+  account to `algopack@moex.com`, subject «Тестовый доступ AlgoPack FO TradeStats/OBStats
+  для личного исследования». That recipient/subject was found in Sent after submission,
+  displayed time 01:00. No attachments or CC/BCC. Existing unrelated draft untouched.
+- Provider-confirmed send is not a MOEX delivery/read receipt, license or granted access.
+  Status `SENT_EMAIL_PROVIDER_CONFIRMED_AWAITING_VENDOR_REPLY`; do not resend by default.
+  Sender contact/account identifiers and unrelated mail are not retained in Git.
+- Web form closed without submission, CAPTCHA or agreement acceptance. No plugin,
+  purchase, account creation, credentials, training or collector change.
+- Data-isolation incident: a general page AX refresh unexpectedly exposed quote widgets
+  in the MOEX header. Their values were not copied to the repo, used for selection or
+  ingested as research data. Subsequent reads were scoped to the feedback-form DOM only.
+  Do not claim that this turn exposed no 2026 quote fields; do not use that incidental
+  content for design, universe/parameter choice or a new financial claim.
+- Details/resumption: [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md). This is an
+  access workflow, not a new economic experiment or evidence of 20%/50% profitability.
+
 ## Post-V63 source feasibility — access gap, no economic experiment
 
 - 2026-09-06: bounded metadata/schema/hash inspection of server
