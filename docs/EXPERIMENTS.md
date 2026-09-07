@@ -4,7 +4,10 @@
 
 [Execution-binding audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): recompute saved
 intent/fill/mark from original durable source evidence, fail altered economic values.
-Verification pending; F=null. Forecast numerical replay still separate/required.
+Pushed/deployed e01a84b:400/400related Linux tests UID999 PASS, включая10audit;
+local2+encoding2PASS/8Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_EXECUTION_AUDIT_V1_RESULT.md). F=null;
+forecast numerical replay still separate/required, no economic admission.
 
 [Unified runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump→selection/slot/daily tick,
 explicit initialization/check/serve, durable work reservations and sanitized stop/reopen.

@@ -6,7 +6,9 @@
 ## Текущее действие — offline execution-binding replay V1
 
 [Execution audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): source evidence→intent/fill/
-mark recomputation→full ledger parity. Local/server verification next. F=null.
+mark recomputation→full ledger parity. Pushed/deployed e01a84b:400/400related Linux
+tests UID999 PASS, включая10audit; local2+encoding2PASS/8Linux skips, Ruff PASS.
+3SHA match, parents44/7 unchanged. [Server result](ALGOPACK_PAPER_EXECUTION_AUDIT_V1_RESULT.md). F=null.
 Numerical forecast not recomputed yet; PASS does not grant economic admission.
 Следом independent forecast/feature replay и evaluation/report wiring, official
 calendar/latency checks, complete pre-F config/seal и service setup.
