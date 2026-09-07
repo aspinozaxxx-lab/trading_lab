@@ -1,0 +1,40 @@
+﻿protocol_id: moex_iss_index_news_catalog_2011_2025_v1
+declared_at_utc: '2026-09-07T05:37:56Z'
+research_only: true
+source_only: true
+sealed_before_economic_outcomes: true
+publication_lower: '2011-01-01 00:00:00'
+publication_upper_exclusive: '2026-01-01 00:00:00'
+intended_event_period: ['2012-01-01', '2025-12-31']
+source_routes:
+  - 'https://iss.moex.com/iss/sitenews.json'
+  - 'https://iss.moex.com/iss/sitenews/{id}.json'
+documentation:
+  - 'https://iss.moex.com/iss/reference/231'
+  - 'https://iss.moex.com/iss/reference/229'
+discovery: metadata_clock_first_then_pre2026_title_catalogue
+publication_timezone: unverified_no_historical_available_at
+current_content_is_not_original_vintage: true
+max_listing_pages: 1500
+max_candidate_articles: 2000
+max_requests: 5200
+request_interval_seconds: 0.25
+timeout_seconds: 30
+retry_or_access_bypass: false
+excluded_title_terms: ['облигац', 'еврооблигац', 'депозит', 'денежного рынка', 'товарн', 'кредитн']
+equity_title_override: 'акци'
+catalogue_gate: date_bracketed_contiguous_clock_matched_pages_stable_head_total_unique_ids
+article_gate: all_title_candidates_have_matching_current_fragment_and_identity
+event_gate: not_established_requires_per_index_action_date_revision_and_instrument_evidence
+historical_model_eligible: false
+economic_evaluation_allowed: false
+live_trading_allowed: false
+rights: public_anonymous_news_transport_only_no_claim_to_index_weights_or_redistribution
+forbidden:
+  - protected_2026_titles_bodies_prices_returns_labels_targets_pnl
+  - economic_evaluation_before_separate_event_source_audit_and_economic_seal
+  - treating_current_publication_stamp_as_original_availability
+  - treating_all_indices_or_dates_in_an_article_as_one_event
+  - interpreting_waitlists_or_free_float_mentions_as_confirmed_inclusions
+  - current_surviving_universe_security_mapping
+  - buying_subscriptions_or_modifying_collectors

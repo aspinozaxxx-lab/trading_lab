@@ -1,0 +1,14 @@
+﻿{
+  "protocol_id": "moex_algopack_fo_historical_inventory_v1",
+  "declared_at_utc": "2026-09-07 06:04:24 UTC",
+  "source_only": true,
+  "files": {
+    "configs/moex_algopack_fo_historical_inventory_v1.yaml": "47b78865c891e3631acf1e97b89175533c42443224af102e25c34785925c86cf",
+    "configs/moex_algopack_fo_historical_inventory_v1.sha256": "eb22f74e1715e62de883dd86052c1c12a654cc9962f0b4b1ddec8ca3dacf793a",
+    "src/market_lab/futures/moex_algopack_fo_historical_inventory_v1.py": "f75559116571cfc3cb9baf4121742c75652080d6ea9f0e62d3d1cbf1fc4de8c1",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e",
+    "tests/test_moex_algopack_fo_historical_inventory_v1.py": "4d0b00eaefe2785b15b6e403a98951327852538fd264491bac36611156a455e9",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053"
+  }
+}

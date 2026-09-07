@@ -1,0 +1,10 @@
+﻿protocol_id: moex_algopack_fo_historical_inventory_v1
+sample_date: '2024-10-15'
+datasets: [tradestats, obstats]
+columns: [tradedate, tradetime, secid, asset_code, SYSTIME]
+max_pages_per_dataset: 200
+request_interval_seconds: 0.5
+protected_holdout_start: '2026-01-01'
+source_only: true
+historical_model_eligible: false
+live_trading_allowed: false

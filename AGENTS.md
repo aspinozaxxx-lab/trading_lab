@@ -68,9 +68,12 @@
     0,99337; нужен иной механизм/источник, не новая смесь или leverage этих же родителей.
 28. [V64 налоговый календарь](docs/V64_TAX_CALENDAR.md) — закрыт `NO_GO`, audit 156/156;
     primary CAGR по eras 2,82% / 2,03% / −0,16%, 203 round trips. Не повторять и не
-    настраивать окно/знак/control. AlgoPack отложен пользователем. Следующий source-only
-    кандидат — [объявления о пересмотре индексов](docs/MOEX_INDEX_REBALANCE_SOURCE.md),
-    пока без полного корпуса, economic seal или доказанной доходности.
+    настраивать окно/знак/control. [Индексные объявления](docs/MOEX_INDEX_REBALANCE_SOURCE.md)
+    пока source feasibility/prototype, без полного корпуса/seal/доходности.
+29. [AlgoPack historical source](docs/ALGOPACK_HISTORICAL_SOURCE.md) — пользователь купил
+    подписку и разрешил key 2026-09-07; credential установлен только в server env.
+    Сначала sealed metadata inventory 2024-10-15, затем flow/depth source и economic
+    протокол. Старый latest=1 forward collector для истории не запускать/не ослаблять.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

@@ -1,5 +1,18 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack purchased by user — credential installed, source inventory prepared
+
+- User reported purchase and authorized the provided API key on 2026-09-07. No agent
+  purchase/renewal/broker connection. Credential installed via hidden SSH input only
+  in `/etc/trading-lab/collector.env` (`root:trading-lab 0640`), no value in repository
+  or output. Two abandoned own installer processes terminated after interrupted SSH;
+  existing collectors were not restarted or changed.
+- Authorized GET access still unverified. Preparing separately sealed historical FO
+  inventory for `2024-10-15`, only `tradedate/tradetime/secid/asset_code/SYSTIME`, both
+  TradeStats/OBStats with complete cursor. No protected market values, labels or PnL.
+- Old forward collector cannot be repurposed: latest=1, no historical pagination and
+  strict 2026+ guard. No frozen module modified. [Protocol](ALGOPACK_HISTORICAL_SOURCE.md).
+
 ## MOEX index announcements — source feasibility only, 2026-09-07
 
 - New candidate mechanism: passive-index demand after confirmed inclusion announcements.
@@ -11,6 +24,13 @@
 - No price/return load, event PnL, corpus seal, subscription or collector deployment.
   Next: sealed source-only corpus and PIT security/version audit, not model training.
   Evidence and admission checklist: [MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md).
+- Continued source-only inspection found enumerable official category108 archives:
+  49 publications in 2012,139 in 2025 (not events/trades). Server www transport403;
+  official ISS list/detail200. Date parameters unsupported by ISS listing; exact
+  id/publication-only column restriction works. No complete corpus downloaded.
+- Prototype parser/catalogue code+tests created, but source seal/deployment/run not done
+  before user purchased AlgoPack. 2012 evidence invalidates a universal quarterly/event
+  date assumption; mixed-index dates and explicit no-change need separate handling.
 
 ## V64 SI tax-calendar — completed once, canonical NO_GO
 

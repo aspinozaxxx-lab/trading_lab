@@ -3,7 +3,27 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — V64 завершён NO_GO, следующий бесплатный источник — индексные события
+## Текущее действие — пользователь купил AlgoPack, готовится historical source-only inventory
+
+Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
+разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
+Ключ установлен через hidden SSH stdin только в `/etc/trading-lab/collector.env`,
+`root:trading-lab 0640`; значение не помещено в Git, argv, raw или journal.
+API entitlement ещё не проверен: наличие ключа и сообщение о покупке не заменяют GET.
+Pre-request closure SHA `5e3b01bad972fa06123ae99754ea1578d3cacf4446e06d4a66c52ba6c3543cc8`;
+local closure verified, targeted tests 45/45 (inventory 20/20), Ruff clean.
+
+Следующий шаг — sealed source-only инвентарь `2024-10-15`, FO TradeStats и OBStats,
+только контрактные коды/asset codes/времена. После schema/cursor/raw replay — отдельный
+flow/depth sample фактических контрактов SI/RI/BR/MIX, затем исторический экономический
+протокол. Цель доходности не достигнута; real trading/брокер не подключаются.
+Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
+
+Индексная ветка дала проверку API/архива и незапечатанный prototype с synthetic tests,
+но source collection не запускался. Сохраняется как следующий независимый кандидат;
+не запускать prototype до review и seal. Старые server collectors не менялись.
+
+## Предыдущий завершённый эксперимент — V64 NO_GO
 
 2026-09-07 пользователь отложил покупку и поручил исследовать другие гипотезы.
 Не продолжать оформление, регистрацию, оплату или подключение paid route AlgoPack.
@@ -2559,9 +2579,23 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — бесплатный source-only корпус объявлений о пересмотре индексов
+### P0 — AlgoPack historical metadata inventory после покупки пользователем
 
-1. Покупку AlgoPack не продолжать: пользователь отложил её 2026-09-07.
+1. Ключ уже установлен на сервере; не просить повторно, не печатать и не переносить
+   в local/Git/командные аргументы. Никаких дополнительных покупок/изменений тарифа.
+2. Завершить config/code closure и push для `moex_algopack_fo_historical_inventory_v1`,
+   synthetic tests, затем один source-only server run за `2024-10-15` и raw replay.
+3. Сначала установить точные SECID/asset aliases/полноту обоих datasets, без market
+   values. После этого отдельно запечатать flow/depth sample. Не запускать старый
+   forward collector для истории: он использует latest=1 и допускает только 2026+.
+4. SYSTIME/retrieval/current-vintage не доказывают original availability; отдельные
+   economic time rules и sealed comparison с price-only baseline нужны до PnL.
+5. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
+   приобретение источника или технический PASS доказательством минимальных 20%.
+
+### Следующая независимая ветка — бесплатный corpus индексных объявлений
+
+1. Ветка приостановлена после покупки AlgoPack пользователем; prototype не sealed/не run.
 2. V64 завершён `NO_GO`, audit 156/156; canonical не повторять и не превращать его
    control в новую стратегию. Не подбирать окно/знак/размер/годы по этому исходу.
 3. Следовать [MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md): сначала
@@ -2574,7 +2608,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    execution, control, costs и eras до первого economic load. Пригодность бесплатного
    источника и прибыльность ещё не установлены; закрытые семьи не переоткрывать.
 
-### Отложено пользователем — AlgoPack / новый flow-depth источник после V63
+### История доступа — AlgoPack / новый flow-depth источник после V63
 
 1. Следовать [RESEARCH_PROCESS.md](RESEARCH_PROCESS.md), не снижая цель 20%/50%.
 2. V63 завершён, 183/183 replay checks; не повторять diagnostic или parent runs.

@@ -82,3 +82,10 @@ information set, заранее фиксированные основное/ко
 Учитывать waitlists, повторные публикации, redomiciliation/halts и исторические бумаги.
 После пригодного источника — отдельный заранее фиксированный event screen с control,
 издержками и всеми доступными eras, а не обучение на удачных поисковых примерах.
+
+Позднее 2026-09-07 пользователь купил AlgoPack и предоставил key. Это новое внешнее
+состояние снимает credential blocker и возвращает flow/depth source на первый план.
+Следовать [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md): сначала
+отдельный sealed historical metadata inventory, затем sample/история и экономический
+протокол. Не использовать старый latest=1 forward collector как historical downloader.
+Индексная ветка остаётся незапечатанным prototype, не запускается параллельно по умолчанию.
