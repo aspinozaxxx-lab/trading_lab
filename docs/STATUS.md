@@ -7,7 +7,9 @@
 
 [Preparation intake V1](ALGOPACK_PAPER_PREPARATION_INTAKE_V1.md): supervisor/child/forecast
 identity and durable chronology, actual-time consumption, once-only intake, no late
-forecast read.9tests(local1PASS/8Linux skips), server verification next. F=null.
+forecast read. Pushed/deployed65dcb43:67/67related Linux tests UID999 PASS13.74s;
+local1PASS/8Linux skips, encoding2/Ruff PASS,3SHA match, parents verified.
+[Server result](ALGOPACK_PAPER_PREPARATION_INTAKE_V1_RESULT.md). F=null.
 Далее async slot calendar/marks/intent state machine, runtime integration and original
 interference/deadline/restart retest. Legacy runtime remains unadmitted.
 
