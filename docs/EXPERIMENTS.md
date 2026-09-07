@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Runtime startup correction](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md):
+2new regressions confirmed read-before-exclusive-lock; corrected order now3local PASS/
+6Linux skips. Server checks next; no strategy change or actual economic run, F=null.
+
 [Forecast numerical audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): exact original
 candidate reconstruction from raw sources/pinned models, no refit/backdating of live
 observations. Pushed/deployed7c0da8f:407/407related Linux tests UID999 PASS, включая7

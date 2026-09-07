@@ -171,8 +171,9 @@ def main():
 
         with requests.Session() as session:
             session.trust_env = False
-            runtime = Runtime(activation, session, token)
-            with bridge.anchors.transaction(runtime.root):  # One serving process per activation.
+            # Acquire ownership before replay: a competing process may still advance the ledger.
+            with bridge.anchors.transaction(DATA_ROOT / activation.activation_sha256):
+                runtime = Runtime(activation, session, token)
                 while True:
                     result = runtime.tick()
                     if (

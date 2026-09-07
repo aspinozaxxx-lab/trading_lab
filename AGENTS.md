@@ -204,6 +204,10 @@
     features→pinned numerical models→exact candidate replay. Offline copies not live
     backdating; FORECAST_RECOMPUTED alone does not prove economic/profit admission.
 
+59. [Runtime startup fix](docs/ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md) —
+    lifetime lock must precede anchored replay, not only ticking. Original runtime
+    result SHA is historical; future activation must pin corrected current bytes.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

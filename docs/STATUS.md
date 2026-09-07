@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — numerical forecast/source replay V1
+## Текущее действие — исправление startup lock ordering
+
+[Runtime startup fix](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md): подтверждена
+гонка construct-before-lock (2regression FAIL на прежнем коде); exclusive lifetime lock
+перенесён до полного replay портфеля. После fix local3PASS/6Linux skips, Ruff PASS;
+server verification next. F=null, production activation отсутствует; стратегии unchanged.
+Следом combined economic audit/evaluation report wiring, calendar/latency и full seal.
+
+### Предшествующий этап — numerical forecast/source replay V1
 
 [Forecast audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): raw packet/flow replay,
 original availability reconstruction, fixed-model numeric recomputation and full
