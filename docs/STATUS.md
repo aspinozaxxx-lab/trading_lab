@@ -7,7 +7,9 @@
 
 [Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): current-day activation-gated
 HTTP adapter + immutable per-response journal + full raw/durable observation replay.
-Local10PASS/4Linux skips; server verification next. No actual API request/service,
+Pushed/deployedc864a38:113/113related Linux synthetic tests UID999 PASS4.43s;
+local10PASS/4Linux skips, encoding2/Ruff PASS,3SHA match, parent seals verified.
+[Server result](ALGOPACK_PAPER_CALENDAR_SOURCE_V1_RESULT.md). No actual API request/service,
 F=null. Далее sealed version-selection/amendment policy и report calendar binding,
 затем persistence/CLI, latency, complete activation. Не перезапускать обучение.
 

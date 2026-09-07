@@ -4,6 +4,8 @@
 
 [Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): activation-scoped current-day
 HTTP/durable journal/raw replay,14synthetic tests(local10PASS/4Linux skips).
+Pushed/deployedc864a38:113/113related Linux tests UID999 PASS4.43s, encoding2/Ruff PASS,
+3SHA match and parent seals verified. [Server result](ALGOPACK_PAPER_CALENDAR_SOURCE_V1_RESULT.md).
 No actual authenticated request; report selection policy/admission still pending, F=null.
 
 [Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): raw calendar parsing/full
