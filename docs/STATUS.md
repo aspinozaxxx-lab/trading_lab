@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — price inputs COMPLETE, далее paired training
+## Текущее действие — paired training V1 SEALED, далее Linux tests и один fit
+
+[Executable protocol](ALGOPACK_PAPER_TRAINING_V1.md) реализован и sealed до real values:
+44-file closure, config SHA `fb29aabbc6533db879c302173929ff90aa0e962c1fa2d50365d5cc90897948f8`.
+Model/projection tests29/29, общий local106passed/1Linux-onlyskip, encoding/Ruff PASS.
+Actual models/labels ещё не загружались; следующее действие — pushed code deployment,
+Linux synthetic tests, затем один isolated training run от trading-lab без сети/ключа.
+Canonical path определяется seal12; не перезапускать/не overwrite при ошибке.
+
+### Предшествующий этап — price inputs COMPLETE
 
 Новый полный price root `/srv/trading_lab_data/data/algopack-paper-price-inputs-v1`
 проверен:662files/79219007bytes,1699545source rows; timestamps/contract/aggregate gates
@@ -13,10 +22,10 @@ created2026-09-07T17:17:59.585523UTC. Root0750/UID999. Цены/labels/fit не 
 V2 map correction:6044eligible rows/1518dates, four missing prior-date rows masked;
 local77passed/1skip, Linux76/76. [Подробности и failure history](ALGOPACK_PAPER_INPUTS_V1.md).
 
-Следующий bounded шаг — реализовать [paired training specification](ALGOPACK_PAPER_TRAINING_SPEC_V1.md):
+Зафиксированная [paired training specification](ALGOPACK_PAPER_TRAINING_SPEC_V1.md):
 20price vs40price+flow features, два fixed Ridge alpha10, одинаковые2020–2025 training
-rows, separate labels/provenance; минимум5000joint rows. Затем executable config/code/
-input seal и server training. Spec — не готовый seal, пока fit запрещён. Никакого
+rows, separate labels/provenance; минимум5000joint rows. Executable config/code/
+input seal теперь подготовлен; server tests и training ещё впереди. Никакого
 ретроспективного AlgoPack CAGR. Сборку root/metadata preparation повторять нельзя.
 
 ### Основание и предшествующая реализация

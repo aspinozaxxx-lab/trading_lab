@@ -1,0 +1,24 @@
+﻿{
+  "protocol_id": "algopack_paper_training_v1",
+  "price_root": "/srv/trading_lab_data/data/algopack-paper-price-inputs-v1",
+  "assembly": {
+    "path": "assembly_manifest.json",
+    "bytes": 220048,
+    "sha256": "635f33d3da3d82a3328121f251486a79c123e478da7c1fd1de8b01999f184b7c"
+  },
+  "storage_root": "/srv/trading_lab_data",
+  "history_root": "/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d",
+  "history_manifest_sha256": "f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4",
+  "history_jobs": 294,
+  "history_pairs": 147,
+  "output_parent": "/srv/trading_lab_data/runs/algopack-paper-training",
+  "training_information_start": "2020-01-01",
+  "training_information_end": "2025-12-31",
+  "minimum_joint_rows": 5000,
+  "ridge_alpha": 10.0,
+  "ridge_solver": "svd",
+  "archive_transferability_assumption": true,
+  "historical_economic_evaluation": false,
+  "future_boundary": null,
+  "live_trading_allowed": false
+}

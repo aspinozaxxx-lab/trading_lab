@@ -115,8 +115,9 @@
 
 37. [Paper price inputs](docs/ALGOPACK_PAPER_INPUTS_V1.md) — COMPLETE,662files в отдельном
     server root; V2 сохраняет missing prior plan dates masked. Не повторять assembly.
-    [Training spec](docs/ALGOPACK_PAPER_TRAINING_SPEC_V1.md) — следующий шаг: paired Ridge,
-    отдельные feature/label tables и executable seal до fit. Actual outcomes пока не читались.
+    [Training spec](docs/ALGOPACK_PAPER_TRAINING_SPEC_V1.md) и
+    [executable training V1](docs/ALGOPACK_PAPER_TRAINING_V1.md): paired Ridge/separate labels,
+    44-file seal до fit. Runtime/run status брать из STATUS; no historical PnL, F=null.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
