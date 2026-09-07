@@ -132,6 +132,10 @@
     durable payload/actual observation clocks. Late consumption нельзя backdate по
     раннему COMMITTED timestamp. Full source/activation/execution admission ещё нужен.
 
+41. [Activation/capture V1](docs/ALGOPACK_PAPER_CAPTURE_V1.md) — full market packet
+    replay/journal/model-input adapter. Production forward activation/config/seal ещё
+    отсутствуют; verifier требует execution/evaluation/runtime. F не выдумывать.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

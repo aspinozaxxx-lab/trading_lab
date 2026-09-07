@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Activation verifier + full packet capture V1: [details](ALGOPACK_PAPER_CAPTURE_V1.md).
+Local18PASS/3Linux integration skips; next server tests. Source responses stored separately,
+replayed before COMPLETE, observed availability propagated into model inputs. Actual
+production activation absent/F=null, no HTTP/forecast/trade or income result.
+
 Immutable journal V1 implemented: [details](ALGOPACK_PAPER_JOURNAL_V1.md). No overwrite,
 partial failures preserved, source references pinned, late consumers sleep. Pushed/deployed
 fdb8b42; Linux180/180 related tests и33/33journal отUID999 PASS. Local14pure+encoding2PASS,

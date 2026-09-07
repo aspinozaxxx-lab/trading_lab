@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — immutable paper journal V1, до activation
+## Текущее действие — activation verifier + full packet capture V1
+
+[Capture V1](ALGOPACK_PAPER_CAPTURE_V1.md) соединяет market source с immutable journal,
+полным raw replay и source→model clock mapping. Activation verifier требует будущие
+execution/evaluation/runtime files и transitive parents; registry/config пока отсутствуют,
+F=null. Local18PASS/3Linux integration skips; далее pushed deployment/server tests.
+Actual HTTP/forecasts/trades0, новых ключей/config activation/timers не создавалось.
+Неблокирующе запрошены broker/tariff для комиссии; пока ответ не получен, его не выдумывать.
+
+### Предшествующий этап — immutable paper journal V1
 
 [Journal V1](ALGOPACK_PAPER_JOURNAL_V1.md) реализован: exclusive per-slot events,
 fsync/readback/hashes, failure preservation, actual observation clock, source-reference
