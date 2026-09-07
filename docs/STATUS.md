@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — bounded-read portfolio session V1
+## Текущее действие — portfolio command/anchor V1
+
+[Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): отдельный control journal,
+prior commands/sequential anchors и восстановление одного committed события без
+повторного исполнения. Missing genesis/history не становится новым капиталом.
+Local1PASS/12Linux skips, Ruff PASS; серверные crash tests следом после pushed deploy.
+F=null; production activation отсутствует. Следом evidence-bound runtime, missed-exit
+policy, daily ledger snapshot producer и scheduler; source-economic proof ещё не готов.
+
+### Предшествующий этап — bounded-read portfolio session V1
 
 [Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): startup full replay,
 hot append с tail check/общим lock, cache invalidation при конфликте/uncertain write.

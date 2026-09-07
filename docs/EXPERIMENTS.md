@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): explicit genesis,
+prior immutable command → ledger → chained anchor; crash recovery без повторной
+операции. Local1PASS/12Linux skips, Ruff PASS; Linux verification pending deploy.
+Это технический протокол, не новая стратегия/PnL. F=null; обе цепочки на одном host
+не независимый backup и не заменяют source evidence-bound event builder.
+
 [Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): bounded hot journal
 reads вместо full replay каждой записи; startup replay/external tail сохранены.
 Pushed/deployed799c935:315/315related tests отUID999 PASS, включая8session;

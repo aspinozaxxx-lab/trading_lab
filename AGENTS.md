@@ -160,6 +160,10 @@
     state/hot tail check. Reopen после stale/lost ack; external anchor всё ещё обязан
     публиковать runtime. Не десериализовать произвольный cash checkpoint как доверенный.
 
+48. [Portfolio anchors V1](docs/ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md) — separate command/
+    anchor chain и single-event crash recovery без повторного исполнения. Missing
+    genesis не новый счёт; оба root на одном host не backup. Source evidence ещё нужен.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
