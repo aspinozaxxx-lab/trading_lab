@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — calendar source V1
+## Текущее действие — calendar policy V1
+
+[Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): canonical weekday attempt
+09:00–09:05Moscow, no fallback/revision replacement; complete F-to-end decision ledger.
+Missing/late/unknown calendar blocks expected_days for entire period. Closed/weekend
+exclusions retained for required economic ledger check. Local3PASS/8Linux skips;
+server verification next. F=null, no actual source request. Далее report wrapper with
+excluded-day ledger checks, runtime scheduling, persistence/CLI, latency and activation.
+
+### Предшествующий этап — calendar source V1
 
 [Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): current-day activation-gated
 HTTP adapter + immutable per-response journal + full raw/durable observation replay.

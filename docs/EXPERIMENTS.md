@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): fixed09:00–09:05Moscow
+canonical version, whole-period unresolved gate, explicit exclusions, no late fallback.
+11synthetic tests(local3PASS/8Linux skips). Policy implemented pre-outcomes, not yet
+activation-sealed or integrated into economic report/runtime. F=null.
+
 [Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): activation-scoped current-day
 HTTP/durable journal/raw replay,14synthetic tests(local10PASS/4Linux skips).
 Pushed/deployedc864a38:113/113related Linux tests UID999 PASS4.43s, encoding2/Ruff PASS,
