@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — market source core/transport V1, до activation
+## Текущее действие — immutable paper journal V1, до activation
+
+[Journal V1](ALGOPACK_PAPER_JOURNAL_V1.md) реализован: exclusive per-slot events,
+fsync/readback/hashes, failure preservation, actual observation clock, source-reference
+validation и late-consumption masks. Local pure14PASS;19Linux-only durability cases
+требуют server execution после pushed deployment. F=null, actual source/forecast writes0.
+Следом full source capture/replay + input assembler + fixed execution/evaluation activation.
+
+### Предшествующий этап — market source core/transport V1
 
 [Market source primitives](ALGOPACK_PAPER_MARKET_SOURCE_V1.md) реализованы:
 bounded apim candles/book/specs routes, post-F Moscow-midnight request rule,

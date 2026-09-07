@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Immutable journal V1 implemented: [details](ALGOPACK_PAPER_JOURNAL_V1.md). No overwrite,
+partial failures preserved, source references pinned, late consumers sleep. Local pure14
+tests PASS;19Linux durability tests pending deployment. F=null; actual source/forecast0.
+
 Market source core/transport V1 implemented: [details](ALGOPACK_PAPER_MARKET_SOURCE_V1.md).
 70новых synthetic tests, related local149/149/encoding/Ruff PASS; pushed/deployed197c9e0,
 Linux147/147 PASS,5deployed hashes/parent closure44/44/public CA identity PASS отUID999.

@@ -128,6 +128,10 @@
     primitives, но ещё не activated collector. No CLI/timer/F; response available_at=null
     до durable commit. Full activation/source/execution/evaluation seal нужен до HTTP.
 
+40. [Paper journal V1](docs/ALGOPACK_PAPER_JOURNAL_V1.md) — immutable events, no overwrite,
+    durable payload/actual observation clocks. Late consumption нельзя backdate по
+    раннему COMMITTED timestamp. Full source/activation/execution admission ещё нужен.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
