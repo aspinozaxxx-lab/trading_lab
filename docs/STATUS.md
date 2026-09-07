@@ -7,8 +7,10 @@
 
 [Async due executor V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): dedicated4quote-worker pool
 connected to single anchored execution owner, exits first/shared arms, actual deadlines,
-fresh later retries, expired exit risk retained.9tests(local2PASS/7Linux skips), server
-verification next. Not runtime-integrated, F=null. Далее async slot admission/runtime,
+fresh later retries, expired exit risk retained. Pushed/deployeda2c1b68:52/52related Linux
+tests UID999 PASS10.21s; local2PASS/7Linux skips, encoding2/Ruff PASS,3SHA match, parents
+verified. [Server result](ALGOPACK_PAPER_ASYNC_DUE_V1_RESULT.md).
+Not runtime-integrated, F=null. Далее async slot admission/runtime,
 full timing/restart matrix and final activation. Legacy synchronous runtime not admitted.
 
 ### Предшествующий этап — bounded execution-source worker pool

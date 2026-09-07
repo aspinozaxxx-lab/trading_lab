@@ -5,6 +5,8 @@
 [Async due execution V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): parallel quote jobs→actual
 observation→anchored fill, exit priority, expiry and uncertain-write retention.
 9tests(local2PASS/7Linux skips), not integrated runtime/actual trading. F=null.
+Pushed/deployeda2c1b68:52/52related Linux tests UID999 PASS10.21s,3SHA match,
+parents verified, encoding2/Ruff PASS. [Server result](ALGOPACK_PAPER_ASYNC_DUE_V1_RESULT.md).
 
 [Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md):4bounded source jobs,
 non-waiting polling/expiry,10tests(local1PASS/9Linux skips). Raw source contract/deadline
