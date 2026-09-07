@@ -7,7 +7,9 @@
 
 [Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): prioritized due exits/entries, shared
 same-contract source, actual deadline cancellation/unresolved, durable outcomes.
-Local targeted/encoding checks and server verification next. F=null; activation нет.
+Pushed/deployed01e964b:374/374related Linux tests UID999 PASS, включая8due-pump;
+local2+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_DUE_PUMP_V1_RESULT.md). F=null; activation нет.
 Следом fixed as-of witnessed-flow selection и unified runtime scheduler, offline
 economic evidence/evaluation wiring и full pre-F publication. No actual economic run.
 
