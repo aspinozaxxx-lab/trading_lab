@@ -7,9 +7,14 @@
 
 [Journal V1](ALGOPACK_PAPER_JOURNAL_V1.md) реализован: exclusive per-slot events,
 fsync/readback/hashes, failure preservation, actual observation clock, source-reference
-validation и late-consumption masks. Local pure14PASS;19Linux-only durability cases
-требуют server execution после pushed deployment. F=null, actual source/forecast writes0.
+validation и late-consumption masks. Pushed/deployedfdb8b42; Linux180/180 related tests
+PASS, отдельно все33journal tests отUID999 PASS, включая19durability cases.
+Local14pure+encoding2PASS/19Linux-onlyskips.3deployed hashes match; parent training
+closure44/44 PASS. Core SHA `d5fc58bdbfa1f25be5cee9234b473bf185fa0462889ac12b0aa0c239af3e21a7`,
+tests `c67c4ebafcea50f88b5b60b764141a48e9a57e882fc2fad579f6597055042530`.
+F=null, actual source/forecast writes0; испытания только synthetic temporary events.
 Следом full source capture/replay + input assembler + fixed execution/evaluation activation.
+Готовые primitives не повторять как отдельные исследования; соединить их в рабочий runtime.
 
 ### Предшествующий этап — market source core/transport V1
 
