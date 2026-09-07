@@ -4,8 +4,10 @@
 
 [Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): source references и actual
 observation clocks связываются с fixed intent/fill и anchored ledger. No arbitrary
-caller Fill/clock; missed exit сохраняет риск. Local1PASS/7Linux skips, Ruff PASS;
-server verification pending. Не economic run, не complete runtime, F=null.
+caller Fill/clock; missed exit сохраняет риск. Pushed/deployed b1fa29c:336/336related
+Linux tests UID999 PASS, включая8bridge; local1+encoding2PASS/7Linux skips, Ruff PASS.
+3SHA match, parents44/7 unchanged. [Server result](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1_RESULT.md).
+Не economic run, не complete runtime, F=null.
 
 [Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): explicit genesis,
 prior immutable command → ledger → chained anchor; crash recovery без повторной

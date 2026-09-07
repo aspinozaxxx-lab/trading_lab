@@ -7,7 +7,9 @@
 
 [Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): consume/replay source refs
 → fixed intent/fill → anchored RESERVE/ENTRY/EXIT; missed entry CANCEL, missed exit
-UNRESOLVED без повторных событий. Local1PASS/7Linux skips, Ruff PASS; server tests next.
+UNRESOLVED без повторных событий. Pushed/deployed b1fa29c:336/336related Linux tests
+UID999 PASS, включая8bridge; local1+encoding2PASS/7Linux skips, Ruff PASS.3SHA match,
+parents44/7 unchanged. [Server result](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1_RESULT.md).
 F=null, actual activation отсутствует. Следом MTM refresh, durable decision coverage,
 ledger-derived daily snapshots/offline evidence replay и scheduler до полного seal.
 
