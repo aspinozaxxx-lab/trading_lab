@@ -4,7 +4,9 @@
 
 [Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): fixed09:00–09:05Moscow
 canonical version, whole-period unresolved gate, explicit exclusions, no late fallback.
-11synthetic tests(local3PASS/8Linux skips). Policy implemented pre-outcomes, not yet
+11synthetic tests(local3PASS/8Linux skips); pushed/deployedf908f0c:124/124related Linux
+tests UID999 PASS5.28s, encoding2/Ruff PASS,3SHA match and parent seals verified.
+[Server result](ALGOPACK_PAPER_CALENDAR_POLICY_V1_RESULT.md). Policy implemented pre-outcomes, not yet
 activation-sealed or integrated into economic report/runtime. F=null.
 
 [Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): activation-scoped current-day

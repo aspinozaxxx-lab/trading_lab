@@ -8,8 +8,10 @@
 [Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): canonical weekday attempt
 09:00–09:05Moscow, no fallback/revision replacement; complete F-to-end decision ledger.
 Missing/late/unknown calendar blocks expected_days for entire period. Closed/weekend
-exclusions retained for required economic ledger check. Local3PASS/8Linux skips;
-server verification next. F=null, no actual source request. Далее report wrapper with
+exclusions retained for required economic ledger check. Pushed/deployedf908f0c:
+124/124related Linux tests UID999 PASS5.28s; local3PASS/8Linux skips, encoding2/Ruff PASS,
+3SHA match, parent seals verified. [Server result](ALGOPACK_PAPER_CALENDAR_POLICY_V1_RESULT.md).
+F=null, no actual source request. Далее report wrapper with
 excluded-day ledger checks, runtime scheduling, persistence/CLI, latency and activation.
 
 ### Предшествующий этап — calendar source V1
