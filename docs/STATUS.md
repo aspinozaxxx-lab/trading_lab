@@ -8,7 +8,9 @@
 [Async slot V1](ALGOPACK_PAPER_ASYNC_SLOT_V1.md): intake→background session/union quotes→
 current-position MARK→two-arm decisions one asset/tick. Shared mark/entry reference,
 no main-thread HTTP; failed/late/uncertain attempts retained.9tests(local1PASS/8Linux
-skips), server verification next. F=null. Далее integrated async runtime and full
+skips); pushed/deployed4493bc9:53/53related Linux tests UID999 PASS14.36s,3SHA match,
+parents verified, encoding2/Ruff PASS. [Server result](ALGOPACK_PAPER_ASYNC_SLOT_V1_RESULT.md).
+F=null. Далее integrated async runtime and full
 original interference/restart tests; legacy runtime still unadmitted.
 
 ### Предшествующий этап — preparation completion intake V1

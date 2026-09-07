@@ -5,6 +5,8 @@
 [Async slot admission V1](ALGOPACK_PAPER_ASYNC_SLOT_V1.md): phased background sources,
 shared mark/intent quotes and current-state reservations.9tests(local1PASS/8Linux skips).
 Integrated runtime/timing gates remain; no actual sources/models/positions, F=null.
+Pushed/deployed4493bc9:53/53related Linux tests UID999 PASS14.36s,3SHA match,
+parents verified, encoding2/Ruff PASS. [Server result](ALGOPACK_PAPER_ASYNC_SLOT_V1_RESULT.md).
 
 [Preparation intake V1](ALGOPACK_PAPER_PREPARATION_INTAKE_V1.md): canonical supervisor/
 child completion→actual forecast consumption, immutable once-only outcome.9tests
