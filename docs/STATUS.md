@@ -3,7 +3,25 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack publication metadata COMPLETE
+## Текущее действие — training-today review COMPLETE, нужен выбор пользователя
+
+[Admission review V1](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md) завершён2026-09-07:
+полученный сегодня архив потенциально пригоден как учебный материал, но это отдельная
+гипотеза переноса final-vintage в online, не historical causal admission. Правила требуют
+доступности training features к historical decision; market outcomes>=2026 запрещены.
+Оба ограничения действуют. Новые labels/цены не читались, fit/predictions/PnL не запускались.
+
+Нужен явный выбор: допустить отдельный paper-only эксперимент с current-vintage архивом
+2020–2025 для обучения и новым будущим периодом цен/результатов строго после code/model
+seal, без открытия прежнего2026 и без retrospective AlgoPack CAGR. Согласия пока нет.
+Даже после согласия остаются gates timezone/bucket completion, row-level calendar,
+exact execution и полный protocol seal. Review выявил, что V32 learning eligibility
+читает future label path/target presence: готовую learning frame не переносить в online.
+Не подменять ожидание решения пользователя повторными source audits/новыми timers.
+Предыдущий turn дал progress через publication evidence; этот завершил admission review.
+Это конкретный объединённый future-paper вариант, не готовый run и не сброс blocker audit.
+
+## Предшествующий результат — AlgoPack publication metadata COMPLETE
 
 [Publication metadata V1](ALGOPACK_FO_PUBLICATION_METADATA_V1.md) завершён один раз:
 full source replay PASS, six-column projection2067949rows, independent report/hash/
@@ -16,12 +34,9 @@ Canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_pub
 manifest `1bff6855218cceba6d815d137047458a089f3deec184f9325a99d3f2ed6afeda`.
 Handle57424 terminal success/exit0,2min2.625s,created12:37:53UTC. Не повторять этот audit.
 
-Следующий bounded шаг — дизайн отдельного training-today/prospective-only forecast
-protocol с разделением availability на момент обучения и availability на момент
-реального будущего решения. Это не ретроспективный backtest и не разрешение читать
-2026 outcomes; старые source/model flags не ослаблять. Пока не читать новые labels
-и не fit-ить модель до отдельного causal admission и seal. Если этот вариант не
-может выполнить gates, требуется выбор пользователя, не очередной однотипный audit.
+Назначенный здесь training-today design review уже выполнен, итог и оставшийся выбор
+вверху. Это не ретроспективный backtest и не разрешение читать2026 outcomes; старые
+source/model flags не изменены. Пока не читать новые labels и не fit-ить модель.
 
 ### Предшествующее уточнение поставщика
 
@@ -2747,13 +2762,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.
    Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.
-5. Publication metadata audit COMPLETE (canonical/SHA вверху): поздние публикации
-   подтверждены, не повторять проверку. Первый bounded research шаг — отдельный
-   design review training-today/prospective-only forecast protocol: не выдавать
-   нынешнюю обучающую выборку за данные, доступные в её label dates. Доказать admission
-   на training_cutoff/decision_at и не читать labels/fit до нового seal/admission.
-   Старые model/live flags не повышать автоматически. Если gates требуют user choice,
-   сообщить конкретный оставшийся блокер вместо нового инфраструктурного цикла.
+5. Publication audit и [training-today review](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
+   COMPLETE. Нужен явный выбор пользователя об archive-training assumption и новом
+   future-only paper периоде после protocol/model seal; ранее2026 не открывать.
+   Ответа нет. До него не читать labels/fit, не повторять review или quality audits.
+   После согласия проверить TIME/SCHEMA, затем отдельный executable protocol/seal;
+   source/model/live flags старых версий не менять. Это тот же admission blocker
+   при неизменных условиях, а не повод для нового инфраструктурного цикла.
 6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
    четырёх активов, continuous10min decisions с label-independent eligibility.
    SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю

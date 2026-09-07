@@ -1,5 +1,18 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack training-today admission review V1 — COMPLETE, NOT_ADMITTED
+
+2026-09-07: [review](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md), не economic run.
+Training-time availability отделена от historical-decision availability; final-vintage
+training не доказывает переносимость в online. Protected2026 блокирует future evaluation.
+Нужен явный scoped user choice: archive training assumption + новый post-seal paper
+период; старый2026 и historical CAGR не открываются. Ответа пока нет.
+Code inspection подтвердил future-target filtering в V32 learning frame; её нельзя
+считать online eligibility. Frozen code/config не менялись. Новые source/outcome loads,
+fit, model, predictions, trades отсутствуют; CAGR/Sharpe/MDD N/A. Protocol seal отсутствует.
+Следующий шаг после согласия — проверить bucket/time semantics и составить executable
+protocol; без согласия не повторять завершённые source audits вместо исследования.
+
 ## AlgoPack FO publication metadata V1 — COMPLETE, source-only
 
 - New evidence: vendor says SYSTIME is publication time; revision semantics unresolved.

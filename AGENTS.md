@@ -107,6 +107,12 @@
     note теперь входит в frozen closure; новые уточнения — отдельной dated note.
     Дизайн training-today не равен model admission или разрешению читать2026 outcomes.
 
+36. [Training-today admission review](docs/ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
+    — COMPLETE / NOT_ADMITTED. Нужен явный выбор об archive-training assumption и новом
+    post-seal future-paper периоде; старый2026 закрыт. Согласия нет, fit/labels запрещены.
+    После согласия остаются time/schema/execution/seal gates. V32 learning frame с
+    future-label eligibility нельзя подставлять в online. Не повторять source audits.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
