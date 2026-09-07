@@ -7,7 +7,9 @@
 
 [Slot runner V1](ALGOPACK_PAPER_SLOT_RUNNER_V1.md): capture→predict→actual consumption
 →marks→fixed8reserve decisions, durable attempts/phase failures/no retry of reserved slot.
-Local1PASS/6Linux skips, Ruff PASS; server verification next. F=null; activation нет.
+Pushed/deployed506ad84:366/366related Linux tests UID999 PASS, включая7slot-runner;
+local1+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_SLOT_RUNNER_V1_RESULT.md). F=null; activation нет.
 Следом due-entry/exit pump, as-of witnessed-flow selection и unified runtime scheduler,
 offline raw/economic audit/evaluation wiring до full seal. No actual forecasts/trades.
 
