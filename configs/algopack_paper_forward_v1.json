@@ -1,0 +1,37 @@
+﻿{
+  "protocol_id": "algopack_paper_forward_v1",
+  "paper_only": true,
+  "live_trading_allowed": false,
+  "future_start": null,
+  "runtime_protocol": "algopack_paper_runtime_v2",
+  "execution_protocol_id": "algopack_paper_execution_v1",
+  "evaluation_protocol_id": "algopack_paper_evaluation_v1",
+  "report_protocol_id": "algopack_paper_report_store_v1",
+  "model_manifest_sha256": "028b2cead7111868ef345987e696be2d70aadd8bbaa0a8233ff676dd38fd7527",
+  "model_sha256": {
+    "price_only": "2053be47dc3649904154816dc635a76c156df3d25aa647354cc0730c4d9ed5d5",
+    "price_flow": "6d39dc55178bf3d893eaff91b18ab23066ca2ceed9b1db2c950587838fcb41aa"
+  },
+  "implementation_snapshot": {
+    "assets": ["BR", "MIX", "RI", "SI"],
+    "initial_capital_rub_per_arm": 1000000.0,
+    "broker_fee_rub_per_contract_side": 3.0,
+    "broker_fee_verified": false,
+    "notional_fraction_per_asset": 0.25,
+    "margin_fraction_per_asset": 0.10,
+    "depth_fraction": 0.10,
+    "edge_cost_multiple": 2.0,
+    "max_quote_age_seconds": 5,
+    "max_terms_age_seconds": 30,
+    "max_fill_delay_seconds": 30,
+    "slippage_ticks_per_side": 1,
+    "decisions_per_arm_per_open_day": 168,
+    "minimum_annual_sessions": 252,
+    "minimum_annual_days": 365,
+    "cost_scenarios": ["1x", "2x"]
+  },
+  "historical_evaluation_allowed": false,
+  "retraining_allowed": false,
+  "target_income_verified": false,
+  "protocol_document": "docs/ALGOPACK_PAPER_FORWARD_PROTOCOL_V1.md"
+}
