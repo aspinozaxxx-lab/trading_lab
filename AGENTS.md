@@ -144,6 +144,10 @@
     primitives, не portfolio runtime. Broker fee assumption не подтверждённый тариф;
     unresolved exits не удалять. Dated quote/session proof ещё нужны, F=null.
 
+44. [Execution source V1](docs/ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md) — dated BBO/specs
+    и calendar→journal→execution inputs. Actual entitlement/schema/titles пока не
+    наблюдались; unknown periods не объявлять торговыми. Runtime/F брать из STATUS.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

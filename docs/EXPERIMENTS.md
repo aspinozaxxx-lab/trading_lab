@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Dated BBO/calendar source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md) implemented,
+local25PASS/2Linux skips; source→journal→execution intent server tests pending.
+New route keeps dated vendor BBO separate from old undated book; explicit schema/date/
+unknown session/clearing failures. F=null, no actual source HTTP, no economic result.
+
 Fixed [execution core V1](ALGOPACK_PAPER_EXECUTION_V1.md): one position/asset/arm,
 1млн virtual capital,25%notional/10%margin entry cap,10%visible depth,FOK proxy,
 one adverse tick/side и одинаковые trades для1×/2×costs.28local+encoding2PASS;

@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — fixed paper execution core V1
+## Текущее действие — dated BBO/calendar execution source V1
+
+[Execution source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md): joint dated BBO/specs,
+calendar terminal pagination/clearing masks, bounded activation-gated transport,
+per-response journal и replay→Quote/Terms/Session. Local25PASS/2Linux skips, Ruff PASS;
+server deployment/tests pending. F=null; actual requests/forecasts/trades0.
+Реальные calendar titles/schema/entitlement ещё не наблюдались; не угадывать их.
+Следом portfolio ledger/evaluation/runtime, не новый source-only audit или обучение.
+
+### Предшествующий этап — fixed paper execution core V1
 
 [Execution V1](ALGOPACK_PAPER_EXECUTION_V1.md): fixed intent/sizing/cost buffer,
 causal quote-fill window и conditional1×/2× costs реализованы;28local synthetic tests PASS.
