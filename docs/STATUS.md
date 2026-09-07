@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — scheduler interference characterization
+## Текущее действие — isolated preparation worker V1
+
+[Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): source/model-only child,
+own HTTP session, immutable references, one-child non-waiting supervisor with deadline
+terminate/kill. Not yet integrated: original runtime interference defect remains.
+9tests added; server verification next. F=null. Далее async executor integration,
+remaining blocking execution-source work and actual scheduler interference retest.
+
+### Предшествующий этап — scheduler interference characterization
 
 [Scheduler interference](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1.md): synchronous slot
 can block next pump beyond existing30s exit window; late-start120s/40s synthetic cases

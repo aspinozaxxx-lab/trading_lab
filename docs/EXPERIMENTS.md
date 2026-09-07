@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): isolated source/model
+code path and non-waiting one-child supervisor,9tests including a benign real subprocess.
+No actual market/model child or runtime integration; scheduler defect remains, F=null.
+
 [Scheduler interference characterization](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1.md):
 4injected-clock scenarios exercise actual scheduler/reopen. Two late starts predict
 exit servicing after30s. Tests characterize a remaining defect, not a successful
