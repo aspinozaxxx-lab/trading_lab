@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — source-to-ledger execution bridge V1
+## Текущее действие — source-bound mark refresh V1
+
+[Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): source replay всех открытых
+позиций → anchored MARK → actual post-commit liquidation valuation. Missing/corrupt
+source заменяет old mark на None, unresolved exit сохраняется. Local1+encoding pending/
+7Linux skips, Ruff PASS; server tests next. F=null; actual activation отсутствует.
+Следом durable decision coverage, ledger-derived daily snapshots/offline evidence
+replay и scheduler до полного seal. Оперативная MTM ещё не daily evaluation snapshot.
+
+### Предшествующий этап — source-to-ledger execution bridge V1
 
 [Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): consume/replay source refs
 → fixed intent/fill → anchored RESERVE/ENTRY/EXIT; missed entry CANCEL, missed exit

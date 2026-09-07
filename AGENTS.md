@@ -168,6 +168,10 @@
     → fixed intent/fill → anchored ledger. Runtime не должен писать произвольные Fill
     напрямую. Missing exit остаётся unresolved; полноценный scheduler/evidence audit ещё нужен.
 
+50. [Mark refresh V1](docs/ALGOPACK_PAPER_MARK_REFRESH_V1.md) — full open-position
+    source-bound MARK, missing replaces old mark, actual post-commit valuation clock.
+    Оперативная MTM не daily snapshot; fresh quote не закрывает unresolved exit.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

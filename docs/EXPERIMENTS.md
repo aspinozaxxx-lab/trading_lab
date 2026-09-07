@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): full source-bound MARK с actual
+post-commit freshness; missing/corrupt не подменяются старой ценой. Local1PASS/7Linux
+skips, Ruff PASS; Linux verification next. No economic run, F=null; daily snapshot
+и complete-calendar decision denominator ещё требуются.
+
 [Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): source references и actual
 observation clocks связываются с fixed intent/fill и anchored ledger. No arbitrary
 caller Fill/clock; missed exit сохраняет риск. Pushed/deployed b1fa29c:336/336related
