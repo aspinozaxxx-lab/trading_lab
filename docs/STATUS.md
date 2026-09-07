@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — fixed daily evaluation V1
+## Текущее действие — bounded-read portfolio session V1
+
+[Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): startup full replay,
+hot append с tail check/общим lock, cache invalidation при конфликте/uncertain write.
+Synthetic server baseline100/500events измерен; local1PASS/7Linux skips, server newtests
+pending. Экономика/parents unchanged; F=null, actual market requests/trades0.
+Следом integrated runtime/evidence/anchors, recovery и scheduled daily snapshots.
+
+### Предшествующий этап — fixed daily evaluation V1
 
 [Evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): полный calendar denominator, daily
 snapshots18:20Moscow, missing/unresolved masks, independent arms/costs, total return/

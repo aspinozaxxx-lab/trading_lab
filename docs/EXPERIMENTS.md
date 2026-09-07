@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): bounded hot journal
+reads вместо full replay каждой записи; startup replay/external tail сохранены.
+Synthetic server100/500event baseline recorded; local1PASS/7Linux skips, server pending.
+No new economic run, no parent strategy changes, F=null.
+
 [Daily evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): fixed complete calendar,
 18:20Moscow daily marks, independent missing-arm masks,1×/2× descriptive metrics,
 no annualization before252sessions+365days, no target promotion. Pushed/deployede014b7a:

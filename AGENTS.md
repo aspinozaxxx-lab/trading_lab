@@ -156,6 +156,10 @@
     metrics. Missing/unresolved не обрезать; CAGR/Sharpe до252sessions+365days=null.
     Pure snapshot schema/SHA не заменяют ledger replay, target verified всегдаfalse.
 
+47. [Portfolio session V1](docs/ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md) — verified RAM
+    state/hot tail check. Reopen после stale/lost ack; external anchor всё ещё обязан
+    публиковать runtime. Не десериализовать произвольный cash checkpoint как доверенный.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
