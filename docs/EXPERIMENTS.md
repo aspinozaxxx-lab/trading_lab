@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable report publication,
+offline lifetime lock before recovery,8tests(local2PASS/6Linux skips). No actual report,
+service stop, credentials or HTTP. F=null; latency/final activation still required.
+
 [Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): fixed canonical
 morning attempt and private component;8new tests, local4PASS/13Linux skips including
 runtime/startup regression suites. No actual activation/calendar collection, F=null.

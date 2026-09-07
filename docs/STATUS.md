@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — runtime calendar integration
+## Текущее действие — immutable report store/CLI V1
+
+[Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable canonical report,
+source/activation/ledger scope, explicit failed/unresolved attempts. Offline CLI obtains
+runtime lifetime lock before account recovery, no HTTP/token/service stop. Local2PASS/
+6Linux skips; server verification next. F=null. Далее latency verification, final
+activation/service configuration and safe reporting cadence, not new model training.
+
+### Предшествующий этап — runtime calendar integration
 
 [Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): dedicated calendar
 component, fixed morning canonical work, pump-first, no retry/backfill after restart.
