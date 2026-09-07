@@ -7,7 +7,9 @@
 
 [Forecast audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): raw packet/flow replay,
 original availability reconstruction, fixed-model numeric recomputation and full
-candidate equality. Local1PASS/6Linux skips; server verification next. F=null.
+candidate equality. Pushed/deployed7c0da8f:407/407related Linux tests UID999 PASS,
+включая7forecast-audit; local1+encoding2PASS/6Linux skips, Ruff PASS.3SHA match,
+parents44/7 unchanged. [Server result](ALGOPACK_PAPER_FORECAST_AUDIT_V1_RESULT.md). F=null.
 Следом combined economic audit/evaluation report wiring, official calendar/latency
 checks, complete pre-F config/seal and server service activation. No actual economic run.
 
