@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Preparation intake V1](ALGOPACK_PAPER_PREPARATION_INTAKE_V1.md): canonical supervisor/
+child completion→actual forecast consumption, immutable once-only outcome.9tests
+(local1PASS/8Linux skips); no market/model/position operations, F=null.
+
 [Async due execution V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): parallel quote jobs→actual
 observation→anchored fill, exit priority, expiry and uncertain-write retention.
 9tests(local2PASS/7Linux skips), not integrated runtime/actual trading. F=null.

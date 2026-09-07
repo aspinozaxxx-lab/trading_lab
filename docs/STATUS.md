@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — asynchronous due executor V1
+## Текущее действие — preparation completion intake V1
+
+[Preparation intake V1](ALGOPACK_PAPER_PREPARATION_INTAKE_V1.md): supervisor/child/forecast
+identity and durable chronology, actual-time consumption, once-only intake, no late
+forecast read.9tests(local1PASS/8Linux skips), server verification next. F=null.
+Далее async slot calendar/marks/intent state machine, runtime integration and original
+interference/deadline/restart retest. Legacy runtime remains unadmitted.
+
+### Предшествующий этап — asynchronous due executor V1
 
 [Async due executor V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): dedicated4quote-worker pool
 connected to single anchored execution owner, exits first/shared arms, actual deadlines,
