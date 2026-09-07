@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Market source core/transport V1 implemented: [details](ALGOPACK_PAPER_MARKET_SOURCE_V1.md).
+70новых synthetic tests, related local149/149/encoding/Ruff PASS; awaiting server tests.
+Closed paid routes/candle boundary/pagination/book/spec masks/redacted HTTP transport.
+No actual price request, no collector/activation, F=null. Next full capture/publication
+and fixed economic runtime; source helper is not permission or a profit result.
+
 Inference core V1 implemented: [details](ALGOPACK_PAPER_INFERENCE_V1.md),20synthetic tests;
 related local89/89 incl encoding. Independent arm eligibility, frozen model identities,
 as-of revisions, no target input and publication deadline. Pushed/deployed79e4795,

@@ -124,6 +124,10 @@
     опубликованный forecast/fill. До source/writer/execution/evaluation seals F=null;
     training COMPLETE не повторять, actual runtime брать из STATUS.
 
+39. [Market source V1](docs/ALGOPACK_PAPER_MARKET_SOURCE_V1.md) — request/parser/HTTP
+    primitives, но ещё не activated collector. No CLI/timer/F; response available_at=null
+    до durable commit. Full activation/source/execution/evaluation seal нужен до HTTP.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

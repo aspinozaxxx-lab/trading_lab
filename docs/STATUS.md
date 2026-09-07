@@ -3,7 +3,18 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — future inference core V1, ещё без real forecasts
+## Текущее действие — market source core/transport V1, до activation
+
+[Market source primitives](ALGOPACK_PAPER_MARKET_SOURCE_V1.md) реализованы:
+bounded apim candles/book/specs routes, post-F Moscow-midnight request rule,
+whole-table timestamp-before-numeric candle guard, explicit empty terminal pagination,
+book/spec masks и bounded TLS transport без retries/redirects/body leaks.
+70новых synthetic tests; related local149/149 +encoding, Ruff PASS. Дальше pushed
+deployment/Linux tests, затем full activation/capture/writer/execution/evaluation runtime.
+НЕТ collector CLI/timer/actual requests: F=null, prices_read=false для нового источника.
+VALIDATED_NOT_PERSISTED/available_at=null не позволяет использовать ответ для inference.
+
+### Предшествующий этап — future inference core V1, ещё без real forecasts
 
 [Inference core V1](ALGOPACK_PAPER_INFERENCE_V1.md) реализован: exact model hashes,
 last-as-of source versions, отдельная baseline/full eligibility, no target API,
