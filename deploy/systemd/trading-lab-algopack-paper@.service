@@ -1,0 +1,33 @@
+[Unit]
+Description=Trading Lab prospective paper runtime (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=trading-lab
+Group=trading-lab
+WorkingDirectory=/opt/trading_lab
+Environment=PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+EnvironmentFile=/etc/trading-lab/collector.env
+ExecStartPre=/opt/trading_lab/.venv/bin/python -m market_lab.futures.algopack_paper_runtime_v2 --activation-sha256 %i --check
+ExecStart=/opt/trading_lab/.venv/bin/python -m market_lab.futures.algopack_paper_runtime_v2 --activation-sha256 %i --serve
+Restart=no
+KillMode=control-group
+KillSignal=SIGTERM
+SendSIGKILL=yes
+TimeoutStopSec=15s
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+LockPersonality=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/srv/trading_lab_data/data/forward/algopack-paper-v1/%i

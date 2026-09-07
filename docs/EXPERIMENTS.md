@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Server service preparation](ALGOPACK_PAPER_SERVICE.md): V2 activation instance,
+control-group child cleanup, only instance root writable, no auto restart or genesis.
+Local3static contract +2encoding tests PASS; server verification pending. No install,
+start, activation, HTTP, model read or economic outcome. F=null.
+
 [Integrated async runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due-first orchestration,
 background preparation/slot, maintenance guards and child cleanup.11new tests include
 old4interference scenarios and legacy-entrypoint guard. Local4PASS/9Linux skips with

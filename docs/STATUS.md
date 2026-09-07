@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — integrated asynchronous runtime V2
+## Текущее действие — server service preparation
+
+[Paper service](ALGOPACK_PAPER_SERVICE.md): explicit activation-SHA instance, runtime V2
+check-before-serve, whole-cgroup cleanup, private instance write scope, no automatic
+restart/init/boot admission. Offline reporting handoff documented. Local service3 and
+encoding2 tests PASS. Server syntax verification pending; template not installed or
+started, F=null. Далее integrated timing/sandbox checks and complete pre-F activation.
+
+### Предшествующий этап — integrated asynchronous runtime V2
 
 [Runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due→preparation poll→slot step, canonical
 dispatch/restart guard, safe maintenance and child shutdown. Config explicitly selects
