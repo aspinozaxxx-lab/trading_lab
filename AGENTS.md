@@ -196,6 +196,10 @@
     durable work/selection, explicit init/check/serve. Existing roots never reset.
     CLI exists but service/activation/F and offline economic audit still required.
 
+57. [Execution audit V1](docs/ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md) — offline source-bound
+    intent/fill/mark replay, original durable observation evidence. No live backdating;
+    forecast_recomputed=false, so execution-binding PASS is not full economic admission.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

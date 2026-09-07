@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Execution-binding audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): recompute saved
+intent/fill/mark from original durable source evidence, fail altered economic values.
+Verification pending; F=null. Forecast numerical replay still separate/required.
+
 [Unified runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump→selection/slot/daily tick,
 explicit initialization/check/serve, durable work reservations and sanitized stop/reopen.
 Pushed/deployed a1b4cd7:390/390related Linux tests UID999 PASS, включая7runtime;

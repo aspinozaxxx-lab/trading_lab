@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — unified runtime scheduler/CLI V1
+## Текущее действие — offline execution-binding replay V1
+
+[Execution audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): source evidence→intent/fill/
+mark recomputation→full ledger parity. Local/server verification next. F=null.
+Numerical forecast not recomputed yet; PASS does not grant economic admission.
+Следом independent forecast/feature replay и evaluation/report wiring, official
+calendar/latency checks, complete pre-F config/seal и service setup.
+
+### Предшествующий этап — unified runtime scheduler/CLI V1
 
 [Runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump first, persisted flow selection→slot,
 daily scheduler, lifetime serving lock, explicit check/init/serve, no automatic reset.
