@@ -3,7 +3,17 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — server service preparation
+## Текущее действие — measured readiness overhead
+
+[Actual readiness traversal](ALGOPACK_PAPER_READINESS_COST.md): isolated2099 activation,
+89real code/config/doc dependencies, unchanged recursive runtime.ready and full verifier.
+Pushed/deployed3c6bb03; Linux UID9991PASS0.69s. Three calls0.107874/0.103964/0.104133s,
+each39full activation reloads; subsequent synthetic dependency mutation rejected.
+Not total tick latency/SLA; no production activation/model/market IO. F=null.
+Далее full-component synthetic timing and service sandbox verification; do not weaken
+integrity checks merely because duplicate traversal exists.
+
+### Предшествующий этап — server service preparation
 
 [Paper service](ALGOPACK_PAPER_SERVICE.md): explicit activation-SHA instance, runtime V2
 check-before-serve, whole-cgroup cleanup, private instance write scope, no automatic

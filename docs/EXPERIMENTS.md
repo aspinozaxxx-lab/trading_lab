@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Readiness cost](ALGOPACK_PAPER_READINESS_COST.md): unchanged runtime.ready over an
+isolated synthetic activation with89actual code/config/doc files. Server UID9991PASS,
+3samples0.104–0.108s/39full reloads each; mutation rejection retained. Pushed3c6bb03.
+No income run, actual model/source access or runtime activation. Not full-loop SLA.
+
 [Server service preparation](ALGOPACK_PAPER_SERVICE.md): V2 activation instance,
 control-group child cleanup, only instance root writable, no auto restart or genesis.
 Local3static contract +2encoding tests PASS; ad371f3 deployed only to code repository,
