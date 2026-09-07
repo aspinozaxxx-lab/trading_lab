@@ -79,3 +79,28 @@ Local closure check без сети пройден; targeted synthetic/legacy/en
 в том числе новый inventory 20/20 и индексный parser 18/18. Ruff clean.
 Индексные временные synthetic fixtures перенесены из нестандартного pytest-каталога
 во внешнее test_scratch; frozen encoding tests не менялись.
+
+## Application-scoped TLS recovery — 2026-09-07
+
+Первый service launch остановился до сети: `/srv/trading_lab_data/data/processed`
+root-owned, новый child `algopack` ещё отсутствовал. Создан только этот child с owner
+`trading-lab`, без chmod/chown остальных данных. Второй launch не получил HTTP-ответ:
+TLS verify code 19, self-signed certificate in chain; validated pages 0, raw не сохранён.
+Это не отрицательный ответ о подписке. Failed diagnostic сохранён отдельно, canonical
+inventory не опубликован; sealed code/config не менялись.
+
+MOEX [объявила переход на НУЦ](https://www.moex.com/n103530?nt=107) 20.08.2026.
+Её [официальный SDK](https://github.com/moexalgo/moexalgo/blob/f596a066e9939fa50db441a0417902875d95748c/moexalgo/_tls.py)
+добавляет Russian Trusted Root CA локально для приложения с сохранением TLS verification.
+Используется [сертификат из закреплённого commit](https://raw.githubusercontent.com/moexalgo/moexalgo/f596a066e9939fa50db441a0417902875d95748c/moexalgo/certs/russian_trusted_root_ca.crt):
+
+- PEM 2057 bytes, SHA `aa800ef345422d6158c6fafe1c06c429dbda21c3df4bb1ccb45a920ec1111399`.
+- DER SHA `d26d2d0231b7c39f92cc738512ba54103519e4405d68b5bd703e9788ca8ecf31`.
+- Public CA path `/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem`, не API key.
+- `scripts/prepare_algopack_tls_v1.py`: verified HTTPS download без Authorization,
+  оба hash проверяются до использования; существующий сертификат не перезаписывается.
+- После no-auth TLS/hostname probe только конкретный transient AlgoPack service получает
+  `REQUESTS_CA_BUNDLE` с этим файлом. System trust, shared collector.env и остальные
+  collectors не изменяются. `verify=False`/отключение hostname check запрещены.
+- TLS transport — явно записанная операционная зависимость; query/schema/source closure
+  `5e3b01bad972...` остаётся byte-identical. До такого recovery было 0 source pages.
