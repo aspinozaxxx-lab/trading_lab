@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): raw calendar parsing/full
+coverage and page chronology, explicit unresolved and weekend scope, revision digest.
+21synthetic tests; local core+evaluation38PASS. Not an economic experiment or source
+admission; HTTP/durable receipts/selection/report integration still required. F=null.
+
 [Official calendar discovery 2026-09-08](ALGOPACK_PAPER_CALENDAR_DISCOVERY_20260908.md):
 public documentation confirms futures off_days schema, null semantics, pagination
 and distinct calendar/session dates; official September revision demonstrates mutable

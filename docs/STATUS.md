@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — official calendar source discovery
+## Текущее действие — calendar core V1
+
+[Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): реализованы closed URL/schema,
+raw pagination/chronology/complete-date replay и revision digest,21synthetic tests.
+Local core+evaluation38PASS; это pure primitives, не HTTP/journal/official admission.
+Следом server verification, durable calendar capture и version-selection policy,
+затем report binding/persistence, latency и полный pre-F seal. F=null.
+
+### Предшествующий этап — official calendar source discovery
 
 [Calendar discovery 2026-09-08](ALGOPACK_PAPER_CALENDAR_DISCOVERY_20260908.md): найден
 официальный futures off_days API, отличающий calendar date от session date, с null
