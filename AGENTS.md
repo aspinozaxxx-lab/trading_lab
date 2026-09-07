@@ -180,6 +180,10 @@
     MTM/coverage in18:20:00–18:20:30Moscow. Late durable report не evaluable; original
     builder clock не заменять report-read time. Full source-economic audit ещё нужен.
 
+53. [Slot runner V1](docs/ALGOPACK_PAPER_SLOT_RUNNER_V1.md) — one E+3..E+10 attempt,
+    capture→forecast→consumption→marks→8decisions. Existing/partial STARTED не rerun;
+    failures не success. Entry/exit pump, flow selector и full runtime ещё требуются.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

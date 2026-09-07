@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — ledger-derived daily snapshot V1
+## Текущее действие — single-attempt slot runner V1
+
+[Slot runner V1](ALGOPACK_PAPER_SLOT_RUNNER_V1.md): capture→predict→actual consumption
+→marks→fixed8reserve decisions, durable attempts/phase failures/no retry of reserved slot.
+Local1PASS/6Linux skips, Ruff PASS; server verification next. F=null; activation нет.
+Следом due-entry/exit pump, as-of witnessed-flow selection и unified runtime scheduler,
+offline raw/economic audit/evaluation wiring до full seal. No actual forecasts/trades.
+
+### Предшествующий этап — ledger-derived daily snapshot V1
 
 [Daily snapshot V1](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md): fixed18:20window, coverage+
 anchored ledger counts+actual MTM, immutable report; late publication not evaluable.

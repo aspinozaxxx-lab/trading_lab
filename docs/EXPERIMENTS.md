@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Slot runner V1](ALGOPACK_PAPER_SLOT_RUNNER_V1.md): one reserved E-slot, integrated
+capture/predict/consume/mark/8decisions with immutable outcomes/failures. Local1PASS/
+6Linux skips, Ruff PASS; server tests next. F=null; orchestration, not economic run.
+
 [Daily snapshot V1](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md): coverage+replayed ledger
 counts+source-bound MTM in fixed window, late reports rejected. Pushed/deployed0215cd2:
 359/359related Linux tests UID999 PASS, включая7daily; local1+encoding2PASS/6Linux
