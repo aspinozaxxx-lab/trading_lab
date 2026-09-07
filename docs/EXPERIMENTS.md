@@ -4,7 +4,10 @@
 
 [Portfolio state/replay V1](ALGOPACK_PAPER_PORTFOLIO_V1.md) implemented: reservations,
 liquidation-value MTM, closed1×/2× cash, unresolved masks, sequential immutable journal
-и restart with optional external tail. Local11PASS/2Linux skips; server tests pending.
+и restart with optional external tail. Pushed/deployed3f4767d:290/290related Linux tests
+отUID999 PASS, включая13portfolio; local11+encoding2PASS/2Linux skips, Ruff PASS.
+3deployed SHA match, training44/witnessed7 unchanged.
+[Server result](ALGOPACK_PAPER_PORTFOLIO_V1_RESULT.md).
 No actual trades/economic result; full runtime/evidence replay/evaluation ещё необходимы.
 
 [Dated BBO/calendar source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md) implemented,

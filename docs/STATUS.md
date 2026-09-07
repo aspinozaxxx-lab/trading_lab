@@ -7,10 +7,14 @@
 
 [Portfolio V1](ALGOPACK_PAPER_PORTFOLIO_V1.md): aggregate reservations, independent arms,
 liquidation MTM1×/2×, unknown equity masks, immutable sequence/restart и external-tail
-check реализованы. Local11PASS/2Linux skips, Ruff PASS; server tests pending.
+check реализованы. Pushed/deployed3f4767d:290/290related Linux tests отUID999 PASS,
+включая13portfolio. Local11+encoding2PASS/2Linux skips, Ruff PASS.3deployed SHA match;
+training44/witnessed7 parents unchanged. [Server result](ALGOPACK_PAPER_PORTFOLIO_V1_RESULT.md).
 F=null; actual requests/forecasts/trades0. Нужны evidence-bound runtime event builder,
 missed-exit recovery policy, evaluation и scheduler до complete activation.
 Не выдавать ledger consistency за реальное исполнение и не удалять unresolved риск.
+Текущий append replay-ит весь journal: до длинного run нужен verified incremental
+runtime state/anchor или measurement latency; synthetic13 не доказывают scalable runtime.
 
 ### Предшествующий этап — dated BBO/calendar execution source V1
 
