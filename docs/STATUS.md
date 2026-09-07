@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — исправление startup lock ordering
+## Текущее действие — combined economic report V1
+
+[Combined report V1](ALGOPACK_PAPER_REPORT_V1.md): forecast/execution audits + exact
+ledger-prefix snapshot/coverage/count verification before frozen evaluation.
+Local/server verification next. F=null; calendar_source_verified=false, not economic admission.
+Следом official expected-calendar provenance binding, report persistence/CLI, latency,
+complete pre-F config/seal и service setup. No actual market/economic run.
+
+### Предшествующий этап — исправление startup lock ordering
 
 [Runtime startup fix](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md): подтверждена
 гонка construct-before-lock (2regression FAIL на прежнем коде); exclusive lifetime lock

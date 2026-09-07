@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Combined economic report V1](ALGOPACK_PAPER_REPORT_V1.md): exact snapshot-to-ledger
+bindings, forecast/coverage checks and execution audit before evaluation. Verification
+pending; F=null, calendar provenance still unverified, no actual economic report.
+
 [Runtime startup correction](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md):
 2new regressions confirmed read-before-exclusive-lock; corrected order now3local PASS/
 6Linux skips. Pushed/deployed09777ff:409/409related Linux tests UID999 PASS, encoding2/

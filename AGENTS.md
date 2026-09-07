@@ -208,6 +208,10 @@
     lifetime lock must precede anchored replay, not only ticking. Original runtime
     result SHA is historical; future activation must pin corrected current bytes.
 
+60. [Combined report V1](docs/ALGOPACK_PAPER_REPORT_V1.md) — forecast/execution/ledger/
+    daily coverage checks before metrics. Calendar provenance still false; missing
+    days not trimmed, forged hash-valid equity/counts rejected. Not income admission.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
