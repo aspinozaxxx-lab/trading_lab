@@ -4,7 +4,9 @@
 
 [Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): explicit genesis,
 prior immutable command → ledger → chained anchor; crash recovery без повторной
-операции. Local1PASS/12Linux skips, Ruff PASS; Linux verification pending deploy.
+операции. Pushed/deployed core2e81686/test266d269:328/328related Linux tests UID999
+PASS, включая13anchor; local1+encoding2PASS/12Linux skips, Ruff PASS.3SHA match,
+parents44/7 unchanged. [Server result](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1_RESULT.md).
 Это технический протокол, не новая стратегия/PnL. F=null; обе цепочки на одном host
 не независимый backup и не заменяют source evidence-bound event builder.
 

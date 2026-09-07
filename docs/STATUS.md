@@ -8,7 +8,9 @@
 [Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): отдельный control journal,
 prior commands/sequential anchors и восстановление одного committed события без
 повторного исполнения. Missing genesis/history не становится новым капиталом.
-Local1PASS/12Linux skips, Ruff PASS; серверные crash tests следом после pushed deploy.
+Pushed/deployed core2e81686/test266d269:328/328related Linux tests UID999 PASS,
+включая13anchor; local1+encoding2PASS/12Linux skips, Ruff PASS.3SHA match,
+training44/witnessed7 unchanged. [Server result](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1_RESULT.md).
 F=null; production activation отсутствует. Следом evidence-bound runtime, missed-exit
 policy, daily ledger snapshot producer и scheduler; source-economic proof ещё не готов.
 
