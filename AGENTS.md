@@ -113,6 +113,11 @@
     Старый2026 закрыт; до нового seal/time/schema gates fit/labels не запускать. V32 frame с
     future-label eligibility нельзя подставлять в online. Не повторять source audits.
 
+37. [Paper price inputs](docs/ALGOPACK_PAPER_INPUTS_V1.md) — COMPLETE,662files в отдельном
+    server root; V2 сохраняет missing prior plan dates masked. Не повторять assembly.
+    [Training spec](docs/ALGOPACK_PAPER_TRAINING_SPEC_V1.md) — следующий шаг: paired Ridge,
+    отдельные feature/label tables и executable seal до fit. Actual outcomes пока не читались.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

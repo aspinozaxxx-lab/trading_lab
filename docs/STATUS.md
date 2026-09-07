@@ -3,7 +3,23 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack future-paper разрешён, подготовка протокола
+## Текущее действие — price inputs COMPLETE, далее paired training
+
+Новый полный price root `/srv/trading_lab_data/data/algopack-paper-price-inputs-v1`
+проверен:662files/79219007bytes,1699545source rows; timestamps/contract/aggregate gates
+и independent exact membership/all-file hashes PASS от trading-lab. Assembly manifest
+220048bytes SHA `635f33d3da3d82a3328121f251486a79c123e478da7c1fd1de8b01999f184b7c`,
+created2026-09-07T17:17:59.585523UTC. Root0750/UID999. Цены/labels/fit не читались.
+V2 map correction:6044eligible rows/1518dates, four missing prior-date rows masked;
+local77passed/1skip, Linux76/76. [Подробности и failure history](ALGOPACK_PAPER_INPUTS_V1.md).
+
+Следующий bounded шаг — реализовать [paired training specification](ALGOPACK_PAPER_TRAINING_SPEC_V1.md):
+20price vs40price+flow features, два fixed Ridge alpha10, одинаковые2020–2025 training
+rows, separate labels/provenance; минимум5000joint rows. Затем executable config/code/
+input seal и server training. Spec — не готовый seal, пока fit запрещён. Никакого
+ретроспективного AlgoPack CAGR. Сборку root/metadata preparation повторять нельзя.
+
+### Основание и предшествующая реализация
 
 Пользователь2026-09-07 явно разрешил предложенный эксперимент: [точный scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md).
 AUTHORIZATION gate снят; повторно согласие не спрашивать. Training только на архиве
@@ -33,8 +49,8 @@ Linux31inputs +38alignment PASS. Real preflight обнаружил missing raw21
 `/srv/trading_lab_data/data/algopack-paper-price-inputs-v1`, старый не изменён.
 Intraday tree нового root прошёл checks; active map V1 остановился на4nontradable
 2018-01-03 rows с missing prior dates. Новый V2 сохраняет их masked, effective-date и
-protected gates прежние, local7/7. Следующий шаг — Linux V2 tests и завершение metadata
-admission уже собранного root; повторно копировать данные нельзя. Цены/labels не читались.
+protected gates прежние. V2/Linux tests и завершение metadata admission уже выполнены,
+итог/canonical в начале STATUS; повторно копировать данные нельзя. Цены/labels не читались.
 
 ### Историческая запись admission review
 
@@ -2798,14 +2814,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Publication audit и [training-today review](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
    COMPLETE. Пользователь явно разрешил archive-training assumption и новый future-only
    paper период: [scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md). Ранее2026 не открывать.
-   Теперь проверить TIME/SCHEMA, затем отдельный executable protocol/seal до labels/fit;
+   Alignment и полный price input root уже подготовлены, canonical/SHA в начале STATUS.
+   Следующий шаг — [paired training implementation](ALGOPACK_PAPER_TRAINING_SPEC_V1.md)
+   и отдельный executable protocol/seal до labels/fit; assembly не повторять.
    source/model/live flags старых версий не менять. Общий permission blocker снят.
 6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
    четырёх активов, continuous10min decisions с label-independent eligibility.
    SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю
-   задан необязательный вопрос об явно оговорённом предварительном тесте; ответа пока
-   нет, согласие/default не предполагать. Без admission или явного исключения не
-   вычислять historical labels/model/PnL. Отдельный economic seal всё равно обязателен.
+   ранее задан вопрос о retrospective screen: эта ветка не выбрана. Вместо неё теперь
+   явно разрешён training-today/future-only вариант из пункта5. Повторно permission не
+   спрашивать; labels/model только в его scoped training seal, historical PnL запрещён.
 7. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
    приобретение источника или технический PASS доказательством минимальных 20%.
 

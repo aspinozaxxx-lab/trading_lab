@@ -2,6 +2,16 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Price input preparation COMPLETE17:17:59UTC:662files/79219007bytes,1699545source rows,
+metadata gates +independent all-file hash/membership PASS от service user.
+Assembly manifest220048bytes SHA `635f33d3da3d82a3328121f251486a79c123e478da7c1fd1de8b01999f184b7c`
+в `/srv/trading_lab_data/data/algopack-paper-price-inputs-v1/assembly_manifest.json`.
+V2 map6044eligible rows/1518dates; missing prior dates4 masked. Linux76/76,
+local77passed/1Windows skip, pre-server9a87e2c. Prices/model/PnL false.
+[Training spec](ALGOPACK_PAPER_TRAINING_SPEC_V1.md) задаёт fixed paired Ridge20vs40features,
+alpha10,2020–2025/min5000joint rows; executable model code/config/seal ещё требуются.
+Повторный assembly запрещён; следующий шаг — actual model implementation, не source audit.
+
 Input loader V1: [документ](ALGOPACK_PAPER_INPUTS_V1.md), local30passed/1 Windows skip.
 Transitive hashes и date/identity-only admission отдельно от post-seal price projection.
 Реальный preflight выявил missing raw219 и1empty Parquet в V62 copy; новый отдельный

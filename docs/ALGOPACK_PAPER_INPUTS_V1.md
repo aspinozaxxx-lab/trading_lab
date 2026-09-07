@@ -37,6 +37,31 @@ Global original-version/model/live flags не меняются. Источник
 
 ## Проверки и следующая операция
 
+### COMPLETE — итог нового input root
+
+V2 pre-server commit/push `9a87e2c`; Linux76/76 (alignment38 +inputs31 +V2 seven).
+Local combined77passed/1 Windows skip, включая encoding2/2. В17:17:59.585523UTC
+metadata preflight завершён; assembly manifest опубликован один раз:
+`/srv/trading_lab_data/data/algopack-paper-price-inputs-v1/assembly_manifest.json`.
+220048bytes, SHA `635f33d3da3d82a3328121f251486a79c123e478da7c1fd1de8b01999f184b7c`.
+662 referenced files/79219007bytes: top1 +asset4 +segment219 +raw219 +Parquet219.
+Totals4assets/219segments/1empty/1699545rows/3507pages. Active map8100rows,
+eligible2020–2025 rows6044 across1518dates; missing prior dates4 сохранены masked.
+Это не6044 сделки и не1518 полных joint training days.
+
+Отдельная проверка всех662hashes и exact directory membership PASS от service user
+trading-lab(UID999); новый root передан этому пользователю, root mode0750.
+Никакие старые source directories/collectors не изменены. V1 map failure сохранён
+как диагностическая история; copy/assembly повторять нельзя.
+Raw transfer SHA `0daa0abfcfe5f73fcf660b54a6f5a111ded2347fd236337216a6a39b0670f3a9`;
+local `D:/Projects/trading_lab_data/transfers/algopack_paper_price_raw_v1_506ab2d.tar`,
+server `/tmp/trading_lab_algopack_paper_price_raw_v1_506ab2d.tar`.
+Input code SHA V1 `57b070d7bc59bac73c66e40b4960453e225b06b19a10d775f0cfab892491537e`,
+V2 `bbf6f7cf5efa568ff400b8d9b242eaf987694c44fb12b9c39b4ca7c6684b04fa`.
+Prices read=false, model fitted=false, semantic raw replay=false, live=false.
+Следующая работа — [paired training specification](ALGOPACK_PAPER_TRAINING_SPEC_V1.md),
+не новая однотипная проверка этих source files как самостоятельный эксперимент.
+
 ### Actual server preparation и correction V2
 
 Pre-server commit/push `506ab2d`; Linux31/31 inputs +38/38 alignment PASS.
