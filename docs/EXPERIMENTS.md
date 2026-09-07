@@ -4,8 +4,11 @@
 
 Witnessed flow→forecast [predictor bridge V1](ALGOPACK_PAPER_PREDICTOR_V1.md) implemented:
 replayed source projection, durable source references, actual observation availability,
-target-free paired inference and forecast publication. Local1PASS/10Linux skips;
-server integration pending. No economic result, actual F=null, no production activation.
+target-free paired inference and forecast publication. Pushed/deployede83a045:
+11/11new и222/222related server tests отUID999 PASS; local1+encoding2PASS/10Linux skips,
+Ruff PASS.3deployed hashes match, training44/witnessed7 closures unchanged.
+[Server result](ALGOPACK_PAPER_PREDICTOR_V1_RESULT.md). No economic result, actual F=null,
+no production activation. Следом fixed execution/evaluation/runtime, не новый source audit.
 
 Activation verifier + full packet capture V1: [details](ALGOPACK_PAPER_CAPTURE_V1.md).
 Pushed/deployed43c4cd9; Linux211/211 related tests PASS; отдельно21/21 отUID999 PASS.

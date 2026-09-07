@@ -7,9 +7,13 @@
 
 [Predictor V1](ALGOPACK_PAPER_PREDICTOR_V1.md): source replay/journal/actual receipt
 mapping и paired inference→durable publication соединены. Новый модуль требует себя
-в activation closure; production registry отсутствует, F=null. Local1PASS/10Linux skips;
-далее pushed server synthetic integration. Actual market requests/forecasts/trades0.
-Следом fixed execution/evaluation/runtime; не повторять training/source audits.
+в activation closure; production registry отсутствует, F=null. Pushed/deployede83a045:
+11/11new integration tests и222/222related tests PASS отUID999. Local1+encoding2PASS/
+10Linux skips; Ruff PASS. Все3deployed hashes match; training44/witnessed7 closures PASS.
+[Подробности проверки](ALGOPACK_PAPER_PREDICTOR_V1_RESULT.md). Actual market requests/
+forecasts/trades0: synthetic prices, fake model bytes, no production activation.
+Следом fixed execution/evaluation/runtime и его единый pre-F seal. Forecast wiring уже
+соединён; не повторять обучение или source-only audit как отдельное исследование.
 
 ### Предшествующий этап — activation verifier + full packet capture V1
 
