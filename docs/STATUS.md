@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — bounded execution-source worker pool
+## Текущее действие — asynchronous due executor V1
+
+[Async due executor V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): dedicated4quote-worker pool
+connected to single anchored execution owner, exits first/shared arms, actual deadlines,
+fresh later retries, expired exit risk retained.9tests(local2PASS/7Linux skips), server
+verification next. Not runtime-integrated, F=null. Далее async slot admission/runtime,
+full timing/restart matrix and final activation. Legacy synchronous runtime not admitted.
+
+### Предшествующий этап — bounded execution-source worker pool
 
 [Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md): max4isolated source
 children/no hidden queue, per-job deadlines, immutable references and raw identity/time

@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Async due execution V1](ALGOPACK_PAPER_ASYNC_DUE_V1.md): parallel quote jobs→actual
+observation→anchored fill, exit priority, expiry and uncertain-write retention.
+9tests(local2PASS/7Linux skips), not integrated runtime/actual trading. F=null.
+
 [Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md):4bounded source jobs,
 non-waiting polling/expiry,10tests(local1PASS/9Linux skips). Raw source contract/deadline
 check, no fill or actual worker/HTTP. Runtime integration and timing gates remain, F=null.
