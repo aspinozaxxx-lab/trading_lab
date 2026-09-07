@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack доступ подтверждён, готовится metadata inventory V2
+## Текущее действие — AlgoPack inventory V2 завершён; готовится flow/depth sample
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -18,10 +18,19 @@ V1 прошёл все 16 страниц TradeStats (15 023 строки), но 
 TLS/hostname проверяются с закреплённым MOEX CA только для AlgoPack service;
 system trust и остальные collectors не менялись. См. source protocol для hashes.
 
-Следующий шаг — sealed source-only инвентарь `2024-10-15`, FO TradeStats и OBStats,
-только контрактные коды/asset codes/времена. После schema/cursor/raw replay — отдельный
-flow/depth sample фактических контрактов SI/RI/BR/MIX, затем исторический экономический
-протокол. Цель доходности не достигнута; real trading/брокер не подключаются.
+V2 завершён один раз: 15 023 TradeStats / 65 550 OBStats, 82 страницы, audit 11/11.
+Missing asset_code: TradeStats 0, OBStats 1 218; сохранены без подстановки.
+Canonical external directory:
+`/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_historical_inventory_v2_1da8655bf03d`.
+Manifest SHA `89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242`.
+Для SiZ4/RIZ4/BRX4/MXZ4 по 163 TradeStats и 174 OBStats; все 163 ключа TradeStats
+присутствуют в OBStats. Aliases Si/RTS/BR/MIX. 11 OB-only ранних bucket не заполнять
+нулём. Pre-request commit `31bfc79`, local 73/73, server V2 28/28.
+
+Следующий шаг — отдельный sealed flow/depth sample `2024-10-15` для четырёх контрактов,
+без OHLC/returns/PnL. Сверить точное покрытие с inventory, numeric missingness и
+семантику source timestamps, затем источник истории и экономический протокол.
+Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
 Индексная ветка дала проверку API/архива и незапечатанный prototype с synthetic tests,
@@ -2585,14 +2594,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — AlgoPack historical metadata inventory после покупки пользователем
+### P0 — AlgoPack flow/depth sample после completed inventory V2
 
 1. Ключ уже установлен на сервере; не просить повторно, не печатать и не переносить
    в local/Git/командные аргументы. Никаких дополнительных покупок/изменений тарифа.
-2. Завершить config/code closure и push для `moex_algopack_fo_historical_inventory_v1`,
-   synthetic tests, затем один source-only server run за `2024-10-15` и raw replay.
-3. Сначала установить точные SECID/asset aliases/полноту обоих datasets, без market
-   values. После этого отдельно запечатать flow/depth sample. Не запускать старый
+2. Inventory V2 завершён и audited 11/11, canonical path/SHA вверху. V1 failed staging
+   сохранить; ни одну версию не перезапускать ради улучшения результата.
+3. Запечатать и выполнить отдельный flow/depth sample SiZ4/RIZ4/BRX4/MXZ4 за тот же
+   день, raw replay + exact parent keys + numeric missingness. Не запускать старый
    forward collector для истории: он использует latest=1 и допускает только 2026+.
 4. SYSTIME/retrieval/current-vintage не доказывают original availability; отдельные
    economic time rules и sealed comparison с price-only baseline нужны до PnL.

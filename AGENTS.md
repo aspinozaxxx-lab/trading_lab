@@ -72,8 +72,9 @@
     пока source feasibility/prototype, без полного корпуса/seal/доходности.
 29. [AlgoPack historical source](docs/ALGOPACK_HISTORICAL_SOURCE.md) — пользователь купил
     подписку и разрешил key 2026-09-07; credential установлен только в server env.
-    Сначала sealed metadata inventory 2024-10-15, затем flow/depth source и economic
-    протокол. Старый latest=1 forward collector для истории не запускать/не ослаблять.
+    Metadata inventory V2 2024-10-15 завершён, 15 023/65 550 rows, audit 11/11;
+    далее отдельный four-contract flow/depth sample и economic протокол. V1 failed
+    staging сохранён. Старый latest=1 forward collector для истории не ослаблять.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

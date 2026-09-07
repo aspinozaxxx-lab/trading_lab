@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack purchased by user — authenticated history confirmed, inventory V2 prepared
+## AlgoPack purchased by user — metadata inventory V2 COMPLETE, flow/depth sample next
 
 - User reported purchase and authorized the provided API key on 2026-09-07. No agent
   purchase/renewal/broker connection. Credential installed via hidden SSH input only
@@ -17,6 +17,14 @@
   with full certificate/hostname verification; no global trust or other timer changes.
 - Old forward collector cannot be repurposed: latest=1, no historical pagination and
   strict 2026+ guard. No frozen module modified. [Protocol](ALGOPACK_HISTORICAL_SOURCE.md).
+- V2 completed once after pre-request commit `31bfc79`: 15,023 TradeStats / 65,550
+  OBStats rows, 16/66 pages, 284/384 unique contracts, read-only replay audit 11/11.
+  Missing asset_code 0/1,218 preserved; local targeted 73/73, server V2 tests 28/28.
+  Canonical `data/processed/algopack/moex_algopack_fo_historical_inventory_v2_1da8655bf03d`
+  under server external root; manifest SHA
+  `89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242`.
+  All four chosen contracts have 163 TradeStats and 174 OBStats rows, shared keys163.
+  No model/price/PnL/goal admission. Next separate source-only flow/depth sample.
 
 ## MOEX index announcements — source feasibility only, 2026-09-07
 

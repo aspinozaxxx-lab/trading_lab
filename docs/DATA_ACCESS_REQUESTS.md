@@ -5,8 +5,10 @@
 Позднее 2026-09-07 пользователь сообщил о покупке и разрешил использовать переданный
 API key. Он установлен через hidden SSH stdin в `/etc/trading-lab/collector.env`,
 `root:trading-lab 0640`; значение не включать в Git/log/raw/argv. Агент не совершал
-новых покупок, не менял тариф или автопродление. API GET entitlement ещё проверяется
-отдельно от наличия credential. Работа: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
+новых покупок, не менял тариф или автопродление. Historical FO TradeStats/OBStats GET
+подтверждены: inventory V2 complete/audited за 2024-10-15, 15 023/65 550 metadata rows.
+Это не доказательство прав/качества для любого продукта или оригинальной доступности.
+Работа: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
 Исторические статусы ниже описывают предшествующие решения; отсутствие credentials и
 откладывание покупки больше не блокируют технический sample. Переписка MOEX остаётся

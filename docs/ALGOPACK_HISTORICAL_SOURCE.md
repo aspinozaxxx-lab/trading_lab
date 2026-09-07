@@ -128,7 +128,9 @@ V2 closure включает frozen V1 helper dependency, config/sidecar/tests/in
 V2 pre-request config SHA
 `6dcd660c252b9b653e5bcaf67881e1143de00f1041175f68f7f372f889b95293`, closure SHA
 `1da8655bf03da09c5c6670951d3acb9acfc77536e48f9b0f9e38aae3439d09f4`.
-Local targeted 73/73 (V2 28/28), Ruff/diff clean, complete closure verified без сети.
+Local targeted 73/73 (V2 28/28), Ruff clean, complete closure verified без сети.
+Staged diff check отметил один cosmetic blank EOF в sealed V2 module; оставлен
+без изменения frozen bytes. Это не ошибка тестов или source schema.
 
 Независимый metadata-only active-map check существующего V36 source на sample date:
 effective 2024-10-15, decision/observed_through 2024-10-14; SI=SiZ4, RI=RIZ4,
@@ -137,3 +139,63 @@ BR=BRX4, MIX=MXZ4. Source SHA
 `/srv/trading_lab_data/data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet`.
 Цены/объёмы/returns не читались. Actual API asset aliases и совместное покрытие этих
 SECID установить после полного V2 replay; не считать внутренние SI/RI/MIX API aliases.
+
+## V2 canonical result
+
+Pre-request commit `31bfc79`; server synthetic 28/28, один service run 64,4 s, exit0.
+Canonical `/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_historical_inventory_v2_1da8655bf03d`.
+Manifest SHA `89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242`;
+inventory SHA `34b473d3035c03e9ee9076eb929db4953ad16bd2ba8f95e99d51972751a392b9`.
+Отдельный read-only raw replay audit 11/11. TradeStats 15 023 rows / 16 pages /
+284 SECID; OBStats 65 550 / 66 / 384. Missing asset_code 0 / 1 218, все сохранены.
+
+| SECID | API asset_code | TradeStats rows | OBStats rows | Shared time keys |
+| --- | --- | ---: | ---: | ---: |
+| SiZ4 | Si | 163 | 174 | 163 |
+| RIZ4 | RTS | 163 | 174 | 163 |
+| BRX4 | BR | 163 | 174 | 163 |
+| MXZ4 | MIX | 163 | 174 | 163 |
+
+У этих четырёх missing asset_code=0. TradeStats 10:00–23:50, OBStats 09:05–23:50;
+11 OB-only timestamps у каждого не означают 11 наблюдений нулевого trade flow.
+Не подбирать часы или universe по будущему PnL; это только source coverage.
+
+## Следующий source-only протокол: four-contract flow/depth sample V1
+
+Config `moex_algopack_fo_flow_depth_sample_v1.yaml` фиксирует тот же день и четыре
+SECID из предыдущей active-map identity; parent inventory path/seal/manifest pinned.
+Per-contract TradeStats/OBStats route использует `from/till`, latest=0, full cursor.
+Общие metadata5 плюс TradeStats `trades,trades_b,trades_s,vol,vol_b,vol_s,val,val_b,val_s,disb`;
+OBStats `spread_l1,spread_l10,levels_b,levels_s,vol_b_l1,vol_s_l1,vol_b_l10,vol_s_l10`.
+OHLC/VWAP/returns/OI/IM не загружаются; derived features и экономические расчёты запрещены.
+
+Проверки: numeric finite/null, bool/string fail, count nonnegative integral (2.0 допустим
+и сохраняется), средние depth/levels не обязаны быть целыми. Spreads/disb допускают
+знак; negative counts явно диагностируются, не скрываются. Null и реальный 0 различаются.
+Полный raw replay, per-field missing/zero/negative counts, отдельное сравнение ключей
+каждого dataset с parent; совместное TS/OB покрытие не требует равенства их множеств.
+Расхождение parent/source означает coverage failure, не автокоррекцию или удаление.
+Retrieval записывается, available_at=None, original_version_verified=False; historical
+model/live false даже при source coverage PASS. Артефакты только во внешнем server root.
+
+Семантика по [официальным FO-полям](https://moexalgo.github.io/docs/description/supercandles/#фьючерсы)
+и [методологии](https://moexalgo.github.io/docs/method/supercandles/): число сделок,
+контрактные/лотовые объёмы и рублёвый оборот разделены на buy/sell. Точный алгоритм
+классификации агрессора ещё не подтверждён, поэтому buy/sell не объявлять доказанным
+aggressive flow. spread_l1 указан в bps; единицы spread_l10 и depth FO уточнить отдельно.
+Общий метод описывает знак disb, но точную FO-формулу/zero-volume treatment не угадывать.
+Ни SYSTIME, ни пятиминутная сетка не доказывают момент первой публикации/ревизии/очередь.
+
+После пригодного sample следующий source scope — 2020–2025, exact contracts из
+причинного active map, не сегодняшние активные серии. Дешёвый будущий economic screen
+должен сравнивать одну модель price-only и ту же модель с flow/depth, плюс заранее
+фиксированный контроль. Проверяемый механизм — дисбаланс потока при недостаточной
+встречной глубине и последующее краткосрочное движение. Это пока проект, не sealed
+эксперимент и не разрешение вычислять labels/returns. Результаты прежних V32/V35 не
+использовать для настройки часов, thresholds или нового universe.
+Frozen `curve_regime_intraday.simulate_next_open_portfolio` — возможный reused ledger,
+не разрешение запустить старый experiment runner. Десятиминутные OHLCV/active-map/
+spec-proxy identities уже перечислены в `futures_v32_curve_regime_intraday.yaml`.
+До economics отдельно pin-ить transitive data/code, trade clock, execution/costs,
+expanding train/test и честный статус current-vintage diagnostic. Искусственный лаг
+не превращает неизвестное first-publication time в подтверждённую PIT историю.
