@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Integrated async runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due-first orchestration,
+background preparation/slot, maintenance guards and child cleanup.11new tests include
+old4interference scenarios and legacy-entrypoint guard. Local4PASS/9Linux skips with
+startup suite; no actual activation/HTTP/model/positions, F=null.
+
 [Async slot admission V1](ALGOPACK_PAPER_ASYNC_SLOT_V1.md): phased background sources,
 shared mark/intent quotes and current-state reservations.9tests(local1PASS/8Linux skips).
 Integrated runtime/timing gates remain; no actual sources/models/positions, F=null.

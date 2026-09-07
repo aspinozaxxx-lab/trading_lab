@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — stepwise async slot admission
+## Текущее действие — integrated asynchronous runtime V2
+
+[Runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due→preparation poll→slot step, canonical
+dispatch/restart guard, safe maintenance and child shutdown. Config explicitly selects
+V2; legacy CLI refuses different selected runtime before credentials.11tests added,
+local V2+startup4PASS/9Linux skips; server verification next. F=null.
+Далее broader integration/local overhead verification, service cleanup/report cadence
+and complete pre-F activation. Tests do not establish provider SLA or income.
+
+### Предшествующий этап — stepwise async slot admission
 
 [Async slot V1](ALGOPACK_PAPER_ASYNC_SLOT_V1.md): intake→background session/union quotes→
 current-position MARK→two-arm decisions one asset/tick. Shared mark/entry reference,

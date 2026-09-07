@@ -12,7 +12,7 @@ from market_lab.futures import algopack_paper_daily_snapshot_v1 as daily
 from market_lab.futures import algopack_paper_due_pump_v1 as pump
 from market_lab.futures import algopack_paper_flow_selection_v1 as flow
 from market_lab.futures import algopack_paper_slot_runner_v1 as slots
-from market_lab.futures.algopack_paper_activation_v1 import BUNDLE, load_activation
+from market_lab.futures.algopack_paper_activation_v1 import BUNDLE, CONFIG, load_activation
 from market_lab.futures.algopack_paper_alignment_v1 import MOSCOW
 
 bridge, journal = pump.bridge, pump.journal
@@ -167,6 +167,12 @@ def main():
     try:
         activation = load_activation(Path(__file__).resolve().parents[3], args.activation_sha256)
         ready(activation)  # Before secret access, session creation, directories or market IO.
+        config = activation.project / CONFIG
+        if (
+            config.exists()
+            and journal._decode(config.read_bytes()).get("runtime_protocol", PROTOCOL) != PROTOCOL
+        ):
+            raise ValueError("activation selects a different runtime entrypoint")
         if args.check:
             print(json.dumps(dict(status="ACTIVATION_VERIFIED", execution_admitted=False)))
             return 0
