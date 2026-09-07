@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Scheduler interference characterization](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1.md):
+4injected-clock scenarios exercise actual scheduler/reopen. Two late starts predict
+exit servicing after30s. Tests characterize a remaining defect, not a successful
+latency gate; no market data or economic run. F=null.
+
 [Due-pump quote aging fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md):2synthetic
 entry/exit regressions reproduce shared quote aging at2s/request on old arm-first order;
 same-contract grouping fixes both, local4PASS/6Linux skips. No economics/threshold

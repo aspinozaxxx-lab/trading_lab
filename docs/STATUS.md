@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — due-pump shared quote latency fix
+## Текущее действие — scheduler interference characterization
+
+[Scheduler interference](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1.md): synchronous slot
+can block next pump beyond existing30s exit window; late-start120s/40s synthetic cases
+model delays60s/39s even with immediate reopen.4test matrix added; server verification
+next. This is a readiness defect, not production SLA or economic evidence.
+Next separate bounded source/model work from execution owner (or prove cooperative
+nonblocking bounds); do not loosen fill freshness/deadlines. F=null.
+
+### Предшествующий этап — due-pump shared quote latency fix
 
 [Shared quote latency fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md): arm-first
 ordering aged shared quotes across other asset HTTP calls.2synthetic regressions failed
