@@ -4,7 +4,10 @@
 
 [Runtime startup correction](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md):
 2new regressions confirmed read-before-exclusive-lock; corrected order now3local PASS/
-6Linux skips. Server checks next; no strategy change or actual economic run, F=null.
+6Linux skips. Pushed/deployed09777ff:409/409related Linux tests UID999 PASS, encoding2/
+Ruff PASS.3SHA match, parents44/7 unchanged; old runtime retained.
+[Server result](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_RESULT.md).
+No strategy change or actual economic run, F=null.
 
 [Forecast numerical audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): exact original
 candidate reconstruction from raw sources/pinned models, no refit/backdating of live

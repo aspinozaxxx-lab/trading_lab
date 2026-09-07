@@ -7,8 +7,10 @@
 
 [Runtime startup fix](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_20260908.md): подтверждена
 гонка construct-before-lock (2regression FAIL на прежнем коде); exclusive lifetime lock
-перенесён до полного replay портфеля. После fix local3PASS/6Linux skips, Ruff PASS;
-server verification next. F=null, production activation отсутствует; стратегии unchanged.
+перенесён до полного replay портфеля. Pushed/deployed09777ff:409/409related Linux tests
+UID999 PASS; local3+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_RUNTIME_STARTUP_LOCK_FIX_RESULT.md). Old runtime retained;
+F=null, production activation отсутствует; стратегии unchanged.
 Следом combined economic audit/evaluation report wiring, calendar/latency и full seal.
 
 ### Предшествующий этап — numerical forecast/source replay V1
