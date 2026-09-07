@@ -8,7 +8,9 @@
 [Runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due→preparation poll→slot step, canonical
 dispatch/restart guard, safe maintenance and child shutdown. Config explicitly selects
 V2; legacy CLI refuses different selected runtime before credentials.11tests added,
-local V2+startup4PASS/9Linux skips; server verification next. F=null.
+local V2+startup4PASS/9Linux skips. Pushed/deployeda4f49f3:77/77related Linux tests UID999
+PASS12.09s,4SHA match, parents verified, encoding2/Ruff PASS; legacy retained.
+[Server result](ALGOPACK_PAPER_RUNTIME_V2_RESULT.md). F=null.
 Далее broader integration/local overhead verification, service cleanup/report cadence
 and complete pre-F activation. Tests do not establish provider SLA or income.
 

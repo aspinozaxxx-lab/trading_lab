@@ -6,6 +6,9 @@
 background preparation/slot, maintenance guards and child cleanup.11new tests include
 old4interference scenarios and legacy-entrypoint guard. Local4PASS/9Linux skips with
 startup suite; no actual activation/HTTP/model/positions, F=null.
+Pushed/deployeda4f49f3:77/77related Linux tests UID999 PASS12.09s,4SHA match, parents
+verified, encoding2/Ruff PASS. Old late-preparation cases service due on time under
+controlled actors. [Server result](ALGOPACK_PAPER_RUNTIME_V2_RESULT.md).
 
 [Async slot admission V1](ALGOPACK_PAPER_ASYNC_SLOT_V1.md): phased background sources,
 shared mark/intent quotes and current-state reservations.9tests(local1PASS/8Linux skips).
