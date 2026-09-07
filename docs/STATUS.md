@@ -7,7 +7,10 @@
 
 [Combined report V1](ALGOPACK_PAPER_REPORT_V1.md): forecast/execution audits + exact
 ledger-prefix snapshot/coverage/count verification before frozen evaluation.
-Local/server verification next. F=null; calendar_source_verified=false, not economic admission.
+Pushed/deployed2b61650:418/418related Linux tests UID999 PASS, включая9report;
+local1+encoding2PASS/8Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_REPORT_V1_RESULT.md). F=null;
+calendar_source_verified=false, not economic admission.
 Следом official expected-calendar provenance binding, report persistence/CLI, latency,
 complete pre-F config/seal и service setup. No actual market/economic run.
 
