@@ -23,12 +23,18 @@ top и4asset manifest hashes совпадают; transitive input admission ещ
 Следующий конкретный шаг — manifest-bound loader и joint price/flow paired model protocol,
 затем server training после seal. Не повторять permission review или завершённые quality runs.
 
-### Предшествующий admission review — до согласия пользователя
+### Подготовка price inputs
 
 Новый [input loader V1](ALGOPACK_PAPER_INPUTS_V1.md) подготовлен отдельно:
 transitive raw/Parquet hashes, protected time-only gates перед prices, causal active map
-с сохранением ineligible rows. Local30passed/1 Windows skip/Ruff PASS; следующий шаг
-server synthetic tests и readonly metadata preflight, без реальных OHLCV/labels.
+с сохранением ineligible rows. Local30passed/1 Windows skip/Ruff PASS;
+Linux31inputs +38alignment PASS. Real preflight обнаружил missing raw219 и1empty Parquet
+в старой V62 copy: они перенесены из originals в новый отдельный server root
+`/srv/trading_lab_data/data/algopack-paper-price-inputs-v1`, старый не изменён.
+Intraday tree нового root прошёл checks; active map V1 остановился на4nontradable
+2018-01-03 rows с missing prior dates. Новый V2 сохраняет их masked, effective-date и
+protected gates прежние, local7/7. Следующий шаг — Linux V2 tests и завершение metadata
+admission уже собранного root; повторно копировать данные нельзя. Цены/labels не читались.
 
 ### Историческая запись admission review
 

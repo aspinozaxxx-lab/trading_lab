@@ -37,6 +37,35 @@ Global original-version/model/live flags не меняются. Источник
 
 ## Проверки и следующая операция
 
+### Actual server preparation и correction V2
+
+Pre-server commit/push `506ab2d`; Linux31/31 inputs +38/38 alignment PASS.
+Первый реальный preflight выявил отсутствие всей raw/ директории в V62 copy.
+При восстановлении также обнаружен один отсутствующий empty Parquet, pinned SHA
+`9bd1c65e8300b6dab8b3cef589e5f63d2bc74e97a99b14cf1b9941a8d00000eb`,6620bytes/0rows.
+Имя содержит2027 expiry и2026 segment boundary, но parent requested_end<=2025; файл
+не допускать только по имени — его реальное отсутствие/нулевой row count проверяются.
+
+Из локальных originals отдельно перенесены219 raw archives (27626868bytes суммарно)
+и exact empty Parquet. До transfer проверены manifest hashes/bytes и exact directory
+membership по всем четырём assets; на сервере tar members сравнены с pinned allowlist,
+symlinks/hardlinks/unexpected entries запрещены. Новый root:
+`/srv/trading_lab_data/data/algopack-paper-price-inputs-v1`.
+Старая V62 copy не изменяется: её manifests и218 непустых Parquet копируются в новый
+root с проверкой pinned bytes; raw219 и empty Parquet добавляются из transfers.
+Никаких downloads MOEX или новых outcome reads при этом нет.
+
+Полный intraday preflight нового root прошёл; следующая проверка active map V1
+остановилась на четырёх nontradable2018-01-03 rows с отсутствующими decision_date и
+observed_through. Effective dates полны. Source bytes не изменялись; сборка сохранена,
+assembly manifest до успешного завершения не публикуется, повторять копирование нельзя.
+Новый `algopack_paper_inputs_v2.py` меняет только active-map missing-date policy:
+missing prior dates сохраняются с plan_eligible=false; missing effective_date по-прежнему
+ошибка. Intraday/price loaders буквально импортированы из V1 без изменения.
+Local V2 synthetic7/7 PASS. V1 failure остаётся документированным; V1 не переписан.
+
+### Первоначальный план
+
 Local synthetic30passed/1 Windows symlink skip, Ruff PASS. Linux symlink case должен
 пройти до server preflight. Тесты проверяют mutation на каждом уровне, traversal,
 future timestamp до price read, подмену asset/contract, пустой сегмент и сохранение

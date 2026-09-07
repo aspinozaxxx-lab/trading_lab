@@ -4,7 +4,10 @@
 
 Input loader V1: [документ](ALGOPACK_PAPER_INPUTS_V1.md), local30passed/1 Windows skip.
 Transitive hashes и date/identity-only admission отдельно от post-seal price projection.
-Реальный preflight ещё не выполнен; fit/PnL отсутствуют.
+Реальный preflight выявил missing raw219 и1empty Parquet в V62 copy; новый отдельный
+price root собран из pinned originals, старый root неизменён. Intraday checks прошли,
+V1 active-map gate остановился на4masked2018 rows. V2 missing-prior-date correction
+подготовлен, local7/7; price/time gates V1 не меняются. Fit/PnL отсутствуют.
 
 2026-09-07 пользователь явно согласился на archive-training assumption и новый future-only
 paper период после code/config/model seals. [Точный scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md).
