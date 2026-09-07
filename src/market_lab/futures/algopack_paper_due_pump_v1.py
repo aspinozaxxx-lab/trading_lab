@@ -36,7 +36,19 @@ def run(runtime, session, attempts: Path, *, token):
     if attempts in (runtime.market_root, runtime.account.control, runtime.account.ledger):
         raise ValueError("dedicated attempt journal required")
     with bridge.anchors.transaction(attempts):
-        positions = due_positions(runtime.account.snapshot(), journal.now())
+        state = runtime.account.snapshot()
+        positions = due_positions(state, journal.now())
+        # Same due/type/contract consumes the shared fresh quote contiguously across
+        # model arms. Arm-first ordering unnecessarily ages it across other HTTP calls.
+        positions.sort(
+            key=lambda item: (
+                item[0],
+                item[1],
+                state["positions"][item[2]]["intent"]["asset"],
+                state["positions"][item[2]]["intent"]["secid"],
+                item[2],
+            )
+        )
         if not positions:
             return dict(status="NOTHING_DUE", outcomes=[], execution_admitted=False)
         key = "pump_" + uuid.uuid4().hex

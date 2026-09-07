@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Due-pump quote aging fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md):2synthetic
+entry/exit regressions reproduce shared quote aging at2s/request on old arm-first order;
+same-contract grouping fixes both, local4PASS/6Linux skips. No economics/threshold
+change or production latency claim. Remaining serial transport/scheduler timing, F=null.
+
 [Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable report publication,
 offline lifetime lock before recovery,8tests(local2PASS/6Linux skips). No actual report,
 service stop, credentials or HTTP. F=null; latency/final activation still required.

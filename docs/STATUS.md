@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — immutable report store/CLI V1
+## Текущее действие — due-pump shared quote latency fix
+
+[Shared quote latency fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md): arm-first
+ordering aged shared quotes across other asset HTTP calls.2synthetic regressions failed
+old code; grouped same contract/due/type contiguously, both PASS. Local4PASS/6Linux skips.
+Server verification next; old pump must be retained/new bytes pinned pre-F.
+Still no production SLA:4serial10s requests can exceed30s, slot blocking also to check.
+F=null. Далее timing/interference verification and complete activation/service setup.
+
+### Предшествующий этап — immutable report store/CLI V1
 
 [Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable canonical report,
 source/activation/ledger scope, explicit failed/unresolved attempts. Offline CLI obtains
