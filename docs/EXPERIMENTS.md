@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Input loader V1: [документ](ALGOPACK_PAPER_INPUTS_V1.md), local30passed/1 Windows skip.
+Transitive hashes и date/identity-only admission отдельно от post-seal price projection.
+Реальный preflight ещё не выполнен; fit/PnL отсутствуют.
+
 2026-09-07 пользователь явно согласился на archive-training assumption и новый future-only
 paper период после code/config/model seals. [Точный scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md).
 Прежний2026 закрыт, retrospective AlgoPack CAGR/live запрещены.

@@ -25,6 +25,13 @@ top и4asset manifest hashes совпадают; transitive input admission ещ
 
 ### Предшествующий admission review — до согласия пользователя
 
+Новый [input loader V1](ALGOPACK_PAPER_INPUTS_V1.md) подготовлен отдельно:
+transitive raw/Parquet hashes, protected time-only gates перед prices, causal active map
+с сохранением ineligible rows. Local30passed/1 Windows skip/Ruff PASS; следующий шаг
+server synthetic tests и readonly metadata preflight, без реальных OHLCV/labels.
+
+### Историческая запись admission review
+
 [Admission review V1](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md) завершён2026-09-07:
 полученный сегодня архив потенциально пригоден как учебный материал, но это отдельная
 гипотеза переноса final-vintage в online, не historical causal admission. Правила требуют
