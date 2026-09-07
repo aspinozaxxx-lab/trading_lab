@@ -1,0 +1,17 @@
+﻿{
+  "protocol_id": "algopack_fo_witnessed_quality_v1",
+  "files": {
+    "configs/algopack_fo_witnessed_quality_v1.json": "0c088cbe6796f6364b0b630157f539c7c9f68eb97db6c7628da3d03f26cb3bde",
+    "configs/algopack_fo_witnessed_quality_v1.sha256": "5495cc748d44674cb70d8d2d0297825d20b1186e4d7203e86478f24f98070ffd",
+    "configs/algopack_fo_witnessed_v1.json": "feecf891fd501849795615e1c0432c184c41b2125d99acd69a1b2f2b33b50605",
+    "configs/algopack_fo_witnessed_v1.seal.json": "67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26",
+    "configs/algopack_fo_witnessed_v1.sha256": "8f62f776c450f8924ab4aab47511ce7dc1e1bb196b15edd1d0ba74b0a9f68b8e",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053",
+    "src/market_lab/futures/algopack_fo_witnessed_core_v1.py": "78816519b2aa1321f08a2a1b9cc1db42e2b223801698225fd572c7a3d7ab2c41",
+    "src/market_lab/futures/algopack_fo_witnessed_quality_v1.py": "1ab727c7b028ad270b24abd269db65d80de683565072bfdbe28eef7766186a7a",
+    "src/market_lab/futures/moex_algopack_fo_witnessed_v1.py": "c60cd0019a8b6dc7c68a1245aa3ef4cafbea059292ddc2540154cb40b2dd1761",
+    "tests/test_algopack_fo_witnessed_core_v1.py": "665933c5f193fbafbf130d76c323f95a353cf9d523fd1d5408e90ceab55383aa",
+    "tests/test_algopack_fo_witnessed_quality_v1.py": "81b45bfe1fcddbac4dddd612fba268da8f5da812d77b0888d03d721a548d0562",
+    "tests/test_moex_algopack_fo_witnessed_v1.py": "887220b17f68b9919daa8fe0cb949cd16ec42d8f1bf66b8f5a2e2ea37af077ff"
+  }
+}

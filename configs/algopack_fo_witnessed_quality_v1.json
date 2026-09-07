@@ -1,0 +1,18 @@
+﻿{
+  "protocol_id": "algopack_fo_witnessed_quality_v1",
+  "source_seal_sha256": "67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26",
+  "source_root": "/srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1",
+  "first_capture": "20260907T115659545856Z_b813c3346d94",
+  "first_manifest_sha256": "d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740",
+  "second_capture": "20260907T120300520961Z_f925ca4d538a",
+  "second_manifest_sha256": "de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4",
+  "third_start_from": "2026-09-07T12:13:00+00:00",
+  "third_start_before": "2026-09-07T12:14:00+00:00",
+  "capture_completion_cutoff": "2026-09-07T12:14:00+00:00",
+  "expected_captures": 3,
+  "source_only": true,
+  "historical_model_eligible": false,
+  "prediction_eligible": false,
+  "live_trading_allowed": false,
+  "original_version_verified": false
+}

@@ -28,6 +28,13 @@ incomplete attempts0. Timer active/waiting, LastTrigger12:03UTC, next12:13UTC.
 Существующие15timers не изменялись (всего теперь16), локальные tasks не включались.
 Historical/model/live flags=false; source PASS не доказывает прибыль или PIT историю.
 
+Новый [witnessed quality V1](ALGOPACK_FO_WITNESSED_QUALITY_V1.md) sealed до анализа:
+три фиксированных captures до12:14UTC, separate unique/repeated/revised versions,
+полный parent replay и immutable receipt index. Closure
+`64cc5d369fd0e49efff57dddbfbd2657679e1abcd7453fc59f53d38b4a70c40e`; local17/17, пока не run.
+После подтверждения второго scheduled capture и12:14UTC: deploy pushed bytes,
+Linux tests, один PrivateNetwork source-only report. Это не historical model admission.
+
 ## AlgoPack history и quality V1 COMPLETE
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным

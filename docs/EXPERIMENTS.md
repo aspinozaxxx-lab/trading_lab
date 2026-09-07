@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack FO witnessed quality V1 — SEALED, pre-run
+
+- Fixed three-capture cohort through12:14UTC 2026-09-07; no economics/outcomes.
+- Separate unique keys, reobservations, numeric revisions, SYSTIME-only changes;
+  immutable version receipt index, no zero-fill or vendor-time backdating.
+- Closure `64cc5d369fd0e49efff57dddbfbd2657679e1abcd7453fc59f53d38b4a70c40e`, 12files.
+  Synthetic17/17, RuffPASS. Parent full replay required for all three inputs.
+- [Protocol](ALGOPACK_FO_WITNESSED_QUALITY_V1.md); not run yet.
+
 ## AlgoPack FO witnessed V1 — manual PASS, timer enabled
 
 - New receipt-witnessed source, not an economic experiment. No profitability result.
