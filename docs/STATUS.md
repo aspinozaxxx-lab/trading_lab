@@ -7,8 +7,11 @@
 
 [Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): реализованы closed URL/schema,
 raw pagination/chronology/complete-date replay и revision digest,21synthetic tests.
-Local core+evaluation38PASS; это pure primitives, не HTTP/journal/official admission.
-Следом server verification, durable calendar capture и version-selection policy,
+Pushed/deployed297d088:74/74related Linux synthetic tests UID999 PASS3.03s;
+local core+evaluation38PASS, encoding2/Ruff PASS,3SHA match, parent seals verified.
+[Server result](ALGOPACK_PAPER_CALENDAR_CORE_V1_RESULT.md).
+Это pure primitives, не HTTP/journal/official admission.
+Следом durable calendar capture и version-selection policy,
 затем report binding/persistence, latency и полный pre-F seal. F=null.
 
 ### Предшествующий этап — official calendar source discovery
