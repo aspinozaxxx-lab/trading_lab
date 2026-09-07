@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Source-to-execution integration](ALGOPACK_PAPER_EXECUTION_PATH_RESULT.md): pushed511d348,
+real raw replay/pool/due/anchored fills with synthetic signal/HTTP/process handles.
+Both arms enter/exit once,6ledger events, restart equality. Server1PASS2.21s and related
+65PASS7.40s. Entry0.642s/exit0.613s are limited synthetic measurements, not network SLA
+or income. No runtime activation, real source/model access, F=null.
+
 [Readiness cost](ALGOPACK_PAPER_READINESS_COST.md): unchanged runtime.ready over an
 isolated synthetic activation with89actual code/config/doc files. Server UID9991PASS,
 3samples0.104–0.108s/39full reloads each; mutation rejection retained. Pushed3c6bb03.

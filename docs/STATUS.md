@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — measured readiness overhead
+## Текущее действие — source-to-execution integration
+
+[Execution path measurement](ALGOPACK_PAPER_EXECUTION_PATH_RESULT.md): raw synthetic
+HTTP→actual source replay/pool/due/bridge→two-arm entry/exit→anchored recovery,6events,
+no duplicate fills. Pushed/deployed511d348; server UID9991PASS2.21s, related65PASS7.40s.
+Measured entry0.642s/exit0.613s; fake process/HTTP/signal, not complete production SLA.
+F=null. Далее benign-child service sandbox/cleanup and full pre-F activation preparation.
+
+### Предшествующий этап — measured readiness overhead
 
 [Actual readiness traversal](ALGOPACK_PAPER_READINESS_COST.md): isolated2099 activation,
 89real code/config/doc dependencies, unchanged recursive runtime.ready and full verifier.
