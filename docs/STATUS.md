@@ -7,8 +7,11 @@
 
 [Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): startup full replay,
 hot append с tail check/общим lock, cache invalidation при конфликте/uncertain write.
-Synthetic server baseline100/500events измерен; local1PASS/7Linux skips, server newtests
-pending. Экономика/parents unchanged; F=null, actual market requests/trades0.
+Pushed/deployed799c935:315/315related Linux tests отUID999 PASS, включая8session.
+Local1+encoding2PASS/7Linux skips, Ruff PASS.3SHA match, training44/witnessed7 unchanged.
+На том же synthetic501event journal old append0,1356сек, hot median10writes0,0401сек;
+restart parity PASS. [Server result](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1_RESULT.md).
+Экономика unchanged; F=null, actual market requests/trades0. Не считать benchmark SLA.
 Следом integrated runtime/evidence/anchors, recovery и scheduled daily snapshots.
 
 ### Предшествующий этап — fixed daily evaluation V1

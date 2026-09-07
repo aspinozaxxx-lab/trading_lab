@@ -4,7 +4,10 @@
 
 [Portfolio session V1](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1.md): bounded hot journal
 reads вместо full replay каждой записи; startup replay/external tail сохранены.
-Synthetic server100/500event baseline recorded; local1PASS/7Linux skips, server pending.
+Pushed/deployed799c935:315/315related tests отUID999 PASS, включая8session;
+local1+encoding2PASS/7Linux skips. Same synthetic501event journal old append0,1356сек,
+hot median10writes0,0401сек; restart parity PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_PORTFOLIO_SESSION_V1_RESULT.md).
 No new economic run, no parent strategy changes, F=null.
 
 [Daily evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): fixed complete calendar,
