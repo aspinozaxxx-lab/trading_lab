@@ -4,7 +4,9 @@
 
 [Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): fixed latest completed
 current-day capture, as-of metadata + full selected replay, no fallback on corruption.
-Local8PASS/1Linux skip, Ruff PASS; server verification next. F=null; no economic run.
+Pushed/deployed43adb25:383/383related Linux tests UID999 PASS, включая9selection;
+local8+encoding2PASS/1Linux skip, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_FLOW_SELECTION_V1_RESULT.md). F=null; no economic run.
 
 [Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): due exits before entries, shared quote
 for paired arms, no late fills, immutable attempts/reopen on uncertainty. Pushed/deployed

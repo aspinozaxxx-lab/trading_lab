@@ -7,7 +7,9 @@
 
 [Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): latest completed current-day
 metadata, no value ranking/fallback, full selected replay and immutable import reuse.
-Local8PASS/1Linux skip, Ruff PASS; server verification next. F=null; activation нет.
+Pushed/deployed43adb25:383/383related Linux tests UID999 PASS, включая9selection;
+local8+encoding2PASS/1Linux skip, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_FLOW_SELECTION_V1_RESULT.md). F=null; activation нет.
 Следом unified runtime scheduler/CLI with persisted selection, offline economic audit/
 evaluation wiring и full pre-F publication. No actual source selection/run executed.
 
