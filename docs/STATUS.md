@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — isolated preparation worker V1
+## Текущее действие — bounded execution-source worker pool
+
+[Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md): max4isolated source
+children/no hidden queue, per-job deadlines, immutable references and raw identity/time
+replay before consumption. Local1PASS/9Linux skips; server verification next. Not yet
+runtime-integrated; original blocking defects remain. F=null. Далее async executor with
+exit-priority capacity, single ledger owner and actual-time consumption/restart tests.
+
+### Предшествующий этап — isolated preparation worker V1
 
 [Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): source/model-only child,
 own HTTP session, immutable references, one-child non-waiting supervisor with deadline

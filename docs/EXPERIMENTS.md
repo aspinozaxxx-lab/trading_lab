@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md):4bounded source jobs,
+non-waiting polling/expiry,10tests(local1PASS/9Linux skips). Raw source contract/deadline
+check, no fill or actual worker/HTTP. Runtime integration and timing gates remain, F=null.
+
 [Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): isolated source/model
 code path and non-waiting one-child supervisor,9tests including a benign real subprocess.
 No actual market/model child or runtime integration; scheduler defect remains, F=null.
