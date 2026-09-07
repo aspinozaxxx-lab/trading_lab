@@ -101,6 +101,12 @@
     updates/original vintages всё ещё не объяснены; не повышать frozen admission.
     Короткое уточнение только подготовлено, не отправлено; разрешение не предполагать.
 
+35. [Publication metadata V1](docs/ALGOPACK_FO_PUBLICATION_METADATA_V1.md) — COMPLETE:
+    87,1761% later-date publications;1056 post2025 publication timestamps. Не сдвигать
+    исторические строки произвольным lag для объявления causal backtest. Vendor reply
+    note теперь входит в frozen closure; новые уточнения — отдельной dated note.
+    Дизайн training-today не равен model admission или разрешению читать2026 outcomes.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

@@ -3,7 +3,27 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — прочитан ответ MOEX о публикации AlgoPack
+## Текущее действие — AlgoPack publication metadata COMPLETE
+
+[Publication metadata V1](ALGOPACK_FO_PUBLICATION_METADATA_V1.md) завершён один раз:
+full source replay PASS, six-column projection2067949rows, independent report/hash/
+group/count check PASS. Local389passed/4 Windows skips, Linux391/391, pre-run47b2c5e.
+87,1761%rows имеют SYSTIME на более позднюю дату, чем tradedate; весь label2020–2023
+позднее опубликован. Минимум SYSTIME2024-04-11, максимум2026-03-16;1056TSrows имеют
+publication>=2026 (704label2023 +352label2025). Protected2026 market outcomes не читались.
+Same-day TS132953/1007214, OB132238/1060735 не означают полной intraday causal admission.
+Canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_publication_metadata_v1_b07f52140345`;
+manifest `1bff6855218cceba6d815d137047458a089f3deec184f9325a99d3f2ed6afeda`.
+Handle57424 terminal success/exit0,2min2.625s,created12:37:53UTC. Не повторять этот audit.
+
+Следующий bounded шаг — дизайн отдельного training-today/prospective-only forecast
+protocol с разделением availability на момент обучения и availability на момент
+реального будущего решения. Это не ретроспективный backtest и не разрешение читать
+2026 outcomes; старые source/model flags не ослаблять. Пока не читать новые labels
+и не fit-ить модель до отдельного causal admission и seal. Если этот вариант не
+может выполнить gates, требуется выбор пользователя, не очередной однотипный audit.
+
+### Предшествующее уточнение поставщика
 
 2026-09-07 около12:22UTC через открытую почту найден и прочитан ответ
 `algopack@moex.com` на исходный запрос. [Сводка и точные ограничения](ALGOPACK_VENDOR_REPLY_20260907.md).
@@ -17,8 +37,8 @@ cohort quality повторно не запускать. User exploratory except
 
 Новый [publication metadata V1](ALGOPACK_FO_PUBLICATION_METADATA_V1.md) sealed до
 анализа SYSTIME:34-file closure `b07f521403456484656a1de2b62801665d1449cd941aa781af0d5f8c9f7b5db5`;
-новые tests31/31, пока не run. Только6metadata fields после полного parent replay.
-Следующее действие — deploy pushed bytes, Linux tests, один PrivateNetwork report.
+новые tests31/31 до run. План выполнен, actual result/canonical/SHA приведены вверху.
+Только6metadata fields после полного parent replay; новый run запрещён.
 
 ## AlgoPack witnessed quality COMPLETE, два scheduled PASS
 
@@ -2727,11 +2747,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.
    Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.
-5. Первый незаблокированный новый source шаг: по [ответу MOEX](ALGOPACK_VENDOR_REPLY_20260907.md)
-   SYSTIME означает publication time. Создать отдельный sealed metadata-only audit
-   этого поля в completed history2020–2025 (без prices/outcomes), связать с точным
-   parent manifest и показать поздние/post-2025 timestamps. Не менять frozen source,
-   не объявлять revision/original-version гарантию из общего определения поля.
+5. Publication metadata audit COMPLETE (canonical/SHA вверху): поздние публикации
+   подтверждены, не повторять проверку. Первый bounded research шаг — отдельный
+   design review training-today/prospective-only forecast protocol: не выдавать
+   нынешнюю обучающую выборку за данные, доступные в её label dates. Доказать admission
+   на training_cutoff/decision_at и не читать labels/fit до нового seal/admission.
+   Старые model/live flags не повышать автоматически. Если gates требуют user choice,
+   сообщить конкретный оставшийся блокер вместо нового инфраструктурного цикла.
 6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
    четырёх активов, continuous10min decisions с label-independent eligibility.
    SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю

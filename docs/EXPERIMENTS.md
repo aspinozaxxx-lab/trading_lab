@@ -1,12 +1,19 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO publication metadata V1 — SEALED, pre-run
+## AlgoPack FO publication metadata V1 — COMPLETE, source-only
 
 - New evidence: vendor says SYSTIME is publication time; revision semantics unresolved.
 - Fixed six-column projection after full parent replay; publication-year/calendar
   distribution, post2025 timestamps, descriptive naive label gaps, no model/outcomes.
 - Closure `b07f521403456484656a1de2b62801665d1449cd941aa781af0d5f8c9f7b5db5` (34files); new synthetic31/31.
-- [Protocol](ALGOPACK_FO_PUBLICATION_METADATA_V1.md); not run yet.
+- Pre-run47b2c5e; local389passed/4 Windows skips, Linux391/391. Run completed once,
+  full replay and independent report reconciliation PASS,2min2.625s/255.9MiBpeak.
+- Later-date1802758/2067949=87.1761%; same-date265191; post2025publication1056TSrows.
+  Minimum SYSTIME2024-04-11, maximum2026-03-16; all label2020–2023 published later.
+- Manifest `1bff6855218cceba6d815d137047458a089f3deec184f9325a99d3f2ed6afeda`;
+  canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_publication_metadata_v1_b07f52140345`.
+- [Protocol](ALGOPACK_FO_PUBLICATION_METADATA_V1.md); no historical/live promotion.
+  Current training versus historical decisions require separate admission; no repeat.
 
 ## AlgoPack vendor clarification — новое свидетельство, не economic run
 
