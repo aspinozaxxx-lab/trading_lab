@@ -5,6 +5,8 @@
 [Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable report publication,
 offline lifetime lock before recovery,8tests(local2PASS/6Linux skips). No actual report,
 service stop, credentials or HTTP. F=null; latency/final activation still required.
+Pushed/deployeda199992:100/100related Linux tests UID999 PASS9.86s, encoding2/Ruff PASS,
+3SHA match, parent seals verified. [Server result](ALGOPACK_PAPER_REPORT_STORE_V1_RESULT.md).
 
 [Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): fixed canonical
 morning attempt and private component;8new tests, local4PASS/13Linux skips including

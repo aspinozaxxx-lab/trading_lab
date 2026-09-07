@@ -8,7 +8,9 @@
 [Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable canonical report,
 source/activation/ledger scope, explicit failed/unresolved attempts. Offline CLI obtains
 runtime lifetime lock before account recovery, no HTTP/token/service stop. Local2PASS/
-6Linux skips; server verification next. F=null. Далее latency verification, final
+6Linux skips; pushed/deployeda199992:100/100related Linux tests UID999 PASS9.86s,
+encoding2/Ruff PASS,3SHA match, parent seals verified.
+[Server result](ALGOPACK_PAPER_REPORT_STORE_V1_RESULT.md). F=null. Далее latency verification, final
 activation/service configuration and safe reporting cadence, not new model training.
 
 ### Предшествующий этап — runtime calendar integration
