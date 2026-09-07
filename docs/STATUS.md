@@ -10,7 +10,10 @@ causal quote-fill window и conditional1×/2× costs реализованы;28lo
 Тариф broker3RUB условный, не подтверждённый. F=null; actual prices/forecasts/trades0.
 Следом dated BBO/session source, durable portfolio ledger/evaluation/runtime и full
 pre-F activation. Existing book exchange_date_verified=false нельзя вручную повысить.
-Server tests/deployment текущего core ещё pending; training/parents не менялись.
+Pushed/deployed0377697:250/250related Linux tests PASS отUID999, включая28execution;
+local28+encoding2PASS, Ruff PASS.3deployed hashes match; training44/witnessed7 unchanged.
+[Server result](ALGOPACK_PAPER_EXECUTION_V1_RESULT.md). Activation/config/seal отсутствуют,
+verifier REFUSED доHTTP. Это conditional simulation primitives, не economic run/ledger.
 
 ### Предшествующий этап — witnessed flow → forecast bridge V1
 

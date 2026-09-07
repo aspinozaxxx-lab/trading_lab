@@ -4,8 +4,10 @@
 
 Fixed [execution core V1](ALGOPACK_PAPER_EXECUTION_V1.md): one position/asset/arm,
 1млн virtual capital,25%notional/10%margin entry cap,10%visible depth,FOK proxy,
-one adverse tick/side и одинаковые trades для1×/2×costs.28local synthetic tests PASS;
-server pending. No economic result. Broker3RUB/side — assumed, no actual fee verification.
+one adverse tick/side и одинаковые trades для1×/2×costs.28local+encoding2PASS;
+pushed/deployed0377697,250/250related Linux tests отUID999 PASS,3hashes match,
+training44/witnessed7 parents unchanged. [Server result](ALGOPACK_PAPER_EXECUTION_V1_RESULT.md).
+No economic result. Broker3RUB/side — assumed, no actual fee verification.
 Dated quote/session adapter, durable portfolio/evaluation/runtime ещё необходимы доF.
 
 Witnessed flow→forecast [predictor bridge V1](ALGOPACK_PAPER_PREDICTOR_V1.md) implemented:
