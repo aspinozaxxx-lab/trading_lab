@@ -1,5 +1,20 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack FO history V1 — PRE-REQUEST SEALED, source-only continuation
+
+- Previous turn completed actual inventory/sample acquisition and audits; this turn
+  expands fixed information scope to 2020–2025, not another threshold/model search.
+- Config `moex_algopack_fo_history_v1.yaml`, exact pinned causal active map, planned
+  147 SECIDs / 294 dataset range jobs. New isolated core/collector, resumable page
+  provenance and raw replay. No network history run or economic calculation yet.
+- Closure `c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1`,
+  config SHA `b488c931bc86f0fffda8e742de4f57f81d4e7831e4228eae5e2c250d97ae7988`.
+  Local targeted210 passed/1 Windows symlink skip, Ruff clean. Pre-seal real metadata
+  check found4 incomplete initial2018 rows outsidefixedwindow; all6076 selectedrows
+  complete/causal. Core scope and collector crash-orphan admission fixed beforeseal.
+- Source-only/current-vintage/PIT-ineligible/live-forbidden. Full protocol:
+  [ALGOPACK_FO_HISTORY_V1.md](ALGOPACK_FO_HISTORY_V1.md).
+
 ## AlgoPack purchased by user — inventory V2 and flow/depth sample V1 COMPLETE
 
 - User reported purchase and authorized the provided API key on 2026-09-07. No agent

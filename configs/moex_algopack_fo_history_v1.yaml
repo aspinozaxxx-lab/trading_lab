@@ -1,0 +1,89 @@
+﻿{
+  "protocol_id": "moex_algopack_fo_history_v1",
+  "start_date": "2020-01-01",
+  "end_date": "2025-12-31",
+  "assets": [
+    "BR",
+    "MIX",
+    "RI",
+    "SI"
+  ],
+  "columns": {
+    "tradestats": [
+      "tradedate",
+      "tradetime",
+      "secid",
+      "asset_code",
+      "SYSTIME",
+      "trades",
+      "trades_b",
+      "trades_s",
+      "vol",
+      "vol_b",
+      "vol_s",
+      "val",
+      "val_b",
+      "val_s",
+      "disb"
+    ],
+    "obstats": [
+      "tradedate",
+      "tradetime",
+      "secid",
+      "asset_code",
+      "SYSTIME",
+      "spread_l1",
+      "spread_l10",
+      "levels_b",
+      "levels_s",
+      "vol_b_l1",
+      "vol_s_l1",
+      "vol_b_l10",
+      "vol_s_l10"
+    ]
+  },
+  "active_map": {
+    "path": "data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet",
+    "sha256": "40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823",
+    "bytes": 500949,
+    "rows": 8100,
+    "columns": [
+      "effective_date",
+      "decision_date",
+      "observed_through",
+      "asset_code",
+      "contract_id",
+      "secid"
+    ]
+  },
+  "expected_plan": {
+    "asset_days": 6076,
+    "dates": 1519,
+    "contracts": 147,
+    "jobs": 294
+  },
+  "expected_asset_aliases": {
+    "BR": "BR",
+    "MIX": "MIX",
+    "RI": "RTS",
+    "SI": "Si"
+  },
+  "parent_sample": {
+    "path": "data/processed/algopack/moex_algopack_fo_flow_depth_sample_v1_49502b17c35a",
+    "seal_sha256": "49502b17c35a3739b24000c5ef0bed7fd6795cbc024f6cbd263f1b55914bd33d",
+    "manifest_sha256": "6a14b3f9c724725375e99363e2ed26ae247b9e52e6bb1d4a9523e7ac11749502"
+  },
+  "max_pages_per_job": 200,
+  "request_interval_seconds": 0.5,
+  "retry_delays_seconds": [
+    5,
+    15,
+    45
+  ],
+  "protected_holdout_start": "2026-01-01",
+  "asset_code_missing_policy": "preserve_null_or_empty_and_flag",
+  "source_only": true,
+  "current_vintage": true,
+  "historical_model_eligible": false,
+  "live_trading_allowed": false
+}

@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack inventory и flow/depth sample завершены; далее история
+## Текущее действие — готовится AlgoPack history V1, 2020–2025
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -40,6 +40,11 @@ Source technical PASS не даёт historical/PnL/live admission; SYSTIME unres
 ranges из pinned active map (147 SECID, 294 dataset jobs до cursor), полный raw audit
 и coverage/missingness. Только затем отдельный экономический протокол новой информации.
 Sample source frozen; не менять его после чтения и не запускать повторно.
+Новый [history protocol](ALGOPACK_FO_HISTORY_V1.md): deterministic contract ranges,
+resumable per-page provenance и full replay. Pre-request code/config closure
+`c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1` verified;
+local targeted210 passed/1 Windows symlink skip, Linux case обязателен до сети.
+Пока pre-request deployment, не real source run.
 Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 

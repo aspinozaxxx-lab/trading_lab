@@ -1,0 +1,28 @@
+﻿{
+  "protocol_id": "moex_algopack_fo_history_v1",
+  "declared_at_utc": "2026-09-07 06:47:03 UTC",
+  "source_only": true,
+  "files": {
+    "configs/moex_algopack_fo_historical_inventory_v2.yaml": "6dcd660c252b9b653e5bcaf67881e1143de00f1041175f68f7f372f889b95293",
+    "configs/moex_algopack_fo_historical_inventory_v2.sha256": "2e36f7e736ba7de6177f691c512e1140c9415785037be29e7cdb5de41e8033a3",
+    "src/market_lab/futures/moex_algopack_fo_historical_inventory_v2.py": "137481d3dd13a06faca31cb6435fe156911119ba43f1d0b7fd2a0154bab09398",
+    "src/market_lab/futures/moex_algopack_fo_historical_inventory_v1.py": "f75559116571cfc3cb9baf4121742c75652080d6ea9f0e62d3d1cbf1fc4de8c1",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e",
+    "tests/test_moex_algopack_fo_historical_inventory_v2.py": "edaf6cdc0ed483a2f3d9144b50948ff5654f4510e400718f8f70dfc01688aa87",
+    "scripts/prepare_algopack_tls_v1.py": "de0a70672b7a37a27f8fed77520953920e418dc0c091ef84d798130167c3cdec",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053",
+    "configs/moex_algopack_fo_flow_depth_sample_v1.yaml": "1817e7b63bd97e0ff674ee8e4c340aa84d376a9aebb0c1adc542307a12af4580",
+    "configs/moex_algopack_fo_flow_depth_sample_v1.sha256": "dbda5d8ccb3f6d510d1cded925020505691b83a8e6093195d73f88b856749886",
+    "src/market_lab/futures/moex_algopack_fo_flow_depth_sample_v1.py": "3a1b03180538bf285c801f4b045ed02170f669f2ae4c0467038507dff7c96a0b",
+    "tests/test_moex_algopack_fo_flow_depth_sample_v1.py": "f3488db78c7f39f2824a2e2ef05d305c8339be2f989cc27f5fbe5dfe9471267a",
+    "configs/moex_algopack_fo_historical_inventory_v2.seal.json": "1da8655bf03da09c5c6670951d3acb9acfc77536e48f9b0f9e38aae3439d09f4",
+    "configs/moex_algopack_fo_flow_depth_sample_v1.seal.json": "49502b17c35a3739b24000c5ef0bed7fd6795cbc024f6cbd263f1b55914bd33d",
+    "configs/moex_algopack_fo_history_v1.yaml": "b488c931bc86f0fffda8e742de4f57f81d4e7831e4228eae5e2c250d97ae7988",
+    "configs/moex_algopack_fo_history_v1.sha256": "ef6f6c333010ff8db3c2e1f622ce7dcac4f8dac826d731ec5081fe53197686b7",
+    "src/market_lab/futures/algopack_fo_history_core_v1.py": "9317347abbfa207850e16761c4585765cd813e774f56541ff97b8a506f6d959b",
+    "src/market_lab/futures/moex_algopack_fo_history_v1.py": "a14653f51e1f52c56f78e8021116c413e27fd5442d8576325a8219c78602c791",
+    "tests/test_algopack_fo_history_core_v1.py": "e0dcf0825f0bb6452e39de68143496f6b6001f87e75c6fa9f414bf1356fe8d62",
+    "tests/test_moex_algopack_fo_history_v1.py": "85d02b0f3abd94e704d01efd2a8ef87f12f5d248698363a394923dc382318ed8"
+  }
+}
