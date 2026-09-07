@@ -152,6 +152,10 @@
     reservations/MTM/restart. Missing marks=null; unresolved риск не удалять. Reducer
     не заменяет source evidence replay; external tail нужен против усечения журнала.
 
+46. [Evaluation V1](docs/ALGOPACK_PAPER_EVALUATION_V1.md) — daily complete-calendar
+    metrics. Missing/unresolved не обрезать; CAGR/Sharpe до252sessions+365days=null.
+    Pure snapshot schema/SHA не заменяют ledger replay, target verified всегдаfalse.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Daily evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): fixed complete calendar,
+18:20Moscow daily marks, independent missing-arm masks,1×/2× descriptive metrics,
+no annualization before252sessions+365days, no target promotion.17local synthetic tests
+PASS; server pending. No actual economic report; evidence-bound snapshot reader still needed.
+
 [Portfolio state/replay V1](ALGOPACK_PAPER_PORTFOLIO_V1.md) implemented: reservations,
 liquidation-value MTM, closed1×/2× cash, unresolved masks, sequential immutable journal
 и restart with optional external tail. Pushed/deployed3f4767d:290/290related Linux tests

@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — portfolio state/replay V1
+## Текущее действие — fixed daily evaluation V1
+
+[Evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): полный calendar denominator, daily
+snapshots18:20Moscow, missing/unresolved masks, independent arms/costs, total return/
+daily MDD/годовые returns. CAGR/Sharpe только252sessions+365days, без promotion.
+17local synthetic tests PASS, Ruff PASS; server pending. F=null, actual economic results0.
+Следом integrated source-evidence runtime/daily snapshot builder, recovery/anchors и
+fixed stability/forecast evaluation. Pure metrics не доказывают переданный ledger SHA.
+
+### Предшествующий этап — portfolio state/replay V1
 
 [Portfolio V1](ALGOPACK_PAPER_PORTFOLIO_V1.md): aggregate reservations, independent arms,
 liquidation MTM1×/2×, unknown equity masks, immutable sequence/restart и external-tail
