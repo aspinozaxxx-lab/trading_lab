@@ -104,3 +104,36 @@ MOEX [объявила переход на НУЦ](https://www.moex.com/n103530?
   collectors не изменяются. `verify=False`/отключение hostname check запрещены.
 - TLS transport — явно записанная операционная зависимость; query/schema/source closure
   `5e3b01bad972...` остаётся byte-identical. До такого recovery было 0 source pages.
+
+## V1 actual access and V2 metadata correction — before V2 collection
+
+После TLS recovery оба dataset route подтвердили authenticated HTTP 200. V1 получил
+и провалидировал все TradeStats: 15 023 строки, 16 страниц. Первая OBStats остановила
+strict parser: metadata-only diagnostic обнаружил 19 отсутствующих asset_code на
+1 000 строк; остальные проверки SECID/date/time/SYSTIME/duplicate не дали аномалий.
+OBStats cursor `[0,65550,1000]` сообщает заявленный total, не completed coverage.
+Canonical V1 не создан. Failed staging `.moex_algopack_fo_historical_inventory_v1_yhft9uwr`
+под external algopack root сохранён (16 validated pages, failed response не сохранён).
+Не выдавать его за canonical: полная per-page provenance не была опубликована.
+
+V1 closure `5e3b01bad972...` остаётся неизменным. Отдельная V2 с новым config/code/output
+исправляет только source metadata contract: `asset_code=None` и `""` сохраняются
+буквально, добавляются `asset_code_missing` и `missing_asset_code_rows` по dataset.
+Числовые коды, missing SECID, неправильные даты/времена/схема/cursor по-прежнему fail.
+Не удалять строки, не заменять нулём и не выводить отсутствующий alias по SECID.
+Source-only, current-vintage, original availability unresolved, historical/live false.
+V2 closure включает frozen V1 helper dependency, config/sidecar/tests/init/pyproject
+и pinned TLS preparation helper. До API — review, synthetic tests, commit/push.
+
+V2 pre-request config SHA
+`6dcd660c252b9b653e5bcaf67881e1143de00f1041175f68f7f372f889b95293`, closure SHA
+`1da8655bf03da09c5c6670951d3acb9acfc77536e48f9b0f9e38aae3439d09f4`.
+Local targeted 73/73 (V2 28/28), Ruff/diff clean, complete closure verified без сети.
+
+Независимый metadata-only active-map check существующего V36 source на sample date:
+effective 2024-10-15, decision/observed_through 2024-10-14; SI=SiZ4, RI=RIZ4,
+BR=BRX4, MIX=MXZ4. Source SHA
+`40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823`,
+`/srv/trading_lab_data/data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet`.
+Цены/объёмы/returns не читались. Actual API asset aliases и совместное покрытие этих
+SECID установить после полного V2 replay; не считать внутренние SI/RI/MIX API aliases.

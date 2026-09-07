@@ -1,15 +1,20 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack purchased by user — credential installed, source inventory prepared
+## AlgoPack purchased by user — authenticated history confirmed, inventory V2 prepared
 
 - User reported purchase and authorized the provided API key on 2026-09-07. No agent
   purchase/renewal/broker connection. Credential installed via hidden SSH input only
   in `/etc/trading-lab/collector.env` (`root:trading-lab 0640`), no value in repository
   or output. Two abandoned own installer processes terminated after interrupted SSH;
   existing collectors were not restarted or changed.
-- Authorized GET access still unverified. Preparing separately sealed historical FO
-  inventory for `2024-10-15`, only `tradedate/tradetime/secid/asset_code/SYSTIME`, both
-  TradeStats/OBStats with complete cursor. No protected market values, labels or PnL.
+- Both FO history routes returned authenticated HTTP 200 and exact metadata schema
+  for `2024-10-15`, only `tradedate/tradetime/secid/asset_code/SYSTIME`.
+  V1 validated 16 TradeStats pages / 15,023 rows, then stopped on OBStats page 0:
+  missing asset_code in 19 of 1,000 inspected rows; OB cursor total 65,550 uncompleted.
+  Failed staging preserved, no canonical V1. New V2 explicitly preserves null/empty
+  asset codes with missing flags/counts, no inference or row deletion. No economics.
+- TLS code19 resolved using pinned public MOEX CA only for the transient service,
+  with full certificate/hostname verification; no global trust or other timer changes.
 - Old forward collector cannot be repurposed: latest=1, no historical pagination and
   strict 2026+ guard. No frozen module modified. [Protocol](ALGOPACK_HISTORICAL_SOURCE.md).
 
