@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Activation publication](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md): actual100-file
+bundle and activation published/deployed d9a9fe2/5bc0690. Server598PASS/1skip59.43s;
+actual pre-F closure admission PASS and request refusal WAIT_FUTURE_BOUNDARY.
+F=2026-09-08T21:00UTC (September9 00:00Moscow), not null anymore. No init/start/HTTP/model
+run; old earlier2026 remains protected. Next after-F startup and prospective observation.
+
 [Prospective config](ALGOPACK_PAPER_FORWARD_PROTOCOL_V1.md): production-named JSON and
 sidecar created, exact model IDs and existing constant contract, F=null. Pushed/deployed
 f4ee4f9; local5PASS, server23PASS1.38s UID999. ConfigSHA be0a3263cd55…; no bundle or

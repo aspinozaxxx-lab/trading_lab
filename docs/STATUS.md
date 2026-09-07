@@ -3,7 +3,19 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — prospective config fixed
+## Текущее действие — future activation published, waiting for boundary
+
+[Publication evidence](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md):100files
+matched server, full paper suite598PASS/1explicit-root skip59.43s UID999.
+BundleSHA `adbce32835959587eac3b0c0653ea3b6e5d2e32c8248a5bc3a0d88202304ec85`,
+activationSHA `f51c02902825f61ba74cfbbcdd719d7233bc1839f1a152d9289e35e9ea3624e0`.
+Pushed/deployed d9a9fe2/5bc0690. Actual pre-F verifier PASS; request_ready correctly
+WAIT_FUTURE_BOUNDARY. **F=2026-09-08T21:00:00UTC = September9 00:00Moscow**.
+No initialization/service start/timer yet. After F: actual V2check, once-only initialize,
+exact service install/start before09:00calendar window; inspect prospective source results.
+Sealed bytes/permissions must not change after F. Income remains unverified.
+
+### Предшествующий этап — prospective config fixed
 
 [Forward protocol](ALGOPACK_PAPER_FORWARD_PROTOCOL_V1.md) and production-named config
 created without activation/seal/F. Config SHA256
