@@ -1,13 +1,15 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
 ## Текущее действие — ledger-derived daily snapshot V1
 
 [Daily snapshot V1](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md): fixed18:20window, coverage+
 anchored ledger counts+actual MTM, immutable report; late publication not evaluable.
-Local1PASS/6Linux skips, Ruff PASS; server verification next. F=null, activation нет.
+Pushed/deployed0215cd2:359/359related Linux tests UID999 PASS, включая7daily;
+local1+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1_RESULT.md). F=null, activation нет.
 Следом runtime consumption/failure evidence, offline raw/economic replay и evaluation
 wiring, затем scheduler/full seal. Full daily replay latency пока не long-run SLA.
 
