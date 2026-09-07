@@ -1,0 +1,13 @@
+# Prepared only. Enable only after a sealed, replay-audited manual capture.
+[Unit]
+Description=Trading Lab witnessed AlgoPack FO source every ten minutes UTC
+
+[Timer]
+OnCalendar=*-*-* *:03,13,23,33,43,53:00 UTC
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=false
+Unit=trading-lab-algopack-fo-witnessed-v1.service
+
+[Install]
+WantedBy=timers.target

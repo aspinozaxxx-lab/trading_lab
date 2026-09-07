@@ -1,0 +1,35 @@
+# New isolated source; enable timer only after Linux tests and audited manual capture.
+[Unit]
+Description=Trading Lab witnessed AlgoPack FO source V1
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=trading-lab
+Group=trading-lab
+WorkingDirectory=/opt/trading_lab
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=REQUESTS_CA_BUNDLE=/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem
+EnvironmentFile=/etc/trading-lab/collector.env
+ExecStart=/opt/trading_lab/.venv/bin/python -m market_lab.futures.moex_algopack_fo_witnessed_v1 --seal-sha256 67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26 --output-root /srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1
+TimeoutStartSec=8min
+TimeoutStopSec=30s
+Restart=no
+KillMode=control-group
+UMask=0077
+Nice=10
+MemoryMax=1G
+CPUQuota=100%
+TasksMax=64
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+LockPersonality=true
+RestrictSUIDSGID=true
+ReadWritePaths=/srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1

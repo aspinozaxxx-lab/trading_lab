@@ -1,0 +1,60 @@
+﻿{
+  "protocol_id": "algopack_fo_witnessed_v1",
+  "assets": {
+    "BR": "BR",
+    "MIX": "MIX",
+    "RI": "RTS",
+    "SI": "Si"
+  },
+  "contracts_per_asset": 2,
+  "lookback_calendar_days": 2,
+  "lookahead_label_days": 14,
+  "max_pages_per_job": 8,
+  "max_response_bytes": 8388608,
+  "deadline_seconds": 420,
+  "request_spacing_seconds": 0.5,
+  "retries": 0,
+  "timezone": "Europe/Moscow",
+  "source_only": true,
+  "historical_model_eligible": false,
+  "original_version_verified": false,
+  "live_trading_allowed": false,
+  "rolled_out_contract_retention": false,
+  "vendor_atomic_snapshot_proven": false,
+  "ca_path": "/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem",
+  "ca_sha256": "aa800ef345422d6158c6fafe1c06c429dbda21c3df4bb1ccb45a920ec1111399",
+  "columns": {
+    "tradestats": [
+      "tradedate",
+      "tradetime",
+      "secid",
+      "asset_code",
+      "SYSTIME",
+      "trades",
+      "trades_b",
+      "trades_s",
+      "vol",
+      "vol_b",
+      "vol_s",
+      "val",
+      "val_b",
+      "val_s",
+      "disb"
+    ],
+    "obstats": [
+      "tradedate",
+      "tradetime",
+      "secid",
+      "asset_code",
+      "SYSTIME",
+      "spread_l1",
+      "spread_l10",
+      "levels_b",
+      "levels_s",
+      "vol_b_l1",
+      "vol_s_l1",
+      "vol_b_l10",
+      "vol_s_l10"
+    ]
+  }
+}

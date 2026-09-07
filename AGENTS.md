@@ -86,6 +86,11 @@
     canonical/SHA в STATUS. Ни matching keys, ни SYSTIME не доказывают original
     availability; текущие model/live flags не ослаблять без явного нового основания.
 
+32. [AlgoPack witnessed source V1](docs/ALGOPACK_FO_WITNESSED_V1.md) — новый независимый
+    FO forward collector с current-contract discovery и actual receipt/validation.
+    Status/runtime проверять в STATUS; история/старые timers не заменяются. Vendor
+    date labels и SYSTIME не превращать в original publication или bucket completion.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

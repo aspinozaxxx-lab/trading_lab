@@ -3,7 +3,18 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack history и quality V1 COMPLETE
+## Текущее действие — AlgoPack witnessed V1 sealed, до первого capture
+
+Новый [witnessed source](ALGOPACK_FO_WITNESSED_V1.md) подготовлен отдельно от frozen
+истории и старых collectors: current RFUD/series discovery, 8 exact SECIDs,
+TS/OB full cursor, immutable raw/normalized/receipt snapshots, full replay.
+Окно D−2..D+14 относится к vendor date labels, не к доступу к будущим наблюдениям.
+Closure `67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26` (7files).
+Первый network capture ещё не выполнялся; timer не установлен и не включён.
+Следующее действие: Linux tests/closure, один manual capture, replay, затем timer
+только при PASS. Существующие 15 timers не менять. Historical/model/live flags=false.
+
+## AlgoPack history и quality V1 COMPLETE
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.

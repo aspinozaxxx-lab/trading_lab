@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack FO witnessed V1 — SEALED, pre-request
+
+- New receipt-witnessed source, not an economic experiment. No profitability result.
+- RFUD + active series metadata select two nearest unexpired outright futures per
+  BR/MIX/RI/SI; no price/volume/OI selection or historical-map reuse.
+- TS/OB selected target-free fields, D−2..D+14 label bounds, full cursor, no retries,
+  per-response receipt/validation evidence, immutable gzip payloads and full replay.
+- Seven-file closure `67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26`.
+  Linux runtime tests/manual capture still required; new timer not active yet.
+- Protocol: [ALGOPACK_FO_WITNESSED_V1.md](ALGOPACK_FO_WITNESSED_V1.md).
+
 ## AlgoPack FO history quality V1 — COMPLETE, source-only report
 
 - Parent history is complete; no historical economics/model run. New five-column
