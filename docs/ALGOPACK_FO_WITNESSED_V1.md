@@ -32,6 +32,14 @@ service `64906d427f8fc20ca1264b7e201b4774063001aa9bf3255e72dbbb5d2920dd55`,
 timer `bf382fe4db6aead21da08b2f9a91c05f3e2bd9a8f48de5e92ee01c09d236bbf6`.
 Ни код, ни config/seal после первого запроса не менялись.
 
+Первый scheduled capture подтверждён: `20260907T120300520961Z_f925ca4d538a`,
+12:03:00.520961–12:03:16.667562UTC, 4881rows/16pages (TS2337/OB2544).
+Manifest SHA `de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4`.
+Новый PID1954189 был наблюдён running от timer, затем terminal success; встроенный
+replay и отдельный PrivateNetwork audit PASS. Manual manifest SHA не изменился,
+incomplete attempts0. На12:04UTC next trigger12:13UTC; второй scheduled capture
+ещё не подтверждён. Повторно полученные строки не суммировать как unique observations.
+
 Audit без ключа/сети:
 
 ```text

@@ -14,6 +14,10 @@
   Manifest `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
 - Timer enabled/active/waiting at11:58:41UTC; first scheduled captures12:03/12:13UTC
   still require confirmation. Existing15timers untouched; no local collectors.
+- Update12:04UTC: first scheduled capture `20260907T120300520961Z_f925ca4d538a`
+  confirmed, 4881rows/16pages (TS2337/OB2544), full replay + isolated audit PASS.
+  Manifest `de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4`.
+  Prior manual manifest unchanged, incomplete0. Second scheduled12:13UTC still pending.
 - Protocol: [ALGOPACK_FO_WITNESSED_V1.md](ALGOPACK_FO_WITNESSED_V1.md).
 
 ## AlgoPack FO history quality V1 — COMPLETE, source-only report

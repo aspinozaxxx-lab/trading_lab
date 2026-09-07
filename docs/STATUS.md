@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack witnessed V1 manual PASS, timer enabled
+## Текущее действие — AlgoPack witnessed V1 manual + первый scheduled PASS
 
 Новый [witnessed source](ALGOPACK_FO_WITNESSED_V1.md) подготовлен отдельно от frozen
 истории и старых collectors: current RFUD/series discovery, 8 exact SECIDs,
@@ -18,8 +18,13 @@ Manual capture 2026-09-07 11:56:59.545856–11:57:12.184771 UTC: 4865 rows/16pag
 Manifest SHA `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
 Новый `trading-lab-algopack-fo-witnessed-v1.timer` enabled/active/waiting,
 каждые10min в :03/:13/:23/:33/:43/:53 UTC. На11:58:41UTC LastTrigger ещё пустой;
-первые два scheduled captures ожидаются12:03/12:13UTC. Проверить реальные directory,
-receipt/audit и journal; timer enabled не равен успешной автоматической доставке.
+первые два scheduled captures назначены12:03/12:13UTC.
+Первый scheduled capture уже подтверждён: `20260907T120300520961Z_f925ca4d538a`,
+12:03:00.520961–12:03:16.667562UTC, 4881rows/16pages (TS2337/OB2544).
+Manifest SHA `de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4`;
+встроенный replay и отдельный PrivateNetwork audit PASS. Manual manifest неизменён,
+incomplete attempts0. Timer active/waiting, LastTrigger12:03UTC, next12:13UTC.
+Второй scheduled capture ещё проверить; не подменять его ручным запуском.
 Существующие15timers не изменялись (всего теперь16), локальные tasks не включались.
 Historical/model/live flags=false; source PASS не доказывает прибыль или PIT историю.
 
@@ -2672,8 +2677,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
 4. [Witnessed FO source V1](ALGOPACK_FO_WITNESSED_V1.md) запечатан и deployed,
    manual capture/replay PASS, новый timer enabled. Следующий operational gate:
-   проверить два реальных scheduled captures (12:03/12:13UTC 2026-09-07), source
-   manifests/audits и timestamps. Не запускать вручную вместо ожидаемого timer.
+   первый scheduled capture12:03UTC уже PASS (canonical/SHA вверху); проверить второй
+   scheduled capture12:13UTC 2026-09-07, source manifest/audit и timestamps. Затем
+   отдельный forward coverage/revision/availability quality protocol перед inference.
+   Не запускать вручную вместо ожидаемого timer.
    Старый manual
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.
