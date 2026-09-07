@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): fixed latest completed
+current-day capture, as-of metadata + full selected replay, no fallback on corruption.
+Local8PASS/1Linux skip, Ruff PASS; server verification next. F=null; no economic run.
+
 [Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): due exits before entries, shared quote
 for paired arms, no late fills, immutable attempts/reopen on uncertainty. Pushed/deployed
 01e964b:374/374related Linux tests UID999 PASS, включая8due-pump; local2+encoding2

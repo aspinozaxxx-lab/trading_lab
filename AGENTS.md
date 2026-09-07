@@ -188,6 +188,10 @@
     shared same-contract quote, failed source/uncertain fill outcomes. Reopen on
     FAILED_REOPEN_REQUIRED; unresolved never erased. Scheduler/latency still separate gates.
 
+55. [Flow selection V1](docs/ALGOPACK_PAPER_FLOW_SELECTION_V1.md) — latest completed
+    current-day metadata before fixed cutoff, no value/outcome ranking/fallback.
+    Actual replay clocks still govern availability; partial import blocks, not overwrite.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

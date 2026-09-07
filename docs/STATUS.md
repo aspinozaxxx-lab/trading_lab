@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — due-position pump V1
+## Текущее действие — fixed as-of flow selection V1
+
+[Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): latest completed current-day
+metadata, no value ranking/fallback, full selected replay and immutable import reuse.
+Local8PASS/1Linux skip, Ruff PASS; server verification next. F=null; activation нет.
+Следом unified runtime scheduler/CLI with persisted selection, offline economic audit/
+evaluation wiring и full pre-F publication. No actual source selection/run executed.
+
+### Предшествующий этап — due-position pump V1
 
 [Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): prioritized due exits/entries, shared
 same-contract source, actual deadline cancellation/unresolved, durable outcomes.
