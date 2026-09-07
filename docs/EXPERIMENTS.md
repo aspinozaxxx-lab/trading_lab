@@ -5,6 +5,8 @@
 [Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md):4bounded source jobs,
 non-waiting polling/expiry,10tests(local1PASS/9Linux skips). Raw source contract/deadline
 check, no fill or actual worker/HTTP. Runtime integration and timing gates remain, F=null.
+Pushed/deployed034e7d4:56/56related Linux tests UID999 PASS3.46s,3SHA match,
+parents verified, encoding2/Ruff PASS. [Server result](ALGOPACK_PAPER_EXECUTION_WORKER_V1_RESULT.md).
 
 [Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): isolated source/model
 code path and non-waiting one-child supervisor,9tests including a benign real subprocess.

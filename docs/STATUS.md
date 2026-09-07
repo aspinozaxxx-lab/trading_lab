@@ -7,7 +7,9 @@
 
 [Execution worker pool V1](ALGOPACK_PAPER_EXECUTION_WORKER_V1.md): max4isolated source
 children/no hidden queue, per-job deadlines, immutable references and raw identity/time
-replay before consumption. Local1PASS/9Linux skips; server verification next. Not yet
+replay before consumption. Pushed/deployed034e7d4:56/56related Linux tests UID999
+PASS3.46s; local1PASS/9Linux skips, encoding2/Ruff PASS,3SHA match, parents verified.
+[Server result](ALGOPACK_PAPER_EXECUTION_WORKER_V1_RESULT.md). Not yet
 runtime-integrated; original blocking defects remain. F=null. Далее async executor with
 exit-priority capacity, single ledger owner and actual-time consumption/restart tests.
 
