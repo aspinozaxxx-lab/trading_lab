@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — dated BBO/calendar execution source V1
+## Текущее действие — portfolio state/replay V1
+
+[Portfolio V1](ALGOPACK_PAPER_PORTFOLIO_V1.md): aggregate reservations, independent arms,
+liquidation MTM1×/2×, unknown equity masks, immutable sequence/restart и external-tail
+check реализованы. Local11PASS/2Linux skips, Ruff PASS; server tests pending.
+F=null; actual requests/forecasts/trades0. Нужны evidence-bound runtime event builder,
+missed-exit recovery policy, evaluation и scheduler до complete activation.
+Не выдавать ledger consistency за реальное исполнение и не удалять unresolved риск.
+
+### Предшествующий этап — dated BBO/calendar execution source V1
 
 [Execution source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md): joint dated BBO/specs,
 calendar terminal pagination/clearing masks, bounded activation-gated transport,

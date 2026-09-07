@@ -148,6 +148,10 @@
     и calendar→journal→execution inputs. Actual entitlement/schema/titles пока не
     наблюдались; unknown periods не объявлять торговыми. Runtime/F брать из STATUS.
 
+45. [Portfolio V1](docs/ALGOPACK_PAPER_PORTFOLIO_V1.md) — dedicated immutable event root,
+    reservations/MTM/restart. Missing marks=null; unresolved риск не удалять. Reducer
+    не заменяет source evidence replay; external tail нужен против усечения журнала.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

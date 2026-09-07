@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Portfolio state/replay V1](ALGOPACK_PAPER_PORTFOLIO_V1.md) implemented: reservations,
+liquidation-value MTM, closed1×/2× cash, unresolved masks, sequential immutable journal
+и restart with optional external tail. Local11PASS/2Linux skips; server tests pending.
+No actual trades/economic result; full runtime/evidence replay/evaluation ещё необходимы.
+
 [Dated BBO/calendar source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md) implemented,
 local25+encoding2PASS/2Linux skips; pushed/deployed5f86c8f:277/277related tests отUID999
 PASS, включая27source tests.3SHA match; training44/witnessed7 closures unchanged.
