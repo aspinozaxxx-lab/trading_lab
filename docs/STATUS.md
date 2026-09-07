@@ -3,7 +3,26 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — training-today review COMPLETE, нужен выбор пользователя
+## Текущее действие — AlgoPack future-paper разрешён, подготовка протокола
+
+Пользователь2026-09-07 явно разрешил предложенный эксперимент: [точный scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md).
+AUTHORIZATION gate снят; повторно согласие не спрашивать. Training только на архиве
+2020–2025 с оговоркой current-vintage; evaluation только после будущей границы F,
+следующей за code/config/model seals. Старый2026 закрыт, live/broker orders запрещены.
+Следующий шаг — обоснованный time/schema mapping и изолированный feature/label adapter,
+затем executable protocol и input closure до обучения на gpu-mlserver.
+
+[Alignment V1](ALGOPACK_PAPER_ALIGNMENT_V1.md) реализован:38 synthetic tests,
+отдельные online receipt / current-vintage training selectors, five flow/depth features
+и независимые60m labels без future-target inference filtering. Official SDK трактует
+tradetime как конец5m interval; Moscow mapping пока явное paper assumption, не гарантия
+full session semantics. Код ещё не economic-sealed; реальные labels/fit не запускались.
+Training OHLCV bundle найден на сервере в `data/v62-legacy-source-v1/data/processed/futures_v7_10m/`:
+top и4asset manifest hashes совпадают; transitive input admission ещё предстоит.
+Следующий конкретный шаг — manifest-bound loader и joint price/flow paired model protocol,
+затем server training после seal. Не повторять permission review или завершённые quality runs.
+
+### Предшествующий admission review — до согласия пользователя
 
 [Admission review V1](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md) завершён2026-09-07:
 полученный сегодня архив потенциально пригоден как учебный материал, но это отдельная
@@ -2763,12 +2782,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    что установка ключа автоматически включила постоянный FO flow/depth timer.
    Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.
 5. Publication audit и [training-today review](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
-   COMPLETE. Нужен явный выбор пользователя об archive-training assumption и новом
-   future-only paper периоде после protocol/model seal; ранее2026 не открывать.
-   Ответа нет. До него не читать labels/fit, не повторять review или quality audits.
-   После согласия проверить TIME/SCHEMA, затем отдельный executable protocol/seal;
-   source/model/live flags старых версий не менять. Это тот же admission blocker
-   при неизменных условиях, а не повод для нового инфраструктурного цикла.
+   COMPLETE. Пользователь явно разрешил archive-training assumption и новый future-only
+   paper период: [scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md). Ранее2026 не открывать.
+   Теперь проверить TIME/SCHEMA, затем отдельный executable protocol/seal до labels/fit;
+   source/model/live flags старых версий не менять. Общий permission blocker снят.
 6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
    четырёх активов, continuous10min decisions с label-independent eligibility.
    SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю

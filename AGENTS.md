@@ -108,9 +108,9 @@
     Дизайн training-today не равен model admission или разрешению читать2026 outcomes.
 
 36. [Training-today admission review](docs/ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
-    — COMPLETE / NOT_ADMITTED. Нужен явный выбор об archive-training assumption и новом
-    post-seal future-paper периоде; старый2026 закрыт. Согласия нет, fit/labels запрещены.
-    После согласия остаются time/schema/execution/seal gates. V32 learning frame с
+    — COMPLETE; [разрешение2026-09-07](docs/ALGOPACK_PAPER_AUTHORIZATION_20260907.md)
+    получено на archive-training assumption и новый post-seal future-paper период.
+    Старый2026 закрыт; до нового seal/time/schema gates fit/labels не запускать. V32 frame с
     future-label eligibility нельзя подставлять в online. Не повторять source audits.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
@@ -121,6 +121,9 @@
 
 - Не читать цены, доходности, labels, targets или PnL с `2026-01-01` и позже. Использовать
   только наборы, manifest которых доказывает границу не позже `2025-12-31`.
+  Единственное новое scoped исключение — [AlgoPack future-paper](docs/ALGOPACK_PAPER_AUTHORIZATION_20260907.md):
+  current-vintage training <=2025 и future-only evaluation после нового code/model seal.
+  До определения F и source/execution admission старый запрет2026 полностью действует.
 - Признак допустим только если его `available_at <= decision_at`. Signal строится после
   завершённого бара, исполнение — не раньше следующего фактического open/бара.
 - Не переносить доходность через пропуски или смену контракта. Не использовать обычную
