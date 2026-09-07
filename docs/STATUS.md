@@ -3,7 +3,17 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — combined economic report V1
+## Текущее действие — official calendar source discovery
+
+[Calendar discovery 2026-09-08](ALGOPACK_PAPER_CALENDAR_DISCOVERY_20260908.md): найден
+официальный futures off_days API, отличающий calendar date от session date, с null
+для неизвестного статуса. Подтверждена ревизия расписания MOEX от04.09; static weekday
+list/поздний календарь не доказывают исходный denominator. Это документация, не
+реализованный adapter/seal: calendar_source_verified=false, F=null. API с ключом,
+цены и economic run не запускались. Следом versioned calendar receipts и заранее
+фиксированное правило выбора/изменений, затем report persistence/CLI и activation.
+
+### Предшествующий этап — combined economic report V1
 
 [Combined report V1](ALGOPACK_PAPER_REPORT_V1.md): forecast/execution audits + exact
 ledger-prefix snapshot/coverage/count verification before frozen evaluation.

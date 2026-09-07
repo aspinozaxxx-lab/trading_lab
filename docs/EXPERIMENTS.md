@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Official calendar discovery 2026-09-08](ALGOPACK_PAPER_CALENDAR_DISCOVERY_20260908.md):
+public documentation confirms futures off_days schema, null semantics, pagination
+and distinct calendar/session dates; official September revision demonstrates mutable
+schedule. Source/policy implementation pending, not a new strategy or economic test.
+No authenticated API request; F=null and calendar admission remains false.
+
 [Combined economic report V1](ALGOPACK_PAPER_REPORT_V1.md): exact snapshot-to-ledger
 bindings, forecast/coverage checks and execution audit before evaluation. Pushed/deployed
 2b61650:418/418related Linux tests UID999 PASS, включая9report; local1+encoding2PASS/
