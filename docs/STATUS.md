@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack inventory V2 завершён; готовится flow/depth sample
+## Текущее действие — AlgoPack inventory и flow/depth sample завершены; далее история
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -27,9 +27,19 @@ Manifest SHA `89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242`.
 присутствуют в OBStats. Aliases Si/RTS/BR/MIX. 11 OB-only ранних bucket не заполнять
 нулём. Pre-request commit `31bfc79`, local 73/73, server V2 28/28.
 
-Следующий шаг — отдельный sealed flow/depth sample `2024-10-15` для четырёх контрактов,
-без OHLC/returns/PnL. Сверить точное покрытие с inventory, numeric missingness и
-семантику source timestamps, затем источник истории и экономический протокол.
+Flow/depth sample V1 завершён один раз после commit `09ac39f`: 652 TradeStats +
+696 OBStats = 1 348 строк, 8 страниц, exact parent coverage PASS, audit 11/11.
+Canonical `/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_flow_depth_sample_v1_49502b17c35a`;
+manifest SHA `6a14b3f9c724725375e99363e2ed26ae247b9e52e6bb1d4a9523e7ac11749502`.
+Local targeted 110/110, server sample 37/37. В каждом контракте spread_l1/l10 имеют
+два null (09:55 и 10:00); один из них в совместном TS/OB ключе. Остальные selected
+numeric fields без null на этом sample. Missing остаются mask, не 0 и не guessed fill.
+Source technical PASS не даёт historical/PnL/live admission; SYSTIME unresolved.
+
+Следующий шаг — отдельный resumable historical source protocol 2020–2025 с contract
+ranges из pinned active map (147 SECID, 294 dataset jobs до cursor), полный raw audit
+и coverage/missingness. Только затем отдельный экономический протокол новой информации.
+Sample source frozen; не менять его после чтения и не запускать повторно.
 Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
@@ -2594,14 +2604,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — AlgoPack flow/depth sample после completed inventory V2
+### P0 — AlgoPack history 2020–2025 после completed flow/depth sample
 
 1. Ключ уже установлен на сервере; не просить повторно, не печатать и не переносить
    в local/Git/командные аргументы. Никаких дополнительных покупок/изменений тарифа.
 2. Inventory V2 завершён и audited 11/11, canonical path/SHA вверху. V1 failed staging
    сохранить; ни одну версию не перезапускать ради улучшения результата.
-3. Запечатать и выполнить отдельный flow/depth sample SiZ4/RIZ4/BRX4/MXZ4 за тот же
-   день, raw replay + exact parent keys + numeric missingness. Не запускать старый
+3. Flow/depth sample завершён, audit 11/11, exact parent coverage PASS; два null spread
+   на контракт не заменять нулём. Запечатать новый resumable historical collector с
+   147 exact contract ranges из active map; проверка дат не позже 2025-12-31, complete
+   cursor, immutable per-request provenance и raw replay. Не запускать старый
    forward collector для истории: он использует latest=1 и допускает только 2026+.
 4. SYSTIME/retrieval/current-vintage не доказывают original availability; отдельные
    economic time rules и sealed comparison с price-only baseline нужны до PnL.

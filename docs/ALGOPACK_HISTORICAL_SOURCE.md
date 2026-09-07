@@ -217,3 +217,28 @@ Metadata-only план расширения проверен на gpu-mlserver �
 Это покрытие плана, не доказанные торговые дни или наличие flow/depth; tradability и
 рыночные значения не читались. Контракты с expiry-суффиксом 6 допустимы лишь для
 наблюдений строго до 2026; нельзя отсеивать/допускать строку только по имени контракта.
+
+## Flow/depth sample V1 canonical result
+
+Pre-request commit `09ac39f`; server tests 37/37. Один bounded transient service на
+gpu-mlserver завершён за 6,1 s, exit0; постоянный новый collector не включён.
+Canonical `/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_flow_depth_sample_v1_49502b17c35a`.
+Manifest SHA `6a14b3f9c724725375e99363e2ed26ae247b9e52e6bb1d4a9523e7ac11749502`;
+sample SHA `9621c3a1d6d88e71068838c7d949e7e64695fed3681a03af85c1685b9694772c`.
+Отдельный raw replay audit 11/11. 8 pages: 652 TradeStats и 696 OBStats, всего 1 348.
+Все 8 contract/dataset combinations точно совпали с parent по ключам/asset/SYSTIME;
+`sample_coverage_admitted=true`. Missing/extra/revised keys=0, shared163 на контракт.
+
+Качество числовых данных не сводится к этому флагу. У каждого контракта spread_l1 и
+spread_l10 имеют по 2 null: 09:55 и 10:00. Первый ключ OB-only, второй shared TS/OB;
+следовательно даже объединённая строка не доказывает доступность всех признаков.
+Остальные selected numeric fields без null на данном sample; true zero buy/sell
+counts встречаются и сохранены. Отрицательный disb допустим по определению, не ошибка.
+Никакие значения/часы/инструменты по ним не подбирались, rows не удалялись.
+Source technical PASS означает доступ/формат/воспроизводимость, не economic signal.
+
+Следующий разрешённый шаг — новый resumable source-only historical collector 2020–2025
+на byte-pinned active-map contract ranges, с по-request provenance, rate pacing,
+новыми code/config seal и external outputs. Не расширять frozen sample CLI/config.
+После source quality — отдельный заранее зафиксированный economic diagnostic;
+original availability, личные ML rights и exact execution остаются отдельными gates.

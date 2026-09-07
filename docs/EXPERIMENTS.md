@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack purchased by user — metadata inventory V2 COMPLETE, flow/depth sample next
+## AlgoPack purchased by user — inventory V2 and flow/depth sample V1 COMPLETE
 
 - User reported purchase and authorized the provided API key on 2026-09-07. No agent
   purchase/renewal/broker connection. Credential installed via hidden SSH input only
@@ -24,7 +24,19 @@
   under server external root; manifest SHA
   `89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242`.
   All four chosen contracts have 163 TradeStats and 174 OBStats rows, shared keys163.
-  No model/price/PnL/goal admission. Next separate source-only flow/depth sample.
+  No model/price/PnL/goal admission.
+- Separate flow/depth sample V1 completed once after pre-request commit `09ac39f`:
+  652 TradeStats + 696 OBStats = 1,348 rows, 8 pages, exact inventory metadata/key
+  coverage PASS in all 8 contract/dataset cases, independent replay audit 11/11.
+  Config/closure SHA and pinned parent are in source protocol. Canonical server path
+  `data/processed/algopack/moex_algopack_fo_flow_depth_sample_v1_49502b17c35a`;
+  manifest SHA `6a14b3f9c724725375e99363e2ed26ae247b9e52e6bb1d4a9523e7ac11749502`.
+  Local tests 110/110, server sample 37/37. Spread L1/L10 each have 2 nulls percontract
+  at 09:55 and 10:00; latter is a shared TS/OB key. Other selected numeric fields
+  have no nulls on this one sample. True zeros retained, no imputation or fill claims.
+  Current-vintage only; historical_model_eligible/live false, no labels/returns/PnL.
+  Next separately sealed historical source 2020–2025; metadata plan147 SECIDs/294jobs
+  is not evidence of actual full-history API coverage. No background run remains.
 
 ## MOEX index announcements — source feasibility only, 2026-09-07
 
