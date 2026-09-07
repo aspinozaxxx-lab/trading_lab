@@ -4,7 +4,10 @@
 
 [Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): policy-derived period,
 full excluded-day ledger/exposure check before existing economic report.9synthetic tests
-(local1PASS/8Linux skips). No actual economic evaluation/activation, F=null.
+(local1PASS/8Linux skips). Pushed/deployed99762b7:111/111related Linux tests UID999
+PASS16.46s, encoding2/Ruff PASS,3SHA match, parent seals verified.
+[Server result](ALGOPACK_PAPER_CALENDAR_REPORT_V1_RESULT.md).
+No actual economic evaluation/activation, F=null.
 
 [Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): fixed09:00–09:05Moscow
 canonical version, whole-period unresolved gate, explicit exclusions, no late fallback.

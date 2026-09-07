@@ -8,7 +8,9 @@
 [Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): expected days/digest
 только из calendar policy; unresolved blocks evaluation before economic reads.
 Full ledger replay rejects excluded-day activity/carried risk, including flat roundtrip.
-Local1PASS/8Linux skips; server verification next. F=null, no economic run.
+Pushed/deployed99762b7:111/111related Linux synthetic tests UID999 PASS16.46s;
+local1PASS/8Linux skips, encoding2/Ruff PASS,3SHA match, parent seals verified.
+[Server result](ALGOPACK_PAPER_CALENDAR_REPORT_V1_RESULT.md). F=null, no economic run.
 Далее runtime calendar scheduling, report persistence/CLI, latency и complete activation.
 
 ### Предшествующий этап — calendar policy V1
