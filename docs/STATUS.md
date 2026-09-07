@@ -9,10 +9,17 @@
 last-as-of source versions, отдельная baseline/full eligibility, no target API,
 post-calculation deadline и явный COMPUTED_NOT_PERSISTED/execution=false.
 New20synthetic tests, local89/89 с related model/alignment/runner+encoding, Ruff PASS.
-Дальше deploy/Linux tests и model-only decode на сервере; затем новый future source,
-durable forecast writer и fixed execution/evaluation seal. F=null; actual forecasts0.
+Pushed/deployed `79e4795`; Linux87/87 PASS. Model-only reader от UID999 проверил обе
+реальные pinned модели/schema20/40→4 без новых prices/labels; training closure44/44 PASS.
+Deployed core SHA `173a7cb71cab47c7820d78f5ac2c5bd1ebdec626d55517e1924ce541c3bce788`,
+tests `e55d6188369267d30550dc62e0a929f2ae43bef60ec717a1bb199b50df4c3794`,
+doc `28378a040c9077060d4d40ef683b4375482c80be0f5ac8ff461ca693a517df89`; local/server match.
+Следующий шаг — новый future source, durable forecast writer и fixed execution/evaluation
+seal. F=null; actual forecasts0. Не повторять model training/decoder-only test как новый опыт.
 Official docs подтверждают authorized apim real-time candles/orderbook в отличие от
 15min anonymous candles; actual account entitlements ещё не проверены price request.
+Witnessed FO collector работает: timeractive/waiting,last17:53UTC,next18:03UTC,
+последний service terminal success/0. Новые local tasks/collectors не создавались.
 
 ### Предшествующий этап — paired training V1 TRAINED_NOT_EVALUATED
 

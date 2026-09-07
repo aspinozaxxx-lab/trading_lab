@@ -4,8 +4,10 @@
 
 Inference core V1 implemented: [details](ALGOPACK_PAPER_INFERENCE_V1.md),20synthetic tests;
 related local89/89 incl encoding. Independent arm eligibility, frozen model identities,
-as-of revisions, no target input and publication deadline. No actual forecast/price requests,
-F=null; awaiting Linux deployment/model decode, then source/writer/execution/evaluation.
+as-of revisions, no target input and publication deadline. Pushed/deployed79e4795,
+Linux87/87 PASS, actual model-only decode отUID999 PASS, parent training closure44/44 PASS.
+Core SHA `173a7cb71cab47c7820d78f5ac2c5bd1ebdec626d55517e1924ce541c3bce788` local/server match.
+No actual forecast/price requests, F=null; next source/writer/execution/evaluation.
 
 Training V1 COMPLETE17:46:26.964097UTC, **TRAINED_NOT_EVALUATED**:
 [result](ALGOPACK_PAPER_TRAINING_V1_RESULT.md). Fixed price-only/full Ridge обучены на
