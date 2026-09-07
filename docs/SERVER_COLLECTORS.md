@@ -105,7 +105,31 @@ enable. После `daemon-reload` он перезапускает timers, чт�
 `/etc/trading-lab/collector.env`; ключи нельзя коммитить, передавать аргументами или
 печатать в journal.
 
-## Аварийный откат
+## Bounded AlgoPack historical batch — 2026-09-07
+
+Это отдельный transient service, не новый recurring timer:
+`trading-lab-algopack-fo-history-v1-c5fb0b96b12d.service`.
+Code seal `c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1`,
+pre-request commit `84a1661`, Linux synthetic101/101, actual metadata preflightPASS.
+Работает как trading-lab, ProtectSystem=strict, NoNewPrivileges=yes, UMask0077,
+MemoryMax4G, Nice10; writable только `/srv/trading_lab_data/data/processed/algopack`.
+Token берётся из existing server env, REQUESTS_CA_BUNDLE задаётся только этому unit:
+`/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem`, hash проверен до запуска.
+Python bytecode writes отключены. Другие timers и Windows jobs не менялись.
+
+Проверять живость через systemctl show именно этого unit, не по наличию work/lock.
+Пока MainPID живой/active-running, новый writer не запускать. После terminal success
+нужен полный audit с actual manifest SHA; completed canonical не перезапускать.
+После terminal failure сначала прочитать безопасные records из
+`.moex_algopack_fo_history_v1_c5fb0b96b12d.failures`; если причина допускает повтор,
+новый uniquely named transient unit запускает тот же module/seal/storage-root.
+Collector сам replay-проверит checkpoint до сети и продолжит с первого незавершённого
+cursor. Не удалять lock/checkpoint, не править frozen code/manifest для обхода ошибки.
+Промежуточные файлы после аварии сохраняются вне canonical в `.work.orphans`.
+
+См. [полный протокол](ALGOPACK_FO_HISTORY_V1.md) и текущий [STATUS](STATUS.md).
+
+## Аварийный откат forward scheduler
 
 Сначала остановить server timers и убедиться, что активных service jobs нет. Только
 после этого можно временно включить нужные локальные definitions. Одновременная работа

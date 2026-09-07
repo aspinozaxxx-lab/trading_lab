@@ -1,12 +1,13 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO history V1 — PRE-REQUEST SEALED, source-only continuation
+## AlgoPack FO history V1 — RUNNING, source-only continuation
 
 - Previous turn completed actual inventory/sample acquisition and audits; this turn
   expands fixed information scope to 2020–2025, not another threshold/model search.
 - Config `moex_algopack_fo_history_v1.yaml`, exact pinned causal active map, planned
   147 SECIDs / 294 dataset range jobs. New isolated core/collector, resumable page
-  provenance and raw replay. No network history run or economic calculation yet.
+  provenance and raw replay. At pre-request seal, no history API or economic run yet;
+  live source launch/progress recorded below. Economics remains unstarted.
 - Closure `c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1`,
   config SHA `b488c931bc86f0fffda8e742de4f57f81d4e7831e4228eae5e2c250d97ae7988`.
   Local targeted210 passed/1 Windows symlink skip, Ruff clean. Pre-seal real metadata
@@ -14,6 +15,12 @@
   complete/causal. Core scope and collector crash-orphan admission fixed beforeseal.
 - Source-only/current-vintage/PIT-ineligible/live-forbidden. Full protocol:
   [ALGOPACK_FO_HISTORY_V1.md](ALGOPACK_FO_HISTORY_V1.md).
+- Pre-request commit `84a1661`; server101/101 tests, actual unprivileged preflightPASS,
+  parent11/11, plan SHA `30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
+  Service `trading-lab-algopack-fo-history-v1-c5fb0b96b12d` launched once, verifiedlive.
+  Partial 06:50:59 UTC snapshot:51/294 complete jobs,174557 TradeStats rows, nofailure
+  records. Two date-coverage mismatches explicitlyreported; canonical notyetpublished.
+  No economics, no rerun/tuning of oldstrategies; continue observing same job.
 
 ## AlgoPack purchased by user — inventory V2 and flow/depth sample V1 COMPLETE
 

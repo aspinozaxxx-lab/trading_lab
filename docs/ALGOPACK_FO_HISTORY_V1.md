@@ -118,4 +118,23 @@ Local verify_seal PASS. Targeted 210 passed / 1 Windows symlink skip; core53,
 collector47/1skip. Ruff clean. Этот skipped case обязательно проверить на Linux.
 Два review findings (orphan admission и check-before-read) исправлены до seal;
 scope correction для missing2018 metadata также до seal, config не менялся.
-Реальный history run ещё не запущен. Current runtime/result — [STATUS.md](STATUS.md).
+Pre-request commit/push `84a1661`. Server tests101/101, включая Linux symlink case.
+Preflight от trading-lab подтвердил closure21files, parent11/11, actual plan294jobs,
+147contracts, 2020-01-03..2025-12-30. Plan SHA
+`30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
+Реальный batch запущен, unit/working path/актуальный progress — [STATUS.md](STATUS.md).
+
+## Дальнейший contemporaneous forward source — только review
+
+Установка ключа сама по себе не включает постоянный FO TradeStats/OBStats stream:
+в ops dispatcher и deployed timer definitions нет такого job. Старый manual module
+сначала вызывает FUTOI, пишет batch-start retrieval до получения response, называет
+SYSTIME published_at, использует per-contract date/latest=1 без полного cursor и
+не имеет новых redirect/token guards. Его нельзя включать без изменений frozen bytes.
+
+После bounded history нужен отдельный sealed forward source/service: actual current
+contract metadata discovery, correct date parameters и bounded overlap/full cursor,
+response-completion/validation timestamps, immutable revisions/raw replay и CA profile.
+Никаких current SECID из старой 2025 карты. Новые данные можно допускать не раньше
+witnessed receipt/validation, SYSTIME оставить vendor metadata. Это будущая отдельная
+реализация, сейчас ни timer, ни current-market snapshot ею не создавались.

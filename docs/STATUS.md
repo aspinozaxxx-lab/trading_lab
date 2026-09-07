@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — готовится AlgoPack history V1, 2020–2025
+## Текущее действие — AlgoPack history V1 RUNNING на gpu-mlserver
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -44,7 +44,20 @@ Sample source frozen; не менять его после чтения и не �
 resumable per-page provenance и full replay. Pre-request code/config closure
 `c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1` verified;
 local targeted210 passed/1 Windows symlink skip, Linux case обязателен до сети.
-Пока pre-request deployment, не real source run.
+Pre-request commit/push `84a1661`; Linux tests101/101 (включая symlink case),
+runtime preflight от trading-lab PASS: 21 closure file, parent audit11/11, plan294jobs.
+Plan SHA `30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
+
+Реальный batch запущен один раз и подтверждён active/running, MainPID898406:
+`trading-lab-algopack-fo-history-v1-c5fb0b96b12d.service`;
+invocation `4168e5c2f6f741d0a3324715fb933c9d`, наблюдаемый exec handle36051.
+Working root `/srv/trading_lab_data/data/processed/algopack/.moex_algopack_fo_history_v1_c5fb0b96b12d.work`;
+canonical stem без начальной точки и `.work` пока отсутствует. На 06:50:59 UTC
+проверены 51 completed jobs / 174557 TradeStats rows, failure records0; два job имеют
+расхождение с active-map dates (2 missing и2 extra contract-dates), оно не скрывается.
+Это partial snapshot, не полный source PASS и не доказательство прибыли.
+Не запускать второй процесс после timeout/смены сессии. Сначала systemctl show этого
+unit; при terminal failure читать safe failures по exact path из server runbook.
 Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
