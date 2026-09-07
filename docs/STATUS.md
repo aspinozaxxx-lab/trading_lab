@@ -8,7 +8,9 @@
 [Preparation worker V1](ALGOPACK_PAPER_PREPARATION_WORKER_V1.md): source/model-only child,
 own HTTP session, immutable references, one-child non-waiting supervisor with deadline
 terminate/kill. Not yet integrated: original runtime interference defect remains.
-9tests added; server verification next. F=null. Далее async executor integration,
+Pushed/deployedc8d3851:47/47related Linux tests UID999 PASS15.22s, including9worker tests
+and benign real child lifecycle.3SHA match, parents verified, encoding2/Ruff PASS.
+[Server result](ALGOPACK_PAPER_PREPARATION_WORKER_V1_RESULT.md). F=null. Далее async executor integration,
 remaining blocking execution-source work and actual scheduler interference retest.
 
 ### Предшествующий этап — scheduler interference characterization
