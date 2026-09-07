@@ -3,16 +3,25 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack witnessed V1 sealed, до первого capture
+## Текущее действие — AlgoPack witnessed V1 manual PASS, timer enabled
 
 Новый [witnessed source](ALGOPACK_FO_WITNESSED_V1.md) подготовлен отдельно от frozen
 истории и старых collectors: current RFUD/series discovery, 8 exact SECIDs,
 TS/OB full cursor, immutable raw/normalized/receipt snapshots, full replay.
 Окно D−2..D+14 относится к vendor date labels, не к доступу к будущим наблюдениям.
 Closure `67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26` (7files).
-Первый network capture ещё не выполнялся; timer не установлен и не включён.
-Следующее действие: Linux tests/closure, один manual capture, replay, затем timer
-только при PASS. Существующие 15 timers не менять. Historical/model/live flags=false.
+Pre-request commit/push `7cd5371`; local341passed/4 Windows skips, Linux343/343.
+Manual capture 2026-09-07 11:56:59.545856–11:57:12.184771 UTC: 4865 rows/16pages,
+2329 TradeStats +2536 OBStats, 8 current SECIDs. Полный replay внутри collector PASS;
+отдельный PrivateNetwork audit также PASS. Canonical:
+`/srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1/20260907T115659545856Z_b813c3346d94`.
+Manifest SHA `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
+Новый `trading-lab-algopack-fo-witnessed-v1.timer` enabled/active/waiting,
+каждые10min в :03/:13/:23/:33/:43/:53 UTC. На11:58:41UTC LastTrigger ещё пустой;
+первые два scheduled captures ожидаются12:03/12:13UTC. Проверить реальные directory,
+receipt/audit и journal; timer enabled не равен успешной автоматической доставке.
+Существующие15timers не изменялись (всего теперь16), локальные tasks не включались.
+Historical/model/live flags=false; source PASS не доказывает прибыль или PIT историю.
 
 ## AlgoPack history и quality V1 COMPLETE
 
@@ -2661,9 +2670,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Отдельный full replay и metadata coverage/TS-OB alignment тоже завершены —
    [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md). Не повторять ради нового результата.
    Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
-4. Первый незаблокированный source шаг: новый отдельно sealed contemporaneous FO
-   collector на gpu-mlserver с actual current-contract metadata и per-response
-   receipt/validation timestamps, immutable revisions и pinned CA. Старый manual
+4. [Witnessed FO source V1](ALGOPACK_FO_WITNESSED_V1.md) запечатан и deployed,
+   manual capture/replay PASS, новый timer enabled. Следующий operational gate:
+   проверить два реальных scheduled captures (12:03/12:13UTC 2026-09-07), source
+   manifests/audits и timestamps. Не запускать вручную вместо ожидаемого timer.
+   Старый manual
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.
    Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.

@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO witnessed V1 — SEALED, pre-request
+## AlgoPack FO witnessed V1 — manual PASS, timer enabled
 
 - New receipt-witnessed source, not an economic experiment. No profitability result.
 - RFUD + active series metadata select two nearest unexpired outright futures per
@@ -8,7 +8,12 @@
 - TS/OB selected target-free fields, D−2..D+14 label bounds, full cursor, no retries,
   per-response receipt/validation evidence, immutable gzip payloads and full replay.
 - Seven-file closure `67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26`.
-  Linux runtime tests/manual capture still required; new timer not active yet.
+  Pre-request pushed commit `7cd5371`; local341passed/4 Windows skips, Linux343/343.
+- Manual capture `20260907T115659545856Z_b813c3346d94`: 4865rows/16pages,
+  TS2329/OB2536; full replay PASS plus separate network-isolated audit PASS.
+  Manifest `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
+- Timer enabled/active/waiting at11:58:41UTC; first scheduled captures12:03/12:13UTC
+  still require confirmation. Existing15timers untouched; no local collectors.
 - Protocol: [ALGOPACK_FO_WITNESSED_V1.md](ALGOPACK_FO_WITNESSED_V1.md).
 
 ## AlgoPack FO history quality V1 — COMPLETE, source-only report

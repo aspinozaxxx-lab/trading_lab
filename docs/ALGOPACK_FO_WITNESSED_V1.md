@@ -7,16 +7,39 @@ TradeStats/OBStats. В отличие от [истории 2020–2025](ALGOPACK
 он должен сохранять свидетельствуемое время получения каждой версии ответа.
 Сбор данных не является экспериментом с доходностью, backtest или live trading.
 
-**Source seal, ещё не запущено.** Config SHA
+**Manual PASS; timer enabled, automated captures ещё проверяются.** Config SHA
 `feecf891fd501849795615e1c0432c184c41b2125d99acd69a1b2f2b33b50605`;
 7-file closure `67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26`.
-До первого запроса требуются commit/push, Linux tests и verify_seal на сервере.
-Ни успешный capture, ни deployment, ни включение timer здесь пока не заявляются.
+Pre-request commit/push `7cd5371`; Linux regression343/343 и runtime seal PASS.
 Актуальный runtime и завершённые результаты — в [STATUS.md](STATUS.md).
 
 Pre-request local regression: 341 passed / 4 Windows-only symlink/lock skips
 (весь AlgoPack FO set и encoding). Новые source tests: 69 passed / 1 Linux skip.
 Ruff и closure verification PASS. Это проверки synthetic fixtures, не market result.
+
+Manual capture: `20260907T115659545856Z_b813c3346d94`, 2026-09-07
+11:56:59.545856–11:57:12.184771UTC. 4865rows/16pages, TS2329/OB2536,
+55files/303925 stored bytes. Current SECIDs: BRV6/BRX6, MXU6/MXZ6, RIU6/RIZ6,
+SiU6/SiZ6; это metadata expiry selection, не оценка ликвидности.
+Canonical root `/srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1/`,
+manifest SHA `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
+Встроенный full replay и отдельный PrivateNetwork audit PASS. Manual handle58685
+terminal success; не запускать повторно ради нового результата. Timer включён
+11:58UTC, active/waiting; фактические scheduled captures12:03/12:13UTC ещё не проверены.
+Manual invocation `3d7cf776d635412697993bc714972f62`, PID1930498 (завершён).
+Installed unit hashes совпадают с pushed bytes:
+service `64906d427f8fc20ca1264b7e201b4774063001aa9bf3255e72dbbb5d2920dd55`,
+timer `bf382fe4db6aead21da08b2f9a91c05f3e2bd9a8f48de5e92ee01c09d236bbf6`.
+Ни код, ни config/seal после первого запроса не менялись.
+
+Audit без ключа/сети:
+
+```text
+/opt/trading_lab/.venv/bin/python -m market_lab.futures.moex_algopack_fo_witnessed_v1 --seal-sha256 67a11050689b42802b1f33797a98c47ef9974249803de72601c2b8dffb099c26 --audit <exact-capture-directory>
+```
+
+Не передавать `--output-root` вместе с `--audit`. Проверять manifest SHA и receipt
+перед downstream admission; никакие economic permissions этим audit не выдаются.
 
 Отдельный модуль: `market_lab.futures.moex_algopack_fo_witnessed_v1`.
 CLI: `--seal-sha256 <зафиксированный SHA>` и

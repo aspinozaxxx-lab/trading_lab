@@ -2,6 +2,14 @@
 
 ## Authoritative runtime
 
+2026-09-07 добавлен отдельный [AlgoPack FO witnessed V1](ALGOPACK_FO_WITNESSED_V1.md):
+`trading-lab-algopack-fo-witnessed-v1.service/.timer`, direct-module, не общий dispatcher.
+Manual4865rows/replayPASS; timer enabled в11:58UTC, каждые10min с:03UTC. Первые два
+scheduled captures проверять по STATUS. Существующие15timers не переустанавливались;
+всего16. Output `/srv/trading_lab_data/data/forward/algopack-fo-witnessed-v1` 0700,
+trading-lab. CA и env token scoped только новой службой, public ISS без bearer.
+Не применять общий installer ради этой пары units; frozen source closure в protocol.
+
 С `2026-09-02 14:59 Europe/Moscow` единственный активный scheduler forward-источников
 работает на SSH host alias `gpu-mlserver`. Локальные Windows tasks `TradingLab*`
 сохранены как recoverable definitions, но все отключены. Не включать их одновременно с
