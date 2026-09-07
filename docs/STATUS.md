@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — fixed as-of flow selection V1
+## Текущее действие — unified runtime scheduler/CLI V1
+
+[Runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump first, persisted flow selection→slot,
+daily scheduler, lifetime serving lock, explicit check/init/serve, no automatic reset.
+Local1PASS/6Linux skips, Ruff PASS; server verification next. F=null; activation нет.
+Следом offline economic source/forecast/Fill replay и evaluation/report wiring, official
+calendar evidence/latency checks, full pre-F config/seal и server service setup.
+Runtime code is not activated paper run; no actual market requests/trades in this work.
+
+### Предшествующий этап — fixed as-of flow selection V1
 
 [Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): latest completed current-day
 metadata, no value ranking/fallback, full selected replay and immutable import reuse.

@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Unified runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump→selection/slot/daily tick,
+explicit initialization/check/serve, durable work reservations and sanitized stop/reopen.
+Local1PASS/6Linux skips, Ruff PASS; server tests next. F=null; service not activated.
+
 [Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): fixed latest completed
 current-day capture, as-of metadata + full selected replay, no fallback on corruption.
 Pushed/deployed43adb25:383/383related Linux tests UID999 PASS, включая9selection;

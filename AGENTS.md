@@ -192,6 +192,10 @@
     current-day metadata before fixed cutoff, no value/outcome ranking/fallback.
     Actual replay clocks still govern availability; partial import blocks, not overwrite.
 
+56. [Unified runtime V1](docs/ALGOPACK_PAPER_RUNTIME_V1.md) — pump→slot/daily scheduler,
+    durable work/selection, explicit init/check/serve. Existing roots never reset.
+    CLI exists but service/activation/F and offline economic audit still required.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
