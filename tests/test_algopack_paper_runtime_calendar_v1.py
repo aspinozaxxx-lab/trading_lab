@@ -4,6 +4,7 @@ import os
 from datetime import timedelta
 
 import pytest
+import test_algopack_paper_runtime_v1 as runtime_fixture
 from test_algopack_paper_journal_v1 import END
 from test_algopack_paper_runtime_v1 import TestRuntime as RuntimeFixture
 
@@ -24,6 +25,7 @@ class TestCalendar:
 
     @pytest.fixture(autouse=True)
     def setup(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(runtime_fixture, "NOW", core.calendar.window(END.date())[0])
         RuntimeFixture.setup.__wrapped__(self, tmp_path, monkeypatch)
         self.at = core.calendar.window(END.date())[0]
         monkeypatch.setattr(core.calendar, "capture", self.capture)
