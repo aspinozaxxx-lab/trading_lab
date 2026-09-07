@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — single-attempt slot runner V1
+## Текущее действие — due-position pump V1
+
+[Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): prioritized due exits/entries, shared
+same-contract source, actual deadline cancellation/unresolved, durable outcomes.
+Local targeted/encoding checks and server verification next. F=null; activation нет.
+Следом fixed as-of witnessed-flow selection и unified runtime scheduler, offline
+economic evidence/evaluation wiring и full pre-F publication. No actual economic run.
+
+### Предшествующий этап — single-attempt slot runner V1
 
 [Slot runner V1](ALGOPACK_PAPER_SLOT_RUNNER_V1.md): capture→predict→actual consumption
 →marks→fixed8reserve decisions, durable attempts/phase failures/no retry of reserved slot.

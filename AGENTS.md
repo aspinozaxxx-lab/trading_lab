@@ -184,6 +184,10 @@
     capture→forecast→consumption→marks→8decisions. Existing/partial STARTED не rerun;
     failures не success. Entry/exit pump, flow selector и full runtime ещё требуются.
 
+54. [Due pump V1](docs/ALGOPACK_PAPER_DUE_PUMP_V1.md) — exits first, actual30sec window,
+    shared same-contract quote, failed source/uncertain fill outcomes. Reopen on
+    FAILED_REOPEN_REQUIRED; unresolved never erased. Scheduler/latency still separate gates.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

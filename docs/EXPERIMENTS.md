@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Due pump V1](ALGOPACK_PAPER_DUE_PUMP_V1.md): due exits before entries, shared quote
+for paired arms, no late fills, immutable attempts/reopen on uncertainty. Verification
+pending. F=null; technical integration only, no actual economic outcome.
+
 [Slot runner V1](ALGOPACK_PAPER_SLOT_RUNNER_V1.md): one reserved E-slot, integrated
 capture/predict/consume/mark/8decisions with immutable outcomes/failures. Pushed/deployed
 506ad84:366/366related Linux tests UID999 PASS, включая7slot-runner; local1+encoding2
