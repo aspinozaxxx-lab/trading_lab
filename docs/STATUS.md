@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — portfolio command/anchor V1
+## Текущее действие — source-to-ledger execution bridge V1
+
+[Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): consume/replay source refs
+→ fixed intent/fill → anchored RESERVE/ENTRY/EXIT; missed entry CANCEL, missed exit
+UNRESOLVED без повторных событий. Local1PASS/7Linux skips, Ruff PASS; server tests next.
+F=null, actual activation отсутствует. Следом MTM refresh, durable decision coverage,
+ledger-derived daily snapshots/offline evidence replay и scheduler до полного seal.
+
+### Предшествующий этап — portfolio command/anchor V1
 
 [Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): отдельный control journal,
 prior commands/sequential anchors и восстановление одного committed события без

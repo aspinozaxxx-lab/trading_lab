@@ -164,6 +164,10 @@
     anchor chain и single-event crash recovery без повторного исполнения. Missing
     genesis не новый счёт; оба root на одном host не backup. Source evidence ещё нужен.
 
+49. [Execution bridge V1](docs/ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md) — source references
+    → fixed intent/fill → anchored ledger. Runtime не должен писать произвольные Fill
+    напрямую. Missing exit остаётся unresolved; полноценный scheduler/evidence audit ещё нужен.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

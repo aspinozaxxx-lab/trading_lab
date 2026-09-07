@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): source references и actual
+observation clocks связываются с fixed intent/fill и anchored ledger. No arbitrary
+caller Fill/clock; missed exit сохраняет риск. Local1PASS/7Linux skips, Ruff PASS;
+server verification pending. Не economic run, не complete runtime, F=null.
+
 [Portfolio anchors V1](ALGOPACK_PAPER_PORTFOLIO_ANCHOR_V1.md): explicit genesis,
 prior immutable command → ledger → chained anchor; crash recovery без повторной
 операции. Pushed/deployed core2e81686/test266d269:328/328related Linux tests UID999
