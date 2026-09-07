@@ -129,6 +129,37 @@ cursor. Не удалять lock/checkpoint, не править frozen code/man
 
 См. [полный протокол](ALGOPACK_FO_HISTORY_V1.md) и текущий [STATUS](STATUS.md).
 
+History batch completed once: success/exit0, 294jobs/2067949rows/2198pages.
+Canonical manifest SHA `f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`;
+source_date_coverage_admitted=false is preserved. Do not re-collect this canonical.
+
+## AlgoPack metadata quality — separate network-isolated one-shot
+
+Pre-run commit/push `597da59`, closure
+`b57b9b226d63842dd0a3c09bafcd98746bcd48f383324f53e0b1bb4558f260ba`;
+Linux synthetic188/188, including all three locally skipped symlink cases.
+Unit `trading-lab-algopack-fo-quality-v1-b57b9b226d63.service`, handle12148,
+invocation `1ccbf24f36ae4fdc953c58fa81157c03`; actual status in STATUS.
+
+Runs as trading-lab with PrivateNetwork=yes, no EnvironmentFile/API credential,
+ProtectSystem=strict/ProtectHome/NoNewPrivileges/UMask0077, MemoryMax4G/Nice10.
+Only writable paths:
+
+- `/srv/trading_lab_data/data/processed/algopack_quality` (new ordinary directory,
+  owner trading-lab, mode0700; no unrelated permissions changed);
+- `/srv/trading_lab_data/data/processed/algopack/.moex_algopack_fo_history_v1_c5fb0b96b12d.lock`
+  (existing exact advisory-lock file needed by the read-only source audit).
+
+Parent canonical/raw files remain read-only in the service. No network/download,
+no Windows tasks, no timer enabled. Logs contain phase/raw_replay/metadata_projection/
+publish only. It audits source first, then projects five metadata columns.
+Report canonical stem: `algopack_fo_history_quality_v1_b57b9b226d63` under quality root.
+This unit completed success/exit0 in51.280s; handle12148 is terminal, no longer live.
+Report manifest SHA `26342273cc79f4d168486651ba6a2369bece2a12465c7dac2e7ba3eef3fe558a`;
+quality SHA `51b296bccb9c369baf54481fe6e726cfc5431a2ebd012fa24981df4b7c055a6a`.
+If the unit is still running, follow it rather than starting another copy. Failed
+report staging is preserved and is not canonical. Never rerun to overwrite a result.
+
 ## Аварийный откат forward scheduler
 
 Сначала остановить server timers и убедиться, что активных service jobs нет. Только

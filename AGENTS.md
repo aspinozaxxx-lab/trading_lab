@@ -81,9 +81,10 @@
     Source PASS не даёт PIT/economic admission; future execution adapter должен
     отделить inference eligibility от future label validity.
 31. [AlgoPack metadata quality V1](docs/ALGOPACK_FO_HISTORY_QUALITY_V1.md) — отдельный
-    full replay + exact TS/OB key alignment и date/missingness report. Новый closure
-    b57b9b226d63; runtime/result смотреть в STATUS. Ни matching keys, ни SYSTIME
-    не доказывают original availability; current-vintage flags не ослаблять.
+    full replay PASS + report завершены: shared1000331/TS-only6883/OB-only60404,
+    source date admission=false, null/negative spreads сохранены. Closure b57b9b226d63;
+    canonical/SHA в STATUS. Ни matching keys, ни SYSTIME не доказывают original
+    availability; текущие model/live flags не ослаблять без явного нового основания.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый

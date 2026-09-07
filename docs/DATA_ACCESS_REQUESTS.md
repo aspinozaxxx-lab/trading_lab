@@ -7,11 +7,15 @@ API key. Он установлен через hidden SSH stdin в `/etc/trading-
 `root:trading-lab 0640`; значение не включать в Git/log/raw/argv. Агент не совершал
 новых покупок, не менял тариф или автопродление. Historical FO TradeStats/OBStats GET
 подтверждены: inventory V2 complete/audited за 2024-10-15, 15 023/65 550 metadata rows.
+Позднее завершены four-contract sample и вся fixed history2020–2025: 294jobs,
+2067949rows; отдельный full raw audit PASS и metadata quality report сохранены.
+Date admission=false и original availability unresolved не скрываются; детали —
+[history](ALGOPACK_FO_HISTORY_V1.md) и [quality](ALGOPACK_FO_HISTORY_QUALITY_V1.md).
 Это не доказательство прав/качества для любого продукта или оригинальной доступности.
 Работа: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
 Исторические статусы ниже описывают предшествующие решения; отсутствие credentials и
-откладывание покупки больше не блокируют технический sample. Переписка MOEX остаётся
+откладывание покупки больше не блокируют технический доступ. Переписка MOEX остаётся
 одной отправленной цепочкой, не дублировать. Права на конкретное личное ML применение,
 historical first-publication и correction semantics не устанавливаются по JWT.
 

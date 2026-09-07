@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO history quality V1 — SEALED, before source-only report
+## AlgoPack FO history quality V1 — COMPLETE, source-only report
 
 - Parent history is complete; no historical economics/model run. New five-column
   metadata projection binds the actual parent manifest, compares exact TS/OB keys,
@@ -14,7 +14,15 @@
   distinguish replay, date coverage, exact key matching and historical availability.
 - Local targeted187passed/3 Windows symlink skips; Ruff/closure PASS. Before actual
   run, deploy pushed bytes and execute Linux synthetic tests, including skipped cases.
-  No report result or economic admission claimed yet. [Protocol](ALGOPACK_FO_HISTORY_QUALITY_V1.md).
+  Pre-run commit/push597da59; server188/188, network-isolated one-shot success/exit0,
+  runtime51.280s. Separate full raw replay PASS, then metadata projection completed.
+- Canonical `data/processed/algopack_quality/algopack_fo_history_quality_v1_b57b9b226d63`;
+  manifest SHA `26342273cc79f4d168486651ba6a2369bece2a12465c7dac2e7ba3eef3fe558a`,
+  quality SHA `51b296bccb9c369baf54481fe6e726cfc5431a2ebd012fa24981df4b7c055a6a`.
+  Shared1000331, TS-only6883, OB-only60404; duplicates/offgrid0. Date coverage remains
+  false: TS36missing/86extra andOB8missing/116extra contract-dates. Empty/alias issues0.
+  Spread null L1/L10=11143/13035, negatives124/9; no clamping/filling. Historical
+  availability/model/live flags remainfalse. [Tables and limitations](ALGOPACK_FO_HISTORY_QUALITY_V1.md).
 
 ## AlgoPack FO history V1 — COMPLETE, source-only continuation
 

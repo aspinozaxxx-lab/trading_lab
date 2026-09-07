@@ -64,4 +64,69 @@ Both modules and tests reviewed before seal. Linux skipped cases must pass befor
 source/report execution. Runner does full history.audit first, then metadata projection,
 verifies identities again and atomically publishes three external report files.
 Canonical report stem: `data/processed/algopack_quality/algopack_fo_history_quality_v1_b57b9b226d63`.
-No quality result is claimed yet; actual runtime/result is in [STATUS.md](STATUS.md).
+The completed result and limitations are recorded below; current queue is in STATUS.
+
+## Canonical result — COMPLETE / RAW REPLAY PASS
+
+Pre-run commit `597da59`; server188/188 tests, no skips. One network-isolated
+service run completed success/exit0 in51.280s; no token or network calls.
+Canonical directory:
+`/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_history_quality_v1_b57b9b226d63`.
+
+- Manifest SHA `26342273cc79f4d168486651ba6a2369bece2a12465c7dac2e7ba3eef3fe558a`.
+- audit.json SHA `7c4de421746d0a3feca83ba891c1f69e93f076a391832a02c06d34ac4b9e4c18` (363bytes).
+- quality.json SHA `51b296bccb9c369baf54481fe6e726cfc5431a2ebd012fa24981df4b7c055a6a` (134329bytes).
+
+The runner separately replay-audited all294 source jobs, then completed metadata
+projection. Root verified published report identities against the report manifest.
+An independent report-only review also verified hashes, unchanged28-file seal,
+asset/year sums and join arithmetic; it did not repeat raw replay or inspect values.
+This is a technical source/report PASS, with source_date_coverage_admitted=false.
+
+| Dataset | Rows | Pages | Expected contract-dates | Observed expected | Missing | Extra | Non-admitted jobs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| TradeStats | 1 007 214 | 1 075 | 6 076 | 6 040 | 36 | 86 | 18 |
+| OBStats | 1 060 735 | 1 123 | 6 076 | 6 068 | 8 | 116 | 19 |
+
+Empty jobs0, missing asset_code0, alias mismatches0. All observed timestamp keys lie
+on a five-minute grid; duplicate keys0. Grid alignment does not prove complete bars.
+Shared keys1 000331, TS-only6883, OB-only60404. Counts are observations, not independent
+experiments or trading decisions. Missing counterparts remain missing, not zero flow.
+
+| Год | TradeStats | OBStats | Совпадают | Только TS | Только OB |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 2020 | 159 932 | 171 204 | 157 371 | 2 561 | 13 833 |
+| 2021 | 173 949 | 176 756 | 173 257 | 692 | 3 499 |
+| 2022 | 143 109 | 173 329 | 143 109 | 0 | 30 220 |
+| 2023 | 175 967 | 173 820 | 172 995 | 2 972 | 825 |
+| 2024 | 171 302 | 177 724 | 170 850 | 452 | 6 874 |
+| 2025 | 182 955 | 187 902 | 182 749 | 206 | 5 153 |
+
+All selected TradeStats numeric fields are non-null in this source. OBStats depth/
+level fields are non-null, but real zero depth exists. Spread masks and signed values
+must remain explicit; negative spread is not proof of an executable arbitrage.
+These are existing source-audited field counts, not numeric recomputation by this
+metadata projection. Annual null counts are not inferred from cross-year summaries.
+
+| Актив | OB rows | Null L1 | Null L10 | Negative L1 | Negative L10 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| BR | 265 674 | 593 | 684 | 32 | 9 |
+| MIX | 263 978 | 1 691 | 2 565 | 35 | 0 |
+| RI | 265 451 | 6 928 | 7 699 | 24 | 0 |
+| SI | 265 632 | 1 931 | 2 087 | 33 | 0 |
+
+Total null L1/L10=11143/13035; negative L1/L10=124/9. Do not clamp or fill them.
+
+Notable calendar/key limitations: OBStats has extra2020-09-12 and lacks2020-10-06 for
+all four assets. It also contains2025 weekend SI keys without corresponding SI
+TradeStats. Thus OB row presence cannot establish an actual tradable session. The
+calendar discussion in the parent protocol is context, not a map correction.
+2022 has30220 OB-only keys; 2023 has2972 TS-only keys despite complete date coverage.
+Full per-asset/year tables and exact anomaly jobs are retained in quality.json.
+
+Historical available_at remains unknown, first-publication/revision proof absent,
+and all model/live flags remainfalse. No labels, returns, portfolio metrics or profit
+claim were computed. The proposed hypothetical historical screen awaits an explicit
+user choice on its availability assumptions; no default answer is treated as consent.
+A separately sealed contemporaneous FO collector remains the next unblocked source
+step, to preserve per-response receipt/validation times and immutable revisions.

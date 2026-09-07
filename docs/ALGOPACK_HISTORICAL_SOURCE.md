@@ -237,8 +237,13 @@ counts встречаются и сохранены. Отрицательный 
 Никакие значения/часы/инструменты по ним не подбирались, rows не удалялись.
 Source technical PASS означает доступ/формат/воспроизводимость, не economic signal.
 
-Следующий разрешённый шаг — новый resumable source-only historical collector 2020–2025
-на byte-pinned active-map contract ranges, с по-request provenance, rate pacing,
-новыми code/config seal и external outputs. Не расширять frozen sample CLI/config.
-После source quality — отдельный заранее зафиксированный economic diagnostic;
-original availability, личные ML rights и exact execution остаются отдельными gates.
+Этот следующий шаг уже выполнен: отдельный [history V1](ALGOPACK_FO_HISTORY_V1.md)
+завершил294jobs/2067949rows/2198pages по pinned active-map ranges. Global manifest SHA
+`f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`.
+Отдельный full replay PASS и [metadata quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md)
+тоже завершены: shared1000331/TS-only6883/OB-only60404. Date admission=false,
+null/negative spreads сохранены. Ни source, ни sample CLI/config не расширяются.
+Далее отдельный contemporaneous FO stream с доказанным receipt/validation clock
+и заранее фиксированный comparison с price-only baseline. Original availability,
+личные ML rights и exact execution остаются отдельными gates; hypothetical current-
+vintage model screen требует явно оговорённых допущений и отдельного разрешения.

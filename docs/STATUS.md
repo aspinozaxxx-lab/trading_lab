@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack history COMPLETE; quality V1 SEALED
+## Текущее действие — AlgoPack history и quality V1 COMPLETE
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -62,7 +62,18 @@ closure `b57b9b226d63842dd0a3c09bafcd98746bcd48f383324f53e0b1bb4558f260ba` (28fi
 config `8a6a356e4aac9c2b4643b7c7a1110a6047b6257d8d01b2918aeb560450d7c59e`.
 План: отдельный full source audit, затем five-column metadata projection /exactTS-OB
 alignment /counts по годам. Local187passed/3 Windows symlink skips, Ruff/closurePASS;
-новые Linux cases обязательны до report run. Quality result пока не заявляется.
+новые Linux cases проверены: server188/188, без skips. Pre-run commit/push `597da59`.
+Quality завершён один раз: unit `trading-lab-algopack-fo-quality-v1-b57b9b226d63.service`,
+handle12148 terminal success/exit0, 51.280s; invocation `1ccbf24f36ae4fdc953c58fa81157c03`.
+PrivateNetwork=yes, no env/key; отдельный full raw replay PASS и metadata projection.
+Canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_history_quality_v1_b57b9b226d63`;
+manifest SHA `26342273cc79f4d168486651ba6a2369bece2a12465c7dac2e7ba3eef3fe558a`,
+quality SHA `51b296bccb9c369baf54481fe6e726cfc5431a2ebd012fa24981df4b7c055a6a`.
+TradeStats1007214/OBStats1060735; shared keys1000331, TS-only6883, OB-only60404.
+Duplicate/off-grid/empty/alias issues0; source date admission=false (TS36missing/86extra,
+OB8missing/116extra contract-dates). Null L1/L10 spread11143/13035, negative124/9.
+Особенно важно: OBStats включает weekend SI keys без SI trades. Наличие стакана не
+доказывает торгуемую сессию. Таблицы по годам/активам — в quality protocol/report.
 Историю не перезапускать/не переписывать; audit берёт её exact manifest SHA.
 Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
@@ -107,7 +118,7 @@ SHA `e6b1372dcfe59dde395bb418f20f6391435ce54df488250a904c03384540f277`.
 До экономического seal/теста нужен датированный versioned corpus и PIT instrument map.
 Конкретный следующий шаг: [MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md).
 
-## AlgoPack PROMO — подтверждены 610 ₽/месяц, покупка отложена пользователем
+## История до покупки AlgoPack — проверка PROMO и временное откладывание
 
 2026-09-07 пользователь предложил рассмотреть подписку за 610 ₽, если она полезна.
 В открытой карточке [AlgoPack](https://data.moex.com/products/algopack) проверен тариф
@@ -122,7 +133,7 @@ HI2, Mega Alerts, онлайн стаканы/свечи/сделки и маш�
 к экрану входа DataShop; авторизация передана пользователю, никаких данных в поля входа
 не вводилось. Финальная сумма checkout, продление и платная оферта ещё не проверены.
 Условная готовность пользователя не считается акцептом договора, годовым бюджетом
-или разрешением на автопродление. Покупки, нового аккаунта и API key нет.
+или разрешением на автопродление. На том этапе покупки, нового аккаунта и API key не было.
 Письмо MOEX уже отправлено, повторять его не нужно. Подробности и следующий шаг —
 [DATA_ACCESS_REQUESTS.md](DATA_ACCESS_REQUESTS.md).
 
@@ -2628,7 +2639,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ## Очередь работ
 
-### P0 — AlgoPack history 2020–2025 после completed flow/depth sample
+### P0 — AlgoPack history/quality завершены; новая информация для проверки
 
 1. Ключ уже установлен на сервере; не просить повторно, не печатать и не переносить
    в local/Git/командные аргументы. Никаких дополнительных покупок/изменений тарифа.
@@ -2636,13 +2647,22 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    сохранить; ни одну версию не перезапускать ради улучшения результата.
 3. Flow/depth sample завершён, audit 11/11, exact parent coverage PASS. History тоже
    завершён: 294jobs/2067949rows, canonical SHA в начале STATUS. Не перезапускать.
-   Следующий отдельный full replay и metadata coverage/TS-OB alignment —
-   [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md), sealed; runtime сверять сверху.
+   Отдельный full replay и metadata coverage/TS-OB alignment тоже завершены —
+   [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md). Не повторять ради нового результата.
    Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
-   Старый forward collector для истории не запускать: latest=1, только 2026+.
-4. SYSTIME/retrieval/current-vintage не доказывают original availability; отдельные
-   economic time rules и sealed comparison с price-only baseline нужны до PnL.
-5. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
+4. Первый незаблокированный source шаг: новый отдельно sealed contemporaneous FO
+   collector на gpu-mlserver с actual current-contract metadata и per-response
+   receipt/validation timestamps, immutable revisions и pinned CA. Старый manual
+   FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
+   что установка ключа автоматически включила постоянный FO flow/depth timer.
+   Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.
+5. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
+   четырёх активов, continuous10min decisions с label-independent eligibility.
+   SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю
+   задан необязательный вопрос об явно оговорённом предварительном тесте; ответа пока
+   нет, согласие/default не предполагать. Без admission или явного исключения не
+   вычислять historical labels/model/PnL. Отдельный economic seal всё равно обязателен.
+6. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
    приобретение источника или технический PASS доказательством минимальных 20%.
 
 ### Следующая независимая ветка — бесплатный corpus индексных объявлений
