@@ -200,6 +200,10 @@
     intent/fill/mark replay, original durable observation evidence. No live backdating;
     forecast_recomputed=false, so execution-binding PASS is not full economic admission.
 
+58. [Forecast audit V1](docs/ALGOPACK_PAPER_FORECAST_AUDIT_V1.md) — raw source→original
+    features→pinned numerical models→exact candidate replay. Offline copies not live
+    backdating; FORECAST_RECOMPUTED alone does not prove economic/profit admission.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

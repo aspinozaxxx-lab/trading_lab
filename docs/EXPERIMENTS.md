@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Forecast numerical audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): exact original
+candidate reconstruction from raw sources/pinned models, no refit/backdating of live
+observations. Local1PASS/6Linux skips; server verification next. F=null, not profit proof.
+
 [Execution-binding audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): recompute saved
 intent/fill/mark from original durable source evidence, fail altered economic values.
 Pushed/deployed e01a84b:400/400related Linux tests UID999 PASS, включая10audit;

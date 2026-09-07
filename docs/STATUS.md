@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — offline execution-binding replay V1
+## Текущее действие — numerical forecast/source replay V1
+
+[Forecast audit V1](ALGOPACK_PAPER_FORECAST_AUDIT_V1.md): raw packet/flow replay,
+original availability reconstruction, fixed-model numeric recomputation and full
+candidate equality. Local1PASS/6Linux skips; server verification next. F=null.
+Следом combined economic audit/evaluation report wiring, official calendar/latency
+checks, complete pre-F config/seal and server service activation. No actual economic run.
+
+### Предшествующий этап — offline execution-binding replay V1
 
 [Execution audit V1](ALGOPACK_PAPER_EXECUTION_AUDIT_V1.md): source evidence→intent/fill/
 mark recomputation→full ledger parity. Pushed/deployed e01a84b:400/400related Linux
