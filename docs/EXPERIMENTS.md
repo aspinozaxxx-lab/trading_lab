@@ -1,6 +1,22 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO history V1 — RUNNING, source-only continuation
+## AlgoPack FO history quality V1 — SEALED, before source-only report
+
+- Parent history is complete; no historical economics/model run. New five-column
+  metadata projection binds the actual parent manifest, compares exact TS/OB keys,
+  preserves missing/extra dates and reports dataset/asset/year coverage.
+- Config SHA `8a6a356e4aac9c2b4643b7c7a1110a6047b6257d8d01b2918aeb560450d7c59e`;
+  28-file closure `b57b9b226d63842dd0a3c09bafcd98746bcd48f383324f53e0b1bb4558f260ba`.
+  Source SHA `f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`.
+- New module/runner independently reviewed; bounded per-contract key memory,
+  ordinary-path checks, immutable report staging and separate quality lock.
+  Full raw source replay must pass before metadata projection. Reports explicitly
+  distinguish replay, date coverage, exact key matching and historical availability.
+- Local targeted187passed/3 Windows symlink skips; Ruff/closure PASS. Before actual
+  run, deploy pushed bytes and execute Linux synthetic tests, including skipped cases.
+  No report result or economic admission claimed yet. [Protocol](ALGOPACK_FO_HISTORY_QUALITY_V1.md).
+
+## AlgoPack FO history V1 — COMPLETE, source-only continuation
 
 - Previous turn completed actual inventory/sample acquisition and audits; this turn
   expands fixed information scope to 2020–2025, not another threshold/model search.
@@ -17,10 +33,13 @@
   [ALGOPACK_FO_HISTORY_V1.md](ALGOPACK_FO_HISTORY_V1.md).
 - Pre-request commit `84a1661`; server101/101 tests, actual unprivileged preflightPASS,
   parent11/11, plan SHA `30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
-  Service `trading-lab-algopack-fo-history-v1-c5fb0b96b12d` launched once, verifiedlive.
-  Partial 06:50:59 UTC snapshot:51/294 complete jobs,174557 TradeStats rows, nofailure
-  records. Two date-coverage mismatches explicitlyreported; canonical notyetpublished.
-  No economics, no rerun/tuning of oldstrategies; continue observing same job.
+  Service `trading-lab-algopack-fo-history-v1-c5fb0b96b12d` completed once, exit0,
+  runtime25min57s; 294jobs/2067949rows/2198pages, committed retries0. Internal full raw
+  replay passed before canonical publication. Manifest SHA
+  `f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`;
+  canonical `data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d`.
+  source_date_coverage_admitted=false; date/field/key quality reported separately.
+  No economics, no rerun/tuning of old strategies, no invented historical availability.
 
 ## AlgoPack purchased by user — inventory V2 and flow/depth sample V1 COMPLETE
 

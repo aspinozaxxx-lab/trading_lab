@@ -122,7 +122,11 @@ Pre-request commit/push `84a1661`. Server tests101/101, включая Linux sym
 Preflight от trading-lab подтвердил closure21files, parent11/11, actual plan294jobs,
 147contracts, 2020-01-03..2025-12-30. Plan SHA
 `30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
-Реальный batch запущен, unit/working path/актуальный progress — [STATUS.md](STATUS.md).
+Реальный batch завершён: 294jobs, 2067949rows, 2198pages, retries0; exit0, 25min57s.
+Global manifest SHA `f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`,
+canonical `data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d`.
+Internal full raw replay пройден до публикации; date admission=false сохраняется.
+Отдельный source replay/metadata quality и actual result — [STATUS.md](STATUS.md).
 
 ## Дальнейший contemporaneous forward source — только review
 
@@ -138,3 +142,49 @@ response-completion/validation timestamps, immutable revisions/raw replay и CA 
 Никаких current SECID из старой 2025 карты. Новые данные можно допускать не раньше
 witnessed receipt/validation, SYSTIME оставить vendor metadata. Это будущая отдельная
 реализация, сейчас ни timer, ни current-market snapshot ею не создавались.
+
+## Partial calendar diagnosis — 2026-09-07, not a source correction
+
+Read-only snapshot at 06:53:17 UTC: 85 completed TradeStats jobs / 378668 rows,
+8 jobs with source_date_coverage_admitted=false, 18 missing and30 extra contract-dates,
+2768 extra-date rows. Missing asset codes0, alias mismatches0. This is partial coverage,
+not the final totals or a separate full raw replay.
+
+The first two discrepancies were BRV0 extra2020-09-11/14 (265 rows) and BRJ2
+missing2022-02-28/03-01. The pinned map and source are not changed. Official notices
+confirm the FO halt on [28 February](https://www.moex.com/n43241) and
+[1 March](https://cbr.ru/press/pr/?file=28022022_205401SUP_MEAS28022022_205427.htm),
+supporting a calendar explanation for those missing dates. They do not establish the
+reason for every later missing record. The [24 March notice](https://www.moex.com/n45532?nt=101)
+describes the changed index-contract regime; do not call all FO markets fully closed
+throughout that interval.
+
+FO weekend sessions began [16 August 2025](https://www.moex.com/n92862), initially
+excluding currency contracts. Officially those sessions form part of the following
+trading day. Extra Saturday/Sunday BR dates after that launch are consistent with
+weekend activity, but AlgoPack calendar-date versus exchange trading-day mapping is
+unresolved. Never silently shift dates, fill active-map gaps or discard these records.
+The extra September2020 Friday/Monday dates are not explained by weekend sessions;
+bounded official-notice search did not establish their cause.
+
+Current pages with historical publication stamps are calendar context, not proven
+original PIT versions. Additional full-history metadata/TS-OB checks are specified
+in [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md).
+
+## Prospective economic screen — design review only
+
+The concrete next hypothesis is incremental information from vendor buy/sell
+imbalance and opposing depth, conditional on the joint state of BR/MIX/RI/SI.
+Compare the same small fixed model with price-only versus price+flow/depth inputs
+before expensive neural training. Construct continuous ten-minute decision rows
+independently of future label availability; future missing exits remain unresolved.
+Avoid assigning aggressor semantics, absolute depth/flow units or bucket boundaries
+that are not confirmed by the supplier.
+
+No economic run is authorized by this source seal. AGENTS requires actual
+available_at<=decision_at; calling a return assay a "current-vintage diagnostic"
+does not create an exception. A separate economic seal is necessary but not
+sufficient to override missing availability evidence. Historical supervised testing
+awaits admission or an explicit user-approved research-policy exception, and would
+still not establish live causality. A separately sealed contemporaneous FO source
+can collect witnessed receipt/validation times without weakening historical flags.

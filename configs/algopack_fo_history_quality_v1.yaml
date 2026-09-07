@@ -1,0 +1,23 @@
+﻿{
+  "protocol_id": "algopack_fo_history_quality_v1",
+  "source": {
+    "path": "data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d",
+    "seal_sha256": "c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1",
+    "manifest_sha256": "f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4"
+  },
+  "metadata_columns": [
+    "dataset",
+    "requested_asset_code",
+    "secid",
+    "tradedate",
+    "tradetime"
+  ],
+  "expected_jobs": 294,
+  "expected_pairs": 147,
+  "output_parent": "data/processed/algopack_quality",
+  "source_only": true,
+  "current_vintage": true,
+  "historical_model_eligible": false,
+  "original_version_verified": false,
+  "live_trading_allowed": false
+}

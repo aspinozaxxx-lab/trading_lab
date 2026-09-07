@@ -3,7 +3,7 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack history V1 RUNNING на gpu-mlserver
+## Текущее действие — AlgoPack history COMPLETE; quality V1 SEALED
 
 Позднее 2026-09-07 пользователь сообщил о покупке подписки и передал API key с явным
 разрешением начать работу. Прежнее откладывание покупки больше не определяет очередь.
@@ -48,16 +48,22 @@ Pre-request commit/push `84a1661`; Linux tests101/101 (включая symlink ca
 runtime preflight от trading-lab PASS: 21 closure file, parent audit11/11, plan294jobs.
 Plan SHA `30a6f1729f5a0213f06595cf60309fef820bd75088ecb4240ab6ded13591c01f`.
 
-Реальный batch запущен один раз и подтверждён active/running, MainPID898406:
-`trading-lab-algopack-fo-history-v1-c5fb0b96b12d.service`;
-invocation `4168e5c2f6f741d0a3324715fb933c9d`, наблюдаемый exec handle36051.
-Working root `/srv/trading_lab_data/data/processed/algopack/.moex_algopack_fo_history_v1_c5fb0b96b12d.work`;
-canonical stem без начальной точки и `.work` пока отсутствует. На 06:50:59 UTC
-проверены 51 completed jobs / 174557 TradeStats rows, failure records0; два job имеют
-расхождение с active-map dates (2 missing и2 extra contract-dates), оно не скрывается.
-Это partial snapshot, не полный source PASS и не доказательство прибыли.
-Не запускать второй процесс после timeout/смены сессии. Сначала systemctl show этого
-unit; при terminal failure читать safe failures по exact path из server runbook.
+Batch завершён один раз: `success/exit0`, 25min57s, 294 jobs /2067949 rows /2198pages,
+committed retries0. Unit `trading-lab-algopack-fo-history-v1-c5fb0b96b12d.service`,
+invocation `4168e5c2f6f741d0a3324715fb933c9d`, handle36051 завершён. Collector выполнил
+полный raw replay перед atomic publication. Canonical:
+`/srv/trading_lab_data/data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d`;
+manifest SHA `f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4`.
+Source date admission=false: расхождения active-map dates сохранены, не исправлены.
+Это успешный технический сбор, не полное календарное покрытие и не доказательство alpha.
+
+Новый [metadata quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md) запечатан до своего run:
+closure `b57b9b226d63842dd0a3c09bafcd98746bcd48f383324f53e0b1bb4558f260ba` (28files),
+config `8a6a356e4aac9c2b4643b7c7a1110a6047b6257d8d01b2918aeb560450d7c59e`.
+План: отдельный full source audit, затем five-column metadata projection /exactTS-OB
+alignment /counts по годам. Local187passed/3 Windows symlink skips, Ruff/closurePASS;
+новые Linux cases обязательны до report run. Quality result пока не заявляется.
+Историю не перезапускать/не переписывать; audit берёт её exact manifest SHA.
 Цель доходности не достигнута; real trading/брокер не подключаются.
 Описание: [ALGOPACK_HISTORICAL_SOURCE.md](ALGOPACK_HISTORICAL_SOURCE.md).
 
@@ -2628,11 +2634,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    в local/Git/командные аргументы. Никаких дополнительных покупок/изменений тарифа.
 2. Inventory V2 завершён и audited 11/11, canonical path/SHA вверху. V1 failed staging
    сохранить; ни одну версию не перезапускать ради улучшения результата.
-3. Flow/depth sample завершён, audit 11/11, exact parent coverage PASS; два null spread
-   на контракт не заменять нулём. Запечатать новый resumable historical collector с
-   147 exact contract ranges из active map; проверка дат не позже 2025-12-31, complete
-   cursor, immutable per-request provenance и raw replay. Не запускать старый
-   forward collector для истории: он использует latest=1 и допускает только 2026+.
+3. Flow/depth sample завершён, audit 11/11, exact parent coverage PASS. History тоже
+   завершён: 294jobs/2067949rows, canonical SHA в начале STATUS. Не перезапускать.
+   Следующий отдельный full replay и metadata coverage/TS-OB alignment —
+   [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md), sealed; runtime сверять сверху.
+   Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
+   Старый forward collector для истории не запускать: latest=1, только 2026+.
 4. SYSTIME/retrieval/current-vintage не доказывают original availability; отдельные
    economic time rules и sealed comparison с price-only baseline нужны до PnL.
 5. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать

@@ -76,10 +76,14 @@
     four-contract flow/depth sample V1 тоже завершён: 1 348 rows, audit 11/11,
     source-only PASS с null spread mask. Далее history 2020–2025 и economic протокол.
     V1 failed staging сохранён. Старый forward collector для истории не ослаблять.
-30. [AlgoPack history V1](docs/ALGOPACK_FO_HISTORY_V1.md) — resumable batch 2020–2025
-    sealed/deployed; 147contracts/294jobs, actual service state проверять по STATUS.
-    Не дублировать живой writer. Source PASS не даёт PIT/economic admission; future
-    execution adapter должен отделить inference eligibility от future label validity.
+30. [AlgoPack history V1](docs/ALGOPACK_FO_HISTORY_V1.md) — batch 2020–2025 завершён,
+    294jobs/2067949rows, source date admission=false. Canonical не перезапускать.
+    Source PASS не даёт PIT/economic admission; future execution adapter должен
+    отделить inference eligibility от future label validity.
+31. [AlgoPack metadata quality V1](docs/ALGOPACK_FO_HISTORY_QUALITY_V1.md) — отдельный
+    full replay + exact TS/OB key alignment и date/missingness report. Новый closure
+    b57b9b226d63; runtime/result смотреть в STATUS. Ни matching keys, ни SYSTIME
+    не доказывают original availability; current-vintage flags не ослаблять.
 
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
