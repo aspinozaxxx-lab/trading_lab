@@ -3,7 +3,16 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — witnessed flow → forecast bridge V1
+## Текущее действие — fixed paper execution core V1
+
+[Execution V1](ALGOPACK_PAPER_EXECUTION_V1.md): fixed intent/sizing/cost buffer,
+causal quote-fill window и conditional1×/2× costs реализованы;28local synthetic tests PASS.
+Тариф broker3RUB условный, не подтверждённый. F=null; actual prices/forecasts/trades0.
+Следом dated BBO/session source, durable portfolio ledger/evaluation/runtime и full
+pre-F activation. Existing book exchange_date_verified=false нельзя вручную повысить.
+Server tests/deployment текущего core ещё pending; training/parents не менялись.
+
+### Предшествующий этап — witnessed flow → forecast bridge V1
 
 [Predictor V1](ALGOPACK_PAPER_PREDICTOR_V1.md): source replay/journal/actual receipt
 mapping и paired inference→durable publication соединены. Новый модуль требует себя

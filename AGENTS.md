@@ -140,6 +140,10 @@
     paired forecast. Require bridge bytes in complete activation; actual observation clocks,
     no labels and no execution. Runtime/server verification брать из STATUS, F пока=null.
 
+43. [Execution V1](docs/ALGOPACK_PAPER_EXECUTION_V1.md) — fixed paper intent/FOK/cost
+    primitives, не portfolio runtime. Broker fee assumption не подтверждённый тариф;
+    unresolved exits не удалять. Dated quote/session proof ещё нужны, F=null.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
