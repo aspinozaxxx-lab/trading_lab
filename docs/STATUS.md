@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — fixed-slot publication coverage V1
+## Текущее действие — ledger-derived daily snapshot V1
+
+[Daily snapshot V1](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md): fixed18:20window, coverage+
+anchored ledger counts+actual MTM, immutable report; late publication not evaluable.
+Local1PASS/6Linux skips, Ruff PASS; server verification next. F=null, activation нет.
+Следом runtime consumption/failure evidence, offline raw/economic replay и evaluation
+wiring, затем scheduler/full seal. Full daily replay latency пока не long-run SLA.
+
+### Предшествующий этап — fixed-slot publication coverage V1
 
 [Coverage V1](ALGOPACK_PAPER_COVERAGE_V1.md): fixed42×4 denominator, timely publication
 replay, missing/partial/late failures, independent arms и immutable daily report.

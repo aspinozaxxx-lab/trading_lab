@@ -176,6 +176,10 @@
     missing/failed включены в denominator. Publication coverage не execution coverage;
     holiday calendar, runtime consumption и ledger counts требуют отдельного evidence.
 
+52. [Daily snapshot V1](docs/ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md) — ledger-derived counts/
+    MTM/coverage in18:20:00–18:20:30Moscow. Late durable report не evaluable; original
+    builder clock не заменять report-read time. Full source-economic audit ещё нужен.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

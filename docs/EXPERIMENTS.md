@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Daily snapshot V1](ALGOPACK_PAPER_DAILY_SNAPSHOT_V1.md): coverage+replayed ledger
+counts+source-bound MTM in fixed window, late reports rejected. Local1PASS/6Linux
+skips, Ruff PASS; server tests next. F=null; no actual economic snapshot/result.
+
 [Coverage V1](ALGOPACK_PAPER_COVERAGE_V1.md): full42slots×4assets publication counts,
 including missing/failed, immutable report. Pushed/deployed0d5bc62:352/352related Linux
 tests UID999 PASS, включая8coverage; local2+encoding2PASS/6Linux skips, Ruff PASS.
