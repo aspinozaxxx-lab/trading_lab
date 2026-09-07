@@ -4,7 +4,10 @@
 
 [Unified runtime V1](ALGOPACK_PAPER_RUNTIME_V1.md): pump→selection/slot/daily tick,
 explicit initialization/check/serve, durable work reservations and sanitized stop/reopen.
-Local1PASS/6Linux skips, Ruff PASS; server tests next. F=null; service not activated.
+Pushed/deployed a1b4cd7:390/390related Linux tests UID999 PASS, включая7runtime;
+local1+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_RUNTIME_V1_RESULT.md). Actual CLI --check REFUSED
+без activation. F=null; service not activated, no actual market/economic run.
 
 [Flow selection V1](ALGOPACK_PAPER_FLOW_SELECTION_V1.md): fixed latest completed
 current-day capture, as-of metadata + full selected replay, no fallback on corruption.
