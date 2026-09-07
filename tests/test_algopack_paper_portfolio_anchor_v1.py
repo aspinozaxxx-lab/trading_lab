@@ -93,7 +93,7 @@ class TestAnchors:
     def test_orphan_command_is_retained_but_never_executed(self):
         session = self.initialized()
         with pytest.raises(ValueError):
-            session.append(operation="BOGUS", data={})
+            session.append(operation="BOGUS", data=dict(position="none"))
         reopened = self.open()
         assert reopened.snapshot()["sequence"] == 0
         self.mark(reopened)
