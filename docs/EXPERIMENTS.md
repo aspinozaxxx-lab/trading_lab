@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): activation-scoped current-day
+HTTP/durable journal/raw replay,14synthetic tests(local10PASS/4Linux skips).
+No actual authenticated request; report selection policy/admission still pending, F=null.
+
 [Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): raw calendar parsing/full
 coverage and page chronology, explicit unresolved and weekend scope, revision digest.
 21synthetic tests; pushed/deployed297d088:74/74related Linux tests UID999 PASS3.03s,

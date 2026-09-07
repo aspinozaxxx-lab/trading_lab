@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — calendar core V1
+## Текущее действие — calendar source V1
+
+[Calendar source V1](ALGOPACK_PAPER_CALENDAR_SOURCE_V1.md): current-day activation-gated
+HTTP adapter + immutable per-response journal + full raw/durable observation replay.
+Local10PASS/4Linux skips; server verification next. No actual API request/service,
+F=null. Далее sealed version-selection/amendment policy и report calendar binding,
+затем persistence/CLI, latency, complete activation. Не перезапускать обучение.
+
+### Предшествующий этап — calendar core V1
 
 [Calendar core V1](ALGOPACK_PAPER_CALENDAR_CORE_V1.md): реализованы closed URL/schema,
 raw pagination/chronology/complete-date replay и revision digest,21synthetic tests.
