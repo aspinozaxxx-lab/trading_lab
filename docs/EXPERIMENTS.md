@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): policy-derived period,
+full excluded-day ledger/exposure check before existing economic report.9synthetic tests
+(local1PASS/8Linux skips). No actual economic evaluation/activation, F=null.
+
 [Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): fixed09:00–09:05Moscow
 canonical version, whole-period unresolved gate, explicit exclusions, no late fallback.
 11synthetic tests(local3PASS/8Linux skips); pushed/deployedf908f0c:124/124related Linux

@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — calendar policy V1
+## Текущее действие — calendar-bound report V1
+
+[Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): expected days/digest
+только из calendar policy; unresolved blocks evaluation before economic reads.
+Full ledger replay rejects excluded-day activity/carried risk, including flat roundtrip.
+Local1PASS/8Linux skips; server verification next. F=null, no economic run.
+Далее runtime calendar scheduling, report persistence/CLI, latency и complete activation.
+
+### Предшествующий этап — calendar policy V1
 
 [Calendar policy V1](ALGOPACK_PAPER_CALENDAR_POLICY_V1.md): canonical weekday attempt
 09:00–09:05Moscow, no fallback/revision replacement; complete F-to-end decision ledger.
