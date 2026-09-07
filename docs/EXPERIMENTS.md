@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack FO publication metadata V1 — SEALED, pre-run
+
+- New evidence: vendor says SYSTIME is publication time; revision semantics unresolved.
+- Fixed six-column projection after full parent replay; publication-year/calendar
+  distribution, post2025 timestamps, descriptive naive label gaps, no model/outcomes.
+- Closure `b07f521403456484656a1de2b62801665d1449cd941aa781af0d5f8c9f7b5db5` (34files); new synthetic31/31.
+- [Protocol](ALGOPACK_FO_PUBLICATION_METADATA_V1.md); not run yet.
+
 ## AlgoPack vendor clarification — новое свидетельство, не economic run
 
 2026-09-07 прочитан ответ MOEX на ранее отправленную цепочку: personal use confirmed,

@@ -1,0 +1,38 @@
+﻿{
+  "protocol_id": "algopack_fo_publication_metadata_v1",
+  "source_path": "data/processed/algopack/moex_algopack_fo_history_v1_c5fb0b96b12d",
+  "source_seal_sha256": "c5fb0b96b12d77f5c01b1625b0b9b7ab582ed82d09117dc6217d577de33751d1",
+  "source_manifest_sha256": "f50fa60a6986070d45f6a69555076df1f5748d09b70407131591740e77425fb4",
+  "expected_rows": 2067949,
+  "expected_jobs": 294,
+  "expected_pairs": 147,
+  "expected_pages": 2198,
+  "columns": [
+    "dataset",
+    "requested_asset_code",
+    "secid",
+    "tradedate",
+    "tradetime",
+    "SYSTIME"
+  ],
+  "label_gap_seconds_bins": [
+    "negative",
+    "[0,60)",
+    "[60,300)",
+    "[300,600)",
+    "[600,3600)",
+    "[3600,86400)",
+    ">=86400"
+  ],
+  "publication_holdout_boundary": "2026-01-01",
+  "output_parent": "data/processed/algopack_quality",
+  "vendor_statement": "SYSTIME is publication time; per-version correction policy unresolved",
+  "evidence_doc": "docs/ALGOPACK_VENDOR_REPLY_20260907.md",
+  "publication_clock_timezone_verified": false,
+  "label_gap_is_measured_delivery_latency": false,
+  "source_only": true,
+  "current_vintage": true,
+  "historical_model_eligible": false,
+  "original_version_verified": false,
+  "live_trading_allowed": false
+}

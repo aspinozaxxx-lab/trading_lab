@@ -15,6 +15,11 @@ FO OrderStats полный продукт только ожидается пос
 SYSTIME (без prices/labels/PnL) на уже собранных inputs. Ни canonical history, ни
 cohort quality повторно не запускать. User exploratory exception всё ещё не подтверждён.
 
+Новый [publication metadata V1](ALGOPACK_FO_PUBLICATION_METADATA_V1.md) sealed до
+анализа SYSTIME:34-file closure `b07f521403456484656a1de2b62801665d1449cd941aa781af0d5f8c9f7b5db5`;
+новые tests31/31, пока не run. Только6metadata fields после полного parent replay.
+Следующее действие — deploy pushed bytes, Linux tests, один PrivateNetwork report.
+
 ## AlgoPack witnessed quality COMPLETE, два scheduled PASS
 
 Второй scheduled capture12:13UTC подтверждён:
