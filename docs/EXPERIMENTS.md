@@ -4,8 +4,11 @@
 
 [Daily evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): fixed complete calendar,
 18:20Moscow daily marks, independent missing-arm masks,1×/2× descriptive metrics,
-no annualization before252sessions+365days, no target promotion.17local synthetic tests
-PASS; server pending. No actual economic report; evidence-bound snapshot reader still needed.
+no annualization before252sessions+365days, no target promotion. Pushed/deployede014b7a:
+307/307related Linux tests отUID999 PASS, включая17evaluation; local17+encoding2PASS,
+Ruff PASS.3SHA match, training44/witnessed7 unchanged.
+[Server result](ALGOPACK_PAPER_EVALUATION_V1_RESULT.md). No actual economic report;
+evidence-bound snapshot reader still needed.
 
 [Portfolio state/replay V1](ALGOPACK_PAPER_PORTFOLIO_V1.md) implemented: reservations,
 liquidation-value MTM, closed1×/2× cash, unresolved masks, sequential immutable journal

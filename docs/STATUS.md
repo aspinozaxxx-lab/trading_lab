@@ -8,7 +8,9 @@
 [Evaluation V1](ALGOPACK_PAPER_EVALUATION_V1.md): полный calendar denominator, daily
 snapshots18:20Moscow, missing/unresolved masks, independent arms/costs, total return/
 daily MDD/годовые returns. CAGR/Sharpe только252sessions+365days, без promotion.
-17local synthetic tests PASS, Ruff PASS; server pending. F=null, actual economic results0.
+Pushed/deployede014b7a:307/307related Linux tests отUID999 PASS, включая17evaluation;
+local17+encoding2PASS, Ruff PASS.3deployed SHA match; training44/witnessed7 unchanged.
+[Server result](ALGOPACK_PAPER_EVALUATION_V1_RESULT.md). F=null, actual economic results0.
 Следом integrated source-evidence runtime/daily snapshot builder, recovery/anchors и
 fixed stability/forecast evaluation. Pure metrics не доказывают переданный ledger SHA.
 
