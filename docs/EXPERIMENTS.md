@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Witnessed flow→forecast [predictor bridge V1](ALGOPACK_PAPER_PREDICTOR_V1.md) implemented:
+replayed source projection, durable source references, actual observation availability,
+target-free paired inference and forecast publication. Local1PASS/10Linux skips;
+server integration pending. No economic result, actual F=null, no production activation.
+
 Activation verifier + full packet capture V1: [details](ALGOPACK_PAPER_CAPTURE_V1.md).
 Pushed/deployed43c4cd9; Linux211/211 related tests PASS; отдельно21/21 отUID999 PASS.
 [Server verification and hashes](ALGOPACK_PAPER_CAPTURE_V1_RESULT.md).

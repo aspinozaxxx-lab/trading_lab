@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — activation verifier + full packet capture V1
+## Текущее действие — witnessed flow → forecast bridge V1
+
+[Predictor V1](ALGOPACK_PAPER_PREDICTOR_V1.md): source replay/journal/actual receipt
+mapping и paired inference→durable publication соединены. Новый модуль требует себя
+в activation closure; production registry отсутствует, F=null. Local1PASS/10Linux skips;
+далее pushed server synthetic integration. Actual market requests/forecasts/trades0.
+Следом fixed execution/evaluation/runtime; не повторять training/source audits.
+
+### Предшествующий этап — activation verifier + full packet capture V1
 
 [Capture V1](ALGOPACK_PAPER_CAPTURE_V1.md) соединяет market source с immutable journal,
 полным raw replay и source→model clock mapping. Activation verifier требует будущие

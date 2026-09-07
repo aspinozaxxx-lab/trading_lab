@@ -136,6 +136,10 @@
     replay/journal/model-input adapter. Production forward activation/config/seal ещё
     отсутствуют; verifier требует execution/evaluation/runtime. F не выдумывать.
 
+42. [Predictor bridge V1](docs/ALGOPACK_PAPER_PREDICTOR_V1.md) — witnessed flow→journal→
+    paired forecast. Require bridge bytes in complete activation; actual observation clocks,
+    no labels and no execution. Runtime/server verification брать из STATUS, F пока=null.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
