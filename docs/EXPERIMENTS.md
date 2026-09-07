@@ -6,6 +6,9 @@
 entry/exit regressions reproduce shared quote aging at2s/request on old arm-first order;
 same-contract grouping fixes both, local4PASS/6Linux skips. No economics/threshold
 change or production latency claim. Remaining serial transport/scheduler timing, F=null.
+Pushed/deployed7947d2e:71/71related Linux tests UID999 PASS6.96s, encoding2/Ruff PASS,
+3SHA match, parent seals verified, prior pump retained.
+[Server result](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_RESULT.md).
 
 [Report store/CLI V1](ALGOPACK_PAPER_REPORT_STORE_V1.md): immutable report publication,
 offline lifetime lock before recovery,8tests(local2PASS/6Linux skips). No actual report,

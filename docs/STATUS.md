@@ -8,7 +8,9 @@
 [Shared quote latency fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md): arm-first
 ordering aged shared quotes across other asset HTTP calls.2synthetic regressions failed
 old code; grouped same contract/due/type contiguously, both PASS. Local4PASS/6Linux skips.
-Server verification next; old pump must be retained/new bytes pinned pre-F.
+Pushed/deployed7947d2e:71/71related Linux tests UID999 PASS6.96s; encoding2/Ruff PASS,
+3SHA match, parent seals verified. Old pump retained; current SHA b26a2768… must be
+pinned pre-F. [Server result](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_RESULT.md).
 Still no production SLA:4serial10s requests can exceed30s, slot blocking also to check.
 F=null. Далее timing/interference verification and complete activation/service setup.
 
