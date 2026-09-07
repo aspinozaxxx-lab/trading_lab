@@ -56,4 +56,39 @@ readonly. Output parent `/srv/trading_lab_data/data/processed/algopack_quality`,
 
 ## Результат
 
-Не запущено. Статус и canonical identities обновить после фактического run.
+Завершено один раз после pre-run commit/push `3078c31`. Local358passed/4 Windows
+symlink skips, Linux360/360, Ruff/closure PASS. Run12:14:26UTC 2026-09-07,
+PrivateNetwork=yes, без env/key, unit
+`trading-lab-algopack-fo-witnessed-quality-v1-64cc5d369fd0.service`, terminal
+success/exit0, runtime1.420s. Canonical:
+`/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_witnessed_quality_v1_64cc5d369fd0`.
+Manifest SHA `4b9cc6fe93d902e42c0fb817faec40c8fb3f3e523b46c86772afed6a3d2babd5`.
+Inputs SHA `02356ae7a7cac4e0bb4725d218a28483f6ecd2652cbab92810e7861af9a026b0`;
+quality SHA `3d57f0bd594f02d837a98c8111bd101f8c2b5a9f9a8dac82e1bfb4acc41c424b`;
+versions gzip SHA `bcfd4c3ed8c192386cd5de6c4b1da9ff6d5decb6ad15be222346877b3bb67657`.
+
+| Capture UTC | Rows | New keys | Reobservations | Shared TS/OB | OB-only |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 11:56:59 manual | 4865 | 4865 | 0 | 2329 | 207 |
+| 12:03:00 scheduled | 4881 | 16 | 4865 | 2337 | 207 |
+| 12:13:00 scheduled | 4913 | 32 | 4881 | 2353 | 207 |
+
+Всего4913unique keys,14659version observations,9746reobservations. Feature revisions,
+SYSTIME-only/other metadata changes, dropped/reappeared keys, missing/alias issues0.
+TS-only0 во всех трёх. Все selected numeric поля nonnull на этом cohort, но реальные
+zero buy/sell fields сохранены. Negative spread_l1/l10 =19/3 в каждом снимке: это
+повторные записи, нельзя суммировать их как57/9unique anomalies или трактовать как
+отрицательную стоимость исполнения. Семантика/feature admission требуют отдельного
+обоснования, исходные значения не исправлены и не clipped.
+
+Все3parent full replays PASS. Независимая report-only проверка artifact hashes,
+unique/repeated cardinality, feature-revision hashes, first-observed timestamps,
+capture timestamps и неизменных source manifests тоже PASS. Incomplete captures0.
+Два scheduled запуска действительно наблюдены, не подменены manual commands.
+
+Verdict: SOURCE DIAGNOSTIC COMPLETE; prediction/historical/live=false. Нулевые
+revisions на коротком cohort не подтверждают отсутствие revisions вообще. Этот
+cohort не переанализировать ради нового результата; не строить очередную короткую
+quality версию вместо экономической проверки. Перед historical screen нужно
+подтверждение causal availability или явное разрешение пользователя на exploratory
+assumptions; отдельный economic seal остаётся обязательным.

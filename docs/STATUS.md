@@ -3,7 +3,25 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack witnessed V1 manual + первый scheduled PASS
+## Текущее действие — AlgoPack witnessed quality COMPLETE, два scheduled PASS
+
+Второй scheduled capture12:13UTC подтверждён:
+`20260907T121300596553Z_881ff271b008`, 4913rows/16pages,
+manifest `8e4c7721b54dc6fb8ca61b5affc0da89edc326ba3ccec8d2bdd00256827df807`.
+Новый [witnessed quality](ALGOPACK_FO_WITNESSED_QUALITY_V1.md) завершён один раз,
+pre-run commit/push3078c31, local358passed/4 Windows skips, Linux360/360.
+Три full source replays PASS + independent version-index/hash/receipt check PASS.
+4913unique keys/14659version observations/9746reobservations; new keys4865/16/32.
+Feature/SYSTIME/metadata revisions0, dropped/reappeared/missing/alias0 на этом cohort.
+Shared TS/OB2329/2337/2353, OB-only207, TS-only0. Negative spread_l1/l10=19/3 в
+каждом снимке, сохранены как unresolved для feature/execution semantics, не как
+отрицательные trading costs. Не суммировать повторные source rows как unique samples.
+Canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_witnessed_quality_v1_64cc5d369fd0`;
+manifest `4b9cc6fe93d902e42c0fb817faec40c8fb3f3e523b46c86772afed6a3d2babd5`.
+Run terminal success12:14:26UTC,1.420s. Timer active/waiting next12:23UTC;
+incomplete captures0. Не повторять quality cohort; prediction/historical/live=false.
+
+### Хронология запуска witnessed source
 
 Новый [witnessed source](ALGOPACK_FO_WITNESSED_V1.md) подготовлен отдельно от frozen
 истории и старых collectors: current RFUD/series discovery, 8 exact SECIDs,
@@ -24,16 +42,16 @@ Manifest SHA `d0e031f1e03599aa72cb0d9d1d84a78742e373bb574195918693363cd596d740`.
 Manifest SHA `de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4`;
 встроенный replay и отдельный PrivateNetwork audit PASS. Manual manifest неизменён,
 incomplete attempts0. Timer active/waiting, LastTrigger12:03UTC, next12:13UTC.
-Второй scheduled capture ещё проверить; не подменять его ручным запуском.
+Этот ранний checkpoint superseded подтверждённым вторым capture и quality вверху.
 Существующие15timers не изменялись (всего теперь16), локальные tasks не включались.
 Historical/model/live flags=false; source PASS не доказывает прибыль или PIT историю.
 
 Новый [witnessed quality V1](ALGOPACK_FO_WITNESSED_QUALITY_V1.md) sealed до анализа:
 три фиксированных captures до12:14UTC, separate unique/repeated/revised versions,
 полный parent replay и immutable receipt index. Closure
-`64cc5d369fd0e49efff57dddbfbd2657679e1abcd7453fc59f53d38b4a70c40e`; local17/17, пока не run.
-После подтверждения второго scheduled capture и12:14UTC: deploy pushed bytes,
-Linux tests, один PrivateNetwork source-only report. Это не historical model admission.
+`64cc5d369fd0e49efff57dddbfbd2657679e1abcd7453fc59f53d38b4a70c40e`; pre-run local17/17.
+План выполнен: PrivateNetwork source-only report завершён, canonical/SHA вверху.
+Это не historical model admission; повторный run запрещён.
 
 ## AlgoPack history и quality V1 COMPLETE
 
@@ -2684,10 +2702,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
 4. [Witnessed FO source V1](ALGOPACK_FO_WITNESSED_V1.md) запечатан и deployed,
    manual capture/replay PASS, новый timer enabled. Следующий operational gate:
-   первый scheduled capture12:03UTC уже PASS (canonical/SHA вверху); проверить второй
-   scheduled capture12:13UTC 2026-09-07, source manifest/audit и timestamps. Затем
-   отдельный forward coverage/revision/availability quality protocol перед inference.
-   Не запускать вручную вместо ожидаемого timer.
+   два scheduled captures12:03/12:13UTC и fixed three-capture quality COMPLETE
+   (canonical/SHA вверху). Не повторять их и не строить ещё одну короткую проверку
+   тех же снимков. Источник продолжает сбор; model/execution gates не сняты.
+   Никаких дополнительных manual captures вместо timer.
    Старый manual
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.

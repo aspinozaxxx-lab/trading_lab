@@ -91,6 +91,11 @@
     Status/runtime проверять в STATUS; история/старые timers не заменяются. Vendor
     date labels и SYSTIME не превращать в original publication или bucket completion.
 
+33. [Witnessed quality V1](docs/ALGOPACK_FO_WITNESSED_QUALITY_V1.md) — COMPLETE,
+    fixed3captures,4913unique/14659versions; revisions0 на коротком cohort не означают
+    no-revisions guarantee. Negative L1/L10 spreads19/3 не превращать в отрицательные
+    costs. Canonical не повторять; economic/model admission остаётся отдельным gate.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

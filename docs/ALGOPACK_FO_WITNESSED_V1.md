@@ -38,7 +38,14 @@ Manifest SHA `de98c9d66227585abc9148f22b07c3086fadf853857079ccc8e6fd0bd2bedba4`.
 Новый PID1954189 был наблюдён running от timer, затем terminal success; встроенный
 replay и отдельный PrivateNetwork audit PASS. Manual manifest SHA не изменился,
 incomplete attempts0. На12:04UTC next trigger12:13UTC; второй scheduled capture
-ещё не подтверждён. Повторно полученные строки не суммировать как unique observations.
+тогда ещё не был подтверждён. Повторно полученные строки не суммировать как unique observations.
+
+Update12:15UTC: второй scheduled capture `20260907T121300596553Z_881ff271b008`
+подтверждён, 4913rows/16pages,12:13:13.449847UTC available_at. Manifest
+`8e4c7721b54dc6fb8ca61b5affc0da89edc326ba3ccec8d2bdd00256827df807`.
+Оба scheduled capture прошли full replay; [quality V1](ALGOPACK_FO_WITNESSED_QUALITY_V1.md)
+дополнительно перепроверил все3captures и сохранил exact version/receipt index.
+Operational initial gate выполнен; это не оценка стабильности по полным сессиям.
 
 Audit без ключа/сети:
 

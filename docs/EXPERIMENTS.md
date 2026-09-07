@@ -1,13 +1,21 @@
 ﻿# Реестр экспериментов
 
-## AlgoPack FO witnessed quality V1 — SEALED, pre-run
+## AlgoPack FO witnessed quality V1 — COMPLETE, source-only
 
 - Fixed three-capture cohort through12:14UTC 2026-09-07; no economics/outcomes.
 - Separate unique keys, reobservations, numeric revisions, SYSTIME-only changes;
   immutable version receipt index, no zero-fill or vendor-time backdating.
 - Closure `64cc5d369fd0e49efff57dddbfbd2657679e1abcd7453fc59f53d38b4a70c40e`, 12files.
   Synthetic17/17, RuffPASS. Parent full replay required for all three inputs.
-- [Protocol](ALGOPACK_FO_WITNESSED_QUALITY_V1.md); not run yet.
+- Pre-run commit/push3078c31, local358passed/4 Windows skips, Linux360/360.
+- Completed12:14:26UTC, PrivateNetwork/no env/no key, success1.420s; three parent
+  full replays plus independent report/index/hash/receipt verification PASS.
+- Unique4913/version observations14659/reobservations9746; new4865/16/32;
+  revisions0, missing/alias/dropped/reappeared0, OB-only207 per capture, TS-only0.
+  Negative L1/L10 spreads19/3 per capture preserved, not negative trading costs.
+- Manifest `4b9cc6fe93d902e42c0fb817faec40c8fb3f3e523b46c86772afed6a3d2babd5`,
+  canonical `/srv/trading_lab_data/data/processed/algopack_quality/algopack_fo_witnessed_quality_v1_64cc5d369fd0`.
+- [Protocol](ALGOPACK_FO_WITNESSED_QUALITY_V1.md); no prediction/historical/live admission.
 
 ## AlgoPack FO witnessed V1 — manual PASS, timer enabled
 
