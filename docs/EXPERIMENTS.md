@@ -3,8 +3,10 @@
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
 [Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): full source-bound MARK с actual
-post-commit freshness; missing/corrupt не подменяются старой ценой. Local1PASS/7Linux
-skips, Ruff PASS; Linux verification next. No economic run, F=null; daily snapshot
+post-commit freshness; missing/corrupt не подменяются старой ценой. Pushed/deployed
+c9093ab:344/344related Linux tests UID999 PASS, включая8mark-refresh; local1+encoding2
+PASS/7Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_MARK_REFRESH_V1_RESULT.md). No economic run, F=null; daily snapshot
 и complete-calendar decision denominator ещё требуются.
 
 [Execution bridge V1](ALGOPACK_PAPER_EXECUTION_BRIDGE_V1.md): source references и actual

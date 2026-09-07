@@ -7,8 +7,10 @@
 
 [Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): source replay всех открытых
 позиций → anchored MARK → actual post-commit liquidation valuation. Missing/corrupt
-source заменяет old mark на None, unresolved exit сохраняется. Local1+encoding pending/
-7Linux skips, Ruff PASS; server tests next. F=null; actual activation отсутствует.
+source заменяет old mark на None, unresolved exit сохраняется. Pushed/deployed c9093ab:
+344/344related Linux tests UID999 PASS, включая8mark-refresh; local1+encoding2PASS/
+7Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_MARK_REFRESH_V1_RESULT.md). F=null; activation отсутствует.
 Следом durable decision coverage, ledger-derived daily snapshots/offline evidence
 replay и scheduler до полного seal. Оперативная MTM ещё не daily evaluation snapshot.
 
