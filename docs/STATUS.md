@@ -3,7 +3,19 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — AlgoPack witnessed quality COMPLETE, два scheduled PASS
+## Текущее действие — прочитан ответ MOEX о публикации AlgoPack
+
+2026-09-07 около12:22UTC через открытую почту найден и прочитан ответ
+`algopack@moex.com` на исходный запрос. [Сводка и точные ограничения](ALGOPACK_VENDOR_REPLY_20260907.md).
+Подтверждены личное использование и SYSTIME как время публикации. Уточнения о
+том, обновляется ли timestamp при исправлении исторической версии, нет.
+FO OrderStats полный продукт только ожидается поставщиком до конца года; не считать
+доступным сейчас. Письмо не является model/live admission. Новых сообщений не отправлено.
+Следующий безопасный source шаг: отдельно sealed metadata-only audit исторического
+SYSTIME (без prices/labels/PnL) на уже собранных inputs. Ни canonical history, ни
+cohort quality повторно не запускать. User exploratory exception всё ещё не подтверждён.
+
+## AlgoPack witnessed quality COMPLETE, два scheduled PASS
 
 Второй scheduled capture12:13UTC подтверждён:
 `20260907T121300596553Z_881ff271b008`, 4913rows/16pages,
@@ -2701,7 +2713,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    [quality V1](ALGOPACK_FO_HISTORY_QUALITY_V1.md). Не повторять ради нового результата.
    Пропуски не заменять нулём, date admission=false не превращать в полный PASS.
 4. [Witnessed FO source V1](ALGOPACK_FO_WITNESSED_V1.md) запечатан и deployed,
-   manual capture/replay PASS, новый timer enabled. Следующий operational gate:
+   manual capture/replay PASS, новый timer enabled. Начальный operational gate выполнен:
    два scheduled captures12:03/12:13UTC и fixed three-capture quality COMPLETE
    (canonical/SHA вверху). Не повторять их и не строить ещё одну короткую проверку
    тех же снимков. Источник продолжает сбор; model/execution gates не сняты.
@@ -2710,13 +2722,18 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    FUTOI/latest collector и dispatcher не включают этот stream; не утверждать,
    что установка ключа автоматически включила постоянный FO flow/depth timer.
    Никаких current SECID из2025 карты и protected2026 prices/labels/PnL.
-5. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
+5. Первый незаблокированный новый source шаг: по [ответу MOEX](ALGOPACK_VENDOR_REPLY_20260907.md)
+   SYSTIME означает publication time. Создать отдельный sealed metadata-only audit
+   этого поля в completed history2020–2025 (без prices/outcomes), связать с точным
+   parent manifest и показать поздние/post-2025 timestamps. Не менять frozen source,
+   не объявлять revision/original-version гарантию из общего определения поля.
+6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
    четырёх активов, continuous10min decisions с label-independent eligibility.
    SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю
    задан необязательный вопрос об явно оговорённом предварительном тесте; ответа пока
    нет, согласие/default не предполагать. Без admission или явного исключения не
    вычислять historical labels/model/PnL. Отдельный economic seal всё равно обязателен.
-6. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
+7. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
    приобретение источника или технический PASS доказательством минимальных 20%.
 
 ### Следующая независимая ветка — бесплатный corpus индексных объявлений

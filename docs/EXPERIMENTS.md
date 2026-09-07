@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## AlgoPack vendor clarification — новое свидетельство, не economic run
+
+2026-09-07 прочитан ответ MOEX на ранее отправленную цепочку: personal use confirmed,
+SYSTIME described as publication time; per-revision timestamp/original vintages
+не объяснены. Historical/model/live flags не повышены, no new email/purchase.
+[Сводка](ALGOPACK_VENDOR_REPLY_20260907.md). Следующий допустимый source шаг —
+отдельный publication timestamp metadata audit, без outcome/model чтения.
+
 ## AlgoPack FO witnessed quality V1 — COMPLETE, source-only
 
 - Fixed three-capture cohort through12:14UTC 2026-09-07; no economics/outcomes.

@@ -96,6 +96,11 @@
     no-revisions guarantee. Negative L1/L10 spreads19/3 не превращать в отрицательные
     costs. Canonical не повторять; economic/model admission остаётся отдельным gate.
 
+34. [Ответ MOEX 2026-09-07](docs/ALGOPACK_VENDOR_REPLY_20260907.md) — personal use
+    подтверждено, SYSTIME описан поставщиком как publication time. Revision timestamp
+    updates/original vintages всё ещё не объяснены; не повышать frozen admission.
+    Короткое уточнение только подготовлено, не отправлено; разрешение не предполагать.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

@@ -7,6 +7,11 @@ API key. Прежнее откладывание покупки и отсутс�
 
 ## Секрет и область использования
 
+Update2026-09-07: [прочитан ответ поставщика](ALGOPACK_VENDOR_REPLY_20260907.md).
+Личное использование подтверждено; SYSTIME назван временем публикации данных.
+Обновление SYSTIME при revisions и original-version history не объяснены. Старые
+sealed flags не повышаются; следующий source шаг — publication metadata audit.
+
 Ключ установлен через скрытый SSH-ввод в `/etc/trading-lab/collector.env` на
 `gpu-mlserver`; имя переменной `MOEX_ALGOPACK_TOKEN`, файл `root:trading-lab 0640`.
 Значение не помещается в Git, local `.env`, аргументы команд, manifest, raw или journal.
