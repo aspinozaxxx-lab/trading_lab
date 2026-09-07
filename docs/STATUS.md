@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — source-to-execution integration
+## Текущее действие — actual benign service sandbox verified
+
+[Systemd sandbox result](ALGOPACK_PAPER_SYSTEMD_SANDBOX_RESULT.md): pushed dbf2bfc,
+transient synthetic service copied production sandbox/cleanup properties, no secrets.
+UID999 import succeeded; outside write denied, inside0600, same parent/child cgroup.
+SIGTERM-resistant child killed and both processes absent after15.085s; expected timeout
+state reset for exact synthetic unit. Server1PASS15.68s. Production unit/activation absent.
+Далее complete pre-F closure/publication prerequisites. F=null, no income admission.
+
+### Предшествующий этап — source-to-execution integration
 
 [Execution path measurement](ALGOPACK_PAPER_EXECUTION_PATH_RESULT.md): raw synthetic
 HTTP→actual source replay/pool/due/bridge→two-arm entry/exit→anchored recovery,6events,

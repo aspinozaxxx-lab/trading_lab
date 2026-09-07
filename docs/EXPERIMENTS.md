@@ -2,6 +2,12 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Benign service sandbox](ALGOPACK_PAPER_SYSTEMD_SANDBOX_RESULT.md): dbf2bfc,
+actual transient unit UID999/read-only protection/private writes/control-group cleanup.
+Deliberately SIGTERM-resistant child terminated after15.085s, both PIDs/cgroup empty;
+expected timeout is not a production failure. Server1PASS15.68s. No real credential,
+model/source/activation access or production service install/start. F=null.
+
 [Source-to-execution integration](ALGOPACK_PAPER_EXECUTION_PATH_RESULT.md): pushed511d348,
 real raw replay/pool/due/anchored fills with synthetic signal/HTTP/process handles.
 Both arms enter/exit once,6ledger events, restart equality. Server1PASS2.21s and related
