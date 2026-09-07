@@ -7,6 +7,7 @@ import time
 from datetime import timedelta
 from pathlib import Path
 
+from market_lab.futures import algopack_paper_calendar_policy_v1 as calendar
 from market_lab.futures import algopack_paper_daily_snapshot_v1 as daily
 from market_lab.futures import algopack_paper_due_pump_v1 as pump
 from market_lab.futures import algopack_paper_flow_selection_v1 as flow
@@ -17,11 +18,11 @@ from market_lab.futures.algopack_paper_alignment_v1 import MOSCOW
 bridge, journal = pump.bridge, pump.journal
 PROTOCOL = "algopack_paper_runtime_v1"
 DATA_ROOT = Path("/srv/trading_lab_data/data/forward/algopack-paper-v1")
-COMPONENTS = ("market", "control", "ledger", "attempts", "scheduler", "reports")
+COMPONENTS = ("market", "control", "ledger", "attempts", "scheduler", "reports", "calendar")
 
 
 def ready(activation):
-    for module in (daily, pump, flow, slots):
+    for module in (daily, pump, flow, slots, calendar):
         module.ready(activation)
     files = journal._decode((activation.project / BUNDLE).read_bytes())["files"]
     name = "src/market_lab/futures/algopack_paper_runtime_v1.py"
@@ -84,6 +85,12 @@ class Runtime:
             self.valid = False
             raise RuntimeError("scheduled work failed; reopen required") from None
 
+    def capture_calendar(self):
+        reference = calendar.capture(
+            self.session, self.root / "calendar", self.activation, token=self.token
+        )
+        return dict(status="RECORDED_CALENDAR_NOT_REPORT_ADMITTED", reference=reference)
+
     def forecast(self, end, key):
         selection = flow.select_and_import(self.root / "market", self.activation)
         self.record(key + "_selection", state="FLOW_SELECTION", result=selection)
@@ -133,7 +140,10 @@ class Runtime:
             day = now.astimezone(MOSCOW).date()
             work = None
             if day.weekday() < 5:
-                if daily.window(day) <= now <= daily.window(day) + timedelta(seconds=30):
+                calendar_begin, calendar_end = calendar.window(day)
+                if calendar_begin <= now < calendar_end:
+                    work = self.work(calendar.key(day), self.capture_calendar)
+                elif daily.window(day) <= now <= daily.window(day) + timedelta(seconds=30):
                     work = self.work("daily_" + day.strftime("%Y%m%d"), lambda: self.snapshot(day))
                 else:
                     for end in slots.coverage.slots(day):

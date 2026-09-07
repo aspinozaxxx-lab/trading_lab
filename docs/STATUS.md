@@ -3,7 +3,15 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — calendar-bound report V1
+## Текущее действие — runtime calendar integration
+
+[Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): dedicated calendar
+component, fixed morning canonical work, pump-first, no retry/backfill after restart.
+Unactivated runtime updated; local4PASS/13Linux skips across runtime/startup/calendar.
+Server verification next; retain old runtime, pin new bytes in future activation.
+F=null. Далее report persistence/CLI, latency и complete pre-F activation/service.
+
+### Предшествующий этап — calendar-bound report V1
 
 [Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): expected days/digest
 только из calendar policy; unresolved blocks evaluation before economic reads.

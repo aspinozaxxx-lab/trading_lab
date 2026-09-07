@@ -2,6 +2,10 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): fixed canonical
+morning attempt and private component;8new tests, local4PASS/13Linux skips including
+runtime/startup regression suites. No actual activation/calendar collection, F=null.
+
 [Calendar-bound report V1](ALGOPACK_PAPER_CALENDAR_REPORT_V1.md): policy-derived period,
 full excluded-day ledger/exposure check before existing economic report.9synthetic tests
 (local1PASS/8Linux skips). Pushed/deployed99762b7:111/111related Linux tests UID999
