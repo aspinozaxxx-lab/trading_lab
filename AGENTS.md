@@ -119,6 +119,11 @@
     [executable training V1](docs/ALGOPACK_PAPER_TRAINING_V1.md): paired Ridge/separate labels,
     44-file seal до fit. Runtime/run status брать из STATUS; no historical PnL, F=null.
 
+38. [Future inference V1](docs/ALGOPACK_PAPER_INFERENCE_V1.md) — pure adapter с fixed model
+    hashes, arm-specific coverage и deadline. COMPUTED_NOT_PERSISTED не означает
+    опубликованный forecast/fill. До source/writer/execution/evaluation seals F=null;
+    training COMPLETE не повторять, actual runtime брать из STATUS.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.

@@ -3,7 +3,18 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — paired training V1 TRAINED_NOT_EVALUATED
+## Текущее действие — future inference core V1, ещё без real forecasts
+
+[Inference core V1](ALGOPACK_PAPER_INFERENCE_V1.md) реализован: exact model hashes,
+last-as-of source versions, отдельная baseline/full eligibility, no target API,
+post-calculation deadline и явный COMPUTED_NOT_PERSISTED/execution=false.
+New20synthetic tests, local89/89 с related model/alignment/runner+encoding, Ruff PASS.
+Дальше deploy/Linux tests и model-only decode на сервере; затем новый future source,
+durable forecast writer и fixed execution/evaluation seal. F=null; actual forecasts0.
+Official docs подтверждают authorized apim real-time candles/orderbook в отличие от
+15min anonymous candles; actual account entitlements ещё не проверены price request.
+
+### Предшествующий этап — paired training V1 TRAINED_NOT_EVALUATED
 
 [Первое AlgoPack обучение завершено](ALGOPACK_PAPER_TRAINING_V1_RESULT.md): две fixed Ridge
 20price/40price+flow features на одинаковых56996joint rows2020–2025, из63588candidate rows.
@@ -16,8 +27,8 @@ Independent artifact/scaler/mask/Ridge-equation/provenance audit PASS, all9 arti
 Actual <=2025 prices/labels теперь читались только для authorized training; forecasts/trades=0,
 CAGR/Sharpe/MDD=N/A. Canonical/sealed code не повторять/не tune-ить. Цель20%/50% не достигнута.
 
-Следующий bounded шаг — future inference adapter с exact frozen model identities,
-arm-specific eligibility и новый price/source/execution/evaluation protocol. F пока=null;
+Inference adapter теперь реализован; следующий bounded шаг — новый price/source/
+execution/evaluation protocol и durable forecast writer. F пока=null;
 до всех новых seals старые2026 prices/labels закрыты. Подробнее — result note выше.
 
 ### Предшествующий этап — price inputs COMPLETE
