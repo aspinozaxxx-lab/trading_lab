@@ -8,7 +8,10 @@
 [Runtime calendar integration](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1.md): dedicated calendar
 component, fixed morning canonical work, pump-first, no retry/backfill after restart.
 Unactivated runtime updated; local4PASS/13Linux skips across runtime/startup/calendar.
-Server verification next; retain old runtime, pin new bytes in future activation.
+Pushed/deployedcff39e5 + test-only6988394:81/81related Linux tests UID999 PASS4.73s.
+Initial2FAIL were backward synthetic clock fixture, corrected before final PASS.
+3SHA match, parent seals verified; old runtime retained, current runtime SHA79a1e87d…
+must be pinned in future activation. [Server result](ALGOPACK_PAPER_RUNTIME_CALENDAR_V1_RESULT.md).
 F=null. Далее report persistence/CLI, latency и complete pre-F activation/service.
 
 ### Предшествующий этап — calendar-bound report V1
