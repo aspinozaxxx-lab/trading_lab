@@ -9,8 +9,12 @@
 bounded apim candles/book/specs routes, post-F Moscow-midnight request rule,
 whole-table timestamp-before-numeric candle guard, explicit empty terminal pagination,
 book/spec masks и bounded TLS transport без retries/redirects/body leaks.
-70новых synthetic tests; related local149/149 +encoding, Ruff PASS. Дальше pushed
-deployment/Linux tests, затем full activation/capture/writer/execution/evaluation runtime.
+70новых synthetic tests; related local149/149 +encoding, Ruff PASS. Pushed/deployed197c9e0,
+Linux147/147 PASS. Все5deployed file hashes совпали с local; parent training closure44/44
+и public application CA hash PASS отUID999, HTTP requests0. Core SHA
+`6a83db1d6a3523b8028032c539baf1e41f9fae167f0cc407ed8b561dfa630cc5`, transport
+`c7d9207a279e892ae51831ed1b11fd577bc55c52fb91c9ad6ce20ee2704449a8`.
+Далее full activation/capture/writer/execution/evaluation runtime, не повторение parser tests.
 НЕТ collector CLI/timer/actual requests: F=null, prices_read=false для нового источника.
 VALIDATED_NOT_PERSISTED/available_at=null не позволяет использовать ответ для inference.
 
