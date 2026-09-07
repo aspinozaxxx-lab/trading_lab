@@ -7,8 +7,10 @@
 
 [Scheduler interference](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1.md): synchronous slot
 can block next pump beyond existing30s exit window; late-start120s/40s synthetic cases
-model delays60s/39s even with immediate reopen.4test matrix added; server verification
-next. This is a readiness defect, not production SLA or economic evidence.
+model delays60s/39s even with immediate reopen. Pushed/deployedd1f3776:23/23related
+Linux tests UID999 PASS2.13s, including4cases;2SHA match, encoding2/Ruff PASS.
+[Reproduction result](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1_RESULT.md).
+PASS confirms the readiness defect, not production SLA or economic evidence.
 Next separate bounded source/model work from execution owner (or prove cooperative
 nonblocking bounds); do not loosen fill freshness/deadlines. F=null.
 

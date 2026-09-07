@@ -6,6 +6,8 @@
 4injected-clock scenarios exercise actual scheduler/reopen. Two late starts predict
 exit servicing after30s. Tests characterize a remaining defect, not a successful
 latency gate; no market data or economic run. F=null.
+Pushed/deployedd1f3776:23/23related Linux tests UID999 PASS2.13s,2SHA match,
+encoding2/Ruff PASS. [Reproduction result](ALGOPACK_PAPER_SCHEDULER_INTERFERENCE_V1_RESULT.md).
 
 [Due-pump quote aging fix](ALGOPACK_PAPER_DUE_PUMP_LATENCY_FIX_20260908.md):2synthetic
 entry/exit regressions reproduce shared quote aging at2s/request on old arm-first order;
