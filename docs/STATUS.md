@@ -3,7 +3,15 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — source-bound mark refresh V1
+## Текущее действие — fixed-slot publication coverage V1
+
+[Coverage V1](ALGOPACK_PAPER_COVERAGE_V1.md): fixed42×4 denominator, timely publication
+replay, missing/partial/late failures, independent arms и immutable daily report.
+Local2PASS/6Linux skips, Ruff PASS; server verification next. F=null; activation нет.
+Следом scheduled ledger-derived daily snapshots, runtime consumption/failure evidence
+и offline raw/economic replay, затем scheduler/full seal. Publication ≠ execution.
+
+### Предшествующий этап — source-bound mark refresh V1
 
 [Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): source replay всех открытых
 позиций → anchored MARK → actual post-commit liquidation valuation. Missing/corrupt

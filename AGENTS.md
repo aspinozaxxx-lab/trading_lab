@@ -172,6 +172,10 @@
     source-bound MARK, missing replaces old mark, actual post-commit valuation clock.
     Оперативная MTM не daily snapshot; fresh quote не закрывает unresolved exit.
 
+51. [Forecast coverage V1](docs/ALGOPACK_PAPER_COVERAGE_V1.md) — fixed42slots×4assets,
+    missing/failed включены в denominator. Publication coverage не execution coverage;
+    holiday calendar, runtime consumption и ledger counts требуют отдельного evidence.
+
 На вопрос «на чём остановились?» отвечай по `docs/STATUS.md`, при необходимости сверяя
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
