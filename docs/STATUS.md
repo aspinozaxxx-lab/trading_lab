@@ -3,7 +3,18 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — actual benign service sandbox verified
+## Текущее действие — prospective config fixed
+
+[Forward protocol](ALGOPACK_PAPER_FORWARD_PROTOCOL_V1.md) and production-named config
+created without activation/seal/F. Config SHA256
+`be0a3263cd555cdca6a4f99dfeaf7f37f481549ce74af7daf38056d513b4774b`.
+Pushed/deployed f4ee4f9 exact4files; local config3+encoding2 PASS, Ruff/diff PASS;
+server config/activation/runtime23PASS1.38s UID999. Fixed existing model identities,
+execution/evaluation constants and unverified fee assumption; no tuning/retraining.
+Implementation snapshot is descriptive, not parameter overrides. Далее complete
+transitive bundle seal and genuinely future activation publication. No HTTP/model IO.
+
+### Предшествующий этап — actual benign service sandbox verified
 
 [Systemd sandbox result](ALGOPACK_PAPER_SYSTEMD_SANDBOX_RESULT.md): pushed dbf2bfc,
 transient synthetic service copied production sandbox/cleanup properties, no secrets.

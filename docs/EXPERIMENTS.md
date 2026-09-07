@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Prospective config](ALGOPACK_PAPER_FORWARD_PROTOCOL_V1.md): production-named JSON and
+sidecar created, exact model IDs and existing constant contract, F=null. Pushed/deployed
+f4ee4f9; local5PASS, server23PASS1.38s UID999. ConfigSHA be0a3263cd55…; no bundle or
+activation yet, no model/source execution. Next complete transitive seal/publication.
+
 [Benign service sandbox](ALGOPACK_PAPER_SYSTEMD_SANDBOX_RESULT.md): dbf2bfc,
 actual transient unit UID999/read-only protection/private writes/control-group cleanup.
 Deliberately SIGTERM-resistant child terminated after15.085s, both PIDs/cgroup empty;
