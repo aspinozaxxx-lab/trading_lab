@@ -3,8 +3,10 @@
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
 [Coverage V1](ALGOPACK_PAPER_COVERAGE_V1.md): full42slots×4assets publication counts,
-including missing/failed, immutable report. Local2PASS/6Linux skips, Ruff PASS;
-server verification next. F=null; no economic run, consumption/trades не доказаны.
+including missing/failed, immutable report. Pushed/deployed0d5bc62:352/352related Linux
+tests UID999 PASS, включая8coverage; local2+encoding2PASS/6Linux skips, Ruff PASS.
+3SHA match, parents44/7 unchanged. [Server result](ALGOPACK_PAPER_COVERAGE_V1_RESULT.md).
+F=null; no economic run, consumption/trades не доказаны.
 
 [Mark refresh V1](ALGOPACK_PAPER_MARK_REFRESH_V1.md): full source-bound MARK с actual
 post-commit freshness; missing/corrupt не подменяются старой ценой. Pushed/deployed

@@ -7,7 +7,9 @@
 
 [Coverage V1](ALGOPACK_PAPER_COVERAGE_V1.md): fixed42×4 denominator, timely publication
 replay, missing/partial/late failures, independent arms и immutable daily report.
-Local2PASS/6Linux skips, Ruff PASS; server verification next. F=null; activation нет.
+Pushed/deployed0d5bc62:352/352related Linux tests UID999 PASS, включая8coverage;
+local2+encoding2PASS/6Linux skips, Ruff PASS.3SHA match, parents44/7 unchanged.
+[Server result](ALGOPACK_PAPER_COVERAGE_V1_RESULT.md). F=null; activation нет.
 Следом scheduled ledger-derived daily snapshots, runtime consumption/failure evidence
 и offline raw/economic replay, затем scheduler/full seal. Publication ≠ execution.
 
