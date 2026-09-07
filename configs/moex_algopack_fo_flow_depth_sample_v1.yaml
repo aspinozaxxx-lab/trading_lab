@@ -1,0 +1,17 @@
+﻿protocol_id: moex_algopack_fo_flow_depth_sample_v1
+sample_date: '2024-10-15'
+contracts: [SiZ4, RIZ4, BRX4, MXZ4]
+columns:
+  tradestats: [tradedate, tradetime, secid, asset_code, SYSTIME, trades, trades_b, trades_s, vol, vol_b, vol_s, val, val_b, val_s, disb]
+  obstats: [tradedate, tradetime, secid, asset_code, SYSTIME, spread_l1, spread_l10, levels_b, levels_s, vol_b_l1, vol_s_l1, vol_b_l10, vol_s_l10]
+max_pages_per_contract_dataset: 10
+request_interval_seconds: 0.5
+protected_holdout_start: '2026-01-01'
+asset_code_missing_policy: preserve_null_or_empty_and_flag
+source_only: true
+historical_model_eligible: false
+live_trading_allowed: false
+parent_inventory:
+  path: data/processed/algopack/moex_algopack_fo_historical_inventory_v2_1da8655bf03d
+  seal_sha256: 1da8655bf03da09c5c6670951d3acb9acfc77536e48f9b0f9e38aae3439d09f4
+  manifest_sha256: 89896f3a1647db6a7d1c794cc98745dec48123a4dbe6355baccfac2d8894f242

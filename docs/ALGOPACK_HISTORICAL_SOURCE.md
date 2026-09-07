@@ -199,3 +199,21 @@ spec-proxy identities уже перечислены в `futures_v32_curve_regime
 До economics отдельно pin-ить transitive data/code, trade clock, execution/costs,
 expanding train/test и честный статус current-vintage diagnostic. Искусственный лаг
 не превращает неизвестное first-publication time в подтверждённую PIT историю.
+
+Sample pre-request config SHA
+`1817e7b63bd97e0ff674ee8e4c340aa84d376a9aebb0c1adc542307a12af4580`, closure SHA
+`49502b17c35a3739b24000c5ef0bed7fd6795cbc024f6cbd263f1b55914bd33d`.
+Local targeted 110/110, включая sample 37/37; Ruff clean; независимый static review
+не нашёл critical defects. Parent hash/replay проверяется ещё раз на сервере до сети.
+Sample V1 не рассчитывает total-vs-buy/sell discrepancies; это отдельная последующая
+source-quality проверка, не уже пройденный численный gate.
+
+Metadata-only план расширения проверен на gpu-mlserver с active-map SHA выше: период
+2020-01-03..2025-12-30, 1 519 дат × 4 актива = 6 076 плановых asset-day строк.
+По SECID: BR 72, SI/RI/MIX по 25, всего 147. Missing/empty metadata и duplicate asset-date
+нет; decision_date=observed_through<effective_date (1–5 календарных дней). Каждый SECID
+образует непрерывный участок active-map. 147 min/max диапазонов × 2 dataset = 294
+задания до пагинации; вариант contract-year — 334, подневный — 12 152.
+Это покрытие плана, не доказанные торговые дни или наличие flow/depth; tradability и
+рыночные значения не читались. Контракты с expiry-суффиксом 6 допустимы лишь для
+наблюдений строго до 2026; нельзя отсеивать/допускать строку только по имени контракта.
