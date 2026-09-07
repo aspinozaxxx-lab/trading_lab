@@ -1,0 +1,8 @@
+﻿{
+  "protocol_id": "algopack_paper_forward_v1",
+  "future_start": "2026-09-08T21:00:00+00:00",
+  "published_at": "2026-09-07T23:58:15+00:00",
+  "bundle_sha256": "adbce32835959587eac3b0c0653ea3b6e5d2e32c8248a5bc3a0d88202304ec85",
+  "model_manifest_sha256": "028b2cead7111868ef345987e696be2d70aadd8bbaa0a8233ff676dd38fd7527",
+  "live_trading_allowed": false
+}
