@@ -3,7 +3,10 @@
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
 Activation verifier + full packet capture V1: [details](ALGOPACK_PAPER_CAPTURE_V1.md).
-Local18PASS/3Linux integration skips; next server tests. Source responses stored separately,
+Pushed/deployed43c4cd9; Linux211/211 related tests PASS; отдельно21/21 отUID999 PASS.
+[Server verification and hashes](ALGOPACK_PAPER_CAPTURE_V1_RESULT.md).
+Local18PASS/3Linux integration skips.5deployed SHA match; training44/witnessed7 parent
+closure PASS. Missing actual activation verified REFUSED without HTTP. Source responses stored separately,
 replayed before COMPLETE, observed availability propagated into model inputs. Actual
 production activation absent/F=null, no HTTP/forecast/trade or income result.
 

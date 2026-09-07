@@ -8,9 +8,16 @@
 [Capture V1](ALGOPACK_PAPER_CAPTURE_V1.md) соединяет market source с immutable journal,
 полным raw replay и source→model clock mapping. Activation verifier требует будущие
 execution/evaluation/runtime files и transitive parents; registry/config пока отсутствуют,
-F=null. Local18PASS/3Linux integration skips; далее pushed deployment/server tests.
+F=null. Pushed/deployed43c4cd9; Linux211/211 related tests PASS, отдельно21/21 activation/
+capture tests отUID999 PASS. Local18PASS/3Linux integration skips. Все5deployed SHA
+совпали с local; training44/witnessed7 parent files unchanged. [Server result](ALGOPACK_PAPER_CAPTURE_V1_RESULT.md).
+Missing production
+activation реально проверена от service user: REFUSED до HTTP. Проверки только synthetic.
 Actual HTTP/forecasts/trades0, новых ключей/config activation/timers не создавалось.
 Неблокирующе запрошены broker/tariff для комиссии; пока ответ не получен, его не выдумывать.
+Следующий шаг: witnessed flow→journal→inference bridge и synthetic end-to-end forecast,
+затем fixed execution/evaluation/runtime и единая activation до начала нового периода.
+Не повторять завершённые тесты/обучение как новый эксперимент. Новая доходность не измерена.
 
 ### Предшествующий этап — immutable paper journal V1
 
