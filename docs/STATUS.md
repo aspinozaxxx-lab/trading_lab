@@ -12,7 +12,8 @@ AUTHORIZATION gate снят; повторно согласие не спраши
 Следующий шаг — обоснованный time/schema mapping и изолированный feature/label adapter,
 затем executable protocol и input closure до обучения на gpu-mlserver.
 
-[Alignment V1](ALGOPACK_PAPER_ALIGNMENT_V1.md) реализован:38 synthetic tests,
+[Alignment V1](ALGOPACK_PAPER_ALIGNMENT_V1.md) реализован:local38 + encoding2 PASS,
+server38/38 PASS после commit/push `3f5f397`, Ruff PASS. Есть
 отдельные online receipt / current-vintage training selectors, five flow/depth features
 и независимые60m labels без future-target inference filtering. Official SDK трактует
 tradetime как конец5m interval; Moscow mapping пока явное paper assumption, не гарантия

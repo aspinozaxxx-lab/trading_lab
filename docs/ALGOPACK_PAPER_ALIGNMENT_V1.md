@@ -92,5 +92,9 @@ service terminal success/exit0. Это operational property check, не новы
    Existing price streams2026 не открывать для разработки. Net ledger и costs нужны до
    экономической оценки; прогнозы и38 synthetic tests не доказывают прибыль.
 
-Local tests38/38, Ruff PASS; encoding suite проверяется с остальными handoff changes.
+Local tests38/38 + encoding2/2, Ruff/diff check PASS. Commit/push `3f5f397` предшествовал
+переносу только нового core/test через git archive и `tar --keep-old-files`.
+На gpu-mlserver synthetic38/38 PASS за0,09с; никакие source/model runs не запускались.
+Transfer вне Git: `D:/Projects/trading_lab_data/transfers/algopack_paper_alignment_v1_3f5f397.tar`;
+server `/tmp/trading_lab_algopack_paper_alignment_v1_3f5f397.tar`.
 Core ещё не economic-sealed; следующие правки до первого source/model run допустимы.

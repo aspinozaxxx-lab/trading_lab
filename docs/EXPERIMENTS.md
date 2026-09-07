@@ -5,7 +5,8 @@
 2026-09-07 пользователь явно согласился на archive-training assumption и новый future-only
 paper период после code/config/model seals. [Точный scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md).
 Прежний2026 закрыт, retrospective AlgoPack CAGR/live запрещены.
-[Alignment V1](ALGOPACK_PAPER_ALIGNMENT_V1.md) реализован, synthetic38/38/Ruff PASS:
+[Alignment V1](ALGOPACK_PAPER_ALIGNMENT_V1.md) реализован, synthetic local38/server38,
+encoding2/2, Ruff PASS; pre-server commit/push `3f5f397`:
 online vs training availability раздельны, source timestamps не backdated, future labels
 не входят в inference selector. SDK end-label evidence найден; full calendar/source
 admission не объявлен. На сервере найдены matching top/4asset manifests старого OHLCV
