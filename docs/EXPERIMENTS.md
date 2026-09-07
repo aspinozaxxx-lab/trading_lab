@@ -2,9 +2,19 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+Training V1 COMPLETE17:46:26.964097UTC, **TRAINED_NOT_EVALUATED**:
+[result](ALGOPACK_PAPER_TRAINING_V1_RESULT.md). Fixed price-only/full Ridge обучены на
+одинаковых56996rows2020–2025, candidate63588. Canonical server run
+`/srv/trading_lab_data/runs/algopack-paper-training/algopack_paper_training_v1_bb95784a169f`,
+manifest SHA `028b2cead7111868ef345987e696be2d70aadd8bbaa0a8233ff676dd38fd7527`.
+Seal44files `bb95784a169fd4c163c5df4ada231404321ea6e8bf5b8271425e0c869b7ebca2`,
+pre-run bfc7860; Linux250tests PASS; independent output/model/count audit PASS.
+Forecasts/trades0, CAGR/Sharpe/MDD=N/A, F=null, live=false. No model selection/backtest.
+Следующий шаг future inference/source/execution/evaluation, не повторное обучение.
+
 Paired training V1 implemented/sealed before actual value load: [protocol](ALGOPACK_PAPER_TRAINING_V1.md),
 44-file closure; config SHA `fb29aabbc6533db879c302173929ff90aa0e962c1fa2d50365d5cc90897948f8`.
-New29synthetic tests, combined local106pass/1skip; next Linux tests and one isolated fit.
+New29synthetic tests, combined local106pass/1skip; subsequent Linux tests/fit COMPLETE выше.
 No historical PnL, no2026 labels, F=null; success can only be TRAINED_NOT_EVALUATED.
 
 Price input preparation COMPLETE17:17:59UTC:662files/79219007bytes,1699545source rows,

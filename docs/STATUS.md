@@ -3,14 +3,22 @@
 Обновлено: **2026-09-07**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — paired training V1 SEALED, далее Linux tests и один fit
+## Текущее действие — paired training V1 TRAINED_NOT_EVALUATED
 
-[Executable protocol](ALGOPACK_PAPER_TRAINING_V1.md) реализован и sealed до real values:
-44-file closure, config SHA `fb29aabbc6533db879c302173929ff90aa0e962c1fa2d50365d5cc90897948f8`.
-Model/projection tests29/29, общий local106passed/1Linux-onlyskip, encoding/Ruff PASS.
-Actual models/labels ещё не загружались; следующее действие — pushed code deployment,
-Linux synthetic tests, затем один isolated training run от trading-lab без сети/ключа.
-Canonical path определяется seal12; не перезапускать/не overwrite при ошибке.
+[Первое AlgoPack обучение завершено](ALGOPACK_PAPER_TRAINING_V1_RESULT.md): две fixed Ridge
+20price/40price+flow features на одинаковых56996joint rows2020–2025, из63588candidate rows.
+Started17:44:46.513872UTC, completed17:46:26.964097UTC, server service success/0, no network.
+Seal44files `bb95784a169fd4c163c5df4ada231404321ea6e8bf5b8271425e0c869b7ebca2`,
+canonical `/srv/trading_lab_data/runs/algopack-paper-training/algopack_paper_training_v1_bb95784a169f`.
+Manifest SHA `028b2cead7111868ef345987e696be2d70aadd8bbaa0a8233ff676dd38fd7527`.
+Pre-run pushed bfc7860; Linux105/105 target tests, расширенные250/250; local249pass/3skip.
+Independent artifact/scaler/mask/Ridge-equation/provenance audit PASS, all9 artifact hashes PASS.
+Actual <=2025 prices/labels теперь читались только для authorized training; forecasts/trades=0,
+CAGR/Sharpe/MDD=N/A. Canonical/sealed code не повторять/не tune-ить. Цель20%/50% не достигнута.
+
+Следующий bounded шаг — future inference adapter с exact frozen model identities,
+arm-specific eligibility и новый price/source/execution/evaluation protocol. F пока=null;
+до всех новых seals старые2026 prices/labels закрыты. Подробнее — result note выше.
 
 ### Предшествующий этап — price inputs COMPLETE
 
@@ -25,7 +33,7 @@ local77passed/1skip, Linux76/76. [Подробности и failure history](ALG
 Зафиксированная [paired training specification](ALGOPACK_PAPER_TRAINING_SPEC_V1.md):
 20price vs40price+flow features, два fixed Ridge alpha10, одинаковые2020–2025 training
 rows, separate labels/provenance; минимум5000joint rows. Executable config/code/
-input seal теперь подготовлен; server tests и training ещё впереди. Никакого
+input seal и первый server training теперь COMPLETE. Никакого
 ретроспективного AlgoPack CAGR. Сборку root/metadata preparation повторять нельзя.
 
 ### Основание и предшествующая реализация
