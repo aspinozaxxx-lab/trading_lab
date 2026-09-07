@@ -8,8 +8,10 @@
 [Paper service](ALGOPACK_PAPER_SERVICE.md): explicit activation-SHA instance, runtime V2
 check-before-serve, whole-cgroup cleanup, private instance write scope, no automatic
 restart/init/boot admission. Offline reporting handoff documented. Local service3 and
-encoding2 tests PASS. Server syntax verification pending; template not installed or
-started, F=null. Далее integrated timing/sandbox checks and complete pre-F activation.
+encoding2 tests PASS. Pushed ad371f3, exact3files deployed to repository only;
+systemd-analyze verify PASS on server255, service+runtime14tests PASS1.37s UID999,
+all3SHA match. Template not installed in systemd or started, activation absent, F=null.
+Далее integrated timing/sandbox checks and complete pre-F activation.
 
 ### Предшествующий этап — integrated asynchronous runtime V2
 

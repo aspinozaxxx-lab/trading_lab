@@ -4,8 +4,9 @@
 
 [Server service preparation](ALGOPACK_PAPER_SERVICE.md): V2 activation instance,
 control-group child cleanup, only instance root writable, no auto restart or genesis.
-Local3static contract +2encoding tests PASS; server verification pending. No install,
-start, activation, HTTP, model read or economic outcome. F=null.
+Local3static contract +2encoding tests PASS; ad371f3 deployed only to code repository,
+systemd-analyze verify PASS, server14service/runtime tests PASS1.37s UID999,3SHA match.
+No systemd install/start, activation, HTTP, model read or economic outcome. F=null.
 
 [Integrated async runtime V2](ALGOPACK_PAPER_RUNTIME_V2.md): due-first orchestration,
 background preparation/slot, maintenance guards and child cleanup.11new tests include
