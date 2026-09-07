@@ -3,7 +3,9 @@
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
 [Dated BBO/calendar source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md) implemented,
-local25PASS/2Linux skips; source→journal→execution intent server tests pending.
+local25+encoding2PASS/2Linux skips; pushed/deployed5f86c8f:277/277related tests отUID999
+PASS, включая27source tests.3SHA match; training44/witnessed7 closures unchanged.
+[Server result](ALGOPACK_PAPER_EXECUTION_SOURCE_V1_RESULT.md).
 New route keeps dated vendor BBO separate from old undated book; explicit schema/date/
 unknown session/clearing failures. F=null, no actual source HTTP, no economic result.
 

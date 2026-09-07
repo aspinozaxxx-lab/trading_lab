@@ -7,8 +7,11 @@
 
 [Execution source V1](ALGOPACK_PAPER_EXECUTION_SOURCE_V1.md): joint dated BBO/specs,
 calendar terminal pagination/clearing masks, bounded activation-gated transport,
-per-response journal и replay→Quote/Terms/Session. Local25PASS/2Linux skips, Ruff PASS;
-server deployment/tests pending. F=null; actual requests/forecasts/trades0.
+per-response journal и replay→Quote/Terms/Session. Pushed/deployed5f86c8f:277/277related
+Linux tests отUID999 PASS, включая27source tests. Local25+encoding2PASS/2Linux skips,
+Ruff PASS.3deployed hashes match, training44/witnessed7 parents unchanged.
+[Server result](ALGOPACK_PAPER_EXECUTION_SOURCE_V1_RESULT.md). F=null;
+actual requests/forecasts/trades0, production activation отсутствует/verifier REFUSED.
 Реальные calendar titles/schema/entitlement ещё не наблюдались; не угадывать их.
 Следом portfolio ledger/evaluation/runtime, не новый source-only audit или обучение.
 
