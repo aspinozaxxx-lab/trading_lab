@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## V66 — fast volume-information contest, prepared before outcomes
+## V66 R1 — fast volume-information contest COMPLETE, 4 rejected / 0 Stage2 candidates
 
 [Protocol](V66_FAST_VOLUME_CONTEST.md): four fixed OHLCV hypotheses with price-only
 ablation, joint BR/RI/SI portfolio, three already-open eras, two cost scenarios.
@@ -9,7 +9,14 @@ Local 10 new + 8 parent + 2 encoding tests PASS; Ruff PASS; server 10 PASS. Push
 `bde5238` before first run, which failed in nullable contract episode reporting before
 ledger/metrics publication. Failed root `..._307db9d6583e` preserved with 3 input/feature/
 target files. [R1](V66_COUNTING_REPAIR_R1.md) is reporting-only: 3 regression + 10 parent
-tests PASS locally; new seal/root, no economic rule change. R1 not yet run.
+tests PASS locally and on server; new seal/root, no economic rule change.
+[Complete result](V66_FAST_VOLUME_RESULT.md): pushed `b3507f6` before one full R1 run;
+26.79 s economic computation, all 48 runs complete/flat, all 4 hypotheses rejected.
+Recent primary 1×/2× CAGR: reversal −0.006/−0.029%, continuation −0.787/−0.888%,
+thin-breakout fade −0.100/−0.110%, compressed-volume −0.027/−0.029%.
+Input checks 45/45; artifact hashes 173/173; saved-NAV metric replays 48/48.
+Canonical `/srv/trading_lab_data/runs/v66_fast_volume_contest_v1_9cf51b328e26`;
+metrics SHA `cf3e4c305841029b840a1d1988033d4a973c23de04e35e261b0c0e17f90c6535`.
 No post-outcome sign/window/asset/weight selection; passing means Stage2 candidature only.
 
 ## V65 — fast strategy contest COMPLETE, 4 rejected / 0 Stage2 candidates
