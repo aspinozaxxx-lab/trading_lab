@@ -38,3 +38,32 @@ requires actual future observations. Target20–50% annual income remains unveri
 To cancel only this scheduled startup: `systemctl disable --now
 trading-lab-paper-bootstrap-20260909.timer`. Do not stop other collectors. This does not
 stop an already running paper service or erase any evidence.
+
+## Read-only operational preflight — 2026-09-08, 09:22 UTC
+
+This is a startup dependency check, not a model, source-data or income result.
+The interrupted conversational wait did not stop or restart the server timer.
+
+- Timer remains loaded/enabled/active/waiting for September9 00:01MSK, with no trigger.
+  Bootstrap is loaded/inactive, has no start timestamp and no service drop-ins.
+- Installed bootstrap service/timer bytes match their repository copies. Their SHA256
+  are `bf374a05a7ea35ea105a150cc363292babb95a15e8757bee6a4f620a89699d92`
+  and `1cb73c930ded8a243f6e40e8b9ebee17cec93b0150545a0b8c4df4c9bc12f2e2`.
+  Prepared paper template SHA remains
+  `c51097f002b3bf939add09ef69233076b5d94269b3e10002fec917f1ec4c3609`.
+- Server reports Europe/Moscow, NTP enabled and synchronized; data/code filesystem has
+  904GiB available, 50% space used and 2% inodes used. These are point-in-time readings,
+  not a future capacity or timing guarantee.
+- Paper base directory is absent, as expected before initialization. Existing `forward`
+  parent belongs to trading-lab; separate UID999 write/search permission checks exit0.
+  UID999 execute-permission check for the resolved Python entry point also exits0.
+  No directory was created, and no production model/HTTP/initialize/check was run.
+- Existing credential-file metadata remains root:trading-lab0640; contents were not read.
+  Existing CA is root:root0644. No permissions or credentials changed.
+- Witnessed-flow timer is active/waiting; its12:13MSK invocation ended12:13:15,
+  Result=success/ExecMainStatus=0. This is process health only, not a new raw-data audit.
+
+No sealed code/config/models or canonical artifacts changed. Next substantive runtime
+observation remains the scheduled bootstrap and actual paper process after21:01UTC,
+then the first09:00–09:05MSK calendar window. Do not repeat archive training, initialization
+or completed source audits to fill the pre-F waiting interval.

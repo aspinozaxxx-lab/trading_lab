@@ -12,6 +12,12 @@ inactive/dead/start timestamp empty. At F+1m: UID999check→once-only init→non
 sealed template install/compare→exact service start. Existing root skips auto init.
 No actual forecasts/trades yet. Next poll timer/service at due time; preserve failures.
 
+Read-only operational preflight September8 09:22UTC: installed bootstrap bytes match,
+NTP synchronized,904GiB free, UID999 parent write/search and Python execute checks exit0.
+Paper base is still absent, expected before once-only init; no start/model/HTTP request.
+Witnessed-flow last12:13MSK invocation success/exit0, not a new raw-data audit. Details
+are in the bootstrap note. Current priority is the scheduled post-F run, not retraining.
+
 ### Предшествующий этап — future activation published, waiting for boundary
 
 [Publication evidence](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md):100files
@@ -3324,16 +3330,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 5. Publication audit и [training-today review](ALGOPACK_TRAIN_TODAY_ADMISSION_REVIEW_V1.md)
    COMPLETE. Пользователь явно разрешил archive-training assumption и новый future-only
    paper период: [scope](ALGOPACK_PAPER_AUTHORIZATION_20260907.md). Ранее2026 не открывать.
-   Alignment и полный price input root уже подготовлены, canonical/SHA в начале STATUS.
-   Следующий шаг — [paired training implementation](ALGOPACK_PAPER_TRAINING_SPEC_V1.md)
-   и отдельный executable protocol/seal до labels/fit; assembly не повторять.
+   Alignment, price inputs и paired Ridge training уже COMPLETE/TRAINED_NOT_EVALUATED;
+   canonical/SHA в разделе завершённого обучения выше. Не повторять assembly/fit.
+   Полный100-file paper seal и activation опубликованы: F=2026-09-08T21:00UTC.
+   [Bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md) уже назначен на21:01UTC; до F не
+   запускать initialize/serve и не читать production model/price outcomes.
    source/model/live flags старых версий не менять. Общий permission blocker снят.
-6. Предложен один cheap price-only vs price+flow/depth screen на совместном состоянии
-   четырёх активов, continuous10min decisions с label-independent eligibility.
-   SYSTIME/retrieval/current-vintage не доказывают original availability. Пользователю
-   ранее задан вопрос о retrospective screen: эта ветка не выбрана. Вместо неё теперь
-   явно разрешён training-today/future-only вариант из пункта5. Повторно permission не
-   спрашивать; labels/model только в его scoped training seal, historical PnL запрещён.
+6. После назначенного запуска проверить actual bootstrap Result/ExecMainStatus/start
+   timestamp и paper main PID/cgroup, затем новое calendar window September9 09:00–09:05MSK.
+   Existing/partial account и failed invocation сохранять; initialization не повторять
+   вслепую. Дальше сравнивать frozen price-only vs price+flow/depth на совместном состоянии
+   четырёх активов и новых10min decisions. Retrospective screen не выбран: historical
+   PnL запрещён, а старый2026 до F защищён. Не подменять процессный exit0 или synthetic
+   PASS доказательством source/execution admission, независимости сигнала или доходности.
 7. [Протокол подключения и ограничения](ALGOPACK_HISTORICAL_SOURCE.md). Не считать
    приобретение источника или технический PASS доказательством минимальных 20%.
 

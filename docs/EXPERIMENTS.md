@@ -7,6 +7,12 @@ verified and installed. Actual timer active/waiting for September9 00:01MSK (F+1
 no trigger, bootstrap inactive. Existing-root guard, actual sealed check before once-only
 init, no-clobber service installation; no auto recovery/restart. Economic closure unchanged.
 
+September8 09:22UTC read-only operational preflight: installed units match, NTP synced,
+904GiB free, UID999 directory/Python access checks exit0; base account root still absent.
+Witnessed-flow last12:13MSK invocation success/exit0. No new model fit, market response,
+source replay or economic result; see bootstrap note. Queue now points to post-F startup,
+not already completed archive training.
+
 [Activation publication](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md): actual100-file
 bundle and activation published/deployed d9a9fe2/5bc0690. Server598PASS/1skip59.43s;
 actual pre-F closure admission PASS and request refusal WAIT_FUTURE_BOUNDARY.
