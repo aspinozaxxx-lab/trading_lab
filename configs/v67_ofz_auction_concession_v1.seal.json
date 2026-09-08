@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v67_ofz_auction_concession_v1",
+  "files": {
+    "configs/v67_ofz_auction_concession_v1.json": "0ed012600ee232df7a38c3790da3a53185f578879a2fd9fc978c3adf66f3acd3",
+    "src/market_lab/ofz_v67_auction_concession.py": "dc493b0882c0d4de66966b9d957eb94b70a5909fcc35831424feccd414f33f16",
+    "tests/test_ofz_v67_auction_concession.py": "8bb1641253e0ce9bf6dfe98162c04ab3b0f4c49c23ca6c63e0f6610029deb874",
+    "docs/V67_OFZ_AUCTION_CONCESSION.md": "37e8825aa56b6c6c9ac6425d9ea4431d60eadf7bbfb8ee9eba0c80ebffbcd8ef",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

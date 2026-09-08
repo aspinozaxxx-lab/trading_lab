@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## V67 — issue-specific OFZ auction concession, prepared before outcomes
+
+[Protocol](V67_OFZ_AUCTION_CONCESSION.md): one new supply-absorption mechanism;
+283 existing successful fixed-coupon auction events, next-open/five-session clean-price
+response and two contemporaneous prior-duration-matched controls, 10/20 bps per side.
+No V20 demand-score retuning, no V52 carry replay, no new collector. 6 local synthetic
+tests PASS. This first screen has null portfolio CAGR/Sharpe/MDD: cashflows, funding and
+overlapping capital are not modeled. Economic run not yet executed; seal required.
+
 ## V66 R1 — fast volume-information contest COMPLETE, 4 rejected / 0 Stage2 candidates
 
 [Protocol](V66_FAST_VOLUME_CONTEST.md): four fixed OHLCV hypotheses with price-only

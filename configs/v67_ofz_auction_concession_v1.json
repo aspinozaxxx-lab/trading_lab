@@ -1,0 +1,58 @@
+﻿{
+  "protocol_id": "v67_ofz_auction_concession_v1",
+  "stage": "1_mechanism_screen_not_portfolio_backtest",
+  "parent_helper_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "protected_from": "2026-01-01",
+  "inputs": {
+    "history": {"path": "data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/ofz_history.parquet", "sha256": "f045482bc8e4cdacd32a3b991cc5ba4e7d5ec6e5eb6df86944730d40f1bab817", "bytes": 2727450, "rows": 70896},
+    "history_manifest": {"path": "data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/manifest.json", "sha256": "102b4add04273020f156e53177a639770d46a0192dec5e9bf2d6bf8c1da04770"},
+    "history_audit": {"path": "data/processed/ofz/moex-ofz-history-bondization-2021-2025-v1/audit.json", "sha256": "809eef1366f9d131622b28cd1026a88f5fc5d55b09ba31614bbed46bfc3ef961"},
+    "auctions": {"path": "data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/minfin_ofz_auction_events.parquet", "sha256": "a8c5c02457e3fadc19e617f42ad5a0c644672689a4c9bd8759d20d4a84d5d480", "bytes": 73794, "rows": 410},
+    "auction_manifest": {"path": "data/processed/info_radar/minfin-ofz-auction-results-current-vintage-2021-2025-v2/manifest.json", "sha256": "c6fcf390b728ebfd55c32b3a20880908bd4eb5ebfcff18bcaf150f568b607d52", "bytes": 4152}
+  },
+  "event_rule": "all successful primary OFZ-PD auction results; no demand score, no bid-to-cover filter",
+  "selection": {
+    "security_regex": "^SU(?:250|262)[0-9]{2}RMFS[0-9]$",
+    "liquidity_sessions": 20,
+    "minimum_median_value_rub": 10000000.0,
+    "minimum_duration_days": 30.0,
+    "maximum_control_duration_distance_days": 365.0,
+    "control_count": 2,
+    "maximum_snapshot_age_days": 7,
+    "control_rule": "nearest positive prior duration_days then security_id; exclude all issues auctioned in this publication day"
+  },
+  "evaluation": {
+    "decision_at": "max printed result availability and midnight Moscow following publication day",
+    "entry": "first global factual TQOB session strictly after publication day; no price-dependent retry",
+    "exit": "global factual session five sessions after entry; no price-dependent retry",
+    "hold_sessions": 5,
+    "maximum_entry_delay_days": 7,
+    "maximum_holding_calendar_days": 14,
+    "price_field": "open_clean_pct",
+    "one_way_cost_bps": {"primary": 10.0, "doubled": 20.0},
+    "calendar_years": [2021, 2022, 2023, 2024, 2025],
+    "unit_of_summary": "equal mean within publication day, then equal mean across days",
+    "unresolved": "retain all selected events in coverage; complete-case price statistics clearly labelled; no imputed NAV"
+  },
+  "screen_gates": {
+    "minimum_complete_publication_days": 50,
+    "minimum_complete_fraction_selected": 0.90,
+    "minimum_primary_doubled_mean_bps": 0.0,
+    "minimum_excess_mean_bps": 0.0,
+    "minimum_positive_net_years": 4,
+    "minimum_positive_excess_years": 3,
+    "minimum_day_clustered_t_net": 1.0
+  },
+  "portfolio_cagr_sharpe_mdd": null,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "limitations": [
+    "current-vintage auction pages with conservative timing, not original publication vintages",
+    "clean-price event return omits accrued-interest cashflows, coupons, settlement, funding and tax",
+    "control is diagnostic, not a short position; borrow and short costs are not modeled",
+    "same-day observations are clustered; overlapping five-session windows still dependent",
+    "daily OPEN and percentage costs are research proxies, not executable BID/OFFER",
+    "no CAGR, Sharpe, MDD or 20/50 percent claim from overlapping event returns",
+    "no post-outcome sign, horizon, liquidity, duration-distance or universe tuning"
+  ]
+}
