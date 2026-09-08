@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v66_fast_volume_contest_v1",
+  "files": {
+    "configs/v66_fast_volume_contest_v1.json": "bfad6bd6b084618a7b9ed1bc56d13fe1bc3e0282c1dc3caf514c49eb9d285c7e",
+    "src/market_lab/futures_v66_fast_volume_contest.py": "61141dfe8e32693e66f3cd5c62e767aadf5af59420c1b2c4dab8553f45af5ca0",
+    "tests/test_futures_v66_fast_volume_contest.py": "17b4dc774961ba64f98b8be48052bef2fef6ae2b8186956e7627655831018b6a",
+    "docs/V66_FAST_VOLUME_CONTEST.md": "4c4e9d43e3b6608421518557b145e3c8c6ee113556adba8581f92ff8137be6fe",
+    "configs/v65_fast_calendar_contest_v1.seal.json": "daba08332161e0e50f1459c8adf37d5743caf8bb8e90187928f17edb3446406c"
+  }
+}

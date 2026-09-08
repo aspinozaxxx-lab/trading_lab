@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее исследование — V65, быстрый конкурс четырёх гипотез
+## Текущее исследование — V66, быстрый конкурс объёмных гипотез
+
+[Протокол V66](V66_FAST_VOLUME_CONTEST.md): четыре механизма на завершённом дневном
+OHLCV, каждый против того же ценового правила без объёмного фильтра. Три фиксированных
+актива BR/RI/SI совместно, равные предельные веса 0,3, пять неттируемых дневных долей.
+Те же разрешённые три периода и готовый учёт; 48 прогонов, без fit/нового источника.
+Local 10 новых + 8 parent + 2 encoding tests PASS, Ruff PASS. Seal до outcomes;
+первый экономический run ещё не выполнен. Подробные проверки только для Stage2 survivors.
+
+## Предыдущий быстрый конкурс — V65, все четыре гипотезы отсеяны
 
 Пользователь2026-09-08 потребовал приоритет быстрого экономического отсева и уровни
 проверки. Принята [воронка](HYPOTHESIS_FUNNEL.md): быстрый конкурс → устойчивость →
@@ -39,7 +48,8 @@ Read-only operational preflight September8 09:22UTC: installed bootstrap bytes m
 NTP synchronized,904GiB free, UID999 parent write/search and Python execute checks exit0.
 Paper base is still absent, expected before once-only init; no start/model/HTTP request.
 Witnessed-flow last12:13MSK invocation success/exit0, not a new raw-data audit. Details
-are in the bootstrap note. Current priority is the scheduled post-F run, not retraining.
+are in the bootstrap note. Paper startup remains autonomous; research priority is the
+fast strategy contest, not retraining or repeated timer inspection.
 
 ### Предшествующий этап — future activation published, waiting for boundary
 
@@ -3331,9 +3341,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65 завершён: [полная таблица](V65_FAST_CONTEST_RESULT.md), 4 отсева / 0 Stage2 candidates.
-   Не повторять/оптимизировать эти правила, не переименовывать controls в новые alpha.
-   Следующий быстрый пакет — другие экономические механизмы на уже имеющихся данных.
+1. Выполнить единственный sealed [V66](V66_FAST_VOLUME_CONTEST.md) run и показать все
+   четыре гипотезы/контроли, три периода/годы, 1×/2× затраты, coverage и причины отсева.
+   V65 завершён: 4 отсева / 0 Stage2 candidates; его правила не повторять/оптимизировать.
+   Контроли новых/старых пакетов не переименовывать в новые alpha после результата.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
 3. Не заполнять ожидание будущего paper старта минутными проверками таймера. Запуск

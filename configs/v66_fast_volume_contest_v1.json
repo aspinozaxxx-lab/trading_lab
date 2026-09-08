@@ -1,0 +1,61 @@
+﻿{
+  "protocol_id": "v66_fast_volume_contest_v1",
+  "stage": "1_fast_screen",
+  "parent_v65_seal_sha256": "daba08332161e0e50f1459c8adf37d5743caf8bb8e90187928f17edb3446406c",
+  "protected_from": "2026-01-01",
+  "assets": ["BR", "RI", "SI"],
+  "features": {
+    "prior_sessions": 20,
+    "maximum_calendar_gap_days": 7,
+    "shock_body_sigma": 2.0,
+    "continuation_body_sigma": 1.0,
+    "high_volume_ratio": 2.0,
+    "low_volume_ratio": 1.0,
+    "close_edge_fraction": 0.2,
+    "compressed_range_ratio": 0.5
+  },
+  "hypotheses": [
+    {"id": "volume_shock_reversal", "mechanism": "temporary noninformational liquidity demand", "rule": "fade an absolute open-to-close body >=2 prior body sigmas when volume >=2 prior median"},
+    {"id": "volume_pressure_continuation", "mechanism": "gradual incorporation of information and persistent demand", "rule": "follow body >=1 prior sigma with close in matching outer20percent of range and volume >=2 prior median"},
+    {"id": "thin_breakout_fade", "mechanism": "low-participation range breakout lacks broad demand", "rule": "fade close outside prior20-session high-low range when volume < prior median"},
+    {"id": "compressed_volume_expansion", "mechanism": "high activity in compressed range precedes inventory repricing; speculative OHLCV proxy", "rule": "follow matching body and outer20percent close when range <=0.5 prior median and volume >=2 prior median"}
+  ],
+  "control": "same price rule and source eligibility, remove only volume ratio filter",
+  "execution": {
+    "initial_cash_rub": 1000000,
+    "weight_per_asset": 0.3,
+    "overlapping_signal_sessions": 5,
+    "weight_rule": "sum last5 same-contract raw directions divided by5, times0.3; daily rebalance",
+    "maximum_gross_multiple": 1.0,
+    "maximum_signal_gross": 0.9,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "entry": "next factual open; cancel signal if decision age exceeds7calendar days",
+    "terminal": "flat at last active-map effective date of each era",
+    "idle_cash_interest": 0.0,
+    "costs": {"primary": [1, 1.0], "doubled": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_primary_round_trips_each_era": 12,
+    "minimum_positive_year_fraction_each_era": 0.60,
+    "minimum_eras_beating_control_doubled_cagr": 2,
+    "minimum_recent_doubled_cagr": 0.05,
+    "minimum_recent_doubled_sharpe": 0.50,
+    "maximum_drawdown_each_era": 0.40
+  },
+  "fit_or_parameter_search": false,
+  "independent_holdout": false,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "limitations": [
+    "four competing hypotheses on already-seen development eras, not independent holdout",
+    "volume is historical completed daily aggregate, not aggressor flow or order-book depth",
+    "stock-market papers motivate hypotheses, not demonstrated MOEX futures profitability",
+    "body uses close/open, not total close-to-close return; overnight component not a feature",
+    "same-contract warmup and gap resets may substantially reduce coverage, especially BR",
+    "five overlapping decision tranches are netted and daily rebalanced, not five independent fixed-quantity trades",
+    "daily-open execution and historical specs/fees/margin are research proxies, not broker-exact",
+    "controls may have different exposure/turnover; no post-outcome risk matching or control promotion",
+    "no sign/window/threshold/asset/leverage selection after seeing this batch"
+  ]
+}

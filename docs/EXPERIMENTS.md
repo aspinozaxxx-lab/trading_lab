@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## V66 — fast volume-information contest, prepared before outcomes
+
+[Protocol](V66_FAST_VOLUME_CONTEST.md): four fixed OHLCV hypotheses with price-only
+ablation, joint BR/RI/SI portfolio, three already-open eras, two cost scenarios.
+Existing V64/V65 input checks and ledger reused; no new collector or model fitting.
+Local 10 new + 8 parent + 2 encoding tests PASS; Ruff PASS. Economic run not yet executed.
+No post-outcome sign/window/asset/weight selection; passing means Stage2 candidature only.
+
 ## V65 — fast strategy contest COMPLETE, 4 rejected / 0 Stage2 candidates
 
 [Funnel](HYPOTHESIS_FUNNEL.md): stage1, four calendar-premium hypotheses on RI/BR/SI;
