@@ -1,6 +1,14 @@
 ﻿# Реестр экспериментов
 
-## MOEX index news — fixed source sample prepared, no economic run
+## V65 — first fast strategy contest, prepared before outcomes
+
+[Funnel](HYPOTHESIS_FUNNEL.md): stage1, four calendar-premium hypotheses on RI/BR/SI;
+two arms, three already-open eras, primary/doubled costs, no fitting/new data source.
+Existing V64 input/manifests/accounting reused, not V64 tax rules/results.8synthetic
+tests PASS, economic run not yet executed. Full results and rejection reasons required;
+passing screen is only Stage2 candidature, not goal success or live admission.
+
+## MOEX index news — prepared sample PAUSED, no source or economic run
 
 [Nine-article sample](MOEX_INDEX_NEWS_SAMPLE_V1.md): source-only restart after user's
 timer-only-work objection. Date-only admission before each body;18requests maximum,

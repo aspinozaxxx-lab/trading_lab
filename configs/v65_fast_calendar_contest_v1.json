@@ -1,0 +1,49 @@
+﻿{
+  "protocol_id": "v65_fast_calendar_contest_v1",
+  "stage": "1_fast_screen",
+  "parent_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "data_scope": "reuse_V64_input_manifests_only_2008_2025_not_parent_results",
+  "protected_from": "2026-01-01",
+  "hypotheses": [
+    {"id": "ri_month_turn", "asset": "RI", "mechanism": "monthly institutional cash-allocation pressure in Russian equities via RTS futures", "primary": "long last3 or first4 calendar days of month", "control": "long calendar days12_to18"},
+    {"id": "br_midweek_report", "asset": "BR", "mechanism": "compensation for oil inventory-announcement uncertainty", "primary": "long from Monday_and_Tuesday decisions through usual Wednesday report", "control": "long from Wednesday_and_Thursday decisions"},
+    {"id": "br_after_roll", "asset": "BR", "mechanism": "reversal of temporary nearby-contract roll pressure", "primary": "long ages1_to5 after a causally observed planner roll", "control": "long ages11_to15 after that roll"},
+    {"id": "si_weekend_hedge", "asset": "SI", "mechanism": "USD hedging demand and compensation for weekend gap risk", "primary": "long Thursday_decision Friday_open_to_next_open", "control": "long Monday_decision Tuesday_open_to_next_open"}
+  ],
+  "execution": {
+    "initial_cash_each_arm_era_rub": 1000000,
+    "gross_cap": 1.0,
+    "integer_contracts": true,
+    "maximum_participation": 0.01,
+    "margin_buffer": 2.0,
+    "entry": "next_factual_open_strictly_after_decision",
+    "terminal": "flat_at_last_active_map_effective_date_per_era",
+    "idle_cash_interest": 0.0,
+    "costs": {"primary": [1, 1.0], "doubled": [2, 2.0]}
+  },
+  "screen_gates": {
+    "complete_and_flat_all_runs": true,
+    "minimum_primary_round_trips_each_era": 12,
+    "doubled_positive_return_every_era": true,
+    "minimum_positive_year_fraction_each_era": 0.60,
+    "minimum_eras_beating_control_doubled_cagr": 2,
+    "minimum_recent_doubled_cagr": 0.05,
+    "minimum_recent_doubled_sharpe": 0.50,
+    "maximum_drawdown_each_era": 0.40
+  },
+  "interpretation": "PASS is only a lead for stage2, not achievement of20_or50_percent_target",
+  "fit_or_parameter_search": false,
+  "independent_holdout": false,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "limitations": [
+    "already_seen_development_history_and_four_hypotheses_not_independent_validation",
+    "daily_open_specs_fees_margin_are_research_proxies_not_BBO_or_broker_fills",
+    "calendar_days_are_not_trading_day_month_turn_definition_from_literature",
+    "RI_is_USD_denominated_equity_exposure_not_a_pure_ruble_equity_cash_flow_measure",
+    "weekly_EIA_proxy_does_not_model_holiday_rescheduling_or_exact_historical_release_times",
+    "planner_roll_is_not_measured_institutional_roll_flow",
+    "control_exposure_calendar_duration_and_holiday_gaps_can_differ_and_are_reported",
+    "no_direction_window_asset_or_control_retuning_after_this_batch"
+  ]
+}

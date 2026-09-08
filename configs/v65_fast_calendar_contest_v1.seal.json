@@ -1,0 +1,9 @@
+﻿{
+  "protocol_id": "v65_fast_calendar_contest_v1",
+  "files": {
+    "configs/v65_fast_calendar_contest_v1.json": "f88cbf5638c2879d154b4a17e1a3cce95f596bccbed7e47f58b417e568a5178f",
+    "src/market_lab/futures_v65_fast_calendar_contest.py": "996a9b4e8a67bc39f085058b1ca716c92f6ddeb4a657802c61754d2fa339fcb8",
+    "tests/test_futures_v65_fast_calendar_contest.py": "90cc8c9878a7035dd151c04f0d9f11f18f21120e13ecc3f05b2cb2dda31e2192",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}
