@@ -1,5 +1,5 @@
 ﻿protocol_id: moex_iss_index_news_catalog_2011_2025_v1
-declared_at_utc: '2026-09-07T05:37:56Z'
+declared_at_utc: '2026-09-08T09:35:00Z'
 research_only: true
 source_only: true
 sealed_before_economic_outcomes: true
@@ -20,6 +20,11 @@ max_candidate_articles: 2000
 max_requests: 5200
 request_interval_seconds: 0.25
 timeout_seconds: 30
+max_response_bytes: 1048576
+catalogue_collection_allowed: false
+sample_news_ids: [298, 511, 63504, 63621, 75276, 75298, 75466, 78049, 78230]
+max_sample_requests: 18
+sample_selection: previously_documented_format_examples_not_an_economic_sample
 retry_or_access_bypass: false
 excluded_title_terms: ['облигац', 'еврооблигац', 'депозит', 'денежного рынка', 'товарн', 'кредитн']
 equity_title_override: 'акци'

@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "moex_index_news_fixed_sample_v1",
+  "scope": "nine_historical_articles_source_only_no_catalogue_or_economics",
+  "files": {
+    "configs/moex_index_news_source_v1.yaml": "81775e6a0fdda5648f7007cc6a7ce64db376fedc3665353c70927322b8a5e3e1",
+    "docs/MOEX_INDEX_NEWS_SAMPLE_V1.md": "fb7308493d14c90734096b22abc80ff50458b4e352781e4debdc1e7c7a0e959e",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/stocks/__init__.py": "921e59afb099a480f4fb5d18179fcd38072a6789c49f4dedbb31cfa59b9e088c",
+    "src/market_lab/stocks/moex_index_news_source_v1.py": "9b62504da4751a2c7ad55c3dcc05d94506f28680d3471b97b3492f665d1ffe52",
+    "tests/test_moex_index_news_source_v1.py": "9d4c9338abd9e4556827f681868b965a437b39dbddd80aa3db54ca455a11d1ae"
+  }
+}

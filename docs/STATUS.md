@@ -3,7 +3,18 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — one-time future bootstrap scheduled
+## Текущее исследование — индексные объявления, bounded source sample
+
+После замечания пользователя2026-09-08 прекращён ручной минутный опрос будущего таймера.
+Следующий исследовательский шаг — [fixed source sample](MOEX_INDEX_NEWS_SAMPLE_V1.md):
+9заранее известных публикаций/максимум18anonymous ISS requests, сначала date-only
+admission, затем article fragment. Это проверка формата/revision evidence, не экономическая
+выборка.32synthetic tests PASS; seal/push/server sample и raw audit ещё предстоят.
+Full catalogue пока явно disabled; никаких prices/labels/PnL или повторного обучения.
+AlgoPack schedule остаётся неизменным и автономным; проверять результат в момент запуска,
+а не подменять исследования ежеминутным наблюдением за ожиданием.
+
+## Автономный paper-контур — one-time future bootstrap scheduled
 
 [Bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b pushed/deployed, syntax and
 local/server2tests PASS. Exact operational units installed; ONLY timer enabled/started.
@@ -3348,7 +3359,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### Следующая независимая ветка — бесплатный corpus индексных объявлений
 
-1. Ветка приостановлена после покупки AlgoPack пользователем; prototype не sealed/не run.
+1. После завершения подготовки AlgoPack и замечания пользователя об опросе таймера
+   возобновлена bounded source-only проверка: [9article sample](MOEX_INDEX_NEWS_SAMPLE_V1.md).
+  32synthetic tests PASS; до seal/push/server run реального результата нет. Full catalogue
+   disabled до sample/review; уже зафиксированный paper-контур не менять.
 2. V64 завершён `NO_GO`, audit 156/156; canonical не повторять и не превращать его
    control в новую стратегию. Не подбирать окно/знак/размер/годы по этому исходу.
 3. Следовать [MOEX_INDEX_REBALANCE_SOURCE.md](MOEX_INDEX_REBALANCE_SOURCE.md): сначала

@@ -2,6 +2,14 @@
 
 Дата проверки: 2026-09-07. Статус `FEASIBILITY_ONLY`: источники-примеры найдены,
 полного датасета, source seal, экономического протокола и результата пока нет.
+
+Обновление2026-09-08: после подготовки автономного AlgoPack и замечания пользователя
+об опросе таймера ветка возвращена к bounded source-only работе. Подготовлен
+[fixed9article sample](MOEX_INDEX_NEWS_SAMPLE_V1.md),32synthetic tests PASS; реальный
+sample пока не запускался. Полный сбор disabled до sample/review; прежние ограничения
+original-vintage, экономического seal и полного event corpus сохраняются.
+
+История приостановки:
 Проверка началась при отложенном AlgoPack. Позднее 2026-09-07 пользователь купил
 подписку и передал key: активный приоритет теперь [AlgoPack](ALGOPACK_HISTORICAL_SOURCE.md).
 Незавершённые `moex_index_news_source_v1.py`/config/tests — незапечатанный prototype;

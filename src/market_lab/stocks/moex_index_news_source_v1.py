@@ -1,4 +1,4 @@
-﻿"""Unsealed ISS news catalogue prototype; never grants event/PIT/PnL admission."""
+﻿"""Sealable source-only news sample; full catalogue remains gated and unadmitted."""
 
 from __future__ import annotations
 
@@ -174,6 +174,41 @@ def parse_article(content: bytes, news_id: int, expected_stamp: str) -> dict:
     }
 
 
+def article_clock(content: bytes, news_id: int) -> str:
+    rows = block(payload_json(content, {"content"}), "content", ["id", "published_at"])
+    if len(rows) != 1 or type(rows[0]["id"]) is not int or rows[0]["id"] != news_id:
+        raise ValueError("article clock identity mismatch")
+    value = stamp(rows[0]["published_at"])
+    if not LOWER <= value < UPPER:
+        raise ValueError("article clock outside permitted interval; no body request")
+    return value
+
+
+def request_url(kind: str, key: int) -> str:
+    if type(key) is not int or key < 0:
+        raise ValueError("invalid request key")
+    params = {"iss.meta": "off"}
+    if kind in {"clock", "catalog"}:
+        params.update(
+            {
+                "start": key,
+                "lang": "ru",
+                "iss.only": "sitenews,sitenews.cursor",
+                "sitenews.columns": "id,published_at" + (",title" if kind == "catalog" else ""),
+            }
+        )
+        return BASE + ".json?" + urlencode(params)
+    columns = {
+        "article_clock": "id,published_at",
+        "header": "id,title,published_at",
+        "article": "id,title,published_at,body",
+    }
+    if kind not in columns or key == 0:
+        raise ValueError("unknown request kind or article id")
+    params.update({"iss.only": "content", "content.columns": columns[kind]})
+    return BASE + f"/{key}.json?" + urlencode(params)
+
+
 def candidates(rows: list[dict], config: dict) -> list[dict]:
     return [
         row
@@ -191,6 +226,17 @@ def load_protocol(seal_sha: str) -> tuple[dict, dict]:
     if sha(seal_bytes) != seal_sha:
         raise ValueError("closure seal mismatch")
     seal = json.loads(seal_bytes.decode("utf-8-sig"))
+    required = {
+        CONFIG_PATH,
+        "src/market_lab/stocks/moex_index_news_source_v1.py",
+        "src/market_lab/stocks/__init__.py",
+        "src/market_lab/__init__.py",
+        "tests/test_moex_index_news_source_v1.py",
+        "docs/MOEX_INDEX_NEWS_SAMPLE_V1.md",
+        "pyproject.toml",
+    }
+    if set(seal.get("files", {})) != required:
+        raise ValueError("source sample closure incomplete")
     for relative, expected in seal["files"].items():
         path = (PROJECT_ROOT / relative).resolve()
         if not path.is_relative_to(PROJECT_ROOT.resolve()) or sha(path.read_bytes()) != expected:
@@ -198,6 +244,15 @@ def load_protocol(seal_sha: str) -> tuple[dict, dict]:
     config = yaml.safe_load((PROJECT_ROOT / CONFIG_PATH).read_text(encoding="utf-8-sig"))
     if config["publication_lower"] != LOWER or config["publication_upper_exclusive"] != UPPER:
         raise ValueError("date boundary mismatch")
+    if config.get("catalogue_collection_allowed") is not False or any(
+        config.get(name) is not False
+        for name in (
+            "historical_model_eligible",
+            "economic_evaluation_allowed",
+            "live_trading_allowed",
+        )
+    ):
+        raise ValueError("sample must not grant catalogue/model/economic admission")
     return config, seal
 
 
@@ -206,37 +261,34 @@ class Acquisition:
         self.output, self.config = output, config
         self.records: list[dict] = []
         self.session = requests.Session()
+        self.session.trust_env = False
         self.last_request = 0.0
 
     def fetch(self, kind: str, key: int, **metadata: object) -> tuple[bytes, int]:
         if len(self.records) >= self.config["max_requests"]:
             raise ValueError("request budget exceeded")
-        params = {"iss.meta": "off"}
-        if kind in {"clock", "catalog"}:
-            params.update(
-                {
-                    "start": key,
-                    "lang": "ru",
-                    "iss.only": "sitenews,sitenews.cursor",
-                    "sitenews.columns": "id,published_at" + (",title" if kind == "catalog" else ""),
-                }
-            )
-            url = BASE + ".json?" + urlencode(params)
-        elif kind in {"header", "article"}:
-            if kind == "header":
-                params["content.columns"] = "id,title,published_at"
-            url = BASE + f"/{key}.json?" + urlencode(params)
-        else:
-            raise ValueError("unknown request kind")
+        if (
+            kind in {"header", "article"}
+            and not LOWER <= stamp(metadata.get("expected_stamp")) < UPPER
+        ):
+            raise ValueError("no pre-2026 publication admission before request")
+        url = request_url(kind, key)
         delay = self.config["request_interval_seconds"] - (time.monotonic() - self.last_request)
         if delay > 0:
             time.sleep(delay)
         self.last_request = time.monotonic()
-        retrieved = datetime.now(UTC).isoformat()
-        response = self.session.get(
-            url, timeout=self.config["timeout_seconds"], allow_redirects=False
-        )
-        content = response.content
+        requested = datetime.now(UTC).isoformat()
+        with self.session.get(
+            url, timeout=self.config["timeout_seconds"], allow_redirects=False, stream=True
+        ) as response:
+            chunks, byte_count = [], 0
+            for chunk in response.iter_content(chunk_size=16384):
+                byte_count += len(chunk)
+                if byte_count > self.config["max_response_bytes"]:
+                    raise ValueError("response byte budget exceeded")
+                chunks.append(chunk)
+            content = b"".join(chunks)
+            retrieved = datetime.now(UTC).isoformat()
         relative = f"raw/{len(self.records):05d}_{kind}_{key}.json"
         write_new(self.output / relative, content)
         record = {
@@ -244,6 +296,7 @@ class Acquisition:
             "key": key,
             "url": url,
             "final_url": response.url,
+            "requested_at_utc": requested,
             "retrieved_at_utc": retrieved,
             "status": response.status_code,
             "path": relative,
@@ -258,6 +311,119 @@ class Acquisition:
         if "json" not in response.headers.get("Content-Type", "").lower():
             raise ValueError("non-JSON response")
         return content, len(self.records) - 1
+
+
+def assemble_sample(records: list[dict], get_raw, config: dict) -> dict:
+    ids = config["sample_news_ids"]
+    if (
+        len(ids) != len(set(ids))
+        or any(type(value) is not int or value <= 0 for value in ids)
+        or len(records) != 2 * len(ids)
+        or len(records) > config["max_sample_requests"]
+    ):
+        raise ValueError("sample request coverage mismatch")
+    articles = []
+    previous_received = None
+    for position, news_id in enumerate(ids):
+        raw_pair = []
+        for offset, kind in enumerate(("article_clock", "article")):
+            record = records[2 * position + offset]
+            raw = get_raw(record)
+            requested = datetime.fromisoformat(record["requested_at_utc"])
+            received = datetime.fromisoformat(record["retrieved_at_utc"])
+            if (
+                record["kind"] != kind
+                or record["key"] != news_id
+                or record["status"] != 200
+                or record["url"] != request_url(kind, news_id)
+                or record["final_url"] != record["url"]
+                or "json" not in record["content_type"].lower()
+                or record["bytes"] != len(raw)
+                or record["sha256"] != sha(raw)
+                or len(raw) > config["max_response_bytes"]
+                or requested.utcoffset() is None
+                or received.utcoffset() is None
+                or requested > received
+                or (previous_received is not None and requested < previous_received)
+            ):
+                raise ValueError("sample raw/transport/clock evidence mismatch")
+            previous_received = received
+            raw_pair.append(raw)
+        expected_stamp = article_clock(raw_pair[0], news_id)
+        if records[2 * position + 1].get("expected_stamp") != expected_stamp:
+            raise ValueError("sample body not bound to prior clock")
+        article = parse_article(raw_pair[1], news_id, expected_stamp)
+        article["raw_clock_request"] = 2 * position
+        article["raw_article_request"] = 2 * position + 1
+        articles.append(article)
+    return {
+        "articles": articles,
+        "summary": {
+            "status": "FIXED_SAMPLE_COLLECTED_NOT_EVENT_OR_ECONOMIC_ADMISSION",
+            "requests": len(records),
+            "articles": len(articles),
+            "paragraphs": sum(len(row["paragraphs"]) for row in articles),
+            "publication_min": min(row["published_at_raw"] for row in articles),
+            "publication_max": max(row["published_at_raw"] for row in articles),
+            "event_corpus_complete": False,
+            "original_version_verified": False,
+            "historical_model_eligible": False,
+            "economic_evaluation_allowed": False,
+            "live_trading_allowed": False,
+        },
+    }
+
+
+def collect_sample(storage_root: Path, seal_sha: str) -> dict:
+    config, _ = load_protocol(seal_sha)
+    output = (
+        storage_root.resolve()
+        / "data/processed/index_announcements"
+        / ("moex_index_news_fixed_sample_v1_" + seal_sha[:12])
+    )
+    output.mkdir(parents=True, exist_ok=False)
+    write_new(output / "started.json", encode({"seal_sha256": seal_sha}))
+    acquisition = Acquisition(output, {**config, "max_requests": config["max_sample_requests"]})
+    try:
+        for news_id in config["sample_news_ids"]:
+            raw, _ = acquisition.fetch("article_clock", news_id)
+            expected_stamp = article_clock(raw, news_id)
+            raw, _ = acquisition.fetch("article", news_id, expected_stamp=expected_stamp)
+            parse_article(raw, news_id, expected_stamp)
+        result = assemble_sample(
+            acquisition.records, lambda r: (output / r["path"]).read_bytes(), config
+        )
+        files = {}
+        for name, value in result.items():
+            raw = encode(value)
+            write_new(output / (name + ".json"), raw)
+            files[name + ".json"] = sha(raw)
+        manifest = {
+            "mode": "fixed_sample",
+            "seal_sha256": seal_sha,
+            "config_sha256": sha((PROJECT_ROOT / CONFIG_PATH).read_bytes()),
+            "requests": acquisition.records,
+            "files": files,
+            "completed_at": datetime.now(UTC).isoformat(),
+        }
+        raw = encode(manifest)
+        write_new(output / "manifest.json", raw)
+        return {"output": str(output), "manifest_sha256": sha(raw), **result["summary"]}
+    except Exception as error:
+        write_new(
+            output / "failure.json",
+            encode(
+                {
+                    "error_type": type(error).__name__,
+                    "error": str(error),
+                    "requests": acquisition.records,
+                    "economic_evaluation_allowed": False,
+                }
+            ),
+        )
+        raise
+    finally:
+        acquisition.session.close()
 
 
 def assemble(records: list[dict], get_raw, traversal: list[int], config: dict) -> dict:
@@ -358,6 +524,8 @@ def assemble(records: list[dict], get_raw, traversal: list[int], config: dict) -
 
 def collect(storage_root: Path, seal_sha: str) -> dict:
     config, _ = load_protocol(seal_sha)
+    if not config["catalogue_collection_allowed"]:
+        raise ValueError("full catalogue disabled pending fixed source sample/review")
     base = storage_root.resolve()
     output = (
         base / "data/processed/index_announcements" / (config["protocol_id"] + "_" + seal_sha[:12])
@@ -486,7 +654,9 @@ def audit(output: Path, seal_sha: str, manifest_sha: str) -> dict:
     if sha(raw) != manifest_sha:
         raise ValueError("manifest SHA mismatch")
     manifest = json.loads(raw.decode("utf-8-sig"))
-    if manifest["seal_sha256"] != seal_sha:
+    if manifest["seal_sha256"] != seal_sha or manifest["config_sha256"] != sha(
+        (PROJECT_ROOT / CONFIG_PATH).read_bytes()
+    ):
         raise ValueError("manifest seal mismatch")
 
     def read_record(record: dict) -> bytes:
@@ -495,7 +665,9 @@ def audit(output: Path, seal_sha: str, manifest_sha: str) -> dict:
             raise ValueError("raw path escape")
         return path.read_bytes()
 
-    replay = assemble(manifest["requests"], read_record, manifest["traversal"], config)
+    if manifest.get("mode") != "fixed_sample":
+        raise ValueError("full catalogue not admitted by this seal")
+    replay = assemble_sample(manifest["requests"], read_record, config)
     checks = {"manifest_identity": True, "raw_replay": True}
     for name, value in replay.items():
         filename = name + ".json"
@@ -513,6 +685,7 @@ def main() -> None:
     parser.add_argument("--seal-sha", required=True)
     parser.add_argument("--audit", type=Path)
     parser.add_argument("--manifest-sha")
+    parser.add_argument("--sample", action="store_true")
     args = parser.parse_args()
     if args.audit:
         if not args.manifest_sha:
@@ -521,7 +694,7 @@ def main() -> None:
     else:
         if not args.storage_root:
             parser.error("collection requires --storage-root")
-        result = collect(args.storage_root, args.seal_sha)
+        result = (collect_sample if args.sample else collect)(args.storage_root, args.seal_sha)
     print(json.dumps(result, ensure_ascii=False, indent=2), flush=True)
 
 

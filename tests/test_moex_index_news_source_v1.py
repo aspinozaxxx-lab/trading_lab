@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+from copy import deepcopy
+from urllib.parse import parse_qs, urlparse
 
 import pytest
 
@@ -203,9 +205,7 @@ def test_article_rejects_mismatched_news_id() -> None:
 
 def test_article_rejects_mismatched_publication_stamp() -> None:
     with pytest.raises(ValueError):
-        source.parse_article(
-            _encode(_article()), news_id=41, expected_stamp="2025-02-28 08:35:00"
-        )
+        source.parse_article(_encode(_article()), news_id=41, expected_stamp="2025-02-28 08:35:00")
 
 
 def test_article_rejects_unexpected_columns() -> None:
@@ -224,3 +224,191 @@ def test_non_json_error_pages_fail_closed() -> None:
         source.parse_listing(content, expected_start=100, clock_only=False)
     with pytest.raises(ValueError):
         source.parse_article(content, news_id=41, expected_stamp="2025-03-05 17:54:00")
+
+
+def _sample_config():
+    return {
+        "sample_news_ids": [41],
+        "max_sample_requests": 2,
+        "max_requests": 2,
+        "max_response_bytes": 4096,
+        "request_interval_seconds": 0,
+        "timeout_seconds": 30,
+        "catalogue_collection_allowed": False,
+    }
+
+
+def _clock_article(value="2025-03-05 17:54:00"):
+    return _encode({"content": {"columns": ["id", "published_at"], "data": [[41, value]]}})
+
+
+def _sample_evidence():
+    raws = [_clock_article(), _encode(_article())]
+    records = []
+    for index, kind in enumerate(("article_clock", "article")):
+        records.append(
+            {
+                "kind": kind,
+                "key": 41,
+                "url": source.request_url(kind, 41),
+                "final_url": source.request_url(kind, 41),
+                "status": 200,
+                "content_type": "application/json",
+                "requested_at_utc": f"2026-09-08T09:00:0{2 * index}+00:00",
+                "retrieved_at_utc": f"2026-09-08T09:00:0{2 * index + 1}+00:00",
+                "path": str(index),
+                "bytes": len(raws[index]),
+                "sha256": source.sha(raws[index]),
+                **({"expected_stamp": "2025-03-05 17:54:00"} if index else {}),
+            }
+        )
+    return records, lambda row: raws[int(row["path"])]
+
+
+def test_individual_article_clock_is_date_only_and_rejects_protected_year():
+    assert source.article_clock(_clock_article(), 41) == "2025-03-05 17:54:00"
+    with pytest.raises(ValueError):
+        source.article_clock(_clock_article("2026-01-01 00:00:00"), 41)
+    with pytest.raises(ValueError):
+        source.article_clock(_clock_article(), 42)
+    query = parse_qs(urlparse(source.request_url("article_clock", 41)).query)
+    assert query["content.columns"] == ["id,published_at"]
+    assert query["iss.only"] == ["content"]
+
+
+def test_sample_full_raw_replay_does_not_grant_economic_or_event_admission():
+    records, get_raw = _sample_evidence()
+    result = source.assemble_sample(records, get_raw, _sample_config())
+    assert result["summary"]["articles"] == 1
+    assert result["summary"]["requests"] == 2
+    for name in (
+        "event_corpus_complete",
+        "historical_model_eligible",
+        "economic_evaluation_allowed",
+    ):
+        assert result["summary"][name] is False
+    assert result["articles"][0]["available_at"] is None
+    assert result["articles"][0]["raw_clock_request"] == 0
+
+
+@pytest.mark.parametrize("damage", ["hash", "url", "time", "id", "stamp", "coverage", "redirect"])
+def test_sample_replay_rejects_corrupted_evidence(damage):
+    records, get_raw = _sample_evidence()
+    records = deepcopy(records)
+    if damage == "hash":
+        records[1]["sha256"] = "0" * 64
+    elif damage == "url":
+        records[1]["url"] = source.request_url("article", 42)
+    elif damage == "redirect":
+        records[1]["final_url"] = "https://example.invalid/"
+    elif damage == "time":
+        records[1]["requested_at_utc"] = records[0]["requested_at_utc"]
+    elif damage == "id":
+        records[1]["key"] = 42
+    elif damage == "stamp":
+        records[1]["expected_stamp"] = "2025-02-28 08:35:00"
+    else:
+        records.pop()
+    with pytest.raises(ValueError):
+        source.assemble_sample(records, get_raw, _sample_config())
+
+
+class _Response:
+    status_code = 200
+    headers = {"Content-Type": "application/json"}
+
+    def __init__(self, url, content):
+        self.url, self.content = url, content
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return None
+
+    def iter_content(self, chunk_size):
+        yield self.content
+
+
+class _Session:
+    def __init__(self, clock=None):
+        self.urls, self.closed = [], False
+        self.clock = _clock_article() if clock is None else clock
+
+    def get(self, url, **kwargs):
+        assert kwargs["allow_redirects"] is False
+        assert kwargs["stream"] is True
+        self.urls.append(url)
+        columns = parse_qs(urlparse(url).query)["content.columns"][0]
+        return _Response(url, self.clock if columns == "id,published_at" else _encode(_article()))
+
+    def close(self):
+        self.closed = True
+
+
+def _configure_sample(monkeypatch, tmp_path, session):
+    config = _sample_config()
+    monkeypatch.setattr(source, "load_protocol", lambda _sha: (config, {}))
+    monkeypatch.setattr(source, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(source.requests, "Session", lambda: session)
+    path = tmp_path / source.CONFIG_PATH
+    path.parent.mkdir()
+    path.write_bytes(_encode(config))
+    return "1" * 64
+
+
+def test_sample_collect_replay_and_existing_output_refusal(monkeypatch, tmp_path):
+    session = _Session()
+    seal = _configure_sample(monkeypatch, tmp_path, session)
+    result = source.collect_sample(tmp_path, seal)
+    assert session.trust_env is False and session.closed
+    assert len(session.urls) == 2
+    output = (
+        tmp_path
+        / "data/processed/index_announcements"
+        / ("moex_index_news_fixed_sample_v1_" + seal[:12])
+    )
+    report = source.audit(output, seal, result["manifest_sha256"])
+    assert report["passed"] == 6
+    assert all(report["checks"].values())
+    with pytest.raises(FileExistsError):
+        source.collect_sample(tmp_path, seal)
+    assert len(session.urls) == 2
+
+
+def test_protected_date_stops_before_body_and_retains_failed_attempt(monkeypatch, tmp_path):
+    session = _Session(_clock_article("2026-01-01 00:00:00"))
+    seal = _configure_sample(monkeypatch, tmp_path, session)
+    with pytest.raises(ValueError):
+        source.collect_sample(tmp_path, seal)
+    assert session.closed and len(session.urls) == 1
+    failed = list((tmp_path / "data").rglob("failure.json"))
+    assert len(failed) == 1
+    assert len(json.loads(failed[0].read_text(encoding="utf-8-sig"))["requests"]) == 1
+
+
+def test_full_catalogue_refused_before_output_or_http(monkeypatch, tmp_path):
+    session = _Session()
+    seal = _configure_sample(monkeypatch, tmp_path, session)
+    with pytest.raises(ValueError, match="full catalogue disabled"):
+        source.collect(tmp_path, seal)
+    assert not session.urls and not (tmp_path / "data").exists()
+
+
+def test_body_request_rejects_protected_or_missing_stamp_before_network(tmp_path, monkeypatch):
+    session = _Session()
+    monkeypatch.setattr(source.requests, "Session", lambda: session)
+    acquisition = source.Acquisition(tmp_path, _sample_config())
+    for metadata in ({}, {"expected_stamp": "2026-01-01 00:00:00"}):
+        with pytest.raises(ValueError):
+            acquisition.fetch("article", 41, **metadata)
+    assert not session.urls
+
+
+def test_response_size_is_bounded_before_raw_persistence(tmp_path, monkeypatch):
+    session = _Session(b"x" * 4097)
+    monkeypatch.setattr(source.requests, "Session", lambda: session)
+    acquisition = source.Acquisition(tmp_path, _sample_config())
+    with pytest.raises(ValueError, match="byte budget"):
+        acquisition.fetch("article_clock", 41)
+    assert not (tmp_path / "raw").exists()

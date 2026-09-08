@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## MOEX index news — fixed source sample prepared, no economic run
+
+[Nine-article sample](MOEX_INDEX_NEWS_SAMPLE_V1.md): source-only restart after user's
+timer-only-work objection. Date-only admission before each body;18requests maximum,
+1MiB response cap, no credentials/redirect/retry; raw replay preserves current-vintage
+and missing original availability. Local32synthetic tests PASS. Source seal/deploy/run
+still pending; full catalogue/model/economic/live admission false. Not new alpha evidence.
+
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
 [Scheduled bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b operational units
