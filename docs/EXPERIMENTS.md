@@ -1,12 +1,17 @@
 ﻿# Реестр экспериментов
 
-## V65 — first fast strategy contest, prepared before outcomes
+## V65 — fast strategy contest COMPLETE, 4 rejected / 0 Stage2 candidates
 
 [Funnel](HYPOTHESIS_FUNNEL.md): stage1, four calendar-premium hypotheses on RI/BR/SI;
 two arms, three already-open eras, primary/doubled costs, no fitting/new data source.
-Existing V64 input/manifests/accounting reused, not V64 tax rules/results.8synthetic
-tests PASS, economic run not yet executed. Full results and rejection reasons required;
-passing screen is only Stage2 candidature, not goal success or live admission.
+Existing V64 input/manifests/accounting reused, not V64 tax rules/results. `1c2d707` pushed
+before one server run, 8 server tests PASS, 45/45 input checks and 170/170 artifact identities.
+[Full result](V65_FAST_CONTEST_RESULT.md): 48 runs, 43 complete / 5 invalid execution.
+All 4 rejected. Recent primary 1×/2× CAGR: RI 1.46/1.38%, weekly oil −7.54/−10.74%,
+FX 1.93/1.15%; post-roll recent invalid, not a positive lead. Stage2 candidates: 0.
+No rule/control/window retuning.
+Canonical `/srv/trading_lab_data/runs/v65_fast_calendar_contest_v1_daba08332161`;
+metricsSHA `1ecd7479ab2cf022a4132e166366cedf4fb8d8c2a22de7c41eb72187b082a310`.
 
 ## MOEX index news — prepared sample PAUSED, no source or economic run
 
