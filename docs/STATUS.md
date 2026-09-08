@@ -3,6 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Пауза по просьбе пользователя — 2026-09-08
+
+**Работа приостановлена.** [Точка продолжения](PAUSE_20260908.md) содержит сохранённые
+результаты, пути и состояние сервера. До явного нового «продолжай» не запускать
+исследования, обучение, source sample или paper; старые очереди ниже не являются
+разрешением продолжать. Последний исследовательский commit `2dd2d81` уже pushed.
+Timer AlgoPack bootstrap отключён: `disabled/inactive`, следующего запуска нет;
+bootstrap не запускался, paper instance не установлен. Серверный сбор исходных данных
+оставлен включённым. Данные/модели/run-артефакты сохранены вне Git, sealed bytes неизменны.
+
 ## Текущее исследование — V67 завершён, REJECT_STAGE1
 
 [V67](V67_OFZ_AUCTION_CONCESSION.md): одна новая гипотеза на уже собранных 283 primary
@@ -60,24 +70,30 @@ FX 1,93/1,15%; post-roll recent invalid (не считать прибыльны�
 admission, затем article fragment. Это проверка формата/revision evidence, не экономическая
 выборка.32synthetic tests PASS, local commit5d39d27; server sample и raw audit не выполнялись.
 Full catalogue пока явно disabled; никаких prices/labels/PnL или повторного обучения.
-AlgoPack schedule остаётся неизменным и автономным; проверять результат в момент запуска,
-а не подменять исследования ежеминутным наблюдением за ожиданием.
+Позднее по просьбе пользователя работа поставлена на паузу, AlgoPack bootstrap отменён;
+см. [точку продолжения](PAUSE_20260908.md). Source sample не запускать автоматически.
 
-## Автономный paper-контур — one-time future bootstrap scheduled
+## Paper-контур — запуск отменён на время паузы
 
-[Bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b pushed/deployed, syntax and
+Фактическая проверка после отключения 2026-09-08 около 11:03 UTC: bootstrap timer
+`disabled/inactive/dead`, NextElapse/LastTrigger пусты; bootstrap service `inactive`,
+MainPID=0, start timestamp пуст; exact paper instance `not-found/inactive`, MainPID=0.
+Не включать старый timer без проверки правил prospective возобновления. Ниже сохранена
+история подготовки до отмены; её прежние команды запуска не являются текущей очередью.
+
+[Bootstrap до паузы](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b pushed/deployed, syntax and
 local/server2tests PASS. Exact operational units installed; ONLY timer enabled/started.
 Actual timer active/waiting, next September9 00:01MSK, no prior trigger; bootstrap
 inactive/dead/start timestamp empty. At F+1m: UID999check→once-only init→non-overwriting
 sealed template install/compare→exact service start. Existing root skips auto init.
-No actual forecasts/trades yet. Next poll timer/service at due time; preserve failures.
+No actual forecasts/trades yet. Former due-time observation is cancelled by the pause.
 
 Read-only operational preflight September8 09:22UTC: installed bootstrap bytes match,
 NTP synchronized,904GiB free, UID999 parent write/search and Python execute checks exit0.
 Paper base is still absent, expected before once-only init; no start/model/HTTP request.
 Witnessed-flow last12:13MSK invocation success/exit0, not a new raw-data audit. Details
-are in the bootstrap note. Paper startup remains autonomous; research priority is the
-fast strategy contest, not retraining or repeated timer inspection.
+are in the bootstrap note. This is historical pre-pause evidence, not current startup
+authorization. Current state and resumption constraints are in the pause checkpoint.
 
 ### Предшествующий этап — future activation published, waiting for boundary
 
