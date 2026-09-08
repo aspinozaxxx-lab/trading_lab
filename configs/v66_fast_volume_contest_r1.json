@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v66_fast_volume_contest_r1",
+  "parent_v66_seal_sha256": "307db9d6583ed40aab830d3f4fc9a0f99ab1eb72fea12f4525f83814493ed781",
+  "change": "normalize nullable flat contract IDs for reporting position episode counts only",
+  "economic_rules_changed": false,
+  "failed_parent_preserved": true,
+  "parent_outcomes_published": false,
+  "goal_verified": false,
+  "live_trading_allowed": false
+}

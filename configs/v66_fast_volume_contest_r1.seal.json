@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v66_fast_volume_contest_r1",
+  "files": {
+    "configs/v66_fast_volume_contest_r1.json": "d45113aaa3af52ceeab9411ee2fa7aea1c47216abb086cdb5919238d3bb62121",
+    "src/market_lab/futures_v66_fast_volume_contest_r1.py": "f1ac83fbc7e3a2f392ee18e72efa28d08cb7c294ef8fd6995f714a13d9164120",
+    "tests/test_futures_v66_fast_volume_contest_r1.py": "227ec37c3531f072727e59550e01ccee6d26de946c996ecffe1c2bba33ae2b60",
+    "docs/V66_COUNTING_REPAIR_R1.md": "3ae6a7e90f1967ae92ceb6fdaa9eff087622040afd517130a6219bfaa6fb10c9",
+    "configs/v66_fast_volume_contest_v1.seal.json": "307db9d6583ed40aab830d3f4fc9a0f99ab1eb72fea12f4525f83814493ed781"
+  }
+}
