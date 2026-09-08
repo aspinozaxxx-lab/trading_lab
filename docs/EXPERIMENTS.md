@@ -2,6 +2,11 @@
 
 ## AlgoPack future-paper — USER_AUTHORIZED, ещё не economic run
 
+[Scheduled bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b operational units
+verified and installed. Actual timer active/waiting for September9 00:01MSK (F+1min),
+no trigger, bootstrap inactive. Existing-root guard, actual sealed check before once-only
+init, no-clobber service installation; no auto recovery/restart. Economic closure unchanged.
+
 [Activation publication](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md): actual100-file
 bundle and activation published/deployed d9a9fe2/5bc0690. Server598PASS/1skip59.43s;
 actual pre-F closure admission PASS and request refusal WAIT_FUTURE_BOUNDARY.

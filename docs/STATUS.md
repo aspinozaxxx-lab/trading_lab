@@ -3,7 +3,16 @@
 Обновлено: **2026-09-08**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущее действие — future activation published, waiting for boundary
+## Текущее действие — one-time future bootstrap scheduled
+
+[Bootstrap](ALGOPACK_PAPER_BOOTSTRAP_20260909.md): c760e2b pushed/deployed, syntax and
+local/server2tests PASS. Exact operational units installed; ONLY timer enabled/started.
+Actual timer active/waiting, next September9 00:01MSK, no prior trigger; bootstrap
+inactive/dead/start timestamp empty. At F+1m: UID999check→once-only init→non-overwriting
+sealed template install/compare→exact service start. Existing root skips auto init.
+No actual forecasts/trades yet. Next poll timer/service at due time; preserve failures.
+
+### Предшествующий этап — future activation published, waiting for boundary
 
 [Publication evidence](ALGOPACK_PAPER_ACTIVATION_PUBLICATION_20260908.md):100files
 matched server, full paper suite598PASS/1explicit-root skip59.43s UID999.
