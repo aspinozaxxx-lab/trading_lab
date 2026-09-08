@@ -1,13 +1,21 @@
 ﻿# Реестр экспериментов
 
-## V67 — issue-specific OFZ auction concession, prepared before outcomes
+## V67 — issue-specific OFZ auction concession COMPLETE, REJECT_STAGE1
 
 [Protocol](V67_OFZ_AUCTION_CONCESSION.md): one new supply-absorption mechanism;
 283 existing successful fixed-coupon auction events, next-open/five-session clean-price
 response and two contemporaneous prior-duration-matched controls, 10/20 bps per side.
 No V20 demand-score retuning, no V52 carry replay, no new collector. 6 local synthetic
 tests PASS. This first screen has null portfolio CAGR/Sharpe/MDD: cashflows, funding and
-overlapping capital are not modeled. Economic run not yet executed; seal required.
+overlapping capital are not modeled. Pushed `4d7bbe2` before one complete server run.
+[Result](V67_OFZ_AUCTION_RESULT.md): 283 source / 234 selected / 232 complete events,
+157 publication days, selected coverage 99.15%; 2 outside-window outcomes retained.
+Mean clean-price gross −5.8814 bps, base/doubled net −25.8814/−45.8814 bps per five-session
+episode, relative excess +11.2565 bps. All five doubled-net yearly means negative.
+REJECT_STAGE1; no Stage2 candidate. Server 6 tests PASS, input checks 12/12, artifact
+hashes 5/5, source-price replays 232/232 and daily aggregates 157/157.
+Canonical `/srv/trading_lab_data/runs/v67_ofz_auction_concession_v1_bd3c7ee1c1d2`;
+metrics SHA `3cda93a02c69f3b95dc431292065075f12d8fd48360308329ac8ae17ee70ba0f`.
 
 ## V66 R1 — fast volume-information contest COMPLETE, 4 rejected / 0 Stage2 candidates
 
