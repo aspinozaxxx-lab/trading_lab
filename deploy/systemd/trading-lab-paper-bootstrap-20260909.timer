@@ -1,0 +1,12 @@
+[Unit]
+Description=Future-only one-time AlgoPack paper bootstrap
+
+[Timer]
+OnCalendar=2026-09-08 21:01:00 UTC
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=false
+Unit=trading-lab-paper-bootstrap-20260909.service
+
+[Install]
+WantedBy=timers.target

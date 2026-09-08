@@ -1,0 +1,22 @@
+[Unit]
+Description=One-time initialization of sealed AlgoPack paper experiment
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=!/srv/trading_lab_data/data/forward/algopack-paper-v1/f51c02902825f61ba74cfbbcdd719d7233bc1839f1a152d9289e35e9ea3624e0
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/trading_lab
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/sbin/runuser -u trading-lab -- /opt/trading_lab/.venv/bin/python -m market_lab.futures.algopack_paper_runtime_v2 --activation-sha256 f51c02902825f61ba74cfbbcdd719d7233bc1839f1a152d9289e35e9ea3624e0 --check
+ExecStart=/usr/sbin/runuser -u trading-lab -- /opt/trading_lab/.venv/bin/python -m market_lab.futures.algopack_paper_runtime_v2 --activation-sha256 f51c02902825f61ba74cfbbcdd719d7233bc1839f1a152d9289e35e9ea3624e0 --initialize
+ExecStart=/usr/bin/cp --no-clobber /opt/trading_lab/deploy/systemd/trading-lab-algopack-paper@.service /etc/systemd/system/trading-lab-algopack-paper@.service
+ExecStart=/usr/bin/cmp --silent /opt/trading_lab/deploy/systemd/trading-lab-algopack-paper@.service /etc/systemd/system/trading-lab-algopack-paper@.service
+ExecStart=/usr/bin/systemctl daemon-reload
+ExecStart=/usr/bin/systemctl start trading-lab-algopack-paper@f51c02902825f61ba74cfbbcdd719d7233bc1839f1a152d9289e35e9ea3624e0.service
+Restart=no
+TimeoutStartSec=120s
+UMask=0022
+StandardOutput=journal
+StandardError=journal
