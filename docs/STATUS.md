@@ -3,16 +3,25 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V69, подготовлен до первого экономического run
+## Текущий screen — V69 завершён: REJECT_STAGE1
 
 [V69](V69_FUTURES_CHAIN_INTEREST.md): monthly direction по 63-session growth суммарного
 reported futures-chain OI, BR/MIX/RI/SI, 2018–2025, constant-long контроль, два costs.
 Не старые active-contract OI features V7/V8, не participant crowding и не option V68.
 Все присутствующие OI cells должны быть известны; NULL маскирует весь daily total.
 Месячное решение из строго prior source, новый invalid месяц не наследует старый сигнал.
-18 новых synthetic tests +11 shared-helper regression +2 encoding PASS, Ruff PASS.
-До seal/push/server run доходность V69 не считалась. Следующий шаг — один server screen;
-старый paper bootstrap остаётся отключённым, новых collectors или fit нет.
+[Результат](V69_FUTURES_CHAIN_INTEREST_RESULT.md): CAGR 1×/2× −5,5559%/−5,9359%,
+Sharpe −0,5639/−0,6115, MDD 44,0979%/45,2677%; 200/198 закрытых эпизодов,
+прибыльны 3/8 и 2/8 лет. Gross PnL отрицателен до затрат; контроль CAGR +2,7772%/+2,2152%.
+309/384 месячных asset decisions готовы; все 4 executions complete, critical/unresolved 0,
+terminal flat. REJECT_STAGE1: нет доходности/устойчивости и проигрыш контролю; 0 Stage2.
+18 новых synthetic +11 shared-helper regression +2 encoding PASS; server 18 PASS до
+единственного economic run 5,4935s. Audit 17/17 hashes, 4/4 metric/count/clock replays
+и monthly schedule PASS. Pre-outcome push `0c8b0eb`, seal `ba001c39c1fa02e790d7837380b60c0327e99e1d051d8402b9b7c96554e860f1`.
+Canonical `/srv/trading_lab_data/runs/v69_futures_chain_interest_v1_ba001c39c1fa`.
+V65–V69: 11 отсеянных гипотез, 0 кандидатов Stage2. Знак/горизонт/пул/расписание не менять;
+нужен другой содержательный механизм. Старый paper bootstrap остаётся отключённым
+по последней проверке; новых collectors или fit нет.
 
 ## Работа возобновлена — 2026-09-13, V68 завершён: REJECT_STAGE1
 
@@ -3407,14 +3416,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65/V66/V67/V68 завершены: 10 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
-   V69 futures-chain OI growth, подготовлен после сверки реестра, см. верх STATUS.
-   Не повторять/перенастраивать календарь, эти OHLCV-правила, покупку V67 и сигнал V68;
+1. V65/V66/V67/V68/V69 завершены: 11 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
+   другой содержательный механизм на разрешённых данных после сверки реестра.
+   Не повторять/перенастраивать календарь, OHLCV-правила, покупку V67, сигналы V68/V69;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68 уже завершён, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68 и V69 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 

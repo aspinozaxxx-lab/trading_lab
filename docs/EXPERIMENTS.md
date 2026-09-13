@@ -1,13 +1,22 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-13 — V69 futures-chain interest, prepared before economic outcomes
+## 2026-09-13 — V69 futures-chain interest COMPLETE, REJECT_STAGE1
 
 [V69](V69_FUTURES_CHAIN_INTEREST.md): один quarterly OI growth / monthly direction
 механизм, all reported futures contracts, BR/MIX/RI/SI jointly, 2018–2025,
 constant-long control и 1x/2x costs. Legacy V7/V8 active-contract OI features уже были;
 не объявляем поле OI ранее неизвестным. Новый target/aggregation, без fit или collector.
-18 synthetic +11 shared-helper regression +2 encoding PASS; Ruff PASS. Source audit,
-byte identities и preseal missing counts зафиксированы, PnL ещё не считался.
+[Результат](V69_FUTURES_CHAIN_INTEREST_RESULT.md): CAGR 1×/2× −5,5559%/−5,9359%,
+Sharpe −0,5639/−0,6115, MDD 44,0979%/45,2677%, 200/198 closed episodes;
+3/8 и 2/8 положительных лет. Контроль +2,7772%/+2,2152% CAGR; gross primary уже отрицателен.
+309/384 monthly decisions ready; все 4 executions complete, critical/unresolved 0, terminal flat.
+REJECT_STAGE1, 0 Stage2. Правило/знак/окно/активы не перенастраивать.
+18 synthetic +11 shared-helper regression +2 encoding PASS, server 18 PASS до economics.
+Pre-outcome push `0c8b0eb`, seal `ba001c39c1fa02e790d7837380b60c0327e99e1d051d8402b9b7c96554e860f1`.
+Canonical `/srv/trading_lab_data/runs/v69_futures_chain_interest_v1_ba001c39c1fa`;
+metrics SHA `e40a5a53a5437b0e701fbb58bc3713f470fa045ccae2c9d9eac5de51e4879a44`.
+Single run 5,4935s; audit 17 hashes /4 metric/count replays и monthly schedule PASS.
+V65–V69: 11 rejected, 0 Stage2; цель 20–50% не достигнута.
 
 ## 2026-09-13 — V68 reported option-volume screen COMPLETE, REJECT_STAGE1
 
