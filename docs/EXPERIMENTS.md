@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-13 — V70 OFZ relative curve, prepared before economic outcomes
+
+[V70](V70_OFZ_RELATIVE_CURVE.md): top-3 positive LOO quadratic yield-curve residuals
+vs top-3 close-to-curve controls, existing SU262 source and coupon-aware ledger,
+2021–2025, 10/20 bps and terminal cost reserve. Не V52 absolute yield, V53 governor,
+V67 auction или новая смесь с V49. 15 synthetic +5 shared bond-ledger +2 encoding
+PASS; Ruff PASS. До отдельного seal/push/server run новых real residuals/PnL нет.
+
 ## 2026-09-13 — V69 futures-chain interest COMPLETE, REJECT_STAGE1
 
 [V69](V69_FUTURES_CHAIN_INTEREST.md): один quarterly OI growth / monthly direction

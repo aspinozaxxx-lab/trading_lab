@@ -3,7 +3,17 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V69 завершён: REJECT_STAGE1
+## Текущий screen — V70 подготовлен, до первого economic run
+
+[V70](V70_OFZ_RELATIVE_CURVE.md): OFZ relative value — top-3 positive leave-one-out
+yield-curve residuals против top-3 close-to-curve controls. SU262, 2–7 лет, monthly
+first factual decision / strictly prior source, 2021–2025, 10/20 bps, готовый coupon
+ledger без старой V52 selection или V49 blend. Не аукционный сигнал V67.
+15 новых synthetic +5 bond-ledger regression +2 encoding tests PASS, Ruff PASS.
+До seal/push/run residuals и PnL V70 на реальных данных не считались. Следующий шаг —
+один server economic screen. Protected 2026, старый paper bootstrap и collectors не меняются.
+
+## Предыдущий screen — V69 завершён: REJECT_STAGE1
 
 [V69](V69_FUTURES_CHAIN_INTEREST.md): monthly direction по 63-session growth суммарного
 reported futures-chain OI, BR/MIX/RI/SI, 2018–2025, constant-long контроль, два costs.
@@ -3417,7 +3427,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
 1. V65/V66/V67/V68/V69 завершены: 11 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
-   другой содержательный механизм на разрешённых данных после сверки реестра.
+   V70 issue-specific OFZ relative curve, подготовлен до экономического run, см. верх STATUS.
    Не повторять/перенастраивать календарь, OHLCV-правила, покупку V67, сигналы V68/V69;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.

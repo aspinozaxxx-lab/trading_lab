@@ -1,0 +1,15 @@
+﻿{
+  "protocol_id": "v70_ofz_relative_curve_v1",
+  "sealed_before_outcomes": true,
+  "sealed_at_utc": "2026-09-13T19:33:27Z",
+  "files": {
+    "configs/v70_ofz_relative_curve_v1.json": "13495875f1ed0e3f428ff09e4f0a6b0c0b3550483f737e444122e26043ff0130",
+    "src/market_lab/ofz_v70_relative_curve.py": "d7b04b907a22e848e09cbcafd2be7f80ac6116f4bd0b6a9e433110b4d8b55cc2",
+    "tests/test_ofz_v70_relative_curve.py": "58efcf4938e2f63a98114620aa4f5c5231205d8dba703118fdb0503d7e2e0b0c",
+    "docs/V70_OFZ_RELATIVE_CURVE.md": "bc11ea686f0d0ab0b147ce81f7c3580223418a341f95dbdd885a5a650309bab2",
+    "src/market_lab/futures_v52_ofz_carry_roll_down.py": "066dab2181b7a301289af0568a77b005ccb24b483c9803728d0ec8ea449197b1",
+    "src/market_lab/futures/moex_stock_futures_cash_carry_source.py": "f8ea4116aabc8a7fce8d3ddaad5ffdbadf86b4306c2d0a471f40baf40021de58",
+    "src/market_lab/io_utils.py": "ab453176a9195533c92a510d0fbaf1d03e628d0772f477930bf17cfd0fc395e0",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}
