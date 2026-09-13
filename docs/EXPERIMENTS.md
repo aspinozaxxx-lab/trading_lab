@@ -8,7 +8,11 @@ Mean cumulative working-day government contribution minus published matching for
 long SI при positive error, short при negative; actual-only контроль, одинаковые masks.
 2021–2025, два costs, без fit; 20 synthetic +11 shared PASS, metadata-only input checks
 PASS. Existing local approved sources copied unchanged to server, no new collection.
-До economic чтения обязательны seal/push. Результат pending, Stage2/goal flags false.
+V1 seal `ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a`, push
+`f6cffe8`, server20tests PASS. Остановлен до portfolio ledger: 55 915 right-only specs,
+10 137 matching SI rows, left-only0. Только inputs/states; никакого economic verdict.
+[R1](V71_SCOPE_REPAIR_R1.md): тот же fixed scope применить к specs, сохранить exact
+join/всю экономику/parent bytes; отдельный seal и новый run. Результат pending.
 
 ## 2026-09-13 — V70 OFZ relative curve после accounting R1: COMPLETE, REJECT_STAGE1
 

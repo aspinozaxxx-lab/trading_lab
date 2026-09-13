@@ -1,0 +1,19 @@
+﻿{
+  "protocol_id": "v71_cbr_liquidity_surprise_r1",
+  "declared_at_utc": "2026-09-13T20:34:40Z",
+  "purpose": "Input assembly correction before first trade simulation, not a new hypothesis or parameter change",
+  "parent_v1_seal_sha256": "ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a",
+  "only_economic_config_difference": "protocol_id for a separate immutable output directory; all source, signals, clocks, masks, execution and gates inherited unchanged",
+  "fix": "Filter spec_proxy by the same fixed SI / 2021-2025 scope already applied to observations, then retain the original strict exact-key join and all field validators",
+  "failed_parent": {
+    "root": "runs/v71_cbr_liquidity_surprise_v1_ed9b8bc81357",
+    "files": {
+      "inputs.json": "3d01107a4e406fcea519288490a698a8cfd11ace3070415bb888024cc8906e25",
+      "liquidity_surprise_states.parquet": "e6930955cfe1940d501827c7797c234c5bd3bf088698adb6c855f6f0a6e09a68"
+    },
+    "simulation_started": false,
+    "orders_positions_ledger_metrics_created": false
+  },
+  "goal_verified": false,
+  "live_trading_allowed": false
+}

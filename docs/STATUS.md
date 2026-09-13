@@ -3,7 +3,7 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V71 подготовлен, outcomes ещё не прочитаны
+## Текущий screen — V71, input-scope R1 до первой симуляции
 
 [V71](V71_CBR_LIQUIDITY_SURPRISE.md): новая information hypothesis — ошибка недельного
 прогноза government-account liquidity относительно matching realized contribution,
@@ -12,8 +12,12 @@
 Методика ЦБ: среднее накопленных дневных вкладов, не недельная сумма. Только полные
 обычные Wed–Tue недели, без imputation; missing/irregular явно masked. 2021–2025,
 gross1, готовый futures ledger, два costs, без fit/нового collector. 20 новых synthetic
-+11 shared tests PASS; input hashes/schema/date-only preflight PASS. Далее pre-outcome
-seal/push и единственный economic run на gpu-mlserver; это пока не economic PASS.
++11 shared tests PASS; input hashes/schema/date-only preflight PASS. V1 seal
+`ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a`, push `f6cffe8`;
+20server tests PASS, затем strict join отклонил full-market specs для SI-only observations.
+До portfolio ledger: только inputs/states, никаких orders/positions/ledger/metrics.
+[R1](V71_SCOPE_REPAIR_R1.md) фильтрует specs по прежнему SI/2021–2025 scope; source
+values/signals/economics/gates неизменны, не новая гипотеза. Далее R1 seal/push/run.
 V65–V70 остаются12 rejected/0Stage2. Protected2026/paper/collectors не менялись.
 
 ## Предыдущий screen — V70 завершён после accounting R1: REJECT_STAGE1

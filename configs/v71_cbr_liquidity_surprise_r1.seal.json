@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v71_cbr_liquidity_surprise_r1",
+  "sealed_before_first_trade_simulation": true,
+  "sealed_at_utc": "2026-09-13T20:38:01Z",
+  "files": {
+    "configs/v71_cbr_liquidity_surprise_r1.json": "c38c1879742d2d9dd8ee1f823e8f643232a0e3c68c6f89d61dd31b687b5d5334",
+    "src/market_lab/futures_v71_scope_repair.py": "a569c072603657e2a76fbc2d59dd71fecbc2c114f1eb9adae25a3a098854be43",
+    "tests/test_futures_v71_scope_repair.py": "785eded634f8bf7ccb0009bf77f657a257cb4acd2472b7c492cc84fa937a75a7",
+    "docs/V71_SCOPE_REPAIR_R1.md": "db3e1529b3d53587cacbfeaab0b81cce604bf441fa34f88ef10e059da9d75ea0",
+    "configs/v71_cbr_liquidity_surprise_v1.seal.json": "ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a"
+  }
+}
