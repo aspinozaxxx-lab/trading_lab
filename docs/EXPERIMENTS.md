@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-13 — V69 futures-chain interest, prepared before economic outcomes
+
+[V69](V69_FUTURES_CHAIN_INTEREST.md): один quarterly OI growth / monthly direction
+механизм, all reported futures contracts, BR/MIX/RI/SI jointly, 2018–2025,
+constant-long control и 1x/2x costs. Legacy V7/V8 active-contract OI features уже были;
+не объявляем поле OI ранее неизвестным. Новый target/aggregation, без fit или collector.
+18 synthetic +11 shared-helper regression +2 encoding PASS; Ruff PASS. Source audit,
+byte identities и preseal missing counts зафиксированы, PnL ещё не считался.
+
 ## 2026-09-13 — V68 reported option-volume screen COMPLETE, REJECT_STAGE1
 
 Пользователь явно сказал «продолжай». [V68](V68_REPORTED_OPTION_FLOW.md) проверяет новую

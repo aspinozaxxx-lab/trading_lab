@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v69_futures_chain_interest_v1",
+  "sealed_before_outcomes": true,
+  "sealed_at_utc": "2026-09-13T19:12:30Z",
+  "files": {
+    "configs/v69_futures_chain_interest_v1.json": "a1be61f1422e427cfbd36f26862145db4beaf98ec75cc1639cc7fa5b24bf3b8a",
+    "src/market_lab/futures_v69_chain_interest.py": "3310afcfa1f40f5478a816a0794290af11e989f8708f146ba4eb17df47b2c3fc",
+    "tests/test_futures_v69_chain_interest.py": "8497a259491e2d74f3aa16e886fcaaba29f78c8883007d3869a5da5fb228b842",
+    "docs/V69_FUTURES_CHAIN_INTEREST.md": "aec9166514e6ad674435e9ef2cae07269976eef05fa577374fc22199fbaf4a02",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

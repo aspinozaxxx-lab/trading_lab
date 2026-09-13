@@ -3,6 +3,17 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Текущий screen — V69, подготовлен до первого экономического run
+
+[V69](V69_FUTURES_CHAIN_INTEREST.md): monthly direction по 63-session growth суммарного
+reported futures-chain OI, BR/MIX/RI/SI, 2018–2025, constant-long контроль, два costs.
+Не старые active-contract OI features V7/V8, не participant crowding и не option V68.
+Все присутствующие OI cells должны быть известны; NULL маскирует весь daily total.
+Месячное решение из строго prior source, новый invalid месяц не наследует старый сигнал.
+18 новых synthetic tests +11 shared-helper regression +2 encoding PASS, Ruff PASS.
+До seal/push/server run доходность V69 не считалась. Следующий шаг — один server screen;
+старый paper bootstrap остаётся отключённым, новых collectors или fit нет.
+
 ## Работа возобновлена — 2026-09-13, V68 завершён: REJECT_STAGE1
 
 Пользователь явно ответил «продолжай» после уточнения о паузе. Сохранённый checkpoint
@@ -3397,7 +3408,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
 1. V65/V66/V67/V68 завершены: 10 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
-   другой содержательный механизм на разрешённых данных, после сверки реестра.
+   V69 futures-chain OI growth, подготовлен после сверки реестра, см. верх STATUS.
    Не повторять/перенастраивать календарь, эти OHLCV-правила, покупку V67 и сигнал V68;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
