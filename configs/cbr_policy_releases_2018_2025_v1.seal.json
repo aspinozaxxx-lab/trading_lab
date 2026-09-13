@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "cbr_policy_releases_2018_2025_v1",
+  "sealed_before_persisted_source": true,
+  "sealed_at_utc": "2026-09-13T21:06:24Z",
+  "files": {
+    "configs/cbr_policy_releases_2018_2025_v1.json": "331a387fd94205fc3cd9e78d1b8e9f3a96bd5a2633c49bfe7b8e5b529ec6f8f4",
+    "src/market_lab/futures/cbr_policy_releases_source.py": "a8fb0ec073be89d754db12df29a8c1cc8c3a587aedead4c0052584c2365c1214",
+    "tests/test_cbr_policy_releases_source.py": "dfca50b6d1082d30319e0819686590bce1b3aa04f3d68929ad44be0a93890c48",
+    "docs/CBR_POLICY_RELEASES_SOURCE_V1.md": "27f194308cbc0e31ec54c2a1032d21488c8e4d8c805d8bc20f694ab5f7085176",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

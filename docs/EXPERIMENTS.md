@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V72 policy communication: source подготовлен, не economic result
+
+[Источник](CBR_POLICY_RELEASES_SOURCE_V1.md): полный provider catalogue пресс-релизов
+ставки2018–2025, включая внеочередные. Новая qualitative forward-guidance информация,
+не numerical rate level/старый governor или V71 forecast-error retune. Текст и clocks
+отдельно от рыночных outcomes; title actual decision — будущий control.
+12synthetic PASS, source seal/push/collection ещё обязательны; economic model/PnL ещё
+не запускались. V65–V71 по-прежнему13rejected/0Stage2. Не засчитывать source как успех.
+
 ## 2026-09-13 — V71 CBR liquidity forecast error: COMPLETE, REJECT_STAGE1
 
 [Протокол](V71_CBR_LIQUIDITY_SURPRISE.md), config `v71_cbr_liquidity_surprise_v1`.
