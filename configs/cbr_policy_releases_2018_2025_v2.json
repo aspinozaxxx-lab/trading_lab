@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "cbr_policy_releases_2018_2025_v2",
+  "parent_v1_seal_sha256": "19951e7aa1d68baf807e8593082c60e02d2681c4f6010cde50fbc9136f5fb568",
+  "output": "data/processed/info_radar/cbr-policy-releases-2018-2025-v2",
+  "reason": "V1 stopped at2022-07-22 after29article responses: footer00:00:00 is date-only, category says13:30. Do not invent midnight publication or drop the release.",
+  "failed_parent": "data/processed/info_radar/cbr-policy-releases-2018-2025-v1",
+  "failed_article_sha256": "2f0dfe1895d58a4d74164d2c54eb4b6cd8d9e6733d14a76558cbec44c1e2814d",
+  "correction": "Only for an exact00:00:00 footer with matching article/listing date, preserve footer text, mark footer_time_known=false and use separately retained catalog clock as the publication-label proxy. Availability remains23:59:59Moscow that day. Nonzero clock disagreement, date/headline/body drift still fail.",
+  "collection_policy": "All other V1 source period, category, budgets, selection and rights rules unchanged. New output, V1 preserved, new bounded acquisition; no market/economic data.",
+  "economic_admission": false,
+  "goal_verified": false,
+  "live_trading_allowed": false
+}

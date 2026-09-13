@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "cbr_policy_releases_2018_2025_v2",
+  "sealed_before_v2_acquisition": true,
+  "sealed_at_utc": "2026-09-13T21:18:54Z",
+  "files": {
+    "configs/cbr_policy_releases_2018_2025_v2.json": "857666941e9b1c7ddcdae9f7b56c67a820439b58894393b24b838c2e7100ef32",
+    "src/market_lab/futures/cbr_policy_releases_source_v2.py": "1fc8cb1face054b9ab64494e6dfa121b26f687212453676f814cafc54ac83745",
+    "tests/test_cbr_policy_releases_source_v2.py": "fe56f657ce42b98174a282d4722bb5a7f24aff6cc8b07faa03fcc13559b4c413",
+    "docs/CBR_POLICY_RELEASES_SOURCE_V2.md": "f4e56c58dc2f1188cc63bca6f6aeb34a936ccc4a6f8d7f27a8295813afc06965",
+    "configs/cbr_policy_releases_2018_2025_v1.seal.json": "19951e7aa1d68baf807e8593082c60e02d2681c4f6010cde50fbc9136f5fb568"
+  }
+}

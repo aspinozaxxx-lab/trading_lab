@@ -3,15 +3,18 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Следующая гипотеза — V72: текстовый forward guidance ЦБ, источник подготовлен
+## Следующая гипотеза — V72: текстовый forward guidance ЦБ, source clock correction V2
 
 Новая информация: явные заявления ЦБ о будущих повышениях/снижениях ставки, не уже
 проверенные числовые levels/governors V27 или прогноз бюджета V71. [Source protocol](
 CBR_POLICY_RELEASES_SOURCE_V1.md) собирает все релизы отдельной категории2018–2025;
 принятые решения в headline будут контролем. Никакого fit или нового сервиса.
-Сначала ограниченный source seal/push/одноразовая server выгрузка/replay, затем отдельный
-economic seal для простого MIX/SI правила с costs и полным годовым отчётом. Пока source
-prepared,12synthetic PASS; signals/market outcomes V72 не прочитаны, не Stage2.
+Source V1 после push72df00b остановился на29-м article:2022-07-22 footer00:00:00,
+catalog13:30. Raw сохранён, processed/manifest/PnL отсутствуют. [V2 correction](
+CBR_POLICY_RELEASES_SOURCE_V2.md) сохраняет date-only footer как неизвестное время,
+не backdate-ит доступность: она остаётся23:59:59Moscow. Новый config/seal/root,
+18synthetic PASS; далее bounded server collection/replay и отдельный economic seal
+для простого MIX/SI правила с costs и полным годовым отчётом. Не Stage2.
 Проверенные обходные направления не повторять: term/calendar уже закрыты; premium
 options без quotes/spec identity blocked, volatility-curve catalog V2 показывает0/6
 eligible archives по прежнему gate. Index sample и старый paper bootstrap не запускались.
