@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-13 — V71 CBR liquidity forecast error: подготовлен до outcomes
+## 2026-09-13 — V71 CBR liquidity forecast error: COMPLETE, REJECT_STAGE1
 
 [Протокол](V71_CBR_LIQUIDITY_SURPRISE.md), config `v71_cbr_liquidity_surprise_v1`.
 Новая совместная forecast/realization информация; не старые V18/V19 стратегии.
@@ -12,7 +12,20 @@ V1 seal `ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a`, push
 `f6cffe8`, server20tests PASS. Остановлен до portfolio ledger: 55 915 right-only specs,
 10 137 matching SI rows, left-only0. Только inputs/states; никакого economic verdict.
 [R1](V71_SCOPE_REPAIR_R1.md): тот же fixed scope применить к specs, сохранить exact
-join/всю экономику/parent bytes; отдельный seal и новый run. Результат pending.
+join/всю экономику/parent bytes; отдельный seal и новый run после push `8f447cb`.
+[Результат](V71_CBR_LIQUIDITY_SURPRISE_RESULT.md): primary CAGR−8,1877%/−8,1629%,
+Sharpe−0,3619/−0,3608, MDD41,8831%/41,7189%,121roundtrips,1/5positiveyears.
+Control CAGR−20,6766%/−20,8825%,132roundtrips,0/5positiveyears. Gross/net отрицательны;
+обгон убыточного контроля не даёт PASS. 214/254ready (84,2520%),1271decisions,
+1056nonzero targets. Все4complete, critical/unresolved0, terminalflat; halt/cancel retained.
+REJECT_STAGE1: CAGR/Sharpe/MDD/positive years/worst year. Historical20/50/goal=false.
+R1 seal `e9ac4c0832cdb9e999745816a459b0081a79260ddeac2bcc8f42e504b5c4526b`;
+canonical `/srv/trading_lab_data/runs/v71_cbr_liquidity_surprise_r1_e9ac4c0832cd`;
+metrics `d4749f1aefeec4e40f386f29cccfff0c7274907925f388e28d57946c179857f4`;
+identity `5b7e861e269d4602e4632b1e916f0cc42aee9f387fb8efb8604b00fb9855dc89`.
+Runtime2,122537s, local40/server27tests PASS, Ruff/diff PASS, audit17/17hashes +
+source-state/4metric-count-cash replays PASS; parent inputs/states byte-identical.
+V65–V71:13rejected/0Stage2; R1 не новая гипотеза. Никаких sign/aggregation/TTL retunes.
 
 ## 2026-09-13 — V70 OFZ relative curve после accounting R1: COMPLETE, REJECT_STAGE1
 

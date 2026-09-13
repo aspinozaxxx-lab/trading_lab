@@ -3,7 +3,7 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V71, input-scope R1 до первой симуляции
+## Последний screen — V71 завершён: REJECT_STAGE1
 
 [V71](V71_CBR_LIQUIDITY_SURPRISE.md): новая information hypothesis — ошибка недельного
 прогноза government-account liquidity относительно matching realized contribution,
@@ -11,14 +11,24 @@
 доступность; не повтор/инверсия V18 forecast или V19 Minfin FX persistence.
 Методика ЦБ: среднее накопленных дневных вкладов, не недельная сумма. Только полные
 обычные Wed–Tue недели, без imputation; missing/irregular явно masked. 2021–2025,
-gross1, готовый futures ledger, два costs, без fit/нового collector. 20 новых synthetic
-+11 shared tests PASS; input hashes/schema/date-only preflight PASS. V1 seal
-`ed9b8bc813579e2af40f0039b1f6044428129c73b3a0c796fdc4ca780b6f2e4a`, push `f6cffe8`;
-20server tests PASS, затем strict join отклонил full-market specs для SI-only observations.
-До portfolio ledger: только inputs/states, никаких orders/positions/ledger/metrics.
-[R1](V71_SCOPE_REPAIR_R1.md) фильтрует specs по прежнему SI/2021–2025 scope; source
-values/signals/economics/gates неизменны, не новая гипотеза. Далее R1 seal/push/run.
-V65–V70 остаются12 rejected/0Stage2. Protected2026/paper/collectors не менялись.
+gross1 target, готовый futures ledger, два costs, без fit/нового collector.
+[Результат](V71_CBR_LIQUIDITY_SURPRISE_RESULT.md): CAGR1×/2× −8,1877%/−8,1629%,
+Sharpe−0,3619/−0,3608, MDD41,8831%/41,7189%;121 закрытый эпизод,1/5 прибыльных лет.
+Контроль CAGR−20,6766%/−20,8825%. Primary лучше контроля, но теряет капитал уже до
+затрат; всего net−346819/−345938руб. на исходный1млн за пять лет. Stage2=0.
+214/254 ready periods (84,2520%),1271 decisions,1056 nonzero targets; все4 executions
+complete, critical/unresolved0, terminal flat. Один factual halt/carry и один cancelled
+target no-open в каждом scenario сохранены, maximum close gross primary1,0757/1,0804.
+V1 push `f6cffe8` остановился до portfolio ledger: SI observations против full specs;
+только inputs/states. [R1](V71_SCOPE_REPAIR_R1.md), pre-simulation push `8f447cb`,
+исправил только specs scope, сохранив parent bytes/signals/economics/gates.
+R1 canonical `/srv/trading_lab_data/runs/v71_cbr_liquidity_surprise_r1_e9ac4c0832cd`.
+Seal `e9ac4c0832cdb9e999745816a459b0081a79260ddeac2bcc8f42e504b5c4526b`;
+metrics `d4749f1aefeec4e40f386f29cccfff0c7274907925f388e28d57946c179857f4`.
+Единственный economic run2,122537s; local40/server27tests PASS, Ruff/diff PASS.
+Audit17hashes/source states/4metrics-count-cash PASS; inherited inputs/states byte-identical.
+V65–V71:13 rejected/0Stage2. Не менять знак/агрегацию/окна V71; нужен иной механизм.
+Цель20–50% не достигнута. Protected2026/paper/collectors не менялись.
 
 ## Предыдущий screen — V70 завершён после accounting R1: REJECT_STAGE1
 
@@ -3460,17 +3470,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V71 подготовлен: seal/push → один server economic screen → все metrics/verdict.
-   V65/V66/V67/V68/V69/V70 завершены: 12 отсеянных гипотез, 0 кандидатов Stage2.
-   V70 после R1 accounting сверки тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
+1. V65/V66/V67/V68/V69/V70/V71 завершены: 13 отсеянных гипотез, 0 кандидатов Stage2.
+   V71 после input-scope R1 тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
    Выбрать иной содержательный механизм/information set после сверки реестра и выполнить
    следующий дешёвый economic screen на имеющейся допустимой истории.
-   Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69 и curve V70;
+   Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
+   и forecast-error V71; не менять агрегирование/знаки/TTL после результата;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V70 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V71 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
