@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-13 — V70 OFZ relative curve, INVALID_INCOMPLETE_ACCOUNTING; R1 prepared
+## 2026-09-13 — V70 OFZ relative curve после accounting R1: COMPLETE, REJECT_STAGE1
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): top-3 positive LOO quadratic yield-curve residuals
 vs top-3 close-to-curve controls, existing SU262 source and coupon-aware ledger,
@@ -14,8 +14,19 @@ metrics SHA `f6c012ff0fa4bcdcdf9cc0fc38ed55caa0f3503fdd8aa1e214c7b44025a9db11`.
 [R1](V70_ACCOUNTING_RECONCILIATION_R1.md): отдельная accounting-only сверка по 6 exact
 REDM notices и отсутствию всех позиций/сделок у остальных 5 выпусков. Ни retune,
 ни simulate rerun. До R1 seal доходность не читалась; 13 R1 +15 parent +2 encoding
-tests PASS. После seal/push сверить zero entitlement и все уже credited cashflows,
-затем опубликовать исходные economic metrics/gates. V65–V69: по-прежнему 11 rejected.
+tests PASS. R1 после push `068df83` выполнил сверку за0,252720s: все44 zero entitlements
+доказаны, все known coupon credits сверены; source/trades/positions/raw NAV не изменены.
+[Итог](V70_OFZ_RELATIVE_CURVE_RESULT.md): CAGR1×/2× 4,4929%/3,0249%, Sharpe0,5811/0,4055,
+MDD19,2397%/19,8828%, 103closed/3terminal open, 271legs в каждом primary scenario.
+Контроль CAGR3,6400%/2,0872%; excess0,8530/0,9378pp. Positive years3/5 и2/5;
+выигрыш сосредоточен в2025. Полные4ledgers/1271sessions; remaining unresolved0.
+REJECT_STAGE1: CAGR/excess/число прибыльных лет и double-cost Sharpe не проходят.
+R1 canonical `/srv/trading_lab_data/runs/v70_ofz_relative_curve_r1_60b09b6b2121`;
+seal `60b09b6b212163b31c934c7b6b814ee400603a3c0456d1e94e2a7b6e959280ac`;
+metrics SHA `b18acbc2cc427f23fc720c7908ff1a06bb772829f55744ca663bb8f57ece64f0`.
+Server13tests PASS, audit20parent/6new artifacts/6documents/44proofs/4metrics-credit
+replays PASS. Simulate rerun0, canonical V1 сохранён. V65–V70:12rejected,0Stage2;
+R1 не отдельная гипотеза, ничего не tune-ить, цель20–50% не достигнута.
 
 ## 2026-09-13 — V69 futures-chain interest COMPLETE, REJECT_STAGE1
 

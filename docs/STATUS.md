@@ -3,24 +3,32 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V70 incomplete accounting; R1 до раскрытия доходности
+## Последний screen — V70 завершён после accounting R1: REJECT_STAGE1
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): OFZ relative value — top-3 positive leave-one-out
 yield-curve residuals против top-3 close-to-curve controls. SU262, 2–7 лет, monthly
 first factual decision / strictly prior source, 2021–2025, 10/20 bps, готовый coupon
 ledger без старой V52 selection или V49 blend. Не аукционный сигнал V67.
-Первый и единственный run после push `de7a2f8` завершён за 2,824659s: 60 месяцев,
-56 selected/rebalanced, 1271/1271 marks и 0 unresolved rebalances во всех 4 сценариях.
-Но 11 missing principal record dates дают INVALID_INCOMPLETE_ACCOUNTING: доходность,
-Sharpe/MDD/years/NAV/PnL в metrics null, это не economic REJECT.
-Canonical `/srv/trading_lab_data/runs/v70_ofz_relative_curve_v1_7295e716381f` сохранён.
-[Accounting R1](V70_ACCOUNTING_RECONCILIATION_R1.md) проверяет zero entitlement: 5 выпусков
-никогда не покупались, для 6 ранее проданных приняты exact REDM dates из депозитарных
-уведомлений. До R1 seal raw NAV/performance не читались. Сигнал/trades/positions/costs
-и gates не меняются; будет только сверка прежнего журнала, не повтор стратегии.
-13 новых R1 +15 V70 +2 encoding tests PASS; Ruff PASS. Далее seal/push и одна server
-reconciliation с результатом всех 4 scenarios. Protected 2026, paper bootstrap/collectors
-не меняются. V70 пока НЕ включать в число экономически отсеянных гипотез.
+[Результат](V70_OFZ_RELATIVE_CURVE_RESULT.md): CAGR 1×/2× 4,4929%/3,0249%, Sharpe
+0,5811/0,4055, MDD19,2397%/19,8828%; 103 закрытых эпизода, прибыльны3/5 и2/5 лет.
+Контроль CAGR3,6400%/2,0872%; excess всего0,8530/0,9378 процентного пункта.
+2025 принёс22,6206%/20,8011%, но это не устойчивые20% за весь2021–2025.
+REJECT_STAGE1: CAGR, excess, число прибыльных лет; double costs также Sharpe.
+60 месяцев/56 selected, 56 rebalances, 1271/1271 marks, 0 remaining unresolved во всех4.
+Первый run после push `de7a2f8`, 2,824659s, первоначально INVALID_INCOMPLETE_ACCOUNTING
+из-за11 sourcewide missing principal record dates; его metrics с null сохранены.
+[R1](V70_ACCOUNTING_RECONCILIATION_R1.md), после pre-performance push `068df83`, доказал
+44/44 zero entitlements и независимо сверил все credits. Исходные signal/trades/positions/
+raw NAV/costs/gates неизменны; strategy simulations rerun0. Six exact documentary sources,
+5 never-held и6 exact-record-date zero holdings в каждом scenario; не выдуманные выплаты.
+R1 canonical `/srv/trading_lab_data/runs/v70_ofz_relative_curve_r1_60b09b6b2121`.
+Seal `60b09b6b212163b31c934c7b6b814ee400603a3c0456d1e94e2a7b6e959280ac`;
+metrics `b18acbc2cc427f23fc720c7908ff1a06bb772829f55744ca663bb8f57ece64f0`.
+13new+15parent+2encoding local30 PASS; server13 PASS; Ruff/diff PASS.
+R1 evaluation0,252720s; audit20parent+6new hashes/6documents/44proofs/4metric-credit replays PASS.
+V65–V70:12 отсеянных гипотез,0 Stage2; R1 не новая гипотеза. Цель20–50% не достигнута.
+Далее иной механизм/information set, не настройка V70/старых families. Protected2026
+prices/returns/labels/PnL, paper bootstrap и collectors schedules не менялись.
 
 ## Предыдущий screen — V69 завершён: REJECT_STAGE1
 
@@ -3435,15 +3443,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65/V66/V67/V68/V69 завершены: 11 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
-   V70 issue-specific OFZ relative curve: первоначально incomplete accounting; выполнить
-   подготовленную R1 zero-entitlement сверку, затем прежние economic gates, см. верх STATUS.
-   Не повторять/перенастраивать календарь, OHLCV-правила, покупку V67, сигналы V68/V69;
+1. V65/V66/V67/V68/V69/V70 завершены: 12 отсеянных гипотез, 0 кандидатов Stage2.
+   V70 после R1 accounting сверки тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
+   Выбрать иной содержательный механизм/information set после сверки реестра и выполнить
+   следующий дешёвый economic screen на имеющейся допустимой истории.
+   Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69 и curve V70;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68 и V69 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V70 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
