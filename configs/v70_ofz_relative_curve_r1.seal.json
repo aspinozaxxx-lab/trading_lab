@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v70_ofz_relative_curve_r1",
+  "sealed_at_utc": "2026-09-13T19:58:39Z",
+  "sealed_before_performance_reveal": true,
+  "relationship": "accounting-only, immutable parent, no strategy simulation",
+  "files": {
+    "configs/v70_ofz_relative_curve_r1.json": "876cce9a04bf5f8365a29df6041d265aef31e881d7d404dcda9cc5250aaf7d4c",
+    "src/market_lab/ofz_v70_cashflow_reconciliation.py": "e207c848f38e16ee121dfb631c91823f3065c160d32b849676b9cb4601fa8180",
+    "tests/test_ofz_v70_cashflow_reconciliation.py": "bb95dd1b2dcc3d9620748b9d64f386dd6f1bf0876a4d24b57e14004e1936d24b",
+    "docs/V70_ACCOUNTING_RECONCILIATION_R1.md": "3f99bcda100065187b83ab047492e38a54d666abaa1b15d2d27c4a2582f7829b",
+    "configs/v70_ofz_relative_curve_v1.seal.json": "7295e716381f64929e8fed7119963616523a2435d0f4a24dd6006afe8ec33c4a"
+  }
+}

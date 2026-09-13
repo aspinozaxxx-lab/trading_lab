@@ -1,12 +1,21 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-13 — V70 OFZ relative curve, prepared before economic outcomes
+## 2026-09-13 — V70 OFZ relative curve, INVALID_INCOMPLETE_ACCOUNTING; R1 prepared
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): top-3 positive LOO quadratic yield-curve residuals
 vs top-3 close-to-curve controls, existing SU262 source and coupon-aware ledger,
 2021–2025, 10/20 bps and terminal cost reserve. Не V52 absolute yield, V53 governor,
 V67 auction или новая смесь с V49. 15 synthetic +5 shared bond-ledger +2 encoding
-PASS; Ruff PASS. До отдельного seal/push/server run новых real residuals/PnL нет.
+PASS; Ruff PASS. Single run 2,824659s после push `de7a2f8`: 56/60 selected months,
+4 × 56 rebalances, все 1271 daily marks, 0 unresolved rebalances, но 11 missing principal
+record dates в каждом scenario. Performance/NAV/PnL null; не считать economic REJECT.
+Canonical `/srv/trading_lab_data/runs/v70_ofz_relative_curve_v1_7295e716381f` неизменен;
+metrics SHA `f6c012ff0fa4bcdcdf9cc0fc38ed55caa0f3503fdd8aa1e214c7b44025a9db11`.
+[R1](V70_ACCOUNTING_RECONCILIATION_R1.md): отдельная accounting-only сверка по 6 exact
+REDM notices и отсутствию всех позиций/сделок у остальных 5 выпусков. Ни retune,
+ни simulate rerun. До R1 seal доходность не читалась; 13 R1 +15 parent +2 encoding
+tests PASS. После seal/push сверить zero entitlement и все уже credited cashflows,
+затем опубликовать исходные economic metrics/gates. V65–V69: по-прежнему 11 rejected.
 
 ## 2026-09-13 — V69 futures-chain interest COMPLETE, REJECT_STAGE1
 

@@ -3,15 +3,24 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V70 подготовлен, до первого economic run
+## Текущий screen — V70 incomplete accounting; R1 до раскрытия доходности
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): OFZ relative value — top-3 positive leave-one-out
 yield-curve residuals против top-3 close-to-curve controls. SU262, 2–7 лет, monthly
 first factual decision / strictly prior source, 2021–2025, 10/20 bps, готовый coupon
 ledger без старой V52 selection или V49 blend. Не аукционный сигнал V67.
-15 новых synthetic +5 bond-ledger regression +2 encoding tests PASS, Ruff PASS.
-До seal/push/run residuals и PnL V70 на реальных данных не считались. Следующий шаг —
-один server economic screen. Protected 2026, старый paper bootstrap и collectors не меняются.
+Первый и единственный run после push `de7a2f8` завершён за 2,824659s: 60 месяцев,
+56 selected/rebalanced, 1271/1271 marks и 0 unresolved rebalances во всех 4 сценариях.
+Но 11 missing principal record dates дают INVALID_INCOMPLETE_ACCOUNTING: доходность,
+Sharpe/MDD/years/NAV/PnL в metrics null, это не economic REJECT.
+Canonical `/srv/trading_lab_data/runs/v70_ofz_relative_curve_v1_7295e716381f` сохранён.
+[Accounting R1](V70_ACCOUNTING_RECONCILIATION_R1.md) проверяет zero entitlement: 5 выпусков
+никогда не покупались, для 6 ранее проданных приняты exact REDM dates из депозитарных
+уведомлений. До R1 seal raw NAV/performance не читались. Сигнал/trades/positions/costs
+и gates не меняются; будет только сверка прежнего журнала, не повтор стратегии.
+13 новых R1 +15 V70 +2 encoding tests PASS; Ruff PASS. Далее seal/push и одна server
+reconciliation с результатом всех 4 scenarios. Protected 2026, paper bootstrap/collectors
+не меняются. V70 пока НЕ включать в число экономически отсеянных гипотез.
 
 ## Предыдущий screen — V69 завершён: REJECT_STAGE1
 
@@ -3427,7 +3436,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
 1. V65/V66/V67/V68/V69 завершены: 11 отсеянных гипотез, 0 кандидатов Stage2. Следующий screen —
-   V70 issue-specific OFZ relative curve, подготовлен до экономического run, см. верх STATUS.
+   V70 issue-specific OFZ relative curve: первоначально incomplete accounting; выполнить
+   подготовленную R1 zero-entitlement сверку, затем прежние economic gates, см. верх STATUS.
    Не повторять/перенастраивать календарь, OHLCV-правила, покупку V67, сигналы V68/V69;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.

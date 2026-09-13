@@ -1,0 +1,38 @@
+﻿{
+  "protocol_id": "v70_ofz_relative_curve_r1",
+  "declared_at_utc": "2026-09-13T19:52:32Z",
+  "relationship": "accounting-only reconciliation of immutable V70 V1 ledgers; not a new strategy or a simulation rerun",
+  "research_only": true,
+  "goal_verified": false,
+  "parent_seal_sha256": "7295e716381f64929e8fed7119963616523a2435d0f4a24dd6006afe8ec33c4a",
+  "parent_run": "runs/v70_ofz_relative_curve_v1_7295e716381f",
+  "parent_identity_sha256": "a3f780817c47acff84c844bea58d00aa92c137c3afc1084f56af29cb26ee9520",
+  "parent_metrics_sha256": "f6c012ff0fa4bcdcdf9cc0fc38ed55caa0f3503fdd8aa1e214c7b44025a9db11",
+  "expected_unresolved_each_scenario": 11,
+  "evidence_root": "source_evidence/v70_redemption_20260913",
+  "documents": {
+    "ofz26215_notice.pdf": {"bytes": 67942, "sha256": "cefb4295a436d7f1bd02b9bcff51217a3d192b46d1c9bb9ab1941e944f341546", "url": "https://www.finproinvest.ru/wp-content/uploads/2023/07/InfoDeponent_20230726_120744_OFZ-PD215.pdf"},
+    "nsd_redemption_list.pdf": {"bytes": 635820, "sha256": "b04c4ca8ba2282a8a5d2721135104f3b541218e54b6f48f5199c6007eeec3e17", "url": "https://www.nsd.ru/upload/docs/div_obl_IND_en.pdf", "admitted_scope": "page 4, row 178 only: REDM/BN 332819, 26223RMFS, record date 2024-02-27; other events and delayed foreign-account payment clocks are not admitted"},
+    "ofz26227_region.html": {"bytes": 61302, "sha256": "a5f28ed12dab46dae1f7e789e6e37276343c327e379e487dfbc8312b6a785926", "url": "https://www.region-dk.ru/news/88013/"},
+    "ofz26222_region.html": {"bytes": 61330, "sha256": "24f51bd990fb5eeda3896538ce40f6ffff5fdb42ef7fb4b323c6fc9ee1f17636", "url": "https://www.region-dk.ru/news/89294/"},
+    "ofz26234_investpalata.html": {"bytes": 520273, "sha256": "08a844029d30e6faa68c813cbfb9db099d28fa8c05ab4f83d66fcb7e113b4aba", "url": "https://investpalata.ru/cообщения-о-корпоративных-действиях-850/"},
+    "ofz26229_investpalata.html": {"bytes": 241149, "sha256": "f5148af4ab021ccce1141bb0d17e15e17ed446b09cafc2be8c0d9c76247040a3", "url": "https://investpalata.ru/cообщения-о-корпоративных-действиях-889/"}
+  },
+  "record_date_evidence": [
+    {"security_id": "SU26215RMFS2", "event_date": "2023-08-16", "record_date": "2023-08-15", "reference": "120744", "document": "ofz26215_notice.pdf", "locator": "page 1, redemption and payment tables"},
+    {"security_id": "SU26223RMFS6", "event_date": "2024-02-28", "record_date": "2024-02-27", "reference": "332819", "document": "nsd_redemption_list.pdf", "locator": "page 4, row 178; redemption reference distinct from coupon 332831"},
+    {"security_id": "SU26227RMFS7", "event_date": "2024-07-17", "record_date": "2024-07-16", "reference": "404089", "document": "ofz26227_region.html", "locator": "REDM issue-specific notice"},
+    {"security_id": "SU26222RMFS8", "event_date": "2024-10-16", "record_date": "2024-10-15", "reference": "284123", "document": "ofz26222_region.html", "locator": "REDM issue-specific notice"},
+    {"security_id": "SU26234RMFS3", "event_date": "2025-07-16", "record_date": "2025-07-15", "reference": "499466", "document": "ofz26234_investpalata.html", "locator": "REDM 499466 section only"},
+    {"security_id": "SU26229RMFS3", "event_date": "2025-11-12", "record_date": "2025-11-11", "reference": "418584", "document": "ofz26229_investpalata.html", "locator": "REDM 418584 section only"}
+  ],
+  "reconciliation": "Only missing record dates for known positive SU262 principal amounts. Never-held securities require no position AND no trade anywhere. Ever-held securities require exact admitted redemption record date, a complete ledger on it, zero entitlement and no positions/trades during the preceding 365 days through period end. No raw schedule is changed; all credited cashflows independently replayed. Any failure leaves accounting unresolved.",
+  "unchanged": ["signal", "universe", "decisions", "trades", "positions", "raw NAV", "coupon credits", "cost scenarios", "terminal reserve formula", "screen gates"],
+  "limitations": [
+    "Current-vintage notices are accounting evidence only, not historical predictors.",
+    "NSD row 178 is used only for its stated record date and redemption identity; foreign-account payment dates are not domestic settlement evidence.",
+    "The 2011 CBR 219-P amendment was inspected but is repealed and is NOT admitted as a rule for 2021-2025.",
+    "Original fractional-lot, OPEN, fee, tax, settlement and capacity research-proxy limitations remain.",
+    "Holding dates, counts and incomplete metadata were inspected before R1; V70 NAV levels and performance were not observed before this correction seal."
+  ]
+}
