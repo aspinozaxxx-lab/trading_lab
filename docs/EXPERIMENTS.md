@@ -1,13 +1,21 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-13 — возобновление, V68 reported option-volume screen
+## 2026-09-13 — V68 reported option-volume screen COMPLETE, REJECT_STAGE1
 
 Пользователь явно сказал «продолжай». [V68](V68_REPORTED_OPTION_FLOW.md) проверяет новую
 reported-volume информацию относительно reported OI в самостоятельном futures target,
 не V39 tail-governor. Один механизм, два arms/два costs, 2021–2025, готовый ledger.
-11 local synthetic tests PASS, экономический run ещё не запускался; source counts-only
-проверка до seal раскрыта в протоколе. Expiry pinning отложен без PnL из-за отсутствия
-exact expiry metadata. Новый fit/collector/paper startup не выполняется.
+Source counts-only проверка до seal раскрыта в протоколе. [Результат](V68_REPORTED_OPTION_FLOW_RESULT.md):
+основной CAGR1×/2× +1,7801%/+0,4407%, Sharpe0,2139/0,0943, MDD30,7118%/31,2457%,
+414/408 episodes;2/5 positive years. OI-only control CAGR−3,4787%/−4,0018%.
+Все4 executions complete/terminal flat, critical0/unresolved0;948/1044 states ready.
+REJECT_STAGE1,0 кандидатов Stage2. Не менять знак/окно/пул/missing policy по результату.
+Pre-outcome push `018b008`; seal `ab09fc1343f041ef04e72229e2b5cf59d2f19ecc6123cf3960bc34eceebe33ab`.
+Canonical `/srv/trading_lab_data/runs/v68_reported_option_flow_v1_ab09fc1343f0`;
+metrics SHA `1f08094e5387303d07795782fe80d528980ad4041ba9f18346009e5d49fdd840`.
+Local11 synthetic+2 encoding tests PASS; server11PASS после cwd-only pytest teardown retry;
+single economic run4,7084s, audit17hashes/4metric replays PASS. Expiry pinning отложен без PnL
+из-за отсутствия exact expiry metadata. Новый fit/collector/paper startup не выполнялся.
 
 ## 2026-09-08 — пауза по просьбе пользователя
 
