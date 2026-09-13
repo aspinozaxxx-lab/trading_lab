@@ -1,0 +1,81 @@
+﻿{
+  "protocol_id": "v71_cbr_liquidity_surprise_v1",
+  "declared_at_utc": "2026-09-13T20:23:21Z",
+  "stage": 1,
+  "research_only": true,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["SI"],
+  "method_evidence": {"path": "source_evidence/v71_method_20260913/DKP_limit.pdf", "bytes": 212277, "sha256": "b3dce3e68dc847bdffa152c3549514b03dfd15702cd6b06714f910ad4a83bc41", "accepted_pages": [6, 7, 9], "role": "source aggregation method only, not market outcomes"},
+  "hypothesis": "Unexpected government-account ruble liquidity injection, measured after completion of a pre-published forecast period, predicts subsequent RUB weakness (long SI); unexpected withdrawal predicts short SI.",
+  "relationship": "V18 used the forecast itself; V19 used daily Minfin FX persistence. This new information set pairs a forecast with the subsequently observed matching government-account contribution. It is not a sign/lag retune of either closed family.",
+  "sources": {
+    "forecast": {
+      "root": "data/processed/info_radar/cbr-liquidity-forecast-releases-2017-2025-v1",
+      "manifest_sha256": "8f452f2dd963752eab4183e8f80dd2a07398588f9f87124ae913dff6c2a88c9a",
+      "processed": {"path": "cbr_liquidity_forecasts.parquet", "bytes": 50830, "rows": 458, "sha256": "a8faab048579cc5449173b3f2d4ea0e2abd447095d9144ad5004a52b351a8d07"},
+      "allowed_columns": ["publication_date", "available_at", "forecast_period_start", "forecast_period_end", "government_accounts_change_bln_rub", "raw_sha256"],
+      "availability": "23:59:59 Moscow on the printed release date; original historical bytes unproved"
+    },
+    "actual": {
+      "root": "data/processed/info_radar/cbr-liquidity-factors-current-vintage-2021-2025-v1",
+      "manifest_sha256": "f1701ec330fce9813d75bd711de235744dd8a9daf5f192325efe64f16e98e61a",
+      "processed": {"path": "cbr_liquidity_factors.parquet", "bytes": 66943, "rows": 1238, "sha256": "88885d3695a88fb910d5a6ad9f3d8fd2cbd69eedaec779d4cef3048cd854c864"},
+      "allowed_columns": ["observation_date", "publication_date", "available_at", "government_accounts_change_bln_rub", "raw_sha256"],
+      "availability": "10:31 Moscow on next dated CBR working-day row, approved current-vintage development proxy, revisions possible"
+    }
+  },
+  "signal": {
+    "eligible_period": "ordinary Tuesday release, Wednesday start, following Tuesday end, exactly the five Monday-Friday observation dates and no extra dates; all five finite",
+    "actual_matching_value": "mean(cumsum(daily government-account contribution)) over the five working dates within the printed Wednesday-Tuesday period; billion RUB; no weekend carry or missing-day zero",
+    "primary": "sign(actual_matching_value - published_government_accounts_change_bln_rub)",
+    "control": "sign(actual_matching_value), identical information-completeness and timing mask; diagnostic only, not promotable",
+    "available_at": "maximum of forecast availability, all matched actual publication clocks and 23:59:59 Moscow on the calendar day after period end",
+    "invalid_period": "explicit unavailable state at the same conservative clock, superseding the previous event; never select an older valid event instead",
+    "maximum_source_age_at_fill_calendar_days": 10,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "schedule": "daily EOD decision using latest matured state, next factual active-contract open; direction updates only on new completed forecast period, expiry or missing state",
+    "fit": "none",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 1.0,
+    "maximum_signal_gross": 1.0,
+    "maximum_gross_multiple": 1.0,
+    "integer_contracts": true,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]},
+    "unexecutable_target_policy": "cancel_and_clip",
+    "terminal": "flat at last factual effective date before 2026"
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.6,
+    "coverage_denominator": "all forecast releases published in 2021-2025 whose printed period ends in 2021-2025, including irregular and missing periods",
+    "minimum_round_trips": 50,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 4,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02,
+    "all_arms_costs_complete_and_terminal_flat": true,
+    "pass_means": "STAGE2_CANDIDATE component only; not verified 20-50 percent annual return"
+  },
+  "validation": {"independent_holdout": false, "scheme": "already-open 2021-2025 development history; no fit, labels, hyperparameter selection or outcome-selected folds; all five years reported"},
+  "limitations": [
+    "Historical CBR values are current vintage, not witnessed original releases; revisions may contaminate measured forecast errors.",
+    "Matching uses the published mean-cumulative period convention and working-day averaging illustrated by the CBR method; only full ordinary weeks are admitted. No claim to reconstruct unpublished daily forecasts or market consensus.",
+    "CBR can offset autonomous-liquidity errors with fine-tuning operations; an ex post accounting error need not contain delayed FX alpha.",
+    "SI daily execution, fees and margin remain research proxies; original executable quotes and broker fees are not proved.",
+    "Repeatedly opened development history cannot establish predictable earnings; positive Stage1 would still require independent prospective evidence."
+  ],
+  "forbidden_followups": ["retune sign, aggregation, week filter, TTL, control, leverage or costs after outcomes", "promote the control or a selected good year", "reopen V18/V19 by inverting signs", "read protected 2026 outcomes", "restart paper bootstrap or change collector schedules", "rerun or overwrite canonical output"],
+  "references": ["https://www.cbr.ru/statistics/pffl/", "https://www.cbr.ru/statistics/flikvid/definitions/", "https://www.cbr.ru/Content/Document/File/17135/DKP_limit.pdf"]
+}

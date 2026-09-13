@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-13 — V71 CBR liquidity forecast error: подготовлен до outcomes
+
+[Протокол](V71_CBR_LIQUIDITY_SURPRISE.md), config `v71_cbr_liquidity_surprise_v1`.
+Новая совместная forecast/realization информация; не старые V18/V19 стратегии.
+Mean cumulative working-day government contribution minus published matching forecast,
+long SI при positive error, short при negative; actual-only контроль, одинаковые masks.
+2021–2025, два costs, без fit; 20 synthetic +11 shared PASS, metadata-only input checks
+PASS. Existing local approved sources copied unchanged to server, no new collection.
+До economic чтения обязательны seal/push. Результат pending, Stage2/goal flags false.
+
 ## 2026-09-13 — V70 OFZ relative curve после accounting R1: COMPLETE, REJECT_STAGE1
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): top-3 positive LOO quadratic yield-curve residuals

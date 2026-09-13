@@ -3,7 +3,20 @@
 Обновлено: **2026-09-13**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Последний screen — V70 завершён после accounting R1: REJECT_STAGE1
+## Текущий screen — V71 подготовлен, outcomes ещё не прочитаны
+
+[V71](V71_CBR_LIQUIDITY_SURPRISE.md): новая information hypothesis — ошибка недельного
+прогноза government-account liquidity относительно matching realized contribution,
+после завершения всего периода → направление SI. Контроль actual-only, одинаковая
+доступность; не повтор/инверсия V18 forecast или V19 Minfin FX persistence.
+Методика ЦБ: среднее накопленных дневных вкладов, не недельная сумма. Только полные
+обычные Wed–Tue недели, без imputation; missing/irregular явно masked. 2021–2025,
+gross1, готовый futures ledger, два costs, без fit/нового collector. 20 новых synthetic
++11 shared tests PASS; input hashes/schema/date-only preflight PASS. Далее pre-outcome
+seal/push и единственный economic run на gpu-mlserver; это пока не economic PASS.
+V65–V70 остаются12 rejected/0Stage2. Protected2026/paper/collectors не менялись.
+
+## Предыдущий screen — V70 завершён после accounting R1: REJECT_STAGE1
 
 [V70](V70_OFZ_RELATIVE_CURVE.md): OFZ relative value — top-3 positive leave-one-out
 yield-curve residuals против top-3 close-to-curve controls. SU262, 2–7 лет, monthly
@@ -3443,7 +3456,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65/V66/V67/V68/V69/V70 завершены: 12 отсеянных гипотез, 0 кандидатов Stage2.
+1. V71 подготовлен: seal/push → один server economic screen → все metrics/verdict.
+   V65/V66/V67/V68/V69/V70 завершены: 12 отсеянных гипотез, 0 кандидатов Stage2.
    V70 после R1 accounting сверки тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
    Выбрать иной содержательный механизм/information set после сверки реестра и выполнить
    следующий дешёвый economic screen на имеющейся допустимой истории.

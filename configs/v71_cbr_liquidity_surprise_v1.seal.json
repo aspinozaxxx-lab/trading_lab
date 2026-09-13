@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v71_cbr_liquidity_surprise_v1",
+  "sealed_before_outcomes": true,
+  "sealed_at_utc": "2026-09-13T20:32:39Z",
+  "files": {
+    "configs/v71_cbr_liquidity_surprise_v1.json": "77896703660b749fa309882a9090e0e4a211e286a0acad186a771e2462ccdc66",
+    "src/market_lab/futures_v71_liquidity_surprise.py": "62efa8bfc6908fd767669ccd801726e216b0dd19c39d96342f4b0082ae521ff1",
+    "tests/test_futures_v71_liquidity_surprise.py": "c225c2b08a7ae6201339d7192cb6c637c95b0742fa65a824c79f98f62ec8b537",
+    "docs/V71_CBR_LIQUIDITY_SURPRISE.md": "7c45ed30efe7b029ea821949a867d6755ba0af1b8d1252ca85581911c434d5e3",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}
