@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v68_reported_option_flow_v1",
+  "sealed_before_outcomes": true,
+  "sealed_at_utc": "2026-09-13 18:46:19 UTC",
+  "files": {
+    "configs/v68_reported_option_flow_v1.json": "5217c084eb353f66bf453ce6c62aa20a82717a7ac9dd79a72f736f65fff8beb0",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "tests/test_futures_v68_reported_option_flow.py": "4654c3ec8adb32085732fba1bda7d7b06262318ca23aa3eb713e031a6449215a",
+    "docs/V68_REPORTED_OPTION_FLOW.md": "d8e4a103e5edaee4c8dc7eebedf08cb1480a71c47a87871e97247c376b862745",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

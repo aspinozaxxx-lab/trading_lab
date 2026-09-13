@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-13 — возобновление, V68 reported option-volume screen
+
+Пользователь явно сказал «продолжай». [V68](V68_REPORTED_OPTION_FLOW.md) проверяет новую
+reported-volume информацию относительно reported OI в самостоятельном futures target,
+не V39 tail-governor. Один механизм, два arms/два costs, 2021–2025, готовый ledger.
+11 local synthetic tests PASS, экономический run ещё не запускался; source counts-only
+проверка до seal раскрыта в протоколе. Expiry pinning отложен без PnL из-за отсутствия
+exact expiry metadata. Новый fit/collector/paper startup не выполняется.
+
 ## 2026-09-08 — пауза по просьбе пользователя
 
 [Checkpoint](PAUSE_20260908.md): новые эксперименты не запускать до явного возобновления.
