@@ -3,6 +3,19 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## В работе — V74 Baker Hughes rig-supply: PREPARED, market outcomes ещё не прочитаны
+
+[V74](V74_BAKER_RIG_SUPPLY.md): новое physical upstream investment information set,
+US oil-directed active rigs → BR, не EIA V17 inventories/refinery или CFTC retune.
+Fixed13-release change, opposite direction, constant-long control, gross1, full2018–2025,
+два costs, готовые V72 targets/V64 ledger. Source XLSX2013…Aug2025,169309rows/661dates.
+11 ambiguous duplicate weeks2013 masked,13 optional County blanks сохранены; no dedup.
+Поздний архив не доказывает original vintages: conditional development proxy only,
+historical causal admission=false. Все2025даты остаются, после stale source target flat.
+Следующий шаг: закончить source preflight/seal/push, один server screen и replay,
+затем сохранить все arms/costs/годы/verdict. V74 пока не economic result и не Stage2.
+Цель20–50% не достигнута; protected2026, paper bootstrap и collectors не менять.
+
 ## Последний завершённый screen — V73: INCOMPLETE_NO_PROMOTION
 
 [V73](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred SBER/SBERP pair
@@ -3522,7 +3535,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65–V73 завершены:15screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION,0Stage2.
+1. V74 prepared: источник/правило и ограничения вверху. Завершить pre-outcome seal/push,
+   один server economic screen и source-to-ledger audit, затем все metrics/verdict.
+   V65–V73 завершены:15screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION,0Stage2.
    Последний [V73 share-class pair](V73_SBER_SHARE_CLASS_PAIR_RESULT.md) не прошёл:
    12/16complete, слабый gross меньше costs, double negative во всех3годах.
    Canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм

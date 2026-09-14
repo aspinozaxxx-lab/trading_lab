@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v74_baker_rig_supply_v1",
+  "sealed_before_market_outcomes": true,
+  "sealed_at_utc": "2026-09-14T12:58:00Z",
+  "files": {
+    "configs/v74_baker_rig_supply_v1.json": "1e062a8eaa9801581934aebebe124978d7fdc7f18323e29cdf725a88a87d449d",
+    "src/market_lab/futures_v74_baker_rig_supply.py": "b89cd0ea0a7f79cb4025c30346868a0f89a34192172bf6e44bf582c9d4e5a663",
+    "tests/test_futures_v74_baker_rig_supply.py": "61d5b3089f3ce6c5b3bd5c2bd90b040f48edfc4b3214e6f359ffeebce927876f",
+    "docs/V74_BAKER_RIG_SUPPLY.md": "cb6986c579340d194b55e4e85f0aee2ce44e1e1dc239d7483f18c3637431b1e6",
+    "configs/v72_cbr_policy_guidance_v1.seal.json": "8d7b732d7a475a573dc7e7b459b80149c82b645682c792892598045a2b5c90da"
+  }
+}

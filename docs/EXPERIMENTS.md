@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V74 Baker Hughes rig-supply: PREPARED, no economic outcome yet
+
+[Протокол](V74_BAKER_RIG_SUPPLY.md): новое upstream investment information set,
+US oil-rig13-release decline→long BR/increase→short, constant-long control, full2018–2025,
+gross1, два costs, no fit/new engine. Source169309rows/661dates до2025-08-29.
+До цен выявлены11 duplicate subgroup records на11неделях2013: даты/сырые строки сохранены,
+whole weekly count и зависимые окна masked.13optional County blanks не missing count.
+Поздний archive/current-vintage assumption не original historical causal proof.
+21synthetic PASS, рынок не прочитан. Далее source preflight/seal/push и один server run.
+V65–V73:15screened/0Stage2; подготовка V74 не улучшение прибыли.
+
 ## 2026-09-14 — V73 same-expiry SBER/SBERP: COMPLETE, INCOMPLETE_NO_PROMOTION
 
 [Протокол](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred pair по12общим
