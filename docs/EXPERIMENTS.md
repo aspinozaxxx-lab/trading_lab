@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-14 — V72 policy communication: source COMPLETE, economic protocol подготовлен
+## 2026-09-14 — V72 policy communication: COMPLETE, REJECT_STAGE1
 
 [Источник](CBR_POLICY_RELEASES_SOURCE_V1.md): полный provider catalogue пресс-релизов
 ставки2018–2025, включая внеочередные. Новая qualitative forward-guidance информация,
@@ -14,8 +14,19 @@ footer2022-07-22 00:00:00 против catalog13:30; raw сохранён, proce
 83a89218c16785d961632c4a715e8f26d0fda0e0299e39ac98257f2621d75b70.
 [Economic V72](V72_CBR_POLICY_GUIDANCE.md) готов: текстовое next-action направление
 против headline-only control, MIX/SI по0.5nominal, TTL14calendar days,1×/2×costs,
-готовый ledger без fit/новой службы. Economic seal/push ещё до первого market outcome.
-V65–V71 по-прежнему13rejected/0Stage2; source PASS не успех стратегии.
+готовый ledger без fit/новой службы. Pre-outcome push dddfd09, единственный run2,972204s.
+[Результат](V72_CBR_POLICY_GUIDANCE_RESULT.md): primary CAGR−3,3803%/−3,4961%,
+Sharpe−0,5653/−0,5838, MDD31,5134%/31,6906%,90эпизодов,3/8 и2/8положительных лет.
+Control CAGR−5,1005%/−5,2541%,88эпизодов,1/8положительных лет. Primary net−240222/
+−247466руб. на1млн; отрицателен уже до затрат. 68readable/42directional/26flat releases,
+4048asset decisions/788nonzero primary targets;4complete/critical0/unresolved0/terminalflat.
+REJECT_STAGE1: CAGR/Sharpe/MDD/positive years/worst year/excess;20/50/goal=false.
+Canonical `/srv/trading_lab_data/runs/v72_cbr_policy_guidance_v1_8d7b732d7a47`.
+Seal8d7b732d7a475a573dc7e7b459b80149c82b645682c792892598045a2b5c90da;
+metrics e56de06182944470cd99d1a40d8d59fe14e6d287b511777e355fbdd823c6c3fd;
+identity16ac726b9deaed7e520b2f184f319cec53d62ceb925f82423fa40e76c5bd0dd9.
+Local53/server22tests PASS; audit17hashes/state-target/4metrics-annual-count-cash PASS.
+V65–V72:14rejected/0Stage2; не tune-ить словарь/знак/TTL/пул после результата.
 
 ## 2026-09-13 — V71 CBR liquidity forecast error: COMPLETE, REJECT_STAGE1
 

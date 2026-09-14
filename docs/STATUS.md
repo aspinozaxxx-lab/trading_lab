@@ -3,12 +3,12 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Текущий screen — V72: текстовый forward guidance ЦБ, economic protocol подготовлен
+## Последний завершённый screen — V72: REJECT_STAGE1
 
 Новая информация: явные заявления ЦБ о будущих повышениях/снижениях ставки, не уже
 проверенные числовые levels/governors V27 или прогноз бюджета V71. [Source protocol](
 CBR_POLICY_RELEASES_SOURCE_V1.md) собирает все релизы отдельной категории2018–2025;
-принятые решения в headline будут контролем. Никакого fit или нового сервиса.
+принятые решения в headline использованы контролем. Никакого fit или нового сервиса.
 Source V1 после push72df00b остановился на29-м article:2022-07-22 footer00:00:00,
 catalog13:30. V1raw сохранён, processed/PnL отсутствуют. [V2 correction](
 CBR_POLICY_RELEASES_SOURCE_V2.md), push e0c5fad:68релизов2018–2025,77raw responses,
@@ -16,13 +16,24 @@ CBR_POLICY_RELEASES_SOURCE_V2.md), push e0c5fad:68релизов2018–2025,77ra
 Manifest83a89218c16785d961632c4a715e8f26d0fda0e0299e39ac98257f2621d75b70.
 [Economic V72](V72_CBR_POLICY_GUIDANCE.md): fixed lexical next-action direction против
 headline-only, MIX/SI по0.5nominal, TTL14days,2018–2025,1×/2×costs, старый ledger.
-Далее economic seal/push и единственный server run; market outcomes ещё не прочитаны.
-Source не Stage2 и не доказательство original historical versions.
+[Результат](V72_CBR_POLICY_GUIDANCE_RESULT.md): CAGR1×/2× −3,3803%/−3,4961%,
+Sharpe−0,5653/−0,5838, MDD31,5134%/31,6906%;90закрытых эпизодов,3/8 и2/8прибыльных лет.
+Control CAGR−5,1005%/−5,2541%,88эпизодов,1/8положительный год. Primary gross уже
+отрицателен: net−240222/−247466руб. на исходный1млн за2018–2025; Stage2=0.
+68/68readable releases,42directional/26flat;4048asset decisions,788nonzero targets,
+42использованных релиза. Все4complete,critical/unresolved0,terminalflat; в controls
+по1no-liquidity cancellation сохранены. Pre-outcome push dddfd09, единственный run2,972204s.
+Canonical `/srv/trading_lab_data/runs/v72_cbr_policy_guidance_v1_8d7b732d7a47`.
+Seal8d7b732d7a475a573dc7e7b459b80149c82b645682c792892598045a2b5c90da;
+metrics e56de06182944470cd99d1a40d8d59fe14e6d287b511777e355fbdd823c6c3fd.
+Local53/server22tests PASS; audit17hashes/state-target/4metrics-annual-count-cash PASS.
+V65–V72:14rejected/0Stage2. Не tune-ить словарь/знак/TTL/активы/плечо; нужен иной механизм.
+Цель20–50% не достигнута. Source не доказательство original historical versions.
 Проверенные обходные направления не повторять: term/calendar уже закрыты; premium
 options без quotes/spec identity blocked, volatility-curve catalog V2 показывает0/6
 eligible archives по прежнему gate. Index sample и старый paper bootstrap не запускались.
 
-## Последний завершённый screen — V71: REJECT_STAGE1
+## Предыдущий screen — V71: REJECT_STAGE1
 
 [V71](V71_CBR_LIQUIDITY_SURPRISE.md): новая information hypothesis — ошибка недельного
 прогноза government-account liquidity относительно matching realized contribution,
@@ -3489,17 +3500,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65/V66/V67/V68/V69/V70/V71 завершены: 13 отсеянных гипотез, 0 кандидатов Stage2.
-   V71 после input-scope R1 тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
-   Следующий выбранный механизм — [V72 policy guidance](V72_CBR_POLICY_GUIDANCE.md),
-   source V2 уже68releases/audit PASS; отдельный economic seal и быстрый MIX/SI screen.
+1. V65/V66/V67/V68/V69/V70/V71/V72 завершены:14отсеянных гипотез,0кандидатов Stage2.
+   Последний [V72 policy guidance](V72_CBR_POLICY_GUIDANCE_RESULT.md) тоже REJECT_STAGE1;
+   canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
+   после сверки реестра и выполнить дешёвый economic screen на допустимой истории.
    Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
-   и forecast-error V71; не менять агрегирование/знаки/TTL после результата;
+   и forecast-error V71, policy-text V72; не менять агрегирование/словари/знаки/TTL после результата;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V71 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V72 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
