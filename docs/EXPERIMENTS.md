@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-14 — V74 Baker Hughes rig-supply: PREPARED, no economic outcome yet
+## 2026-09-14 — V74 Baker Hughes rig-supply: COMPLETE, INVALID_EXECUTION_NO_PROMOTION
 
 [Протокол](V74_BAKER_RIG_SUPPLY.md): новое upstream investment information set,
 US oil-rig13-release decline→long BR/increase→short, constant-long control, full2018–2025,
@@ -8,8 +8,24 @@ gross1, два costs, no fit/new engine. Source169309rows/661dates до2025-08-2
 До цен выявлены11 duplicate subgroup records на11неделях2013: даты/сырые строки сохранены,
 whole weekly count и зависимые окна masked.13optional County blanks не missing count.
 Поздний archive/current-vintage assumption не original historical causal proof.
-21synthetic PASS, рынок не прочитан. Далее source preflight/seal/push и один server run.
-V65–V73:15screened/0Stage2; подготовка V74 не улучшение прибыли.
+[Результат](V74_BAKER_RIG_SUPPLY_RESULT.md): все4execution_complete=false,
+critical2/gross_limit_counter2, atomic rejects0, все743/716/392/398order legs filled.
+По2capacity cancellations2022-03-01/02,1halt/carry; unresolved0,terminalflat.
+Forensic-only primary raw CAGR1×/2× −7,9384%/−8,9712%, Sharpe−0,0516/−0,0854,
+MDD86,0480%/86,9237%,118episodes,3/8positive years; gross VM−389429/−347087руб.
+Control raw CAGR+0,1416%/−0,8294%,93episodes. НЕ validated strategy performance.
+2024daily decisions/arm,1922/1946nonzero targets,396/401used releases;
+ready fraction96,1957%, полный2018–2025 сохранён. Economic gates тоже не пройдены,
+но execution invalid имеет приоритет: это не16-й valid economic rejection.
+Pre-outcome pushd405dff; один economic run3,678092s после source preflight.
+Local73/server21tests PASS, audit18hashes/4metric-count-cash/raw-workbook-state-target PASS.
+Первый server pytest setup отказал на общем temp до экономического run; scoped retry PASS.
+Canonical `/srv/trading_lab_data/runs/v74_baker_rig_supply_v1_0e2c21e3964f`;
+seal0e2c21e3964f316b9c5c1fa98e6a09c5b3802e8779a0db48684eb092da37fd97,
+metricsf6ceff245a47431406419adcd3830fdcb900e277cfb844148543545ca3edf6b7.
+V65–V74:16screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
++1INVALID_EXECUTION_NO_PROMOTION,0Stage2. Не retune/не строить engine для V74.
+Цель20–50% не достигнута; protected2026/старый paper/collectors не менялись.
 
 ## 2026-09-14 — V73 same-expiry SBER/SBERP: COMPLETE, INCOMPLETE_NO_PROMOTION
 

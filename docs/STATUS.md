@@ -3,20 +3,32 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## В работе — V74 Baker Hughes rig-supply: PREPARED, market outcomes ещё не прочитаны
+## Последний завершённый screen — V74: INVALID_EXECUTION_NO_PROMOTION
 
 [V74](V74_BAKER_RIG_SUPPLY.md): новое physical upstream investment information set,
 US oil-directed active rigs → BR, не EIA V17 inventories/refinery или CFTC retune.
 Fixed13-release change, opposite direction, constant-long control, gross1, full2018–2025,
 два costs, готовые V72 targets/V64 ledger. Source XLSX2013…Aug2025,169309rows/661dates.
 11 ambiguous duplicate weeks2013 masked,13 optional County blanks сохранены; no dedup.
-Поздний архив не доказывает original vintages: conditional development proxy only,
-historical causal admission=false. Все2025даты остаются, после stale source target flat.
-Следующий шаг: закончить source preflight/seal/push, один server screen и replay,
-затем сохранить все arms/costs/годы/verdict. V74 пока не economic result и не Stage2.
-Цель20–50% не достигнута; protected2026, paper bootstrap и collectors не менять.
+[Результат](V74_BAKER_RIG_SUPPLY_RESULT.md): все4 execution_complete=false,
+critical2/gross_limit_counter2, atomic rejects0, все записанные order legs filled.
+По2 capacity cancellations2022-03-01/02,1halt/carry, unresolved0, terminal flat.
+Не называть counter двумя отклонёнными сделками и не снимать execution gate задним числом.
+Только forensic raw: primary CAGR1×/2× −7,9384%/−8,9712%, Sharpe−0,0516/−0,0854,
+MDD86,0480%/86,9237%,118episodes,3/8positive years; gross VM уже отрицателен.
+Control raw CAGR+0,1416%/−0,8294%,93episodes. Это НЕ validated strategy returns.
+2024daily decisions/arm, primary1922nonzero/396releases, control1946/401;
+source ready96,1957%, полный2025 сохранён. Original vintages/causal admission=false.
+Pre-outcome pushd405dff, один economic run3,678092s; local73/server21tests PASS.
+Audit18child hashes/4metric-count-cash/raw-workbook-state-target replays PASS;
+reproducibility PASS не снимает execution failure. Ни retune, ни simulation rerun.
+Canonical `/srv/trading_lab_data/runs/v74_baker_rig_supply_v1_0e2c21e3964f`.
+Seal0e2c21e3964f316b9c5c1fa98e6a09c5b3802e8779a0db48684eb092da37fd97;
+metricsf6ceff245a47431406419adcd3830fdcb900e277cfb844148543545ca3edf6b7.
+V65–V74:16screened=14rejected+1incomplete+1invalid/0Stage2. Не строить engine для V74.
+Цель20–50% не достигнута; нужен иной механизм. Protected2026/paper/collectors неизменны.
 
-## Последний завершённый screen — V73: INCOMPLETE_NO_PROMOTION
+## Предыдущий screen — V73: INCOMPLETE_NO_PROMOTION
 
 [V73](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred SBER/SBERP pair
 через12общих сроков фьючерсов,2023–2025. Выбор пары до цен, weekly MAD deviation,
@@ -3535,21 +3547,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V74 prepared: источник/правило и ограничения вверху. Завершить pre-outcome seal/push,
-   один server economic screen и source-to-ledger audit, затем все metrics/verdict.
-   V65–V73 завершены:15screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION,0Stage2.
-   Последний [V73 share-class pair](V73_SBER_SHARE_CLASS_PAIR_RESULT.md) не прошёл:
-   12/16complete, слабый gross меньше costs, double negative во всех3годах.
+1. V65–V74 завершены:16screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
+   +1INVALID_EXECUTION_NO_PROMOTION,0Stage2. Последний
+   [V74 rig-supply](V74_BAKER_RIG_SUPPLY_RESULT.md) invalid: все4execution gatesfalse,
+   gross-limit counters2/arm/cost, без rejected orders; raw primary gross уже отрицателен.
+   Не превращать воспроизводимость или forensic CAGR в valid result/Stage2.
    Canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
    после сверки реестра и выполнить дешёвый economic screen на допустимой истории.
    Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
-   и forecast-error V71, policy-text V72, share-class V73; не менять агрегирование/словари/
-   знаки/TTL после результата; не собирать новый поток для спасения слабого V73;
+   и forecast-error V71, policy-text V72, share-class V73, rig-supply V74; не менять
+   агрегирование/словари/знаки/TTL после результата; не спасать V73/V74 новым потоком/engine;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V73 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V74 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
