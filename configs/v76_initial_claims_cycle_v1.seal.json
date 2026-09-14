@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v76_initial_claims_cycle_v1",
+  "sealed_before_market_outcomes": true,
+  "sealed_at_utc": "2026-09-14T13:35:35Z",
+  "files": {
+    "configs/v76_initial_claims_cycle_v1.json": "18aa0166e7476df88b1abb7aac5e6d40f275e42896e23c66524280e5b52a1930",
+    "src/market_lab/futures_v76_initial_claims_cycle.py": "2e0d896afecd70d1ff1813765b55d0cc9d27d456ca19ae17f1c024f20ccf3a1d",
+    "tests/test_futures_v76_initial_claims_cycle.py": "180662bba96dd50423f6718ce77fe5c48c3dff973baa7a5933671a978f1854f8",
+    "docs/V76_INITIAL_CLAIMS_CYCLE.md": "8ab289b21e70862e693734554dc1dfbabbcd9e0c1447cbcbe6b877d95fe0117a",
+    "configs/v72_cbr_policy_guidance_v1.seal.json": "8d7b732d7a475a573dc7e7b459b80149c82b645682c792892598045a2b5c90da"
+  }
+}

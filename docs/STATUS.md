@@ -3,6 +3,24 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## В работе — V76 initial-claims cycle, PREPARED до market outcomes
+
+[V76](V76_INITIAL_CLAIMS_CYCLE.md): новое US labor information set, ICNSA522weeks
+2016–2025,4week average против52weeks-earlier. Risk-on BR/MIX long, SI short по0.3,
+рост claims разворачивает joint basket. Constant risk-on control, full2018–2025,
+два costs, готовые targets/ledger, без model/new collector. Current-vintage conditional
+source, original-release/causal admission=false; Saturday observation не publication.
+Следующий шаг: seal/push окончательных байтов, server synthetic tests, один economic
+run и read-only audit. Пока нет economic результата и Stage2. Цель20–50% неизменна.
+
+## V75 — source-only dividend drift отсечён до цен
+
+[Feasibility](V75_RMS_DIVIDEND_DRIFT_FEASIBILITY.md): matched CF revisions при том же
+непустом будущем payment-date set дали только5changes (0/4/1 по2023/24/25),27stocks,
+170global snapshots/10817rows. Новые/исчезнувшие даты не заменены zero, sign/lag не tune.
+Недостаточно для30event screen; stock prices/PnL/перенос datasets не запускались.
+Это SOURCE_FEASIBILITY_REJECTED, не новый economic backtest. V65–V74 остаются16/0Stage2.
+
 ## Последний завершённый screen — V74: INVALID_EXECUTION_NO_PROMOTION
 
 [V74](V74_BAKER_RIG_SUPPLY.md): новое physical upstream investment information set,
@@ -3547,7 +3565,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65–V74 завершены:16screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
+1. V76 prepared: завершить seal/push, один server economic screen и audit по протоколу
+   вверху. V75 dividend drift отсечён source-only по5comparables; не ослаблять mapping/
+   payment-date matching и не строить новый engine. V65–V74 завершены:
+   16screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
    +1INVALID_EXECUTION_NO_PROMOTION,0Stage2. Последний
    [V74 rig-supply](V74_BAKER_RIG_SUPPLY_RESULT.md) invalid: все4execution gatesfalse,
    gross-limit counters2/arm/cost, без rejected orders; raw primary gross уже отрицателен.

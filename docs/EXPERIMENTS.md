@@ -1,5 +1,29 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V76 initial-claims cycle: PREPARED, до market outcomes
+
+[Протокол](V76_INITIAL_CLAIMS_CYCLE.md): US labor-separation ICNSA,4week average
+против52weeks-earlier, BR/MIX/SI fixed risk-on signs и0.3weights. Один joint signal,
+constant risk-on control, full2018–2025,1×/2×costs, готовый учёт без нового fit/collector.
+RawCSV522weekly Saturdays2016-01-02…2025-12-27,9439bytes, без missing/duplicate dates;
+SHA c80c5d1660ea514a23c8c04d8377445eb0892bce518b29ef86d7cda9ee3ab64f.
+Current-vintage conditional only, original releases/revisions не доказаны. Первый
+graph-page downloadHTML сохранён/отклонён, V2 exact fredgraph.csv принят без перезаписи.
+21new+50shared synthetic tests PASS; дальше pre-outcome seal/push/server screen/audit.
+Подготовка и source PASS не доказательство прибыли,20–50%goal не достигнута.
+
+## 2026-09-14 — V75 dividend drift: SOURCE_FEASIBILITY_REJECTED, без PnL
+
+[Проверка](V75_RMS_DIVIDEND_DRIFT_FEASIBILITY.md): уже сохранённые10817RMSrows,
+170global snapshots,27mapped stocks. Из2165comparisons71first/missing,290different/
+empty future payment sets,1799unchanged и только5nonzero matched CF changes.
+Годы2023/24/25:0/4/1; four increases/one decrease. No market price/return read, no fit,
+no server data migration или portfolio engine. Below planned minimum30events;
+не выбирать иные matching/lag/threshold после этого source count ради большегоN.
+Это предварительная source feasibility, не17-й economic screen. V65–V74:16screened,
+14rejected+1incomplete+1invalid,0Stage2. Нужны original issuer announcements для иной
+dividend-news идеи; frozen calendar-spread family не переоткрыта.
+
 ## 2026-09-14 — V74 Baker Hughes rig-supply: COMPLETE, INVALID_EXECUTION_NO_PROMOTION
 
 [Протокол](V74_BAKER_RIG_SUPPLY.md): новое upstream investment information set,
