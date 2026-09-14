@@ -1,5 +1,21 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V77 index first-observation drift: SOURCE_FEASIBILITY_REJECTED
+
+[Результат](V77_INDEX_MEMBERSHIP_RESULT.md): новая metadata-only проверка,3ISS requests,
+никаких цен/экономических runs. Protocol pre-source pushes91a18f3/5c32398.
+Date-specific IMOEX lists2018-01-03/2025-12-30:по45members, intersection28/union62.
+All-period127tickers;29first-observation candidates за2018–2025 на18датах,
+годовые2/1/6/3/0/5/7/5. Это upper-bound candidates внутри текущего catalogue,
+не полный исторический security-event census/original availability proof.
+Post-FIRST-inclusion drift gate30 не достигнут; готовый30stock bundle покрывает
+лишь ENPG из29. Нет price read/migration, thresholds/re-entries не tune, trades/
+CAGR/Sharpe/MDD=null. Изначальный announcement news sample остаётся paused.
+2manifest/3raw metadata replay PASS; canonical roots/SHA/receipt clocks в отчёте.
+V65–V76 economic count17=15rejected+1incomplete+1invalid/0Stage2 не меняется;
+V75 иV77 — source feasibility rejections, не отрицательные backtests.
+Цель20–50% не достигнута. Protected2026 market outcomes/paper/collectors не менялись.
+
 ## 2026-09-14 — V76 initial-claims cycle: COMPLETE, REJECT_STAGE1
 
 [Протокол](V76_INITIAL_CLAIMS_CYCLE.md): US labor-separation ICNSA,4week average

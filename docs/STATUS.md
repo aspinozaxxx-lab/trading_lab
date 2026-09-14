@@ -3,7 +3,25 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Последний завершённый screen — V76: REJECT_STAGE1
+## Последний шаг — V77: SOURCE_FEASIBILITY_REJECTED, без цен
+
+[Результат](V77_INDEX_MEMBERSHIP_RESULT.md): проверен официальный date-specific IMOEX
+ticker route, 3 HTTP200. Два среза2018-01-03/2025-12-30: по45tickers, intersection28,
+union62. All-period metadata127tickers, 29first-observation candidates в2018–2025,
+18дат; по годам2/1/6/3/0/5/7/5. Это не29доказанных security inclusion events:
+aliases/redomiciliation/исходная publication history ещё не подтверждены.
+Для заранее определённого post-FIRST-inclusion drift minimum30 не достигнут.
+Ready30stock manifest покрывает только ENPG из29; 28не покрыты, цены не читались.
+Не делать PnL только по ENPG/не понижать gate/не добавлять re-entries ради количества.
+Canonical source roots и hashes в отчёте; 2manifest/3raw metadata replay PASS.
+Pre-source pushes91a18f3/5c32398; raw immutable outside Git, без нового collector/model/
+engine. News sample остаётся paused, publication-time blocker не снят.
+Economic runs0, trades/CAGR/Sharpe/MDD=null. V65–V76:17economic screens/0Stage2
+без изменения; V75/V77 source-only отдельно. Цель20–50% не достигнута.
+Следующий шаг — другой доступный information set/механизм и дешёвый screen,
+с предварительным price-free clock/count feasibility, не расширение этой выборки.
+
+## Последний завершённый economic screen — V76: REJECT_STAGE1
 
 [V76](V76_INITIAL_CLAIMS_CYCLE.md): новое US labor information set, ICNSA522weeks
 2016–2025,4week average против52weeks-earlier. Risk-on BR/MIX long, SI short по0.3,
@@ -3579,7 +3597,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V76 завершён REJECT_STAGE1, все metrics вверху. Нужен иной information set/механизм.
+1. V77 first-index-observation source feasibility завершена до цен:29candidates<30,
+   ready stock coverage1/29; подробности вверху. Не повторять census/не ослаблять gate,
+   не добавлять re-entries/aliases радиN и не строить engine под единственный ENPG.
+   V76 завершён REJECT_STAGE1, все metrics вверху. Нужен иной information set/механизм.
    Сначала без цен проверить число событий и coverage по source→decision→fill clocks;
    если gates недостижимы, не строить engine и не открывать outcomes ради такого screen.
    V75 dividend drift отсечён source-only по5comparables; matching/lag не ослаблять.
@@ -3597,7 +3618,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V76 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V77 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
