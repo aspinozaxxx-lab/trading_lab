@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — AlgoPack historical screen: требуется уточнение scope
+
+[Развилка](ALGOPACK_FAST_SCREEN_SCOPE_REQUEST_20260914.md): проверено действующее
+разрешение training+future-paper; historical AlgoPack CAGR в него не входит.
+Предложен отдельный conditional 2020–2025 screen, но согласие ещё не получено.
+Никаких new outcomes/fit/PnL/source replay/timer changes. Не новый economic experiment;
+счётчик 19 / 0 Stage2 не меняется. Старое обучение не повторять и не считать OOS.
+
 ## 2026-09-14 — V78 Treasury discount channels: COMPLETE, 2 REJECT_STAGE1
 
 [Протокол](V78_TREASURY_CHANNELS.md), [результат](V78_TREASURY_CHANNELS_RESULT.md):

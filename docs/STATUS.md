@@ -3620,6 +3620,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
+Следующая рассматриваемая ветка — [условный исторический конкурс AlgoPack](
+ALGOPACK_FAST_SCREEN_SCOPE_REQUEST_20260914.md). На2026-09-14 требуется явное уточнение
+scope: прежнее разрешение допускает training+future paper, но исключает historical
+AlgoPack CAGR. Ни continue goal, ни research resume этим согласием не считать.
+Новые economic loads/fit/paper не запускались; history/quality audits не повторять.
+Вопрос относится только к расширению оценки, не к уже разрешённому обучению.
+
 1. V78 завершён: оба Treasury-channel candidates REJECT_STAGE1, metrics вверху.
    Clock coverage100% не дала доходности; не менять знак/lag/window/риск/годы,
    не выдавать controls за alpha и не усложнять модель для спасения этих вариантов.
