@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v78_treasury_channels_v1",
+  "sealed_before_market_outcomes": true,
+  "sealed_at_utc": "2026-09-14T14:29:42Z",
+  "files": {
+    "configs/v78_treasury_channels_v1.json": "86694c4bba7941a64dc00fc7c32fecbb973f9826d13b59aebf4385b3f4ff5f69",
+    "src/market_lab/futures_v78_treasury_channels.py": "7bb296cc6ba030f19500eaa8551f825628ce8f5f3ea25560c696887a2a1179f5",
+    "tests/test_futures_v78_treasury_channels.py": "8eac93e4834d2393079d204a4831ca5850cce97c6797130ec9c54929f03ab4fd",
+    "docs/V78_TREASURY_CHANNELS.md": "caf5b4d00075f3fd3146d0624a3490def72a05c09c3ac23922716dbcbc8070cd",
+    "configs/v76_initial_claims_cycle_v1.seal.json": "fd9332b3e121a6afd11d1ef958014a1db21cc38c5ad0441771dd7e6eddfcb3a0"
+  }
+}

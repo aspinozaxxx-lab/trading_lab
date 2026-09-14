@@ -1,0 +1,63 @@
+﻿{
+  "protocol_id": "v78_treasury_channels_v1",
+  "declared_at_utc": "2026-09-14T14:28:34Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v76_seal_sha256": "fd9332b3e121a6afd11d1ef958014a1db21cc38c5ad0441771dd7e6eddfcb3a0",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "SI"],
+  "risk_on_directions": {"BR": 1, "MIX": 1, "SI": -1},
+  "variants": ["real_discount", "inflation_compensation"],
+  "source": {
+    "root": "source_evidence/v78_treasury_2017_2025_v2",
+    "manifest_sha256": "e34034552bb6d3b3bb9ad9f4179673f939b0bfc807176b0d7a95c5698a88fb2a",
+    "protocol_sha256": "caf5b4d00075f3fd3146d0624a3490def72a05c09c3ac23922716dbcbc8070cd",
+    "series": {
+      "DGS10": {"path": "DGS10.csv", "bytes": 37183, "sha256": "3172654eadbb3f21ae6552f63b8fe9644f0201b262d143761887811e91ecbc32", "rows": 2347, "minimum_date": "2017-01-03", "maximum_date": "2025-12-31", "missing_values": 98},
+      "DFII10": {"path": "DFII10.csv", "bytes": 37750, "sha256": "fd0f4448f1bcf19cb8858c58e2aed08b433862b04681042f17d769b72af3dd5b", "rows": 2347, "minimum_date": "2017-01-03", "maximum_date": "2025-12-31", "missing_values": 98}
+    }
+  },
+  "signal": {
+    "lookback_observations": 20,
+    "maximum_observation_gap_calendar_days": 7,
+    "maximum_window_calendar_days": 40,
+    "availability_lag_federal_business_days": 2,
+    "extra_federal_closures": ["2019-01-14", "2019-02-20"],
+    "availability_date_floors": {"2017-04-14": "2017-05-18", "2020-08-18": "2020-08-26", "2020-08-19": "2020-08-26"},
+    "maximum_source_age_at_fill_calendar_days": 14,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "fit": "none"
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.3,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.9,
+    "minimum_ready_source_dates": 200,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "Current-vintage conditional development. Regular H15 next-business-day publication, an extra business-day allowance and selected known corrections do not prove all original values or FRED receipt times.",
+    "Breakeven is inflation compensation including risk and liquidity premia, not pure expected inflation. US monetary/commodity transmission to Russia may break under sanctions and domestic shocks.",
+    "Candle/spec/fee/margin proxies and lagged-volume sizing are not verified contemporaneous BBO or broker execution. Halts and cancelled targets remain in the result.",
+    "Repeatedly examined2018-2025 is not an independent holdout. Stage2 selection is not predictable20-50percent income. No live or paper restart.",
+    "Local default-header downloads timed out without files. Same bounded CSV routes succeeded on gpu-mlserver using existing identifying V27 anonymous-FRED headers; no successful source was overwritten."
+  ]
+}
