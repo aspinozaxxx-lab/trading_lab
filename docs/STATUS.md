@@ -3,21 +3,29 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## В работе — V73: same-expiry SBER/SBERP, Stage1 prepared
+## Последний завершённый screen — V73: INCOMPLETE_NO_PROMOTION
 
-[Протокол](V73_SBER_SHARE_CLASS_PAIR.md): возврат относительной цены двух классов акций
-одного эмитента к собственной истории через 12 пар фьючерсов одинакового срока.
-Пара выбрана до цен; weekly decision, 20 prior observations, MAD z>=2, DTE>=21,
-next-session entry, five-session exit, costs5/10bps per side. Контроль short common /
-long preferred на тех же событиях. Это event screen, не портфель: CAGR/Sharpe/MDD=null.
-До outcomes зафиксировать code/config/doc/tests seal и push, затем один server run
-и source→candidate→endpoint→metrics replay. Исходные 2023–2025 candles и PDF2015 уже
-перенесены неизменными во внешнее server storage; цены/PnL V73 ещё не прочитаны.
-PASS требует >=30complete,0unresolved, positive mean/median и все3года при обоих costs,
-обгон контроля. Только затем Stage2 portfolio; цель20–50% не достигнута.
-V65–V72:14rejected/0Stage2. Старые paper/collectors не менять, protected2026 закрыт.
+[V73](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred SBER/SBERP pair
+через12общих сроков фьючерсов,2023–2025. Выбор пары до цен, weekly MAD deviation,
+next-session entry/five-session exit,5/10bps per side, static short-common control.
+[Результат](V73_SBER_SHARE_CLASS_PAIR_RESULT.md):157weekly decisions,16selected,
+12complete/4unresolved (75%coverage); по годам4/4/4complete,0/1/3unresolved.
+На полной части primary mean net1×/2× −0,020497%/−0,120785% на событие относительно
+суммы начальных quoted notionals, median−0,005145%/−0,104427%,positive50%/25%.
+Grossmean+0,079791% меньше base costs0,100288%; control mean−0,143289%/−0,243577%.
+Все3года при double отрицательны; minimum30events не достигнут. Primary лучше контроля,
+но нет положительного/устойчивого эффекта. Portfolio CAGR/Sharpe/MDD=null: не годовать
+event means и не выбрасывать4неизвестных исхода. Whole16 return неизвестен.
+One-contract1% participation проходит0/12complete: candle volume не доказательство BBO.
+Local35/server16tests PASS,Ruff/diff PASS; audit4hashes/source-candidate-endpoint-metrics PASS.
+Pre-outcome push2e2c71d; один run1,105801s после preflight, отдельный read-only replay.
+Canonical `/srv/trading_lab_data/runs/v73_sber_share_class_pair_v1_74a9f44d7669`.
+Seal74a9f44d76699acd04bc821b40b340d6611afbada5741003d3c4d06de54dd501;
+metrics4a9101bf828e851fd794353c42824b2a63f8423a27cab3ec4a8deebc8bdaf4ff.
+V65–V73:15screened=14rejected+1incomplete/0Stage2. V73 не retune/не строить новый ledger.
+Цель20–50% не достигнута; нужен иной механизм. Protected2026/paper/collectors неизменны.
 
-## Последний завершённый screen — V72: REJECT_STAGE1
+## Предыдущий screen — V72: REJECT_STAGE1
 
 Новая информация: явные заявления ЦБ о будущих повышениях/снижениях ставки, не уже
 проверенные числовые levels/governors V27 или прогноз бюджета V71. [Source protocol](
@@ -3514,19 +3522,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V73 prepared: завершить pre-outcome seal/push, один server event screen и replay,
-   затем сохранить все results/verdict. Протокол и ограничения вверху; не останавливаться
-   на подготовке. V65/V66/V67/V68/V69/V70/V71/V72 завершены:14отсеянных гипотез,0Stage2.
-   Последний [V72 policy guidance](V72_CBR_POLICY_GUIDANCE_RESULT.md) тоже REJECT_STAGE1;
-   canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
+1. V65–V73 завершены:15screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION,0Stage2.
+   Последний [V73 share-class pair](V73_SBER_SHARE_CLASS_PAIR_RESULT.md) не прошёл:
+   12/16complete, слабый gross меньше costs, double negative во всех3годах.
+   Canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
    после сверки реестра и выполнить дешёвый economic screen на допустимой истории.
    Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
-   и forecast-error V71, policy-text V72; не менять агрегирование/словари/знаки/TTL после результата;
+   и forecast-error V71, policy-text V72, share-class V73; не менять агрегирование/словари/
+   знаки/TTL после результата; не собирать новый поток для спасения слабого V73;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V72 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V73 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 

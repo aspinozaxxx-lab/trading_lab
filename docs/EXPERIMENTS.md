@@ -1,15 +1,25 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-14 — V73 same-expiry SBER/SBERP: Stage1 prepared, outcomes ещё не прочитаны
+## 2026-09-14 — V73 same-expiry SBER/SBERP: COMPLETE, INCOMPLETE_NO_PROMOTION
 
 [Протокол](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred pair по12общим
 срокам,2023–2025. Предыдущая дивидендная политика — мотивация, не guarantee/fungibility.
 20prior observed log-ratios, MAD-scale, |z|>=2, weekly/nearestDTE>=21, next-session15:50
 entry и five-session exit,5/10bps, long-preferred control на тех же выбранных событиях.
-16synthetic PASS. До market outcomes отдельный seal/push; source/schema/dates проверены,
-старый immutable broad dataset перенесён unchanged на server, без market acquisition.
-Это event-means, не portfolio CAGR; unresolved не отбрасываются, все3года обязательны.
-V65–V72:14rejected/0Stage2, новый V73 пока не economic result.
+Pre-outcome push2e2c71d, старый immutable broad dataset перенесён unchanged на server.
+[Результат](V73_SBER_SHARE_CLASS_PAIR_RESULT.md):157weekly decisions,16selected,
+12complete/4unresolved. Primary mean net1×/2× −0,020497%/−0,120785% на событие,
+control−0,143289%/−0,243577%; positive50%/25%, прибыльны1/3 и0/3годовых event cohorts.
+Grossmean+0,079791% меньше base costs0,100288%; событий меньше30, participation1%0/12.
+Это event means на complete части, не portfolio CAGR; все16returns неизвестны,
+CAGR/Sharpe/MDD=null. Не drop unresolved, не tune/не строить новый engine для V73.
+Canonical `/srv/trading_lab_data/runs/v73_sber_share_class_pair_v1_74a9f44d7669`;
+seal74a9f44d76699acd04bc821b40b340d6611afbada5741003d3c4d06de54dd501,
+metrics4a9101bf828e851fd794353c42824b2a63f8423a27cab3ec4a8deebc8bdaf4ff.
+Local35/server16tests PASS; audit4hashes/full source-event-metrics replay PASS;
+один economic run1,105801s после preflight. Deployment permission-only repair был до outcomes.
+V65–V73:15screened=14rejected+1incomplete/0Stage2. Цель20–50% не достигнута;
+protected2026/старый paper/collectors не менялись.
 
 ## 2026-09-14 — V72 policy communication: COMPLETE, REJECT_STAGE1
 
