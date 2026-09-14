@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-14 — V76 initial-claims cycle: PREPARED, до market outcomes
+## 2026-09-14 — V76 initial-claims cycle: COMPLETE, REJECT_STAGE1
 
 [Протокол](V76_INITIAL_CLAIMS_CYCLE.md): US labor-separation ICNSA,4week average
 против52weeks-earlier, BR/MIX/SI fixed risk-on signs и0.3weights. Один joint signal,
@@ -9,8 +9,21 @@ RawCSV522weekly Saturdays2016-01-02…2025-12-27,9439bytes, без missing/dupli
 SHA c80c5d1660ea514a23c8c04d8377445eb0892bce518b29ef86d7cda9ee3ab64f.
 Current-vintage conditional only, original releases/revisions не доказаны. Первый
 graph-page downloadHTML сохранён/отклонён, V2 exact fredgraph.csv принят без перезаписи.
-21new+50shared synthetic tests PASS; дальше pre-outcome seal/push/server screen/audit.
-Подготовка и source PASS не доказательство прибыли,20–50%goal не достигнута.
+[Результат](V76_INITIAL_CLAIMS_CYCLE_RESULT.md): primary CAGR1×/2× −5,6847%/−6,0728%,
+Sharpe−0,4551/−0,5040,MDD41,5803%/42,4253%,1067/1053episodes,3/8positive years.
+Gross VM−280214/−213792руб., net−373486/−393791; control CAGR−1,6809%/−3,1851%.
+Все4execution complete, critical/unresolved0,terminalflat, по3no-liquidity cancellations.
+6072asset decisions/2024dates,4804nonzero targets/417releases на arm; source-unavailable17.
+Source-ready79,3972%<90%:1251stale asset-dates/417dates, все source-age>14days,
+decision-gap>7days0. Частые flat/reentry не независимые макрошоки. No TTL/lag retune.
+Pre-outcome pushf4fb8c1; единственный economic run5,503150s, local73/server21tests PASS.
+Audit18hashes/4metric-count-cash/rawCSV-state-target replay PASS, все8лет сохранены.
+Canonical `/srv/trading_lab_data/runs/v76_initial_claims_cycle_v1_fd9332b3e121`;
+seal fd9332b3e121a6afd11d1ef958014a1db21cc38c5ad0441771dd7e6eddfcb3a0;
+metrics e611b2d33d0f32e4366af755732fe8446f46be7e09e69c6e2b17922c4a3bfce4.
+V65–V76:17economic screens=15rejected+1incomplete+1invalid,0Stage2; V75 source-only отдельно.
+Следующей новой идее source-clock/event-count feasibility делать до market load.
+20–50%goal не достигнута; protected2026/paper/collectors не менялись.
 
 ## 2026-09-14 — V75 dividend drift: SOURCE_FEASIBILITY_REJECTED, без PnL
 

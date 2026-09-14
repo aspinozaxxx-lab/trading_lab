@@ -3,15 +3,29 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## В работе — V76 initial-claims cycle, PREPARED до market outcomes
+## Последний завершённый screen — V76: REJECT_STAGE1
 
 [V76](V76_INITIAL_CLAIMS_CYCLE.md): новое US labor information set, ICNSA522weeks
 2016–2025,4week average против52weeks-earlier. Risk-on BR/MIX long, SI short по0.3,
 рост claims разворачивает joint basket. Constant risk-on control, full2018–2025,
 два costs, готовые targets/ledger, без model/new collector. Current-vintage conditional
 source, original-release/causal admission=false; Saturday observation не publication.
-Следующий шаг: seal/push окончательных байтов, server synthetic tests, один economic
-run и read-only audit. Пока нет economic результата и Stage2. Цель20–50% неизменна.
+[Результат](V76_INITIAL_CLAIMS_CYCLE_RESULT.md): CAGR1×/2× −5,6847%/−6,0728%,
+Sharpe−0,4551/−0,5040, MDD41,5803%/42,4253%,1067/1053closed asset episodes,
+3/8positive years. Gross VM−280214/−213792руб., net−373486/−393791на1млн.
+Control CAGR−1,6809%/−3,1851%,1105/1065episodes; primary не превосходит контроль.
+Все4execution complete, critical/unresolved0,terminalflat; по3no-liquidity cancellations.
+6072asset decisions/2024dates на arm,4804nonzero/417releases,17source-unavailable.
+Source-ready79,3972%<90%:1251stale asset-dates/417dates, все source-age>14days,
+decision-gap>7days0. Это следствие frozen lag/freshness, не missing CSV.
+Не считать частые закрытия/reentry независимыми labor shocks и не удлинять TTL после PnL.
+Pre-outcome pushf4fb8c1; один economic run5,503150s, local73/server21tests PASS.
+Audit18hashes/4metric-count-cash/rawCSV-state-target replays PASS; все8лет сохранены.
+Canonical `/srv/trading_lab_data/runs/v76_initial_claims_cycle_v1_fd9332b3e121`.
+Seal fd9332b3e121a6afd11d1ef958014a1db21cc38c5ad0441771dd7e6eddfcb3a0;
+metrics e611b2d33d0f32e4366af755732fe8446f46be7e09e69c6e2b17922c4a3bfce4.
+V65–V76:17economic screens=15rejected+1incomplete+1invalid,0Stage2; V75 source-only отдельно.
+Цель20–50% не достигнута. Нужен иной механизм; protected2026/paper/collectors не менялись.
 
 ## V75 — source-only dividend drift отсечён до цен
 
@@ -21,7 +35,7 @@ run и read-only audit. Пока нет economic результата и Stage2.
 Недостаточно для30event screen; stock prices/PnL/перенос datasets не запускались.
 Это SOURCE_FEASIBILITY_REJECTED, не новый economic backtest. V65–V74 остаются16/0Stage2.
 
-## Последний завершённый screen — V74: INVALID_EXECUTION_NO_PROMOTION
+## Предыдущий screen — V74: INVALID_EXECUTION_NO_PROMOTION
 
 [V74](V74_BAKER_RIG_SUPPLY.md): новое physical upstream investment information set,
 US oil-directed active rigs → BR, не EIA V17 inventories/refinery или CFTC retune.
@@ -3565,24 +3579,25 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V76 prepared: завершить seal/push, один server economic screen и audit по протоколу
-   вверху. V75 dividend drift отсечён source-only по5comparables; не ослаблять mapping/
-   payment-date matching и не строить новый engine. V65–V74 завершены:
-   16screened=14REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
-   +1INVALID_EXECUTION_NO_PROMOTION,0Stage2. Последний
-   [V74 rig-supply](V74_BAKER_RIG_SUPPLY_RESULT.md) invalid: все4execution gatesfalse,
+1. V76 завершён REJECT_STAGE1, все metrics вверху. Нужен иной information set/механизм.
+   Сначала без цен проверить число событий и coverage по source→decision→fill clocks;
+   если gates недостижимы, не строить engine и не открывать outcomes ради такого screen.
+   V75 dividend drift отсечён source-only по5comparables; matching/lag не ослаблять.
+   V65–V76:17economic screens=15REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
+   +1INVALID_EXECUTION_NO_PROMOTION,0Stage2.
+   Предыдущий [V74 rig-supply](V74_BAKER_RIG_SUPPLY_RESULT.md) invalid: все4execution gatesfalse,
    gross-limit counters2/arm/cost, без rejected orders; raw primary gross уже отрицателен.
    Не превращать воспроизводимость или forensic CAGR в valid result/Stage2.
    Canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
    после сверки реестра и выполнить дешёвый economic screen на допустимой истории.
    Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
-   и forecast-error V71, policy-text V72, share-class V73, rig-supply V74; не менять
+   и forecast-error V71, policy-text V72, share-class V73, rig-supply V74, claims-cycle V76; не менять
    агрегирование/словари/знаки/TTL после результата; не спасать V73/V74 новым потоком/engine;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V74 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V76 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
