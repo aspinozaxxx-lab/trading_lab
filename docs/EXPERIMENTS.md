@@ -1,5 +1,27 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V78 Treasury discount channels: COMPLETE, 2 REJECT_STAGE1
+
+[Протокол](V78_TREASURY_CHANNELS.md), [результат](V78_TREASURY_CHANNELS_RESULT.md):
+real-discount и inflation-compensation, два новых20-observation Treasury channels,
+same0.3BR/MIX/SI weights, constant risk-on control,2018–2025,1×/2×costs, no fit.
+Raw DGS10/DFII10 по2347rows/98missing, source2017–2025. Metadata clock-first pass:
+100%/6072asset decisions,1996ready source dates, feature/stale0; затем8arm/cost runs.
+Real CAGR−8.3438%/−9.0121%,Sharpe−0.6494/−0.7064,MDD62.4708%/63.8287%,
+523/523episodes,4/8positive years,net−501457/−529771руб. на исходный1млн.
+Compensation CAGR1.0018%/−2.1002%,Sharpe0.1409/−0.0778,MDD31.5756%/38.1346%,
+685/657episodes,5/8 и4/8positive years,net82892/−155976руб.
+Control CAGR0.2046%/0.1222%,identical across cases. Все8complete/critical0/
+unresolved0/terminalflat, factual halts/carry/cancellations сохранены. Stage2=0.
+Pre-source8e1df10/pre-outcome81bee94, один economic batch10.739700s после preflight.
+Local70/server27tests PASS; audit35hashes/8metric-annual-count-cash/source-state-target PASS.
+Canonical `/srv/trading_lab_data/runs/v78_treasury_channels_v1_8be2ac519e78`;
+seal8be2ac519e78183c51838d5a93d9ea068fe8b902c0dd59678c40b0c48607ce2e,
+metrics2edb4e9c1aea7e391a3ebfeafe160fd4eb19b5b65e39e08ace610633698dc5b8.
+19economic screens=17rejected+1incomplete+1invalid/0Stage2; V75/V77source-only отдельно.
+Не retune/не строить engine/fit под V78. Цель20–50% не достигнута;
+protected2026/paper/collectors неизменны, original-vintage admission не подтверждён.
+
 ## 2026-09-14 — V77 index first-observation drift: SOURCE_FEASIBILITY_REJECTED
 
 [Результат](V77_INDEX_MEMBERSHIP_RESULT.md): новая metadata-only проверка,3ISS requests,

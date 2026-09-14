@@ -3,7 +3,30 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Последний шаг — V77: SOURCE_FEASIBILITY_REJECTED, без цен
+## Последний economic batch — V78: оба REJECT_STAGE1
+
+[Протокол](V78_TREASURY_CHANNELS.md), [результат](V78_TREASURY_CHANNELS_RESULT.md):
+два новых Treasury information channels, real-discount и inflation-compensation,
+20-observation changes, BR/MIX/SI по0.3, constant risk-on controls, full2018–2025.
+Raw DGS10/DFII10 по2347rows/98missing, только2017–2025; current-vintage conditional.
+Сначала clock-only feasibility:100%/6072asset decisions,1996ready source dates,
+feature-unavailable/stale0. Затем один economic batch10.739700s,8arm/cost executions.
+Real CAGR1×/2× −8.3438%/−9.0121%, Sharpe−0.6494/−0.7064,
+MDD62.4708%/63.8287%,523/523episodes,4/8positive years; net−501457/−529771руб.
+Compensation CAGR1.0018%/−2.1002%, Sharpe0.1409/−0.0778,
+MDD31.5756%/38.1346%,685/657episodes,5/8 и4/8positive years; net82892/−155976руб.
+Control CAGR0.2046%/0.1222%, одинаковый в двух cases. Все8execution complete,
+critical/unresolved0,terminalflat; halts/carry/cancellations сохранены. Ни один Stage2.
+Local70/server27tests PASS; audit35hashes/8metric-annual-count-cash/raw-state-target PASS.
+Pre-source push8e1df10/pre-outcome seal81bee94, canonical
+`/srv/trading_lab_data/runs/v78_treasury_channels_v1_8be2ac519e78`.
+Seal8be2ac519e78183c51838d5a93d9ea068fe8b902c0dd59678c40b0c48607ce2e;
+metrics2edb4e9c1aea7e391a3ebfeafe160fd4eb19b5b65e39e08ace610633698dc5b8.
+V65–V78:19economic screens=17rejected+1incomplete+1invalid,0Stage2.
+V75/V77 source-only отдельно. Не retune V78/не спасать новым engine/fit.
+Цель20–50% не достигнута; protected2026/paper/collectors не менялись.
+
+## Предварительный отсев — V77: SOURCE_FEASIBILITY_REJECTED, без цен
 
 [Результат](V77_INDEX_MEMBERSHIP_RESULT.md): проверен официальный date-specific IMOEX
 ticker route, 3 HTTP200. Два среза2018-01-03/2025-12-30: по45tickers, intersection28,
@@ -21,7 +44,7 @@ Economic runs0, trades/CAGR/Sharpe/MDD=null. V65–V76:17economic screens/0Stage
 Следующий шаг — другой доступный information set/механизм и дешёвый screen,
 с предварительным price-free clock/count feasibility, не расширение этой выборки.
 
-## Последний завершённый economic screen — V76: REJECT_STAGE1
+## Предыдущий economic screen — V76: REJECT_STAGE1
 
 [V76](V76_INITIAL_CLAIMS_CYCLE.md): новое US labor information set, ICNSA522weeks
 2016–2025,4week average против52weeks-earlier. Risk-on BR/MIX long, SI short по0.3,
@@ -3597,15 +3620,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V77 first-index-observation source feasibility завершена до цен:29candidates<30,
+1. V78 завершён: оба Treasury-channel candidates REJECT_STAGE1, metrics вверху.
+   Clock coverage100% не дала доходности; не менять знак/lag/window/риск/годы,
+   не выдавать controls за alpha и не усложнять модель для спасения этих вариантов.
+   V65–V78:19economic screens=17rejected+1incomplete+1invalid,0Stage2.
+   Нужен иной доступный information set/механизм и дешёвый economic screen.
+   V77 first-index-observation source feasibility завершена до цен:29candidates<30,
    ready stock coverage1/29; подробности вверху. Не повторять census/не ослаблять gate,
    не добавлять re-entries/aliases радиN и не строить engine под единственный ENPG.
-   V76 завершён REJECT_STAGE1, все metrics вверху. Нужен иной information set/механизм.
    Сначала без цен проверить число событий и coverage по source→decision→fill clocks;
    если gates недостижимы, не строить engine и не открывать outcomes ради такого screen.
    V75 dividend drift отсечён source-only по5comparables; matching/lag не ослаблять.
-   V65–V76:17economic screens=15REJECT_STAGE1+1INCOMPLETE_NO_PROMOTION
-   +1INVALID_EXECUTION_NO_PROMOTION,0Stage2.
    Предыдущий [V74 rig-supply](V74_BAKER_RIG_SUPPLY_RESULT.md) invalid: все4execution gatesfalse,
    gross-limit counters2/arm/cost, без rejected orders; raw primary gross уже отрицателен.
    Не превращать воспроизводимость или forensic CAGR в valid result/Stage2.
@@ -3618,7 +3643,7 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
    для провалившегося ценового эффекта и не выводить CAGR из event means.
 2. Следовать [HYPOTHESIS_FUNNEL.md](HYPOTHESIS_FUNNEL.md): глубокая проверка только для
    Stage2 candidates, а не инфраструктура до первого экономического screen.
-3. Пользователь возобновил исследования 2026-09-13; V68–V77 завершены, см. верх STATUS.
+3. Пользователь возобновил исследования 2026-09-13; V68–V78 завершены, см. верх STATUS.
    Paper bootstrap был отключён при паузе; не включать старый запуск автоматически.
    Source sample индексных новостей пока не запускать вместо экономического screen.
 
