@@ -1,0 +1,14 @@
+﻿{
+  "protocol_id": "v72_cbr_policy_guidance_v1",
+  "sealed_before_market_outcomes": true,
+  "sealed_at_utc": "2026-09-14T11:28:53Z",
+  "files": {
+    "configs/v72_cbr_policy_guidance_v1.json": "86787fcb307a7ba77d4d066a8ede53a55408f188a88e4e29fa8418d28058e0c5",
+    "src/market_lab/futures_v72_policy_guidance.py": "26a9f17e8d45d68a4e5c8ae2761a057ff0daa05dfab2767dfae148d75aec6805",
+    "tests/test_futures_v72_policy_guidance.py": "f620c1058aef3a7a7299681a8b14b167e0b03fd9e3c91e84f138a1ae338bdbb1",
+    "docs/V72_CBR_POLICY_GUIDANCE.md": "b96683cfc821bbb9a385fb129f69700794b466e4601a76cb796b86645c6a779e",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "configs/cbr_policy_releases_2018_2025_v2.seal.json": "4b0081dda0a775aa27f96ee7c9c49a0e127d028553f1c467c953923be72c92ad"
+  }
+}

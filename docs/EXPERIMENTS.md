@@ -1,6 +1,6 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-14 — V72 policy communication: source подготовлен, не economic result
+## 2026-09-14 — V72 policy communication: source COMPLETE, economic protocol подготовлен
 
 [Источник](CBR_POLICY_RELEASES_SOURCE_V1.md): полный provider catalogue пресс-релизов
 ставки2018–2025, включая внеочередные. Новая qualitative forward-guidance информация,
@@ -8,10 +8,14 @@
 отдельно от рыночных outcomes; title actual decision — будущий control.
 V1 после pre-source push72df00b прошёл12server tests, но остановился на29-м article:
 footer2022-07-22 00:00:00 против catalog13:30; raw сохранён, processed/PnL отсутствуют.
-[V2](CBR_POLICY_RELEASES_SOURCE_V2.md): только unknown date-only footer handling,
-EOD availability неизменна, новый root/ограниченная acquisition,18synthetic PASS.
-Economic model/PnL ещё не запускались. V65–V71 по-прежнему13rejected/0Stage2.
-Не засчитывать source как успех.
+[V2](CBR_POLICY_RELEASES_SOURCE_V2.md), pre-acquisition push e0c5fad:68релизов,77requests,
+8/8/8/8/11/9/8/8 за2018–2025,40date-only footers; original versions unproved.
+18server/source tests PASS, full raw/normalization replay77/68 PASS. Manifest SHA
+83a89218c16785d961632c4a715e8f26d0fda0e0299e39ac98257f2621d75b70.
+[Economic V72](V72_CBR_POLICY_GUIDANCE.md) готов: текстовое next-action направление
+против headline-only control, MIX/SI по0.5nominal, TTL14calendar days,1×/2×costs,
+готовый ledger без fit/новой службы. Economic seal/push ещё до первого market outcome.
+V65–V71 по-прежнему13rejected/0Stage2; source PASS не успех стратегии.
 
 ## 2026-09-13 — V71 CBR liquidity forecast error: COMPLETE, REJECT_STAGE1
 

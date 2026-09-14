@@ -3,18 +3,21 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Следующая гипотеза — V72: текстовый forward guidance ЦБ, source clock correction V2
+## Текущий screen — V72: текстовый forward guidance ЦБ, economic protocol подготовлен
 
 Новая информация: явные заявления ЦБ о будущих повышениях/снижениях ставки, не уже
 проверенные числовые levels/governors V27 или прогноз бюджета V71. [Source protocol](
 CBR_POLICY_RELEASES_SOURCE_V1.md) собирает все релизы отдельной категории2018–2025;
 принятые решения в headline будут контролем. Никакого fit или нового сервиса.
 Source V1 после push72df00b остановился на29-м article:2022-07-22 footer00:00:00,
-catalog13:30. Raw сохранён, processed/manifest/PnL отсутствуют. [V2 correction](
-CBR_POLICY_RELEASES_SOURCE_V2.md) сохраняет date-only footer как неизвестное время,
-не backdate-ит доступность: она остаётся23:59:59Moscow. Новый config/seal/root,
-18synthetic PASS; далее bounded server collection/replay и отдельный economic seal
-для простого MIX/SI правила с costs и полным годовым отчётом. Не Stage2.
+catalog13:30. V1raw сохранён, processed/PnL отсутствуют. [V2 correction](
+CBR_POLICY_RELEASES_SOURCE_V2.md), push e0c5fad:68релизов2018–2025,77raw responses,
+40date-only footers; end-of-day availability неизменна. Raw/normalization audit77/68 PASS.
+Manifest83a89218c16785d961632c4a715e8f26d0fda0e0299e39ac98257f2621d75b70.
+[Economic V72](V72_CBR_POLICY_GUIDANCE.md): fixed lexical next-action direction против
+headline-only, MIX/SI по0.5nominal, TTL14days,2018–2025,1×/2×costs, старый ledger.
+Далее economic seal/push и единственный server run; market outcomes ещё не прочитаны.
+Source не Stage2 и не доказательство original historical versions.
 Проверенные обходные направления не повторять: term/calendar уже закрыты; premium
 options без quotes/spec identity blocked, volatility-curve catalog V2 показывает0/6
 eligible archives по прежнему gate. Index sample и старый paper bootstrap не запускались.
@@ -3488,8 +3491,8 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 1. V65/V66/V67/V68/V69/V70/V71 завершены: 13 отсеянных гипотез, 0 кандидатов Stage2.
    V71 после input-scope R1 тоже REJECT_STAGE1; canonical/SHA/все годы вверху.
-   Выбрать иной содержательный механизм/information set после сверки реестра и выполнить
-   следующий дешёвый economic screen на имеющейся допустимой истории.
+   Следующий выбранный механизм — [V72 policy guidance](V72_CBR_POLICY_GUIDANCE.md),
+   source V2 уже68releases/audit PASS; отдельный economic seal и быстрый MIX/SI screen.
    Не повторять/перенастраивать календарь, OHLCV, покупку V67, сигналы V68/V69, curve V70
    и forecast-error V71; не менять агрегирование/знаки/TTL после результата;
    контролям не присваивать роль новых alpha после результата. Не строить новый учёт
