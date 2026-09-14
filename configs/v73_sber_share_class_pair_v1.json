@@ -1,0 +1,71 @@
+﻿{
+  "protocol_id": "v73_sber_share_class_pair_v1",
+  "declared_at_utc": "2026-09-14T12:20:50Z",
+  "stage": 1,
+  "research_only": true,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2023-01-01", "end": "2025-12-31"},
+  "hypothesis": "Temporary relative mispricing between same-expiry SBER ordinary/preferred futures partially converges over five sessions. The issuer/share-class relationship is chosen before prices; no correlation-mined pair, different-maturity calendar spread, RI/MIX currency identity or thirty-stock residual basket.",
+  "method_evidence": {
+    "path": "source_evidence/v73_sber_policy_20260914/sberbank_2015_report.pdf",
+    "bytes": 8721203,
+    "sha256": "998dca78697f3b506f7ae17ae418d8cfd551bd22a513351e35dcf3477c01a952",
+    "url": "https://fs.moex.com/content/annualreports/1998/2/sberbank-angl.pdf",
+    "pdf_page_index": 116,
+    "printed_pages": [230, 231],
+    "fact": "The 2015 policy states an aim of equal ordinary/preferred dividends. This is pre-period economic motivation, NOT proof of equal prices, conversion rights, equal subsequent payments or a binding 2023-2025 policy. No dividend amount enters the signal or return."
+  },
+  "source": {
+    "root": "data/processed/info_radar/moex-broad-stock-futures-carry-intraday-2023-2025-v1",
+    "manifest.json": "58581f7630c50c4173653473911165a0401e836611c3047800ccd4d65fe1fb62",
+    "audit.json": "90948f329bbb4f6f2feef25aa207e0e20007a26aeb41d98a908860f2a9b18f52",
+    "specs": {"rows": 339, "sha256": "94104d5cfc40ebe3e5c628b31b1761e75217d766f6323f87c659d50f4f2b6202"},
+    "candles": {"rows": 2132435, "bytes": 51684792, "sha256": "0f25437954b1f6f055401ef96c23ee9b56cca54c599cdde0aa22a45948a8badf"},
+    "minimum_timestamp": "2023-01-03T06:00:00Z",
+    "maximum_timestamp": "2025-12-18T15:40:00Z",
+    "selected_identity": "all12 SBER plus all12 SBERP contracts, 100 underlying shares each, paired only by exact expiration; no outcomes or volume ranking",
+    "calendar": "factual core-four effective dates from pinned V64 recent active-map, only2023-2025; read date column only",
+    "rights": "Previously admitted public MOEX source for personal research; raw data remain outside Git"
+  },
+  "signal": {
+    "schedule": "First factual session of each W-SUN week, decision15:50Moscow from completed15:40 candle. Select nearest listed same-expiry pair with minimum DTE; never fall back to a more liquid pair after missing data.",
+    "bar_clock": "15:40",
+    "minimum_dte_calendar_days": 21,
+    "lookback_observations": 20,
+    "maximum_history_span_days": 63,
+    "absolute_z_threshold": 2.0,
+    "formula": "log(common_close/preferred_close); center=median of20 strictly-prior paired valid daily observations of SAME two contracts, scale=1.4826*MAD. Valid means positive finite prices/positive volume and actual available_at<=that day's15:50. Current |z|>=2 selects common direction=-sign(z), preferred opposite.",
+    "missing": "No imputation; fewer20 prior paired observations in63calendar days, zero scale, missing current completed pair or no eligible maturity means no event. Historical level observations may have gaps; no return is computed across those gaps.",
+    "control": "At the exact same selected dates/contracts: always short common and long preferred, separating timing/direction from static share-class preference. Control not promotable post outcome.",
+    "fit": "none, no neural model, no parameter search"
+  },
+  "execution": {
+    "bar_clock": "15:50",
+    "entry": "next factual calendar session15:50open, strictly later than decision day",
+    "hold_sessions": 5,
+    "exit": "fifth following factual session after entry, same exact contracts; require all six intervening daily15:50 bars for both legs to have finite positive opens and positive volume",
+    "unit": "one common plus one preferred futures contract, opposite signs; quote-change PnL normalized by sum of entry quote notionals, not by margin or account NAV",
+    "cost_bps_per_side": {"base": 5.0, "double": 10.0},
+    "cost_formula": "bps/10000*(common_entry+preferred_entry+common_exit+preferred_exit)/(common_entry+preferred_entry), covering both entry and exit of both legs",
+    "capacity": "report observed one-contract participation in all six daily bars and count complete events satisfying1% everywhere; NOT proof of displayed BBO or fill",
+    "overlap": "event opportunities may overlap around holidays; never compound or sum them into a portfolio return",
+    "missing": "selected event with missing/inactive daily bar or truncated future calendar is unresolved and stays in denominator; never change selected events after outcomes"
+  },
+  "screen_gates": {
+    "years": [2023, 2024, 2025],
+    "minimum_completed_events": 30,
+    "requirements": "no unresolved selected events; primary mean and median net>0 at both costs; mean net>0 in each of all3years; primary mean net strictly above control at both costs",
+    "pass_means": "STAGE2_PORTFOLIO_CANDIDATE only: full cash/margin/integer/risk ledger still required, then robustness/executable BBO/prospective demo; no goal reduction to positive event mean"
+  },
+  "reporting": "all weekly decisions/reasons, selected/complete/unresolved counts, both arms/costs/all3year event means, endpoint/participation evidence; portfolio CAGR/Sharpe/MDD explicitly null",
+  "limitations": [
+    "A same-issuer share-class relationship is not fungibility or guaranteed convergence. Voting rights, investor segmentation, funding, dividends and liquidity premia can change permanently.",
+    "This is a five-session endpoint/event screen, not a cash/margin portfolio. Normalized quote-change opportunity is not a realized account return; overlapping opportunities are not additive.",
+    "Current descriptions do not prove all historical contract-point values, broker fees or margin. Anonymous candles do not prove original executable simultaneous BID/OFFER, quote depth or short-fill capacity.",
+    "Already-open2023-2025 development and a narrow pair cannot demonstrate predictable20-50% annual income. No historical2026 outcomes or live orders are authorized."
+  ],
+  "forbidden_followups": ["change sign, pair, lookback, maturity, weekly clock, threshold, holding period or costs after outcomes", "drop unresolved cases or promote control/selected year", "claim CAGR from event means", "read protected2026 outcomes", "overwrite or rerun canonical source/economic output", "restart paper bootstrap or change collectors"]
+}

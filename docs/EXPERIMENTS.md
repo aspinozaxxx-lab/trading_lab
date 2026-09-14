@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-14 — V73 same-expiry SBER/SBERP: Stage1 prepared, outcomes ещё не прочитаны
+
+[Протокол](V73_SBER_SHARE_CLASS_PAIR.md): same-issuer ordinary/preferred pair по12общим
+срокам,2023–2025. Предыдущая дивидендная политика — мотивация, не guarantee/fungibility.
+20prior observed log-ratios, MAD-scale, |z|>=2, weekly/nearestDTE>=21, next-session15:50
+entry и five-session exit,5/10bps, long-preferred control на тех же выбранных событиях.
+16synthetic PASS. До market outcomes отдельный seal/push; source/schema/dates проверены,
+старый immutable broad dataset перенесён unchanged на server, без market acquisition.
+Это event-means, не portfolio CAGR; unresolved не отбрасываются, все3года обязательны.
+V65–V72:14rejected/0Stage2, новый V73 пока не economic result.
+
 ## 2026-09-14 — V72 policy communication: COMPLETE, REJECT_STAGE1
 
 [Источник](CBR_POLICY_RELEASES_SOURCE_V1.md): полный provider catalogue пресс-релизов

@@ -1,0 +1,12 @@
+﻿{
+  "protocol_id": "v73_sber_share_class_pair_v1",
+  "sealed_before_market_outcomes": true,
+  "sealed_at_utc": "2026-09-14T12:21:24Z",
+  "files": {
+    "configs/v73_sber_share_class_pair_v1.json": "419dd413c01e5fb869a99cd216e99d1ff98b7046157aeea086c22268591a977d",
+    "src/market_lab/futures_v73_share_class_pair.py": "83cb0009b0cc5540b977382898b037a34b085787173b2358608e5cdbe1a4cf4d",
+    "tests/test_futures_v73_share_class_pair.py": "7dd3ba07456c7a3af579ebf3c259400f409ba95708c31c38e240151ecef2b247",
+    "docs/V73_SBER_SHARE_CLASS_PAIR.md": "bb98fe3a03b04bb1c16f5de7671b0ec239f80eb8d6fa79111a1ee20a659a4b54",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

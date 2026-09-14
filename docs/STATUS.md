@@ -3,6 +3,20 @@
 Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## В работе — V73: same-expiry SBER/SBERP, Stage1 prepared
+
+[Протокол](V73_SBER_SHARE_CLASS_PAIR.md): возврат относительной цены двух классов акций
+одного эмитента к собственной истории через 12 пар фьючерсов одинакового срока.
+Пара выбрана до цен; weekly decision, 20 prior observations, MAD z>=2, DTE>=21,
+next-session entry, five-session exit, costs5/10bps per side. Контроль short common /
+long preferred на тех же событиях. Это event screen, не портфель: CAGR/Sharpe/MDD=null.
+До outcomes зафиксировать code/config/doc/tests seal и push, затем один server run
+и source→candidate→endpoint→metrics replay. Исходные 2023–2025 candles и PDF2015 уже
+перенесены неизменными во внешнее server storage; цены/PnL V73 ещё не прочитаны.
+PASS требует >=30complete,0unresolved, positive mean/median и все3года при обоих costs,
+обгон контроля. Только затем Stage2 portfolio; цель20–50% не достигнута.
+V65–V72:14rejected/0Stage2. Старые paper/collectors не менять, protected2026 закрыт.
+
 ## Последний завершённый screen — V72: REJECT_STAGE1
 
 Новая информация: явные заявления ЦБ о будущих повышениях/снижениях ставки, не уже
@@ -3500,7 +3514,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-1. V65/V66/V67/V68/V69/V70/V71/V72 завершены:14отсеянных гипотез,0кандидатов Stage2.
+1. V73 prepared: завершить pre-outcome seal/push, один server event screen и replay,
+   затем сохранить все results/verdict. Протокол и ограничения вверху; не останавливаться
+   на подготовке. V65/V66/V67/V68/V69/V70/V71/V72 завершены:14отсеянных гипотез,0Stage2.
    Последний [V72 policy guidance](V72_CBR_POLICY_GUIDANCE_RESULT.md) тоже REJECT_STAGE1;
    canonical/SHA/все годы вверху. Выбрать другое независимое information set или механизм
    после сверки реестра и выполнить дешёвый economic screen на допустимой истории.
