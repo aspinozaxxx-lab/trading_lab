@@ -3,6 +3,16 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V94 — новый skewness-premium screen, pre-outcome checkpoint
+
+[Фиксированный протокол](V94_SKEWNESS_PREMIUM.md): monthly low-minus-high skew из126
+соседних same-contract returns, core4,2021–2025, warmup2018–2020, дваcosts и mirrorcontrol.
+Никакого fit/нового source/engine. 9 новых/37 combined synthetic tests PASS6.48s,
+Ruff clean. Code/config/source seal подготовлен до новых features/targets/outcomes.
+Следом push/server byte check и один immutable run; до completion это НЕ economic result.
+26 прежних portfolio hypotheses/0Stage2; V92/V93 closed, их не повторять/не retune-ить.
+Download volumes/runtime ниже относятся22:03UTC, нового замера пока нет.
+
 ## V92 economic COMPLETE — REJECT_STAGE1, цель20–50% не подтверждена
 
 [Полный результат](V92_OPTION_CONVERGENCE_RESULT.md): completed2026-09-15T21:59:00UTC,

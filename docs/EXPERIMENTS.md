@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V94 skewness premium, sealed pre-outcome checkpoint
+
+[Протокол](V94_SKEWNESS_PREMIUM.md): одна новая monthly skewness-preference hypothesis,
+не повтор trend/RVI/opening. Long уникальный minimum/short maximum126-session skew,
+оба±0.45, existing exact-contract daily ledger2021–2025, mirrorcontrol,base/double costs.
+9 новых/37combined synthetic tests PASS6.48s,Ruff clean. Config
+63ad7b7ff2639578669d4bb63e12916463be76c89217c4e8bdb8cc2168cee457.
+До pushed server run никаких новых market features/outcomes не считалось; это пока
+не27-я completed hypothesis. Stage2=0. Обязательно завершить конкурс и записать все
+сценарии; не менять фиксированные параметры после результата.
+
 ## 2026-09-15 — V92 economic COMPLETE, REJECT_STAGE1
 
 [Все сценарии и годы](V92_OPTION_CONVERGENCE_RESULT.md),completed21:59:00.059635UTC.

@@ -1,0 +1,56 @@
+{
+  "protocol_id": "v94_skewness_premium_v1",
+  "declared_at_utc": "2026-09-15T22:20:00Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "source": "V64 recent declaration: exact active map, daily contract observations, lagged spec proxy; 2018-2025; byte/schema/date preflight before numeric read",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "RI", "SI"],
+  "signal": {
+    "mechanism": "skewness preference: long lowest historical skew, short highest",
+    "primary_reference": "https://openaccess.city.ac.uk/id/eprint/17843/",
+    "lookback_sessions": 126,
+    "skew_estimator": "pandas unbiased Fisher-Pearson rolling skew; complete126 consecutive calendar rows; positive sample std greater than1e-12",
+    "daily_return": "close(t,contract selected before t)/close(previous calendar session,same contract)-1; both closes and volumes positive; never new-contract/old-contract ratio",
+    "selection": "first completed session of each calendar month; unique minimum and maximum of all4 finite skews; any missing or tied extreme sleeps entire month",
+    "between_selections": "hold selected asset directions; daily constant fraction resizing and causal active-contract rolls in existing ledger",
+    "warmup": "2018-2020 values only for causal trailing features and last monthly state; initial portfolio cash begins2021",
+    "control": "exact sign mirror with same readiness, sizing and terminal masks; never promote control after observing results",
+    "maximum_fill_gap_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_leg": 0.45,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 50,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "primary_must_beat_control_each_cost": true,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "New economic hypothesis on existing price history, not new information or an independent holdout. Literature concerns commodity futures; applying it to mixed MOEX BR/MIX/RI/SI is an unproven extrapolation, not a replication or evidence of profit.",
+    "Only four correlated markets; long/short not cash-risk or beta neutral. Potential crash risk and persistent asset bias; skew estimator noisy. No implied-volatility or option-gamma claim.",
+    "Daily exact-contract returns are concatenated at return level across causal rolls, never raw price splices. Missing sessions/zero volume invalidate126-session windows, not compressed away or filled with zero.",
+    "Daily candle/spec/fee/margin proxies, not BBO, historical broker tariffs or synchronized execution. One leg can fill without the other; actual gross can move after gaps. No cash interest or live/demo orders.",
+    "One fixed126-session/monthly rule and one mirror control. No post-outcome change of sign, asset, period, lookback, capital, masks or costs. Weak result closes this hypothesis; control cannot be promoted.",
+    "Stage1 five-percent threshold selects only a potential component; it does not replace the20-50percent annual goal. Goal_verified remains false even on Stage2 promotion."
+  ]
+}
