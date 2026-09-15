@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V80 GPR vintages, source-only pre-request
+
+[Протокол](V80_GPR_VINTAGES_SOURCE.md): независимый newspaper geopolitical-risk source,
+архив dated monthly versions. Из50<=2025editions earliest202110, first Git addition
+2022-03-01;202202нет. Planned46versions202203…202512,3metadata pilots до полного source.
+Local8synthetic tests PASS/Ruff clean. GPR values/market outcomes ещё не читались,
+economic run0. Это не новый NO_GO/PASS и не изменение V65–V79count22/0Stage2.
+
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 
 Дополнительное archival поручение: [FUTOI V3 RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md),

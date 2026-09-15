@@ -1,0 +1,17 @@
+﻿{
+  "protocol_id": "v80_gpr_vintages_source_v1",
+  "root": "/srv/trading_lab_data/source_evidence/v80_gpr_vintages_2022_2025_v1",
+  "source_only": true,
+  "economic_admission": false,
+  "protected_from": "2026-01-01",
+  "pilot_vintages": ["202203", "202401", "202512"],
+  "full_vintage_start": "202203",
+  "full_vintage_end": "202512",
+  "formats": ["Stata DTA", "GitHub commit metadata JSON"],
+  "first_commit_content_only": true,
+  "publication_timestamp_is_proxy_not_witnessed_public_push": true,
+  "source_page": "https://www.matteoiacoviello.com/gpr.htm",
+  "authors": "Dario Caldara and Matteo Iacoviello",
+  "license_observed": "CC BY with attribution",
+  "no_model_or_economic_outcomes": true
+}

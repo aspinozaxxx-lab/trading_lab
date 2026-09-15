@@ -3,6 +3,19 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## Следующий механизм — V80 GPR vintages, pre-source checkpoint
+
+[Source protocol](V80_GPR_VINTAGES_SOURCE.md): country geopolitical risk из независимого
+news-based ряда Caldara/Iacoviello, не повторение закрытых flow/price thresholds.
+Авторы хранят месячные версии; каталог59DTA editions,50<=2025, earliest202110,
+но202110 впервые добавлена в Git2022-03-01. Planned46versions202203…202512,
+first3metadata pilots; не выдавать filename edition за original public timestamp.
+Code/config/source-only protocol sealed до HTTP, local8synthetic tests PASS/Ruff clean.
+Raw/GPR numeric values/MOEX outcomes ещё не читались. Далее server3metadata pilot,
+при пригодности полный source, затем отдельный economic seal/cost screen2022–2025.
+V65–V79 остаются22economic screens/0Stage2. Оба AlgoPack archive units повторно
+подтверждены active/running в начале текущего goal turn; оставить работать.
+
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
 [FUTOI V3 действительно RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md), PID1913099,
@@ -3659,6 +3672,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+Выбран новый V80 GPR information set; [source checkpoint](V80_GPR_VINTAGES_SOURCE.md).
+Сначала уже sealed3metadata pilots и полнота46dated vintages, затем один короткий
+economic screen со всеми2022–2025 и costs. Не открывать prices/PnL до отдельного seal,
+не трактовать первый Git timestamp как witnessed public push или всю историю2018–2025.
 
 Разрешение2026-09-15 получено; прежний scope blocker снят, повторно не спрашивать.
 V79 R1 уже проверил3conditional AlgoPack механизма: все REJECT_STAGE1, см. начало.
