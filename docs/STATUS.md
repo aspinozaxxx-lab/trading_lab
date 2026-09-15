@@ -1,16 +1,37 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-14**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Последний economic batch — V78: оба REJECT_STAGE1
+## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
 Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
 ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
 и поручил сохранить полезную историю до expiry подписки. Старые записи blocked ниже
-исторические. Новая работа: три дешёвых flow/depth механизма на готовых2020–2025 inputs
-и отдельная server-only archival загрузка без2026/покупок/live. Результат нового конкурса
-и полнота расширенного архива пока не установлены; 19screens/0Stage2 не меняются.
+исторические, цель active. [V79 R1 завершён](V79_ALGOPACK_FAST_SCREEN_RESULT.md):
+pressure/absorption/depth change, source2020–2025, same four assets и готовые feature/label
+таблицы, без fit. Mean60min gross0,2909/0,2932/−0,2257bps; net1×−9,7091/−9,7068/−10,2257,
+net2×−19,7091/−19,7068/−20,2257bps. Selected15943/4716/21922,
+unknown41/18/61; завершённые15902/4698/21861. Control net1×−10,1909bps.
+Все6лет net negative у каждого arm, Stage2=0. Это conditional event-screen, не portfolio;
+CAGR/Sharpe/MDD=null. Цель20–50% не достигнута. V65–V79:22screens=20rejected+
+1incomplete(V73)+1invalid(V74). Пустой V79 V1 INVALID_SOURCE_STATUS_MAPPING отдельно:
+не считать0eligible экономическим провалом; canonical сохранён, R1 только исправил
+READY_ARCHIVE_ASSUMPTION в отдельном conditional consumer без изменения сигналов/costs.
+R1 canonical /srv/trading_lab_data/runs/v79_algopack_fast_screen_r1_da9d02c55cce;
+seal da9d02c55cce324e25a3731936419e2663ea664b9853a74da862dec3a1ac7bd6;
+metrics81ca9e5b56b0bb3dd29437c5c35325a6f69d63f62148fe49ce59dcd7fa8ac21a.
+Local20/server20tests и82094event source-arithmetic/nonoverlap/year/cost audit PASS.
+
+[Архивный service работает](ALGOPACK_ARCHIVE_V1_STATUS.md):14EQ/FO/FXfamilies,
+26305planned day/dataset jobs. На08:10:53UTC сохранены114jobs/1382438rows/1457pages,
+failed0; systemctl active/running, PID1663880. First-day14/14raw audit PASS.
+Root /srv/trading_lab_data/data/algopack-archive/algopack_archive_v1_5b7c66fa0e04;
+unit trading-lab-algopack-archive-v1-5b7c66fa0e04.service. Полнота НЕ установлена,
+работа продолжится без Windows окон; после terminal проверить final manifest/coverage.
+Старые source/model flags,2026, paper, подписка/автопродление и существующие timers не менялись.
+
+## Предыдущий economic batch — V78: оба REJECT_STAGE1
 
 [Протокол](V78_TREASURY_CHANNELS.md), [результат](V78_TREASURY_CHANNELS_RESULT.md):
 два новых Treasury information channels, real-discount и inflation-compensation,
@@ -3627,16 +3648,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Следующая рассматриваемая ветка — [условный исторический конкурс AlgoPack](
-ALGOPACK_FAST_SCREEN_SCOPE_REQUEST_20260914.md). На2026-09-14 требуется явное уточнение
-scope: прежнее разрешение допускает training+future paper, но исключает historical
-AlgoPack CAGR. Ни continue goal, ни research resume этим согласием не считать.
-Новые economic loads/fit/paper не запускались; history/quality audits не повторять.
-Вопрос относится только к расширению оценки, не к уже разрешённому обучению.
-После трёх последовательных goal turns без ответа цель переведена в `blocked`;
-последняя повторная проверка разрешения —2026-09-14. Это ожидание решения пользователя,
-не новый эксперимент и не достижение20–50%. Автоматическое продолжение не считать
-согласием; code/models/runs/collectors не менялись, счётчик19/0 сохраняется.
+Разрешение2026-09-15 получено; прежний scope blocker снят, повторно не спрашивать.
+V79 R1 уже проверил3conditional AlgoPack механизма: все REJECT_STAGE1, см. начало.
+Не повторять training, V1 mapping failure или source quality audits как новый поиск.
+Архивная загрузка14families действительно RUNNING: [handle/состояние/продолжение](
+ALGOPACK_ARCHIVE_V1_STATUS.md). Довести её до terminal coverage audit, не запускать
+второй writer при живом service. Полное расширение FUTOI/других historical modules
+ещё не сделано; существующий core4 FUTOI и14новыхfamilies не весь продукт.
+Для следующей экономической идеи использовать содержательно новую информацию и
+отдельный protocol/admission, не threshold/cost/horizon retune этих3правил.
+Не превращать source download или negative event means в portfolio20–50% result.
 
 1. V78 завершён: оба Treasury-channel candidates REJECT_STAGE1, metrics вверху.
    Clock coverage100% не дала доходности; не менять знак/lag/window/риск/годы,

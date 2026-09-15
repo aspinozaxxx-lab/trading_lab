@@ -1,5 +1,29 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
+
+[Результат](V79_ALGOPACK_FAST_SCREEN_RESULT.md): pressure/absorption/depth-change,
+same2020–2025 BR/MIX/RI/SI, no fit, source/label tables reused. Mean gross
+0,2909/0,2932/−0,2257bps на completed60min event; mean net1×
+−9,7091/−9,7068/−10,2257bps, net2×−19,7091/−19,7068/−20,2257bps.
+Selected15943/4716/21922, complete15902/4698/21861, unknown41/18/61.
+Control39513selected/83unknown, mean net1×−10,1909bps. Все6лет net negative.
+CAGR/Sharpe/MDD=null (нет portfolio sizing/fills/MTM), conditional current-vintage only.
+22economic screens=20rejected+1incomplete+1invalid,0Stage2; goal20–50% не достигнута.
+V1 неправильно распознал archive status:0eligible/0events, canonical сохранён,
+INVALID_SOURCE_STATUS_MAPPING не три экономических отсева. R1 исправил только тег,
+sealed/pushed755387f до meaningful outcomes; параметры/источники не менялись.
+R1seal da9d02c55cce324e25a3731936419e2663ea664b9853a74da862dec3a1ac7bd6;
+canonical /srv/trading_lab_data/runs/v79_algopack_fast_screen_r1_da9d02c55cce;
+metrics81ca9e5b56b0bb3dd29437c5c35325a6f69d63f62148fe49ce59dcd7fa8ac21a.
+Local20/server20tests,4hash/82094event source-label arithmetic/nonoverlap/year/cost audit PASS.
+
+Отдельно [оплаченный архив](ALGOPACK_ARCHIVE_V1_STATUS.md):14families/26305planned
+jobs, actual service active/running PID1663880. На08:10:53UTC114completed jobs,
+1382438rows/1457pages,0failed; первый день14/14raw replay PASS. Не complete dataset
+и не экономический результат. История<=2025, server-only, без покупок/live/Windows jobs.
+Новый archive unit разрешён последним поручением; прежние collectors/paper не менялись.
+
 ## 2026-09-14 — AlgoPack historical screen: требуется уточнение scope
 
 Update2026-09-15: пользователь явно разрешил предложенный preliminary historical test

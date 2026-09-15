@@ -224,7 +224,7 @@
   снятие защиты2026. Старое ожидание scope decision больше не блокирует эту работу.
 - Не читать цены, доходности, labels, targets или PnL с `2026-01-01` и позже. Использовать
   только наборы, manifest которых доказывает границу не позже `2025-12-31`.
-  Единственное новое scoped исключение — [AlgoPack future-paper](docs/ALGOPACK_PAPER_AUTHORIZATION_20260907.md):
+  Отдельное scoped исключение — [AlgoPack future-paper](docs/ALGOPACK_PAPER_AUTHORIZATION_20260907.md):
   current-vintage training <=2025 и future-only evaluation после нового code/model seal.
   До определения F и source/execution admission старый запрет2026 полностью действует.
 - Признак допустим только если его `available_at <= decision_at`. Signal строится после
