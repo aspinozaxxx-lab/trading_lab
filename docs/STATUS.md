@@ -3,6 +3,31 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V91 — metadata mapper готов; новый static sample check ещё не выполнен
+
+[Протокол](V91_OPTION_CONTRACT_MAPPING.md): exact NAME + SERIES_NAME + dated futures
+catalog, независимое согласование UNDERLYINGASSET, explicit expiry/strike definition
+и exercise-to-future price equality. SI currency options исключаются, premium UNIT
+не превращается в guessed strike multiplier. 59 новых / 126 combined local tests
+PASS, Ruff clean. Это код для подготовки V90, не новый economic screen.
+Четыре старых catalog независимо сверены с raw: 228 alias rows / 220 futures,
+12 files / 255660 bytes, evidence SHA ca7fb707635608c186685f8463977e64df36f3014826e90df5102bb9d0a5505e.
+Следом скопировать только этот tiny static subset на server, сверить code seal,
+один новый binding check восьми saved V88 descriptions. Никаких повторных HTTP.
+Полный V89 mapping ждёт terminal manifest; частичный BR prefix не economic universe.
+OI magnitudes/market values/PnL для новой гипотезы не читались, Stage2=0, goal false.
+
+Actual 16:08:58UTC все три download units active/running, прежние PID/invocations.
+Main: 2872/26305 jobs, 34009646 rows, failed0/blocked0, 2013287133 stored bytes
+completed jobs. FUTOI: 531/2192 days, 6637165 logical rows / 4340228 new-root rows,
+237 unresolved ticker-days / 31 gap days, 85853057 new-root stored bytes.
+V89: 5896/40820 exact descriptions, unavailable0, 23397538 raw bytes.
+Final manifests отсутствуют. Services/token/Windows не менялись.
+Новый du16:08:59UTC: data5000705958 + source_evidence197321491 =5198027449 bytes
+(5.198GB), включая AlgoPack2280167368 + oldprocessed1456918554 =3737085922 (3.737GB).
+Allocated total6048841728 (6.049GB); models/runs/tmp excluded, sequential snapshot.
+Local2.720GB ниже — snapshot15:09:20UTC, не unique прибавка к server и не новый замер.
+
 ## V90 — правило/контроль и ledger bridge реализованы, пока synthetic-only
 
 [Adapter/protocol status](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md): новый reported-OI
@@ -4047,6 +4072,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V91 [source-bound metadata mapper готов](V91_OPTION_CONTRACT_MAPPING.md),
+59 новых / 126 combined local tests PASS. Сейчас один server static sample binding
+check на восьми saved V88 descriptions и tiny catalog subset; не повтор HTTP/probe.
+После него результат сохранить отдельно и двигаться к полному V89 mapping после closure.
+Не делать новый audit этого sample вместо следующего исследовательского шага.
 
 V90 [pure target adapter и ledger bridge готовы](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md),
 42new/95total local synthetictestsPASS. Не повторятьsyntheticпроверкикакновыйeconomic

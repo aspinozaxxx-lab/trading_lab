@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V91 exact metadata mapper, pre-sample checkpoint
+
+[Протокол](V91_OPTION_CONTRACT_MAPPING.md). Реализована raw-bound связь опционного
+страйка с точным dated future, без premium-unit multiplier и догадок о SI cash root.
+59 новых / 126 combined local tests PASS, Ruff clean. Static catalogs: 12 files /
+255660 bytes, raw/normalized match, 228 aliases / 220 contracts. No market values/OI/PnL.
+Config SHA3dc5cd15dc973b8952fc421b9922867806567f1cec5778489dcdbae77735e763;
+code8c8c198cb621c334adacbcf278c7ff222e05388588049a7aff9fd594017f5c04.
+Один server binding check восьми old V88 descriptions ещё не выполнен; full V89
+closure/mapping/economic seal остаются отдельными. Screens25/Stage2=0/goal false.
+Actual16:08:58UTC downloads running, main2872jobs/34.010mrows, FUTOI531days/6.637mrows,
+V89 5896/40820 descriptions. Server data/source5.198GB, including AlgoPack3.737GB;
+local2.720GB — старый отдельный snapshot, не deduplicated сумма.
+
 ## 2026-09-15 — V90 rule and existing-ledger bridge, synthetic-only
 
 [Описание](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md). Реализованreported-OIstrike

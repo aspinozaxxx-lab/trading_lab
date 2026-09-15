@@ -1,0 +1,11 @@
+{
+  "protocol_id": "v91_option_contract_mapping_v1",
+  "scope": "static catalog and eight already saved description bindings only; no economic activation",
+  "files": {
+    "configs/v91_option_contract_mapping_v1.json": "3dc5cd15dc973b8952fc421b9922867806567f1cec5778489dcdbae77735e763",
+    "src/market_lab/futures/option_contract_mapping.py": "8c8c198cb621c334adacbcf278c7ff222e05388588049a7aff9fd594017f5c04",
+    "tests/test_option_contract_mapping.py": "85afad38463ba9e87d0b60b0f79c175e47ad3ea8ed711cfd2e4922a1e17fd428",
+    "src/market_lab/futures/specs.py": "eaef23abc7e4697943bfa0fd0e509c1e17a1d62df31dbfa47c20008b32ed53bf",
+    "docs/V91_OPTION_CONTRACT_MAPPING.md": "69f53cc90f848e38f5085b87577fb9cff0bd1a5ef67ee9514169f95fa02c92db"
+  }
+}

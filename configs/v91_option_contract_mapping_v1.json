@@ -1,0 +1,50 @@
+{
+  "protocol_id": "v91_option_contract_mapping_v1",
+  "declared_at_utc": "2026-09-15T15:59:50Z",
+  "kind": "static_metadata_binding_only",
+  "economic_runner_enabled": false,
+  "economic_admission": false,
+  "original_publication_proved": false,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "parent_design_config_sha256": "25b5d6266b9c968bb7adacf4261b5af0333d379cdb7f7b4853aeaa7e8e6f3429",
+  "sample": {
+    "root": "/srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1",
+    "manifest_sha256": "10ff109b609658ebd0ff4ae4bb7e8f0f17e0d1b5a1afe521ea113699e25d9d7f",
+    "descriptions": 8,
+    "purpose": "new exact-contract binding check on the already frozen eight descriptions; no repeated HTTP or economic selection"
+  },
+  "catalog_subset_root": "/srv/trading_lab_data/source_evidence/v91_static_futures_catalogs_v1",
+  "catalogs": {
+    "SI": {
+      "manifest": {"path": "processed/futures_v5/Si/manifest_2018-01-01_2025-12-31.json", "bytes": 39282, "sha256": "33ca19f15f76f805c648eb51cdbd6c6bb68b23dc2cd98bd3fdb99f97c0f0316e"},
+      "raw": {"path": "raw/futures_v5/Si/catalog/series.json.gz", "bytes": 1744, "sha256": "9383c2e57abbc40b70749847741c9d17e29d4e333025eaaf45fe72950aaed177"},
+      "parquet": {"path": "processed/futures_v5/Si/catalog/series.parquet", "bytes": 6495, "rows": 42, "sha256": "4748aed021e9c2b1bfb5ef006854141a1c45085a66bba83b0ebb30b5ae86bc32"}
+    },
+    "RI": {
+      "manifest": {"path": "processed/futures_v5/RTS/manifest_2018-01-01_2025-12-31.json", "bytes": 39518, "sha256": "dbecc588d12a47dfc82996d2a0988fbab4dd81bf21175ca2afbccdaa4c217d63"},
+      "raw": {"path": "raw/futures_v5/RTS/catalog/series.json.gz", "bytes": 1549, "sha256": "021ff7e80d800094499ec63f5ba2bc2a7d2944fe8bfe38345ea8c50afbf2f31a"},
+      "parquet": {"path": "processed/futures_v5/RTS/catalog/series.parquet", "bytes": 6473, "rows": 42, "sha256": "a3ea3a345eb11234bbb4d218d528891ad31718465468d012eade3b8fe44ba3e6"}
+    },
+    "BR": {
+      "manifest": {"path": "processed/futures_v5/BR/manifest_2018-01-01_2025-12-31.json", "bytes": 100612, "sha256": "abb74ca12bfc5c8d322dce9cf2d6b1cc3c2c1f8b05a9c5f9d1da0bc4ce5d02c0"},
+      "raw": {"path": "raw/futures_v5/BR/catalog/series.json.gz", "bytes": 3101, "sha256": "1db546fa7a299b809a62536e3cf68c7338147620d59f9778cb9aa30809ef64e0"},
+      "parquet": {"path": "processed/futures_v5/BR/catalog/series.parquet", "bytes": 7825, "rows": 104, "sha256": "7e8ea31082e9051990c4461f16020095678d09292387162321bf057f9391397e"}
+    },
+    "MIX": {
+      "manifest": {"path": "processed/futures_v5/MIX/manifest_2018-01-01_2025-12-31.json", "bytes": 41377, "sha256": "afa9f88976db682d04b1a9134e9ed9ec8799f0594357a26200730c2acf32d875"},
+      "raw": {"path": "raw/futures_v5/MIX/catalog/series.json.gz", "bytes": 1262, "sha256": "d5abd5c7825e4171366c046ae40f6563af16b8438f68cde7cc4d63de0765d69c"},
+      "parquet": {"path": "processed/futures_v5/MIX/catalog/series.parquet", "bytes": 6422, "rows": 40, "sha256": "4ec609e22b05131a888561352fabe9784ed5af5a8d56c96b832fa6b65e464b17"}
+    }
+  },
+  "rules": [
+    "Only exact NAME suffix plus SERIES_NAME literal future-name prefix; no inferred expiry from month/weekday/shortcode.",
+    "Exact dated catalog identity collapses same-contract aliases, not different decade expiries.",
+    "UNDERLYINGASSET must agree with that future SECID, except SI cash root USD000UTSTOM independently agrees with the exact named future catalog.",
+    "Explicit option lifecycle must lie within underlying lifecycle. Current is_traded is never historical eligibility.",
+    "Quote compatibility comes from explicit STRIKE definition plus DELIVERYTYPE clause: the underlying future is entered at option exercise price. UNIT may describe premium; no guessed lot/currency multiplier.",
+    "Explicit premium currency options are excluded with counts. Unknown or contradictory metadata remains unavailable, never guessed.",
+    "Static dates of future maturities beyond2025 may be read; no protected2026 market price/return/label/OI/target/PnL may be read.",
+    "Full V89 mapping waits for its closed immutable manifest; do not select the partial BR prefix. No economic admission from the eight metadata samples."
+  ]
+}
