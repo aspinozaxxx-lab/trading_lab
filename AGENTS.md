@@ -216,6 +216,12 @@
 указанный там canonical JSON/Markdown. На просьбу «продолжай эксперименты» бери первый
 незаблокированный пункт из раздела «Очередь работ» в `docs/STATUS.md`.
 
+Большой AlgoPack archive и FUTOI supplement: актуальные server handles и resume/backup
+правила в [14-family status](docs/ALGOPACK_ARCHIVE_V1_STATUS.md) и
+[FUTOI V3 status](docs/ALGOPACK_FUTOI_ARCHIVE_STATUS.md). FUTOI V1/V2 failed сохранены,
+не перезапускать; V3 reference-reuses120V2raw pages, поэтому V2root нельзя удалять.
+Raw13-column archive не заменять старым12-column core4; download не новый economic PASS.
+
 ## Неприкосновенные исследовательские правила
 
 - 2026-09-15 пользователь явно разрешил [условный AlgoPack historical screen и архив](

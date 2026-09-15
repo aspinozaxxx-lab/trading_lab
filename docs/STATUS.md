@@ -5,14 +5,17 @@
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
-FUTOI V1/V2 сохранены failed: V1 ошибочно требовал полную FIZ/YUR пару, V2 сравнивал
-latest каждой группы вместо последней общей sequence point. V2 сохранил120rawpages,
-2complete days/26949rows;85pages первых2дней audited PASS. На2025-12-30 MY latest
-только FIZ23:50, старый YUR11:55 есть в intraday, не в latest. Stable FIZ совпадает.
-[V3](ALGOPACK_FUTOI_ARCHIVE_V3.md) исправляет только proof selection и reference-reuses
-все120sealed V2pages без копирования/HTTP. Local103tests PASS, V3 пока pre-request.
-Core4 exact78,726,995bytes copy уже server-side,5SHA+5872coverage/proof keys verified.
-API теперь13columns с trade_session_date; old12columns не заменяют расширенные ответы.
+[FUTOI V3 действительно RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md), PID1913099,
+unit trading-lab-algopack-futoi-archive-v3-721f2418b0dc.service. На09:00:00UTC:
+4/2192complete calendar days,147ticker-days/48876intraday rows; current2025-12-29,
+43/64tickers. Все3pilot days/150raw pages+global-final proofs audited PASS;
+120V2pages reference-reused, не скачаны/скопированы заново. V1/V2 failed сохранены,
+не запускать: неправильно требовали pair или last-per-group вместо final common point.
+V3seal721f2418b0dcbfb65a76e45af387b4c7da9964276ba67e81db500dd45400c69b,
+pre-request6601bb3, local103/server103tests PASS. Final manifest ещё нет.
+Core4 exact78,726,995byte copy server-side,5SHA+5872coverage/proof keys verified.
+API13columns с trade_session_date; old12columns не заменяют расширенные ответы.
+Logical FUTOI archive состоит из V3+referenced V2+core4 roots; V3-only backup неполон.
 
 Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
 ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
@@ -33,7 +36,7 @@ metrics81ca9e5b56b0bb3dd29437c5c35325a6f69d63f62148fe49ce59dcd7fa8ac21a.
 Local20/server20tests и82094event source-arithmetic/nonoverlap/year/cost audit PASS.
 
 [Архивный service работает](ALGOPACK_ARCHIVE_V1_STATUS.md):14EQ/FO/FXfamilies,
-26305planned day/dataset jobs. На08:10:53UTC сохранены114jobs/1382438rows/1457pages,
+26305planned day/dataset jobs. На08:59:25UTC сохранены338jobs/4772919rows/4980pages,
 failed0; systemctl active/running, PID1663880. First-day14/14raw audit PASS.
 Root /srv/trading_lab_data/data/algopack-archive/algopack_archive_v1_5b7c66fa0e04;
 unit trading-lab-algopack-archive-v1-5b7c66fa0e04.service. Полнота НЕ установлена,
@@ -3663,9 +3666,9 @@ V79 R1 уже проверил3conditional AlgoPack механизма: все R
 Архивная загрузка14families действительно RUNNING: [handle/состояние/продолжение](
 ALGOPACK_ARCHIVE_V1_STATUS.md). Довести её до terminal coverage audit, не запускать
 второй writer при живом service. FUTOI V1/V2 failed, не запускать снова;
-[V3 supplement](ALGOPACK_FUTOI_ARCHIVE_V3.md) sealed до исправленного archival запуска,
-с reference reuse120V2pages. Actual V3 launch ещё не подтверждён в этом checkpoint.
-Core4 FUTOI и14новыхfamilies не весь продукт.
+[V3 supplement RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md), с reference reuse120V2pages,
+3pilot/150raw page audit PASS. Довести оба архива до terminal coverage audit;
+полный продукт ещё не скопирован. V3 зависит от старого V2root, не удалять его.
 Для следующей экономической идеи использовать содержательно новую информацию и
 отдельный protocol/admission, не threshold/cost/horizon retune этих3правил.
 Не превращать source download или negative event means в portfolio20–50% result.

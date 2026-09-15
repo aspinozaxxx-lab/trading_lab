@@ -2,12 +2,13 @@
 
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 
-Дополнительное archival поручение: V1 failed unpaired_sequence,0saved pages;
-V2 сохранил120pages/2complete days, затем ошибочный per-group latest proof остановил MY.
-Причина и [V3 final-common-point correction](ALGOPACK_FUTOI_ARCHIVE_V3.md) зафиксированы
-до новых запросов. Первые2дня26949rows/85pages raw audited PASS, третьего full manifest нет.
-V3 reference-reuses все120V2pages, no re-download/copy; local103tests PASS, pre-request.
-Это source-only, economic count не меняется. V1/V2 не перезапускать и не удалять.
+Дополнительное archival поручение: [FUTOI V3 RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md),
+09:00:00UTC4/2192days,147ticker-days/48876intraday rows,3pilot/150raw-page/proof audit PASS.
+120V2pages reused без HTTP/copy. V1 failed unpaired_sequence; V2 failed на MY из-за
+last-per-group вместо final common point. Оба сохранены, не перезапускать/удалять.
+V3seal721f2418b0dcbfb65a76e45af387b4c7da9964276ba67e81db500dd45400c69b,
+pre-request6601bb3; local103/server103tests PASS. PID1913099 active/running.
+Это source-only, economic count не меняется; full archive ещё не complete.
 
 [Результат](V79_ALGOPACK_FAST_SCREEN_RESULT.md): pressure/absorption/depth-change,
 same2020–2025 BR/MIX/RI/SI, no fit, source/label tables reused. Mean gross
@@ -26,8 +27,8 @@ metrics81ca9e5b56b0bb3dd29437c5c35325a6f69d63f62148fe49ce59dcd7fa8ac21a.
 Local20/server20tests,4hash/82094event source-label arithmetic/nonoverlap/year/cost audit PASS.
 
 Отдельно [оплаченный архив](ALGOPACK_ARCHIVE_V1_STATUS.md):14families/26305planned
-jobs, actual service active/running PID1663880. На08:10:53UTC114completed jobs,
-1382438rows/1457pages,0failed; первый день14/14raw replay PASS. Не complete dataset
+jobs, actual service active/running PID1663880. На08:59:25UTC338completed jobs,
+4772919rows/4980pages,0failed; первый день14/14raw replay PASS. Не complete dataset
 и не экономический результат. История<=2025, server-only, без покупок/live/Windows jobs.
 Новый archive unit разрешён последним поручением; прежние collectors/paper не менялись.
 

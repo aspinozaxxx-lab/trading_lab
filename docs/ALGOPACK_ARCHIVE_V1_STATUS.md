@@ -1,6 +1,6 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Снимок 2026-09-15T08:10:53.303874+00:00. Это промежуточный operational результат, НЕ полный архив.
+Снимок 2026-09-15T08:59:25.007610+00:00. Это промежуточный operational результат, НЕ полный архив.
 [Разрешение](ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md),
 [замороженный протокол](ALGOPACK_ARCHIVE_V1.md).
 
@@ -11,9 +11,9 @@
   начало2026-09-15T07:51:16UTC. Result=success/ExecMainStatus0 во время active
   НЕ означает завершение; смотреть ActiveState/SubState/MainPID и final manifest.
 - Root: /srv/trading_lab_data/data/algopack-archive/algopack_archive_v1_5b7c66fa0e04.
-- 114/26305 completed day/dataset jobs,
-  1382438 rows, 1457 pages, failed0, blocked datasets0.
-  81400389bytes compressed+page metadata по завершённым jobs;
+- 338/26305 completed day/dataset jobs,
+  4772919 rows, 4980 pages, failed0, blocked datasets0.
+  284104725bytes compressed+page metadata по завершённым jobs;
   это не весь disk usage и не учитывает ещё не завершённый текущий день.
 - 14families EQ/FO/FX,2020–2025 (Alerts2024–2025), все API fields, исходные bytes
   lossless gzip. Никаких2026 prices, fit, PnL в collector, broker или Windows tasks.
@@ -79,8 +79,11 @@ Transfer tar d30c9fd15659f0ae0db0c014dc2f3879e5875cff75fc2ba716609329f608ef30
    это не отсутствие самого каталога D. Ничего не удалялось/не переносилось.
 
 FUTOI core4 history ранее сохранена отдельно; она не входит в14routes и не заменяет
-full-market FUTOI archive. Расширение этого источника/иных historical modules ещё не
-выполнено. По [официальной FUTOI документации](https://moexalgo.github.io/docs/api/get-all-futoi/)
+full-market FUTOI archive. [Отдельный V3 supplement теперь RUNNING](
+ALGOPACK_FUTOI_ARCHIVE_STATUS.md):3pilot/150pages audited PASS,120V2pages reused,
+4/2192complete days/48876intraday rows на09:00UTC. Full archive ещё не complete;
+V1/V2 technical failed roots сохранены и не перезапускаются. По
+[официальной FUTOI документации](https://moexalgo.github.io/docs/api/get-all-futoi/)
 анонимный доступ задержан, поэтому сначала сохраняются подписочные SuperCandles/HI2/Alerts.
 Current-only quote streams не являются доступным полным историческим архивом.
 Не утверждать, что весь продукт AlgoPack уже скопирован или что сохранение чисел даёт
@@ -88,4 +91,3 @@ original-version/PIT/live admission. Подписка/автопродление
 
 Экономический результат отдельного быстрого конкурса: [V79 R1](V79_ALGOPACK_FAST_SCREEN_RESULT.md),
 3REJECT_STAGE1. Сбор не объявляется подтверждением20–50% доходности.
-
