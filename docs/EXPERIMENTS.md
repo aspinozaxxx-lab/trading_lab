@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V85 EQOrderStats/HI2 source-only feasibility, no economic admission
+
+[V85](V85_EQ_FLOW_FEASIBILITY.md): metadata census12:50UTC, fixed30December51page
+clock/key/hash samplePASS. EQOrderStats4,269594mrows,HI2135333rows; почти всё
+осень–конец2025 плюс один2024pilot. Отмены/пополнение заявок — ещё не проверенный
+information set,HI2daily нельзя использовать до публикации. Numeric features/PnL
+не читались, новыйengine не создавался. Scope question об остальных conditional
+AlgoPack contests отправлен один раз, ответа пока нет. Source/model/live flagsfalse.
+Actualdecisions/trades/fills0,metricsnull,новыхeconomic screens/Stage2 нет.
+Оба архива подтвержденыactualrunningPID1663880/2522946; никаких restart или подписок.
+
 ## 2026-09-15 — V84 complete: SBER measured component below cash, GAZP missing entry
 
 [Результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md). Один server run12:36:27.672148UTC,

@@ -3,6 +3,23 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V85 — EQOrderStats/HI2 source feasibility завершена, новый economic scope не подтверждён
+
+[V85](V85_EQ_FLOW_FEASIBILITY.md): только metadata/keys/clocks, без numeric features/
+prices/returns/fit/PnL. На12:50:15UTC EQOrderStats4269594rows/105nonempty days,
+EQHI2135333rows/104days,EQTradeStats2587250rows/105days;2024только pilot15October,
+остальное поздний2025. Ни один многолетний economic вывод из этого не следует.
+Фиксированный30December:OrderStats49pages/48208rows/253tickers,HI22pages/1694rows/
+154tickers;51raw/hash/date/key checks PASS,duplicates0. HI2time18:40daily, нельзя
+использовать для того же утра. Same-day SYSTIME не доказывает original versions/timezone.
+Три новых механизма-кандидата описаны, но не sealed/tested: отмены, replenishment,
+prior-day concentration. Нет новогоengine/HTTP/data transfer/fit. Старое разрешение
+было на один V79contest; один async вопрос о всех следующих preliminary AlgoPack
+contests отправлен, ответа пока нет. Не подменять вопрос автоматическим продолжением,
+не спрашивать его заново каждый turn и не запускать PnL до подтверждения scope.
+Both archive units actualactive/running12:50UTC,PID1663880/2522946; unchanged.
+Goal20–50%active/notverified;V85source feasibility не новый economic screen.
+
 ## V84 — SBER component ниже20%/cash, GAZP entry unresolved; архивы RUNNING
 
 [Результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md): выполнен один раз12:36:27.672148UTC.
@@ -3837,6 +3854,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V85 EQOrderStats/HI2 [source feasibility](V85_EQ_FLOW_FEASIBILITY.md) уже завершена.
+Не повторять census/51page sample как новый результат. Свежий scope question на
+расширение narrow V79conditional exception отправлен один раз; пока unanswered.
+До ответа не строить/запускать новый AlgoPack economic engine. После ответа — новый
+фиксированный конкурс на конкретном snapshot, никакого ослабления2026/PIT/live.
+Это branch-level scope gate, не вывод об отсутствии всех возможных MOEX стратегий.
 
 V84 завершён: [результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md). SBER measured component
 ниже20%/cash, GAZP missing fixed entry. Не повторять расчёт/audit/выбирать другой час,
