@@ -1,0 +1,7 @@
+﻿{
+  "protocol_id": "v86_steo_source_v2",
+  "parent_source_seal_sha256": "1fbd0ff6d34f26a6d5d0ba9615e013d55cdcae7af12d52597e0126d4c845594b",
+  "raw_output": "/srv/trading_lab_data/source_evidence/v86_steo_vintages_v2",
+  "economic_admission": false,
+  "change": "Only accept an exactly prepared service-owned empty leaf. V1 unit failed with PermissionError before any HTTP and without output; parent directory permissions unchanged. Same97requests/parser and no economic values."
+}

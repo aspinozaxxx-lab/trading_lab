@@ -1,0 +1,9 @@
+﻿{
+  "protocol_id": "v86_steo_source_v2",
+  "files": {
+    "src/market_lab/futures/steo_vintages_source_v2.py": "267e27e52a5b8c9bee270fed551af5a6878e3b8c2e11799f53a0df9875850d7d",
+    "configs/v86_steo_source_v2.json": "25ee5efe42d1c1f316bb88799fc96f9704dddf501e2c1009fd42614e6a083b53",
+    "tests/test_steo_vintages_source_v2.py": "ada3b9bd6789d6a4aa523b5d1a0dac89dc5544c46ad6e008fd68b03042e36344",
+    "configs/v86_steo_source_v1.seal.json": "1fbd0ff6d34f26a6d5d0ba9615e013d55cdcae7af12d52597e0126d4c845594b"
+  }
+}
