@@ -5,10 +5,12 @@
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
-FUTOI full-market supplement: [протокол до новых запросов](ALGOPACK_FUTOI_ARCHIVE_V1.md)
-подготовлен, local62tests PASS вместе с transport dependency. Новый service пока
-НЕ запущен в этом pre-request checkpoint. Core4 обнаружен и byte-verified локально,
-а не в предполагавшемся server processed path; предусмотрена отдельная точная копия.
+FUTOI V1 остановлен на первом all-market response: unpaired_sequence,0saved pages/days.
+Не каждый source ticker/sequence имеет синхронную FIZ/YUR пару; архивирование не должно
+удалять такие строки. [V2 correction](ALGOPACK_FUTOI_ARCHIVE_V2.md) сохраняет их с
+quality flags, сравнивает latest по каждой группе отдельно. Local94tests PASS including
+V1/dependency; V2 ещё pre-request. V1/root сохранены; core4 exact78,726,995bytes copy
+уже server-side,5SHA+5872coverage/proof keys verified. Повторно копировать не нужно.
 
 Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
 ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
@@ -3658,9 +3660,10 @@ V79 R1 уже проверил3conditional AlgoPack механизма: все R
 Не повторять training, V1 mapping failure или source quality audits как новый поиск.
 Архивная загрузка14families действительно RUNNING: [handle/состояние/продолжение](
 ALGOPACK_ARCHIVE_V1_STATUS.md). Довести её до terminal coverage audit, не запускать
-второй writer при живом service. [FUTOI supplement](ALGOPACK_FUTOI_ARCHIVE_V1.md)
-подготовлен к отдельному запуску после server tests/seal/core4 verification; actual
-download ещё не подтверждён. Core4 FUTOI и14новыхfamilies не весь продукт.
+второй writer при живом service. FUTOI V1 failed unpaired_sequence, не запускать снова;
+[V2 supplement](ALGOPACK_FUTOI_ARCHIVE_V2.md) отдельно sealed до исправленного archival
+запуска. Actual V2 source download ещё не подтверждён в этом checkpoint.
+Core4 FUTOI и14новыхfamilies не весь продукт.
 Для следующей экономической идеи использовать содержательно новую информацию и
 отдельный protocol/admission, не threshold/cost/horizon retune этих3правил.
 Не превращать source download или negative event means в portfolio20–50% result.

@@ -2,9 +2,11 @@
 
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 
-Дополнительное archival поручение: [FUTOI full-market protocol](ALGOPACK_FUTOI_ARCHIVE_V1.md),
-pre-request checkpoint, local62tests PASS including shared transport. Source-only,
-economic count не меняется; runtime/API result ещё не установлен.
+Дополнительное archival поручение: FUTOI V1 после server62tests/core4hash PASS получил
+unpaired_sequence на первом all-market response,0saved pages. Сохранён, не rerun.
+[V2](ALGOPACK_FUTOI_ARCHIVE_V2.md) снимает только ошибочный paired-feature gate из raw
+preservation, сохраняя unpaired quality и per-group latest proof. Local94tests PASS,
+ещё pre-request checkpoint. Это source-only, economic count не меняется.
 
 [Результат](V79_ALGOPACK_FAST_SCREEN_RESULT.md): pressure/absorption/depth-change,
 same2020–2025 BR/MIX/RI/SI, no fit, source/label tables reused. Mean gross
