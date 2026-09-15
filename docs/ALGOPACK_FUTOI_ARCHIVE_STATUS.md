@@ -1,6 +1,14 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Новый actual checkpoint17:20:36UTC: V4 active/running, прежний PID2522946/invocation.
+Новый actual checkpoint21:44:18UTC: V4 active/running, прежний PID2522946/invocation.
+1120/2192days,37167ticker-days,36640resolved/527unresolved,101gapdays,
+12313636logical/10016699new-root rows,187691146new-root bytes,7524reused pages.
+Updated21:44:17.732367UTC,final manifest absent; ссылкиV2/V3root не менялись.
+Main/V89 тоже actual running. [Whole-volume](ALGOPACK_ARCHIVE_V1_STATUS.md)
+6.895GB total/5.150GB AlgoPack; new-root bytes не равны всем FUTOI reference files.
+Gaps остаются gaps; token/units/Windows без изменений.
+
+Предыдущий actual checkpoint17:20:36UTC: V4 active/running, прежний PID2522946/invocation.
 652/2192days,23525resolved/342unresolved ticker-days,52gapdays,107259279new-root bytes.
 Updated17:20:35.828377UTC, final manifest absent. Gaps сохранены, reference roots не
 менялись. Main/V89 тоже running; [новый whole-volume snapshot](ALGOPACK_ARCHIVE_V1_STATUS.md)

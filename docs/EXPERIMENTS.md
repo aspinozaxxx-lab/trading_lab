@@ -1,6 +1,19 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V93 V1 INCOMPLETE; unit-only R1 pre-run
+## 2026-09-15 — V93 R1 COMPLETE, weak/incomplete component, no promotion
+
+[Результаты всех arms/costs/years](V93_SESSION_COMPONENTS_RESULT.md): completed17:30:56UTC,
+591known overnight intervals,mean net+2.2994/−0.3805bp;2023–2025negative,coverage46.5%,
+4unknown exits. Control1053known/97unknown,mean net−5.7420/−8.4145bp.
+FormalINCOMPLETE_SOURCE_NO_PROMOTION; stress,year stability,coverage также провалены.
+Это условные price-unit statistics, не portfolio CAGR/Sharpe/MDD; Stage2=false.
+R1 manifest93bfd7183d26cf39c76ea944d6b22839eba7e38a51dba6e6e3eade715684f713,
+metricsc6de0d9b2ec65dd0a9215e46e1f29697a9a80f8012852c62f7b5b4fe1a0bd6c4.
+V1/R1 requests SHA18522f937faee12b2f74557f4c990efe447d0cbc79639a3835c275b77be4fa7d
+byte-identical. Server15R1+parent tests PASS0.51s, local28PASS. Не повторять/retune.
+25 прежних portfolio-screen hypotheses/0Stage2; V93 один отдельный component diagnostic.
+
+### V93 V1 INCOMPLETE and R1 pre-run checkpoint
 
 [Коррекция](V93_SESSION_COMPONENTS_R1.md): first canonical completed17:21:48.623300UTC,
 run `/srv/trading_lab_data/runs/v93_session_components_v1_e1b16d43124d`, manifest

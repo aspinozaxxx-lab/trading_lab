@@ -1,9 +1,35 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V93 V1 COMPLETE/incomplete; unit-only R1 подготовлен до нового результата
+## Архивы — actual2026-09-15T21:44UTC /16 сентября00:44МСК
+
+Все3units active/running, прежние PID/invocations, final manifests absent.
+Main5170/26305jobs,55747080rows,59479pages,failed0/blocked0,3290277446completed-job bytes.
+FUTOI1120/2192days,12313636logical/10016699new-root rows,36640resolved/
+527unresolvedticker-days,101gapdays,187691146new-root bytes;7524reference pages сохранены.
+V8939937/40820processed,39933exact,4unavailable,2reused,155556721rawbytes.
+Full V92 mapping/economics ещё не запускались; до закрытого manifest partial не брать.
+
+Du21:44:20UTC: data6437527223 + source_evidence457605928 =6895133151bytes(**6.895GB**),
+включая AlgoPack3692906095 + oldprocessed1456918554 =5149824649bytes(**5.150GB**).
+Это sequential apparent bytes при ongoing writes, без models/runs/tmp; local копии
+не прибавлены. Подписка/credentials/services/Windows не менялись. Source gaps сохранены.
+
+## V93 R1 COMPLETE — ночной компонент слабый, без продвижения
+
+[Полный результат](V93_SESSION_COMPONENTS_RESULT.md), completed17:30:56.492938UTC,
+server success/exit0. Overnight591known intervals/1271calendar,mean net+2.2994bp при
+1×/−0.3805bp при2×,2023–2025 отрицательны при обоих costs.4unknownovernight exits;
+control1053known/97unknown,mean net−5.7420/−8.4145bp. FormalINCOMPLETE_SOURCE_NO_PROMOTION;
+также failed stress/stability/coverage gates. Это не CAGR или прибыль счёта.
+Stage2=0/goal=false;25 прежних portfolio-screen hypotheses +отдельныйV93 component.
+R1/V1 requests byte-identical SHA18522f937faee12b2f74557f4c990efe447d0cbc79639a3835c275b77be4fa7d.
+Оба canonical сохранены. Не повторять V93, не исправлять missed exits ради promotion,
+не подбирать часы/знак/asset/volume. Следом другой механизм или V92 после закрытия V89.
+
+### V93 R1 pre-run checkpoint (preserved)
 
 [Исправление единиц](V93_SESSION_COMPONENTS_R1.md): V1 completed17:21:48.623300UTC,
 591overnight rows ошибочно rejected из-за exact equality ежедневно оценённого point
@@ -4166,10 +4192,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
+V93 [R1 component COMPLETE](V93_SESSION_COMPONENTS_RESULT.md): overnight+2.2994bp при1×,
+−0.3805bp при2×, последние3yearsnegative,coverage46.5%,4unknownexit; control97unknown.
+Не продвигать и не retune-ить; это не income/portfolio CAGR, не новый Stage2.
+Нормирование единиц уже исправлено один раз, requests byte-identical: больше не повторять.
+
 V92 [full-source join и paired screen verified](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
 47new/224expanded local tests и47server tests PASS, full15-file seal verified.
-Не повторять preparation как результат. V89 actual16:49 still RUNNING,
-9761/40820 descriptions: нельзя запускать full map/economics по partial source.
+Не повторять preparation как результат. Последний V89 actual21:44UTC still RUNNING,
+39937/40820 processed,4unavailable; это timestamp checkpoint, не проверка следующей сессии.
+Нельзя запускать full map/economics по partial source.
 После final V89 manifest выполнить один metadata mapping/calendar pass, зафиксировать
 отдельный economic admission и выполнить единственный paired screen по уже fixed gates.
 Пока source скачивается, перейти к другой разрешённой независимой гипотезе; не создавать

@@ -1,6 +1,16 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Новый actual checkpoint17:20:36UTC: active/running, прежний PID1663880/invocation.
+Новый actual checkpoint21:44:18UTC (16сентября00:44МСК): active/running,
+прежний PID1663880/invocation,5170/26305jobs,55747080rows,59479pages,
+failed0/blocked0,3290277446completed-job bytes,updated21:43:53.573255UTC.
+Final manifest absent; FUTOI/V89 тоже running. Units/credentials/Windows неизменны.
+Du21:44:20UTC: archive3692906095 + oldprocessed1456918554 =5149824649bytes(5.150GB).
+Весь data6437527223 + source_evidence457605928 =6895133151bytes(6.895GB),including
+AlgoPack,excluding models/runs/tmp, sequential apparent bytes; local duplicates не добавлены.
+Параллельный [V93 компонент завершён](V93_SESSION_COMPONENTS_RESULT.md): double costs
+и стабильность не прошли; не Stage2/goal. V92 ожидает последние V89 descriptions.
+
+Предыдущий actual checkpoint17:20:36UTC: active/running, прежний PID1663880/invocation.
 3280/26305jobs,38339852rows,40613pages,failed0/blocked0,2266464920completed-job bytes;
 final manifest absent. FUTOI и V89 также actual running, services/token/Windows неизменны.
 Новый du17:20:37UTC: archive2561683305 + oldprocessed1456918554 =4018601859bytes

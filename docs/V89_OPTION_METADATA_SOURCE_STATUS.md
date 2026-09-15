@@ -1,6 +1,14 @@
 ﻿# V89: census завершён, описания RUNNING
 
-Новый actual checkpoint17:20:36UTC: unit active/running, прежний PID3208549/invocation,
+Новый actual checkpoint21:44:18UTC: unit active/running, прежний PID3208549/invocation,
+39937/40820processed,39935requested,2reused,39933exact,4unavailable,155556721rawbytes,
+updated21:44:18.146290UTC. Final manifest absent. Четыре source gaps не удалять и
+не подменять ручными контрактными metadata. Writer/config не менялись.
+До full closure V92 map/economics не запускать; code уже готов, не повторять tests.
+Параллельный [V93 завершён без promotion](V93_SESSION_COMPONENTS_RESULT.md).
+Main/FUTOI running; [новый объём](ALGOPACK_ARCHIVE_V1_STATUS.md)6.895GB total/5.150GB AlgoPack.
+
+Предыдущий actual checkpoint17:20:36UTC: unit active/running, прежний PID3208549/invocation,
 12804/40820processed/requested/exact,unavailable0/reused0,51100835rawbytes,
 updated17:20:36.386187UTC, final manifest absent. Writer/config неизменны.
 V92 пока не запускать: full source ещё не закрыт. Параллельно выполняется
