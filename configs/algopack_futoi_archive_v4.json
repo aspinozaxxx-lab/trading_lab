@@ -1,0 +1,32 @@
+﻿{
+  "protocol_id": "algopack_futoi_archive_v4",
+  "start": "2020-01-01",
+  "end": "2025-12-31",
+  "request_interval_seconds": 1.0,
+  "retry_delays_seconds": [5, 15, 45],
+  "maximum_response_bytes": 16777216,
+  "minimum_free_bytes": 137438953472,
+  "maximum_archive_bytes": 107374182400,
+  "output_parent": "/srv/trading_lab_data/data/algopack-archive",
+  "ca_bundle_path": "/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem",
+  "ca_bundle_sha256": "aa800ef345422d6158c6fafe1c06c429dbda21c3df4bb1ccb45a920ec1111399",
+  "prior_archives": [
+    {
+      "prior_root": "/srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v2_345204a8a962",
+      "prior_pages": 120,
+      "prior_inventory_sha256": "f87c78960dac533ea64477f2205210801851ca7162a17d7f1290ba9a1b658e31",
+      "prior_identity_sha256": "257e6587a030bff24a43db2e5fc60e955aec04782a8dca7727e897d13ceeab48",
+      "prior_status_sha256": "12f68327b7adea5cf9b3f5187d63006c3bb9850e8788d12cde403bcf97e7f8b3"
+    },
+    {
+      "prior_root": "/srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v3_721f2418b0dc",
+      "prior_pages": 7404,
+      "prior_inventory_sha256": "5d73cc7aa06af3a45d36d1b9a075ca0bcaeef4d75342a743d0edd798e9e8672c",
+      "prior_identity_sha256": "ca2f43a03f7797d85fa3d91f5d8d73c9c58d62f93d241a325d4de3a69b0feb97",
+      "prior_status_sha256": "5250411517831b343cf9bd829d0f366b5f29471a1fead4a146d8a60b9037ce07"
+    }
+  ],
+  "source_only": true,
+  "original_version_verified": false,
+  "live_trading_allowed": false
+}

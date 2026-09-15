@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "algopack_futoi_archive_v4",
+  "files": {
+    "configs/algopack_futoi_archive_v4.json": "0be82abb8934c53501e1b9a3c289b086ec5bf4f8528ffc6b4f1e8ad5e2eff63f",
+    "src/market_lab/futures/algopack_futoi_archive_v4.py": "5d9fa0ae6524e7ab877cf53c167e1e1b438bedbe1924a66deb75ad0041e37eb5",
+    "tests/test_algopack_futoi_archive_v4.py": "ac9c704d137ce03fcbf914a7d650786e719cc86f09d75c9228af8c541d5c3e91",
+    "docs/ALGOPACK_FUTOI_ARCHIVE_V4.md": "7c918113931a67271171619248eac79c8d76dd085ac1b82b00b20dbec14b75bb",
+    "configs/algopack_futoi_archive_v3.seal.json": "721f2418b0dcbfb65a76e45af387b4c7da9964276ba67e81db500dd45400c69b"
+  }
+}

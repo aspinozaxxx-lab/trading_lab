@@ -3,6 +3,26 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V83 — source feasibility обеспечения; FUTOI V3 остановился, V4 подготовлен
+
+[V83](V83_STOCK_COLLATERAL_FEASIBILITY.md): mechanism exists, terms unresolved.
+Пять исторических PDF БКС сохранены вне Git, SHA/релевантные страницы проверены.
+Условия льготного РЕПО различаются в241001/250609; одинаковые цены двух частей
+не доказывают нулевую комиссию. «Овернайт ГО» не освобождает обеспечение и не
+подтверждает начисление RUONIA. Новых prices/dividends/rate series/PnL нет,
+reserve30% и результаты V81/V82 не изменены. Брокерский вопрос пока unanswered.
+Все экономические counts/Stage2 без изменений; цель20–50% не достигнута.
+
+Actual checkpoint11:41:28.087635UTC: основной14-family unit active/running,
+PID1663880,1260/26305jobs,15924167rows,16777pages,failed0/blocked0;
+951665279bytes completedjobs. FUTOI V3 actual failed/PID0/exit1, остановился
+11:15:42.730848UTC: missing_planned_ticker_day(AU,2025-08-26),129complete days,
+7391ticker-days,2295881rows; old files/status retained, не restart.
+[V4](ALGOPACK_FUTOI_ARCHIVE_V4.md) подготовлен: явные gaps вместо остановки всей
+загрузки на валидном пустом ticker response или расхождении daily/intraday.
+120V2+7404V3pages будут reference-reused без HTTP; старые parser/code не меняются.
+Local93targeted tests PASS/Ruff clean. На этом pre-request checkpoint ещё не запущен.
+
 ## V82 — funding component на капитал с резервом ниже20%, full pair пока unresolved
 
 [Результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md), [протокол](V82_STOCK_PERPETUAL_CAPITAL.md):
@@ -3768,6 +3788,15 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V83 collateral feasibility завершена: [отчёт](V83_STOCK_COLLATERAL_FEASIBILITY.md).
+Не повторять широкий обзор брокеров/PDF как следующий economic результат. Реальная
+бесплатность/доходность обеспечения за весь период не подтверждена. Сначала отдельный
+paired-input/protocol обоих кандидатов (basis/дивиденды/конвертация/cash VM/benchmark),
+без новых price outcomes до seal; broker-specific исполнение пока unknown.
+FUTOI V3 terminal failed, не restart; V4 подготовлен для сохранения raw с явными gaps
+и reference reuse V2/V3. Проверить actual runtime в начале STATUS и archive-status,
+не считать старый RUNNING checkpoint ниже актуальным.
 
 V82 capital diagnostic завершён: [результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md).
 Funding на капитал с reserve30% даёт double17,2037%/18,8395%APR, не20%.

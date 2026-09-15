@@ -1,5 +1,20 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V83: collateral mechanism exists, terms unresolved; FUTOI V4 подготовлен
+
+[V83 source feasibility](V83_STOCK_COLLATERAL_FEASIBILITY.md): пять оригинальных PDF
+БКС с SHA/визуальной проверкой релевантных страниц. Льготное РЕПО под ГО документировано,
+но его плата меняется между тарифами241001/250609; доходность резерва не установлена.
+Это не новый economic screen. Новые decisions/fills0,PnL/CAGR/Sharpe/MDD/годовые
+результаты=null; reserve/costs/тикеры V81/V82 не изменены. Цель20–50% не подтверждена.
+
+В11:41UTC FUTOI V3 обнаружен actual failed/exit1/PID0: AU2025-08-26 дал валидный
+пустой intraday response при присутствии в daily universe.129complete days/2295881rows
+сохранены. [V4 source correction](ALGOPACK_FUTOI_ARCHIVE_V4.md) сохраняет такие ответы
+и genuine daily/intraday discrepancies с UNRESOLVED_SOURCE_GAP, продолжая остальные
+даты. Не economic/model admission.120V2+7404V3page inventory pinned; no re-download.
+Local93targeted tests PASS/Ruff clean; pre-request, runtime ещё не запускался.
+
 ## 2026-09-15 — V82: funding alone ниже20% на капитал с reserve30%, full pairs unresolved
 
 [Результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md): SBERF/GAZPF funding-less-fee APR

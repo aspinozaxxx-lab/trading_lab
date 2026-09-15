@@ -1,4 +1,21 @@
-﻿# FUTOI full-market archive: V3 RUNNING
+﻿# FUTOI full-market archive: V3 STOPPED_INCOMPLETE; V4 prepared
+
+Actual checkpoint2026-09-15T11:41:28.087635UTC: V3 failed/MainPID0/exit1.
+Stopped11:15:42.730848UTC on missing_planned_ticker_day, AU2025-08-26;
+129completed calendar days,7391ticker-days,2295881intraday rows,
+2257271new-root rows,120V2pages reused,46661880new-root bytes completeddays.
+Current day's3/58tickers and raw pages remain, no final manifest. Do not restart V3.
+
+[V4](ALGOPACK_FUTOI_ARCHIVE_V4.md) prepared, local93tests PASS/Ruff clean;
+seal f47d4cd22039c56c5647a36087b4ee37fac96db8df62b87b6366d9a9ac7e947e.
+It preserves valid empty/discrepant responses with explicit unresolved coverage,
+without fabricating positions or claiming economic admission. Pinned inventories
+120V2+7404V3pages are reused by reference; both old roots must be retained.
+At this pre-request checkpoint the V4 service has NOT yet been started.
+
+The main14-family unit is active/running, samePID1663880:1260jobs/15924167rows/
+16777pages,951665279bytes,failed0/blocked0; no final manifest.
+Free898905567232bytes. The earlier V3 RUNNING snapshot below is historical.
 
 Снимок2026-09-15T11:14:18.760792UTC. Это operational checkpoint, НЕ полный архив
 и не новая стратегия. [Разрешение](ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md),
