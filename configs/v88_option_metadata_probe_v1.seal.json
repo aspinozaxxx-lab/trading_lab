@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v88_option_metadata_probe_v1",
+  "sealed_before_first_static_metadata_response": true,
+  "files": {
+    "src/market_lab/futures/v88_option_metadata_probe.py": "87b31c7a69873cc363a27790b809e4a6f37264f31d23136bc27b36b9798db9a2",
+    "configs/v88_option_metadata_probe_v1.json": "800edfd7b4e5b6ee2e9c77c5b0139450bcb6755948898956da50bcddf5bca079",
+    "tests/test_v88_option_metadata_probe.py": "a53a3f8338d0f492f6474da0a11592bfba3bdd678141501be6b557eab1c7bffc",
+    "docs/V88_OPTION_METADATA_PROBE.md": "7c566d33b0cd9b70711f04fb9e3bc4aaaf561b4c9c9747c86fa57302ce918c82",
+    "src/market_lab/futures_v64_si_tax_calendar.py": "c870a61c16ae40f0d9e3e8637cdba62574ff331270e3c93cebf6ceef04132935",
+    "configs/moex_options_weekly_state_source_v3.yaml": "a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3",
+    "configs/moex_option_series_calendar_probe_v1.yaml": "118d976d0442eb16dd1986acd2292dfaf75b6c38a2e2d58da251ea57dd0788a8"
+  }
+}

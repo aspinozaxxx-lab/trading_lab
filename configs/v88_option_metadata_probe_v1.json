@@ -1,0 +1,55 @@
+﻿{
+  "protocol_id": "v88_option_metadata_probe_v1",
+  "declared_at_utc": "2026-09-15T14:27:58Z",
+  "scope": "static_metadata_only_no_prices_positions_returns_features_or_pnl",
+  "goal_verified": false,
+  "economic_admission": false,
+  "live_trading_allowed": false,
+  "source": {
+    "root": "data/processed/options/moex-core4-options-weekly-2021-2025-v3",
+    "manifest_sha256": "0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66",
+    "parquet_sha256": "fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d",
+    "allowed_metadata_columns": ["tradedate", "logical_asset", "secid", "boardid"],
+    "selection": "first lexical security at first saved source date for each ofSI,RI,BR,MIX in2021and2025; no strike/OI/price selection",
+    "rows": 1327744,
+    "unique_securities": 108104,
+    "maximum_tradedate": "2025-12-30"
+  },
+  "securities": [
+    {"asset": "SI", "year": 2021, "source_date": "2021-01-08", "secid": "Si100000BC1"},
+    {"asset": "SI", "year": 2025, "source_date": "2025-01-03", "secid": "Si100.5CA5B"},
+    {"asset": "RI", "year": 2021, "source_date": "2021-01-08", "secid": "RI100000BA1"},
+    {"asset": "RI", "year": 2025, "source_date": "2025-01-03", "secid": "RI100000BA5"},
+    {"asset": "BR", "year": 2021, "source_date": "2021-01-08", "secid": "BR100BB1"},
+    {"asset": "BR", "year": 2025, "source_date": "2025-01-03", "secid": "BR100BA5"},
+    {"asset": "MIX", "year": 2021, "source_date": "2021-01-08", "secid": "MX100000BC1"},
+    {"asset": "MIX", "year": 2025, "source_date": "2025-01-03", "secid": "MX145000BC5"}
+  ],
+  "description_url": "https://iss.moex.com/iss/securities/{secid}.json?iss.only=description&iss.meta=off",
+  "calendar_dates": ["2021-01-08", "2025-01-03"],
+  "calendar_url": "https://apim.moex.com/iss/calendars/futures/securities.json?from={date}&till={date}&iss.only=options&iss.meta=off",
+  "references": ["https://iss.moex.com/iss/reference/193", "https://fs.moex.com/files/26408"],
+  "transport": {
+    "maximum_requests": 10,
+    "maximum_attempts_per_request": 2,
+    "maximum_response_bytes": 8000000,
+    "timeout_seconds": 25,
+    "minimum_between_requests_seconds": 0.5,
+    "redirects": false,
+    "auth_only_host": "apim.moex.com",
+    "credential_environment": "MOEX_ALGOPACK_TOKEN",
+    "ca_path": "/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem",
+    "ca_sha256": "aa800ef345422d6158c6fafe1c06c429dbda21c3df4bb1ccb45a920ec1111399",
+    "public_tls": "system roots first; on TLS error only, retry with pinned MOEX CA",
+    "authenticated_tls": "pinned MOEX CA only"
+  },
+  "output": "/srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1",
+  "limitations": [
+    "Source-only feasibility for deferred expiry-pinning hypothesis; no economics or OI feature selection.",
+    "Static expired-security descriptions and date-bounded historical calendars only. No live marketdata,price-bearing2026route or broker access.",
+    "A last-trading date is not automatically an expiry date, a text name is not a proved underlying security ID, and one sample is not whole-source mapping.",
+    "Existing short-code parser groups multiple settlement types under one logical asset. No assumption of identical underlying, strike unit, lot, dealer position or hedge demand.",
+    "8fixed examples cannot validate108104option contracts. Success permits a separately fixed mapping source, not immediate PnL or Stage2.",
+    "The earlier unauthenticated calendar probe concerned numericOPTION_SERIES_ID for volatility coefficients. New subscribed/date-bounded calendar and exactSECID descriptions are distinct access questions; no old canonical rerun."
+  ]
+}

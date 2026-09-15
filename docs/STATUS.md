@@ -3,6 +3,18 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V88 — bounded option metadata probe запечатан до HTTP
+
+[Протокол](V88_OPTION_METADATA_PROBE.md):8точныхexpiredSECID descriptions +2dated
+calendar probes, толькоstaticmetadata. Проверка ранее отложенногоexpiry-pinning,
+неeconomicrun и неV68retune. Source-date/schema/hash preflight подтвердил1327744rows,
+108104uniqueoptions2021–2025; нетновыхOI/pricevalues. Нужныточныеexpiry/underlying/units.
+32targetedtestsPASS,Ruffclean.7-file seal
+c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50.
+Pending serverroot /srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1.
+До actualresponse не считатьcalendar entitlement/mapping доступным. Archive units
+не меняются; no economic/Stage2 increment, goalnotverified.
+
 ## V87 — слабый GOLD positioning результат; архивы работают, общий server data/source4.67GB
 
 [Результат](V87_GOLD_POSITIONING_RISK_RESULT.md): primarybase CAGR1.1282%,Sharpe0.1517,
@@ -3948,6 +3960,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V88 [metadata probe](V88_OPTION_METADATA_PROBE.md) запечатан до10fixedrequests.
+Перед запуском проверитьactualunit/root; не дублироватьwriter послеobservationtimeout.
+Нужно выяснитьexactexpiry/underlying/unit mapping, не считатьlasttradeдатуэкспирацией.
+Пока нетполногоисточника и новогоeconomicseal, не вычислятьpinning/optionPnL.
 
 V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
 baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,

@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V88 exact option metadata: pre-request source seal
+
+[Протокол](V88_OPTION_METADATA_PROBE.md):10fixedstaticmetadatarequests,
+8expiredSECID descriptions +2historicalcalendar dates. Альтернативный доступ к
+ранее отсутствующемуexpiry/underlyingmapping; неновыйeconomicresult.
+32targetedtestsPASS,Ruffclean, metadata-onlysource1327744rows/108104SECIDsverified.
+Seal c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50;
+pending /srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1.
+No HTTPresponsesyet; noOI/prices/returns/fit/PnL. BroaderAlgoPackeconomic scope
+unanswered, archival/staticmetadata collection неeconomicadmission. Goalnotverified.
+
 ## 2026-09-15 — V87 GOLD positioning: INVALID_EXECUTION_NO_PROMOTION
 
 [Результат](V87_GOLD_POSITIONING_RISK_RESULT.md). Один2arms×2costs screen2019–2025:
