@@ -1,6 +1,20 @@
 ﻿# V89: census завершён, описания RUNNING
 
-Actual checkpoint2026-09-15T15:39:01UTC: unit active/running, тотжеPID3208549 и
+Actual checkpoint2026-09-15T16:08:58UTC: unit active/running, тот же PID3208549 и
+invocation8a874553a92f4860bc235656c6e4e9b0. 5896/40820 processed/requested/exact,
+unavailable0/reused0, 23397538 raw bytes, updated16:08:57.292492UTC.
+Final manifest отсутствует, writer не менялся. V91 source-bound mapper готов,
+59 new /126 combined local tests PASS; полного V89 join ещё нет.
+В16:16 завершён [V91 binding check восьми saved V88 descriptions](V91_OPTION_CONTRACT_MAPPING_RESULT.md):
+7exact futures +1currency exclusion, без повторного HTTP; не economic universe и не
+full V89 coverage. Raw source units/AlgoPack продолжаются независимо.
+
+Новый whole-volume du16:08:59UTC: data5000705958 + source_evidence197321491 =5198027449
+bytes (5.198GB), включая AlgoPack archive2280167368 + oldprocessed1456918554 =3737085922
+(3.737GB). Allocated6048841728 (6.049GB), без models/runs/tmp; sequential snapshot.
+Local2.720GB ниже — старый замер15:09:20UTC, не current unique сумма.
+
+Previous checkpoint2026-09-15T15:39:01UTC: unit active/running, тотжеPID3208549 и
 invocation8a874553a92f4860bc235656c6e4e9b0.2908/40820processed/exact descriptions,
 unavailable0,reused0,requested2908,11048391rawbytes;updated15:39:01.846037UTC.
 Finalmanifestabsent; canonicalwriter/configнеизменны. Старые5checksнерепетировались.

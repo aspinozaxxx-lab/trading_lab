@@ -1,6 +1,18 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Актуальный checkpoint2026-09-15T15:39:01UTC:V4actualactive/running,PID2522946,
+Актуальный checkpoint2026-09-15T16:08:58UTC: V4 actual active/running, PID2522946,
+прежний invocation2e561d202042490d81ddc8aefa3cd543. 531/2192 processed days,
+20396 ticker-days, 20159 resolved / 237 unresolved, 31 days with gaps,
+6637165 logical rows / 4340228 new-root rows, 7524 reference-reused pages,
+85853057 new-root stored bytes. Current2024-07-19,SP34/42,
+updated16:08:57.577225UTC; final manifest отсутствует. Services/token/Windows неизменны.
+Main archive active/running, PID1663880:2872jobs/34009646rows, failed0/blocked0.
+Все основные AlgoPack roots3.737GB, весь server data/source5.198GB including AlgoPack,
+allocated6.049GB; models/runs/tmp excluded. Local2.720GB — previous separate snapshot.
+Unresolved выросли относительно прошлого checkpoint; это source gaps, не complete history.
+V91 metadata work продолжается параллельно, но не является новым economic result.
+
+Предыдущий checkpoint2026-09-15T15:39:01UTC:V4actualactive/running,PID2522946,
 тотжеinvocation2e561d202042490d81ddc8aefa3cd543.479/2192days,
 18931ticker-days,18709resolved/222unresolved,28dayswithgaps,
 6160127logicalrows/3863190new-rootrows,7524reference-reusedpages,

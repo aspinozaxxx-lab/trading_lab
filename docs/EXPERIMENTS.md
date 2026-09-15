@@ -1,6 +1,22 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V91 exact metadata mapper, pre-sample checkpoint
+## 2026-09-15 — V91 static binding COMPLETE, no economic result
+
+[Результат](V91_OPTION_CONTRACT_MAPPING_RESULT.md), completed16:16:03.185461UTC:
+7exact futures +1explicit currency exclusion на8saved V88 descriptions, new HTTP0.
+Все7 source dates внутри lifecycle; SI cash-root ambiguity разрешена exact named
+dated future. Strike equality — raw contractual condition, не premium UNIT conversion.
+12catalog files/255660bytes,228aliases/220contracts, raw-normalized replay совпал.
+59new/126combined local tests и59/59server PASS0.18s, Ruff clean; five-file seal verified.
+Pre-sample e010f20, seal436c6a3f949df4d8e354e549493ca867af7bfe0cfa1a2827765de614751f8eff.
+Canonical root `/srv/trading_lab_data/source_evidence/v91_static_futures_catalogs_v1`,
+sample_binding_result.json SHA1db69479b90d03cb1f89e20aec0f472523f6e58944ebf10728cba0122528b8e4.
+Full V89 coverage not proved; OI magnitudes/prices/targets/PnL не читались.
+Screens25/Stage2=0/goal false. Next: full-source join/thin existing-ledger runner on
+synthetics while V89 downloads; после closure/mapping полный economic seal + один run.
+Не повторять8sample audit/probe как progress. Runtime/volume16:09snapshot ниже.
+
+### V91 pre-sample checkpoint (preserved)
 
 [Протокол](V91_OPTION_CONTRACT_MAPPING.md). Реализована raw-bound связь опционного
 страйка с точным dated future, без premium-unit multiplier и догадок о SI cash root.

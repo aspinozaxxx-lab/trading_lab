@@ -3,7 +3,26 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V91 — metadata mapper готов; новый static sample check ещё не выполнен
+## V91 — точное связывание sample COMPLETE; доходность V90 ещё не рассчитана
+
+[Результат](V91_OPTION_CONTRACT_MAPPING_RESULT.md), completed16:16:03.185461UTC:
+семь `EXACT_STATIC_BINDING` и одно `EXCLUDED_PREMIUM_CURRENCY` на восьми saved V88
+descriptions, без новых HTTP. Все7 source dates внутри option lifecycle; SI ambiguity
+разрешена exact NAME/SERIES + independent catalog cash root. Strike price equality
+подтверждается raw DELIVERYTYPE, не premium UNIT multiplier. Это только8sample,
+не full40820 V89 coverage, не новый economic screen и не PnL.
+Server five-file seal verified,59/59 synthetic tests PASS0.18s; local59new/126combined.
+Pre-sample e010f20 pushed. Seal436c6a3f949df4d8e354e549493ca867af7bfe0cfa1a2827765de614751f8eff.
+Static subset12files/255660bytes сохранён в
+`/srv/trading_lab_data/source_evidence/v91_static_futures_catalogs_v1`;
+`sample_binding_result.json` SHA1db69479b90d03cb1f89e20aec0f472523f6e58944ebf10728cba0122528b8e4.
+Реальные OI magnitudes/market values/targets/PnL для V90/V91 не читались.
+Следующий bounded шаг: full-source join + тонкий economic runner на synthetic inputs;
+real run только после closed V89 mapping/coverage и отдельного полного economic seal.
+Не повторять sample/audit/collector, не читать partial BR outcomes. Screens25/Stage2=0.
+Последний whole-volume и runtime snapshot16:08:58/59UTC ниже, не новые actual16:16counts.
+
+### V91 pre-sample checkpoint (preserved)
 
 [Протокол](V91_OPTION_CONTRACT_MAPPING.md): exact NAME + SERIES_NAME + dated futures
 catalog, независимое согласование UNDERLYINGASSET, explicit expiry/strike definition
@@ -4073,16 +4092,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V91 [source-bound metadata mapper готов](V91_OPTION_CONTRACT_MAPPING.md),
-59 новых / 126 combined local tests PASS. Сейчас один server static sample binding
-check на восьми saved V88 descriptions и tiny catalog subset; не повтор HTTP/probe.
-После него результат сохранить отдельно и двигаться к полному V89 mapping после closure.
-Не делать новый audit этого sample вместо следующего исследовательского шага.
+V91 [sample binding COMPLETE](V91_OPTION_CONTRACT_MAPPING_RESULT.md):7exact futures +
+1currency exclusion,59new/126combined local и59server tests PASS. Canonical report и
+tiny catalog subset сохранены. Не повторять эти8 bindings/audits или download catalog.
+Пока V89 writer RUNNING, следующий полезный bounded шаг — full-source join и тонкий
+economic runner вокруг frozen V90/V91 и готового daily ledger, synthetic-only.
+После closed V89 manifest один full mapping/coverage pass, полный code/config/input
+economic seal и один2arms×2costsrun. Не строить ещё один ledger/collector и не ждать
+таймер минутным polling. Metadata readiness/quote units уже должны приходить из V91.
 
 V90 [pure target adapter и ledger bridge готовы](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md),
 42new/95total local synthetictestsPASS. Не повторятьsyntheticпроверкикакновыйeconomic
-результат. ПокаV89acquisitionRUNNING, следующийboundedшаг — source-bound mapper для
-staticdescriptions→exactfutureidentity/quoteunits, syntheticfixtures доactualmapping.
+результат. Source-bound mapper уже реализован и проверен на8sample вV91 выше;
+дальше нужен полный source join, не ещё одна версия mapper на тех же карточках.
 ПослеV89finalmanifest одинполныйmapping/coveragecheck, экономическийconfig/code/input
 seal и один2arms×2costsrun. Sourcecalendar261×4groups долженбытьявнопроверен; empty/missing
 release нельзяобойтистарымсигналом. Не ставитьготовностьmetadata/unitsручнымTrue.

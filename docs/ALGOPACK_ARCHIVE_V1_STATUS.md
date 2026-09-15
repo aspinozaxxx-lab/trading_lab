@@ -1,6 +1,21 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T15:39:01UTC: actualactive/running,PID1663880,
+Актуальный checkpoint2026-09-15T16:08:58UTC: actual active/running, PID1663880,
+прежний invocation d562f0748c4341b48eb7f4d34d64b4a1. 2872/26305 completed jobs,
+34009646 rows, 35986 pages, failed0/blocked0, 2013287133 stored bytes completed jobs.
+Current eq/obstats2025-06-10, updated16:08:35.344533UTC; final manifest отсутствует.
+FUTOI V4 также running:531/2192 days, 237 unresolved ticker-days/31 gap days.
+V89 static descriptions running:5896/40820, unavailable0. Сервисы не менялись.
+
+Новый du16:08:59UTC: archive2280167368 + oldprocessedAlgoPack1456918554 =3737085922
+bytes (3.737GB). Весь server data5000705958 + source_evidence197321491 =5198027449
+bytes (5.198GB), уже включая AlgoPack. Allocated6048841728 (6.049GB).
+Models/runs/tmp исключены; замер последовательный при ongoing writes. Local2.720GB
+из предыдущего snapshot15:09:20UTC отдельно, не deduplicated прибавка к server.
+Параллельно V91 exact metadata mapper подготовлен для новой V90 гипотезы;
+synthetic tests и static mapping не считаются historical economic PASS.
+
+Предыдущий checkpoint2026-09-15T15:39:01UTC: actualactive/running,PID1663880,
 тотжеinvocationd562f0748c4341b48eb7f4d34d64b4a1.2678/26305jobs,
 32155488rows,33988pages,failed0/blocked0,1906051342storedbytescompletedjobs.
 Currentfo/tradestats2025-06-24,updated15:38:30.879988UTC,finalmanifestabsent.
