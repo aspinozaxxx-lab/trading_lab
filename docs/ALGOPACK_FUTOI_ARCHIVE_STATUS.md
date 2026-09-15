@@ -1,6 +1,6 @@
 ﻿# FUTOI full-market archive: V3 RUNNING
 
-Снимок2026-09-15T09:00:00.974609UTC. Это operational checkpoint, НЕ полный архив
+Снимок2026-09-15T10:01:30.915889UTC. Это operational checkpoint, НЕ полный архив
 и не новая стратегия. [Разрешение](ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md),
 [актуальный sealed протокол](ALGOPACK_FUTOI_ARCHIVE_V3.md).
 
@@ -11,16 +11,17 @@
   Invocation b92369457f26436dad586a928c01da82. Result=success/ExecMainStatus0 во время
   active не означает завершение.
 - Root /srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v3_721f2418b0dc.
-  4/2192completed calendar days,147ticker-days,48876intraday rows по completed days.
-  Current2025-12-29:43/64tickers обработано; partial day's rows ещё не входят в totals.
-  10266intraday rows в новом V3 root,120V2pages reference-reused, core4reuse0.
-  201989compressed+page-metadata bytes по completed days только в новом root:
+  60/2192completed calendar days,3452ticker-days,1080054intraday rows по completed days.
+  Current2025-11-03:42/65tickers обработано; partial day's rows ещё не входят в totals.
+  1041444intraday rows в новом V3 root,120V2pages reference-reused, core4reuse0.
+  21431384compressed+page-metadata bytes по completed days только в новом root:
   это НЕ размер всего logical archive и не включает V2/current partial day.
+  status.updated_at10:01:29.038874UTC. Free899502817280bytes на общем storage.
 - Final root manifest отсутствует. Schema13columns, включая trade_session_date.
   Пул определяется отдельно для каждой исторической даты;46/37/64tickers в3pilots.
 - [Независимый14-family batch](ALGOPACK_ARCHIVE_V1_STATUS.md) по-прежнему работает,
-  PID1663880. На08:59:25UTC338/26305jobs,4772919rows,4980pages,
-  284104725bytes по completedjobs,0failed/0blocked. Его код/unit не менялись.
+  PID1663880. На10:01:30UTC688/26305jobs,9002346rows,9450pages,
+  538526594bytes по completedjobs,0failed/0blocked. Его код/unit не менялись.
 
 ## Проверенные контрольные дни
 

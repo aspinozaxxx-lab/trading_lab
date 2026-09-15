@@ -1,6 +1,25 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V80 GPR source COMPLETE; economic sealed pre-outcome
+## 2026-09-15 — V80 GPR: REJECT_STAGE1, один завершённый batch
+
+[Результат](V80_GPR_RISK_RESULT.md): news Russia-risk persistence, all2022–2025,
+BR/MIX/SI0.3,constant-stress control,no fit. Price-free feasibility95,669291%,
+46ready releases/3048asset decisions/1016dates на arm,2901nonzero targets.
+CAGR1×/2× −4,5783%/−4,7481%,Sharpe−0,4076/−0,4252,MDD24,1416%/24,6752%,
+99/98closed episodes,1/4positive years. Net−170512/−176386руб.;gross VMnegative тоже.
+Control CAGR−6,6661%/−6,7348%. Все4execution complete,critical/unresolved0,terminalflat;
+по1no-liquidity cancellation. Local113/server113tests PASS,19artifact/raw-state-target/
+4metric-annual-count-cash replay PASS. Один economic batch2,624094s,pre-outcome6299f8b.
+Canonical /srv/trading_lab_data/runs/v80_gpr_risk_v1_93b011ce775e;
+seal93b011ce775e9ea3af36674a2a143084e3f0616f68107e9d19ea06835d70d489;
+metrics7fe5d6c09f252ee779601ecd2970bb6e0f308d6507e6272d820a5535c980e391.
+23economic screens=21rejected+1incomplete+1invalid,0Stage2. Не retune/flip этот GPR rule.
+
+AlgoPack отдельным фоном10:01:30UTC:14families688jobs/9002346rows/9450pages;
+FUTOI60days/3452ticker-days/1080054intraday rows; оба active/running, ещё не full archive.
+Details и resume/backup rules в STATUS и двух archive status docs. Ни покупок, ни Windows jobs.
+
+## 2026-09-15 — V80 GPR: исходный pre-outcome checkpoint (историческая запись)
 
 [Source V2](V80_GPR_VINTAGES_SOURCE_V2.md):46first-commit DTA202203…202512,
 34298157bytes/562undated records preserved;46hash/history/clock/calendar replays PASS.

@@ -3,27 +3,43 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Следующий screen — V80 GPR, sealed до scalar/market outcomes
+## Последний screen — V80 GPR: REJECT_STAGE1; AlgoPack архивы RUNNING
 
-[Economic protocol](V80_GPR_RISK.md): один Russia-news risk-persistence signal,
-последний полный месяц против предыдущих12, BR+/MIX-/SI+ при росте, reverse при снижении,
-constant-stress control. Все2022–2025, включая unavailable начало; два costs, без fit.
-Сначала price-free source-ready>=90%/40dates, потом один4arm/cost ledger batch.
-Local113synthetic/dependency tests PASS, Ruff clean. GPR scalar/MOEX outcomes ещё не читались.
-Economic seal 93b011ce775e9ea3af36674a2a143084e3f0616f68107e9d19ea06835d70d489; canonical пока не создан.
+[Результат](V80_GPR_RISK_RESULT.md), [протокол](V80_GPR_RISK.md): один Russia-news
+risk-persistence signal, последний полный месяц против предыдущих12, joint BR/MIX/SI,
+constant-stress control. Все2022–2025, unavailable начало сохранено, без fit/retune.
+Price-free feasibility95,669291%,3048asset decisions/1016dates на arm,46ready releases;
+132feature-unavailable/132stale overlapping flags,17source-unavailable,2901nonzero targets.
+Один4arm/cost batch2,624094s: CAGR1×/2× −4,5783%/−4,7481%,Sharpe−0,4076/−0,4252,
+MDD24,1416%/24,6752%,99/98closed asset episodes,1/4positive years;net−170512/−176386руб.
+Control CAGR−6,6661%/−6,7348%; проигрыш меньший, но прибыли нет. Primary gross VM тоже
+negative до10999/21521руб.costs. Все4execution complete,critical/unresolved0,terminalflat,
+по1no-liquidity cancellation. Отсев по CAGR/Sharpe/годам;2× excess<2pp тоже не прошёл.
+Local113/server113tests PASS,Ruff clean;19hash/rawDTA-commit-state-target/4metric-annual-
+count-cash replays PASS. Pre-outcome6299f8b, economic seal
+93b011ce775e9ea3af36674a2a143084e3f0616f68107e9d19ea06835d70d489;
+canonical /srv/trading_lab_data/runs/v80_gpr_risk_v1_93b011ce775e;
+metrics7fe5d6c09f252ee779601ecd2970bb6e0f308d6507e6272d820a5535c980e391.
+V65–V80:23economic screens=21rejected+1incomplete+1invalid,0Stage2. Цель20–50% не достигнута.
+Не повторять/переворачивать/настраивать этот GPR signal и не спасать его большой моделью.
 
 [GPR source V2](V80_GPR_VINTAGES_SOURCE_V2.md) COMPLETE:46versions202203…202512,
-34298157raw bytes,562undated records сохранены. All46raw/hash/commit/calendar replays PASS,
-prior13complete calendar и exactGPRC_RUS label. Final manifest
-ed716b9021067ec24be87e7a6b3707c82a12d9b93e567cbc14b415942c6c6338.
-Source root /srv/trading_lab_data/source_evidence/v80_gpr_vintages_2022_2025_v2;
-full unit trading-lab-v80-gpr-source-full-v2-c9231bee65bf.service MainPID0/inactive,
-Resultsuccess/Exec0. Pre-sourceb2756e8, local15/server15PASS. Не повторять download.
-Oldest Git content используется вместо сегодняшнего overwritten edition; commit timestamp
-только proxy, не witnessed public push. [V1 failure](V80_GPR_VINTAGES_SOURCE.md) сохранён:
-78undated строк первого выпуска отклонены старым parser до raw publication; не restart.
-V65–V79 пока22economic screens/0Stage2. Оба AlgoPack archive units после завершения GPR снова
-подтверждены actual active/running PID1663880/1913099; оставить работать.
+34298157raw bytes,562undated records сохранены;46raw/hash/commit/calendar replays PASS.
+Final manifest ed716b9021067ec24be87e7a6b3707c82a12d9b93e567cbc14b415942c6c6338;
+root /srv/trading_lab_data/source_evidence/v80_gpr_vintages_2022_2025_v2.
+Source full unit trading-lab-v80-gpr-source-full-v2-c9231bee65bf.service завершён0exit,
+pre-sourceb2756e8. Oldest Git content, не сегодняшний overwritten edition; commit clock
+только proxy, не witnessed public push. V1 undated-row failure/root сохранён, не restart.
+
+На2026-09-15T10:01:30.915889UTC оба AlgoPack service actual active/running:
+[14families](ALGOPACK_ARCHIVE_V1_STATUS.md) PID1663880,688/26305completed jobs,
+9002346rows/9450pages,538526594bytes,failed0/blocked0;
+[FUTOI V3](ALGOPACK_FUTOI_ARCHIVE_STATUS.md) PID1913099,60/2192complete days,
+3452ticker-days/1080054intraday rows,1041444new-root rows,120V2pages reused,
+21431384new-root bytes; current2025-11-03,42/65tickers. Оба final manifests ещё отсутствуют.
+Totals только completed jobs/days, не полный disk usage. Free899502817280bytes.
+V3+referenced V2+core4 хранить вместе; полного Windows mirror новых архивов пока нет.
+Архивирование source-only, не новый income PASS. Protected2026/paper/timers/подписка не менялись.
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
@@ -3682,10 +3698,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Выбран новый V80 GPR information set;46source vintages COMPLETE/audited, не скачивать снова.
-[Economic protocol](V80_GPR_RISK.md) sealed, local113tests PASS. Далее server tests,
-price-free feasibility и при PASS один4arm/cost screen всех2022–2025, затем replay.
-Не трактовать первый Git timestamp как witnessed public push или всю историю2018–2025.
+V80 GPR завершён REJECT_STAGE1, [полный результат](V80_GPR_RISK_RESULT.md).
+Не повторять source/feasibility/PnL или менять знак/window/TTL/годы. Следующая работа:
+выбрать иной экономический механизм с реально доступной историей<=2025 и провести
+короткий sealed screen, а не новый набор параметров уже закрытых V64–V80 families.
+46GPR vintages сохранены; их полнота/commit proxy не означает PIT или доходность.
 
 Разрешение2026-09-15 получено; прежний scope blocker снят, повторно не спрашивать.
 V79 R1 уже проверил3conditional AlgoPack механизма: все REJECT_STAGE1, см. начало.
