@@ -3,6 +3,18 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V86 — новый STEO forecast-revision screen, source acquisition подготовлена
+
+[Протокол](V86_STEO_FORECAST_REVISIONS.md): BR по изменению forecast world demand-supply
+для одного и того же next-calendar-quarter, а не V17 weekly actual changes.
+97editions2017December–2025December, public EIA Excel archives, только3atab physical
+series papr_world/patc_world. Source config/code подготовлены;8synthetic tests PASS.
+Economic numeric values/outcomes ещё не читались. Original revision chain не считать
+доказанной: notice/core modified clocks учитываются до отдельного economic seal.
+Server acquisition/runtime/source manifest/economic config пока не созданы.
+AlgoPack units не меняются; V85 broader economic scope остаётся unanswered.
+Goal20–50%notverified; source feasibility не новый economic screen.
+
 ## V85 — EQOrderStats/HI2 source feasibility завершена, новый economic scope не подтверждён
 
 [V85](V85_EQ_FLOW_FEASIBILITY.md): только metadata/keys/clocks, без numeric features/

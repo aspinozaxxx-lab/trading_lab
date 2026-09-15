@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V86 STEO forecast revisions, PRE-OUTCOME source preparation
+
+[V86](V86_STEO_FORECAST_REVISIONS.md): monthly world supply/demand forecast revisions
+для одинакового будущего квартала; новый information set после V17 weekly actuals.
+97pre2026EIA editions,2boundedworkers, raw unchanged вне Git;8synthetic testsPASS.
+Source acquisition ещё не запускалась, full source/economic seal/results ещё нет.
+Current archive и docProps.modified не prooforiginalPIT; corrections обязательны.
+Нет source numeric forecasts/prices/returns/PnL/нового economic screen/Stage2.
+Закрытый V19 FX-program retune не запускался; корпоративный corpus покаunadmitted.
+AlgoPack downloads независимы и не изменяются; broader economic scope unanswered.
+
 ## 2026-09-15 — V85 EQOrderStats/HI2 source-only feasibility, no economic admission
 
 [V85](V85_EQ_FLOW_FEASIBILITY.md): metadata census12:50UTC, fixed30December51page
