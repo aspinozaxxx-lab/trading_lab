@@ -3,7 +3,27 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V88 — bounded option metadata probe запечатан до HTTP
+## V88 — exact expiry доступен, смешанные SI contracts выявлены; PnL ещё не считался
+
+[Результат](V88_OPTION_METADATA_PROBE_RESULT.md):10/10requests,HTTP200attempt1,
+30885rawbytes;8exactSECIDdescriptions содержатLSTDELDATEсtitle«Датаэкспирации».
+Но SI source смешивает marginedfutureoptions и premiumcurrencyoptions сразнымиunits/
+lots;UNDERLYINGASSETуобоихUSD000UTSTOM,неexactfuture.6другихexamplesсодержатfuturescodes,
+полногоjoinкнашемуcanonicalmarketещёнет. Calendar2021-01-08empty;2025-01-03однаNGexpiry,
+неcompleteactiveoptionslist и неновыйnumericOPTION_SERIES_IDmapping.
+Не заменятьmissingэкспирациитретьимчетвергом/activefuture и не повторятьV39/V68.
+Source completed14:38:58.200513UTC,terminalPID0/exit0 observed14:39:59UTC.
+Manifest10ff109b609658ebd0ff4ae4bb7e8f0f17e0d1b5a1afe521ea113699e25d9d7f;
+canonical /srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1;
+pre-request95f4354,seal c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50.
+32local/15server testsPASS,Ruffclean;10raw/parser/record/clock +8identity/datechecksPASS
+14:45:19UTC. Не rerunилиновыйколлектордлятехже8examples.
+Следом:отдельныйmetadatajoinprotocol, оценкаNULL-maskнужныхOI-contracts безвеличин,
+explicitexpiry/type/unit/underlyingcoverage, затемновыйfixedpinningeconomicseal.
+V88неeconomic screen;воронка25=21rejected+1incomplete+3invalid,0Stage2;goalnotverified.
+BothAlgoPackunitsactualrunning14:45UTC,PID1663880/2522946,unchanged;новогозамераbytesнет.
+
+### V88 pre-request checkpoint (preserved)
 
 [Протокол](V88_OPTION_METADATA_PROBE.md):8точныхexpiredSECID descriptions +2dated
 calendar probes, толькоstaticmetadata. Проверка ранее отложенногоexpiry-pinning,
@@ -3961,10 +3981,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V88 [metadata probe](V88_OPTION_METADATA_PROBE.md) запечатан до10fixedrequests.
-Перед запуском проверитьactualunit/root; не дублироватьwriter послеobservationtimeout.
-Нужно выяснитьexactexpiry/underlying/unit mapping, не считатьlasttradeдатуэкспирацией.
-Пока нетполногоисточника и новогоeconomicseal, не вычислятьpinning/optionPnL.
+V88 [metadata probe завершён](V88_OPTION_METADATA_PROBE_RESULT.md), не повторять10requests
+илиaudit. ExactLSTDELDATEполучен8/8, ноSItype/unitsсмешаны иполногоunderlyingjoinнет.
+Следующийboundedшаг:source-onlyNULL-maskcensusнужныхOI-contracts, затемотдельныйfixed
+exactdescriptionmapping, безновыхOI-magnitudes/priceoutcomes ибезвыборапоPnL.
+Послеcoverage —отдельныйодинpinningeconomicprotocolнаготовомledger. Не использовать
+calendar sampleкакполныйas-oflist, неназначатьexpiry/underlyingпоэвристике.
 
 V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
 baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,

@@ -1,6 +1,23 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V88 exact option metadata: pre-request source seal
+## 2026-09-15 — V88 metadata complete: expiry fields found, full economic mapping pending
+
+[Результат](V88_OPTION_METADATA_PROBE_RESULT.md).10HTTP200responses/30885rawbytes,
+completed14:38:58.200513UTC.8/8exactdescriptionsсexplicitLSTDELDATE«Датаэкспирации»;
+Si100000BC1marginedfutureoption иSi100.5CA5Bpremiumcurrencyoption имеютразныеunits/lots,
+ноодинаковыйUNDERLYINGASSETUSD000UTSTOM. Этоограничиваетhedge-demandinterpretation.
+Calendar2021-01-08empty,2025-01-03однаNGexpiry;неcompleteactivecore4list,
+numericOPTION_SERIES_IDmappingнеполучен. НеисправлятьстарыеV39/V68поoutcomes.
+32local/15servertestsPASS,Ruffclean,10hash/parser/record/clock +8identity/datechecksPASS.
+Pre-request95f4354;seal c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50;
+manifest10ff109b609658ebd0ff4ae4bb7e8f0f17e0d1b5a1afe521ea113699e25d9d7f.
+Canonical /srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1,
+terminalPID0/exit0 observed14:39:59UTC. No sourceOI magnitudes/marketprices/PnL.
+Новыйэкономическийscreen0,Stage2нет,goalfalse;source-onlyevidenceменяетследующийшаг:
+неповторятьprobe, построитьотдельныйexactmetadatajoinпередfixedpinningтестом.
+Archive unitsactualrunning14:45UTCснеизменнымиPID/конфигурацией.
+
+### V88 pre-request source seal (preserved)
 
 [Протокол](V88_OPTION_METADATA_PROBE.md):10fixedstaticmetadatarequests,
 8expiredSECID descriptions +2historicalcalendar dates. Альтернативный доступ к
