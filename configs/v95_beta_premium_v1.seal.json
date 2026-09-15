@@ -1,0 +1,17 @@
+{
+  "protocol_id": "v95_beta_premium_v1",
+  "sealed_at_utc": "2026-09-15T22:43:52Z",
+  "sealed_before_beta_states_targets_and_outcomes": true,
+  "files": {
+    "src/market_lab/futures_v95_beta_premium.py": "33ef4675df89d85cb7e93f2f0656c6407fa5fc6331f0bd9892118826e103492b",
+    "configs/v95_beta_premium_v1.json": "d64451a77eaf1abb4efe8d81da6da4ca1b14e4a2d77bb89d9ea9e96517aede1b",
+    "tests/test_futures_v95_beta_premium.py": "7c1f51399cc5ee831d3852f9c2e233a6d8e0ed6320bd474cbfeccc7959e565ea",
+    "docs/V95_BETA_PREMIUM.md": "2968ddcd6355a64c6a6133bcbabf0343ab9591c7279829e5cd3c61b1e344ea58",
+    "src/market_lab/futures_v94_skewness_premium.py": "606a7edf3f3907582654eb94a0018f12e6e220cecf0c7bf929793d99ad89ad33",
+    "src/market_lab/futures_v78_treasury_channels.py": "7bb296cc6ba030f19500eaa8551f825628ce8f5f3ea25560c696887a2a1179f5",
+    "src/market_lab/futures_v76_initial_claims_cycle.py": "2e0d896afecd70d1ff1813765b55d0cc9d27d456ca19ae17f1c024f20ccf3a1d",
+    "src/market_lab/futures_v72_policy_guidance.py": "26a9f17e8d45d68a4e5c8ae2761a057ff0daa05dfab2767dfae148d75aec6805",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

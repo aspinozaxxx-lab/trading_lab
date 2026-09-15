@@ -3,6 +3,18 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V95 — новый beta-premium screen, до исторического результата
+
+[Протокол](V95_BETA_PREMIUM.md): раз в месяц long low-beta / short high-beta,
+веса уравнивают прошлую оценку общего риска. Контроль — те же активы равными
+суммами. Окно 252 сессии, экономика 2021–2025, warmup 2018–2020; один fixed rule,
+два costs, готовый ledger. Не новый источник, модель или повтор V94.
+9 новых / 47 combined synthetic tests PASS за 13.73s, Ruff clean. Config/code/source
+seal подготовлен до новых beta states/targets/outcomes. Следующий шаг — push,
+server byte check и один immutable run. Пока это не 28-й завершённый конкурс.
+27 прежних portfolio hypotheses, 0 Stage2. V94 и его control не retune-ить/promote.
+Архивные объёмы ниже — actual 22:28 UTC, нового замера пока нет.
+
 ## V94 COMPLETE — primary отклонён, mirror не promoted, Stage2=0
 
 [Все результаты](V94_SKEWNESS_PREMIUM_RESULT.md),completed2026-09-15T22:26:53.745476UTC.

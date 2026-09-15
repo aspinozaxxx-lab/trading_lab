@@ -1,0 +1,58 @@
+{
+  "protocol_id": "v95_beta_premium_v1",
+  "declared_at_utc": "2026-09-15T22:37:06Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "source": "V64 recent exact active-map, observations and lagged spec-proxy declarations; hashes/schema/date preflight before numeric values",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "RI", "SI"],
+  "signal": {
+    "mechanism": "leverage-constrained demand can overprice high-beta exposure; buy low beta and sell high beta with matched estimated factor risk",
+    "primary_reference": "https://www.aqr.com/insights/research/journal-article/betting-against-beta",
+    "lookback_sessions": 252,
+    "return": "adjacent complete calendar closes of the exact contract selected before each session; positive prices and volumes at both endpoints",
+    "factor": "equal-weight arithmetic mean of all4 exact-contract quote returns each day; any missing makes factor missing",
+    "beta": "trailing252 complete calendar rows: sample covariance(asset,factor)/sample variance(factor); variance greater than1e-24; no shrinkage or full-history fit",
+    "selection": "first completed trading day each calendar month; all4 finite beta estimates required; unique minimum and maximum among strictly positive betas, at least2 eligible",
+    "primary": "long low beta with gross*high_beta/(low_beta+high_beta), short high beta with gross*low_beta/(low_beta+high_beta); stable ratio implementation",
+    "control": "same selected assets and masks, equal-notional +gross/2 and -gross/2; no beta scaling; not a post-outcome replacement candidate",
+    "between_selections": "hold asset directions and weights; causal active-contract rolls and daily integer resizing in existing portfolio ledger",
+    "warmup": "2018-2020 for trailing estimates and preceding monthly state only; start portfolio from fresh cash in2021",
+    "maximum_fill_gap_calendar_days": 7,
+    "model_fit": "rolling causal covariance only; no trained predictor or supervised labels",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 50,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.0,
+    "primary_must_strictly_beat_control_each_cost": true,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "A new funding-constraint hypothesis on old development prices, not independent data or a literal replication of Frazzini/Pedersen. A mixed four-future equal-weight factor is not an external market portfolio; self-inclusion and shared equity exposure can distort beta.",
+    "Prior quote-return beta neutrality is algebraic only. It does not guarantee realized cash beta neutrality, synchronized fills, stable correlations, currency neutrality or crisis protection. Negative-beta instruments are not ranked for BAB legs, but remain in the fixed factor and completeness gate.",
+    "Daily candle/spec/fee/margin research proxies, integer quantities, no interest on collateral, no broker/live/demo orders. Order-time gross limits do not guarantee a continuous post-gap gross cap; retain all halts/cancellations/unresolved risks.",
+    "One fixed252-session monthly rule, controls and masks sealed before outcomes. No post-result sign/asset/period/window/size/factor/shrinkage/missingness retuning, no promotion of the control.",
+    "Only a Stage2 candidate if every declared gate passes at both costs;5percent is a component screen, not a redefinition of the20-50percent annual goal. Goal_verified remains false.",
+    "No V94 skewness computation, target reproduction or old economic rerun. Only its map validation helper is reused; no new AlgoPack numeric values or HTTP."
+  ]
+}

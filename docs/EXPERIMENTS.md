@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V95 beta premium, pre-outcome checkpoint
+
+[Протокол](V95_BETA_PREMIUM.md): отдельная funding-constraint гипотеза, monthly
+low-beta long / high-beta short, matched estimated beta, equal-notional control.
+Core4, 252 prior sessions, 2021–2025, base/double costs. Никакого нового engine,
+AlgoPack numeric reads, fitting или V94 economic rerun. 9 новых / 47 combined
+synthetic tests PASS (13.73s), Ruff clean. Config SHA
+`d64451a77eaf1abb4efe8d81da6da4ca1b14e4a2d77bb89d9ea9e96517aede1b`.
+До pushed server run beta states/targets/outcomes не читались. Stage2 = 0;
+завершённых portfolio hypotheses по-прежнему 27. После run записать все сценарии,
+годы и причины отсева; не менять factor/window/sign/size/eligibility по результату.
+
 ## 2026-09-15 — V94 COMPLETE, REJECT_STAGE1, контроль не promoted
 
 [Полный результат](V94_SKEWNESS_PREMIUM_RESULT.md),completed22:26:53.745476UTC.
