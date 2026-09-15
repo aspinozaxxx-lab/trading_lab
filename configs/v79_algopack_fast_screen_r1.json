@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v79_algopack_fast_screen_r1",
+  "parent_seal_sha256": "f2aa4f47daeabc74012580655838624a016fc0b7fca79c91427b7b9b6fae1df0",
+  "admitted_flow_status": "READY_ARCHIVE_ASSUMPTION",
+  "conditional_current_vintage_only": true,
+  "change": "source status recognition only; original READY online tag is not admitted",
+  "minimum_feature_eligible_opportunities": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false
+}
