@@ -3,7 +3,32 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V89 — подготовка точных спецификаций опционов, до census и новых запросов
+## V89 — census COMPLETE, 40820 descriptions загружаются; server data/source 4.90GB
+
+[Checkpoint](V89_OPTION_METADATA_SOURCE_STATUS.md): census завершён15:07:09UTC,
+1327744rows/108104SECIDs,211024non-NULL OI rows; величины OI не читались.
+40820нужных descriptions,67284all-NULL SECIDs сохранены в coverage.
+Census manifest `e990fdc9d091d7a0abab7d3f3c329e14053e3771b96d934d2ccd4b171dfd26d1`.
+Source unit `trading-lab-v89-option-metadata-1c71ebb0df2a.service` actual15:12:20UTC
+active/running, PID3208549, invocation8a874553a92f4860bc235656c6e4e9b0.
+297/40820exact descriptions, errors0,1118174new rawbytes; final manifest отсутствует.
+No credentials/EnvironmentFile, restart=no; canonical/partial roots не перезапускать.
+Pre-census commitcc4d737,25local/25server testsPASS;expandedlocal44PASS,Ruffclean,closure verified.
+Первые5новых raw hash/length/HTTP/identity проверены, не full acquisition audit.
+V89 не economic screen: no new OI magnitudes/market values/PnL,0 новых Stage2.
+
+Actual15:08UTC оба AlgoPack units running, PID1663880/2522946: main2492/26305jobs,
+30.197mrows,failed0/blocked0;FUTOI429/2192days,5.656mrows,222unresolvedticker-days,
+28gapdays. Новые bytes: archive2.034GB + oldprocessedAlgoPack1.457GB =3.491GB.
+Весь server data/source4.902GB (allocated5.657GB), уже включаяAlgoPack, безmodels/runs/tmp.
+Local15:09:20UTC2.720GB/10841files отдельно; не складыватькопии какuniquehistory.
+Всеroots/counters в checkpoint. Сервисы AlgoPack, токены и Windows не менялись.
+Следом [reported-OI pre-expiry convergence](OPTION_PINNING_RESEARCH_NOTE_20260915.md):
+малый synthetic adapter кготовомуdailyledger покаwriterработает; послеsourceclosure
+одинmapping/coveragecheck и новыйeconomicseal. Не путатьdailyproxy с intraday expiry
+и не выдавать ближайшийстрайк/общийOI за доказанныйdealerflow. Цельнеподтверждена.
+
+### V89 pre-census checkpoint (preserved)
 
 [Протокол](V89_OPTION_METADATA_SOURCE.md): из истории 2021–2025 читаются только
 идентификаторы и NULL-маска OI, без его величин и рыночных цен. Все 108104 контракта
@@ -3997,13 +4022,15 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V89 [source-only protocol](V89_OPTION_METADATA_SOURCE.md) sealed до NULL-mask census
-и новых HTTP. Следом: deploy/hash/test, один census, затем acquisition с observed
-census manifest SHA. Runtime и roots сверять с началом STATUS. Не перезапускать
-canonical/partial roots; V88 raw references сохранить. После полного coverage — один
-fixed pinning economic protocol на готовом ledger, до новых OI magnitudes/outcomes.
-V88 probe и audit не повторять; calendar sample не полный as-of list, expiry/underlying
-не назначать по эвристике. V89 не увеличивает economic screen или Stage2 counts.
+V89 [census COMPLETE / acquisition RUNNING](V89_OPTION_METADATA_SOURCE_STATUS.md).
+Не повторять census/probe/audit или writer в canonical/partial root; сохранить V88
+raw references. Не опрашивать таймер вместо работы. Пока40820descriptionsскачиваются,
+реализовать маленький synthetic adapter по [новому правилу](OPTION_PINNING_RESEARCH_NOTE_20260915.md)
+на готовом dailyledger; послеsourceclosure одинexactmapping/coveragecheck, затем
+economic config/code/input seal доvalues и один2arms×2costs run. Calendar sample не
+полный as-oflist, SI premium/margined не смешивать. Daily pre-expiry proxy неintraday
+expiry: V62 simulate hardcoded10:10–12:20, напрямуюквечернемутестунеподходит.
+V89 source-only не увеличивает economic screen/Stage2 counts. Protected2026 остаётся.
 
 V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
 baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,

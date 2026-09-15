@@ -1,6 +1,20 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V89 pre-census source seal
+## 2026-09-15 — V89 census COMPLETE, exact metadata acquisition RUNNING
+
+[Checkpoint](V89_OPTION_METADATA_SOURCE_STATUS.md): census40820needed descriptions из
+108104SECIDs;211024non-NULL/1116720NULLrows, безnumericOI. Canonical census manifest
+`e990fdc9d091d7a0abab7d3f3c329e14053e3771b96d934d2ccd4b171dfd26d1`,
+completed15:07:09.592000UTC,terminalobserved15:08:04UTC. Pre-sourcecommitcc4d737.
+25local/25server иexpandedlocal44testsPASS,Ruffclean,serversealclosurePASS. Actual15:12:20UTC
+active/runningPID3208549,297/40820exact descriptions,unavailable0,1118174rawbytes,
+finalmanifestabsent. Первые5rawchecked, не full audit. БезcredentialEnvironmentFile.
+No economic values/PnL, no Stage2 increment. [Следующий механизм/контроль](
+OPTION_PINNING_RESEARCH_NOTE_20260915.md):reported-OI pre-expiryconvergence vsneareststrike.
+Serverall data/source4.902GB,AlgoPack3.491GBwithinthat;local2.720GBseparate/duplicates.
+ОбаAlgoPackunitsactualrunning15:08UTC, прежниеPID/настройки; downloadнеincomePASS.
+
+### V89 pre-census source seal (preserved)
 
 [Протокол](V89_OPTION_METADATA_SOURCE.md): точные описания всех reported-OI SECIDs
 из sealed истории 2021–2025. Сначала metadata + Arrow validity bitmap, без numerical OI;

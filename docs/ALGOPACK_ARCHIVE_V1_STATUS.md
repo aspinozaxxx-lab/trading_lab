@@ -1,6 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T14:18:06UTC: основной unit active/running,
+Актуальный checkpoint2026-09-15T15:08:04UTC: main actualactive/running,PID1663880,
+прежний invocationd562f0748c4341b48eb7f4d34d64b4a1.2492/26305jobs,
+30197166rows,31908pages,failed0/blocked0,1792478834storedbytescompletedjobs.
+Currentfx/alerts2025-07-08,updated15:07:55.826700UTC,finalmanifestabsent.
+FUTOIV4actualrunningPID2522946:429/2192days,5655556logicalrows,
+222unresolvedticker-days/28gapdays,finalmanifestabsent. No restart/config/token/Windows changes.
+Новыйarchiveroot2034059450bytes + separateoldprocessedAlgoPack1456918554 =3.491GB.
+Весьserverdata4749973781 + source_evidence151640987 =4.902GB,includingAlgoPack,
+allocated5.657GB;local15:09:20UTC2.720GB/10841filesseparate,неuniqueсумма.
+Параллельноисследуется[новыйопционныймеханизм](OPTION_PINNING_RESEARCH_NOTE_20260915.md);
+[V89census/metadatawriter](V89_OPTION_METADATA_SOURCE_STATUS.md)неeconomicPASS.
+
+Предыдущий checkpoint2026-09-15T14:18:06UTC: основной unit active/running,
 PID1663880, прежний invocation;2171/26305jobs,26694139rows,28182pages,
 failed0/blocked0,1587573999storedbytes completedjobs. Currenteq/tradestats2025-07-30,
 updated14:17:39.172426UTC. FUTOIV4runningPID2522946:344/2192days,
