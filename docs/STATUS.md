@@ -5,6 +5,11 @@
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
+FUTOI full-market supplement: [протокол до новых запросов](ALGOPACK_FUTOI_ARCHIVE_V1.md)
+подготовлен, local62tests PASS вместе с transport dependency. Новый service пока
+НЕ запущен в этом pre-request checkpoint. Core4 обнаружен и byte-verified локально,
+а не в предполагавшемся server processed path; предусмотрена отдельная точная копия.
+
 Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
 ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
 и поручил сохранить полезную историю до expiry подписки. Старые записи blocked ниже
@@ -3653,8 +3658,9 @@ V79 R1 уже проверил3conditional AlgoPack механизма: все R
 Не повторять training, V1 mapping failure или source quality audits как новый поиск.
 Архивная загрузка14families действительно RUNNING: [handle/состояние/продолжение](
 ALGOPACK_ARCHIVE_V1_STATUS.md). Довести её до terminal coverage audit, не запускать
-второй writer при живом service. Полное расширение FUTOI/других historical modules
-ещё не сделано; существующий core4 FUTOI и14новыхfamilies не весь продукт.
+второй writer при живом service. [FUTOI supplement](ALGOPACK_FUTOI_ARCHIVE_V1.md)
+подготовлен к отдельному запуску после server tests/seal/core4 verification; actual
+download ещё не подтверждён. Core4 FUTOI и14новыхfamilies не весь продукт.
 Для следующей экономической идеи использовать содержательно новую информацию и
 отдельный protocol/admission, не threshold/cost/horizon retune этих3правил.
 Не превращать source download или negative event means в portfolio20–50% result.

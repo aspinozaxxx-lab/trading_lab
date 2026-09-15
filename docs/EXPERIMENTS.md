@@ -2,6 +2,10 @@
 
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 
+Дополнительное archival поручение: [FUTOI full-market protocol](ALGOPACK_FUTOI_ARCHIVE_V1.md),
+pre-request checkpoint, local62tests PASS including shared transport. Source-only,
+economic count не меняется; runtime/API result ещё не установлен.
+
 [Результат](V79_ALGOPACK_FAST_SCREEN_RESULT.md): pressure/absorption/depth-change,
 same2020–2025 BR/MIX/RI/SI, no fit, source/label tables reused. Mean gross
 0,2909/0,2932/−0,2257bps на completed60min event; mean net1×
