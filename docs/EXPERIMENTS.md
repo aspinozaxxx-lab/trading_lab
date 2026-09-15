@@ -1,6 +1,15 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V86 STEO forecast revisions, PRE-OUTCOME source preparation
+## 2026-09-15 — V86 STEO forecast revisions, source COMPLETE / economics PRE-OUTCOME
+
+[Economic protocol](V86_STEO_ECONOMIC_V1.md):97editions/89737568bytes/18notices,
+V4source completed13:37:47.836166UTC,80files reused/17new;V1/V2/V3 retained.
+Source manifest0ec267b1fb866d3bee1148d3a5792813ffe31222b262e49846eae317922a8306.
+Code reuses old daily ledger,BRnext-quarter deficit forecastrevision,2arms×2costs,
+all2018–2025.86localtargetedtestsPASS,14server source testsPASS; no values/outcomesyet.
+No increment of economic screens until actual run. Source4SUCCESS is not profit/PITPASS.
+
+### Earlier source preparation checkpoint
 
 [V86](V86_STEO_FORECAST_REVISIONS.md): monthly world supply/demand forecast revisions
 для одинакового будущего квартала; новый information set после V17 weekly actuals.

@@ -1,0 +1,16 @@
+﻿{
+  "protocol_id": "v86_steo_revisions_v1",
+  "sealed_before_selected_numeric_forecasts_and_market_outcomes": true,
+  "files": {
+    "src/market_lab/futures_v86_steo_revisions.py": "bc0563f65a7eebd850ce1e25c7b4b60f20cc0e4b77bedc76e4e22a83372034e9",
+    "configs/v86_steo_revisions_v1.json": "9632d7e65bbe4c3bb2fac134a6616f41f099daf88a11fb83b3ca3df530c78125",
+    "tests/test_futures_v86_steo_revisions.py": "7e6f5adbfb17848296da1b4b19fa4dff717a5ae6773f42da5a0f2e259e48a47a",
+    "docs/V86_STEO_ECONOMIC_V1.md": "4e39c2a3379a19f627e0ed73e0621807b67275709b6015bac0c7c7bbdc242fbd",
+    "configs/v86_steo_source_v4.seal.json": "28a5dfb5f3fb75f55a73fc660148b58d309ae676d62a8c8dc2b23178c2666417",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+    "src/market_lab/futures_v78_treasury_channels.py": "7bb296cc6ba030f19500eaa8551f825628ce8f5f3ea25560c696887a2a1179f5",
+    "src/market_lab/futures_v76_initial_claims_cycle.py": "2e0d896afecd70d1ff1813765b55d0cc9d27d456ca19ae17f1c024f20ccf3a1d",
+    "src/market_lab/futures_v72_policy_guidance.py": "26a9f17e8d45d68a4e5c8ae2761a057ff0daa05dfab2767dfae148d75aec6805",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83"
+  }
+}

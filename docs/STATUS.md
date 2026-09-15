@@ -3,7 +3,21 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V86 — новый STEO forecast-revision screen, source acquisition подготовлена
+## V86 — STEO97vintages COMPLETE; экономический тест подготовлен, не запускался
+
+[Economic protocol](V86_STEO_ECONOMIC_V1.md): same-next-quarter consumption-production
+revision -> BR0.9,constantlong control,2018–2025,base/double fees,old daily ledger.
+97source editions/89737568rawbytes/18notices; V4complete13:37:47.836166UTC,80raw reused.
+Manifest0ec267b1fb866d3bee1148d3a5792813ffe31222b262e49846eae317922a8306;
+V4source seal28a5dfb5f3fb75f55a73fc660148b58d309ae676d62a8c8dc2b23178c2666417.
+Source root/safe references /srv/trading_lab_data/source_evidence/v86_steo_vintages_v4
+и v3, оба сохранять. V1permission/V2malformedHTML/V3duplicate-code failures сохранены.
+V4terminal PID0/exit0,14server testsPASS;86local source/economic/parent testsPASS.
+Новые numeric forecast values/MOEX outcomes/PnL ещё не читались. Economic seal готовится;
+правило/80editions+90%coverage gates зафиксированы до source values,originalPITfalse.
+AlgoPack units не изменены; goal20–50%notverified. Не повторять source acquisition.
+
+### Earlier V86 preparation checkpoint
 
 [Протокол](V86_STEO_FORECAST_REVISIONS.md): BR по изменению forecast world demand-supply
 для одного и того же next-calendar-quarter, а не V17 weekly actual changes.

@@ -1,0 +1,60 @@
+﻿{
+  "protocol_id": "v86_steo_revisions_v1",
+  "declared_at_utc": "2026-09-15T13:43:33Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "root": "/srv/trading_lab_data/source_evidence/v86_steo_vintages_v4",
+    "manifest_sha256": "0ec267b1fb866d3bee1148d3a5792813ffe31222b262e49846eae317922a8306",
+    "seal_sha256": "28a5dfb5f3fb75f55a73fc660148b58d309ae676d62a8c8dc2b23178c2666417",
+    "editions": 97,
+    "raw_bytes": 89737568,
+    "allowed_physical_series": ["papr_world", "patc_world"],
+    "quarter": "next calendar quarter of current edition, same three months in both adjacent vintages",
+    "duplicate_codes": "all selected values must agree exactly, otherwise missing",
+    "availability": "EOD NewYork max of release, notice Released date, UTC workbook modified date; max across both vintages; not original PIT proof"
+  },
+  "signal": {
+    "primary": "sign(current mean next-quarter consumption-minus-production minus previous-edition mean for identical quarter)",
+    "control": "constant long with same input masks",
+    "maximum_source_age_at_fill_calendar_days": 62,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "fit": "none",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.9,
+    "minimum_ready_source_dates": 80,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "Conditional archived-vintage development, not independently witnessed full original revision chain. File clocks and published correction notices are conservative proxies, not a proof of original availability.",
+    "The EIA revision is not a market-consensus surprise. The market may already anticipate it, and forecasts themselves can react to prior prices.",
+    "Physical volume forecasts for2026Q1 published in2025 are allowed information, not2026actual observations. No forecast-price series,2026market prices,returns,labels orPnL are parsed.",
+    "Same existing daily futures candle/spec/fee/margin execution proxies, not BBO or broker tariffs. No credited interest, leverage expansion, stock borrow or tax optimization.",
+    "All2018-2025 were examined in other families, not independent holdout. First-stage5percent gate does not replace20-50percent goal. No direction, threshold, asset, horizon or era retuning after outcome."
+  ]
+}
