@@ -1,6 +1,25 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V81 stock perpetual funding component, sealed pre-request
+## 2026-09-15 — V81: два FUNDING_COMPONENT_CANDIDATE, НЕ portfolio/PnL PASS
+
+[Результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md): SBERF/GAZPF по320sessions/
+319payments,455calendar days2024-10-01…2025-12-30. Все учтённые выплатыpositive,
+15/15positive months,missingpayments/proxy sessions0. Credit7594,653/4196,656руб.
+на100share initial-notional26685/13490руб. Simple funding APR22,8465%/24,9730%,
+double illustrative fee hurdle22,5254%/24,6519%. Не CAGR и не netpairedincome:
+cashprincipal+margin,basis MTM,dividends/tax,actualfees/fills ещё не моделировались.
+Decisions/fills0,CAGR/Sharpe/MDD/portfolioPnL=null. Перейти к отдельному V82protocol
+для обоих кандидатов, не выбирать победителя/не повторять component screen.
+Canonical /srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1;
+seal a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a;
+metrics6b90b9fb66a4b146156c28ed31ead1a7b6ff78cfd1d779ce12211f612fe68874.
+Pre-value90b4db8,local49/server21tests PASS,8raw pages/2arithmetic replays PASS;
+completed10:31:41UTC. V65–V80count23/0Stage2 отдельно, V81 ещё не paired portfolio test.
+Post-result source feasibility: standardhistory schema-only0rows не содержит dividend
+adjustment; exactSBER/GAZP spot files отсутствуют server-side, source references есть.
+Crypto-scope question unanswered, crypto datasets/prices/PnL не открывались.
+
+## 2026-09-15 — V81 исходный pre-request checkpoint (историческая запись)
 
 [Protocol](V81_STOCK_PERPETUAL_FUNDING.md): новая SBERF/GAZPF funding family,
 all2024-10-01…2025-12-31,не CNY quarterly retune. Settlement/funding units100cancel

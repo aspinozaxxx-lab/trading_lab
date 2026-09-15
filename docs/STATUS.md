@@ -3,23 +3,38 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V81 — funding-component screen SBERF/GAZPF sealed, pre-request
+## V81 — два funding components прошли быстрый фильтр; требуется полный paired test
 
-[Протокол](V81_STOCK_PERPETUAL_FUNDING.md): funding короткого вечного фьючерса при
-условном хедже акции, не прогноз направления и не повторение CNY quarterly spread.
-Весь период с launch2024-10-01 до2025-12-31, оба тикера, все выплаты/знаки,без fit.
-Сначала размер funding-alone потока; полноценный paired portfolio только при зацепке.
-Simple cashflow APR не CAGR/strategy PnL. Missing payments или пропущенная proxy session
-дают unknown/APR=null; calendar date-only projection pinned, старые цены не нужны.
-Local49tests (21new+28V80) PASS,Ruff clean. Default-TLS name-only metadata probe200;
-market values/SWAPRATE ещё не читались. Seven-file seal
-a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a.
-Новый root /srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1,
-пока не создан. Далее server tests, один bounded batch (max20pages), read-only replay.
-Задано optional scope question про crypto funding research; ответа пока нет, crypto
-datasets/prices/PnL не запрашивать. Это не блокирует текущую MOEX работу.
-Оба AlgoPack units в начале текущего turn actual active/running, PID1663880/1913099;
-не перезапускать, counts брать из dated archive checkpoints.
+[Результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md), [протокол](V81_STOCK_PERPETUAL_FUNDING.md).
+SBERF/GAZPF:320sessions/319payments каждый,2024-10-01…2025-12-30,455calendar days.
+Все319учтённых выплат положительны;15/15positive months. Funding-credit7594,653/4196,656руб.
+на100share nominal26685/13490руб. Simple APR22,8465%/24,9730%; после illustrative
+double40bps hurdle22,5254%/24,6519%. Это нормировка ТОЛЬКО funding относительно начального
+номинала, НЕ portfolio CAGR/PnL/доход на весь капитал. Margin cash, basis MTM, dividend
+adjustment/actual dividends/tax и реальное исполнение пока не учтены. Decisions/fills0,
+CAGR/Sharpe/MDD/portfolioPnL=null. Оба FUNDING_COMPONENT_CANDIDATE, но НЕ Stage2/live.
+Пропусков320proxy sessions/payments0. Local49/server21tests PASS,Ruff clean;
+8raw pages/640rows+2cashflow/unit/calendar/month/year replays PASS, no HTTP rerun.
+Pre-value90b4db8, seal a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a;
+canonical /srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1;
+metrics6b90b9fb66a4b146156c28ed31ead1a7b6ff78cfd1d779ce12211f612fe68874.
+Завершён10:31:41UTC, не повторять/не менять знак/тикеры/период/fee hurdle.
+
+Следующий V82 обязан проверить ОБА полных hedged sleeves по отдельному seal до новых
+price inputs. History metadata-only probe200/803bytes/0rows:OPEN/CLOSE/SETTLEPRICE/
+SWAPRATE есть, dividend-adjustment field отсутствует. Нужен подтверждённый source для
+поправки и фактических дивидендов; RMS projections не shareholder payments.
+Exact existing SBER/GAZP stocks_10m_pre2026_v1 files и manifest пока отсутствуют на server;
+references/hashes в configs/moex_stock_futures_cash_carry_source_v2.yaml. Локальные bytes/
+SHA повторно совпали: SBER4776211/GAZP4714157/manifest15515bytes, цены не читались.
+Это не external blocker: сверить timestamp/execution requirements и перенести только
+нужную subset, если пригодна. Переноса ещё нет; не копировать весь universe.
+Сравнить с cash benchmark за те же даты и доходностью всего капитала, не только номинала.
+23V65–V80economic screens/0Stage2 остаются; V81 отдельно2funding-component tests,
+0paired portfolio backtests. Цель20–50% НЕ достигнута.
+Optional crypto scope question unanswered: crypto prices/data/PnL не запрашивались,
+это не блокирует MOEX работу. Оба AlgoPack units в начале turn actual active/running,
+PID1663880/1913099; не restart, counts в dated archive checkpoints.
 
 ## Последний screen — V80 GPR: REJECT_STAGE1; AlgoPack архивы RUNNING
 
@@ -3716,9 +3731,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V81 funding-component screen sealed, pre-request: [протокол](V81_STOCK_PERPETUAL_FUNDING.md).
-Далее server21tests, bounded anonymous source/calendars/cashflow pass и raw replay.
-Только при сильном потоке переходить к separate paired execution/economics, не наоборот.
+V81 funding-component screen завершён: оба кандидата прошли предварительный фильтр,
+[результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md). НЕ повторять исходный batch/audit.
+Следующий V82: separate paired execution/economics protocol для обоих SBERF/GAZPF,
+full capital/margin, basis/dividend adjustment/actual dividends/tax,1x/2xcosts и cash
+benchmark. Сначала source identity/feasibility: стандартная history не содержит dividend
+adjustment; нужные spot files пока локальные. Новых paired outcomes до seal не читать.
+Не выбирать только GAZPF по большему увиденному APR и не называть APR уже готовым CAGR.
 V80 GPR REJECT_STAGE1; не повторять source/feasibility/PnL или менять sign/window/TTL/годы.
 46GPR vintages сохранены; их полнота/commit proxy не означает PIT или доходность.
 
