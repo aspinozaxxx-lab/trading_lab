@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V89 pre-census source seal
+
+[Протокол](V89_OPTION_METADATA_SOURCE.md): точные описания всех reported-OI SECIDs
+из sealed истории 2021–2025. Сначала metadata + Arrow validity bitmap, без numerical OI;
+все полностью NULL-контракты сохраняются в inventory/coverage. V88 raw reference reuse,
+один public ISS writer без credential EnvironmentFile; no market prices/PnL.
+25 local tests PASS, Ruff clean. Seal до census/новых HTTP:
+`1c71ebb0df2a69ce45b9dcf5ae00400fbf228f7a7feec9d26e68923b4ea19f5d`.
+Pending census/source leaves под `/srv/trading_lab_data/source_evidence/`.
+Acquisition принимает observed immutable census SHA; source completion и underlying
+mapping — отдельные проверки. Новый economic screen не запускался, Stage2/goal false.
+
 ## 2026-09-15 — V88 metadata complete: expiry fields found, full economic mapping pending
 
 [Результат](V88_OPTION_METADATA_PROBE_RESULT.md).10HTTP200responses/30885rawbytes,

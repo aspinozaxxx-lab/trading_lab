@@ -1,0 +1,61 @@
+﻿{
+  "protocol_id": "v89_option_metadata_source_v1",
+  "declared_at_utc": "2026-09-15T14:50:40Z",
+  "scope": "option_OI_validity_bitmap_and_exact_static_descriptions_only",
+  "economic_admission": false,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "source": {
+    "root": "data/processed/options/moex-core4-options-weekly-2021-2025-v3",
+    "manifest_sha256": "0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66",
+    "parquet_sha256": "fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d",
+    "audit_sha256": "e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec",
+    "metadata_columns": ["tradedate", "logical_asset", "secid", "boardid"],
+    "presence_column": "openposition",
+    "presence_only": "Arrow is_valid bitmap; no conversion of numerical OI values, numeric comparisons, ranking, statistics or persistence",
+    "rows": 1327744,
+    "unique_securities": 108104,
+    "minimum_tradedate": "2021-01-08",
+    "maximum_tradedate": "2025-12-30"
+  },
+  "selection": "all exact SECIDs with at least one non-NULL openposition across the sealed source, regardless of value or outcome; acquisition selection only, never historical inference eligibility",
+  "keep_all_null_contracts_in_inventory_and_coverage": true,
+  "order": "logical_asset,first_seen,secid ascending; no amount/outcome selection",
+  "reuse": {
+    "root": "/srv/trading_lab_data/source_evidence/v88_option_metadata_probe_v1",
+    "manifest_sha256": "10ff109b609658ebd0ff4ae4bb7e8f0f17e0d1b5a1afe521ea113699e25d9d7f",
+    "parent_seal_sha256": "c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50",
+    "raw_reference_reuse": true,
+    "repeat_old_description_HTTP": false
+  },
+  "description_url": "https://iss.moex.com/iss/securities/{secid}.json?iss.only=description&iss.meta=off",
+  "transport": {
+    "maximum_logical_requests": 108104,
+    "maximum_attempts_per_request": 2,
+    "maximum_response_bytes": 100000,
+    "maximum_total_raw_bytes": 1000000000,
+    "minimum_free_bytes": 5000000000,
+    "maximum_consecutive_unavailable": 10,
+    "timeout_seconds": 25,
+    "minimum_between_requests_seconds": 0.5,
+    "workers": 1,
+    "redirects": false,
+    "auth_only_host": "apim.moex.com",
+    "credential_environment": "MOEX_ALGOPACK_TOKEN",
+    "actual_requests_public_iss_only_no_credential_environment_file": true,
+    "ca_path": "/etc/trading-lab/ca/moex_russian_trusted_root_ca_v1.pem",
+    "ca_sha256": "aa800ef345422d6158c6fafe1c06c429dbda21c3df4bb1ccb45a920ec1111399"
+  },
+  "additional_static_fields": ["CONTRACTNAME", "SERIES_NAME", "EXECTYPE", "DELIVERYTYPE", "SETTLETYPE", "EXPIRATION_TYPE", "GROUPTYPE"],
+  "census_root": "/srv/trading_lab_data/source_evidence/v89_option_metadata_census_v1",
+  "output_root": "/srv/trading_lab_data/source_evidence/v89_option_metadata_source_v1",
+  "limitations": [
+    "is_valid means non-NULL, not necessarily positive, finite or economically usable OI. No values are inspected at this stage.",
+    "Union over source dates selects what to archive, not what was known at an earlier decision; missing OI rows stay in all coverage denominators.",
+    "Static contract strikes, sizes, types and expiry dates are not traded market prices. No market prices,returns,labels,targets,fit orPnL are read or computed.",
+    "Every selected SECID gets its own exact description or explicit gap. Do not infer dates/underlyings from neighbouring strikes or eight examples.",
+    "Current descriptions may reflect later changes. Source completion is not original-PIT proof or admission of the later pinning hypothesis.",
+    "Existing V39,V68,V88 canonical artifacts remain unchanged. Calendar sample does not prove active-list coverage or numericOPTION_SERIES_ID mapping.",
+    "One immutable census, then one description acquisition with explicit census SHA beforeHTTP. No automatic restart, no canonical rerun, no new trading engine."
+  ]
+}

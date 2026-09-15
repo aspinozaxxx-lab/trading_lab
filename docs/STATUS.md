@@ -3,6 +3,22 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V89 — подготовка точных спецификаций опционов, до census и новых запросов
+
+[Протокол](V89_OPTION_METADATA_SOURCE.md): из истории 2021–2025 читаются только
+идентификаторы и NULL-маска OI, без его величин и рыночных цен. Все 108104 контракта
+остаются в inventory; запросы описаний нужны каждому SECID с хотя бы одним non-NULL OI.
+Восемь имеющихся V88 raw responses переиспользуются ссылками, без повторного HTTP.
+Это подготовка нового expiry-pinning теста, не экономический результат или Stage2.
+25 локальных synthetic/parent tests PASS, Ruff clean. Пять файлов и parent closure
+зафиксированы до census/HTTP; seal
+`1c71ebb0df2a69ce45b9dcf5ae00400fbf228f7a7feec9d26e68923b4ea19f5d`.
+Pending server roots: `/srv/trading_lab_data/source_evidence/v89_option_metadata_census_v1`
+и `/srv/trading_lab_data/source_evidence/v89_option_metadata_source_v1`.
+Сначала один census, затем один public ISS writer с точным census SHA, без credentials.
+Основные AlgoPack services не меняются. Число нужных описаний пока не измерено.
+OI magnitudes, новые prices/returns/PnL не читались; economic/live/goal admission false.
+
 ## V88 — exact expiry доступен, смешанные SI contracts выявлены; PnL ещё не считался
 
 [Результат](V88_OPTION_METADATA_PROBE_RESULT.md):10/10requests,HTTP200attempt1,
@@ -3981,12 +3997,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V88 [metadata probe завершён](V88_OPTION_METADATA_PROBE_RESULT.md), не повторять10requests
-илиaudit. ExactLSTDELDATEполучен8/8, ноSItype/unitsсмешаны иполногоunderlyingjoinнет.
-Следующийboundedшаг:source-onlyNULL-maskcensusнужныхOI-contracts, затемотдельныйfixed
-exactdescriptionmapping, безновыхOI-magnitudes/priceoutcomes ибезвыборапоPnL.
-Послеcoverage —отдельныйодинpinningeconomicprotocolнаготовомledger. Не использовать
-calendar sampleкакполныйas-oflist, неназначатьexpiry/underlyingпоэвристике.
+V89 [source-only protocol](V89_OPTION_METADATA_SOURCE.md) sealed до NULL-mask census
+и новых HTTP. Следом: deploy/hash/test, один census, затем acquisition с observed
+census manifest SHA. Runtime и roots сверять с началом STATUS. Не перезапускать
+canonical/partial roots; V88 raw references сохранить. После полного coverage — один
+fixed pinning economic protocol на готовом ledger, до новых OI magnitudes/outcomes.
+V88 probe и audit не повторять; calendar sample не полный as-of list, expiry/underlying
+не назначать по эвристике. V89 не увеличивает economic screen или Stage2 counts.
 
 V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
 baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,

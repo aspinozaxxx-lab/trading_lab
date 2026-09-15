@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v89_option_metadata_source_v1",
+  "sealed_at_utc": "2026-09-15T15:04:38Z",
+  "sealed_before_null_bitmap_census_and_new_metadata_http": true,
+  "economic_admission": false,
+  "files": {
+    "src/market_lab/futures/v89_option_metadata_source.py": "d622035119229a2d21d52dc7a677544a20d1ecee81ed841511a90c9ade057077",
+    "configs/v89_option_metadata_source_v1.json": "565887a1a9001c247aaa9a7026458751a60d29267ea7a107ea800de077ef61fc",
+    "tests/test_v89_option_metadata_source.py": "aaaaace066964e76e248a126e6b6b9054720e38808a7694d0cccc371d17fc5fa",
+    "docs/V89_OPTION_METADATA_SOURCE.md": "c2487ffe9974f65d5a664c36ffcb6cba7f6e36da50e9791d332cf76344b069e4",
+    "configs/v88_option_metadata_probe_v1.seal.json": "c1529e0e6191f4290df97afc07f6baa01ede557126d1d1c3208d87e837525a50"
+  }
+}
