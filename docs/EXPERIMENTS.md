@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V84 sealed до endpoint prices/RUONIA values
+
+[Протокол](V84_STOCK_PERPETUAL_BASIS.md), seal
+5891f243865384d6d0436551e2da09af16c880b0af1fff69c7ec63314434c921.
+Оба funding candidates, fixed endpoints/30%reserve/1x2xcosts; измеримый funding+basis
+компонент сравнивается с20%APR и cash-rate proxy, unknown pair liabilities=null.
+Local75targetedPASS, final pre-seal11V84PASS/Ruff clean. Canonical ещё не запущен;
+runtime/result в последующей записи. Это не новый independent Stage1 screen.
+
 ## 2026-09-15 — FUTOI V4 возобновлён; coverage gaps сохранены, не income PASS
 
 [Результат/erratum](ALGOPACK_FUTOI_ARCHIVE_V4_RESULT.md): pre-request push1b44b19,

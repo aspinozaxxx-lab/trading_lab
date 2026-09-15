@@ -1,0 +1,19 @@
+﻿{
+  "protocol_id": "v84_stock_perpetual_basis_v1",
+  "scope": "post_selection_funding_plus_endpoint_basis_diagnostic_not_full_pair_pnl",
+  "files": {
+    "configs/v81_stock_perpetual_funding_v1.json": "cb456322c6b4624592a05559f201d29c9e8be71402fcc043df9ccc671e635081",
+    "src/market_lab/futures/v81_stock_perpetual_funding.py": "ae727ea9fe337ae5759f448ad5f45091b68a210f03e145cfc38988740fa8eb1a",
+    "tests/test_v81_stock_perpetual_funding.py": "404e2d564d679b9f8f1102e8e6c351819fe533a96164176c983c2bec66533605",
+    "docs/V81_STOCK_PERPETUAL_FUNDING.md": "1971719e4b8307ae20986b2798e4869ff60eed028f87dbf345981e5b6a9996c6",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e",
+    "configs/v81_stock_perpetual_funding_v1.seal.json": "a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a",
+    "configs/stock_futures_cash_carry_intraday_v1.yaml": "aa35b0d864483b30e0b6ffec67dec9b5efeab945362dc9cf5b91e60c06c1885e",
+    "configs/v84_stock_perpetual_basis_v1.json": "c9c7dbe4cc8134753a8127c390cc4d1423634fe0bd61293fa682b7fe00a20303",
+    "src/market_lab/futures/v84_stock_perpetual_basis.py": "5c057153def3c41668dfddd6e5a6c5e1f62d07441381cf6946819b71396ce9ab",
+    "tests/test_v84_stock_perpetual_basis.py": "bc952172c187999915a4ccd42c756a1e7163a7cd1258d521fa2efa9393c1e74a",
+    "docs/V84_STOCK_PERPETUAL_BASIS.md": "196b9baa399e80ce2dfb1cf3b7e1371d22625ff8410cf37850886913d0a10ae5"
+  }
+}

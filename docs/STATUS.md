@@ -3,6 +3,29 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V84 — sealed endpoint-basis/cash comparison, до новых outcomes
+
+[Протокол](V84_STOCK_PERPETUAL_BASIS.md): оба SBER/GAZP, fixed15:50next-bar endpoints
+2024-10-01/2025-12-30, reserve30%, stock10/futures5bps per side и2xcosts.
+Funding window entry-inclusive/exit-exclusive отличается от V81. Считается только
+измеримый funding+basis-cost компонент и residual до20%APR/lagged RUONIA comparator;
+пять unknown liability/execution groups не заполняются нулём, full pair PnL=null.
+13-file seal5891f243865384d6d0436551e2da09af16c880b0af1fff69c7ec63314434c921.
+Local75targeted tests PASS, после pre-seal empty-source уточнения11V84PASS; Ruff clean.
+Новых экономических результатов в момент этой записи ещё нет. Новый run root
+/srv/trading_lab_data/runs/v84_stock_perpetual_basis_v1; planned4public candle requests.
+Полный paired test этим коротким компонентным follow-up не объявляется выполненным.
+
+По запросу пользователя объём файлов измерен отдельно от счётчиков загрузчика:
+2026-09-15T12:09:39UTC AlgoPack archive apparent1227778578bytes (1,228GB),
+allocated1514778624bytes (1,515GB), включая старый core4 78726995bytes.
+Server market-data root позднее того же замера3929479643bytes (3,93GB).
+Local D:/Projects/trading_lab_data/data:10841files/2719842747bytes (2,72GB),
+reparse directories0. Server+local не складывать как уникальный corpus: дубли не
+исключены. Models/runs/tmp не включены в market data. Actual units на12:09 running:
+основной1401jobs/17852178rows;FUTOI143processed days/2506547logicalrows,
+8011resolved/47unresolved ticker-days. Архивные references не посчитаны как новые bytes.
+
 ## V83 — обеспечение пока unresolved; FUTOI V4 RUNNING с явными source gaps
 
 [V83](V83_STOCK_COLLATERAL_FEASIBILITY.md): mechanism exists, terms unresolved.
