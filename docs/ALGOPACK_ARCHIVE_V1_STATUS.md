@@ -1,6 +1,6 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Снимок 2026-09-15T10:01:30.915889+00:00. Это промежуточный operational результат, НЕ полный архив.
+Снимок 2026-09-15T11:14:18.760792+00:00. Это промежуточный operational результат, НЕ полный архив.
 [Разрешение](ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md),
 [замороженный протокол](ALGOPACK_ARCHIVE_V1.md).
 
@@ -11,20 +11,20 @@
   начало2026-09-15T07:51:16UTC. Result=success/ExecMainStatus0 во время active
   НЕ означает завершение; смотреть ActiveState/SubState/MainPID и final manifest.
 - Root: /srv/trading_lab_data/data/algopack-archive/algopack_archive_v1_5b7c66fa0e04.
-- 688/26305 completed day/dataset jobs,
-  9002346 rows, 9450 pages, failed0, blocked datasets0.
-  538526594bytes compressed+page metadata по завершённым jobs;
+- 1106/26305 completed day/dataset jobs,
+  14000122 rows, 14747 pages, failed0, blocked datasets0.
+  837551970bytes compressed+page metadata по завершённым jobs;
   это не весь disk usage и не учитывает ещё не завершённый текущий день.
-  status.updated_at10:01:24.156461UTC,current_dataset eq/obstats,current_date2025-11-13.
+  status.updated_at11:14:13.912672UTC,current_dataset fx/alerts,current_date2025-10-15.
 - 14families EQ/FO/FX,2020–2025 (Alerts2024–2025), все API fields, исходные bytes
   lossless gzip. Никаких2026 prices, fit, PnL в collector, broker или Windows tasks.
 - Оставшийся объём зависит от фактического числа страниц; может занять несколько дней.
   Это оценка по наблюдаемой скорости, не обещанный срок или подтверждённая дата expiry.
 
 Actual systemctl по-прежнему active/running, тот жеPID1663880 и invocation
-d562f0748c4341b48eb7f4d34d64b4a1. Final manifest отсутствует. Свободно899502817280bytes
-на общем storage в момент снимка. С прошлого checkpoint338jobs/4772919rows прогресс
-реальный; успешный V80source и отрицательный V80strategy не влияли на этот service.
+d562f0748c4341b48eb7f4d34d64b4a1. Final manifest отсутствует. Свободно899059843072bytes
+на общем storage в момент снимка. С прошлого checkpoint688jobs/9002346rows прогресс
+реальный; V81/V82 component diagnostics не меняли этот service.
 
 Все14routes дали ожидаемую схему на первом дне2024-10-15. Отдельно проверены raw gzip/
 SHA/metadata/cursor/date для всех183pages/173439rows этого дня,14/14PASS. FXAlerts
@@ -87,7 +87,7 @@ Transfer tar d30c9fd15659f0ae0db0c014dc2f3879e5875cff75fc2ba716609329f608ef30
 FUTOI core4 history ранее сохранена отдельно; она не входит в14routes и не заменяет
 full-market FUTOI archive. [Отдельный V3 supplement теперь RUNNING](
 ALGOPACK_FUTOI_ARCHIVE_STATUS.md):3pilot/150pages audited PASS,120V2pages reused,
-4/2192complete days/48876intraday rows на09:00UTC. Full archive ещё не complete;
+127/2192complete days/2259693intraday rows на11:14:18UTC. Full archive ещё не complete;
 V1/V2 technical failed roots сохранены и не перезапускаются. По
 [официальной FUTOI документации](https://moexalgo.github.io/docs/api/get-all-futoi/)
 анонимный доступ задержан, поэтому сначала сохраняются подписочные SuperCandles/HI2/Alerts.

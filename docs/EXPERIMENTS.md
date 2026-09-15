@@ -1,6 +1,23 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V82 capital diagnostic, pre-derived-result checkpoint
+## 2026-09-15 — V82: funding alone ниже20% на капитал с reserve30%, full pairs unresolved
+
+[Результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md): SBERF/GAZPF funding-less-fee APR
+на условный капитал base17,3890%/19,0247%,double17,2037%/18,8395%. Ни одного полного
+paired backtest; decisions/fills0, pairedPnL/CAGR/Sharpe/MDD/benchmark=null.
+Оба FUNDING_ALONE_BELOW_TARGET_PAIR_UNRESOLVED,goal/Stage2false. Сохраняется7unknown
+input groups/тикер; missing funding0,coverage100%,320sessions/319payments,455days.
+Required reserve income для20%APR при double costs12,1172%/5,0289% годовых резерва;
+это только алгебра, income не начисляется и eligibility не подтверждена.
+Local64/server43tests PASS,Ruff clean,46independent Decimal checks PASS.
+Pre-derived-result1c9d9d9,seal874998a9cce6f9c00ef544218d4622027bb03832dd19d5cab31e436231063bce;
+canonical /srv/trading_lab_data/runs/v82_stock_perpetual_capital_v1;
+metrics8dafcb552bab1899fdc903f03d03c2b636e3dc97db80b469f16eb2807e87c46c.
+Completed11:12:44.357751UTC. Не повторять/не tune; оба тикера остаются в future paired scope.
+23V65–V80economic screens/0Stage2,2V81funding tests и2V82capital diagnostics отдельно.
+Optional broker и crypto scope questions unanswered; live/new accounts не разрешены.
+
+## 2026-09-15 — V82 capital diagnostic, pre-derived-result checkpoint (исторический)
 
 [Протокол](V82_STOCK_PERPETUAL_CAPITAL.md), оба кандидата V81, fixed30%reserve,
 30/60bps roundtrip из прежнего stock-pair config. Existing funding aggregates уже

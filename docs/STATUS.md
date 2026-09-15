@@ -3,14 +3,25 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V82 — запечатан промежуточный фильтр капитала перед full paired test
+## V82 — funding component на капитал с резервом ниже20%, full pair пока unresolved
 
-[Протокол](V82_STOCK_PERPETUAL_CAPITAL.md): оба SBERF/GAZPF, только уже известные V81
+[Результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md), [протокол](V82_STOCK_PERPETUAL_CAPITAL.md):
+оба SBERF/GAZPF, только уже известные V81
 aggregates, reserve30% и stock10/futures5bps per side из прежнего stock-pair config,
 base/double30/60bps. Это post-selection capital-capacity diagnostic, не full pair.
-Расчёт ещё не выполнен; local64tests(43new+21V81)PASS,Ruff clean. Nine-file seal
+Один расчёт завершён11:12:44.357751UTC: funding-less-fee APR на капитал
+base17,3890%/19,0247%,double17,2037%/18,8395%. Оба
+FUNDING_ALONE_BELOW_TARGET_PAIR_UNRESOLVED, не full economic rejection пары.
+Для20%APR только за счёт дохода30%-го резерва потребовалось бы double12,1172%/5,0289%
+годовых самого резерва; это условие, НЕ credited cash или брокерская доступность.
+Не уменьшать reserve/costs и не выбирать тикер по результату.
+Local64tests(43new+21V81)/server43PASS,Ruff clean;46independent Decimal checks PASS.
+Pre-derived-result1c9d9d9, nine-file seal
 874998a9cce6f9c00ef544218d4622027bb03832dd19d5cab31e436231063bce.
-Канонический новый root /srv/trading_lab_data/runs/v82_stock_perpetual_capital_v1.
+Canonical /srv/trading_lab_data/runs/v82_stock_perpetual_capital_v1;
+metrics8dafcb552bab1899fdc903f03d03c2b636e3dc97db80b469f16eb2807e87c46c.
+Не повторять расчёт/replay. Source320sessions/319payments на тикер,455calendar days,
+coverage100%,unknown funding0;decisions/fills0,семь unresolved pair-input groups каждый.
 Полные portfolioPnL/CAGR/Sharpe/MDD/benchmark остаютсяnull; не заменять ими component APR.
 
 Исторические DOC спецификации сохранены: MOEX26831 revision periods покрывают весь
@@ -22,7 +33,13 @@ Text/formulas extracted antiword; native Word page rendering unavailable. Exact3
 SHA/paths в config; текущие2026conversion fees не переносить на2024–2025.
 Spot timestamp schema UTC index проверена без prices. CBR server file/schema/SHA есть,
 rate values не читались. Новых price/dividend outcomes, transfer stock universe нет.
-Оба AlgoPack units actual active/running при начале turn; PID1663880/1913099, без restart.
+Optional broker/account question unanswered: нужен для actual collateral/fee доступности,
+но это не blocker всех MOEX исследований. Crypto scope question также unanswered.
+На11:14:18.760792UTC оба AlgoPack units actual active/running; PID1663880/1913099,
+без restart. 14families1106/26305jobs,14000122rows/14747pages,837551970bytes completedjobs,
+failed0/blocked0. FUTOI V3127/2192days,7275ticker-days/2259693rows,2221083new-root rows,
+120V2pages reused,45895100new-root bytes; current2025-08-28,44/58tickers. Оба final
+manifests отсутствуют; free899059843072bytes. Windows mirror новых архивов пока нет.
 
 ## V81 — два funding components прошли быстрый фильтр; требуется полный paired test
 
@@ -3752,9 +3769,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V81 funding-component screen завершён: оба кандидата прошли предварительный фильтр,
-[результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md). НЕ повторять исходный batch/audit.
-Следующий V82: separate paired execution/economics protocol для обоих SBERF/GAZPF,
+V82 capital diagnostic завершён: [результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md).
+Funding на капитал с reserve30% даёт double17,2037%/18,8395%APR, не20%.
+НЕ повторять V81/V82 batch/audits или снижать reserve/costs по результату.
+Это2component follow-ups, не full paired PnL. Следующий шаг — подтвердить отдельный
+запас от реальной collateral-income/basis механики, затем separate full paired
+execution/economics protocol для ОБОИХ SBERF/GAZPF,
 full capital/margin, basis/dividend adjustment/actual dividends/tax,1x/2xcosts и cash
 benchmark. Сначала source identity/feasibility: стандартная history не содержит dividend
 adjustment; нужные spot files пока локальные. Новых paired outcomes до seal не читать.
