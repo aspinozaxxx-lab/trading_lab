@@ -3,22 +3,27 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Следующий механизм — V80 GPR vintages, source V2 pre-request
+## Следующий screen — V80 GPR, sealed до scalar/market outcomes
 
-[Source protocol](V80_GPR_VINTAGES_SOURCE.md): country geopolitical risk из независимого
-news-based ряда Caldara/Iacoviello, не повторение закрытых flow/price thresholds.
-Авторы хранят месячные версии; каталог59DTA editions,50<=2025, earliest202110,
-но202110 впервые добавлена в Git2022-03-01. Planned46versions202203…202512,
-first3metadata pilots; не выдавать filename edition за original public timestamp.
-V1 sealed/pushed6fab970, server8tests PASS, затем pilot остановлен до raw publication:
-invalid_or_protected_source_months. Date-only diagnostic:1467valid ordered months
-1900…2022-03,78undated rows,0post-vintage/2026months. [V2](V80_GPR_VINTAGES_SOURCE_V2.md)
-сохраняет весь raw и отдельно помечает undated rows, не приписывает им даты; valid
-date/calendar gates не ослаблены. Local15tests PASS, V2 pre-request. GPR economic
-values/MOEX outcomes ещё не читались. Далее3metadata pilots и при пригодности полный
-source, затем отдельный economic seal/cost screen2022–2025. V1/root не повторять.
-V65–V79 остаются22economic screens/0Stage2. Оба AlgoPack archive units повторно
-подтверждены active/running в начале текущего goal turn; оставить работать.
+[Economic protocol](V80_GPR_RISK.md): один Russia-news risk-persistence signal,
+последний полный месяц против предыдущих12, BR+/MIX-/SI+ при росте, reverse при снижении,
+constant-stress control. Все2022–2025, включая unavailable начало; два costs, без fit.
+Сначала price-free source-ready>=90%/40dates, потом один4arm/cost ledger batch.
+Local113synthetic/dependency tests PASS, Ruff clean. GPR scalar/MOEX outcomes ещё не читались.
+Economic seal 93b011ce775e9ea3af36674a2a143084e3f0616f68107e9d19ea06835d70d489; canonical пока не создан.
+
+[GPR source V2](V80_GPR_VINTAGES_SOURCE_V2.md) COMPLETE:46versions202203…202512,
+34298157raw bytes,562undated records сохранены. All46raw/hash/commit/calendar replays PASS,
+prior13complete calendar и exactGPRC_RUS label. Final manifest
+ed716b9021067ec24be87e7a6b3707c82a12d9b93e567cbc14b415942c6c6338.
+Source root /srv/trading_lab_data/source_evidence/v80_gpr_vintages_2022_2025_v2;
+full unit trading-lab-v80-gpr-source-full-v2-c9231bee65bf.service MainPID0/inactive,
+Resultsuccess/Exec0. Pre-sourceb2756e8, local15/server15PASS. Не повторять download.
+Oldest Git content используется вместо сегодняшнего overwritten edition; commit timestamp
+только proxy, не witnessed public push. [V1 failure](V80_GPR_VINTAGES_SOURCE.md) сохранён:
+78undated строк первого выпуска отклонены старым parser до raw publication; не restart.
+V65–V79 пока22economic screens/0Stage2. Оба AlgoPack archive units после завершения GPR снова
+подтверждены actual active/running PID1663880/1913099; оставить работать.
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
@@ -3677,10 +3682,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Выбран новый V80 GPR information set; [source checkpoint](V80_GPR_VINTAGES_SOURCE.md).
-Сначала уже sealed3metadata pilots и полнота46dated vintages, затем один короткий
-economic screen со всеми2022–2025 и costs. Не открывать prices/PnL до отдельного seal,
-не трактовать первый Git timestamp как witnessed public push или всю историю2018–2025.
+Выбран новый V80 GPR information set;46source vintages COMPLETE/audited, не скачивать снова.
+[Economic protocol](V80_GPR_RISK.md) sealed, local113tests PASS. Далее server tests,
+price-free feasibility и при PASS один4arm/cost screen всех2022–2025, затем replay.
+Не трактовать первый Git timestamp как witnessed public push или всю историю2018–2025.
 
 Разрешение2026-09-15 получено; прежний scope blocker снят, повторно не спрашивать.
 V79 R1 уже проверил3conditional AlgoPack механизма: все REJECT_STAGE1, см. начало.

@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v80_gpr_risk_v1",
+  "sealed_before_gpr_scalar_and_market_outcomes": true,
+  "sealed_at_utc": "2026-09-15T09:55:29Z",
+  "files": {
+    "configs/v80_gpr_risk_v1.json": "8994ed63c232d5fc29740ebbba5e0d3a0980fb3636ae7a139944f567389c9824",
+    "src/market_lab/futures_v80_gpr_risk.py": "82df33abf39c49c2d04518e93c8c1e4a2ef4f10096b6bd221fb3eb4f0f7dc571",
+    "tests/test_futures_v80_gpr_risk.py": "944a580d0c291240280a91b778133c3b6ce138eba0a6115330cccde9bb4a2f4c",
+    "docs/V80_GPR_RISK.md": "1df84723faaf1c268c4b8ddccdff8a837b08438264bd2a1e45f6bc898108d5c8",
+    "configs/v78_treasury_channels_v1.seal.json": "8be2ac519e78183c51838d5a93d9ea068fe8b902c0dd59678c40b0c48607ce2e",
+    "configs/v80_gpr_vintages_source_v2.seal.json": "c9231bee65bf9eac6e5ca996e8eb63b0ccd18ba4a922fad677d0985ae218a813"
+  }
+}

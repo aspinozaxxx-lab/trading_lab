@@ -1,0 +1,60 @@
+﻿{
+  "protocol_id": "v80_gpr_risk_v1",
+  "declared_at_utc": "2026-09-15T09:53:26Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v78_seal_sha256": "8be2ac519e78183c51838d5a93d9ea068fe8b902c0dd59678c40b0c48607ce2e",
+  "period": {"start": "2022-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "SI"],
+  "stress_directions": {"BR": 1, "MIX": -1, "SI": 1},
+  "source": {
+    "root": "source_evidence/v80_gpr_vintages_2022_2025_v2",
+    "manifest_sha256": "ed716b9021067ec24be87e7a6b3707c82a12d9b93e567cbc14b415942c6c6338",
+    "seal_sha256": "c9231bee65bf9eac6e5ca996e8eb63b0ccd18ba4a922fad677d0985ae218a813",
+    "allowed_columns": ["month", "GPRC_RUS"],
+    "variable": "GPRC_RUS",
+    "variable_label": "Country GPR: Percent of articles (Russia)",
+    "vintages": 46,
+    "raw_bytes": 34298157,
+    "undated_rows_retained": 562
+  },
+  "signal": {
+    "mean_lookback_months": 12,
+    "commit_proxy_lag_calendar_days": 2,
+    "maximum_source_age_at_fill_calendar_days": 62,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "fit": "none"
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.3,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.9,
+    "minimum_ready_source_dates": 40,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "Archived first-commit content is available but author/committer clocks are proxies, not independently witnessed public pushes. Two-day lag is an assumption, not PIT proof.",
+    "The source starts with edition202203. All2022-2025 are evaluated including initial unavailable cash periods; there are at most46 news editions, not hundreds of independent shocks.",
+    "GPR is newspaper risk attention, not an unexpected-news measure. Directions assume persistent currency/equity/supply risk premia; they are not established by the motivating paper.",
+    "Candle/spec/fee/margin and lagged-volume execution proxies are not contemporaneous BBO or a broker tariff. No collateral interest or tax return is modeled; halts and cancellations remain.",
+    "Repeatedly examined2022-2025 is development, not an independent holdout. No fitted model or post-outcome tuning. Stage2 gates do not replace the20-50percent goal; no live or paper restart."
+  ]
+}

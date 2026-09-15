@@ -1,14 +1,19 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V80 GPR vintages, source-only pre-request
+## 2026-09-15 — V80 GPR source COMPLETE; economic sealed pre-outcome
 
-[Протокол](V80_GPR_VINTAGES_SOURCE.md): независимый newspaper geopolitical-risk source,
-архив dated monthly versions. Из50<=2025editions earliest202110, first Git addition
-2022-03-01;202202нет. Planned46versions202203…202512,3metadata pilots до полного source.
-V1 server8tests PASS, первый source pilot failed до raw publication из-за78undated
-records при1467valid pre2026months. [V2](V80_GPR_VINTAGES_SOURCE_V2.md) сохраняет raw,
-mask undated calendar only; local15tests PASS, pre-request. GPR values/market outcomes
-ещё не читались, economic run0; V65–V79count22/0Stage2 не меняется.
+[Source V2](V80_GPR_VINTAGES_SOURCE_V2.md):46first-commit DTA202203…202512,
+34298157bytes/562undated records preserved;46hash/history/clock/calendar replays PASS.
+Manifest ed716b9021067ec24be87e7a6b3707c82a12d9b93e567cbc14b415942c6c6338,
+root /srv/trading_lab_data/source_evidence/v80_gpr_vintages_2022_2025_v2.
+V1 failed on78undated first-edition rows before raw publication; retained/no restart.
+V2 pre-sourceb2756e8, local15/server15PASS, pilot3thenfull46 COMPLETE. Git commit
+clock not witnessed public push; source completion alone is not economic admission.
+[Economic protocol](V80_GPR_RISK.md): one fixed GPRC_RUS latest-full-month minus
+prior12mean, stress BR+/MIX-/SI+, constant control, all2022–2025/two costs/no fit.
+Local113tests PASS, six-file transitive seal 93b011ce775e9ea3af36674a2a143084e3f0616f68107e9d19ea06835d70d489.
+No GPR scalar/MOEX outcomes read yet, source-ready price-free gate before one batch.
+V65–V79count22/0Stage2 unchanged until actual economic result.
 
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 
