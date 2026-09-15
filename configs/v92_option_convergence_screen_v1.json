@@ -1,0 +1,71 @@
+{
+  "protocol_id": "v92_option_convergence_screen_v1",
+  "declared_at_utc": "2026-09-15T16:26:27Z",
+  "stage": 1,
+  "research_only": true,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "economic_runner_enabled_without_separate_admission": false,
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "design": {"path": "configs/v90_option_strike_convergence_design_v1.json", "sha256": "25b5d6266b9c968bb7adacf4261b5af0333d379cdb7f7b4853aeaa7e8e6f3429"},
+  "mapper": {"path": "configs/v91_option_contract_mapping_v1.json", "sha256": "3dc5cd15dc973b8952fc421b9922867806567f1cec5778489dcdbae77735e763", "catalog_evidence_sha256": "ca7fb707635608c186685f8463977e64df36f3014826e90df5102bb9d0a5505e"},
+  "source": {
+    "root": "data/processed/options/moex-core4-options-weekly-2021-2025-v3",
+    "manifest_sha256": "0453f05c2b89f9c1df169f4b89356ec4093bc56f46a56edc99dd89b46a2e6e66",
+    "audit_sha256": "e09534fff372a3a72fb82cc543be4d62b8463e78052002daf01d983b16244aec",
+    "source_config_sha256": "a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3",
+    "decision_calendar_sha256": "576b2b9d951c6f80895d609aff5e5dbf327472290a946078ee0afdc353110df8",
+    "processed": {"path": "options_weekly_core4.parquet", "bytes": 12209731, "rows": 1327744, "sha256": "fdd67cd9a4080371aee1b5a3546abb24912a2ef5e40052b9f33c153535db262d", "minimum_tradedate": "2021-01-08", "maximum_tradedate": "2025-12-30"},
+    "allowed_columns": ["tradedate", "logical_asset", "secid", "boardid", "available_at_utc", "option_type", "openposition"],
+    "expected_asset_dates": 1044,
+    "expected_source_dates": 261
+  },
+  "census": {
+    "root": "source_evidence/v89_option_metadata_census_v1",
+    "manifest_sha256": "e990fdc9d091d7a0abab7d3f3c329e14053e3771b96d934d2ccd4b171dfd26d1",
+    "contracts_sha256": "07b242ef8f9151aa4c7bad9a5bbcbcbd8a9ef829e4cb44d4f0c494f24c1c256e",
+    "expected_contracts": 108104
+  },
+  "descriptions": {
+    "root": "source_evidence/v89_option_metadata_source_v1",
+    "source_seal_sha256": "1c71ebb0df2a69ce45b9dcf5ae00400fbf228f7a7feec9d26e68923b4ea19f5d",
+    "expected_descriptions": 40820,
+    "reuse_root": "source_evidence/v88_option_metadata_probe_v1",
+    "reuse_manifest_sha256": "10ff109b609658ebd0ff4ae4bb7e8f0f17e0d1b5a1afe521ea113699e25d9d7f",
+    "url": "https://iss.moex.com/iss/securities/{secid}.json?iss.only=description&iss.meta=off",
+    "require_final_manifest_and_exact_full_census": true
+  },
+  "mapping_root": "source_evidence/v92_option_convergence_mapping_v1",
+  "economic_admission_path": "configs/v92_option_convergence_economic_admission_v1.json",
+  "economic_input_policy": "Admission is a separate later byte-sealed file tying this code seal to the closed V89 source and full mapping manifest. Its absence must reject before economic values. No partial-source economic subset or automatic activation.",
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "coverage_definition": "Fraction of all1044 scheduled releases with at least one finite nonnegative OI row mapped to a lifecycle-valid future option and no usable OI row with unresolved metadata; empty releases remain denominator. Not the fraction of convenient expiry windows.",
+    "minimum_round_trips": 50,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "primary_beats_control_each_cost": true,
+    "all_arms_costs_complete_and_terminal_flat": true,
+    "insufficient_source_verdict": "INCOMPLETE_SOURCE_NO_PROMOTION unless execution is invalid",
+    "pass_means": "STAGE2_CANDIDATE only; the 5% component gate does not replace the user's20-50% income objective"
+  },
+  "validation": {
+    "independent_holdout": false,
+    "fit": "none",
+    "parameter_search": false,
+    "scheme": "Frozen V90 rule/ablation on already-open2021-2025 development history, all five years and both costs; no post-outcome tuning"
+  },
+  "limitations": [
+    "The new pipeline is not itself a historical result. Real run waits for source closure, mapping and a separate economic admission seal.",
+    "Weekly reported-OI subset and current static descriptions are not full market OI, dealer positioning or original-PIT vintages.",
+    "V90 tests daily pre-expiry convergence, not final-minute expiry pinning. Futures execution uses the existing historical research proxies.",
+    "Internal empty-release markers carry NULL OI and are reported separately from real source rows; they replace old signals without inventing an option or an observation.",
+    "Source/mapping/coverage/gross failures do not establish profitability or authorize changing the rule, control, assets, size or costs.",
+    "Control is an ablation, never an alternative selected for promotion after looking at results. No live/demo activation or protected2026 outcomes."
+  ]
+}

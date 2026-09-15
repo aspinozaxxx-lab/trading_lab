@@ -1,5 +1,22 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V92 full screen code COMPLETE locally, no historical run
+
+[Протокол](V92_OPTION_CONVERGENCE_SCREEN.md). Full40820 description/census join,
+1044-release calendar handling и fixed V90 rule→existing-ledger paired runner готовы.
+47new/224expanded local synthetic tests PASS17.62s, Ruff clean; no warnings.
+15-file code seal1afd2aa17647767be4f7c503f75133e1ee40777f66add7607a3d626b626b0707.
+Config3f17b2926e32d6a1de34f2b3867deb5510b5abf141340308f612930ec0c8cae0;
+inputs0e6a14f1d405d729e4298848344b23a6ca861bf855be98810636ca62a8089fac;
+runnerd611a7ab733162229e2f553eb3039f9d78fb9e834052f0c90d236cef7c435006.
+Server verification pending; actual mapping/economic units не запущены, admission file
+отсутствует. Ни реальные OI magnitudes/prices/targets/PnL, ни goal/Stage2 evidence.
+Source/mapping/empty-release/period/cost gates заранее fixed; V90 не retuned.
+Actual16:49UTC V89 running9761/40820, main3084jobs/36.378mrows, FUTOI601days/7.301mrows;
+все units прежние, final manifests absent. Whole du не повторялся.
+Screens25/Stage2=0 остаются. После server check — другая независимая разрешённая
+гипотеза пока V89 running; после closure один full map, admission SHA и один screen.
+
 ## 2026-09-15 — V91 static binding COMPLETE, no economic result
 
 [Результат](V91_OPTION_CONTRACT_MAPPING_RESULT.md), completed16:16:03.185461UTC:

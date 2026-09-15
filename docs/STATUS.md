@@ -3,6 +3,38 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V92 — полный paired screen реализован, historical run ещё не запущен
+
+[Протокол/команды](V92_OPTION_CONVERGENCE_SCREEN.md): готов full-census source mapper,
+exact release-calendar join и V90→existing-ledger runner. V90 rule, control, sizes,
+TTL и costs не менялись. 47 новых /224 expanded local synthetic tests PASS17.62s,
+Ruff clean. Проверены source→metadata→targets→4ledgers, только расходы на flat fake
+price, all-NULL/zero trades, empty releases без old fallback, source-side conflicts,
+future mutation, protected data, incomplete source/admission/physical-schema guards.
+15-file code seal `1afd2aa17647767be4f7c503f75133e1ee40777f66add7607a3d626b626b0707`
+проверен локально. Server verification ещё pending; V92 units не запущены.
+`configs/v92_option_convergence_economic_admission_v1.json` **отсутствует**.
+Ни full V89 mapping, ни новые реальные OI/price/targets/PnL не читались/не считались.
+
+До настоящего run: closed V89 manifest → один полный V92 metadata mapping/calendar
+pass → отдельный pushed admission SHA с точными closed-input hashes → один2×2 screen.
+Root mapping должен быть новым пустым UID999/GID989 leaf из протокола; не запускать
+на partial source/placeholders. После exclusive started.json partial/canonical не overwrite.
+Gates заранее: ≥80% всех1044 source releases mapping-ready, ≥50trades, ≥5%CAGR/
+≥0.5Sharpe/≤25%MDD при обоих costs, все5years/≥3positive/worst≥−15%, primary>control,
+execution complete. 5% — только component Stage2 gate, не замена цели20–50%.
+Уровень25economic screens/0Stage2/goal false не изменился.
+
+Actual16:49:00UTC три archive units active/running, прежние PID/invocations:
+V89 PID3208549 —9761/40820 exact descriptions, unavailable0,39523869 raw bytes.
+Main PID1663880 —3084/26305 jobs,36378331rows,38504pages,failed0/blocked0,
+2152044277stored bytes completed jobs. FUTOI PID2522946 —601/2192days,
+7300673logical rows/5003736new-root rows,282unresolved ticker-days/40gapdays,
+98096802new-root bytes. Все final manifests absent; services/token/Windows неизменны.
+Нового du нет:5.198GB server/3.737GB AlgoPack ниже — snapshot16:09UTC, не actual16:49.
+После server verification эту подготовку не повторять: пока V89 RUNNING — другая
+разрешённая независимая гипотеза, не новый collector/ledger/audit/минутный таймер.
+
 ## V91 — точное связывание sample COMPLETE; доходность V90 ещё не рассчитана
 
 [Результат](V91_OPTION_CONTRACT_MAPPING_RESULT.md), completed16:16:03.185461UTC:
@@ -4092,11 +4124,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
+V92 [full-source join и paired screen готовы](V92_OPTION_CONVERGENCE_SCREEN.md),
+47new/224expanded local tests PASS; server verification pending. Один server hash/test
+check, затем не повторять preparation как результат. V89 actual16:49 still RUNNING,
+9761/40820 descriptions: нельзя запускать full map/economics по partial source.
+После final V89 manifest выполнить один metadata mapping/calendar pass, зафиксировать
+отдельный economic admission и выполнить единственный paired screen по уже fixed gates.
+Пока source скачивается, перейти к другой разрешённой независимой гипотезе; не создавать
+ещё один runner/collector/audit и не переобъявлять те же synthetic tests прогрессом.
+Broader AlgoPack economic scope unanswered; это ограничение ветки, не запрет archive.
+
 V91 [sample binding COMPLETE](V91_OPTION_CONTRACT_MAPPING_RESULT.md):7exact futures +
 1currency exclusion,59new/126combined local и59server tests PASS. Canonical report и
 tiny catalog subset сохранены. Не повторять эти8 bindings/audits или download catalog.
-Пока V89 writer RUNNING, следующий полезный bounded шаг — full-source join и тонкий
-economic runner вокруг frozen V90/V91 и готового daily ledger, synthetic-only.
+Full-source join и тонкий economic runner вокруг frozen V90/V91 уже реализованы вV92.
 После closed V89 manifest один full mapping/coverage pass, полный code/config/input
 economic seal и один2arms×2costsrun. Не строить ещё один ledger/collector и не ждать
 таймер минутным polling. Metadata readiness/quote units уже должны приходить из V91.

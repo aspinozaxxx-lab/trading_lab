@@ -1,0 +1,21 @@
+{
+  "protocol_id": "v92_option_convergence_screen_v1",
+  "scope": "code and fixed economics only; real economic reads additionally require a separate closed-input admission SHA",
+  "files": {
+    "configs/v92_option_convergence_screen_v1.json": "3f17b2926e32d6a1de34f2b3867deb5510b5abf141340308f612930ec0c8cae0",
+    "src/market_lab/futures/option_convergence_inputs.py": "0e6a14f1d405d729e4298848344b23a6ca861bf855be98810636ca62a8089fac",
+    "src/market_lab/futures/option_convergence_screen.py": "d611a7ab733162229e2f553eb3039f9d78fb9e834052f0c90d236cef7c435006",
+    "tests/test_option_convergence_screen.py": "61db1d0d335eb793c4f93a9649d23211d0c1b0d933853c49ac4b7a9608fa0966",
+    "tests/test_option_contract_mapping.py": "85afad38463ba9e87d0b60b0f79c175e47ad3ea8ed711cfd2e4922a1e17fd428",
+    "src/market_lab/futures/option_strike_convergence.py": "31788d6a8c00f6bf1bd7e205c0cc1f7adb7fcb449bc894588a467bd79140cf74",
+    "configs/v90_option_strike_convergence_design_v1.json": "25b5d6266b9c968bb7adacf4261b5af0333d379cdb7f7b4853aeaa7e8e6f3429",
+    "src/market_lab/futures/option_contract_mapping.py": "8c8c198cb621c334adacbcf278c7ff222e05388588049a7aff9fd594017f5c04",
+    "configs/v91_option_contract_mapping_v1.json": "3dc5cd15dc973b8952fc421b9922867806567f1cec5778489dcdbae77735e763",
+    "src/market_lab/futures/specs.py": "eaef23abc7e4697943bfa0fd0e509c1e17a1d62df31dbfa47c20008b32ed53bf",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "src/market_lab/futures_v64_si_tax_calendar.py": "c870a61c16ae40f0d9e3e8637cdba62574ff331270e3c93cebf6ceef04132935",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+    "configs/moex_options_weekly_state_source_v3.yaml": "a1ec093e64f79f48371c60ec8c18abfbaece4e22a22bb60086c58ef594aac1f3",
+    "docs/V92_OPTION_CONVERGENCE_SCREEN.md": "ea7c5ea5890d75b89cb80f69513c35d6145a46d008a6ca48ade6abb982670412"
+  }
+}
