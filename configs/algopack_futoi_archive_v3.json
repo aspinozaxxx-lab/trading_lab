@@ -1,0 +1,20 @@
+﻿{
+  "protocol_id": "algopack_futoi_archive_v3",
+  "start": "2020-01-01",
+  "end": "2025-12-31",
+  "request_interval_seconds": 1.0,
+  "retry_delays_seconds": [5, 15, 45],
+  "maximum_response_bytes": 16777216,
+  "minimum_free_bytes": 137438953472,
+  "maximum_archive_bytes": 107374182400,
+  "output_parent": "/srv/trading_lab_data/data/algopack-archive",
+  "core_root": "/srv/trading_lab_data/data/algopack-archive/futoi_core4_preserved_20260831",
+  "prior_root": "/srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v2_345204a8a962",
+  "prior_pages": 120,
+  "prior_inventory_sha256": "f87c78960dac533ea64477f2205210801851ca7162a17d7f1290ba9a1b658e31",
+  "prior_identity_sha256": "257e6587a030bff24a43db2e5fc60e955aec04782a8dca7727e897d13ceeab48",
+  "prior_status_sha256": "12f68327b7adea5cf9b3f5187d63006c3bb9850e8788d12cde403bcf97e7f8b3",
+  "source_only": true,
+  "original_version_verified": false,
+  "live_trading_allowed": false
+}

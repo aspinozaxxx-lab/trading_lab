@@ -5,12 +5,14 @@
 
 ## Последний конкурс — V79 R1: 3REJECT_STAGE1; расширенный архив RUNNING
 
-FUTOI V1 остановлен на первом all-market response: unpaired_sequence,0saved pages/days.
-Не каждый source ticker/sequence имеет синхронную FIZ/YUR пару; архивирование не должно
-удалять такие строки. [V2 correction](ALGOPACK_FUTOI_ARCHIVE_V2.md) сохраняет их с
-quality flags, сравнивает latest по каждой группе отдельно. Local94tests PASS including
-V1/dependency; V2 ещё pre-request. V1/root сохранены; core4 exact78,726,995bytes copy
-уже server-side,5SHA+5872coverage/proof keys verified. Повторно копировать не нужно.
+FUTOI V1/V2 сохранены failed: V1 ошибочно требовал полную FIZ/YUR пару, V2 сравнивал
+latest каждой группы вместо последней общей sequence point. V2 сохранил120rawpages,
+2complete days/26949rows;85pages первых2дней audited PASS. На2025-12-30 MY latest
+только FIZ23:50, старый YUR11:55 есть в intraday, не в latest. Stable FIZ совпадает.
+[V3](ALGOPACK_FUTOI_ARCHIVE_V3.md) исправляет только proof selection и reference-reuses
+все120sealed V2pages без копирования/HTTP. Local103tests PASS, V3 пока pre-request.
+Core4 exact78,726,995bytes copy уже server-side,5SHA+5872coverage/proof keys verified.
+API теперь13columns с trade_session_date; old12columns не заменяют расширенные ответы.
 
 Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
 ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
@@ -3660,9 +3662,9 @@ V79 R1 уже проверил3conditional AlgoPack механизма: все R
 Не повторять training, V1 mapping failure или source quality audits как новый поиск.
 Архивная загрузка14families действительно RUNNING: [handle/состояние/продолжение](
 ALGOPACK_ARCHIVE_V1_STATUS.md). Довести её до terminal coverage audit, не запускать
-второй writer при живом service. FUTOI V1 failed unpaired_sequence, не запускать снова;
-[V2 supplement](ALGOPACK_FUTOI_ARCHIVE_V2.md) отдельно sealed до исправленного archival
-запуска. Actual V2 source download ещё не подтверждён в этом checkpoint.
+второй writer при живом service. FUTOI V1/V2 failed, не запускать снова;
+[V3 supplement](ALGOPACK_FUTOI_ARCHIVE_V3.md) sealed до исправленного archival запуска,
+с reference reuse120V2pages. Actual V3 launch ещё не подтверждён в этом checkpoint.
 Core4 FUTOI и14новыхfamilies не весь продукт.
 Для следующей экономической идеи использовать содержательно новую информацию и
 отдельный protocol/admission, не threshold/cost/horizon retune этих3правил.
