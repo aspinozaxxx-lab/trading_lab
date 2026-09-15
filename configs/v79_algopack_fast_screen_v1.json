@@ -1,0 +1,36 @@
+﻿{
+  "protocol_id": "v79_algopack_fast_screen_v1",
+  "input_root": "/srv/trading_lab_data/runs/algopack-paper-training/algopack_paper_training_v1_bb95784a169f",
+  "manifest_sha256": "028b2cead7111868ef345987e696be2d70aadd8bbaa0a8233ff676dd38fd7527",
+  "parent_training_seal": "bb95784a169fd4c163c5df4ada231404321ea6e8bf5b8271425e0c869b7ebca2",
+  "inputs": {
+    "calendar.parquet": "ac4c3265cbea7517d9b9cb1d68c04d243547009e383accf915b185f6788e376d",
+    "features.parquet": "eb48df27b63da8278c472f5ffc1bee8069d149bd26a970276a7e5cbdde08a199",
+    "labels.parquet": "82cc89dd69744e320350310e18fd1cbe7e7afc86c0f7e0c2d82994422e02f105",
+    "inputs.json": "a88072753fbcf004b1b9a7b8468071bab0573def29127eab5b5f363094d5a19c"
+  },
+  "start": "2020-01-01",
+  "end": "2025-12-31",
+  "assets": ["BR", "MIX", "RI", "SI"],
+  "mechanisms": ["pressure", "absorption", "depth_change"],
+  "control": "price_momentum",
+  "minimum_volume_imbalance": 0.2,
+  "minimum_flow_to_depth": 1.0,
+  "minimum_depth_change": 0.2,
+  "entry_delay_minutes": 10,
+  "holding_minutes": 60,
+  "one_way_cost_bps": [5.0, 10.0],
+  "gates": {
+    "minimum_completed_events": 200,
+    "maximum_unresolved_events": 0,
+    "minimum_mean_double_cost_bps": 5.0,
+    "minimum_positive_years_double_cost": 4,
+    "minimum_worst_year_mean_double_cost_bps": -10.0
+  },
+  "output_parent": "/srv/trading_lab_data/runs",
+  "conditional_current_vintage_only": true,
+  "fit_models": false,
+  "portfolio_evaluation": false,
+  "goal_verified": false,
+  "live_trading_allowed": false
+}

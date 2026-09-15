@@ -1,0 +1,11 @@
+﻿{
+  "protocol_id": "v79_algopack_fast_screen_v1",
+  "files": {
+    "configs/v79_algopack_fast_screen_v1.json": "54a67e4b5f2ffabebf93a39d882ea3cecccd2be2bacba8f4f1ac1553297d0688",
+    "src/market_lab/futures_v79_algopack_fast_screen.py": "f9a91dd14b279797352df6d9f1d7d7373f398c9f567dc0a576e391c2676ce67b",
+    "tests/test_futures_v79_algopack_fast_screen.py": "427546bae1c413fe17dc7bbd24632abc3d24730676b3d2d69f8f26db58d47123",
+    "docs/V79_ALGOPACK_FAST_SCREEN.md": "52e142b3d9a7cf196e92a8de018a432fb60e16ec9c09b74098eacf9951c1cb25",
+    "docs/ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md": "29152e59501b2fe733d3489bd07dcc89812bded7cb89006ad4189d3933905aff",
+    "configs/algopack_paper_training_v1.seal.json": "bb95784a169fd4c163c5df4ada231404321ea6e8bf5b8271425e0c869b7ebca2"
+  }
+}
