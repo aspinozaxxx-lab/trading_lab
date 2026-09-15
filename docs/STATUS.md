@@ -3,6 +3,20 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V87 — GOLD positioning risk screen подготовлен, результаты ещё не читались
+
+[Протокол](V87_GOLD_POSITIONING_RISK.md): новый GOLD managed-money quarterly impulse
+→ SI/MIX risk-demand basket, constant risk-off control, 2018warmup/2019–2025evaluation,
+2costs, старый daily ledger. Никаких новых collectors, WTI numeric values или2026outcomes.
+Source4hash/date/schema checks подтвердили418GOLD/418WTIreports2018–2025.
+Новый adapter учитывает2018/19,2023,2025publication delays и GOLD2019-03-26correction
+до2019-04-03EOD; старый uniform7day clock не является полным causal доказательством.
+125targeted synthetic/parent tests PASS, Ruff clean. Отдельный12-file economic seal
+d1046052fd5e9de1451e7eaf5e209873e692ff9f032c7cc83b19522abb96d278.
+Canonical pending /srv/trading_lab_data/runs/v87_gold_positioning_risk_v1_d1046052fd5e.
+Economic values/PnL ещё не читались, source revision chain notproved, goalfalse.
+AlgoPack services неизменны; последний замер и actual runtime ниже вV86.
+
 ## V86 — STEO revisions INVALID_EXECUTION_NO_PROMOTION; архивы RUNNING
 
 [Результат](V86_STEO_REVISIONS_RESULT.md): один2arms×2costs screen2018–2025,
@@ -3904,6 +3918,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK.md) подготовлен и запечатан:
+запустить один раз на сервере, проверить все2arms×2costs, сохранить полный результат.
+Перед любым запуском проверить actual runtime/canonical existence: не дублировать
+writer после observation timeout. Никаких retune или повторного source acquisition.
 
 V86 STEO forecast revisions завершён: [результат](V86_STEO_REVISIONS_RESULT.md).
 Основной вариант убыточен; весь конкурс INVALID_EXECUTION_NO_PROMOTION. Не повторять

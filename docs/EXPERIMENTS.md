@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V87 GOLD positioning risk: pre-outcome seal
+
+[Протокол](V87_GOLD_POSITIONING_RISK.md), один новый GOLD→SI/MIX risk-demand механизм,
+не WTI→BRretune.2018warmup/2019–2025evaluation,2arms×2costs, fixedquarterlychange.
+125targetedtestsPASS,Ruff clean. Source metadata-only identities418GOLD/418WTIverified;
+publication-delay exceptions и2019Gold correction учтены в новом adapter, старые
+source/canonical не изменены. OriginalPITfalse, новые numeric features/outcomes ещё
+не читались; экономический screen/count будет только после actualrun.
+Seal d1046052fd5e9de1451e7eaf5e209873e692ff9f032c7cc83b19522abb96d278;
+pending /srv/trading_lab_data/runs/v87_gold_positioning_risk_v1_d1046052fd5e.
+Archive downloads независимы, broadAlgoPackeconomic scope unanswered, goalnotverified.
+
 ## 2026-09-15 — V86 STEO forecast revisions, INVALID_EXECUTION_NO_PROMOTION
 
 [Result](V86_STEO_REVISIONS_RESULT.md): primarybase/double CAGR−8,7839%/−9,2147%,

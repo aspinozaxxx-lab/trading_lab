@@ -1,0 +1,71 @@
+﻿{
+  "protocol_id": "v87_gold_positioning_risk_v1",
+  "declared_at_utc": "2026-09-15T14:05:36Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2019-01-01", "end": "2025-12-31"},
+  "assets": ["MIX", "SI"],
+  "risk_off_directions": {"MIX": -1, "SI": 1},
+  "source": {
+    "root": "data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1",
+    "manifest_sha256": "e0151b2b86b45ffc62043d3d24856e68221bc75b47fdbc004abb4e2cf3fcfb68",
+    "audit_sha256": "500413b2991a534f240e737b848d40806e808ce062d20732415479a014f23055",
+    "protocol_sha256": "22878af63002e1db0db4f4fb51c385d6da3851cd19e8d03deaee526af9c5fa01",
+    "processed": {"file": "cot_positions.parquet", "bytes": 98150, "rows": 836, "sha256": "d155bf553545af14b4d8df12979a8a1dadb835a8f6dd159e222031e0b8c6209b"},
+    "raw": {"file": "raw_archives.zip", "bytes": 16637830, "sha256": "3defacb97bb070c0645536bcb379077e822215fc02a5fc86599a52640cb1a3c9"},
+    "gold_rows": 418,
+    "minimum_report_date": "2018-01-02",
+    "maximum_report_date": "2025-12-30",
+    "allowed_columns": ["report_date", "logical_market", "cftc_contract_market_code", "open_interest", "managed_money_long", "managed_money_short"],
+    "availability": "max(report plus7calendar days, official special publication date, known gold correction date), each EOD NewYork; max across complete14report window",
+    "gold_correction_date_floors": {"2019-03-26": "2019-04-03"},
+    "official_notes": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/DisaggregatedExplanatoryNotes/index.htm",
+    "special_announcements": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+    "shutdown_2019": "https://www.cftc.gov/PressRoom/PressReleases/7864-19"
+  },
+  "signal": {
+    "primary": "sign(change over13reports of GOLD managed-money net positions divided by open interest), positive means risk-off",
+    "control": "constant risk-off with identical source and execution masks",
+    "lookback_reports": 13,
+    "maximum_report_gap_calendar_days": 10,
+    "maximum_window_calendar_days": 100,
+    "maximum_source_age_at_fill_calendar_days": 21,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "fit": "none;2018warmup only; fixed rule all2019-2025",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.45,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.9,
+    "minimum_ready_source_dates": 300,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02,
+    "all_arms_costs_complete_and_terminal_flat": true
+  },
+  "limitations": [
+    "Gold futures positioning is a hypothesized risk-demand proxy, not observed money transfers or a CFTC statement of trader motives. Gold can rise for other reasons, including a weak dollar.",
+    "Existing annual CFTC archive is not a complete original revision chain. Known publication delays and2019gold correction are applied only in this new adapter; older sources/runs remain immutable. Conditional historical research, no original-PIT admission.",
+    "Source V1 proposed a future WTI-to-BR test. This separate economic protocol newly uses GOLD for MIX/SI. No WTI numeric values, BR, sign inversion ofV58 or reopening ofV59.",
+    "Same existing daily candle/spec/fee/margin ledger proxies, not BBO, historical broker tariff, synchronized paired execution or a guaranteed continuous gross-risk cap after gaps. Integer quantities, no cash interest or real trades.",
+    "2019-2025 has been examined in other families; not an independent holdout. No fitting or tuning; no label-based eligibility. First-stage5percent gate does not replace20-50percent goal.",
+    "No post-outcome change of sign, asset, lookback, capital, freshness, costs, period or source gaps; report all arms and costs."
+  ]
+}
