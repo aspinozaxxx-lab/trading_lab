@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V82 capital diagnostic, pre-derived-result checkpoint
+
+[Протокол](V82_STOCK_PERPETUAL_CAPITAL.md), оба кандидата V81, fixed30%reserve,
+30/60bps roundtrip из прежнего stock-pair config. Existing funding aggregates уже
+известны, поэтому это post-selection accounting diagnostic, не новый unseen test.
+Local64tests PASS,Ruff clean; nine-file seal
+874998a9cce6f9c00ef544218d4622027bb03832dd19d5cab31e436231063bce.
+Server result ещё нет. Full paired PnL и cashbenchmark не вычислялись.
+Historical3DOC спецификации найдены и сохранены; current product page не заменяет
+dated conversion rules. 23V65–V80screens/0Stage2 и2V81funding tests пока без изменений.
+
 ## 2026-09-15 — V81: два FUNDING_COMPONENT_CANDIDATE, НЕ portfolio/PnL PASS
 
 [Результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md): SBERF/GAZPF по320sessions/

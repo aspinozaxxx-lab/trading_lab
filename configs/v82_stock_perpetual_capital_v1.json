@@ -1,0 +1,48 @@
+﻿{
+  "protocol_id": "v82_stock_perpetual_capital_v1",
+  "declared_at_utc": "2026-09-15T11:04:13Z",
+  "scope": "post_selection_capital_capacity_diagnostic_not_paired_backtest",
+  "root": "/srv/trading_lab_data/runs/v82_stock_perpetual_capital_v1",
+  "tickers": ["SBERF", "GAZPF"],
+  "period": {"start": "2024-10-01", "end": "2025-12-31"},
+  "parent_metrics": {
+    "path": "/srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1/metrics.json",
+    "sha256": "6b90b9fb66a4b146156c28ed31ead1a7b6ff78cfd1d779ce12211f612fe68874",
+    "seal_sha256": "a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a"
+  },
+  "capital_reserve_fraction": 0.30,
+  "roundtrip_fee_bps": {"base": 30, "double": 60},
+  "assumption_lineage": {
+    "path": "configs/stock_futures_cash_carry_intraday_v1.yaml",
+    "sha256": "aa35b0d864483b30e0b6ffec67dec9b5efeab945362dc9cf5b91e60c06c1885e",
+    "meaning": "Existing stock-pair research assumption: stock principal plus 30 percent reserve; stock10 and futures5 bps per side, doubled together. Not a dated broker tariff or proven margin sufficiency."
+  },
+  "annual_target_fractions": [0.20, 0.50],
+  "specification_evidence": [
+    {"path": "/srv/trading_lab_data/tmp/v82_document_tools_20260915/stock_spec_20241001.doc", "bytes": 151552, "sha256": "4a1953577b64fd029f4532d7044d3f32173e4434c9df4385609069c733e68509", "valid_from": "2024-10-01", "valid_to": "2025-08-04"},
+    {"path": "/srv/trading_lab_data/tmp/v82_document_tools_20260915/stock_spec_20250805.doc", "bytes": 153088, "sha256": "b3ccb6d7757e572b052ee949e559ae4776beca0c5b637db07f7f3ba629a574d0", "valid_from": "2025-08-05", "valid_to": "2025-08-28"},
+    {"path": "/srv/trading_lab_data/tmp/v82_document_tools_20260915/stock_spec_20250829.doc", "bytes": 156672, "sha256": "83094f54d4848abf295ad37cf13272efe4c133b364a2b41e8433b1ad76d69fb0", "valid_from": "2025-08-29", "valid_to": "2026-03-22"}
+  ],
+  "unresolved_pair_inputs": [
+    "causal_paired_entry_exit_prices_and_execution",
+    "complete_dividend_adjustment_event_corpus",
+    "actual_shareholder_receipts_and_tax_treatment",
+    "dated_margin_and_variation_cash_liquidity",
+    "forced_conversion_calendar_and_execution",
+    "actual_broker_fees_and_bid_ask",
+    "same_period_cash_benchmark_and_investable_collateral_eligibility"
+  ],
+  "limitations": [
+    "V81 funding values were already observed. This is a fixed accounting follow-up, not unseen validation or an additional alpha search.",
+    "All figures here concern the funding component only. There are no decisions, fills, a portfolio NAV, paired PnL, CAGR, Sharpe or MDD.",
+    "The 30 percent reserve is an inherited research assumption, not a claim about historical daily margin or cash sufficiency. It cannot be tuned after this diagnostic.",
+    "Fee amounts are normalized to the fixed initial nominal on all legs, not realized turnover costs. Future exact fills can differ. V81 unrounded SWAPRATE sums are retained as component proxies, not exact rounded VM receipts.",
+    "Reserve-income requirements are algebraic conditions, not an income credit. Money encumbered as margin cannot also earn an assumed fund yield without verified eligible collateral, haircuts and liquidity.",
+    "Net dividends cannot be added freely: the short perpetual owes the gross dividend adjustment. Receipt delays, taxes, revisions and missing events remain unresolved, never zero.",
+    "A funding-only shortfall does not reject a separately proved basis-convergence or eligible-collateral return. Those contributions require their own sealed full-pair calculation.",
+    "Annualization uses 365.25 over the same455calendar days as V81. Partial2024 is explicitly partial; one complete year cannot establish predictable20-50percent income."
+  ],
+  "goal_verified": false,
+  "stage2_admission": false,
+  "live_trading_allowed": false
+}

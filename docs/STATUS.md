@@ -3,6 +3,27 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V82 — запечатан промежуточный фильтр капитала перед full paired test
+
+[Протокол](V82_STOCK_PERPETUAL_CAPITAL.md): оба SBERF/GAZPF, только уже известные V81
+aggregates, reserve30% и stock10/futures5bps per side из прежнего stock-pair config,
+base/double30/60bps. Это post-selection capital-capacity diagnostic, не full pair.
+Расчёт ещё не выполнен; local64tests(43new+21V81)PASS,Ruff clean. Nine-file seal
+874998a9cce6f9c00ef544218d4622027bb03832dd19d5cab31e436231063bce.
+Канонический новый root /srv/trading_lab_data/runs/v82_stock_perpetual_capital_v1.
+Полные portfolioPnL/CAGR/Sharpe/MDD/benchmark остаютсяnull; не заменять ими component APR.
+
+Исторические DOC спецификации сохранены: MOEX26831 revision periods покрывают весь
+2024-10…2025. Оригинальная ссылка26107 теперь возвращает HTML другого документа,
+не PDF. Correct VM: short получает funding, но платит gross dividend adjustment;
+gross stock dividends не второй источник прибыли. Record date nontrading -> previous
+trading date, dividend revisions могут менять VM, forced conversion возможна.
+Text/formulas extracted antiword; native Word page rendering unavailable. Exact3DOC
+SHA/paths в config; текущие2026conversion fees не переносить на2024–2025.
+Spot timestamp schema UTC index проверена без prices. CBR server file/schema/SHA есть,
+rate values не читались. Новых price/dividend outcomes, transfer stock universe нет.
+Оба AlgoPack units actual active/running при начале turn; PID1663880/1913099, без restart.
+
 ## V81 — два funding components прошли быстрый фильтр; требуется полный paired test
 
 [Результат](V81_STOCK_PERPETUAL_FUNDING_RESULT.md), [протокол](V81_STOCK_PERPETUAL_FUNDING.md).
