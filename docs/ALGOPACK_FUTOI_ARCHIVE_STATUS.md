@@ -1,7 +1,31 @@
-﻿# FUTOI full-market archive: V3 STOPPED_INCOMPLETE; V4 prepared
+﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
+
+Актуальный checkpoint2026-09-15T11:59:43.059880UTC, [result/erratum](
+ALGOPACK_FUTOI_ARCHIVE_V4_RESULT.md): unit
+trading-lab-algopack-futoi-archive-v4-f47d4cd22039.service,
+MainPID2522946,active/running,invocation2e561d202042490d81ddc8aefa3cd543;
+старт11:55:54.375041UTC. Pre-request push1b44b19,local93/server93tests PASS/Ruff clean.
+131/2192processed days,7507ticker-days,7478matched/29unresolved,2days_with_gaps,
+2328426intraday rows logical archive,31489new-root rows,7524V2/V3pages reused,
+651209new-root bytes completed days. Current2025-08-24,22/47tickers.
+Root /srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v4_f47d4cd22039.
+Final manifest отсутствует. processed != source-coverage-complete; при наличии gaps
+финальный COMPLETE_WITH_SOURCE_GAPS нельзя переименовывать в COMPLETE.
+
+Отдельный problem-day2025-08-26 audit59/59PASS:58ticker-days,47matched/11empty gaps,
+16312rows; day SHA00ae45dfb486cdd1dba9180afda02f5054cab2304dcc3e6ca8aad08feb91e44b.
+Его все raw/URL/receipt/schema/final-point proofs сохранены, missing не превращён в0position.
+V4+V3+V2 нужны вместе для backup; старый core4 также сохраняется. Нового Windows mirror нет.
+Оба прежних V2/V3unit terminal, не restart. Важно: current_ticker в V3/V4 status
+означает last-completed, а не failing request. AU был успешным, остановился следующий BM.
+Изначальный AU diagnosis в frozen V4protocol ошибочен; датированная поправка в result.
+
+Основной14-family unit active/running PID1663880,1348jobs/17154756rows/18067pages,
+1024787666bytes,failed0/blocked0; final manifest тоже отсутствует.
+Free898792579072bytes. Ниже сохранены ИСТОРИЧЕСКИЕ checkpoints подготовки и V3.
 
 Actual checkpoint2026-09-15T11:41:28.087635UTC: V3 failed/MainPID0/exit1.
-Stopped11:15:42.730848UTC on missing_planned_ticker_day, AU2025-08-26;
+Stopped11:15:42.730848UTC on missing_planned_ticker_day, nextBM2025-08-26 (last-completedAU);
 129completed calendar days,7391ticker-days,2295881intraday rows,
 2257271new-root rows,120V2pages reused,46661880new-root bytes completeddays.
 Current day's3/58tickers and raw pages remain, no final manifest. Do not restart V3.

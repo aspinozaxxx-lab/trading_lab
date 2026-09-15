@@ -1,11 +1,12 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T11:41:28.087635UTC: основной unit active/running,
-MainPID1663880, прежний invocation;1260/26305completed jobs,15924167rows,
-16777pages,951665279stored bytes completedjobs,failed0/blocked0.
-status.updated_at11:41:11.693873UTC,currentfx/alerts,date2025-10-04.
-Final manifest отсутствует; free898905567232bytes. Основной service не менялся.
-FUTOI V3 при этом остановился; [V4 correction prepared](ALGOPACK_FUTOI_ARCHIVE_STATUS.md).
+Актуальный checkpoint2026-09-15T11:59:43.059880UTC: основной unit active/running,
+MainPID1663880, прежний invocation;1348/26305completed jobs,17154756rows,
+18067pages,1024787666stored bytes completedjobs,failed0/blocked0.
+status.updated_at11:59:23.472878UTC,currentfo/tradestats,date2025-09-27.
+Final manifest отсутствует; free898792579072bytes. Основной service не менялся.
+FUTOI V3 остановился; [V4 correction теперь RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md),
+PID2522946,131processed days/2328426rows,29unresolved ticker-days явно сохранены.
 Нельзя объявлять оба service running по более старому snapshot ниже.
 
 Исторический снимок 2026-09-15T11:14:18.760792+00:00. Это промежуточный operational результат, НЕ полный архив.

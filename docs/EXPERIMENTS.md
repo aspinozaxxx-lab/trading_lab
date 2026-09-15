@@ -1,6 +1,21 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V83: collateral mechanism exists, terms unresolved; FUTOI V4 подготовлен
+## 2026-09-15 — FUTOI V4 возобновлён; coverage gaps сохранены, не income PASS
+
+[Результат/erratum](ALGOPACK_FUTOI_ARCHIVE_V4_RESULT.md): pre-request push1b44b19,
+seal f47d4cd22039c56c5647a36087b4ee37fac96db8df62b87b6366d9a9ac7e947e,
+local93/server93tests PASS,Ruff clean;7524prior pages verified и reference-reused.
+Старт11:55:54.375041UTC, actual active/running PID2522946. На11:59:43UTC:
+131/2192processed days,7507ticker-days,7478matched/29unresolved,2328426intraday rows,
+31489new-root rows/651209new-root bytes completeddays. Final manifest ещё нет.
+Для2025-08-26 отдельно audited59/59pages:47matched/11empty gaps,16312rows;
+day SHA00ae45dfb486cdd1dba9180afda02f5054cab2304dcc3e6ca8aad08feb91e44b.
+Initial stop reconstruction: AU был last-completed; BM — первый не завершённый
+тикер. Это поправка к frozen V4 source note, не изменение кода/обработки по результату.
+Основной14-family unit также running:1348jobs/17154756rows,failed0/blocked0.
+Ни один source result не добавляет economic screen, Stage2 или доходность20–50%.
+
+## 2026-09-15 — V83: collateral mechanism exists, terms unresolved; V4 pre-request
 
 [V83 source feasibility](V83_STOCK_COLLATERAL_FEASIBILITY.md): пять оригинальных PDF
 БКС с SHA/визуальной проверкой релевантных страниц. Льготное РЕПО под ГО документировано,
@@ -8,8 +23,9 @@
 Это не новый economic screen. Новые decisions/fills0,PnL/CAGR/Sharpe/MDD/годовые
 результаты=null; reserve/costs/тикеры V81/V82 не изменены. Цель20–50% не подтверждена.
 
-В11:41UTC FUTOI V3 обнаружен actual failed/exit1/PID0: AU2025-08-26 дал валидный
-пустой intraday response при присутствии в daily universe.129complete days/2295881rows
+В11:41UTC FUTOI V3 обнаружен actual failed/exit1/PID0 на2025-08-26 с valid-empty
+intraday response. Указание AU было ошибкой чтения last-completed status, исправлено
+на BM в последующем dated erratum выше.129complete days/2295881rows
 сохранены. [V4 source correction](ALGOPACK_FUTOI_ARCHIVE_V4.md) сохраняет такие ответы
 и genuine daily/intraday discrepancies с UNRESOLVED_SOURCE_GAP, продолжая остальные
 даты. Не economic/model admission.120V2+7404V3page inventory pinned; no re-download.

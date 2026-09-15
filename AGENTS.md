@@ -218,8 +218,10 @@
 
 Большой AlgoPack archive и FUTOI supplement: актуальные server handles и resume/backup
 правила в [14-family status](docs/ALGOPACK_ARCHIVE_V1_STATUS.md) и
-[FUTOI V3 status](docs/ALGOPACK_FUTOI_ARCHIVE_STATUS.md). FUTOI V1/V2 failed сохранены,
-не перезапускать; V3 reference-reuses120V2raw pages, поэтому V2root нельзя удалять.
+[FUTOI status](docs/ALGOPACK_FUTOI_ARCHIVE_STATUS.md). FUTOI V1/V2/V3 failed сохранены,
+не перезапускать. V4 продолжает с явными source gaps и reference reuse120V2+7404V3pages;
+V2/V3roots нельзя удалять. processed_days не означает complete source coverage,
+COMPLETE_WITH_SOURCE_GAPS не превращать в COMPLETE или economic admission.
 Raw13-column archive не заменять старым12-column core4; download не новый economic PASS.
 
 ## Неприкосновенные исследовательские правила
