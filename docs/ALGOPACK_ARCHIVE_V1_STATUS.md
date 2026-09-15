@@ -1,13 +1,22 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T11:59:43.059880UTC: основной unit active/running,
-MainPID1663880, прежний invocation;1348/26305completed jobs,17154756rows,
-18067pages,1024787666stored bytes completedjobs,failed0/blocked0.
-status.updated_at11:59:23.472878UTC,currentfo/tradestats,date2025-09-27.
-Final manifest отсутствует; free898792579072bytes. Основной service не менялся.
+Актуальный checkpoint2026-09-15T12:41:05.610159UTC: основной unit active/running,
+MainPID1663880, прежний invocation;1583/26305completed jobs,20095301rows,
+21175pages,1200372370stored bytes completedjobs,failed0/blocked0.
+status.updated_at12:41:00.427669UTC,currenteq/tradestats,date2025-09-10.
+Final manifest отсутствует. Основной service не менялся.
 FUTOI V3 остановился; [V4 correction теперь RUNNING](ALGOPACK_FUTOI_ARCHIVE_STATUS.md),
-PID2522946,131processed days/2328426rows,29unresolved ticker-days явно сохранены.
+PID2522946,185processed days/3073888rows,47unresolved ticker-days явно сохранены.
 Нельзя объявлять оба service running по более старому snapshot ниже.
+
+По запросу пользователя actual du на12:41:05UTC: весь AlgoPack archive включая
+FUTOI/oldcore4 —1375471252apparent bytes (1,375GB),1706717184allocated bytes (1,707GB).
+Это lossless compressed raw + metadata, не распакованный объём и не сумма logical rows.
+Основной server data root4080174365bytes (4,080GB), включая этот архив.
+Local data folder2719842747bytes (2,720GB),10841files; не складывать как unique corpus
+из-за дублей. Models/runs/tmp не включены. Main counters выше относятся только к
+completed jobs, поэтому не равны размеру всего каталога. Экономический V84 параллельно
+завершён, [результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md), не новый income PASS.
 
 Исторический снимок 2026-09-15T11:14:18.760792+00:00. Это промежуточный operational результат, НЕ полный архив.
 [Разрешение](ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md),

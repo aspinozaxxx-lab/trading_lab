@@ -3,7 +3,20 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V84 — sealed endpoint-basis/cash comparison, до новых outcomes
+## V84 — SBER component ниже20%/cash, GAZP entry unresolved; архивы RUNNING
+
+[Результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md): выполнен один раз12:36:27.672148UTC.
+SBER basis−44RUB; измеримый funding+basis-cost component APR base17,3176%/double17,1204%,
+ниже cash-rate comparator21,7491%simple annual normalization. Это НЕ full pair PnL.
+GAZPF2024-10-01 нет15:50entry candle;15:40decision есть. Другой бар не подставлять:
+GAZP component=null,UNRESOLVED_ENDPOINT. Actual decisions/trades/fills0,proxy legs4/4и3/4;
+full PnL/CAGR/Sharpe/MDD/annualreturns=null,5unknown pair groups each. Stage2/goal=false.
+Cash comparator не investable income и не credit на margin. Pre-outcome push6357128;
+server11V84tests PASS, independent11+16source/Decimal checks PASS. Вспомогательное
+точное Decimal-vs-float equality исправлено на1e-12; maxdelta3e-17, canonical не менялся.
+Metrics2cecd7147aafaa601f271a79cf14d1a0d65122f7f2fe8fde8c6c00745f65de5f.
+Не повторять V84/подбирать другое время GAZP/уменьшать капитал. Следующая работа —
+другой information set и дешёвый конкурс, не полный engine без показанного запаса.
 
 [Протокол](V84_STOCK_PERPETUAL_BASIS.md): оба SBER/GAZP, fixed15:50next-bar endpoints
 2024-10-01/2025-12-30, reserve30%, stock10/futures5bps per side и2xcosts.
@@ -12,19 +25,22 @@ Funding window entry-inclusive/exit-exclusive отличается от V81. С�
 пять unknown liability/execution groups не заполняются нулём, full pair PnL=null.
 13-file seal5891f243865384d6d0436551e2da09af16c880b0af1fff69c7ec63314434c921.
 Local75targeted tests PASS, после pre-seal empty-source уточнения11V84PASS; Ruff clean.
-Новых экономических результатов в момент этой записи ещё нет. Новый run root
-/srv/trading_lab_data/runs/v84_stock_perpetual_basis_v1; planned4public candle requests.
+Canonical /srv/trading_lab_data/runs/v84_stock_perpetual_basis_v1;4public candle responses,
+322rows/28825raw bytes, all200/attempt1. TerminalunitPID0/exit0 подтверждён12:37:17UTC.
 Полный paired test этим коротким компонентным follow-up не объявляется выполненным.
 
 По запросу пользователя объём файлов измерен отдельно от счётчиков загрузчика:
-2026-09-15T12:09:39UTC AlgoPack archive apparent1227778578bytes (1,228GB),
-allocated1514778624bytes (1,515GB), включая старый core4 78726995bytes.
-Server market-data root позднее того же замера3929479643bytes (3,93GB).
+2026-09-15T12:41:05UTC AlgoPack archive apparent1375471252bytes (1,375GB),
+allocated1706717184bytes (1,707GB), включая старый core4 78726995bytes.
+Server market-data root4080174365bytes (4,080GB), включая этот архив.
 Local D:/Projects/trading_lab_data/data:10841files/2719842747bytes (2,72GB),
 reparse directories0. Server+local не складывать как уникальный corpus: дубли не
-исключены. Models/runs/tmp не включены в market data. Actual units на12:09 running:
-основной1401jobs/17852178rows;FUTOI143processed days/2506547logicalrows,
-8011resolved/47unresolved ticker-days. Архивные references не посчитаны как новые bytes.
+исключены. Models/runs/tmp не включены в market data. Actual units на12:41 running:
+основнойPID1663880,1583jobs/20095301rows/21175pages,failed0/blocked0;
+FUTOIPID2522946,185processed days/3073888logicalrows,9671resolved/47unresolved
+ticker-days,3days_with_gaps. Оба final manifests отсутствуют. Архивные references не
+посчитаны как новые bytes. Старый снимок12:09:1,228GBarchive/3,93GBserver сохранён
+в pre-outcome commit6357128; рост загрузки фактический, downloader не менялся.
 
 ## V83 — обеспечение пока unresolved; FUTOI V4 RUNNING с явными source gaps
 
@@ -3822,11 +3838,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V83 collateral feasibility завершена: [отчёт](V83_STOCK_COLLATERAL_FEASIBILITY.md).
-Не повторять широкий обзор брокеров/PDF как следующий economic результат. Реальная
-бесплатность/доходность обеспечения за весь период не подтверждена. Сначала отдельный
-paired-input/protocol обоих кандидатов (basis/дивиденды/конвертация/cash VM/benchmark),
-без новых price outcomes до seal; broker-specific исполнение пока unknown.
+V84 завершён: [результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md). SBER measured component
+ниже20%/cash, GAZP missing fixed entry. Не повторять расчёт/audit/выбирать другой час,
+уменьшать reserve/costs или называть отсутствие component headroom полным доказательством
+убыточности всех пар. Следующий дешёвый конкурс — другой information set/механизм.
+Возможная source-only feasibility: ещё не использованные EQOrderStats/HI2, по реально
+сохранённым manifests/date/schema, без price outcomes до нового fixed protocol/seal.
+Не повторять rejected V79 FO flow/depth rules и не строить полный paired engine без
+показанного экономического запаса. Очередь не блокируется ожиданием конца скачивания.
+V83 collateral feasibility тоже завершена: [отчёт](V83_STOCK_COLLATERAL_FEASIBILITY.md).
+Не повторять широкий обзор брокеров/PDF. Дивиденды/конвертация/cash VM/actual broker
+execution остаются unknown, а не бесплатными или уже учтёнными в V84 liabilities.
 FUTOI V3 terminal failed, не restart; V4 запущен для сохранения raw с явными gaps
 и reference reuse V2/V3. Проверить actual runtime в начале STATUS и archive-status,
 не считать старый RUNNING checkpoint ниже актуальным.
@@ -3834,12 +3856,12 @@ FUTOI V3 terminal failed, не restart; V4 запущен для сохране�
 V82 capital diagnostic завершён: [результат](V82_STOCK_PERPETUAL_CAPITAL_RESULT.md).
 Funding на капитал с reserve30% даёт double17,2037%/18,8395%APR, не20%.
 НЕ повторять V81/V82 batch/audits или снижать reserve/costs по результату.
-Это2component follow-ups, не full paired PnL. Следующий шаг — подтвердить отдельный
-запас от реальной collateral-income/basis механики, затем separate full paired
-execution/economics protocol для ОБОИХ SBERF/GAZPF,
-full capital/margin, basis/dividend adjustment/actual dividends/tax,1x/2xcosts и cash
-benchmark. Сначала source identity/feasibility: стандартная history не содержит dividend
-adjustment; нужные spot files пока локальные. Новых paired outcomes до seal не читать.
+Это2component follow-ups, не full paired PnL. Последующий V84 не показал запаса SBER
+от basis/cash comparison, GAZP endpoint unresolved. Полный paired execution/economics
+требует новой обоснованной механики и fixed protocol, full capital/margin, dividend
+adjustment/actual dividends/tax,conversion,1x/2xcosts. Нужные два spot files теперь
+в отдельном server subset leaf V84; standard history всё ещё не имеет dividend-adjustment.
+Новых paired outcomes до отдельного seal не читать.
 Не выбирать только GAZPF по большему увиденному APR и не называть APR уже готовым CAGR.
 V80 GPR REJECT_STAGE1; не повторять source/feasibility/PnL или менять sign/window/TTL/годы.
 46GPR vintages сохранены; их полнота/commit proxy не означает PIT или доходность.

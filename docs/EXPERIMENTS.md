@@ -1,6 +1,25 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V84 sealed до endpoint prices/RUONIA values
+## 2026-09-15 — V84 complete: SBER measured component below cash, GAZP missing entry
+
+[Результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md). Один server run12:36:27.672148UTC,
+terminalPID0/exit0. SBER basis−44RUB,funding7589,401RUB; measurable component
+base17,3176%/double17,1204%simpleAPR на34582,60RUBcapital. Cash-rate comparator
+21,7491%simple annual normalization, не гарантированный investable yield.
+SBER COMPONENT_HURDLES_NOT_MET;GAZPF missing15:50entry2024-10-01,
+UNRESOLVED_ENDPOINT. Другой час/цену не подставляли. Никаких free collateral/dividend
+credits;full PnL/CAGR/Sharpe/MDD/yearlyreturns=null,actualdecisions/trades/fills0.
+Source322candles/4pages;funding319payments each,leg proxies4/4и3/4.
+Local75targeted/final11/server11PASS,Ruff clean;independent11+16checks PASS,
+float audit equality correction documented, maxdelta3e-17, canonical unchanged.
+Pre-outcome6357128; seal5891f243865384d6d0436551e2da09af16c880b0af1fff69c7ec63314434c921;
+metrics2cecd7147aafaa601f271a79cf14d1a0d65122f7f2fe8fde8c6c00745f65de5f.
+Canonical /srv/trading_lab_data/runs/v84_stock_perpetual_basis_v1, не повторять.
+Не два новых independent screens,Stage2/goalfalse. Оба archive units продолжали работу:
+12:41UTCarchive1,375GBfiles/1,707GBallocated,server data4,080GB;localdata2,720GB
+с возможными дублями. Загрузка не полна и не заменяла этот economic diagnostic.
+
+## 2026-09-15 — V84 предварительная запись: sealed до endpoint prices/RUONIA values
 
 [Протокол](V84_STOCK_PERPETUAL_BASIS.md), seal
 5891f243865384d6d0436551e2da09af16c880b0af1fff69c7ec63314434c921.

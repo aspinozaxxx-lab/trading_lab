@@ -1,13 +1,14 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Актуальный checkpoint2026-09-15T11:59:43.059880UTC, [result/erratum](
+Актуальный checkpoint2026-09-15T12:41:05.610159UTC, [result/erratum](
 ALGOPACK_FUTOI_ARCHIVE_V4_RESULT.md): unit
 trading-lab-algopack-futoi-archive-v4-f47d4cd22039.service,
 MainPID2522946,active/running,invocation2e561d202042490d81ddc8aefa3cd543;
 старт11:55:54.375041UTC. Pre-request push1b44b19,local93/server93tests PASS/Ruff clean.
-131/2192processed days,7507ticker-days,7478matched/29unresolved,2days_with_gaps,
-2328426intraday rows logical archive,31489new-root rows,7524V2/V3pages reused,
-651209new-root bytes completed days. Current2025-08-24,22/47tickers.
+185/2192processed days,9718ticker-days,9671matched/47unresolved,3days_with_gaps,
+3073888intraday rows logical archive,776951new-root rows,7524V2/V3pages reused,
+16338430new-root bytes completed days. Current2025-07-01,29/48tickers,
+last-completedPD;status.updated_at12:41:05.317413UTC.
 Root /srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v4_f47d4cd22039.
 Final manifest отсутствует. processed != source-coverage-complete; при наличии gaps
 финальный COMPLETE_WITH_SOURCE_GAPS нельзя переименовывать в COMPLETE.
@@ -20,9 +21,12 @@ V4+V3+V2 нужны вместе для backup; старый core4 также с
 означает last-completed, а не failing request. AU был успешным, остановился следующий BM.
 Изначальный AU diagnosis в frozen V4protocol ошибочен; датированная поправка в result.
 
-Основной14-family unit active/running PID1663880,1348jobs/17154756rows/18067pages,
-1024787666bytes,failed0/blocked0; final manifest тоже отсутствует.
-Free898792579072bytes. Ниже сохранены ИСТОРИЧЕСКИЕ checkpoints подготовки и V3.
+Основной14-family unit active/running PID1663880,1583jobs/20095301rows/21175pages,
+1200372370bytes,failed0/blocked0; final manifest тоже отсутствует. Весь archive root
+du1375471252apparent bytes/1706717184allocated bytes включает сохранённыеV2/V3/core4,
+но не считает reference-reused pages второй раз. Отдельно V84 economic diagnostic
+завершён; [результат](V84_STOCK_PERPETUAL_BASIS_RESULT.md), не full pair admission.
+Ниже сохранены ИСТОРИЧЕСКИЕ checkpoints подготовки и V3.
 
 Actual checkpoint2026-09-15T11:41:28.087635UTC: V3 failed/MainPID0/exit1.
 Stopped11:15:42.730848UTC on missing_planned_ticker_day, nextBM2025-08-26 (last-completedAU);
