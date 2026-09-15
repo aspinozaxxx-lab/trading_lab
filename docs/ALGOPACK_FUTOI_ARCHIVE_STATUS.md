@@ -1,6 +1,23 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Актуальный checkpoint2026-09-15T13:47:00UTC:V4actualactive/running,PID2522946,
+Актуальный checkpoint2026-09-15T14:18:06UTC:V4actualactive/running,PID2522946,
+прежний invocation2e561d202042490d81ddc8aefa3cd543;344/2192processed days,
+14813ticker-days,14640resolved/173unresolved,21dayswithgaps,
+4829656logicalrows/2532719new-rootrows,7524reference-reusedpages,
+50903983new-rootbytes completed days. Current2025-01-23,lastcompletedGZ,12/39tickers,
+updated14:18:05.860496UTC. Finalmanifestabsent, no restart/config/Windows changes.
+Main14familyrunningPID1663880:2171jobs/26694139rows,failed0/blocked0.
+V87 [economic result](V87_GOLD_POSITIONING_RISK_RESULT.md) сохранёнпараллельно,
+INVALID/noStage2. Sourcegapsнепревращатьвcompletecoverage или экономический PASS.
+
+Volume scope correction: новыйобщийarchiveroot1.809GBapparent/2.276GBallocated
+не включает отдельнуюcanonicalcore4history1.419GB. Со старымprocessedAlgoPackroot
+(history+inventory/samples1.457GB) около3.27GBвдвухосновныхroots.
+Serverdata+source_evidence4.671GB;local2.720GBотдельно,неuniqueсумма.
+Прежняя подпись «includingoldcore4» ниже некорректна, см.[исправленныйсостав](
+V87_GOLD_POSITIONING_RISK_RESULT.md). Старыеsnapshots/canonicalданные не менялись.
+
+Предыдущий checkpoint2026-09-15T13:47:00UTC:V4actualactive/running,PID2522946,
 status.updated_at13:47:01.092758UTC,current2025-03-14,last-completedEu,10/47tickers.
 294/2192processed days,13193ticker-days,13125resolved/68unresolved,6dayswithgaps,
 4261365intraday rows logical/1964428new-root rows,7524pagesreference-reused;

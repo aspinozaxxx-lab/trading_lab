@@ -3,7 +3,37 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V87 — GOLD positioning risk screen подготовлен, результаты ещё не читались
+## V87 — слабый GOLD positioning результат; архивы работают, общий server data/source4.67GB
+
+[Результат](V87_GOLD_POSITIONING_RISK_RESULT.md): primarybase CAGR1.1282%,Sharpe0.1517,
+MDD44.1600%;double0.9010%/0.1356/44.8684% с1criticalgrossrejection. Controlbase/double
+CAGR−2.5197%/−2.5240%. Все4сценария сохранены;5/7positiveyears primary,161closed
+asset episodes;0terminal/unresolved, но double execution incomplete. Wholebatch
+INVALID_EXECUTION_NO_PROMOTION, не Stage2. Не менять размер/знак/lag/период ради rerun.
+3542asset decisions/1771dates perarm,3324nonzero targets,348used releases,
+feature/datecoverage94.3535%,364ready source dates;418GOLDreports,27timing overrides.
+125localtargeted и отдельные65tests(overlap31),31servertestsPASS,Ruffclean;
+21artifact/source/state/target +4metric/year/count/cash replaysPASS;
+independent418clock/readiness/405Fractionchange checksPASS. Pre-outcome165e823.
+Seal d1046052fd5e9de1451e7eaf5e209873e692ff9f032c7cc83b19522abb96d278;
+metrics3d38bc7706bfb554586495040311169ba8d911266e9ee44b6a23941fe89f3c0b.
+Canonical /srv/trading_lab_data/runs/v87_gold_positioning_risk_v1_d1046052fd5e;
+terminalPID0/exit0 observed14:15:56UTC, independentauditcomplete14:17:10UTC.
+25screensV65–V87=21rejected+1incomplete+3invalid,0Stage2; goal20–50%notverified.
+
+Actual14:18UTC: new `data/algopack-archive`1808645667bytes≈1.81GB,allocated2.28GB.
+Старая canonical AlgoPackcore4history отдельно1418832691bytes≈1.42GB; весь старый
+`data/processed/algopack` сinventory/samples1.457GB на14:19. Два основных исторических
+AlgoPack каталога вместе≈3.27GB. Исправление старой подписи: прежние1.67GBне включали
+полнуюcore4history; НЕ прибавлять её кобщемуserverdata второйраз.
+Serverdata4520667040 + source_evidence150734614 =4671401654bytes≈4.67GB,
+allocated5.35GB; models/runs/tmp excluded. Local14:18snapshot10841files/2.72GB;
+server/local не складыватькакuniquecorpus. Bothdownloadunitsactualactive/running,
+PID1663880/2522946: main2171/26305jobs/26.694mrows,failed0/blocked0;
+FUTOI344/2192days/4.830mrows,173unresolvedticker-days/21gapdays. Finalmanifestsнет.
+Services/tokens/Windows не менялись, broadAlgoPackeconomic scope покаunanswered.
+
+### V87 pre-outcome checkpoint (preserved)
 
 [Протокол](V87_GOLD_POSITIONING_RISK.md): новый GOLD managed-money quarterly impulse
 → SI/MIX risk-demand basket, constant risk-off control, 2018warmup/2019–2025evaluation,
@@ -3919,10 +3949,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK.md) подготовлен и запечатан:
-запустить один раз на сервере, проверить все2arms×2costs, сохранить полный результат.
-Перед любым запуском проверить actual runtime/canonical existence: не дублировать
-writer после observation timeout. Никаких retune или повторного source acquisition.
+V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
+baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,
+audit, source assembly или настраивать знак/активы/lag/TTL/размер по outcome. Нужен иной
+economicmechanism/informationset, а не ещё одна версия GOLD/WTI/STEO того же правила.
+AlgoPack downloading не остановлен; новый conditional economic scopeV85 покаunanswered.
+Поправка volume scope вначалеSTATUS: новый archive1.81GB, не вся стараяAlgoPackhistory.
 
 V86 STEO forecast revisions завершён: [результат](V86_STEO_REVISIONS_RESULT.md).
 Основной вариант убыточен; весь конкурс INVALID_EXECUTION_NO_PROMOTION. Не повторять

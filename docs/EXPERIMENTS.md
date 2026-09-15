@@ -1,6 +1,25 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V87 GOLD positioning risk: pre-outcome seal
+## 2026-09-15 — V87 GOLD positioning: INVALID_EXECUTION_NO_PROMOTION
+
+[Результат](V87_GOLD_POSITIONING_RISK_RESULT.md). Один2arms×2costs screen2019–2025:
+primarybase CAGR1.1282%,Sharpe0.1517,MDD44.1600%;double0.9010%/0.1356/44.8684%,
+но1criticalgrossrejection. ControlCAGR−2.5197%/−2.5240%. Primary161closed assetepisodes,
+5/7positiveyears,worst2022−36.53%/−37.55%. Всеterminalflat/unresolved0;
+doubleexecutionincomplete, wholebatchINVALID. Baseeconomicsтоже не проходятgates.
+3542decisions/1771dates,3324nonzerotargets/348usedreleases perarm,94.3535%featurecoverage.
+125localtargeted+separate65(overlap31)/31server testsPASS;21artifact/source/state/target
+и4metric/year/count/cash replaysPASS;independent418clocks/405FractionchangesPASS.
+Pre-outcome165e823, seal d1046052fd5e9de1451e7eaf5e209873e692ff9f032c7cc83b19522abb96d278;
+metrics3d38bc7706bfb554586495040311169ba8d911266e9ee44b6a23941fe89f3c0b.
+Canonical /srv/trading_lab_data/runs/v87_gold_positioning_risk_v1_d1046052fd5e,
+terminalPID0/exit0 observed14:15:56UTC. No rerun/retune/PIT/liveclaim.
+25screensV65–V87=21rejected+1incomplete+3invalid,0Stage2;goalnotverified.
+Botharchiveunitsactualrunning14:18UTC, unchanged. Volume scope corrected inresult:
+newarchive1.81GB + oldAlgoPackroot1.457GB≈3.27GB; serverdata/source total4.67GB,
+local2.72GBseparate/duplicatesunknown. Download is not a new economic PASS.
+
+### V87 pre-outcome seal (preserved)
 
 [Протокол](V87_GOLD_POSITIONING_RISK.md), один новый GOLD→SI/MIX risk-demand механизм,
 не WTI→BRretune.2018warmup/2019–2025evaluation,2arms×2costs, fixedquarterlychange.

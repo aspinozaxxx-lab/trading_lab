@@ -1,6 +1,24 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T13:47:00UTC: основной unit active/running,
+Актуальный checkpoint2026-09-15T14:18:06UTC: основной unit active/running,
+PID1663880, прежний invocation;2171/26305jobs,26694139rows,28182pages,
+failed0/blocked0,1587573999storedbytes completedjobs. Currenteq/tradestats2025-07-30,
+updated14:17:39.172426UTC. FUTOIV4runningPID2522946:344/2192days,
+4829656rows,173unresolvedticker-days/21gapdays. Обаfinalmanifestотсутствуют.
+Никаких restart, settings/token/Windows changes. V87 economic screen выполнен
+параллельно: [слабый результат, no promotion](V87_GOLD_POSITIONING_RISK_RESULT.md).
+
+Volume scope correction: `data/algopack-archive`1808645667apparentbytes≈1.81GB,
+2276061184allocatedbytes≈2.28GB. Стараяcanonicalcore4history находится отдельно,
+1418832691bytes≈1.419GB, иНЕвходит вэтотroot. Весь `data/processed/algopack`
+сinventory/samples1.457GB на14:19. Два основных исторических AlgoPack roots≈3.27GB.
+Прежние слова «весь AlgoPack, включая oldcore4» ниже — неверная подпись состава;
+старые byte-checkpoints сохранены какhistorical, не прибавлять старуюhistory кtotal
+data второйраз. Serverdata4520667040 + source_evidence150734614 =4.671GB,
+allocatedtotal5.355GB;local14:18snapshot2.720GB/10841files отдельно, duplicatesunknown.
+Models/runs/tmp вmarket/source totalsневключены. Полный архив ещё не готов.
+
+Предыдущий checkpoint2026-09-15T13:47:00UTC: основной unit active/running,
 MainPID1663880,1963/26305completed jobs,24634122rows,25973pages,failed0/blocked0;
 stored_bytes1465733921completedjobs. CurrentEQOrderStats2025-08-14,
 status.updated_at13:46:58.750161UTC. Final manifest отсутствует, unit неизменён.
