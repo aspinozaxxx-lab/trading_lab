@@ -1,6 +1,15 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T15:08:04UTC: main actualactive/running,PID1663880,
+Актуальный checkpoint2026-09-15T15:39:01UTC: actualactive/running,PID1663880,
+тотжеinvocationd562f0748c4341b48eb7f4d34d64b4a1.2678/26305jobs,
+32155488rows,33988pages,failed0/blocked0,1906051342storedbytescompletedjobs.
+Currentfo/tradestats2025-06-24,updated15:38:30.879988UTC,finalmanifestabsent.
+FUTOIV4actualrunningPID2522946:479/2192days,6160127logicalrows,222unresolvedticker-days,
+28gapdays,finalmanifestabsent. Services/tokens/Windowsнеизменны,полногоduзановонебыло.
+Параллельно[готовV90syntheticadapter](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md),
+неисторическийэкономическийрезультат. Volumesнижеотносятсяк15:08/15:09.
+
+Предыдущий checkpoint2026-09-15T15:08:04UTC: main actualactive/running,PID1663880,
 прежний invocationd562f0748c4341b48eb7f4d34d64b4a1.2492/26305jobs,
 30197166rows,31908pages,failed0/blocked0,1792478834storedbytescompletedjobs.
 Currentfx/alerts2025-07-08,updated15:07:55.826700UTC,finalmanifestabsent.

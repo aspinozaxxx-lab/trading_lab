@@ -1,5 +1,12 @@
 ﻿# V89: census завершён, описания RUNNING
 
+Actual checkpoint2026-09-15T15:39:01UTC: unit active/running, тотжеPID3208549 и
+invocation8a874553a92f4860bc235656c6e4e9b0.2908/40820processed/exact descriptions,
+unavailable0,reused0,requested2908,11048391rawbytes;updated15:39:01.846037UTC.
+Finalmanifestabsent; canonicalwriter/configнеизменны. Старые5checksнерепетировались.
+Параллельно[реализованV90adapter/ledgerbridge](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md),
+покаsynthetic-only/noeconomicrun. Ниже сохранёнprevioussnapshot15:12.
+
 Checkpoint 2026-09-15T15:12:20UTC. [Протокол](V89_OPTION_METADATA_SOURCE.md).
 Pre-census/pre-HTTP commit `cc4d737`, pushed; 25 local + 25 server tests PASS,
 Ruff clean, server closure verified. После запуска расширенная локальная группа

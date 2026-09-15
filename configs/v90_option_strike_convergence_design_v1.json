@@ -1,0 +1,50 @@
+﻿{
+  "protocol_id": "v90_option_strike_convergence_design_v1",
+  "declared_at_utc": "2026-09-15T15:19:17Z",
+  "status": "SYNTHETIC_ONLY_AWAITING_SOURCE_CLOSURE_AND_ECONOMIC_SEAL",
+  "economic_runner_enabled": false,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "RI", "SI"],
+  "signal": {
+    "maximum_expiry_distance_from_decision_calendar_days": 7,
+    "maximum_source_age_at_fill_calendar_days": 10,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "expiry": "nearest mapped lifecycle-valid future-option expiry strictly after decision, at most7calendar days; if fill reaches it, flat without substituting a later expiry",
+    "pool": "one compatible series/unit/lot/exercise-style for exact underlying; reported finite nonnegative OI only, no missing-to-zero replacement",
+    "primary": "direction toward the greater reported call+put OI among the two immediately bracketing reported strikes",
+    "control": "direction toward the nearest of those same two strikes, without OI magnitude comparison",
+    "tie_policy": "equal OI or equal strike distance means flat for that arm; exact observed strike means both flat",
+    "unknown_reported_mapping": "any usable reported OI with unresolved metadata for that asset release masks the release; explicitly non-future option classes are excluded and counted",
+    "invalid_oi": "mask nonfinite/negative OI as unavailable, retain counts; a strike with no usable OI is not zero",
+    "missing_new_release": "latest actually available asset release supersedes old, even if unusable; never fall back to older good data",
+    "eligibility": "strict-prior source date and availability; completed exact same-contract decision close only; no future prices or label validity",
+    "fit": "none",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.225,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]},
+    "ledger": "existing daily integer-contract portfolio ledger, no new engine",
+    "terminal": "flat on each asset's final declared effective date"
+  },
+  "pending_before_any_real_numeric_run": [
+    "V89 terminal source manifest and source metadata mapping/coverage",
+    "exact raw-description to dated underlying/quote-unit binding; SI ambiguity must not be guessed",
+    "full economic config/code/input hashes and fixed assessment gates",
+    "server verification before a single2arms-by2costs run"
+  ],
+  "limitations": [
+    "Synthetic adapter is not historical evidence, a complete backtest, or Stage2 admission.",
+    "Pre-expiry daily convergence is not last-minute expiry pinning. Failure of this rule does not test every intraday version.",
+    "Reported subset is not full-market OI or dealer gamma. All-NULL contracts remain in source coverage; complete expiry-specific denominator is unknown.",
+    "Historical static metadata and next-day publication proxy are not original-PIT proof. Protected2026 outcomes remain unread."
+  ]
+}

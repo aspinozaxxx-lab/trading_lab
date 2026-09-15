@@ -3,6 +3,32 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V90 — правило/контроль и ledger bridge реализованы, пока synthetic-only
+
+[Adapter/protocol status](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md): новый reported-OI
+pre-expiry convergence — основной вариант кбольшему OI двух соседнихстрайков,
+контроль кближайшемустрайку.42новых synthetic tests и95total targeted local PASS,
+Ruffclean; server3-file hashcheck и42/42synthetictestsPASS(2.64s).
+Integration действительно выполняет2arms×2costs на старомintegerledger:
+flat syntheticprice даёттолькорасходы, doubleхуже, terminalflat/no critical/unresolved.
+Никаких реальных OI magnitudes/prices/targets/PnL дляV90нечиталось.
+Config25b5d6266b9c968bb7adacf4261b5af0333d379cdb7f7b4853aeaa7e8e6f3429;
+adapter31788d6a8c00f6bf1bd7e205c0cc1f7adb7fcb449bc894588a467bd79140cf74.
+Это design snapshot, `economic_runner_enabled=false`, не full economic/input seal.
+Нужен source-bound metadata mapper, не ручноеTrueдляготовности/совместимостиunits.
+ПослеV89closure: одинmapping/coveragepass, полнаяфиксацияinput/code/gates, одинrun.
+Покаwriterработает — следомподготовитьexactmetadatajoin наsyntheticdescriptions и
+проверенныхдоговорныхидентификаторах; не читатьпервыеBRoutcomesилистроитьновыйledger.
+
+Actual15:39:01UTC все3unitsrunning с прежнимиPID/invocations. V89PID3208549:
+2908/40820exact descriptions,unavailable0,11048391rawbytes,finalmanifestabsent.
+MainAlgoPackPID1663880:2678/26305jobs,32155488rows,33988pages,failed0/blocked0,
+1906051342storedbytescompletedjobs. FUTOIV4PID2522946:479/2192days,6160127logicalrows,
+3863190new-rootrows,222unresolvedticker-days/28gapdays,76786105storedbytes.
+ОбаAlgoPackfinalmanifestsabsent,services/token/Windowsнеизменны. Новогополногоduнет:
+4.902GBserverdata/source и2.720GBlocal ниже — snapshots15:08/15:09, не currentdedupsum.
+Economic funnel остаётся25screens/0Stage2; цель20–50%неподтверждена.
+
 ## V89 — census COMPLETE, 40820 descriptions загружаются; server data/source 4.90GB
 
 [Checkpoint](V89_OPTION_METADATA_SOURCE_STATUS.md): census завершён15:07:09UTC,
@@ -4022,15 +4048,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V89 [census COMPLETE / acquisition RUNNING](V89_OPTION_METADATA_SOURCE_STATUS.md).
-Не повторять census/probe/audit или writer в canonical/partial root; сохранить V88
-raw references. Не опрашивать таймер вместо работы. Пока40820descriptionsскачиваются,
-реализовать маленький synthetic adapter по [новому правилу](OPTION_PINNING_RESEARCH_NOTE_20260915.md)
-на готовом dailyledger; послеsourceclosure одинexactmapping/coveragecheck, затем
-economic config/code/input seal доvalues и один2arms×2costs run. Calendar sample не
-полный as-oflist, SI premium/margined не смешивать. Daily pre-expiry proxy неintraday
-expiry: V62 simulate hardcoded10:10–12:20, напрямуюквечернемутестунеподходит.
-V89 source-only не увеличивает economic screen/Stage2 counts. Protected2026 остаётся.
+V90 [pure target adapter и ledger bridge готовы](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md),
+42new/95total local synthetictestsPASS. Не повторятьsyntheticпроверкикакновыйeconomic
+результат. ПокаV89acquisitionRUNNING, следующийboundedшаг — source-bound mapper для
+staticdescriptions→exactfutureidentity/quoteunits, syntheticfixtures доactualmapping.
+ПослеV89finalmanifest одинполныйmapping/coveragecheck, экономическийconfig/code/input
+seal и один2arms×2costsrun. Sourcecalendar261×4groups долженбытьявнопроверен; empty/missing
+release нельзяобойтистарымсигналом. Не ставитьготовностьmetadata/unitsручнымTrue.
+V89census/probe/audit/writerнеповторять,partialrootнеперезаписывать,V88referencesсохранить.
+SI premium/marginedнесмешивать; currentdescriptionнеoriginalPIT. Daily pre-expiry proxy
+неintradayexpiry: V62simulatehardcoded10:10–12:20, напрямуюквечернемутестунеподходит.
+Никакогоeconomic/Stage2incrementпоподготовке. Protected2026 и scopegatesостаются.
 
 V87 [GOLD positioning risk](V87_GOLD_POSITIONING_RISK_RESULT.md) завершён и проверен:
 baseCAGR1.13%/MDD44.16%,doublecriticalfailure, wholebatchINVALID. Не повторятьcanonical,

@@ -1,5 +1,21 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V90 rule and existing-ledger bridge, synthetic-only
+
+[Описание](V90_OPTION_STRIKE_CONVERGENCE_ADAPTER.md). Реализованreported-OIstrike
+convergence иnearest-strikecontrol, exactdecisionclose,expiryflatбезlatermaturityfallback,
+TTL/latestrelease,unit/type/lifecycleguards.42new/95total local testsPASS,Ruffclean;
+server3newfilehashes verified,42/42synthetictestsPASS2.64s.
+Наsyntheticconstantprice2arms×2costsдаюттолькорасходы, doubleхуже, terminalflat и0critical/
+unresolved. Это неисторическийPnL, code/configsnapshotнеполныйeconomicseal.
+Config25b5d6266b9c968bb7adacf4261b5af0333d379cdb7f7b4853aeaa7e8e6f3429;
+adapter31788d6a8c00f6bf1bd7e205c0cc1f7adb7fcb449bc894588a467bd79140cf74.
+НикакихновыхреальныхOI/prices/targets/PnL. Далееexactmetadata/unit mapper и послеV89
+closure одинmappingcheck+economicseal+run. Воронка25screens/0Stage2неизменна.
+Actual15:39UTCV89runningPID3208549,2908/40820descriptions/errors0/11.05MBraw;
+обаAlgoPackunitsrunningстарыеPID, main2678jobs/32.155mrows,FUTOI479days/6.160mrows.
+Архивыпродолжаютсябезизменений;bytes/countersнеявляютсяincomePASS.
+
 ## 2026-09-15 — V89 census COMPLETE, exact metadata acquisition RUNNING
 
 [Checkpoint](V89_OPTION_METADATA_SOURCE_STATUS.md): census40820needed descriptions из
