@@ -1,6 +1,16 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Актуальный checkpoint2026-09-15T12:41:05.610159UTC, [result/erratum](
+Актуальный checkpoint2026-09-15T13:47:00UTC:V4actualactive/running,PID2522946,
+status.updated_at13:47:01.092758UTC,current2025-03-14,last-completedEu,10/47tickers.
+294/2192processed days,13193ticker-days,13125resolved/68unresolved,6dayswithgaps,
+4261365intraday rows logical/1964428new-root rows,7524pagesreference-reused;
+39826211new-root storedbytes completed days. Final manifest отсутствует.
+Unit/seal/invocationнеизменны, no restart. Sourcegapsнепревращатьвcompletecoverage.
+Main14familyactualrunningPID1663880,1963jobs/24634122rows/25973pages,failed0/blocked0.
+WholeAlgoPackarchive1,671GBapparent/2,095GBallocated,retainedoldrootsincluded.
+V86screen завершёнпараллельно: [не прошёл](V86_STEO_REVISIONS_RESULT.md),notincomePASS.
+
+Предыдущий checkpoint2026-09-15T12:41:05.610159UTC, [result/erratum](
 ALGOPACK_FUTOI_ARCHIVE_V4_RESULT.md): unit
 trading-lab-algopack-futoi-archive-v4-f47d4cd22039.service,
 MainPID2522946,active/running,invocation2e561d202042490d81ddc8aefa3cd543;

@@ -1,6 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T12:41:05.610159UTC: основной unit active/running,
+Актуальный checkpoint2026-09-15T13:47:00UTC: основной unit active/running,
+MainPID1663880,1963/26305completed jobs,24634122rows,25973pages,failed0/blocked0;
+stored_bytes1465733921completedjobs. CurrentEQOrderStats2025-08-14,
+status.updated_at13:46:58.750161UTC. Final manifest отсутствует, unit неизменён.
+FUTOIV4active/runningPID2522946:294/2192processed days,4261365logicalrows,
+13125resolved/68unresolvedticker-days,6gapdays;finalmanifestabsent.
+ВесьAlgoPack apparent1670849835bytes (1,671GB),allocated2094641152bytes (2,095GB).
+Serverdata4380590905bytes + source_evidence150734614bytes =4,531GB,includingarchive,
+excludingmodels/runs/tmp. Server/local не складыватькакdeduplicatedcorpus.
+V86economiccontest параллельно завершён, [INVALID result](V86_STEO_REVISIONS_RESULT.md).
+Downloader/runtime/seal/Windows schedules не менялись. Files grow without economic PASS.
+
+Предыдущий checkpoint2026-09-15T12:41:05.610159UTC: основной unit active/running,
 MainPID1663880, прежний invocation;1583/26305completed jobs,20095301rows,
 21175pages,1200372370stored bytes completedjobs,failed0/blocked0.
 status.updated_at12:41:00.427669UTC,currenteq/tradestats,date2025-09-10.

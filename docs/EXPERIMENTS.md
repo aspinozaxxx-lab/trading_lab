@@ -1,6 +1,21 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V86 STEO forecast revisions, source COMPLETE / economics PRE-OUTCOME
+## 2026-09-15 — V86 STEO forecast revisions, INVALID_EXECUTION_NO_PROMOTION
+
+[Result](V86_STEO_REVISIONS_RESULT.md): primarybase/double CAGR−8,7839%/−9,2147%,
+MDD81,1423%/82,4525%,151closed episodes,4/8positiveyears,grossVMnegative.
+3/4scenariosfail execution with2/2/1grossrejects; no Stage2/goal/live. Do not retune.
+94ready forecasts/97sourceeditions,2024decisionsperarm,coverage97,9249%;2maskedrevisions.
+20hash/state/target+4ledger auditsPASS, independent97raw/94quarter/1245scalar/117dupPASS.
+Canonical /srv/trading_lab_data/runs/v86_steo_revisions_v1_a8e5c82fdf2a;
+seal a8e5c82fdf2afd95c7bfb4dbccf43128b98e1c29e1a6891cca339d73b94c561e,
+metrics565e4bb0540db2f0d1ec528365ffc5f9ba3c9a2ea9ebb47bfe06c595e7ae53f9.
+One run,pre-outcome10f607a,terminalPID0/exit0;86+44overlappinglocaltestsPASS,
+14source/21economicservertestsPASS. Actualbrokertrades0.
+V65–V86total24screens=21rejected+1incomplete+2invalid,0Stage2.
+Botharchiveunitsunchanged/running13:47UTC;AlgoPack1,671GBfiles/2,095GBdisk.
+
+### V86 source COMPLETE / economics PRE-OUTCOME checkpoint (preserved)
 
 [Economic protocol](V86_STEO_ECONOMIC_V1.md):97editions/89737568bytes/18notices,
 V4source completed13:37:47.836166UTC,80files reused/17new;V1/V2/V3 retained.

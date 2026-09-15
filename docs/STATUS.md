@@ -3,7 +3,31 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V86 — STEO97vintages COMPLETE; экономический тест подготовлен, не запускался
+## V86 — STEO revisions INVALID_EXECUTION_NO_PROMOTION; архивы RUNNING
+
+[Результат](V86_STEO_REVISIONS_RESULT.md): один2arms×2costs screen2018–2025,
+primary CAGR−8,7839%/−9,2147%,Sharpe−0,1300/−0,1434,MDD81,1423%/82,4525%,
+151closed episodes,4/8positiveyears. GrossVM тожеnegative. Primarybase execution
+complete, но primarydouble/controlbase/controldouble имеют2/2/1criticalgrossrejects:
+весь batchINVALID, не валидированная stressed прибыль. Не уменьшать размер/менятьзнак.
+2024decisions/1980nonzero targets perarm,97,9249%featurecoverage,94ready releases;
+October2022unknownnotice + dependentNovember masked, не исправлять ради rerun.
+20hash/source-state-target +4metric/year/count/cash replaysPASS; independent97raw/
+94revision/1245scalar/117duplicate checksPASS.86targeted+separate44tests (overlap)PASS.
+Seal a8e5c82fdf2afd95c7bfb4dbccf43128b98e1c29e1a6891cca339d73b94c561e,
+pre-outcome10f607a; metrics565e4bb0540db2f0d1ec528365ffc5f9ba3c9a2ea9ebb47bfe06c595e7ae53f9.
+Canonical /srv/trading_lab_data/runs/v86_steo_revisions_v1_a8e5c82fdf2a, terminalPID0/exit0.
+24screensV65–V86=21rejected+1incomplete+2invalid,0Stage2;goal20–50%notverified.
+
+Actual13:47UTC AlgoPack1670849835apparent bytes/2094641152allocated bytes (~1,67/2,09GB).
+Serverdata4380590905 + source_evidence150734614 =4531325519bytes (~4,53GB), inclarchive,
+exclmodels/runs/tmp. Local last12:41snapshot2,72GB; не суммироватькакuniquecorpus.
+BothdownloadsactualrunningPID1663880/2522946; main1963/26305jobs,24634122rows,
+failed0/blocked0;FUTOI294/2192days,4261365rows,68unresolvedticker-days/6gapdays.
+No final manifests; no restart/settings changes. Broader AlgoPack economic scope
+unanswered; next research needs independent mechanism/information, not V86retune.
+
+### V86 pre-outcome checkpoint (preserved)
 
 [Economic protocol](V86_STEO_ECONOMIC_V1.md): same-next-quarter consumption-production
 revision -> BR0.9,constantlong control,2018–2025,base/double fees,old daily ledger.
@@ -3880,6 +3904,16 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+V86 STEO forecast revisions завершён: [результат](V86_STEO_REVISIONS_RESULT.md).
+Основной вариант убыточен; весь конкурс INVALID_EXECUTION_NO_PROMOTION. Не повторять
+97-file collection, арифметические audits или canonical run, не менять sign/quarter/
+size/costs/years ради улучшения результата. Source V4 ссылается на V3 raw: сохранить
+оба каталога вместе. Дубли papr_world и неизвестный notice date не скрывать.
+В первую очередь — новый разрешённый механизм на уже имеющихся данных, не доработка
+инфраструктуры ради V86. Если пользователь подтвердит broader AlgoPack scope, брать
+описанные V85 механизмы отмены/пополнения заявок по отдельному заранее fixed contest;
+без ответа эта ветка остаётся scope-gated, но скачивание не останавливается.
 
 V85 EQOrderStats/HI2 [source feasibility](V85_EQ_FLOW_FEASIBILITY.md) уже завершена.
 Не повторять census/51page sample как новый результат. Свежий scope question на
