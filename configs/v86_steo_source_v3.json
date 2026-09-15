@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "v86_steo_source_v3",
+  "parent_source_seal_sha256": "1fbd0ff6d34f26a6d5d0ba9615e013d55cdcae7af12d52597e0126d4c845594b",
+  "raw_output": "/srv/trading_lab_data/source_evidence/v86_steo_vintages_v3",
+  "economic_admission": false,
+  "cached_index": {
+    "path": "/srv/trading_lab_data/source_evidence/v86_steo_vintages_v2/index.html",
+    "sha256": "a92ef3985730250992987025dad1f789f01b5366366b1c99ca460acf782a88f1",
+    "bytes": 174472,
+    "url": "https://www.eia.gov/outlooks/steo/outlook.php/archives/1Q95.pdf"
+  },
+  "change": "HTML has closing row tags but no opening row tags for July/April/March2019. Repair row-open syntax in RAM only and reuse preserved V2 index. All97dates/links/requests and workbook parser unchanged. V2 terminal failure before workbook requests; preserve V1/V2 and no global permission changes."
+}
