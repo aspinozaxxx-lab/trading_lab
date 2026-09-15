@@ -1,6 +1,16 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Новый actual checkpoint21:44:18UTC (16сентября00:44МСК): active/running,
+Новый actual checkpoint22:03:16UTC (16сентября01:03МСК): active/running,
+прежний PID1663880/invocation,5310/26305jobs,57200744rows,61036pages,
+failed0/blocked0,3373716298completed-job bytes,updated22:03:00.880193UTC,final absent.
+FUTOI тоже running; V89 уже terminal40820processed/40816exact/4unavailable.
+Du22:03:18UTC: archive3783599397 + oldprocessed1456918554 =5240517951bytes(5.241GB),
+data6529152505 + source_evidence479810805 =7008963310bytes(7.009GBtotal).
+Sequential apparent bytes,безmodels/runs/tmp,бездобавленияlocalduplicates.
+[V92 экономический конкурс завершён](V92_OPTION_CONVERGENCE_RESULT.md): REJECT_STAGE1,
+не source/исполнительная ошибка. Archive продолжается,token/services/Windows неизменны.
+
+Предыдущий actual checkpoint21:44:18UTC (16сентября00:44МСК): active/running,
 прежний PID1663880/invocation,5170/26305jobs,55747080rows,59479pages,
 failed0/blocked0,3290277446completed-job bytes,updated21:43:53.573255UTC.
 Final manifest absent; FUTOI/V89 тоже running. Units/credentials/Windows неизменны.

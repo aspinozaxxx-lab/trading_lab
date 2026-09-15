@@ -1,4 +1,16 @@
-# V92 — code/server verification COMPLETE, real mapping/economics NOT STARTED
+# V92 — economic COMPLETE, REJECT_STAGE1
+
+FINAL2026-09-15T21:59:00.059635UTC: [экономический результат](V92_OPTION_CONVERGENCE_RESULT.md).
+Primary CAGR−2.5590%/−3.9205%,MDD19.8280%/24.1129%,931/903round trips;
+control+2.5334%/+0.9952%,1186/1184round trips. Coverage80.6513%passed,
+all4executioncomplete,critical0/unresolved0,terminalflat. REJECT_STAGE1 по экономике.
+Source/map/admission/run все завершены, не повторять. Canonical и все artifacts сохранены;
+metrics7779fe317877f9395e5be48f451f47b83b2328e5b9f26fac5959fe97d43bb1b1,
+manifest0a3db3c967191d76824e77184f2d50e51103911a4a9dfc2e387cd1f4bb409ddb.
+26portfolio hypotheses/0Stage2,goal false. Ни OI sign flip,ни control promotion,
+ни настройка окна/актива/риска по этому результату не разрешены frozen протоколом.
+
+Ниже сохранена история подготовки, **не текущие команды к повторному запуску**.
 
 NEW21:52:25UTC: [full static mapping COMPLETE](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md).
 V89 terminal source40820/40820,4gaps,manifest3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f.

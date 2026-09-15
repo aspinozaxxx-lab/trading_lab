@@ -1,6 +1,22 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V92 full static mapping COMPLETE, economic admission pre-run
+## 2026-09-15 — V92 economic COMPLETE, REJECT_STAGE1
+
+[Все сценарии и годы](V92_OPTION_CONVERGENCE_RESULT.md),completed21:59:00.059635UTC.
+Primarybase/doubleCAGR−2.5590%/−3.9205%,Sharpe−0.4104/−0.6721,
+MDD19.8280%/24.1129%,931/903roundtrips;control+2.5334%/+0.9952%,1186/1184roundtrips.
+All4executioncomplete,critical0/unresolved0,terminalflat. Coverage842/1044=80.6513%passed.
+Primary1positiveyear/5; failedCAGR/Sharpe/stability/beatscontrol. REJECT_STAGE1,
+не INVALID или INCOMPLETE. Никакого promotion/control selection/sign flip/retuning.
+Canonical`/srv/trading_lab_data/runs/v92_option_convergence_screen_v1_0ded143d5a19`;
+manifest0a3db3c967191d76824e77184f2d50e51103911a4a9dfc2e387cd1f4bb409ddb,
+metrics7779fe317877f9395e5be48f451f47b83b2328e5b9f26fac5959fe97d43bb1b1.
+Admission0ded143d5a190710c66a7e80d2f40728425bab052e1db43b122dd118b1251472,
+pre-run0b1cf60pushed. Onecanonicalrun,artifacts SHA verified,old V90/ledger unchanged.
+Воронка26portfolio-screen hypotheses:22rejected+1incomplete+3invalid,0Stage2;
+V93 один отдельный component diagnostic. Historical20/50flags иgoal_verifiedfalse.
+
+### V92 full static mapping COMPLETE, economic admission pre-run checkpoint
 
 [Mapping result](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): completed21:52:25.420329UTC,
 source terminal40820/40820 with4gaps. Все108104identities/1044releases/1327744rows

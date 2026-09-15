@@ -3,7 +3,33 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V92 — full mapping COMPLETE; отдельный economic admission подготовлен
+## V92 economic COMPLETE — REJECT_STAGE1, цель20–50% не подтверждена
+
+[Полный результат](V92_OPTION_CONVERGENCE_RESULT.md): completed2026-09-15T21:59:00UTC,
+success/exit0. Primary CAGR−2.5590%/−3.9205%,Sharpe−0.4104/−0.6721,
+MDD19.8280%/24.1129%,931/903round trips приbase/double. Control+2.5334%/+0.9952%,
+MDD7.8667%/9.3208%,1186/1184round trips. Source coverage842/1044=80.6513% passed;
+все4ledgers complete,critical0/unresolved0,terminalflat. Провал экономический,
+не ошибка исполнения: только1positive primary year,primary хужеcontrol,доходность/Sharpe нижеgates.
+Control также не достигает5%component gate и не разрешён для post-hoc promotion.
+26portfolio-screen hypotheses=22rejected+1incomplete+3invalid,0Stage2; V93 отдельно.
+Canonical run `/srv/trading_lab_data/runs/v92_option_convergence_screen_v1_0ded143d5a19`,
+manifest0a3db3c967191d76824e77184f2d50e51103911a4a9dfc2e387cd1f4bb409ddb,
+metrics7779fe317877f9395e5be48f451f47b83b2328e5b9f26fac5959fe97d43bb1b1.
+Не повторять V88–V92 source/map/tests/run,не flip-ить OI rule,не подбиратьcontrol/asset/year/size.
+
+### Архивы: actual22:03:16UTC /16 сентября01:03МСК
+
+Main и FUTOI actual active/running, прежние PID/invocations; оба final manifests absent.
+Main5310/26305jobs,57200744rows,61036pages,failed0/blocked0,3373716298completed-job bytes.
+FUTOI1158/2192days,12662361logical/10365424new-root rows,37666resolved/527unresolved,
+101gapdays,193763657new-root bytes,7524reference pages. V89 уже terminal40820processed/4gaps.
+Du22:03:18UTC: data6529152505 + source_evidence479810805 =7008963310bytes(**7.009GB**),
+включая AlgoPack3783599397 + oldprocessed1456918554 =5240517951bytes(**5.241GB**).
+Sequential apparent bytes,без models/runs/tmp,local copies не прибавлены. Gaps/source
+references сохранены,никаких token/service/Windows изменений.
+
+### V92 full mapping/admission pre-run checkpoint (preserved)
 
 [Полный metadata результат](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): V89 terminal
 21:51:51UTC,40820processed/40816exact/4unavailable. Closed source manifest
@@ -4205,6 +4231,15 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
+V92 [economic screen COMPLETE/REJECT_STAGE1](V92_OPTION_CONVERGENCE_RESULT.md): primary
+−2.5590/−3.9205%CAGR,control+2.5334/+0.9952%,source80.6513%,all4executioncomplete,
+no critical/unresolved. Никакого следующего map/admission/run для этого источника:
+все стадии уже завершены и canonical сохранён. Не flip-ить OI direction/выбиратьcontrol.
+Дальше нужен другой механизм или новая разрешённая информация на<=2025, без
+повторения существующей подготовки/оптимизации. Main/FUTOI archive продолжаются;
+V89 закрыт. Broader AlgoPack OrderStats/HI2 economics пока требует ответа на уже заданный scope вопрос.
+26portfolio hypotheses/0Stage2 +отдельныйV93 component; это не достижение цели20–50%.
+
 V93 [R1 component COMPLETE](V93_SESSION_COMPONENTS_RESULT.md): overnight+2.2994bp при1×,
 −0.3805bp при2×, последние3yearsnegative,coverage46.5%,4unknownexit; control97unknown.
 Не продвигать и не retune-ить; это не income/portfolio CAGR, не новый Stage2.
@@ -4212,14 +4247,16 @@ V93 [R1 component COMPLETE](V93_SESSION_COMPONENTS_RESULT.md): overnight+2.2994b
 
 V92 [full-source mapping COMPLETE](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): V89
 terminal21:51:51UTC, full map21:52:25UTC, exact closed hashes в admission card.
-Следом push/verify отдельного card и один frozen economic run. Не повторять map/source.
+Economic run уже completed21:59UTC. Не повторять map/source/admission/run.
 
 V92 [full-source join и paired screen verified](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
 47new/224expanded local tests и47server tests PASS, full15-file seal verified.
-Source больше не RUNNING: полный mapping/calender уже завершён. Не переобъявлять
-подготовку/test PASS новой доходностью. Готовый runner использовать без нового
-collector/ledger/audit и без изменения fixed gates. Только один paired screen.
+Source больше не RUNNING: полный mapping/calendar и paired screen уже завершены.
+Не переобъявлять подготовку/test PASS новой доходностью. Runner/collector/ledger/audit
+для этой ветки больше не нужны. Fixed gates не меняются; результат отрицательный.
 Broader AlgoPack economic scope unanswered; это ограничение ветки, не запрет archive.
+
+#### Исторические подготовительные этапы V90/V91 — выполнены, не очередь повторных запусков
 
 V91 [sample binding COMPLETE](V91_OPTION_CONTRACT_MAPPING_RESULT.md):7exact futures +
 1currency exclusion,59new/126combined local и59server tests PASS. Canonical report и
