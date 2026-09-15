@@ -1,0 +1,11 @@
+{
+  "protocol_id": "v93_session_components_r1",
+  "files": {
+    "configs/v93_session_components_r1.json": "e44e836c958ab89829b3f65636f4e537dcbc73ebbebeda85a53f73484d3bf074",
+    "src/market_lab/futures/session_components_r1.py": "cadf068a70c5241a81dd194d79962c18a5340d1f8e2c8f8b70a6c0ecbf21323c",
+    "tests/test_session_components_r1.py": "c780adff3fd0bedf32737fa1fe593f1a646a6f6f467805774c814650220df422",
+    "docs/V93_SESSION_COMPONENTS_R1.md": "506c273a9cd8aaa9010563bf77033f480c146d7366811406570973870732bd5f",
+    "configs/v93_session_components_v1.seal.json": "e1b16d43124df5bc94a0b687fb45103039e472a69703dcdbe5b6010d702f7536",
+    "src/market_lab/futures/spec_proxy.py": "213958f5e09b1eef458506fa9b541880d96febfeaa4aa3eabb9e961308164783"
+  }
+}

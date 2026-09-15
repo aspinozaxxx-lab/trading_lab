@@ -3,7 +3,26 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V93 — короткий component screen подготовлен, реальный расчёт pending
+## V93 V1 COMPLETE/incomplete; unit-only R1 подготовлен до нового результата
+
+[Исправление единиц](V93_SESSION_COMPONENTS_R1.md): V1 completed17:21:48.623300UTC,
+591overnight rows ошибочно rejected из-за exact equality ежедневно оценённого point
+proxy; ещё4 missing exits. Overnight595entered/0completed, не отрицательная доходность.
+Control1053completed/97unresolved, conditional mean net−5.7420/−8.4145bp. V1 immutable.
+R1 сохраняет все requests/rules/gates, но считает безразмерный компонент и переводит
+fee/tick proxies в quote points; никакого cash PnL. Это post-control correction,
+не новая гипотеза/holdout. 3 новых/28 combined tests PASS6.59s. Следом один pushed,
+sealed R1 run; потом зафиксировать все результаты, не retune-ить часы/знак/capacity.
+
+Actual archive snapshot17:20:36UTC: все3running, прежние PID/invocations; main3280/26305,
+38339852rows,failed0/blocked0; FUTOI652/2192days,342unresolvedticker-days/52gapdays;
+V8912804/40820exact descriptions,unavailable0. Все final manifests absent.
+Du17:20:37UTC: data5287514198 + source_evidence251783899 =5539298097bytes(5.539GB),
+включая AlgoPack2561683305 + oldprocessed1456918554 =4018601859bytes(4.019GB).
+Models/runs/tmp excluded; local копия не прибавляется. Services/token/Windows неизменны.
+25 full economic screens/0Stage2; V93 не full portfolio test. V92 ждёт source closure.
+
+### V93 original pre-outcome checkpoint
 
 [Протокол](V93_SESSION_COMPONENTS.md): MIX long18:40→следующее10:20 против
 long10:20→18:40, все2021–2025, независимые one-contract probes и два costs.

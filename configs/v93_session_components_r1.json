@@ -1,0 +1,13 @@
+{
+  "protocol_id": "v93_session_components_r1",
+  "parent_seal_sha256": "e1b16d43124df5bc94a0b687fb45103039e472a69703dcdbe5b6010d702f7536",
+  "classification": "post-control-observation accounting-unit correction, not a new hypothesis or independent OOS",
+  "parent_output_preserved": "/srv/trading_lab_data/runs/v93_session_components_v1_e1b16d43124d",
+  "reason": "daily lagged VALUE/(VOLUME*WAPRICE) proxy is not an exact static contract multiplier; equality gate wrongly masked all overnight returns",
+  "change": "dimensionless gross return; each prior fee/tick estimate converted from RUB to quote points using its own daily proxy; no cash-PnL interpretation",
+  "unchanged": ["all candidate requests", "asset", "direction", "dates", "clocks", "one-contract capacity checks", "cost multipliers", "source hashes", "missing-exit handling", "lead gates"],
+  "cash_pnl_cagr_sharpe_mdd": null,
+  "stage2_candidate": false,
+  "live_trading_allowed": false,
+  "goal_verified": false
+}

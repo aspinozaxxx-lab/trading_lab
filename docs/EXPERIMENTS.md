@@ -1,6 +1,18 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V93 main/off-session component, pre-outcome preparation
+## 2026-09-15 — V93 V1 INCOMPLETE; unit-only R1 pre-run
+
+[Коррекция](V93_SESSION_COMPONENTS_R1.md): first canonical completed17:21:48.623300UTC,
+run `/srv/trading_lab_data/runs/v93_session_components_v1_e1b16d43124d`, manifest
+8e7c1cf9463f98b9109d083b2a19ca665c4db21a41dfd2565bb4a6c100f4c638.
+Overnight1271candidates/598requests/595entered/0completed:591 estimated-point equality
+rejections +4 unknown exits. Control1053completed/97unresolved, mean net−5.7420/−8.4145bp.
+No overnight net result, no cash portfolio metrics, no Stage2. New R1 normalizes
+price units without changing any requests/strategy/gates; explicitly post-control
+correction, not another hypothesis. 3new/28combined synthetic tests PASS6.59s.
+Не считать R1 независимым holdout или перезаписывать V1; один separate sealed output.
+
+### Original pre-outcome preparation
 
 [Протокол](V93_SESSION_COMPONENTS.md): один новый ценовой механизм, long MIX вне
 основной сессии против дневного контроля,2021–2025, два costs. Это независимые

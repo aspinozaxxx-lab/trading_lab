@@ -1,6 +1,14 @@
 ﻿# V89: census завершён, описания RUNNING
 
-Actual checkpoint16:49:00UTC: unit active/running, прежний PID3208549/invocation,
+Новый actual checkpoint17:20:36UTC: unit active/running, прежний PID3208549/invocation,
+12804/40820processed/requested/exact,unavailable0/reused0,51100835rawbytes,
+updated17:20:36.386187UTC, final manifest absent. Writer/config неизменны.
+V92 пока не запускать: full source ещё не закрыт. Параллельно выполняется
+[V93 component diagnostic](V93_SESSION_COMPONENTS.md); это не V92 economic admission.
+[Whole-volume snapshot](ALGOPACK_ARCHIVE_V1_STATUS.md)5.539GB total/4.019GB AlgoPack;
+Main/FUTOI running, service/token/Windows changes отсутствуют.
+
+Previous checkpoint16:49:00UTC: unit active/running, прежний PID3208549/invocation,
 9761/40820processed/requested/exact, unavailable0/reused0,39523869rawbytes,
 updated16:48:59.915715UTC. Final manifest absent; canonical writer/config не менялись.
 [V92 paired screen code/server verification готовы](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
