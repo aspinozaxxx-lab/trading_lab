@@ -1,0 +1,14 @@
+﻿{
+  "protocol_id": "v81_stock_perpetual_funding_v1",
+  "sealed_before_source_market_values": true,
+  "sealed_at_utc": "2026-09-15T10:28:15Z",
+  "files": {
+    "configs/v81_stock_perpetual_funding_v1.json": "cb456322c6b4624592a05559f201d29c9e8be71402fcc043df9ccc671e635081",
+    "src/market_lab/futures/v81_stock_perpetual_funding.py": "ae727ea9fe337ae5759f448ad5f45091b68a210f03e145cfc38988740fa8eb1a",
+    "tests/test_v81_stock_perpetual_funding.py": "404e2d564d679b9f8f1102e8e6c351819fe533a96164176c983c2bec66533605",
+    "docs/V81_STOCK_PERPETUAL_FUNDING.md": "1971719e4b8307ae20986b2798e4869ff60eed028f87dbf345981e5b6a9996c6",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e"
+  }
+}

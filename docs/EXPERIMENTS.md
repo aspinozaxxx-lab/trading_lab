@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V81 stock perpetual funding component, sealed pre-request
+
+[Protocol](V81_STOCK_PERPETUAL_FUNDING.md): новая SBERF/GAZPF funding family,
+all2024-10-01…2025-12-31,не CNY quarterly retune. Settlement/funding units100cancel
+в относительной нормировке. Simple APR/20-40bps illustrative hurdles не portfolio CAGR.
+Проверка missing payments/calendar before meaningful annualization; никакого fill/fit.
+Local49tests PASS,21new. Seven-file seal
+a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a.
+До seal был только name-only metadata probeHTTP200/460bytes,без market values;
+далее новый external root v81_stock_perpetual_funding_v1. Economic outcome пока нет.
+V65–V80count23/0Stage2 не меняется. Crypto scope question unanswered, данные не читались.
+
 ## 2026-09-15 — V80 GPR: REJECT_STAGE1, один завершённый batch
 
 [Результат](V80_GPR_RISK_RESULT.md): news Russia-risk persistence, all2022–2025,

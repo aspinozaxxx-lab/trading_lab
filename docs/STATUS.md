@@ -3,6 +3,24 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V81 — funding-component screen SBERF/GAZPF sealed, pre-request
+
+[Протокол](V81_STOCK_PERPETUAL_FUNDING.md): funding короткого вечного фьючерса при
+условном хедже акции, не прогноз направления и не повторение CNY quarterly spread.
+Весь период с launch2024-10-01 до2025-12-31, оба тикера, все выплаты/знаки,без fit.
+Сначала размер funding-alone потока; полноценный paired portfolio только при зацепке.
+Simple cashflow APR не CAGR/strategy PnL. Missing payments или пропущенная proxy session
+дают unknown/APR=null; calendar date-only projection pinned, старые цены не нужны.
+Local49tests (21new+28V80) PASS,Ruff clean. Default-TLS name-only metadata probe200;
+market values/SWAPRATE ещё не читались. Seven-file seal
+a9e4299e3a8846d6dba8d19588af18baaf63b7b2818e107e13b59b587e5ac89a.
+Новый root /srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1,
+пока не создан. Далее server tests, один bounded batch (max20pages), read-only replay.
+Задано optional scope question про crypto funding research; ответа пока нет, crypto
+datasets/prices/PnL не запрашивать. Это не блокирует текущую MOEX работу.
+Оба AlgoPack units в начале текущего turn actual active/running, PID1663880/1913099;
+не перезапускать, counts брать из dated archive checkpoints.
+
 ## Последний screen — V80 GPR: REJECT_STAGE1; AlgoPack архивы RUNNING
 
 [Результат](V80_GPR_RISK_RESULT.md), [протокол](V80_GPR_RISK.md): один Russia-news
@@ -3698,10 +3716,10 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V80 GPR завершён REJECT_STAGE1, [полный результат](V80_GPR_RISK_RESULT.md).
-Не повторять source/feasibility/PnL или менять знак/window/TTL/годы. Следующая работа:
-выбрать иной экономический механизм с реально доступной историей<=2025 и провести
-короткий sealed screen, а не новый набор параметров уже закрытых V64–V80 families.
+V81 funding-component screen sealed, pre-request: [протокол](V81_STOCK_PERPETUAL_FUNDING.md).
+Далее server21tests, bounded anonymous source/calendars/cashflow pass и raw replay.
+Только при сильном потоке переходить к separate paired execution/economics, не наоборот.
+V80 GPR REJECT_STAGE1; не повторять source/feasibility/PnL или менять sign/window/TTL/годы.
 46GPR vintages сохранены; их полнота/commit proxy не означает PIT или доходность.
 
 Разрешение2026-09-15 получено; прежний scope blocker снят, повторно не спрашивать.

@@ -1,0 +1,35 @@
+﻿{
+  "protocol_id": "v81_stock_perpetual_funding_v1",
+  "declared_at_utc": "2026-09-15T10:27:24Z",
+  "scope": "funding_component_only_not_paired_portfolio",
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "root": "/srv/trading_lab_data/source_evidence/v81_stock_perpetual_funding_v1",
+  "tickers": ["SBERF", "GAZPF"],
+  "period": {"start": "2024-10-01", "end": "2025-12-31"},
+  "lot_shares": 100,
+  "maximum_rows_per_ticker": 1000,
+  "columns": ["BOARDID", "TRADEDATE", "SECID", "SETTLEPRICE", "SWAPRATE", "VOLUME", "NUMTRADES"],
+  "calendar": {
+    "path": "data/processed/futures_v5/development_panel_2018_2025_active_contract_map.parquet",
+    "sha256": "40e817080676f906e6ae33bb5c4d7f98f0c753fd43d6569fc7884bd618168823",
+    "bytes": 500949,
+    "rows": 8100,
+    "read_columns": ["effective_date"],
+    "meaning": "factual_core4_session_date_proxy_not_full_official_calendar"
+  },
+  "illustrative_roundtrip_fee_bps": {"base": 20, "double": 40},
+  "gates": {
+    "minimum_calendar_span_days": 365,
+    "minimum_apr": 0.20,
+    "minimum_positive_month_fraction": 0.75
+  },
+  "limitations": [
+    "Funding-component arithmetic only. Historical SWAPRATE and settlement are current-vintage, not independently witnessed original versions. No signal, broker fill or paired strategy PnL.",
+    "One fixed100-share hedge notionally starts after the first source close. First-row funding is excluded. Missing subsequent payments remain unknown, never zero or selectively discarded.",
+    "Simple APR is total funding/initial settlement notional times365.25/elapsed calendar days. It is not CAGR, does not compound and is not promised future yield.",
+    "The20/40bps fee hurdles are illustrative arithmetic, not execution evidence. Basis MTM, spot/perpetual dividend adjustment, actual dividends and taxes, margin capital, liquidation and forced conversions are not modeled.",
+    "A funding-component pass only warrants a separate paired portfolio/execution protocol, never Stage2 or live admission. A rejection does not rule out different basis-convergence or collateral-income mechanisms.",
+    "Only15calendar months are available by the protected cutoff, with2024partial. This cannot establish stable20-50percent income. No sign, dates, ticker selection or fee hurdle tuning after values."
+  ]
+}
