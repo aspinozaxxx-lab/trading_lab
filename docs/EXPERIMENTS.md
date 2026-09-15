@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V93 main/off-session component, pre-outcome preparation
+
+[Протокол](V93_SESSION_COMPONENTS.md): один новый ценовой механизм, long MIX вне
+основной сессии против дневного контроля,2021–2025, два costs. Это независимые
+one-contract probes, не новый portfolio ledger, не полный economic screen и не
+Stage2. Requests не читают будущие выходы; неизвестные выходы остаются unresolved.
+12 новых/25 combined synthetic tests PASS, Ruff clean. Data preflight только
+time/identity. Config c138ec35838c8605eaf04f7a2f4e13fb97e0ed2289ee0844259cf3e45c092efb.
+Следом один server diagnostic после push/seal; реальные компоненты пока не считались.
+
 ## 2026-09-15 — V92 full screen code/server verification COMPLETE, no historical run
 
 [Server checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md): finished16:56:00.516351UTC,

@@ -1,0 +1,36 @@
+{
+  "protocol_id": "v93_session_components_v1",
+  "declared_at_utc": "2026-09-15T17:15:00Z",
+  "research_only": true,
+  "economic_role": "cheap falsification of a return component, not a portfolio backtest or Stage2 admission",
+  "source_root": "/srv/trading_lab_data/data/v62-legacy-source-v1",
+  "source_config": "configs/futures_v62_cross_market_opening_regime_v1.yaml",
+  "source_config_sha256": "21b318308789522a47cc9fdd4013a348e209011ede4dd59865bec5fae273dce0",
+  "period": {"start": "2021-01-01", "end": "2025-12-31", "protected_from": "2026-01-01"},
+  "asset": "MIX",
+  "direction": 1,
+  "arms": {
+    "off_session": {"entry_minute_moscow": 1120, "exit_minute_moscow": 620, "next_session": true},
+    "main_session_control": {"entry_minute_moscow": 620, "exit_minute_moscow": 1120, "next_session": false}
+  },
+  "decision": "bar ending ten minutes before entry; current causal plan only; no future exit prices or volumes",
+  "quantity_per_independent_probe": 1,
+  "minimum_signal_volume": 400,
+  "minimum_factual_volume": 100,
+  "costs": {"primary": [1, 1.0], "doubled": [2, 2.0]},
+  "specs": "strictly prior sizing/fee research proxy; same contract and unchanged RUB point value at exit",
+  "missing": "retain every calendar candidate and every entered-but-unclosed probe; never substitute zero returns",
+  "reporting": "net and gross basis points per actual entry notional, conditional observed-pair statistics, every year and both costs; CAGR/Sharpe/MDD null because there is no portfolio ledger",
+  "lead_gates": {
+    "minimum_completed_intervals": 500,
+    "minimum_completed_calendar_coverage": 0.8,
+    "minimum_mean_net_basis_points": 2.0,
+    "minimum_positive_years": 3,
+    "all_five_years": true,
+    "primary_beats_control_on_matched_dates": true,
+    "unresolved_entered_intervals": 0
+  },
+  "forbidden_followups": ["select a different clock, direction, asset or year after outcomes", "call observed-pair returns portfolio profit", "promote a control", "read protected 2026 outcomes"],
+  "live_trading_allowed": false,
+  "goal_verified": false
+}

@@ -1,0 +1,13 @@
+{
+  "protocol_id": "v93_session_components_v1",
+  "files": {
+    "configs/v93_session_components_v1.json": "c138ec35838c8605eaf04f7a2f4e13fb97e0ed2289ee0844259cf3e45c092efb",
+    "src/market_lab/futures/session_components.py": "dd6578fd26c8dde4114b62ce0afc9f26527304d92320aa051c58585984243b42",
+    "tests/test_session_components.py": "48c050e93da3157e2bb0c9a1dea69f3b8671f424aa9a2e62f3f209bd00c2b5e6",
+    "docs/V93_SESSION_COMPONENTS.md": "8c01b12dbc18a000b1201e109c645d6b142b2897dbf7b0de049397b504078382",
+    "configs/futures_v62_cross_market_opening_regime_v1.yaml": "21b318308789522a47cc9fdd4013a348e209011ede4dd59865bec5fae273dce0",
+    "src/market_lab/futures_v62_opening_regime_v2.py": "53e9bde21b93ae73cf403a3f2fad6a5120de50a9435fa24ef6f3f2b93b5ffab0",
+    "src/market_lab/futures/opening_regime_v2.py": "c2fe3421c21f2029aec273515c5625f091881c2d64adebebcd8fe4ab619dca26",
+    "src/market_lab/futures/opening_execution_v2.py": "3e91689296c9faa04913296c95685bccdee8895f12409df17b930a84a432aa66"
+  }
+}

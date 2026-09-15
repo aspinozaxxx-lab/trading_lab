@@ -3,6 +3,17 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V93 — короткий component screen подготовлен, реальный расчёт pending
+
+[Протокол](V93_SESSION_COMPONENTS.md): MIX long18:40→следующее10:20 против
+long10:20→18:40, все2021–2025, независимые one-contract probes и два costs.
+Новый ledger не создаётся: mean net bp — условный ценовой компонент, CAGR/Sharpe/MDD
+null, Stage2=false всегда. 12 новых/25 combined synthetic tests PASS6.42s, Ruff clean.
+До outcomes проверен только старый manifest/time/ID corpus; никаких новых цен пока.
+Следом push/seal/server verification и один immutable diagnostic run. Не менять
+часы/актив/знак/период после результата. Загрузчики продолжают работу без изменений.
+Воронка25 full economic screens/0Stage2 пока не меняется; V93 не full portfolio screen.
+
 ## V92 — полный paired screen проверен на server, historical run ещё не запущен
 
 [Текущий checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md): server finished
