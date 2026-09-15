@@ -5,6 +5,13 @@
 
 ## Последний economic batch — V78: оба REJECT_STAGE1
 
+Актуальное поручение2026-09-15: [разрешены conditional AlgoPack screen и архив](
+ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Пользователь снял scope blocker
+и поручил сохранить полезную историю до expiry подписки. Старые записи blocked ниже
+исторические. Новая работа: три дешёвых flow/depth механизма на готовых2020–2025 inputs
+и отдельная server-only archival загрузка без2026/покупок/live. Результат нового конкурса
+и полнота расширенного архива пока не установлены; 19screens/0Stage2 не меняются.
+
 [Протокол](V78_TREASURY_CHANNELS.md), [результат](V78_TREASURY_CHANNELS_RESULT.md):
 два новых Treasury information channels, real-discount и inflation-compensation,
 20-observation changes, BR/MIX/SI по0.3, constant risk-on controls, full2018–2025.

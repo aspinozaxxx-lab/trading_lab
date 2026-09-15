@@ -1,0 +1,13 @@
+﻿{
+  "protocol_id": "algopack_archive_v1",
+  "files": {
+    "configs/algopack_archive_v1.json": "61e160297bf4d62f18c80f86fc839d92db1e490c2599b4b483225134a0c6eedc",
+    "src/market_lab/futures/algopack_archive_v1.py": "bdc1e84c3a521e5b108ba4f7bd8a7ec7037ae68cc026ea0d261ad1217d5dfade",
+    "tests/test_algopack_archive_v1.py": "fec3a57accde4adfcf02565c51910d520010319408d06491f8d4e9caa9cb20e4",
+    "docs/ALGOPACK_ARCHIVE_V1.md": "9fbe6dc42af673e5c54bb2de3c01cae269107601c20eba33d33304ff0e935177",
+    "docs/ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md": "29152e59501b2fe733d3489bd07dcc89812bded7cb89006ad4189d3933905aff",
+    "src/market_lab/__init__.py": "648021f326bf903ceaf23398c4f582f69870e1b4e30f93fbb32fc0af25c4fe7a",
+    "src/market_lab/futures/__init__.py": "c84b64d04224ca5584c2b2b20bcd0730c24d330269789e245636b85fa6705a6e",
+    "pyproject.toml": "bc10acd56aafbedc68d3bb3b1cbf75e2bb2695e95287d9ef1e270a5fcfaae053"
+  }
+}

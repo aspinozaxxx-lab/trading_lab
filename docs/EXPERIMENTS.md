@@ -2,6 +2,11 @@
 
 ## 2026-09-14 — AlgoPack historical screen: требуется уточнение scope
 
+Update2026-09-15: пользователь явно разрешил предложенный preliminary historical test
+и сохранение полезного AlgoPack архива: [новый scope](
+ALGOPACK_RESEARCH_AND_ARCHIVE_AUTHORIZATION_20260915.md). Blocker снят; нижеследующая
+запись ожидания историческая. Новый economic результат пока не получен.
+
 [Развилка](ALGOPACK_FAST_SCREEN_SCOPE_REQUEST_20260914.md): проверено действующее
 разрешение training+future-paper; historical AlgoPack CAGR в него не входит.
 Предложен отдельный conditional 2020–2025 screen, но согласие ещё не получено.

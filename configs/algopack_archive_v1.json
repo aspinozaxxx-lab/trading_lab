@@ -1,0 +1,18 @@
+﻿{
+  "protocol_id": "algopack_archive_v1",
+  "start": "2020-01-01",
+  "end": "2025-12-31",
+  "pilot_date": "2024-10-15",
+  "datasets": ["eq/tradestats", "eq/obstats", "eq/orderstats", "fo/tradestats", "fo/obstats", "fx/tradestats", "fx/obstats", "fx/orderstats", "eq/hi2", "fo/hi2", "fx/hi2", "eq/alerts", "fo/alerts", "fx/alerts"],
+  "alerts_start": "2024-01-01",
+  "page_ceiling": 5000,
+  "request_interval_seconds": 0.5,
+  "retry_delays_seconds": [5, 15, 45],
+  "minimum_free_bytes": 137438953472,
+  "maximum_archive_bytes": 536870912000,
+  "maximum_response_bytes": 67108864,
+  "output_parent": "/srv/trading_lab_data/data/algopack-archive",
+  "source_only": true,
+  "original_version_verified": false,
+  "live_trading_allowed": false
+}
