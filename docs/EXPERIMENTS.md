@@ -1,6 +1,17 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V92 full screen code COMPLETE locally, no historical run
+## 2026-09-15 — V92 full screen code/server verification COMPLETE, no historical run
+
+[Server checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md): finished16:56:00.516351UTC,
+15-file seal verified,47/47server synthetic tests PASS1.22s. Pre-activation2639891,
+seal1afd2aa17647767be4f7c503f75133e1ee40777f66add7607a3d626b626b0707.
+Admission file absent; rejection before numeric readers проверен. Actual full mapping,
+calendar assembly и economic run не запускались. OI magnitudes/market values/PnL не читались.
+47new/224expanded local tests и прежний ledger не означают economic PASS; screens25,
+Stage2=0, goal false. Следом source closure→one map→separate admission→one paired screen.
+Пока V89 running — другой независимый разрешённый механизм, не повтор этой подготовки.
+
+### V92 local pre-server checkpoint (preserved)
 
 [Протокол](V92_OPTION_CONVERGENCE_SCREEN.md). Full40820 description/census join,
 1044-release calendar handling и fixed V90 rule→existing-ledger paired runner готовы.

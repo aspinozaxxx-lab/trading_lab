@@ -1,6 +1,13 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Актуальный checkpoint2026-09-15T16:08:58UTC: actual active/running, PID1663880,
+Актуальный checkpoint16:49:00UTC: actual active/running, прежний PID1663880/invocation.
+3084/26305jobs,36378331rows,38504pages,failed0/blocked0,2152044277completed-job bytes.
+Updated16:48:23.204648UTC,current fo/tradestats2025-05-26,final manifest absent.
+FUTOI/V89 тоже actual running; [полный checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md).
+Нового du нет; ниже volumes16:09. Services/token/Windows не менялись.
+Параллельно V92 screen code проверен на server, но actual historical PnL ещё не считался.
+
+Предыдущий checkpoint2026-09-15T16:08:58UTC: actual active/running, PID1663880,
 прежний invocation d562f0748c4341b48eb7f4d34d64b4a1. 2872/26305 completed jobs,
 34009646 rows, 35986 pages, failed0/blocked0, 2013287133 stored bytes completed jobs.
 Current eq/obstats2025-06-10, updated16:08:35.344533UTC; final manifest отсутствует.

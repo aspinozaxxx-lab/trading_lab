@@ -1,6 +1,13 @@
 ﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
 
-Актуальный checkpoint2026-09-15T16:08:58UTC: V4 actual active/running, PID2522946,
+Актуальный checkpoint16:49:00UTC: V4 actual active/running, прежний PID2522946/invocation.
+601/2192days,22366ticker-days,22084resolved/282unresolved,40gapdays,
+7300673logical/5003736new-root rows,7524reference-reused pages,98096802new-root bytes.
+Updated16:48:59.661403UTC,current2024-05-10,Eu9/43,final manifest absent.
+Main/V89 тоже actual running; [полный checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md).
+Source gaps сохранены, service/config/token/Windows не менялись; нового du нет.
+
+Предыдущий checkpoint2026-09-15T16:08:58UTC: V4 actual active/running, PID2522946,
 прежний invocation2e561d202042490d81ddc8aefa3cd543. 531/2192 processed days,
 20396 ticker-days, 20159 resolved / 237 unresolved, 31 days with gaps,
 6637165 logical rows / 4340228 new-root rows, 7524 reference-reused pages,

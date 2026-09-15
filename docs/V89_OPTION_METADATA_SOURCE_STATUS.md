@@ -1,6 +1,14 @@
 ﻿# V89: census завершён, описания RUNNING
 
-Actual checkpoint2026-09-15T16:08:58UTC: unit active/running, тот же PID3208549 и
+Actual checkpoint16:49:00UTC: unit active/running, прежний PID3208549/invocation,
+9761/40820processed/requested/exact, unavailable0/reused0,39523869rawbytes,
+updated16:48:59.915715UTC. Final manifest absent; canonical writer/config не менялись.
+[V92 paired screen code/server verification готовы](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
+но full metadata mapping и real economic run ещё не запускались. Partial source не
+использовать для выбора удобного universe; source closure остаётся обязательной.
+Нового du нет, остальные archive units actual running; snapshot ниже16:09.
+
+Previous checkpoint2026-09-15T16:08:58UTC: unit active/running, тот же PID3208549 и
 invocation8a874553a92f4860bc235656c6e4e9b0. 5896/40820 processed/requested/exact,
 unavailable0/reused0, 23397538 raw bytes, updated16:08:57.292492UTC.
 Final manifest отсутствует, writer не менялся. V91 source-bound mapper готов,

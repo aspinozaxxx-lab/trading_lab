@@ -3,7 +3,19 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V92 — полный paired screen реализован, historical run ещё не запущен
+## V92 — полный paired screen проверен на server, historical run ещё не запущен
+
+[Текущий checkpoint](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md): server finished
+16:56:00.516351UTC,15-file seal verified,47/47 new synthetic tests PASS1.22s.
+Pre-activation2639891 pushed. Admission отсутствует и rejection before numeric readers
+проверен на server. Actual V92 full mapping/calendar/economic units NOT STARTED.
+Следующий шаг этой ветки — map после closed V89, затем отдельный input admission и
+один screen. Пока source RUNNING — другая независимая разрешённая гипотеза; не
+повторять готовые tests/adapters/audits и не настраивать очередной collector.
+Code seal1afd2aa17647767be4f7c503f75133e1ee40777f66add7607a3d626b626b0707.
+Source runtime ниже —actual16:49, не новое наблюдение16:56. Profit/Stage2/goal не доказаны.
+
+### V92 local pre-server checkpoint (preserved)
 
 [Протокол/команды](V92_OPTION_CONVERGENCE_SCREEN.md): готов full-census source mapper,
 exact release-calendar join и V90→existing-ledger runner. V90 rule, control, sizes,
@@ -4124,9 +4136,9 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-V92 [full-source join и paired screen готовы](V92_OPTION_CONVERGENCE_SCREEN.md),
-47new/224expanded local tests PASS; server verification pending. Один server hash/test
-check, затем не повторять preparation как результат. V89 actual16:49 still RUNNING,
+V92 [full-source join и paired screen verified](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
+47new/224expanded local tests и47server tests PASS, full15-file seal verified.
+Не повторять preparation как результат. V89 actual16:49 still RUNNING,
 9761/40820 descriptions: нельзя запускать full map/economics по partial source.
 После final V89 manifest выполнить один metadata mapping/calendar pass, зафиксировать
 отдельный economic admission и выполнить единственный paired screen по уже fixed gates.
