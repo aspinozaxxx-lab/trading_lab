@@ -1,0 +1,10 @@
+﻿{
+  "protocol_id": "v80_gpr_vintages_source_v2",
+  "files": {
+    "src/market_lab/futures/gpr_vintages_source_v2.py": "911575468c5103cf46a710f0b452b362ac4a00bc7428c941a4d5355dd5f07eba",
+    "configs/v80_gpr_vintages_source_v2.json": "45b6f53ea16cbf4c74015d8ebccf7b7e5a629b47af394dc01a0d42e8a9551a44",
+    "tests/test_gpr_vintages_source_v2.py": "06a0ae29fd7eb694e1a605a5239d03d4ddd369dd0cc27f4de79eb0c1615c298f",
+    "docs/V80_GPR_VINTAGES_SOURCE_V2.md": "dc01ba20ab085d6e6e3ffdfd22bb7b4c844b438ae67b7221be1a9f163b02d59f",
+    "configs/v80_gpr_vintages_source_v1.seal.json": "b6d521960cd39f2125802c034744d96227a8468895b4ccd7dce139995028f253"
+  }
+}

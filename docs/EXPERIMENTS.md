@@ -5,8 +5,10 @@
 [Протокол](V80_GPR_VINTAGES_SOURCE.md): независимый newspaper geopolitical-risk source,
 архив dated monthly versions. Из50<=2025editions earliest202110, first Git addition
 2022-03-01;202202нет. Planned46versions202203…202512,3metadata pilots до полного source.
-Local8synthetic tests PASS/Ruff clean. GPR values/market outcomes ещё не читались,
-economic run0. Это не новый NO_GO/PASS и не изменение V65–V79count22/0Stage2.
+V1 server8tests PASS, первый source pilot failed до raw publication из-за78undated
+records при1467valid pre2026months. [V2](V80_GPR_VINTAGES_SOURCE_V2.md) сохраняет raw,
+mask undated calendar only; local15tests PASS, pre-request. GPR values/market outcomes
+ещё не читались, economic run0; V65–V79count22/0Stage2 не меняется.
 
 ## 2026-09-15 — V79 R1 conditional AlgoPack: 3REJECT_STAGE1; archive RUNNING
 

@@ -3,16 +3,20 @@
 Обновлено: **2026-09-15**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Следующий механизм — V80 GPR vintages, pre-source checkpoint
+## Следующий механизм — V80 GPR vintages, source V2 pre-request
 
 [Source protocol](V80_GPR_VINTAGES_SOURCE.md): country geopolitical risk из независимого
 news-based ряда Caldara/Iacoviello, не повторение закрытых flow/price thresholds.
 Авторы хранят месячные версии; каталог59DTA editions,50<=2025, earliest202110,
 но202110 впервые добавлена в Git2022-03-01. Planned46versions202203…202512,
 first3metadata pilots; не выдавать filename edition за original public timestamp.
-Code/config/source-only protocol sealed до HTTP, local8synthetic tests PASS/Ruff clean.
-Raw/GPR numeric values/MOEX outcomes ещё не читались. Далее server3metadata pilot,
-при пригодности полный source, затем отдельный economic seal/cost screen2022–2025.
+V1 sealed/pushed6fab970, server8tests PASS, затем pilot остановлен до raw publication:
+invalid_or_protected_source_months. Date-only diagnostic:1467valid ordered months
+1900…2022-03,78undated rows,0post-vintage/2026months. [V2](V80_GPR_VINTAGES_SOURCE_V2.md)
+сохраняет весь raw и отдельно помечает undated rows, не приписывает им даты; valid
+date/calendar gates не ослаблены. Local15tests PASS, V2 pre-request. GPR economic
+values/MOEX outcomes ещё не читались. Далее3metadata pilots и при пригодности полный
+source, затем отдельный economic seal/cost screen2022–2025. V1/root не повторять.
 V65–V79 остаются22economic screens/0Stage2. Оба AlgoPack archive units повторно
 подтверждены active/running в начале текущего goal turn; оставить работать.
 
