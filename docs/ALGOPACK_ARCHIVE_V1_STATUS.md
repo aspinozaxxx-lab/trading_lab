@@ -1,6 +1,17 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Новый actual checkpoint22:03:16UTC (16сентября01:03МСК): active/running,
+Новыйactual checkpoint22:27:59UTC /16сентября01:27:59МСК: active/running,
+прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
+5502/26305jobs,59033668rows,63019pages,failed0/blocked0,
+3475545070completed-job bytes,updated22:27:50.324252UTC,finalmanifestabsent.
+FUTOIalsoactive/running,1207/2192days/527unresolvedticker-days/101gapdays.
+Du22:28:01UTC: archive3895751727+oldprocessed1456918554=5352670281bytes(**5.353GB**).
+Весьdata6642182861+source_evidence479810805=7121993666bytes(**7.122GB**).
+Sequential apparent storedbytes,неunique-recordcount;безmodels/runs/tmp/localduplicates.
+Параллельный[V94screen завершён](V94_SKEWNESS_PREMIUM_RESULT.md): основнойruleубыточен,
+контроль+11.73%/+11.53%неpromoted/нижецели. Downloads/token/units/Windowsнеизменны.
+
+Предыдущий actual checkpoint22:03:16UTC (16сентября01:03МСК): active/running,
 прежний PID1663880/invocation,5310/26305jobs,57200744rows,61036pages,
 failed0/blocked0,3373716298completed-job bytes,updated22:03:00.880193UTC,final absent.
 FUTOI тоже running; V89 уже terminal40820processed/40816exact/4unavailable.

@@ -1,6 +1,22 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V94 skewness premium, sealed pre-outcome checkpoint
+## 2026-09-15 — V94 COMPLETE, REJECT_STAGE1, контроль не promoted
+
+[Полный результат](V94_SKEWNESS_PREMIUM_RESULT.md),completed22:26:53.745476UTC.
+Primarybase/doubleCAGR−12.5869%/−13.2159%,Sharpe−0.88194/−0.92523,
+MDD52.9854%/54.5143%,88/88roundtrips,0positiveyears. Control+11.7318%/+11.5278%,
+MDD12.9091%/12.7888%,95/95roundtrips,5positiveyears; это не Stage2/goal и не
+разрешение задним числом поменять основное правило. Обаcontrol CAGRниже20%.
+All4executioncomplete,critical0/unresolved0,terminalflat;coverage88.4343%,53/60monthsready.
+PrimaryfailedCAGR/Sharpe/MDD/years/worstyear/beatscontrol,не технический провал.
+Canonical`runs/v94_skewness_premium_v1_a65085b0f4a2`,manifest
+7e0bf81c2315518faff087d643d2bcb9d91b0e7a31e7f7852cda15deedfc35ee,
+metrics68a948afbf230048dbc3a4d9882bb04bc0f9e69f9746ac9c0803165549e11bae;
+18artifact hashes verified22:27:59UTC.Pre-run2fcfc48pushed/deployed;37testsserver1.25s.
+Воронка27portfoliohypotheses=23rejected+1incomplete+3invalid,0Stage2.V93отдельно.
+Закрыто;не повторять/не менять знак/asset/size/lookback/month/masks/control.
+
+### V94 sealed pre-outcome checkpoint (preserved)
 
 [Протокол](V94_SKEWNESS_PREMIUM.md): одна новая monthly skewness-preference hypothesis,
 не повтор trend/RVI/opening. Long уникальный minimum/short maximum126-session skew,

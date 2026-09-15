@@ -3,7 +3,28 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V94 — новый skewness-premium screen, pre-outcome checkpoint
+## V94 COMPLETE — primary отклонён, mirror не promoted, Stage2=0
+
+[Все результаты](V94_SKEWNESS_PREMIUM_RESULT.md),completed2026-09-15T22:26:53.745476UTC.
+Primary CAGR−12.5869%/−13.2159%,Sharpe−0.88194/−0.92523,MDD52.9854%/54.5143%,
+88round trips приbase/double. Mirrorcontrol+11.7318%/+11.5278%,MDD12.9091%/12.7888%,
+95round trips,все5yearspositive; control не разрешён для post-hoc promotion и ниже20%.
+Coverage88.4343%,53/60ready monthly selections; все4executioncomplete/critical0/
+unresolved0/terminalflat. PrimaryэкономическийREJECT_STAGE1,не source/кодовая ошибка.
+27portfolio hypotheses=23rejected+1incomplete+3invalid,0Stage2;V93 отдельноcomponent.
+Canonical`/srv/trading_lab_data/runs/v94_skewness_premium_v1_a65085b0f4a2`,
+manifest7e0bf81c2315518faff087d643d2bcb9d91b0e7a31e7f7852cda15deedfc35ee,
+metrics68a948afbf230048dbc3a4d9882bb04bc0f9e69f9746ac9c0803165549e11bae.
+Все18artifact hashes verified22:27:59UTC. Не повторять/tune-ить V94 или promote mirror.
+Следом другой независимый разрешённый механизм,не новыйcollector/engine.
+
+Архивыactual22:27:59UTCобаrunning: main5502/26305jobs/59033668rows/failed0/blocked0;
+FUTOI1207/2192days,527unresolvedticker-days/101gapdays,7524reference pagesсохранены.
+Du22:28:01UTC data6642182861+source479810805=7121993666bytes(**7.122GB**),
+включая AlgoPack3895751727+1456918554=5352670281bytes(**5.353GB**).
+Sequential apparent bytes,безmodels/runs/tmp/localduplicates. Units/token/Windows неизменны.
+
+### V94 pre-outcome checkpoint (preserved)
 
 [Фиксированный протокол](V94_SKEWNESS_PREMIUM.md): monthly low-minus-high skew из126
 соседних same-contract returns, core4,2021–2025, warmup2018–2020, дваcosts и mirrorcontrol.
