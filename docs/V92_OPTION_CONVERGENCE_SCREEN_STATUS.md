@@ -1,6 +1,17 @@
 # V92 — code/server verification COMPLETE, real mapping/economics NOT STARTED
 
-Latest source checkpoint2026-09-15T21:44:18UTC: V89 actual active/running,
+NEW21:52:25UTC: [full static mapping COMPLETE](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md).
+V89 terminal source40820/40820,4gaps,manifest3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f.
+Mapping manifest09e6d81d127feeb68d1e7a118289985c19d49bd072ca7e7756498f1bffadb6dc,
+108104identities/1044releases/1327744original rows; source metadata phase only.
+Economic admission card теперь создан с закрытыми hashes, SHA
+0ded143d5a190710c66a7e80d2f40728425bab052e1db43b122dd118b1251472;
+economic run ещё NOT STARTED. Planned output
+`/srv/trading_lab_data/runs/v92_option_convergence_screen_v1_0ded143d5a19`,
+planned unit`trading-lab-v92-option-screen-0ded143d5a19.service`.
+Далее push/verify card и один frozen run; не повторять full source/map/tests.
+
+Previous source checkpoint2026-09-15T21:44:18UTC: V89 actual active/running,
 39937/40820processed,39933exact,4unavailable, прежние PID/invocation; final absent.
 Full V92 mapping/economic runs всё ещё NOT STARTED. Следующее действие после closure
 ниже уже подготовлено: не повторять тесты/описания/адаптеры. [V93 параллельный результат](V93_SESSION_COMPONENTS_RESULT.md)

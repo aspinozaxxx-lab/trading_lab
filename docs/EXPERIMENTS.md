@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-15 — V92 full static mapping COMPLETE, economic admission pre-run
+
+[Mapping result](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): completed21:52:25.420329UTC,
+source terminal40820/40820 with4gaps. Все108104identities/1044releases/1327744rows
+сохранены;38941exact future bindings,1092currency exclusions,787unknown/conflicts,
+67284allNULL. Нет OI magnitudes/price/PnL reads. Full mapping manifest
+09e6d81d127feeb68d1e7a118289985c19d49bd072ca7e7756498f1bffadb6dc;
+closed source3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f.
+Отдельный economic card создан до следующего numerical phase; push/verify/run далее.
+Это завершение источника для прежней V90 гипотезы, не ещё один economic screen/Stage2.
+
 ## 2026-09-15 — V93 R1 COMPLETE, weak/incomplete component, no promotion
 
 [Результаты всех arms/costs/years](V93_SESSION_COMPONENTS_RESULT.md): completed17:30:56UTC,

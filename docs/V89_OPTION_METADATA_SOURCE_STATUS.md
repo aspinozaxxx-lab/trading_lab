@@ -1,6 +1,13 @@
 ﻿# V89: census завершён, описания RUNNING
 
-Новый actual checkpoint21:44:18UTC: unit active/running, прежний PID3208549/invocation,
+FINAL21:51:51.679836UTC: **COMPLETE_WITH_SOURCE_GAPS**,40820/40820processed,
+40816exact descriptions/4unavailable,158843813rawbytes. Unit terminal success/exit0
+наблюдён21:52:19UTC. Manifest3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f.
+Canonical writer НЕ перезапускать. [Full V92 mapping завершён](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md)
+21:52:25UTC; все108104identities сохранены, gaps не устранены догадками.
+Следом отдельный economic admission/run. Source completion не PnL/Stage2.
+
+Предыдущий actual checkpoint21:44:18UTC: unit active/running, прежний PID3208549/invocation,
 39937/40820processed,39935requested,2reused,39933exact,4unavailable,155556721rawbytes,
 updated21:44:18.146290UTC. Final manifest absent. Четыре source gaps не удалять и
 не подменять ручными контрактными metadata. Writer/config не менялись.

@@ -3,7 +3,20 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## Архивы — actual2026-09-15T21:44UTC /16 сентября00:44МСК
+## V92 — full mapping COMPLETE; отдельный economic admission подготовлен
+
+[Полный metadata результат](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): V89 terminal
+21:51:51UTC,40820processed/40816exact/4unavailable. Closed source manifest
+3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f.
+V92 mapping completed21:52:25UTC,success/exit0:108104inventory,38941exact futures,
+1092currency exclusions,787unknown/conflict,67284allNULL;1044releases/261dates/all1327744rows.
+Manifest09e6d81d127feeb68d1e7a118289985c19d49bd072ca7e7756498f1bffadb6dc.
+Новые OI magnitudes/market values/PnL ещё не читались. Admission card создан с этими
+hashes; после push/server byte check выполнить один frozen paired economic screen.
+Не повторять V89 collection/full map/tests и не исправлять unknown metadata по outcomes.
+Воронка25 прежних portfolio hypotheses/0Stage2 +V93 component. V93 не продвигать.
+
+## Архивы — historical snapshot2026-09-15T21:44UTC /16 сентября00:44МСК
 
 Все3units active/running, прежние PID/invocations, final manifests absent.
 Main5170/26305jobs,55747080rows,59479pages,failed0/blocked0,3290277446completed-job bytes.
@@ -4197,15 +4210,15 @@ V93 [R1 component COMPLETE](V93_SESSION_COMPONENTS_RESULT.md): overnight+2.2994b
 Не продвигать и не retune-ить; это не income/portfolio CAGR, не новый Stage2.
 Нормирование единиц уже исправлено один раз, requests byte-identical: больше не повторять.
 
+V92 [full-source mapping COMPLETE](V92_OPTION_CONVERGENCE_MAPPING_RESULT.md): V89
+terminal21:51:51UTC, full map21:52:25UTC, exact closed hashes в admission card.
+Следом push/verify отдельного card и один frozen economic run. Не повторять map/source.
+
 V92 [full-source join и paired screen verified](V92_OPTION_CONVERGENCE_SCREEN_STATUS.md),
 47new/224expanded local tests и47server tests PASS, full15-file seal verified.
-Не повторять preparation как результат. Последний V89 actual21:44UTC still RUNNING,
-39937/40820 processed,4unavailable; это timestamp checkpoint, не проверка следующей сессии.
-Нельзя запускать full map/economics по partial source.
-После final V89 manifest выполнить один metadata mapping/calendar pass, зафиксировать
-отдельный economic admission и выполнить единственный paired screen по уже fixed gates.
-Пока source скачивается, перейти к другой разрешённой независимой гипотезе; не создавать
-ещё один runner/collector/audit и не переобъявлять те же synthetic tests прогрессом.
+Source больше не RUNNING: полный mapping/calender уже завершён. Не переобъявлять
+подготовку/test PASS новой доходностью. Готовый runner использовать без нового
+collector/ledger/audit и без изменения fixed gates. Только один paired screen.
 Broader AlgoPack economic scope unanswered; это ограничение ветки, не запрет archive.
 
 V91 [sample binding COMPLETE](V91_OPTION_CONTRACT_MAPPING_RESULT.md):7exact futures +

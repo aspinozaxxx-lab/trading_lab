@@ -1,0 +1,7 @@
+{
+  "protocol_id": "v92_option_convergence_screen_v1",
+  "code_seal_sha256": "1afd2aa17647767be4f7c503f75133e1ee40777f66add7607a3d626b626b0707",
+  "description_manifest_sha256": "3457926bd6b280d9f982ace04ea05ba02c35f3d14ebdb2c177cb960a73cc955f",
+  "mapping_manifest_sha256": "09e6d81d127feeb68d1e7a118289985c19d49bd072ca7e7756498f1bffadb6dc",
+  "allow_economic_read": true
+}
