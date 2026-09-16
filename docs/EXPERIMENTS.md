@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — V99 pre-outcome monthly reserve regime
+
+[Protocol](V99_RESERVE_LIQUIDITY.md): first-monthlyH41Wednesdayreservelevel,
+positive3monthchange => MIX0.9long,otherwise cash; constantlongmatchedcalendarcontrol.
+2018–2025,100sourcemonthswithwarmup,2025Jan2unresolveddelaymaskedcurrent/baseline.
+14new/76combinedtestsPASS7.13s,Ruffclean;3HTMLformatssource-onlychecked.
+Code/configseal and100boundedpublicGETs precede oneeconomicsourceSHAinvocation.
+No new market outcomes yet;31portfolio/0Stage2, goal20–50%unchanged.
+
 ## 2026-09-16 — V98 COMPLETE, REJECT_STAGE1
 
 [Результат](V98_FOMC_EVENT_PREMIUM_RESULT.md),20:09:55.089920UTC.

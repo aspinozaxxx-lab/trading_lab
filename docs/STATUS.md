@@ -3,6 +3,16 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V99 pre-outcome — monthly bank-reserve liquidity
+
+[Protocol](V99_RESERVE_LIQUIDITY.md): новая H.4.1 quantitativeinformation, не старый
+CBR/FOMCcalendar rule. MIX0.9long/cash при positive3monthWednesdayreservegrowth,
+monthlyfirstrelease,2018–2025, matched-calendarconstantlongcontrol/base-doublecosts.
+100source months incl4warmup; Jan2,2025delay masks current and baseline use.
+14new/76combinedsynthetictestsPASS7.13s,Ruffclean,3HTMLformatschecked.
+Далее code/configseal,servercheck,100boundedpublicGETs, одинeconomicrun сsourceSHA.
+Новыхoutcomesпоканет;31portfolio/0Stage2. MainAlgoPackuntouched,broadscopestillunanswered.
+
 ## V98 COMPLETE — REJECT_STAGE1; небольшой плюс не решает цель20–50%
 
 [Все варианты и годы](V98_FOMC_EVENT_PREMIUM_RESULT.md), completed20:09:55.089920UTC.
@@ -4489,12 +4499,12 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Актуальная надстройка2026-09-16,20:17UTC: V94–V98 закрытыREJECT_STAGE1, всего
+Актуальная надстройка2026-09-16,20:37UTC: V94–V98 закрытыREJECT_STAGE1, всего
 31portfolio/0Stage2. Последний V98 дал+1.6317%/+1.4782%CAGR, ниже frozen gates и
 цели20–50%; source/audit/run не повторять и не retune-ить. Первый незаблокированный
-шаг — [H.4.1 source feasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md): отличить
-новую liquidity information от старых macro rules, затем bounded dated-source
-проверка и лишь после пригодного источника отдельный economic protocol/seal.
+шаг — [V99monthlyreserve protocol](V99_RESERVE_LIQUIDITY.md): feasibility и14new/
+76combinedtests завершены; seal/servercheck,100originaldatedHTML,одинpairedrun.
+Это continuation новогоH41mechanism, не повтор старыхsourceaudits/negativefamilies.
 EIA consensus bounded sample завершён: одно pre-event forecast observation,
 но rights/full-source coverage unresolved; bulk/экономику поForex Factory не запускать.
 Broader AlgoPack scope всё ещё ожидает фактического ответа, не нового повторного вопроса.

@@ -41,3 +41,21 @@ Board materials — по [политике Board](https://www.federalreserve.gov
 
 Не добавлять этот source discovery в число economic tests. Broader AlgoPack scope
 остаётся без ответа; вопрос не повторять автоматически, downloader не менять.
+
+## Bounded feasibility completed20:35UTC; V99 pre-outcome rule
+
+Прочитаны V71/V72 и ранний macro source config; это другие CBR forecast/guidance и
+STLFSI4/VIX features, не USbankreserves. Index HTML содержит наблюдаемый
+`releaseDates.json`; date-only corpus даёт100first-month releases2017-09..2025-12.
+HTML2018/2020/2025 содержит одну строку reserves с4columns, последняя — Wednesday
+pointlevel. Raw/HTTPmetadata сохранены внеGit в`source_evidence/h41_probe_20260916_v1`.
+Один первоначальный форматный просмотр feed завершился ошибкой отсутствияbs4;
+GETы уже сохранены, повторных запросов не было, использован существующийHTMLParser.
+
+Feed документирует delay2025-01-02без найденного recoveryclock: этот monthlyrelease
+маскируется и как текущий state, и как laterbaseline. Другие inspected2018–2025
+delaydates не первые выпуски месяца. ASCII прекратилсяMar2021; используемHTML.
+Currentdatedarchives могутисправляться; никакой strictPITguarantee не установлено.
+Новый[protocolV99](V99_RESERVE_LIQUIDITY.md): monthlyMIXlong/cash по3monthgrowth
+Wednesdayreserves, matchedvalid-calendarconstantlongcontrol, base/doublecosts.
+14new/76combinedtestsPASS,Ruffclean;3sourceformatsparsed, ещёнетeconomicoutcomes.

@@ -1,0 +1,22 @@
+{
+  "protocol_id": "v99_reserve_liquidity_v1",
+  "sealed_at_utc": "2026-09-16T20:37:13Z",
+  "sealed_before_full_source_states_targets_and_outcomes": true,
+  "three_format_samples_and_calendar_metadata_seen": true,
+  "source_manifest_sha_pinned_at_economic_invocation": true,
+  "files": {
+    "src/market_lab/futures_v99_reserve_liquidity.py": "517e7adb479b0e6a515b5cead595a2a26c2d5c60f0b0ada449b7434a461bc4ab",
+    "configs/v99_reserve_liquidity_v1.json": "8d4bd99ecc31fe48cca428e26a930e756f79b1a2d29d0992beaf649229c65738",
+    "tests/test_futures_v99_reserve_liquidity.py": "530cd119eb48f6358d93fd2d536c28ef9ec1a48f43d2087b796337c71b0ebd27",
+    "docs/V99_RESERVE_LIQUIDITY.md": "9510ac05e97995c8331270e78a8e787d3da3fd1f4e62dab1fbab07e1a37b6ac9",
+    "src/market_lab/futures_v98_fomc_event_premium.py": "f2915a2896f82606e68543496da9efb11ea08ac606d268090bafe417300b02e2",
+    "tests/test_futures_v98_fomc_event_premium.py": "5dd7bd5b2397f3c96be8f218f48de4482758a42e323f9a07d1d5a77df92b6ec2",
+    "src/market_lab/futures_v97_hurricane_supply.py": "498b89e1add390f90bc50906c314f2c1f1bc414bda0ef2cf702307de5d537f9f",
+    "src/market_lab/futures_v94_skewness_premium.py": "606a7edf3f3907582654eb94a0018f12e6e220cecf0c7bf929793d99ad89ad33",
+    "src/market_lab/futures_v78_treasury_channels.py": "7bb296cc6ba030f19500eaa8551f825628ce8f5f3ea25560c696887a2a1179f5",
+    "src/market_lab/futures_v76_initial_claims_cycle.py": "2e0d896afecd70d1ff1813765b55d0cc9d27d456ca19ae17f1c024f20ccf3a1d",
+    "src/market_lab/futures_v72_policy_guidance.py": "26a9f17e8d45d68a4e5c8ae2761a057ff0daa05dfab2767dfae148d75aec6805",
+    "src/market_lab/futures_v68_reported_option_flow.py": "6073148cbba63e678a85c8bad48ab572e25d7bcdbaac0ed777c20c93367e3b83",
+    "configs/v64_si_tax_calendar_v1.seal.json": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff"
+  }
+}

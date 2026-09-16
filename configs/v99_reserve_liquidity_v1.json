@@ -1,0 +1,69 @@
+{
+  "protocol_id": "v99_reserve_liquidity_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["MIX"],
+  "source": {
+    "source_parent": "source_evidence/v99_reserves",
+    "first_month": "201709",
+    "last_month": "202512",
+    "expected_months": 100,
+    "selection": "first officially listed H41 release each calendar month; four warmup months; dated URL only",
+    "series": "table1 Reserve balances with Federal Reserve Banks, last column Wednesday level, million USD; NOT weekly average or assets-TGA-RRP",
+    "unresolved_delay_dates": ["2025-01-02"],
+    "delay_policy": "Jan2release has documented delay without recovered actual clock; unusable both as current signal and baseline. Do not substitute another monthly release or hold last valid state through the missing month.",
+    "availability": "end of stated release date New York plus1hour; conditional dated-archive assumption, never Wednesday observation clock",
+    "fetch": "100 public GETs, serial >=1s, HTTP1.1, no retries/redirects/credentials; preserve raw and HTTP metadata; any failure blocks economics",
+    "discovery_inputs": {
+      "releaseDates.json": {"path": "source_evidence/h41_probe_20260916_v1/releaseDates.json", "bytes": 79689, "sha256": "4f201222875aabbf4e1d1b43b337afc112d6c78d0b73b4b04ca3363d71967073"},
+      "releaseDates.json.metadata.json": {"path": "source_evidence/h41_probe_20260916_v1/releaseDates.json.metadata.json", "bytes": 299, "sha256": "09d7c667decb70a2a9768e81298ee34541e81154dcb4b1c119a4fbe2b18df81b"},
+      "announcements.html": {"path": "source_evidence/h41_probe_20260916_v1/announcements.html", "bytes": 229278, "sha256": "75689b9044810f3007e321c0045745763bbb77cf2896e29ae6d2060d3c338a79"},
+      "announcements.html.metadata.json": {"path": "source_evidence/h41_probe_20260916_v1/announcements.html.metadata.json", "bytes": 284, "sha256": "31b20033ac44f31a56c8dcebd0f5270b64d1b2eea156e734e075ea064fef79ea"},
+      "release_index.html": {"path": "source_evidence/h41_probe_20260916_v1/release_index.html", "bytes": 78180, "sha256": "f45d0d946ac1c0a3aecb37ac8c396221b06ce3ad80857896f6ec5cddbe842ba5"},
+      "release_index.html.metadata.json": {"path": "source_evidence/h41_probe_20260916_v1/release_index.html.metadata.json", "bytes": 282, "sha256": "97be8654281547026611589ae89ed4640af8af3f77c738868e355654a1d9a4e2"}
+    }
+  },
+  "signal": {
+    "mechanism": "Increasing published USbankreserve liquidity may support subsequent global risk demand and transmit to the Russian equity index; hypothesis, not assumed causality",
+    "primary": "MIX long0.9gross iff current first-monthly-release Wednesday reserves exceed first release3calendar months earlier; otherwise cash",
+    "control": "constant MIX long0.9gross on the identical valid-source calendar; never promote the control after outcomes",
+    "lookback_months": 3,
+    "target_weight": 0.9,
+    "maximum_age_days": 40,
+    "maximum_fill_gap_days": 3,
+    "decision": "18:45Moscow completed day, latest available release; next actual daily open. Stale entry cancelled at fill; no future exit/session filter.",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "One monthly quarterly-change rule, not a fitted model. No post-outcome sign, lookback, monthly release selection, asset, size, control promotion or blend changes.",
+    "Dated original-release archive copies can themselves be revised; neither their header nor current release-date index proves original receipt or complete revision chain. Conditional development only, not strict PIT/live admission.",
+    "Jan2,2025unresolved publication delay masks that state and its3month-later baseline use. Other notice dates2020Mar19/Apr16/Jul30,2025Apr17are not selected first-month releases. DDP delay is not automatically an HTML delay.",
+    "Wednesday point level is separate from weekly average. No current DDP/FRED values or popular net-liquidity identity substituted. Later release changes never overwrite earlier source levels.",
+    "Existing integer daily proxy ledger, rolls, costs and halt carry; exact original specifications/BBO/broker fees/margin and independent robustness are still unproved. Round trips include contract rolls, not independent macro events.",
+    "Already-seen development period2018-2025, no independent holdout claim. Cash earns zero. Five-percent component gate does not replace the original relatively predictable20-50percent annual objective.",
+    "No2026market outcomes, expanded AlgoPack economics, broker/live/demo, purchase, credentials or Windows collection. Calendar metadata beyond2025ignored before any values are fetched."
+  ]
+}
