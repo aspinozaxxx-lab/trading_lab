@@ -1,5 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-16T20:12UTC /23:12МСК**: mainactive/running,
+прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
+15569/26305jobs,147222167rows,158375pages,failed0/blocked0,
+8763777590completed-jobbytes,updated20:12:22.042373UTC,finalmanifestabsent.
+Du20:12:34.057068UTC: archive9405895592+oldprocessed1456918554=
+**10862814146bytes/10.863GBAlgoPack**. Data12248416768+source493652222=
+**12742068990bytes/12.742GBtotal**. Sequential apparent bytes,безmodels/runs/tmp/
+localduplicates. FUTOI terminal550unresolved unchanged,notre-audited. Mainunit/token/
+Windows unchanged. Параллельный[V98screen](V98_FOMC_EVENT_PREMIUM_RESULT.md)
+завершёнREJECT_STAGE1: небольшой плюс ниже frozen gates и цели20–50%.
+
+### Предыдущий снимок22:45МСК
+
 Actual **2026-09-16T19:45UTC /22:45МСК**: mainactive/running,
 прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
 15339/26305jobs,145310900rows,156319pages,failed0/blocked0,

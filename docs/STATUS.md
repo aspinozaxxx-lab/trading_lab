@@ -3,7 +3,42 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V98 pre-outcome — scheduled FOMC event premium
+## V98 COMPLETE — REJECT_STAGE1; небольшой плюс не решает цель20–50%
+
+[Все варианты и годы](V98_FOMC_EVENT_PREMIUM_RESULT.md), completed20:09:55.089920UTC.
+Primary base/double: CAGR+1.6317%/+1.4782%, Sharpe0.49037/0.44361,
+MDD9.3581%/9.7594%,61round trips. Control+0.0265%/−0.3694%,63round trips.
+Primary5positiveyears/8,readycoverage99.8518%;all4executioncomplete/critical0/
+unresolved0/terminalflat. Провалены frozen5%CAGR/.5Sharpe gates; нет разрешения
+подбирать окно, sign, asset, leverage или press-conference subset. Это coarse
+two-day event premium, не exact24h pre-announcement replication/falsification.
+Воронка31portfolio=27rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+
+Canonical`runs/v98_fomc_event_premium_v1_e3cc42f2df14`,manifest
+`7afb81822b77a3fee08d85a73341d9088aab9ca20ee1d6c5e25b1da33e26b08a`,metrics
+`a01c58f24ee8cb641714058b95465ca271c8d88a9fec6230997d37bc36d301a8`.
+17hashes,4performance/annualreplays иterminaljournalchecked20:10:44UTC.
+Source64planned/1cancelled,10GETs,23verifiedartifacts,manifest
+`e1bf18bb17af7a8d679a4e27932bb105848715720669161382d3b7910c903bbd`.
+Source/economic units terminal success; не повторять. Никаких2026market reads.
+
+Дальше [H.4.1 source feasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md): банковская
+долларовая ликвидность, не календарь FOMC. Найден original dated2020HTML; прежде
+правила проверить соседние старые macro families, availability/weekly-vs-level/
+revisions и формат<=2025. Ещё нет V99config/seal/run; discovery не economicPASS.
+Broader AlgoPack scope всё ещё unanswered; вопрос автоматически не повторять.
+
+### Архивы — actual16сентября23:12МСК /20:12UTC
+
+Main active/running, прежний PID1663880/invocation;15569/26305jobs,
+147222167rows,158375pages,failed0/blocked0,updated20:12:22.042373UTC,
+finalmanifestabsent. Du20:12:34.057068UTC:data12248416768+source493652222=
+**12742068990bytes /12.742GB total**;archive9405895592+oldprocessed1456918554=
+**10862814146bytes /10.863GB AlgoPack**. Sequential apparent bytes,безmodels/runs/
+tmp/localcopies. FUTOI terminal550unresolved без изменений/новогоaudit. Mainservices/
+credentials/Windows не менялись; source/economic V98 завершились отдельно.
+
+### V98 pre-outcome checkpoint (preserved)
 
 [Frozen protocol](V98_FOMC_EVENT_PREMIUM.md): MIX long/cash,0.9gross, два дня вокруг
 планового объявления FOMC против такого же окна на неделю раньше;2018–2025,
@@ -4454,8 +4489,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Актуальная надстройка2026-09-16: V94/V95/V96 уже закрытыREJECT_STAGE1, всего29portfolio/
-0Stage2. EIA consensus bounded sample завершён: одно pre-event forecast observation,
+Актуальная надстройка2026-09-16,20:17UTC: V94–V98 закрытыREJECT_STAGE1, всего
+31portfolio/0Stage2. Последний V98 дал+1.6317%/+1.4782%CAGR, ниже frozen gates и
+цели20–50%; source/audit/run не повторять и не retune-ить. Первый незаблокированный
+шаг — [H.4.1 source feasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md): отличить
+новую liquidity information от старых macro rules, затем bounded dated-source
+проверка и лишь после пригодного источника отдельный economic protocol/seal.
+EIA consensus bounded sample завершён: одно pre-event forecast observation,
 но rights/full-source coverage unresolved; bulk/экономику поForex Factory не запускать.
 Broader AlgoPack scope всё ещё ожидает фактического ответа, не нового повторного вопроса.
 Main archive running; FUTOI V4 terminalCOMPLETE_WITH_SOURCE_GAPS, не повторять audit.

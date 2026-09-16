@@ -1,6 +1,23 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V98 pre-outcome scheduled-event premium
+## 2026-09-16 — V98 COMPLETE, REJECT_STAGE1
+
+[Результат](V98_FOMC_EVENT_PREMIUM_RESULT.md),20:09:55.089920UTC.
+Primarybase/doubleCAGR+1.6317%/+1.4782%,Sharpe0.49037/0.44361,
+MDD9.3581%/9.7594%,61roundtrips; control+0.0265%/−0.3694%,63roundtrips.
+5positiveyears/8,primaryready99.8518%,all4executioncomplete/critical0/unresolved0/
+terminalflat. Failed5%CAGR/.5Sharpe; не promote/retune. Coarseeventwindow не exact
+intradaydrift.31portfolio=27rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+Canonical`runs/v98_fomc_event_premium_v1_e3cc42f2df14`,manifest
+`7afb81822b77a3fee08d85a73341d9088aab9ca20ee1d6c5e25b1da33e26b08a`,metrics
+`a01c58f24ee8cb641714058b95465ca271c8d88a9fec6230997d37bc36d301a8`.
+Pre-outcome6278e73;13new/79combinedlocalPASS,13serverPASS;17hashes/4performance/
+annualreplays/terminaljournalchecked20:10:44UTC.64sourceevents/1causalcancel,
+23sourcehashesverified beforeeconomics; originalreceiptfalse. One economic run.
+Следом[H41sourcefeasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md), пока не новыйtest.
+Archive20:12UTC12.742GBtotal/10.863GBAlgoPack;15569/26305jobs,failed0,unchanged.
+
+### 2026-09-16 — V98 pre-outcome scheduled-event premium (preserved)
 
 [Protocol](V98_FOMC_EVENT_PREMIUM.md): один новый fixed MIX FOMC calendar screen,
 two-day long/cash против previous-week control,0.9gross,2018–2025,2costs. Existing

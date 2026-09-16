@@ -1,5 +1,11 @@
 # FOMC calendar — bounded source feasibility, 2026-09-16
 
+**Позднейшее обновление:** исходная проверка ниже сохранена. Public press-call
+PDF page5 подтвердил замену March17–18meeting;10source GETs/64events завершены,
+один [V98economic screen](V98_FOMC_EVENT_PREMIUM_RESULT.md) дал REJECT_STAGE1.
+Source/economic canonical roots не повторять. Это отменяет только прежнее
+ожидание cancellation evidence ниже, не снимает original-receipt limitations.
+
 Следующий независимый механизм-кандидат после V97: возможная премия за риск
 перед заранее запланированными объявлениями FOMC, с переносом на российские
 индексные фьючерсы. Это ещё **не V98 protocol**, не новый тест и не прибыльный
