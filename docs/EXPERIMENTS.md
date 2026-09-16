@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — V98 pre-outcome scheduled-event premium
+
+[Protocol](V98_FOMC_EVENT_PREMIUM.md): один новый fixed MIX FOMC calendar screen,
+two-day long/cash против previous-week control,0.9gross,2018–2025,2costs. Existing
+ledger; не точная репликация intraday drift, нет fit/grid. Public cancellation
+evidence проверено поpress-call PDF page5, не по поздним private minutes.
+13new/79combined synthetic tests PASS4.79s,Ruff clean; design before new outcomes.
+Следом source closure и один run. Пока30completedportfolio/0Stage2, без нового PnL.
+
 ## 2026-09-16 — V97 COMPLETE, REJECT_STAGE1
 
 [Все сценарии и годы](V97_HURRICANE_SUPPLY_RESULT.md),completed19:46:34.548073UTC.

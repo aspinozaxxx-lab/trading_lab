@@ -1,0 +1,72 @@
+{
+  "protocol_id": "v98_fomc_event_premium_v1",
+  "declared_at_utc": "2026-09-16T20:03:52Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["MIX"],
+  "source": {
+    "source_parent": "source_evidence/v98_fomc",
+    "schedules": [
+      {"year": 2018, "published_day": "2017-05-11", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm"},
+      {"year": 2019, "published_day": "2018-05-25", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm"},
+      {"year": 2020, "published_day": "2019-05-17", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm"},
+      {"year": 2021, "published_day": "2020-07-02", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm"},
+      {"year": 2022, "published_day": "2021-06-04", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm"},
+      {"year": 2023, "published_day": "2022-06-24", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm"},
+      {"year": 2024, "published_day": "2023-06-23", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm"},
+      {"year": 2025, "published_day": "2024-08-09", "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240809a.htm"}
+    ],
+    "cancellation": {
+      "meeting_date": "2020-03-18",
+      "public_day": "2020-03-15",
+      "page_url": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20200315.htm",
+      "pdf_url": "https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20200315.pdf"
+    },
+    "availability": "end of original publication/public spoken date in New York plus1hour; not original witnessed receipt",
+    "fetch": "10 public GETs, serial >=1s, HTTP1.1, no retries/redirects/credentials, raw+metadata preserved, abort incomplete source",
+    "protected_calendar_metadata": "The2024release also names prospective2026/2027dates. Parse only the2025section; no2026market outcomes."
+  },
+  "signal": {
+    "mechanism": "Scheduled US monetary-policy event risk premium may transfer to ruble-denominated Russian equity index futures",
+    "primary": "MIX long/cash over the calendar day before and day of the scheduled announcement, then flatten at next actual open",
+    "control": "same fixed two-day rule shifted7calendar days earlier, with cancellation evaluated as known then; never promotable after outcomes",
+    "control_shift_days": -7,
+    "target_weight": 0.9,
+    "maximum_fill_gap_calendar_days": 3,
+    "decision": "18:45Moscow on completed decision day; intent for next CALENDAR day; no future exit-price/session filter",
+    "entry_expiry": "at actual fill require date remains in the declared two-day window; stale requested entry cancelled, not moved later",
+    "exit": "zero target at first decision outside the window; next actual open, with halts/unknown exits carried by existing ledger",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.0
+  },
+  "limitations": [
+    "One fixed scheduled-event premium hypothesis. Daily two-day window includes the announcement and aftermath; NOT an exact replication or falsification of the24h pre-FOMC drift. No press-conference subset selection.",
+    "Original dated schedule pages and public press-conference transcript are current archive copies, not cryptographically witnessed contemporaneous receipts or a proven complete revision chain. Conservative daily lag does not establish strict PIT.",
+    "March2020cancellation applies only after its public spoken date; the earlier control may already have traded and must not be deleted. Unscheduled meetings do not become advance signals.",
+    "Next actual open, expired-entry cancellation, integer size, rolls and halt carry use unchanged V64/V78 daily proxy accounting. No filtering on future exit availability; exposure can last beyond the event on a halt.",
+    "Development history already seen; no independent holdout claim, cash yield,2026market data, broker/live/demo or expanded AlgoPack admission. Five-percent component gate is not the original20-50percent income objective.",
+    "No post-outcome sign, window, weekday, year, asset, size, press-conference or control promotion changes. No new model or engine."
+  ]
+}

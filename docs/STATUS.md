@@ -3,6 +3,18 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V98 pre-outcome — scheduled FOMC event premium
+
+[Frozen protocol](V98_FOMC_EVENT_PREMIUM.md): MIX long/cash,0.9gross, два дня вокруг
+планового объявления FOMC против такого же окна на неделю раньше;2018–2025,
+base/double costs, прежний daily ledger. Это не exact24h pre-FOMC replication.
+Public March15,2020 press-call transcript page5 подтверждает замену March17–18;
+отмена применяется лишь после public-day lag, прошлый control не удаляется.
+13new/79combined synthetic tests PASS4.79s,Ruff clean. Далее seal/push/server check,
+10public source GETs, затем один economic run с pinned source manifestSHA.
+Full source/targets/economic outcomes ещё не получены. Последний результат V97;
+30portfolio/0Stage2. Broad AlgoPack scope unanswered, архив без изменений.
+
 ## V97 COMPLETE — REJECT_STAGE1; цель20–50% не подтверждена
 
 [Полный результат](V97_HURRICANE_SUPPLY_RESULT.md), completed19:46:34.548073UTC.
