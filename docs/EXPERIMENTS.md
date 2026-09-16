@@ -1,6 +1,23 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-15 — V95 beta premium, pre-outcome checkpoint
+## 2026-09-16 — V95 COMPLETE, REJECT_STAGE1
+
+[Все сценарии и годы](V95_BETA_PREMIUM_RESULT.md), completed 10:11:42.747061UTC.
+Primary base/double CAGR −8.1837%/−8.2129%, Sharpe −0.54263/−0.54351,
+MDD 38.2516%/38.4035%, 54/54 round trips, 2 положительных года из 5.
+Equal-notional control −10.1345%/−10.4274%, 73/72 round trips, 1 положительный год.
+Coverage 78.5208% < 80%; 47/60 monthly states ready. Все четыре ledgers complete,
+critical/unresolved0, terminal flat. Primary лучше control, но не проходит доходность,
+риск, устойчивость и coverage. REJECT_STAGE1; не shortening window / sign flip / retune.
+Canonical `runs/v95_beta_premium_v1_0aa70e7f3223`, manifest
+`baad4ba2285bc17da4d1b731fe6e6dca6ac99045b1b62832d472da4fcecbc71e`, metrics
+`82c57c150e04fe255e510fe97b62a38c72915ebdbf37501ae87f0357fe8a3e0c`.
+Pre-run `a265730` pushed/deployed; server 47 tests PASS2.38s после исправления только
+test temp path, до экономики. Один economic run, 20 artifact hashes verified 10:14:01UTC.
+Воронка 28 portfolio hypotheses = 24 rejected + 1 incomplete + 3 invalid, 0 Stage2.
+V93 отдельно. FUTOI terminal archive proof не является новым economic screen.
+
+### 2026-09-15 — V95 pre-outcome checkpoint (preserved)
 
 [Протокол](V95_BETA_PREMIUM.md): отдельная funding-constraint гипотеза, monthly
 low-beta long / high-beta short, matched estimated beta, equal-notional control.

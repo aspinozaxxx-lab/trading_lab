@@ -1,6 +1,51 @@
-﻿# FUTOI full-market archive: V4 RUNNING, source gaps explicitly recorded
+﻿# FUTOI full-market archive: V4 COMPLETE_WITH_SOURCE_GAPS
 
-Новыйactualcheckpoint22:27:59UTC: V4active/running,прежнийPID2522946/
+## Terminal и проверенная сохранность — 2026-09-16
+
+V4 завершён в **07:11:36.962814UTC**. Журнал unit
+`trading-lab-algopack-futoi-archive-v4-f47d4cd22039.service` подтверждает
+`Deactivated successfully`; transient unit уже отсутствует. Это terminal,
+не зависший процесс и не повод возобновлять загрузку.
+
+- 2192/2192 календарных дней 2020-01-01–2025-12-31; unattempted = 0.
+- 1448 дней `COMPLETE`, 642 `EMPTY`, 102 `WITH_SOURCE_GAPS`.
+- 66465 ticker-days: 65915 resolved и **550 unresolved**.
+  Причины: 22 empty planned ticker responses, 528 intraday/daily latest mismatches.
+- 22201836 logical intraday rows, из них 19904899 в новом V4 root.
+  V4 stored bytes = 357863173; это не размер всех referenced частей вместе.
+- 68657 уникальных страниц: 61133 V4 + 120 V2 + 7404 V3.
+  Все **7524 reused pages** доступны только с сохранением V2/V3 roots.
+
+В 10:14:18.083998UTC завершена read-only terminal проверка: полный уникальный
+2192-day plan, все day-manifest hashes, все page metadata hashes и references,
+compressed/raw SHA-256 и размеры, totals/statuses/source flags. Проверены
+307417466 compressed bytes и 2699738619 decompressed raw bytes по 68657 страницам.
+Все проверки прошли. Market-value JSON не разбирался: сравнивались bytes/SHA;
+читался metadata JSON. Trading features/PnL не вычислялись, нового economic admission нет.
+Архивные файлы не изменялись. Повторять эту завершённую проверку без причины не нужно.
+
+Root: `/srv/trading_lab_data/data/algopack-archive/algopack_futoi_archive_v4_f47d4cd22039`.
+Final `manifest.json`: 944351 bytes, SHA
+`a4cededae55a0a41a374fb7e74591c60288d05647b0fd0880d55c00225be4504`.
+Producer seal `f47d4cd22039c56c5647a36087b4ee37fac96db8df62b87b6366d9a9ac7e947e`.
+`source_coverage_complete=false`, `original_version_verified=false`,
+`economic_admission=false`, `live_trading_allowed=false` сохраняются.
+
+**Не перезапускать V4 и не удалять V2/V3**: они входят в проверенную reference closure.
+Backup только V4 не самодостаточен. Нижние resume-инструкции — исторические,
+относятся к незавершённым состояниям и не разрешают новый run после final manifest.
+Полного Windows-зеркала новых больших архивов нет; источник сохранён на gpu-mlserver,
+вне Git. Новых писем, покупок, изменения подписки или Windows collectors не было.
+
+[Основной AlgoPack архив](ALGOPACK_ARCHIVE_V1_STATUS.md) всё ещё running:
+actual10:15:39UTC,11050/26305jobs. Whole-volume10:15:42UTC — 10.266GB data/source,
+включая 8.456GB AlgoPack, без models/runs/tmp/localduplicates.
+[V95 экономический результат](V95_BETA_PREMIUM_RESULT.md) отрицателен и не меняет
+статус/полноту этого source archive.
+
+## Предыдущие снимки состояния — до terminal
+
+Предыдущий actual checkpoint22:27:59UTC: V4active/running,прежнийPID2522946/
 invocation2e561d202042490d81ddc8aefa3cd543.1207/2192days,
 13116408logical/10819471new-root rows,38996resolved/527unresolvedticker-days,
 101gapdays,7524reference-reusedpages,201712671new-root bytes.

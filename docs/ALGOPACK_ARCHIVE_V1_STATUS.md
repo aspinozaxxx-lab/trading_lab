@@ -1,6 +1,26 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Новыйactual checkpoint22:27:59UTC /16сентября01:27:59МСК: active/running,
+Actual **2026-09-16T10:15:39UTC / 13:15 МСК**: основной unit active/running,
+PID1663880, прежний invocation `d562f0748c4341b48eb7f4d34d64b4a1`.
+11050/26305 jobs,107022646 rows,115140 pages,failed0/blocked0,
+6364897326 completed-job stored bytes; updated10:15:13.895333UTC, final manifest absent.
+До full manifest загрузка не complete; process не перезапускался.
+
+Отдельный [FUTOI V4](ALGOPACK_FUTOI_ARCHIVE_STATUS.md) завершён с source gaps в
+07:11:36UTC. Все 2192 day manifests и 68657 pages проверены по hashes в 10:14:18UTC;
+V2/V3 reference roots сохранять, V4 не возобновлять.
+
+Du10:15:42.672702UTC: `data/algopack-archive`6999446663 + oldprocessed1456918554 =
+**8456365217 bytes / 8.456GB AlgoPack**. Весь `data`9785973667 +
+`source_evidence`479810805 = **10265784472 bytes / 10.266GB**.
+Последовательный apparent-byte замер при продолжающихся writes; без models/runs/tmp
+и прибавления local copies, не заявление об уникальности каждой записи.
+Параллельный [V95 screen завершён](V95_BETA_PREMIUM_RESULT.md): REJECT_STAGE1,
+доходность отрицательна. Archive и экономический результат не смешивать.
+
+### Предыдущие снимки состояния
+
+Предыдущий actual checkpoint22:27:59UTC /16сентября01:27:59МСК: active/running,
 прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
 5502/26305jobs,59033668rows,63019pages,failed0/blocked0,
 3475545070completed-job bytes,updated22:27:50.324252UTC,finalmanifestabsent.

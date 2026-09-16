@@ -3,7 +3,40 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V95 — новый beta-premium screen, до исторического результата
+## V95 COMPLETE — REJECT_STAGE1; цель 20–50% не подтверждена
+
+[Полный результат](V95_BETA_PREMIUM_RESULT.md): completed 2026-09-16T10:11:42.747061UTC.
+Primary CAGR −8.1837%/−8.2129%, Sharpe −0.54263/−0.54351,
+MDD 38.2516%/38.4035%, 54/54 round trips при base/double costs.
+Control −10.1345%/−10.4274%, 73/72 round trips; оба arms убыточны.
+Coverage 78.5208% < 80%, 47/60 готовых месячных решений; все четыре ledgers
+execution complete, critical/unresolved = 0, terminal flat. Провал экономический
+и по coverage, не кодовая ошибка. Знак, окно, factor, активы и размер не менять.
+Воронка: 28 portfolio hypotheses = 24 rejected + 1 incomplete + 3 invalid, 0 Stage2.
+V93 отдельно; V94/control не повторять и не promote. Далее иной независимый
+разрешённый механизм/источник, не новый collector/engine без конкретной необходимости.
+
+Canonical `/srv/trading_lab_data/runs/v95_beta_premium_v1_0aa70e7f3223`, manifest
+`baad4ba2285bc17da4d1b731fe6e6dca6ac99045b1b62832d472da4fcecbc71e`, metrics
+`82c57c150e04fe255e510fe97b62a38c72915ebdbf37501ae87f0357fe8a3e0c`.
+Все 20 artifact hashes и terminal journal проверены в 10:14:01UTC; server tests 47/47.
+
+### Архивы: 16 сентября, 13:15 МСК / 10:15 UTC
+
+FUTOI V4 завершён в 07:11:36UTC: `COMPLETE_WITH_SOURCE_GAPS`, 2192/2192 дней,
+22201836 logical rows, 550 unresolved ticker-days в 102 днях. В 10:14:18UTC
+проверены все 2192 day manifests и 68657 raw/metadata pages; hashes совпали.
+V4 не перезапускать; V2/V3 обязательны для 7524 reused pages. Полное покрытие и
+economic admission не объявлять. [Подробности](ALGOPACK_FUTOI_ARCHIVE_STATUS.md).
+
+Main actual 10:15:39UTC: active/running, прежний PID1663880/invocation,
+11050/26305 jobs, 107022646 rows, failed0/blocked0, final manifest absent.
+Du 10:15:42UTC: data9785973667 + source479810805 = **10265784472 bytes / 10.266GB**,
+включая AlgoPack6999446663 + oldprocessed1456918554 = **8456365217 bytes / 8.456GB**.
+Sequential apparent stored bytes, без models/runs/tmp/local duplicates.
+Никаких token/service/Windows изменений; основной downloader продолжает работу.
+
+### V95 pre-outcome checkpoint (preserved)
 
 [Протокол](V95_BETA_PREMIUM.md): раз в месяц long low-beta / short high-beta,
 веса уравнивают прошлую оценку общего риска. Контроль — те же активы равными
