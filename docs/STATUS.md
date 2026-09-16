@@ -3,6 +3,24 @@
 Обновлено: **2026-09-17, 00:19 МСК / 2026-09-16, 21:19 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
+## V101 pre-outcome — новый manufacturing-demand screen
+
+Предыдущий goal turn — PROGRESS: V100 отклонил V99 на Stage2, canonical результаты
+сохранены в20d50f4. [V101 protocol](V101_MANUFACTURING_DEMAND.md): один новый
+источник ФРС G.17; BR long.9/cash по знаку latest published monthly manufacturing
+change, matched-calendar constant-long control, прежние base/double costs/gates.
+96 dated releases (2017Dec warmup,2018–2025); shutdown gap2025 и два December
+выпуска учитываются по фактическим release dates. Parser header-bound, не YoY.
+17 new/102 combined tests PASS12.31s, Ruff clean; три реальные formats PASS.
+Далее code/config seal/push, server17tests,93newGET+3reusedraw и один paired run.
+Новых economic outcomes пока нет, воронка32/0activeStage2 остаётся прежней.
+
+[Census M3 feasibility](CENSUS_M3_FEASIBILITY_20260917.md) отложена: первый server
+inventory GET HTTP403Cloudflare, failed raw сохранён, no retry/access workaround,
+PDF visual review incomplete. Никакого Census economic run или нового участника
+воронки. G.17 — отдельная гипотеза, не подмена недоступных Census значений.
+MainAlgoPack не менялся; broader scope unanswered. Цель20–50%active,2026protected.
+
 ## V100 COMPLETE — V99 отклонён на Stage2, устойчивого кандидата нет
 
 [Полный результат стресс-проверки](V100_V99_ROBUSTNESS_RESULT.md), завершение
@@ -4587,6 +4605,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+Текущий первый шаг 2026-09-17,00:43МСК / 2026-09-16,21:43UTC:
+[V101 manufacturing-demand protocol](V101_MANUFACTURING_DEMAND.md) подготовлен,
+17new/102combinedtestsPASS,3realformatsPASS. Сделать seal/push, bounded96release
+source и один paired economic screen на прежнем ledger. Не пересчитывать V99/V100.
+Census source blockedHTTP403/no retry, поэтому прежний Census-first пункт ниже
+исторический. Воронка пока32, доходностьV101ещёнеизвестна. Goal20–50%active.
 
 Актуальная надстройка 2026-09-17, 00:10 МСК / 2026-09-16, 21:10 UTC:
 [V100 COMPLETE / REJECT_STAGE2_ROBUSTNESS](V100_V99_ROBUSTNESS_RESULT.md).

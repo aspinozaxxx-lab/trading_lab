@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 00:43 МСК / 2026-09-16 21:43 UTC — V101 pre-outcome
+
+[Protocol](V101_MANUFACTURING_DEMAND.md): новый G.17 manufacturing-output source,
+BR long.9/cash iff latest monthly change>0, constant-long control,2018–2025,
+прежний ledger/base-double/gates.96release plan,93GET+3reusedraw; датированные
+публикации, не current revised series.17new/102combinedtestsPASS12.31s,Ruffclean,
+3realformatsPASS включая7columnDecember2025. Fullsource/targets/economics не были
+вычислены. Следом seal/server tests/source/один run; пока не добавлять к32hypotheses.
+[Census M3](CENSUS_M3_FEASIBILITY_20260917.md) отложена на HTTP403Cloudflare,
+не тестировалась и не statistical reject. Main archive/credentials/Windows unchanged.
+
 ## 2026-09-17 00:03 МСК / 2026-09-16 21:03 UTC — V100 COMPLETE, Stage2 REJECT
 
 [Все результаты](V100_V99_ROBUSTNESS_RESULT.md): 12 новых stress ledgers завершены,

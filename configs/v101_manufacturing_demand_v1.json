@@ -1,0 +1,66 @@
+{
+  "protocol_id": "v101_manufacturing_demand_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "source_parent": "source_evidence/v101_manufacturing",
+    "probe_path": "source_evidence/g17_probe_20260917_v1",
+    "probe_manifest_sha256": "07f75bd6ff4a1b2a6fe54c1a24f62fcd2393bf1393addade3e6b4a44670b7bf8",
+    "first_date": "20171201",
+    "last_date": "20251231",
+    "expected_releases": 96,
+    "month_count_exceptions": {"2025-10": 0, "2025-11": 0, "2025-12": 2},
+    "reused_probe_dates": ["20180417", "20200415", "20251223"],
+    "selection": "All dated monthly G17 HTML releases from fixed index; exclude annual revisions and supplements. Accept canonical path with or without final slash; December3,2025 link has none. Calendar metadata only may include2026, filtered before source-value requests.",
+    "series": "Seasonally adjusted manufacturing month-on-month percent change, last preliminary observation column of Industrial Production summary, resolved via explicit headers. Labels Manufacturing (see note below) and Manufacturing* are the two observed footnote formats. Not total IP, utilities, mining, capacity utilization, index-level return, prior estimate or YoY.",
+    "availability": "end of actual dated publication day New York plus1hour; conditional archive proxy, not witnessed receipt. Observation month never becomes publication date.",
+    "special_calendar": "September2025 preliminary publishedDecember3; October andNovember preliminary jointlyDecember23. Use latest observation (November), never create fictional separate earlier releases. Annual revisionNovember24 excluded. Default40dayrelease TTL expires during the gap.",
+    "fetch": "93new public GETs serial >=1s;3probe release copies reused with metadata; no retry,redirect,credentials. Max3MBperHTML. Failure blocks economics; original archives may have later global notices. Only dated release table is a feature.",
+    "attribution": "Board of Governors of the Federal Reserve System, Industrial Production and Capacity Utilization (G.17), each dated release; interpretation solely TradingLab research. Federalreserve.gov disclaimer checked, original Board materials generally public domain. No third-party microdata.",
+    "source_urls": ["https://www.federalreserve.gov/releases/g17/", "https://www.federalreserve.gov/releases/g17/g17_technical_qa.htm", "https://www.federalreserve.gov/disclaimer.htm"]
+  },
+  "signal": {
+    "mechanism": "Published expansion of real manufacturing activity can indicate stronger industrial energy demand; test whether this information improves a BR long/cash allocation over matched-calendar constant-long BR. Hypothesis, not assumed causality or independence from macro beta.",
+    "primary": "BR long0.9gross iff latest published manufacturing monthly change >0; zero/negative =>cash",
+    "control": "BR constant long0.9gross on exactly the same valid-source calendar; control cannot be promoted after outcomes",
+    "target_weight": 0.9,
+    "maximum_age_days": 40,
+    "maximum_fill_gap_days": 3,
+    "decision": "18:45Moscow after completed information day, execution next factual daily open; no same-bar entry or future-exit eligibility filter",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn made progress: V100rejected V99atStage2 and saved audited results. This is a new real-production information source, not a change of V99bank-reserve rules. V76claims and other macro tests share possible economic drivers; information novelty does not establish independent income.",
+    "CensusM3screen was not run. Its first server inventory request returnedHTTP403Cloudflare; raw refusal preserved, no retry/access workaround. PDF visual review was incomplete. G17is a separate source/hypothesis, not substituted Census data.",
+    "Three raw formats and some sample source values seen before seal; no new market outcomes or candidate targets. Full source states, economic rule, costs, gates and code fixed before computation. No ML training or parameter search.",
+    "Current copies of dated releases may be edited. Later global site notices are present even on old dated pages. Explicit table/header checks and conservative lag are conditional development safeguards, not proof of original receipt or revision chain. Latest preliminary within each release is retained; later revisions never overwrite earlier features.",
+    "2025shutdown changed publication cadence and revision windows. December23table has7monthly columns rather than6; use November not an average or selected month. Missing scheduled releases are not invented; source age expires. The signal is an activity level-change regime, not a surprise relative to consensus.",
+    "Manufacturing includes the release's publishing/logging convention and is not the total industrial index. Its oil-demand link can be weak or dominated by supply, FX or global conditions. No sign/asset/window/size/TTL/control retuning after results.",
+    "Existing integer daily spec-proxy ledger, rolls, gaps, costs and halt carry. Exact original broker specs/margin/fees/BBO and independent robustness are unproved. Round trips include rolls. Cash earnszero;5%component gate does not replace relatively predictable20-50%annual objective.",
+    "Already-seen2018-2025development history, no independent holdout or calibrated future profit probability. No2026market outcomes, expandedAlgoPackscope, broker/demo/live, purchase, key handling or Windows collection. Mainarchive unchanged."
+  ]
+}

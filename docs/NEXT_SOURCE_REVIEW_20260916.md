@@ -3,8 +3,10 @@
 Проверены параллельно сбору H.4.1, без новых цен/доходностей или массовой загрузки.
 При первоначальном review V99 прошёл Stage1 и получил приоритет для Stage2.
 Обновление 2026-09-17: [V100 завершён и отклонил устойчивость V99](V100_V99_ROBUSTNESS_RESULT.md).
-Следующий незаблокированный шаг — ограниченная feasibility-проверка Census M3 ниже.
-Новый источник не даёт автоматического economic PASS; полный сборщик не нужен.
+[Проверка Census завершилась source blocker](CENSUS_M3_FEASIBILITY_20260917.md):
+первый server GET HTTP403Cloudflare, no retry, корпус отсутствует. Вместо ожидания
+выбран отдельный [V101 G.17 manufacturing-demand screen](V101_MANUFACTURING_DEMAND.md).
+Новый источник не даёт автоматического economic PASS; используется прежний ledger.
 
 ## ОПЕК — источник найден, массовый корпус не разрешён условиями
 
@@ -35,9 +37,11 @@ attributed internal/research references не равны разрешению н�
 и[архив advance durable-goods releases](https://www.census.gov/manufacturing/m3/adv/historical_data/index.html).
 Идея для feasibility: новая информация о заказах/запасах и возможном спросе на сырьё,
 не ещё одна комбинация нефтяных цен. Правило/актив/окно ещё не выбраны, Census config/
-seal/run нет. V100 занят завершённым Stage2 V99; следующий economic номер — V101.
+seal/run нет. V100 занят завершённым Stage2 V99; V101 выделен отдельной G.17 гипотезе.
 
-Прочитан только HTML inventory; PDF/Excel не открывались и corpus не загружался.
+На момент первоначальной записи был прочитан только HTML inventory. Обновление:
+извлечённый текст трёх PDF просмотрен, визуальная проверка неполная, server corpus
+не загружен из-за отказа доступа. Подробности и failed manifest — в новой feasibility note.
 2026links/поисковые snippets не импортируются и не используются как признаки.
 Месяц observation не release date: December2018advance search metadata указывает
 публикациюFebruary2019. Late2025observations могут быть опубликованы уже2026 и не
