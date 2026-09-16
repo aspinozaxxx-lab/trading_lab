@@ -1,9 +1,20 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 01:40 МСК / 2026-09-16, 22:40 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 01:51 МСК / 2026-09-16, 22:51 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V102 pre-outcome — одна новая банковская TIC-гипотеза
+## V102 V2 pre-outcome — исправление одного неиспользуемого заголовка
+
+[Correction](V102_TIC_BANK_FUNDING_V2.md): V1source failed22:45:17UTC до economics,
+18parsed/19rawHTTP200,20190617duplicateApr-19/Apr-19rollingheaders. V1raw/root/seal
+сохранены;failedmanifestbb11c0ac8eda14f2b64efab679011fe19e3e1b38fc164d5a813395978994611e.
+V2нормализуеттолькоunusedpriorheader в RAM для exactrawSHA; никаких numeric changes.
+22savedrawformatsPASS;24V1/V2testsPASS,Ruffclean. Все V1economic rules unchanged.
+Next V2seal/server tests,74newGET+22reuse,sourceaudit,oneeconomicrun. V1 не rerun.
+102combinedV1/parents testsPASS8.92s,37serverPASS;pre-outcomeV1commit0bb6443.
+Воронка33покаunchanged,goalactive;archive/token/Windows unchanged.
+
+### V102 V1 pre-outcome — историческая запись
 
 [Протокол](V102_TIC_BANK_FUNDING.md): SI long0.9/cash по последнему опубликованному
 отрицательному месячному потоку bank liabilities, row29. Matched-calendar constant-long

@@ -1,0 +1,14 @@
+{
+  "protocol_id": "v102_tic_bank_funding_v2",
+  "sealed_at_utc": "2026-09-16T22:51:24Z",
+  "sealed_before_full_source_states_targets_and_outcomes": true,
+  "partial_source_22_raw_releases_seen": true,
+  "source_manifest_sha_pinned_at_economic_invocation": true,
+  "files": {
+    "src/market_lab/futures_v102_tic_bank_funding_v2.py": "6391479eb59ce209cd1fe325bc81c49da232d38ff14d7d4bd0cc91094e8d66b6",
+    "configs/v102_tic_bank_funding_v2.json": "a2448e5a645d3ca70ba4af50aa120a7a3a2f9202ae13ec47f6368c92ae3e2521",
+    "tests/test_futures_v102_tic_bank_funding_v2.py": "7b2d63473f5c71ec89c2aeb9aa6fe3cb0eec4e92e4f2a5ef39741c6012149ba7",
+    "docs/V102_TIC_BANK_FUNDING_V2.md": "5548f599e14abe6781b5bad84cb4415c68149349c6ce05ebc3ed33bcbbf7e84c",
+    "configs/v102_tic_bank_funding_v1.seal.json": "96238a5697f9f9592fea924dda1752938823f9da8ece7bcd55ce3a960f56cb59"
+  }
+}

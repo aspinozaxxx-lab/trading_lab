@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 01:51 МСК / 2026-09-16 22:51 UTC — V102 V2 pre-outcome
+
+[Correction](V102_TIC_BANK_FUNDING_V2.md): V1source failure до economics,
+June17,2019duplicateApr-19rollingheaders. Exactraw-gated unusedpriorheader correction
+inRAM;actualmonthlynumericvaluesunchanged. Failedroot/seal/manifest сохранены.
+24new+V1testsPASS,Ruffclean,22savedrawPASS. 74newGET+22reuse planned; same hypothesis,
+все sign/asset/targets/costs/gates неизменны.33portfolio count ещё unchanged.
+
 ## 2026-09-17 01:40 МСК / 2026-09-16 22:40 UTC — V102 pre-outcome
 
 [Протокол](V102_TIC_BANK_FUNDING.md): новый TIC bank cross-border funding source,

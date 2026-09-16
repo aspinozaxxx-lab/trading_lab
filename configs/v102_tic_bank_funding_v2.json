@@ -1,0 +1,10 @@
+{
+  "protocol_id": "v102_tic_bank_funding_v2",
+  "parent_v102_seal_sha256": "96238a5697f9f9592fea924dda1752938823f9da8ece7bcd55ce3a960f56cb59",
+  "source_parent": "source_evidence/v102_tic_bank_funding_v2",
+  "failed_source": {
+    "path": "source_evidence/v102_tic_bank_funding/96238a5697f9",
+    "manifest_sha256": "bb11c0ac8eda14f2b64efab679011fe19e3e1b38fc164d5a813395978994611e"
+  },
+  "correction": "V1stopped before economics: June17,2019HTML has duplicate Apr-19/Apr-19 rolling12month headers. Latest monthly feature April2019 remains correct; the unused prior-year header alone is normalized to Apr-18 in parser memory, gated by exact rawSHA0a12dba5637e022d9e84f3c4d5b1011ea4fb4758b9a0cd990dc9eca138567760 and exact8column header. Raw/metadata never edited; no numeric value changes. Reuse19HTTP200pages from failedV1 plus3remaining initial/canonical probe pages,74newGET. All economic rules, calendar, gates, costs, targets, source states and ledger inherited unchanged. Same hypothesis, not another contestant."
+}
