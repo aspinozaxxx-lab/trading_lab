@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — V97 pre-outcome hurricane supply-risk hypothesis
+
+[Frozen design](V97_HURRICANE_SUPPLY.md): новая independent weather information,
+не EIArawchange/signflip. BR northernGulf>=64kt/72hforecast против allAtlantic;
+same0.9gross/clock/TTL,2018–2025,2costs. No model/newledger.13new/66combined
+synthetic testsPASS4.67s,Ruffclean. Source-only2examples доdesign раскрыты; full
+source/targets/economics ещё не запускались. Seal/code/inputs before outcomes,
+closed source manifest будет отдельно pinned beforeprice load.29portfolio/0Stage2.
+
 ## 2026-09-16 — EIA consensus source feasibility, no economic increment
 
 [Полная запись](EIA_CONSENSUS_FEASIBILITY_20260916.md): bounded2+5Wayback pages,

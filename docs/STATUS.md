@@ -3,6 +3,18 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V97 pre-outcome — новый hurricane supply-risk screen, ещё не результат
+
+[Протокол](V97_HURRICANE_SUPPLY.md): original issued NHC forecasts2018–2025,
+BR long/cash при forecast>=64kt в northernGulf в пределах72h; broadAtlanticcontrol.
+Fixed0.9gross,48hTTL,nextactualopen,base/doublecosts,existingV64/V78ledger. No grid/fit.
+13new/66combinedsynthetic testsPASS4.67s,Ruffclean; config/code/sourcecollectionplan
+sealed до fullsource и новых targets/outcomes. Два weather-only format examples
+Ana/Ida2021 прочитаны и явно отмечены; рыночная доходность не читалась.
+Следом pushed/serverbytecheck, bounded<=2000request source с2workers, затем один
+pairedscreen только после closedmanifestSHA. Source readiness не новыйeconomicPASS.
+V96 пока последний completedtest;29portfolio/0Stage2. AlgoPack scope ещёunanswered.
+
 ## 16 сентября,22:07МСК — EIA consensus feasibility закрыта, нового PnL нет
 
 [Результат ограниченной проверки](EIA_CONSENSUS_FEASIBILITY_20260916.md):7архивных

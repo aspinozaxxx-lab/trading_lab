@@ -1,0 +1,76 @@
+{
+  "protocol_id": "v97_hurricane_supply_v1",
+  "declared_at_utc": "2026-09-16T19:26:23Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+    "url_template": "https://ftp.nhc.noaa.gov/atcf/archive/{year}/messages/",
+    "source_parent": "source_evidence/v97_nhc",
+    "daily_archive_cutoff_utc": "1400",
+    "publication_lag_hours": 1,
+    "workers": 2,
+    "minimum_request_seconds": 1.0,
+    "maximum_requests": 2000,
+    "maximum_index_bytes": 2000000,
+    "maximum_message_bytes": 30000,
+    "reused_indexes": {
+      "2021": {"path": "source_evidence/nhc_messages_probe_20260916_v1/index_2021.html", "sha256": "890d002ba116c74e426278e1ebd55863f2eff917d207c028d064c5952b96c937"},
+      "2024": {"path": "source_evidence/nhc_messages_probe_20260916_v1/index_2024.html", "sha256": "fe37637f91705478f7dbc050c9602a4f72c81b6eb301d66c69e7a0c439063bcd"}
+    }
+  },
+  "signal": {
+    "mechanism": "Forecast hurricane threat can cause Gulf offshore oil shut-ins; test subsequent Brent supply-risk premium against a broad Atlantic hurricane control",
+    "primary": "long BR when a latest sampled NHC forecast has >=64kt at any still-future point within72hours of issue, latitude24..31N and longitude83..98W inclusive",
+    "control": "long BR under the same clock, horizon and wind rules, without the Gulf geographic filter; not promotable after seeing results",
+    "wind_threshold_knots": 64,
+    "latitude_min": 24.0,
+    "latitude_max": 31.0,
+    "longitude_min": -98.0,
+    "longitude_max": -83.0,
+    "forecast_horizon_hours": 72,
+    "maximum_source_age_hours": 48,
+    "maximum_fill_gap_calendar_days": 3,
+    "target_weight": 0.9,
+    "decision_clock": "18:45 Europe/Moscow on completed MOEX decision day",
+    "fill_policy": "next actual daily open; cancel new exposure if no qualifying forecast point remains after10:00Moscow of planned fill day",
+    "source_sampling": "latest versioned fstadv file by suffix timestamp for each Atlantic storm/date, at or before14:00UTC; no unversioned final files, HURDAT2 or ex-post realized tracks",
+    "availability": "max(explicit UTC advisory issue, filename version clock)+1hour; archive/version clocks do not prove delivery or cryptographic immutability",
+    "expiry": "sampled forecast expires after48hours; zero thereafter is a deliberate sleeping rule, not an observation of zero hurricane risk",
+    "parse_failure": "retain raw/issue; mask both arms for48hours after the selected file's version clock+1hour, never substitute a zero forecast",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.0
+  },
+  "limitations": [
+    "One rare-event hypothesis, not a complete20-50percent income solution.20round trips fixed before market outcomes for one asset across8years;5percent only a component gate. Goal never verified by this screen.",
+    "Gulf shutdowns affect both oil supply and refinery demand; geography is a broad fixed proxy, not a historical installation/production map. Transfer to Brent after a conservative delay is unproved.",
+    "NOAA/NWS original government advisories are public domain with attribution. Third-party maps, best tracks, post-season reports and realized hurricane losses are not inputs.",
+    "Versioned issue archives are not witnessed real-time receipt. Filename clocks are checked against explicit issue dates; no retroactive correction joins. Incomplete archival source and limited daily sampling remain explicit research limitations.",
+    "Forecast valid times are predictions published before decisions, not future realized tracks. Source-only Ana/Ida2021 examples and index counts2021/2024 were seen before design, but no corresponding market outcomes were calculated.",
+    "Daily OHLC/spec/fees/margin proxies and integer fills use existing V64/V78 ledger, not exact historical BBO. No idle-cash income, broker, live/demo or new AlgoPack economic reads.",
+    "No sign, geography, horizon, wind threshold, holding, asset, size, cost, year or control promotion retuning after outcomes; development selection is not an independent holdout. Existing closed families are not rerun."
+  ]
+}
