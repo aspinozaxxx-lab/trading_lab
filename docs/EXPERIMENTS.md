@@ -1,6 +1,16 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V96 pre-outcome variance-premium protocol
+## 2026-09-16 — V96 source-only Retry1, не новый economic candidate
+
+[Source attempt record](V96_SOURCE_RETRY1.md): original HTTP read timeout90s,
+ни SP500 values/features, ни portfolio economics не считались. Original bytes/root
+сохраняются. Retry1 transport HTTP/1.1, same URL/dates/parser/strategy/gates;
+runtime strict equality check разрешает только новый protocol_id/declaration time.
+5new+10original synthetic tests PASS5.73s,Ruffclean. Retry seal
+`fb97e677b52775a2c8768a437871d9a08dafd0c68f97436796e1aad5308f3114`.
+Это всё ещё один незавершённый V96 screen;28completedportfolio/0Stage2.
+
+### 2026-09-16 — V96 original pre-outcome variance-premium protocol
 
 [Fixed design](V96_VARIANCE_PREMIUM.md), новая SP500 information против старого VIX.
 One Stage1 portfolio hypothesis;21-session realized variance/252prior median,

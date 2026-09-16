@@ -3,7 +3,22 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V96 pre-outcome — внешний variance-premium proxy, один fixed screen
+## V96 source-only Retry1 подготовлен; economic run пока не запускался
+
+[Причина и сохранённые попытки](V96_SOURCE_RETRY1.md): original GET timeout90s,
+после initial directory permission failure. Parent ownership/mode восстановлены.
+Header-only HTTP/1.1 проверка дала200, HTTP/2 probe — stream error; quotes не читались.
+Retry1 сохраняет byte-identical экономику original V96, меняет только anonymous
+HTTP transport и isolated config/seal/root. 5новых transport +10original tests PASS5.73s,
+Ruff clean; seal `fb97e677b52775a2c8768a437871d9a08dafd0c68f97436796e1aad5308f3114`.
+Далее один pushed/server-verified retry fetch, затем тот же screen только при
+закрытом source manifest. Старый partial source root не удалять/перезапускать.
+Main archive actual10:53UTC running11283/26305jobs/109341916rows/failed0/blocked0.
+Du10:53:18UTC data9936219717+source479848055=**10416067772bytes/10.416GB**,
+включая AlgoPack7145870914+oldprocessed1456918554=**8602789468bytes/8.603GB**.
+Без models/runs/tmp/local duplicates; downloader не изменён. 28portfolio/0Stage2.
+
+### V96 original pre-outcome — внешний variance-premium proxy
 
 [Протокол](V96_VARIANCE_PREMIUM.md): новая SP500 close history2018–2025 плюс
 существующий VIX; implied-minus-realized variance,21/252sessions,3monthly cohorts,
