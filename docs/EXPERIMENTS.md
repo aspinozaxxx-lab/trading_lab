@@ -1,5 +1,23 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 02:32 МСК / 2026-09-16 23:32 UTC — V103 COMPLETE / REJECT_STAGE1
+
+[Результат](V103_ILLIQUIDITY_PREMIUM_RESULT.md): monthly illiquidity high-minus-low,
+2021–2025, primary CAGR−3.1976%/−3.1702%, Sharpe−.13765/−.13632,
+MDD40.8299%/41.1017%,61trips,2positiveyears/5. Mirror−1.4459%/−.6929%,63trips.
+All4executioncomplete,critical/unresolved0,terminalflat; research spec-proxy only.
+Readiness95.2793%,5084decisions/1271dates per arm;60monthly selections/57ready,
+58usedstates include pre-evaluation carry. No Stage2, no retune/control promotion.
+Seal7d88dc5ca55e9510238930ed17c505ce5d6b342ba09968c8a4a54e7429f31041,
+pre-outcome c068bea59ffc3978a6788c49eb7f4c1acffaf536; one run
+`runs/v103_illiquidity_premium_v1_7d88dc5ca55e`,complete23:29:52.849986UTC.
+Manifestd995d9ce3f862eb484f0ca1394787a923ee64da0e74386d706c2e1ca7f627c7c,
+metrics18b06a8202acd54954c321b3059369dc1b42e1e9f827daa883f3a4413ed1eba2.
+Audit18hashes/8100features/2targets/4cash-cost-metric replays PASS23:31:07UTC;
+79local/79server testsPASS,Ruffclean. Newsource/HTTP/model fitting отсутствуют.
+34portfolio=28rejectedStage1+1rejectedStage2+1incomplete+4invalid;0activeStage2/3.
+V93separate,V102source-onlynotentrant. Goal20–50%active, mainarchiveuntouched.
+
 ## 2026-09-17 02:26 МСК / 2026-09-16 23:26 UTC — V103 pre-outcome
 
 [V103 protocol](V103_ILLIQUIDITY_PREMIUM.md): slow cross-market illiquidity premium,

@@ -1,5 +1,20 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 02:33 МСК /2026-09-16T23:33UTC**: main active/running,
+PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
+**17895/26305jobs (68.0289%)**,161817583rows,174443pages,failed0/blocked0,
+9573268214completed-job bytes,statusupdated23:33:18.194910UTC,finalmanifest absent.
+Du23:33:21.584027UTC: archive10218270607+earlierprocessed1456918554=
+**11675189161bytes /11.675GB AlgoPack**;data13071450187+source559319597=
+**13630769784bytes /13.631GB total**. AlgoPack уже входит в итог. Sequential apparent
+bytes при записи, без models/runs/tmp/transfers; доля jobs не доля конечного объёма.
+Local data+source23:26UTC **2747441258bytes/2.747GB**, частично копии — не прибавлять
+как unique data. FUTOI terminal550unresolved unchanged/not re-audited.
+Параллельно [V103](V103_ILLIQUIDITY_PREMIUM_RESULT.md) завершён REJECT_STAGE1,
+нового Stage2/доходного кандидата нет. Main unit/token/Windows не менялись.
+
+### Предыдущий снимок17сентября01:07МСК
+
 Actual **2026-09-17 01:07МСК /2026-09-16T22:07UTC**: mainactive/running,
 PID1663880,invocation `d562f0748c4341b48eb7f4d34d64b4a1`,безперезапуска.
 **16734/26305jobs(63.62%)**,155497164rows,167334pages,failed0/blocked0,

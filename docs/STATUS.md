@@ -1,9 +1,34 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 02:26 МСК / 2026-09-16, 23:26 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 02:32 МСК / 2026-09-16, 23:32 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V103 pre-outcome — премия за неликвидность на готовых данных
+## V103 COMPLETE — REJECT_STAGE1, новой доходной стратегии нет
+
+[Полный результат](V103_ILLIQUIDITY_PREMIUM_RESULT.md): один screen готовых данных
+завершён 23:29:52.849986UTC. Primary base/double CAGR **−3.1976%/−3.1702%**,
+Sharpe −.13765/−.13632, MDD **40.8299%/41.1017%**, 61 round trips, 2 positive years/5.
+Mirror control тоже отрицателен: −1.4459%/−.6929%CAGR, 63 trips. Все4 execution complete,
+critical/unresolved0, terminal flat; прежний spec-proxy не broker-exact.
+Readiness95.2793%, 5084asset-decisions/1271dates, 60 monthly selections/57 ready;
+58 использованных states включают carry из warmup, это не 58 новых releases.
+Seal `7d88dc5ca55e9510238930ed17c505ce5d6b342ba09968c8a4a54e7429f31041`,
+pre-outcome commit `c068bea59ffc3978a6788c49eb7f4c1acffaf536`.
+Run `runs/v103_illiquidity_premium_v1_7d88dc5ca55e`, manifest
+`d995d9ce3f862eb484f0ca1394787a923ee64da0e74386d706c2e1ca7f627c7c`.
+23:31:07UTC audit:18artifact hashes,8100feature rows,2target/4cash-cost-metric replays
+PASS;79 local/79 server synthetic tests, Ruff clean. Ни один economic rerun.
+
+Воронка **34 portfolio =28 REJECT_STAGE1 +1 REJECT_STAGE2 +1 incomplete +4 invalid**,
+активных Stage2/3 кандидатов0; V93 отдельно, V102 не economic entrant. Цель20–50%active,
+не достигнута. V103 не retune/flip/lever; TIC parser paused. Следующий шаг — новый
+механизм на готовых разрешённых данных после novelty check, не дальнейший audit V103.
+Main archive23:33UTC active/running,17895/26305jobs68.0289%,failed0/blocked0;
+**13.631GB data+source /11.675GB AlgoPack**. Local data+source2.747GBчастичнокопии,
+не складывать. Result backup отдельно в external runs:18hashes+manifestPASS.
+Archive не прерывался; детали — в отчёте и archive status.
+
+### V103 pre-outcome — историческая запись
 
 [Протокол](V103_ILLIQUIDITY_PREMIUM.md): monthly high-minus-low по 63-session
 absolute return / lagged ruble notional-volume proxy, BR/MIX/RI/SI, +0.45/−0.45.
@@ -4718,7 +4743,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,01:13МСК / 2026-09-16,22:13UTC:
+Текущий первый шаг 2026-09-17,02:32МСК / 2026-09-16,23:32UTC:
+[V103 COMPLETE/REJECT_STAGE1](V103_ILLIQUIDITY_PREMIUM_RESULT.md),34portfolio/0active.
+На готовых данных получен отрицательный economic result в обоих costs; не повторять
+canonical/replay и не подбирать другое окно, знак, актив или плечо этой ветки. TIC V102
+source work приостановлен после трёх preserved failures до экономики; не писать V4.
+Первый незаблокированный шаг — краткий novelty review следующего механизма на уже
+допущенных готовых данных, затем короткий зафиксированный Stage1 тест. Нужна новая
+информация или иная экономическая механика, не переименование V66/V94/V103, не смесь
+или leverage V49/V60. Не заменять economic test новым большим parser/collector.
+Broader AlgoPack scope всё ещё требует фактического ответа на прежний вопрос, не
+нового повторного запроса; это не глобальная блокировка исследования. Archive работает
+отдельно, FUTOI terminal550gaps не переаудировать. Цель20–50%active,2026защищён.
+
+Исторический первый шаг 2026-09-17,01:13МСК / 2026-09-16,22:13UTC:
 [V101 COMPLETE/INVALID](V101_MANUFACTURING_DEMAND_RESULT.md),33portfolio/0active.
 Не повторять эту weak/invalid ветку, не менять execution risk gates ради её дохода.
 Следующий bounded source-only шаг — **Treasury TIC** по
