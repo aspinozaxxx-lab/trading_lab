@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 02:26 МСК / 2026-09-16 23:26 UTC — V103 pre-outcome
+
+[V103 protocol](V103_ILLIQUIDITY_PREMIUM.md): slow cross-market illiquidity premium,
+63 complete sessions, strict-prior feature, monthly long high / short low 0.45 each.
+Existing V64 recent daily inputs, 2021–2025 economics, 2018–2020 warmup, unchanged
+ledger and paired costs. No HTTP, new parser, fitting or parameter search. Not V66
+signed OHLCV event rule, not V94 skewness; same data is not independent confirmation.
+13 new / 79 combined synthetic tests PASS, Ruff clean. New outcomes not read; next
+sealed deployment and one economic run. 33 portfolio entrants still unchanged.
+
 ## 2026-09-17 02:05 МСК / 2026-09-16 23:05 UTC — V102 source paused, no economics
 
 [Отчёт](V102_TIC_SOURCE_PAUSED.md): V3failed25parsed/26raw,20200116bankrow `#`

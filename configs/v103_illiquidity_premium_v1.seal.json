@@ -1,0 +1,16 @@
+{
+  "protocol_id": "v103_illiquidity_premium_v1",
+  "sealed_at_utc": "2026-09-16T23:26:14Z",
+  "sealed_before_new_features_targets_and_outcomes": true,
+  "existing_price_history_previously_used_in_other_experiments": true,
+  "independent_holdout": false,
+  "no_new_source_or_parameter_search": true,
+  "files": {
+    "src/market_lab/futures_v103_illiquidity_premium.py": "fa7a62e91efeb34087bfea49d263fb03c446f8605a13aa7571c1983d92d6d0b0",
+    "configs/v103_illiquidity_premium_v1.json": "a16d81725e506dcffcf67da9b7d604950b8d854e50de60178c92bef35f63aa01",
+    "tests/test_futures_v103_illiquidity_premium.py": "12d5a7c34c37f4389d1bae41de084b91ac2629a4283c607af00b23e071192457",
+    "docs/V103_ILLIQUIDITY_PREMIUM.md": "8831e8449105fafe3da97ae4668022b5aa520cffbc962a799e8f604e349f7bbd",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+    "tests/test_futures_v94_skewness_premium.py": "7e314467f9d49aa244052129b5c1c6def381f8295ab903b47916323fc5e23d9a"
+  }
+}

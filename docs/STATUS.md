@@ -1,9 +1,21 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 02:05 МСК / 2026-09-16, 23:05 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 02:26 МСК / 2026-09-16, 23:26 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V102 INCOMPLETE_SOURCE — приостановлен, экономического результата нет
+## V103 pre-outcome — премия за неликвидность на готовых данных
+
+[Протокол](V103_ILLIQUIDITY_PREMIUM.md): monthly high-minus-low по 63-session
+absolute return / lagged ruble notional-volume proxy, BR/MIX/RI/SI, +0.45/−0.45.
+Строго предыдущая завершённая сессия; full-window/all-four readiness, mirror control
+не продвигать. Отличается от V66 signed OHLCV events и V94 skewness; данные прежние,
+не независимый holdout. 2021–2025 evaluation, 2018–2020 только warmup, no model fit.
+13 новых synthetic tests / 79 с parents PASS, Ruff clean. Code/config/tests/protocol
+sealed до новых numeric features/targets/outcomes; следующий шаг — server tests и
+один Stage1 screen с прежним ledger, base/double costs. Воронка пока 33 unchanged.
+Main archive работает отдельно; TIC paused, broad AlgoPack scope не расширять.
+
+### V102 INCOMPLETE_SOURCE — предшествующее состояние
 
 [Полный отчёт и объёмы](V102_TIC_SOURCE_PAUSED.md). V3failed23:01:02.773633UTC,
 25parsed/26rawHTTP200:20200116bankrowidentifier `#` вместо29. Согласно predeclared
@@ -18,7 +30,7 @@ failed0/blocked0,active/running PID1663880. Du23:03:54UTC **13.504GB** data+sour
 из них **11.549GBAlgoPack**. Локально data+source **2.747GB**,естькопии:не складывать
 какuniquevolume. Безmodels/runs/tmp/transfers. FUTOIпрежние550unresolvedнепереаудированы.
 
-Следующий шаг — novelty review liquidity-risk compensation на уже готовом daily
+Следующий шаг на момент V102 closure — novelty review liquidity-risk compensation на уже готовом daily
 bundle, обязательно отличить от четырёх V66OHLCV-механизмов до нового config/seal.
 Если это только переименование/retune — не запускать. V103 ещё не выделен; не
 возвращаться автоматически к TIC parser. BroadAlgoPackscopeunanswered,goalactive.

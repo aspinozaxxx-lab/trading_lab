@@ -1,0 +1,56 @@
+{
+  "protocol_id": "v103_illiquidity_premium_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR", "MIX", "RI", "SI"],
+  "source": "Existing V64recent2018-2025 active map, contract observations and lagged spec proxy; byte/schema/date preflight before numerical read. No new HTTP or source parser. 2018-2020 only causal warmup, no fitting or economic PnL.",
+  "signal": {
+    "mechanism": "Bearing persistent illiquidity may command compensation: long highest lagged historical price-impact-per-ruble-volume proxy and short lowest. Slow cross-sectional level premium, not fading/following a signed price shock or controlling the V49 engine.",
+    "primary_reference": "https://doi.org/10.1002/fut.22007",
+    "counterpoint_reference": "https://doi.org/10.1017/S0022109023000224",
+    "lookback_sessions": 63,
+    "feature": "arithmetic mean over63complete calendar sessions of1e6*abs(same-contract close/previous adjacent close-1)/(current close*current contract volume*lagged sizing rubles-per-point). Zero return is valid0; missing/zero volume or price/specs is masked, never zero-filled. This is an Amihud-style notional-volume proxy, not measured BBO impact or original paper replication.",
+    "maximum_observation_gap_days": 7,
+    "lag": "at first completed decision session of each month use63-session feature ending at the immediately PREVIOUS calendar session, strictly before decision_date. Source assumed available next civil day08:00Moscow; decision18:45Moscow. Never use current decision-day close or contemporaneous realized accounting point value.",
+    "selection": "all4features finite, unique maximum/minimum; long max0.45,short min0.45. Any missing/tied extreme sleeps entire month; no midmonth revival. Hold asset directions to next monthly selection, causal contract rolls and daily constant-fraction sizing by existing ledger.",
+    "control": "exact sign mirror with same readiness, sizing, stale/terminal masks; never promote control after outcomes",
+    "maximum_fill_gap_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_leg": 0.45,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 50,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn was PROGRESS: TIC source format failures saved and work paused before economics. Do not resume that parser. This screen uses ready inputs and no collector changes.",
+    "V66already tested volume-shock reversal, pressure continuation, thin-breakout fade and compressed-volume expansion using signed OHLC patterns. This level-ranked illiquidity compensation hypothesis does not use their signed body/range triggers or replace a threshold. V94ranked skewness, not liquidity. New mechanism is not new data or independent confirmation.",
+    "Literature abstract motivates possible illiquidity compensation in commodity markets; mapping it to BR/MIX/RI/SI mixed markets is an unproved extrapolation. It is not a replication, measured liquidity beta, model of hedger positions, or guaranteed premium. Derivatives theory warns that price impact and liquidity-risk compensation may diverge.",
+    "Notional activity uses lagged proxy point value; not exact ruble cash turnover/BBO/depth. Permanent instrument size, roll concentration, volatility, tick discreteness and Russia-specific market changes can dominate ranks. Only4correlated markets; not beta/FX/risk-neutral, short futures margin remains risky.",
+    "Same-contract returns can be concatenated across causal rolls only at return level; no raw price splice. Full63observations required; gaps>7days, invalid sizing timestamps/flags and missing bars mask windows. No filtering on future exits. All2026outcomes protected.",
+    "Existing integer daily-open/spec/fee/margin research-proxy ledger, asset atomicity, cancel-and-clip and unresolved carry unchanged. Constant fraction resizing, no idle-cash return. Exact broker fees/specs/BBO, joint fills and independent risk-counter reconstruction not established. Cash/metric audit is not full execution proof.",
+    "One pre-outcome63-session/monthly/one-lag rule, no sign/window/asset/period/size/control/mask retuning. Already-seen2021-2025development, not unseen holdout;2018-2020warmup does not imply a fitted model or purged OOStraining. Five-percentStage1component gate does not replace relatively predictable20-50percent target.",
+    "No TIC/source work, broadAlgoPackeconomic admission, broker/demo/live, purchase, key handling, newWindowscollectors or interruption of mainarchive. Stage2only if all frozen gates pass; no goal-complete inference from a profitable backtest."
+  ]
+}
