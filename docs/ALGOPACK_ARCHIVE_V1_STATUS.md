@@ -1,5 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-16T20:43UTC /23:43МСК**: mainactive/running,
+PID1663880,invocationd562f0748c4341b48eb7f4d34d64b4a1,безперезапуска.
+15846/26305jobs,149386185rows,160692pages,failed0/blocked0,
+8886226401completed-jobbytes,updated20:43:02.469794UTC,finalmanifestabsent.
+Du20:43:12.499490UTC:archive9528503150+oldprocessed1456918554=
+**10985421704bytes/10.985GBAlgoPack**. Data12374457055+source535171622=
+**12909628677bytes/12.910GBtotal**. Sequentialapparentbytes,безmodels/runs/tmp/
+localduplicates. FUTOIterminal550unresolved unchanged/notre-audited. Mainunit/token/
+Windows unchanged. Параллельный[V99](V99_RESERVE_LIQUIDITY_RESULT.md)завершён:
+STAGE2_CANDIDATE,+6.8599%/+6.8176%CAGR,ноrecentyearsweak/goal20–50%notverified.
+
+### Предыдущий снимок23:12МСК
+
 Actual **2026-09-16T20:12UTC /23:12МСК**: mainactive/running,
 прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
 15569/26305jobs,147222167rows,158375pages,failed0/blocked0,

@@ -59,3 +59,11 @@ Currentdatedarchives могутисправляться; никакой strictPI
 Новый[protocolV99](V99_RESERVE_LIQUIDITY.md): monthlyMIXlong/cash по3monthgrowth
 Wednesdayreserves, matchedvalid-calendarconstantlongcontrol, base/doublecosts.
 14new/76combinedtestsPASS,Ruffclean;3sourceformatsparsed, ещёнетeconomicoutcomes.
+
+## Закрытие source stage и результат
+
+V99 sourceCOMPLETE20:40:43UTC:100GETs/100months/99usable,209hashes и100rawreparses
+verifiedbeforeeconomics. [V99однократноcompleted](V99_RESERVE_LIQUIDITY_RESULT.md)
+20:41:35UTC,STAGE2_CANDIDATE,CAGR6.8599%/6.8176%,MDD~22%,последние2годаnegative.
+ДалееStage2candidate,не повтор sourcefeasibility/collection/canonicalrun.
+Originalreceipt/PIT/live не подтверждены;goal20–50%не достигнута.

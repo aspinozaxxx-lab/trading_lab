@@ -1,6 +1,27 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V99 pre-outcome monthly reserve regime
+## 2026-09-16 — V99 COMPLETE, первый STAGE2_CANDIDATE
+
+[Полныйрезультат](V99_RESERVE_LIQUIDITY_RESULT.md),20:41:35.895286UTC.
+Primarybase/doubleCAGR+6.8599%/+6.8176%,Sharpe.73558/.73759,MDD21.9892%/22.4424%,
+40trips;control+.0191%/+.0162%,61trips.2024/2025negative;recent4years~1%annual,
+неустойчивыйдоход20–50%.23frozenStage1checksPASS,5positiveyears/8,ready97.0850%,
+all4executioncomplete/critical0/unresolved0/flat.32portfolio=27rejected+1incomplete+
+3invalid+1Stage2candidate;V93отдельно. Stage2stress ещё не sealed/run; он следующий.
+Не менятьправило/плечо/годы/control. НикакогоStage2PASS/demo/live/goalcompletion.
+
+Pre-outcome8082bf3,seal`c9e27fe2d1a9a56c3345ba3feeeacf213556727049bf34c08bd1a3f8179d51b4`.
+Source100releases/99usable,manifest`ae0c56ea223297da1d3245ba85192819a46f4b7e1c719bec0e315bd02638e8fa`;
+209hashes/100rawreparsesverifiedbeforeeconomics,originalreceiptfalse.
+Run`runs/v99_reserve_liquidity_v1_c9e27fe2d1a9`,manifest
+`2b3cf798c07975ad1221a76c5df801dc8346980d0707a706b5a9949b9f65b867`,metrics
+`95311cf15b665ba1458df3f542ecf69ee18b6717b17c1203fb992ecf29f0575f`.
+Audit18hashes+2source-target+4performance/annual/countreplays,terminaljournal,
+<=2025checked20:42:40UTC.14new/76combinedlocalPASS,14serverPASS,Ruffclean.
+Archive20:43UTC12.910GBtotal/10.985GBAlgoPack,15846/26305jobs,failed0,unchanged.
+[OPEC/Censusdiscovery](NEXT_SOURCE_REVIEW_20260916.md)неeconomic tests;Stage2V99first.
+
+### V99 pre-outcome monthly reserve regime (preserved)
 
 [Protocol](V99_RESERVE_LIQUIDITY.md): first-monthlyH41Wednesdayreservelevel,
 positive3monthchange => MIX0.9long,otherwise cash; constantlongmatchedcalendarcontrol.

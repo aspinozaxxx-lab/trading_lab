@@ -3,7 +3,48 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V99 pre-outcome — monthly bank-reserve liquidity
+## V99 COMPLETE — первый STAGE2_CANDIDATE; цель20–50% не достигнута
+
+[Все варианты, годы и ограничения](V99_RESERVE_LIQUIDITY_RESULT.md),completed
+20:41:35.895286UTC. Primarybase/doubleCAGR+6.8599%/+6.8176%,Sharpe.73558/.73759,
+MDD21.9892%/22.4424%,40roundtrips;control+.0191%/+.0162%,61trips.
+5positiveyears/8,ready97.0850%,all4executioncomplete/critical0/unresolved0/flat.
+Все23frozenStage1gatesPASS;historical20/50false,goal_verified=false.32portfolio=
+27rejected+1incomplete+3invalid+1Stage2candidate;V93отдельно. НикакогоStage2PASS/demo/live.
+
+Слабость уже видна: primary2024−3.50%/−4.07%,2025−13.72%/−13.81%;geometricannual
+2018–2021~12.98%,2022–2025лишь1.06%/.98%. Это post-selectionописание того же
+ledger,неindependentholdout и не разрешение выбрать хорошие годы/поднятьплечо.
+**Следующее действие — Stage2V99:** отдельный заранее записанный план source/causal/
+accounting checks иfixedcost/delay/temporalstress безизменениябазовойстратегии.
+Новые stress-прогоны/config/seal ещё не созданы. CanonicalStage1 не повторять.
+
+Run`runs/v99_reserve_liquidity_v1_c9e27fe2d1a9`,manifest
+`2b3cf798c07975ad1221a76c5df801dc8346980d0707a706b5a9949b9f65b867`,metrics
+`95311cf15b665ba1458df3f542ecf69ee18b6717b17c1203fb992ecf29f0575f`.
+18hashes/2source-targetreplays/4performance-annual-countreplays verified20:42:40UTC.
+Source100monthlyreleases/99usable,209hashes/100rawreparsesverifiedbeforeeconomics,
+manifest`ae0c56ea223297da1d3245ba85192819a46f4b7e1c719bec0e315bd02638e8fa`.
+Pre-outcomepush8082bf3;14new/76combinedlocal+14serverPASS,Ruffclean.
+BothV99units terminalsuccess,no rerun. Originalreceipt/economicadmissionfalse;
+datedarchiveconditionaldevelopment,notstrictPIT. No2026marketdata/expandedAlgoPackscope.
+
+### Архивы — actual16сентября23:43МСК /20:43UTC
+
+Mainunitactive/running,PID1663880,invocationd562f0748c4341b48eb7f4d34d64b4a1.
+15846/26305jobs,149386185rows,160692pages,failed0/blocked0,
+8886226401completed-jobbytes,updated20:43:02.469794UTC,finalmanifestabsent.
+Du20:43:12.499490UTC:data12374457055+source535171622=
+**12909628677bytes/12.910GBtotal**;archive9528503150+oldprocessed1456918554=
+**10985421704bytes/10.985GBAlgoPack**. Sequentialapparentbytes,безmodels/runs/tmp/
+localduplicates. Main/token/Windows unchanged,FUTOIterminal550unresolved,no newaudit.
+BroaderAlgoPackscope unanswered, вопрос автоматически не повторять.
+
+[Резервные источники](NEXT_SOURCE_REVIEW_20260916.md): OPECbulk corpus ограничен
+условиями владельца; CensusM3historicalindex найден,форматы/clock/rights ещёпроверить.
+Обаsource-only,неновыеeconomic tests. **СначалаStage2V99**,неещёодинсборщик.
+
+### V99 pre-outcome checkpoint (preserved)
 
 [Protocol](V99_RESERVE_LIQUIDITY.md): новая H.4.1 quantitativeinformation, не старый
 CBR/FOMCcalendar rule. MIX0.9long/cash при positive3monthWednesdayreservegrowth,
@@ -32,7 +73,7 @@ Source64planned/1cancelled,10GETs,23verifiedartifacts,manifest
 `e1bf18bb17af7a8d679a4e27932bb105848715720669161382d3b7910c903bbd`.
 Source/economic units terminal success; не повторять. Никаких2026market reads.
 
-Дальше [H.4.1 source feasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md): банковская
+Историческая запись передV99: [H.4.1 source feasibility](H41_LIQUIDITY_FEASIBILITY_20260916.md), банковская
 долларовая ликвидность, не календарь FOMC. Найден original dated2020HTML; прежде
 правила проверить соседние старые macro families, availability/weekly-vs-level/
 revisions и формат<=2025. Ещё нет V99config/seal/run; discovery не economicPASS.
@@ -4499,12 +4540,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Актуальная надстройка2026-09-16,20:37UTC: V94–V98 закрытыREJECT_STAGE1, всего
-31portfolio/0Stage2. Последний V98 дал+1.6317%/+1.4782%CAGR, ниже frozen gates и
-цели20–50%; source/audit/run не повторять и не retune-ить. Первый незаблокированный
-шаг — [V99monthlyreserve protocol](V99_RESERVE_LIQUIDITY.md): feasibility и14new/
-76combinedtests завершены; seal/servercheck,100originaldatedHTML,одинpairedrun.
-Это continuation новогоH41mechanism, не повтор старыхsourceaudits/negativefamilies.
+Актуальная надстройка2026-09-16,20:47UTC: [V99COMPLETE/STAGE2_CANDIDATE](V99_RESERVE_LIQUIDITY_RESULT.md),
+32portfolio=27rejected+1incomplete+3invalid+1candidate. CAGR6.8599%/6.8176%,MDD22%,
+но2024–2025negative иrecent4years~1%annual. Цель20–50%неподтверждена.
+Первый незаблокированный шаг — **Stage2V99**: короткийfrozenrobustness protocol,
+fixedsource/clock/accounting/time/cost/delaychecks; не fit/оптимизация/плечо.
+Stage1/source/auditcanonical завершены,не повторять. Source datedarchives не strictPIT.
+Резервный[CensusM3source candidate](NEXT_SOURCE_REVIEW_20260916.md) покаdiscovery;
+OPECbulk ограниченусловиями,не обходить. Приоритетсейчаспрошедшемукандидату.
 EIA consensus bounded sample завершён: одно pre-event forecast observation,
 но rights/full-source coverage unresolved; bulk/экономику поForex Factory не запускать.
 Broader AlgoPack scope всё ещё ожидает фактического ответа, не нового повторного вопроса.
