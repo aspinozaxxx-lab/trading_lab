@@ -63,3 +63,38 @@ as evidence. Do not claim that exposure never occurred or use it to justify a
 All historical research remains development selection. Goal20–50% unverified;
 29 completed portfolio hypotheses, 0 Stage2 candidates. This check increments
 neither count. No model training, market labels, trades, live or demo activation.
+
+## Initial sample completed; bounded Tuesday follow-up declared
+
+Initial source script SHA `1cfdb07071aeb5ca51e6f13748759e6bc6eca085cd720acd82ceb0e099939f3a`,
+pre-fetch commit `6f5b23e`, Ruff PASS.
+Both GETs returned200 at18:58:03/18:58:05UTC, and both Memento-Datetime headers
+match the requested 2021 archive timestamps. First page288224bytes, SHA
+`2730676156b0966b85accfb836e82d0949974778d382968c2cbd0d49b39fdaa3`:
+calendar exists, oil row118695 has neither actual nor forecast yet. Its printed
+timezone is GMT−5/DSToff. Second page17948bytes, SHA
+`f4a36d4dd36521abe56ee53c6fd98c8182f5f17e6230de0b579a672a4d1dd44a`:
+no title/calendar/oil label. Neither page yields an admitted forecast.
+Private report `source_evidence/eia_consensus_probe_20260916_v1/report.json`, SHA
+`06bbc5fc3c627b5d6649306d55b61f974bf86fdba2e81b958578f7ff8e82f712`.
+
+The Monday forecast was not posted yet. One final bounded feasibility sample moves
+closer to publication: earliest **Tuesday** capture in each calendar year2021–2025,
+chosen from the same CDX metadata, before those page contents, without market
+outcomes. No sample expansion after these five outcomes in this investigation.
+This changes source sampling, not a rejected trading rule. It is not a bulk crawl.
+Selected stamps:
+`20210119074920`, `20220104193106`, `20230103091601`, `20240102181232`,
+`20250225104806`. Some selected weeks include holidays; not swapped for convenient
+normal weeks after inspection.
+
+The CDX response was persisted at19:01:28.218437UTC under a separate
+`source_evidence/eia_consensus_tuesday_probe_20260916_v1/cdx.json`, identical to the
+initial143467byte SHA above. It has461 plain `/calendar`,800 trailing-slash URLs,
+and1 empty-query URL. A preceding metadata-only assertion failed because it
+expected only the plain path; it wrote no output and read no calendar values.
+`scripts/probe_eia_consensus_tuesday_20260916.py` pins this exact catalog, preserves
+each original URL and uses the same no-redirect/no-retry/access-refusal policy.
+Its new `captures/` must not exist; no original sample files are changed.
+Tuesday script SHA `70d3186760b2da01aaf758e1829744c896ab8337ac96b258db1e51c03f4c2461`,
+Ruff PASS before page fetches. Neither script reads credentials or market bundles.
