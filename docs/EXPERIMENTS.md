@@ -1,5 +1,13 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — V100 pre-stress Stage2 V99
+
+[Protocol](V100_V99_ROBUSTNESS.md):12newledgers,0/1/7dayadditionalavailability,
+existing4tick/2×feestress,base/double,неоптимизация. Baseline4ledgersnotrerun.
+All4yearblocks/leave-year-out и60monthlyV49dependence,32portfoliofunnelunchanged.
+Knownrecentblockweakness честноpost-selection;newstress/dependencenotcomputed.
+9new/85combinedtestsPASS7.80s,Ruffclean,передcode/configseal+serverrun.
+
 ## 2026-09-16 — V99 COMPLETE, первый STAGE2_CANDIDATE
 
 [Полныйрезультат](V99_RESERVE_LIQUIDITY_RESULT.md),20:41:35.895286UTC.

@@ -3,6 +3,16 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V100 pre-stress — Stage2 кандидата V99
+
+[Frozen-design protocol](V100_V99_ROBUSTNESS.md):12новыхledgers,delay0/1/7calendar
+days;coststress4ticks/2×fee,base/double для задержек. Старые4V99ledgers reuse only.
+Всеfour-year/leave-year-outblocks,60monthlyreturns vsV49,безweights/fit/плеча.
+Recentblock~1% и ожидаемыйпровал5%temporaldiagnostic ужеизвестны; это открыто
+post-selection,не independentholdout. Новыеdelay/cost/dependenceoutcomesещёнеполучены.
+9new/85combinedtestsPASS7.80s,Ruffclean. Далееseal/push/server9tests/одинstresspacket.
+V99canonicalиmainarchiveнеперезапускать;goal20–50%active,broaderAlgoPackunanswered.
+
 ## V99 COMPLETE — первый STAGE2_CANDIDATE; цель20–50% не достигнута
 
 [Все варианты, годы и ограничения](V99_RESERVE_LIQUIDITY_RESULT.md),completed

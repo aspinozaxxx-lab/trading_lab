@@ -1,0 +1,14 @@
+{
+  "protocol_id": "v100_v99_robustness_v1",
+  "sealed_at_utc": "2026-09-16T21:00:48Z",
+  "baseline_source_and_all_baseline_annual_outcomes_already_seen": true,
+  "late_four_year_floor_failure_already_known": true,
+  "sealed_before_new_stress_and_dependence_values": true,
+  "files": {
+    "src/market_lab/futures_v100_v99_robustness.py": "67430e5eff6354a8a36f21c21121caebdb78c615168f805839dee83345c7ed2b",
+    "configs/v100_v99_robustness_v1.json": "be9ab634beef0452758e704337392474aa29ae1051a4806f6839d9408628e30a",
+    "tests/test_futures_v100_v99_robustness.py": "9d9de33af40c9ec39a1bd0cf86965d27faff4e1921cbdd697e1ff76676bd8611",
+    "docs/V100_V99_ROBUSTNESS.md": "36c6e6cc9206fdf0fcc7b50f85f84d1bff8a72aafca2ab0cfbca5a73dd9f890b",
+    "configs/v99_reserve_liquidity_v1.seal.json": "c9e27fe2d1a9a56c3345ba3feeeacf213556727049bf34c08bd1a3f8179d51b4"
+  }
+}

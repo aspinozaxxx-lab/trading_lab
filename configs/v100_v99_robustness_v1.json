@@ -1,0 +1,58 @@
+{
+  "protocol_id": "v100_v99_robustness_v1",
+  "stage": 2,
+  "parent_seal_sha256": "c9e27fe2d1a9a56c3345ba3feeeacf213556727049bf34c08bd1a3f8179d51b4",
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "parameter_search": false,
+  "known_before_seal": [
+    "Previous goal turn made progress: V99completed once, became the first Stage1survivor and was pushed as53d5d80. Its CAGR6.86/6.82%, MDD22%, all annual returns and original source values are already known.",
+    "Geometric annual2018-2021~12.98%,2022-2025~1.06/.98%, and negative2024-2025are already known. Consequently the5%four-year component-floor diagnostic is already expected to fail. Do not present this failure as unseen discovery.",
+    "New latency/stress-cost outcomes and monthly dependence against V49have not been computed. V49schema/date/byte metadata only was inspected for this stage.",
+    "Pre-seal synthetic test showed the unchanged ledger supports1/2/4ticks and1x/2xfee only. Use its existing4tick/2xfee stress, not the initially proposed unsupported3tick/3xfee. No historical outcomes or engine modifications."
+  ],
+  "inputs": {
+    "source": {"path": "source_evidence/v99_reserves/c9e27fe2d1a9", "manifest_sha256": "ae0c56ea223297da1d3245ba85192819a46f4b7e1c719bec0e315bd02638e8fa"},
+    "stage1": {"path": "runs/v99_reserve_liquidity_v1_c9e27fe2d1a9", "manifest_sha256": "2b3cf798c07975ad1221a76c5df801dc8346980d0707a706b5a9949b9f65b867"},
+    "v49": {
+      "path": "runs/v49_v39_double_risk_exact_execution_v1_20260902T122406Z_37b4fcb0",
+      "manifest_sha256": "b806e8116185d9d7dc9a01c48ea4d1657aef12444a4de38419b90ba89f70fb0c",
+      "ledger": {
+        "bytes": 108633,
+        "sha256": "7702330475b06150f0e73ea06c5a3f75ad94d34190a229d581483090debcb434",
+        "columns": ["session_date", "double_risk_primary_combined_nav", "double_risk_doubled_combined_nav"]
+      },
+      "cost_columns": {"base": "double_risk_primary_combined_nav", "double": "double_risk_doubled_combined_nav"}
+    }
+  },
+  "scenarios": [
+    {"id": "cost_stress", "additional_calendar_days": 0, "costs": {"stress": [4, 2.0]}},
+    {"id": "delay1", "additional_calendar_days": 1, "costs": {"base": [1, 1.0], "double": [2, 2.0]}},
+    {"id": "delay7", "additional_calendar_days": 7, "costs": {"base": [1, 1.0], "double": [2, 2.0], "stress": [4, 2.0]}}
+  ],
+  "delay_rule": "Add1or7fixed24hcalendar days to publication availability of every monthly state and its baseline, including unusable notifications; keep original observation/release dates,40dayTTL,3dayfill expiry,0.9gross,signal and next-open ledger unchanged. Delayed exit can increase exposure; never filter it away.",
+  "analysis": {
+    "existing_baseline": "reuse4frozen ledgers, replay cash/cost/source/metric identities but do not execute again",
+    "new_ledgers": 12,
+    "temporal": "all five overlapping4calendar-year geometric annual returns2018-2021through2022-2025; every leave-one-calendar-year-out7year geometric return; no capital reset or retrading",
+    "dependence": "60month-end returns2021-2025against V49combinedNAV, base/double; pairwise correlation, all V49negative months and candidate mean/count therein; no fitted weights/switch",
+    "independent_holdout": false,
+    "trial_multiplicity": "32portfolio hypotheses previously screened on reused history; this diagnostic does not establish multiple-testing-corrected significance or a calibrated future probability"
+  },
+  "diagnostic_gates": {
+    "all_new_stresses_must_pass_unchanged_stage1_gates": true,
+    "minimum_each_four_year_block_cagr": 0.05,
+    "temporal_gate_applies_to_both_frozen_baseline_costs": true,
+    "source_live_admission": false,
+    "interpretation": "Same5%component floor across multi-year blocks tests dependence on a favorable era, not achievement of20-50%goal. The latest-block failure is already known. A conditional robustness pass could only nominate Stage3source checking, never live or goal completion."
+  },
+  "limitations": [
+    "Post-selection historical diagnostic, not an independent holdout or a future probability. Known baseline weakness is disclosed before new computations; thresholds are not falsely described as pre-baseline.",
+    "No strategy search or change to sign/lookback/monthlyselection/asset/size/TTL/fill expiry. No best stress chosen, no blend or leverage; preserve every result and the Stage1canonical verdict.",
+    "Delayed source receipt changes which previously published regime is available, not the reserve value. It cannot cure undocumented original revisions. Original receipt/exact PIT remains unproved.",
+    "No new source downloader, engine, model, dataset permissions,2026market outcomes, broker/demo/live, purchase, key handling or Windows collector.",
+    "Four-year blocks overlap; leave-one-year-out concatenates retained calendar-year returns only as a descriptive counterfactual. It is not a tradable strategy that can skip bad years.",
+    "V49combinedNAV contains modeled cash income and a different risk budget. Correlation is not pure unlevered trading attribution or evidence of causal diversification. Ex-post negative-V49months cannot become a live filter.",
+    "Daily integer spec-proxy accounting and Stage1cost assumptions remain research-only, not verified broker fills. Goal stays relatively predictable20-50%annual; component floor does not replace it."
+  ]
+}
