@@ -3,7 +3,35 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V96 source-only Retry1 подготовлен; economic run пока не запускался
+## V96 COMPLETE — REJECT_STAGE1; цель20–50% не подтверждена
+
+[Полный результат](V96_VARIANCE_PREMIUM_RESULT.md), completed11:03:02.862232UTC.
+Primary base/double CAGR−1.8441%/−2.0091%,Sharpe−0.09542/−0.10924,
+MDD23.8218%/23.8512%,42/42round trips. Constant0.45gross control+1.2261%/+1.1909%,
+32/32round trips. Primary2positiveyears из5, хужеcontrol; это economic rejection.
+Feature coverage100%,60/60monthlystates; all4executioncomplete/critical0/unresolved0/
+terminalflat. 30source-plan-unavailable decisions отдельно от feature coverage.
+Воронка29portfolio hypotheses=25rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+Retry1 исправил толькоHTTP transport; один economic run. Не повторять/retune V96
+или promote control. Далее другой независимый разрешённый механизм/источник.
+
+Canonical`runs/v96_variance_premium_retry1_fb97e677b527`,manifest
+`bc65a232715cf63e455555678d11f62d5e6da87133b0b5ea21518d48c01821c9`,metrics
+`e647db4e032d2f2fa01dfd7767dc5c4ebba224511ff8faa27a0f5820a33e6a77`.
+19artifact hashes и terminaljournal проверены11:04:16UTC. SourceSP500 COMPLETE,
+2011observedcloses2018–2025,manifest`79e237a6e75c23ffd90a4150a39cb0eaaefb822f606b4c9fca371db65bf688fb`.
+Старыйfailedsource staging сохранён; parent permissions root:root0755 восстановлены.
+
+### Архивы — 16сентября14:04МСК /11:04UTC
+
+Main actualrunning, прежнийPID1663880/invocation,11357/26305jobs,110058394rows,
+failed0/blocked0,finalmanifestabsent. FUTOI terminal с550unresolved остаётся без изменений.
+Du11:04:18UTC data9978680842+source479925524=**10458606366bytes/10.459GB**,
+включая AlgoPack7187425875+oldprocessed1456918554=**8644344429bytes/8.644GB**.
+Sequential apparent bytes,безmodels/runs/tmp/localduplicates. Archive services/token/
+Windows не менялись. Volume/download не являются новым economic PASS.
+
+### V96 source-only Retry1 pre-outcome checkpoint (preserved)
 
 [Причина и сохранённые попытки](V96_SOURCE_RETRY1.md): original GET timeout90s,
 после initial directory permission failure. Parent ownership/mode восстановлены.

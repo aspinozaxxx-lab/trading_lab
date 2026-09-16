@@ -1,6 +1,23 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V96 source-only Retry1, не новый economic candidate
+## 2026-09-16 — V96 COMPLETE, REJECT_STAGE1
+
+[Все сценарии и годы](V96_VARIANCE_PREMIUM_RESULT.md),completed11:03:02.862232UTC.
+Primarybase/doubleCAGR−1.8441%/−2.0091%,Sharpe−0.09542/−0.10924,
+MDD23.8218%/23.8512%,42roundtrips. Constantcontrol+1.2261%/+1.1909%,32roundtrips.
+Featurecoverage100%,60/60monthlyready;all4executioncomplete,critical/unresolved0,
+terminalflat. Failedprofit/Sharpe/positiveyears/controlgates; source теперь пригоден
+дляconditional development, но current-vintage не originalPIT и не real-income proof.
+Canonical`runs/v96_variance_premium_retry1_fb97e677b527`,manifest
+`bc65a232715cf63e455555678d11f62d5e6da87133b0b5ea21518d48c01821c9`,metrics
+`e647db4e032d2f2fa01dfd7767dc5c4ebba224511ff8faa27a0f5820a33e6a77`.
+19artifact hashes+terminaljournalverified11:04:16UTC. Pre-outcome retry73b151f;
+source79e237a6e75c23ffd90a4150a39cb0eaaefb822f606b4c9fca371db65bf688fb.
+Originalsourcefailed и retry относятся одному кандидату; экономический run один.
+29portfoliohypotheses=25rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+Не менять знак/windows/holdingmonths/universe/size/masks/control после результата.
+
+### 2026-09-16 — V96 source-only Retry1 pre-outcome (preserved)
 
 [Source attempt record](V96_SOURCE_RETRY1.md): original HTTP read timeout90s,
 ни SP500 values/features, ни portfolio economics не считались. Original bytes/root

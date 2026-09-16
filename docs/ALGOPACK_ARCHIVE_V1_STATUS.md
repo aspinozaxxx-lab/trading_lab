@@ -1,6 +1,17 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
-Actual **2026-09-16T10:15:39UTC / 13:15 МСК**: основной unit active/running,
+Actual **2026-09-16T11:04:16UTC /14:04МСК**: основной unit active/running,
+прежний PID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
+11357/26305jobs,110058394rows,118385pages,failed0/blocked0,
+6553610062completed-jobbytes,updated11:04:13.877485UTC,finalmanifestabsent.
+Du11:04:18.809505UTC: archive7187425875+oldprocessed1456918554=
+**8644344429bytes/8.644GBAlgoPack**. Data9978680842+source479925524=
+**10458606366bytes/10.459GBtotal**. Sequential apparent bytes,безmodels/runs/tmp/
+localduplicates. FUTOI terminal/gaps не менялись и не re-audited. Services/token/
+Windows не менялись. Параллельный [V96screen](V96_VARIANCE_PREMIUM_RESULT.md)
+завершёнREJECT_STAGE1; новый SP500source не считается economicPASS.
+
+Предыдущий actual **2026-09-16T10:15:39UTC / 13:15 МСК**: основной unit active/running,
 PID1663880, прежний invocation `d562f0748c4341b48eb7f4d34d64b4a1`.
 11050/26305 jobs,107022646 rows,115140 pages,failed0/blocked0,
 6364897326 completed-job stored bytes; updated10:15:13.895333UTC, final manifest absent.
