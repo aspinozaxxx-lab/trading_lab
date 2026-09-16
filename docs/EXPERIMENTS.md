@@ -1,5 +1,27 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 01:07 МСК / 2026-09-16 22:07 UTC — V101 COMPLETE, INVALID
+
+[Полный результат](V101_MANUFACTURING_DEMAND_RESULT.md): primarybase/double
+diagnosticCAGR+3.9579%/+3.3871%,Sharpe.28120/.25766,MDD44.9365%/45.4158%,103trips.
+Control+.6795%/+.2687%,124trips.2primarypositiveyears/8,worst−16.8566%/−17.7031%.
+Все4executionfalse,critical2вкаждомизgross-riskcounter2;unresolved0/terminalflat.
+VerdictINVALID_EXECUTION_NO_PROMOTION,не доходная стратегия/Stage2;goal20/50false.
+33portfolio=27rejectedStage1+1rejectedStage2+1incomplete+4invalid;active0,V93отдельно.
+
+V1sourcefailedparserсохранён,V2исправляеттолькоcombinedheader;не две гипотезы.
+Pre-outcomecd84c43;seal a6a7b6fee93973de9cb71a98dca1f0503898b70ed69aca40a8eec57ab272a85d.
+Source96releases/90newGET+6reuse,manifest
+`6917986dc9d9f55613d80e4fafc9b3c9b219eb826e7ce83dae5fae19fd611a0a`;
+197hashes/96reparse/96HTTPmetadataPASSдоeconomics.16new/118combined+33serverPASS.
+Run `runs/v101_manufacturing_demand_v2_a6a7b6fee939`,manifest
+`c9541cbe5dba59a63420b34c4c388c0686b15c698dcc5bc9287f4183a643f8df`,metrics
+`f1c0aab1fbaab3cc85239977efa577a0773862ba30ec717e8f7ef2f0c831974f`.
+Completed22:06:06.050849UTC;audit22:07:02UTC17hashes+2target+4cash/cost/year/count/
+metricreplays+assessment. Service terminalsuccess не economicPASS; no rerun/tuning.
+Mainarchive22:07UTC16734/26305jobs63.62%,13.267GBtotal/11.327GBAlgoPack,failed0.
+Следующийsource-onlycandidateTIC;это discovery,не дополнительнаяhypothesis/result.
+
 ## 2026-09-17 01:01 МСК / 2026-09-16 22:01 UTC — V101 V2 pre-outcome
 
 [Correction](V101_MANUFACTURING_DEMAND_V2.md): V1source failed21:46:53UTC,

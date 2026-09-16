@@ -1,5 +1,37 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
+Текущий статус17сентября: [V101 завершён INVALID](V101_MANUFACTURING_DEMAND_RESULT.md),
+33portfolio/0activeStage2. V101V1sourcefailure и V2correction описаны отдельно;
+не повторять экономику/подбирать параметры. Следующий boundedsourcecandidateTIC.
+
+## Treasury TIC — новый source candidate, economics ещё не определены
+
+Поиск по docs/configs/src не нашёл прежней TIC family. Возможный механизм для
+исследования — трансграничный спрос на долларовые активы; это гипотеза, не доказанная
+связь с будущим курсом SI/GOLD и не установленная независимость от прежних macrofamilies.
+[Официальный указатель](https://home.treasury.gov/data/treasury-international-capital-tic-system/tic-press-releases-by-topic)
+содержит датированные monthly releases, а[архив](https://home.treasury.gov/archives-of-tic-monthly-data-releases)
+— месячные снимки данных. Пока прочитан HTML inventory и один HTML release, не ZIP/PDF
+корпус или новая price history. Server access/праваполногоиспользования не проверены.
+
+В[выпуске18Nov2025](https://home.treasury.gov/news/press-releases/sb0317) совместно
+опубликованы August/September после shutdown. August в тексте уже пересмотрен;
+original data вынесены в архив. Поэтому observation month и nominal archive label
+не подходят как availability. Есть series break February2023 для строк1–21/30–32;
+TIC не охватывает direct investment, custodial attribution ограничена. Все source
+значения этой страницы просмотрены до какой-либо гипотезы; не market outcomes.
+
+Первый следующий шаг: до3datedHTMLformats из разных лет, revision/clock/schema/
+rights и небольшой serveraccess check. Не скачивать current revised series с2026.
+Index label01/19/2023дляNovember2023 выглядит ошибочным — сверять сам release,
+не автоматически исправлять год. Пригодность должна определяться до выбора
+признака/актива/порога. Только затем отдельный pre-outcome protocol/seal и один
+дешёвый economic screen на прежнемledger;V102config/run ещё нет. Если источнику
+нужен большой новыйframework или доступ закрыт, сохранить вывод и перейти дальше.
+Никаких покупок/писем/credentials/access-workaround, broaderAlgoPackscope не меняется.
+
+## Исторический review после V99 (Census теперь blocked)
+
 Проверены параллельно сбору H.4.1, без новых цен/доходностей или массовой загрузки.
 При первоначальном review V99 прошёл Stage1 и получил приоритет для Stage2.
 Обновление 2026-09-17: [V100 завершён и отклонил устойчивость V99](V100_V99_ROBUSTNESS_RESULT.md).
@@ -31,7 +63,7 @@ attributed internal/research references не равны разрешению н�
 документ, не лицензия. Относительные footerlinks на pr-detail сначала дали404;
 нужные действующие root-level terms были прочитаны, не предположены.
 
-## Census M3 — следующий незаблокированный source candidate при необходимости
+## Census M3 — source blocked, не следующий незаблокированный пункт
 
 Найден[официальный архив full manufacturing releases](https://www.census.gov/manufacturing/m3/historical_data/index.html)
 и[архив advance durable-goods releases](https://www.census.gov/manufacturing/m3/adv/historical_data/index.html).

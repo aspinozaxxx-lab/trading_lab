@@ -1,9 +1,48 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 00:19 МСК / 2026-09-16, 21:19 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 01:16 МСК / 2026-09-16, 22:16 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V101 V2 pre-outcome — исправление формата, экономика неизменна
+## V101 COMPLETE — INVALID_EXECUTION_NO_PROMOTION, нового кандидата нет
+
+[Все варианты, годы и ограничения](V101_MANUFACTURING_DEMAND_RESULT.md), complete
+22:06:06.050849UTC. Primarybase/double diagnostic CAGR+3.9579%/+3.3871%,
+Sharpe.28120/.25766,MDD44.9365%/45.4158%,103roundtrips;control+.6795%/+.2687%,124.
+Все4execution-incomplete: gross-risk counter2каждый,critical2,unresolved0,flat.
+Это aggregate risk checks, не две подтверждённые unfilled orders; точные даты
+срабатываний не реконструированы. Execution-invalid не снимается. Лишь2positive
+years/8;worstyear−16.8566%/−17.7031%. Не passes экономические gates и цель20–50%.
+33portfolio=27rejectedStage1+1rejectedStage2+1incomplete+4invalid,0activeStage2/3.
+V1 failed source до economics сохранён; V2 только parser correction,одна гипотеза.
+
+Pre-outcome cd84c43, V2seal
+`a6a7b6fee93973de9cb71a98dca1f0503898b70ed69aca40a8eec57ab272a85d`.
+Run `runs/v101_manufacturing_demand_v2_a6a7b6fee939`,manifest
+`c9541cbe5dba59a63420b34c4c388c0686b15c698dcc5bc9287f4183a643f8df`,metrics
+`f1c0aab1fbaab3cc85239977efa577a0773862ba30ec717e8f7ef2f0c831974f`.
+Source96releases,197hashes/96rawreparses/96HTTP200metadata verifiedдоeconomics;
+source manifest `6917986dc9d9f55613d80e4fafc9b3c9b219eb826e7ce83dae5fae19fd611a0a`.
+Audit22:07:02UTC:17runhashes/2target/4cash-cost-metric-year-countreplays/assessment.
+16new/118combinedlocal+33serverPASS,Ruffclean. Source/economicunits terminalsuccess;
+не повторять,не менять параметры/engine/gates ради V101. Данные<=2025,goalactive.
+
+### Архивы — 17сентября01:07МСК /16сентября22:07UTC
+
+Mainactive/running,PID1663880,invocationd562f0748c4341b48eb7f4d34d64b4a1.
+**16734/26305jobs(63.62%)**,155497164rows,167334pages,failed0/blocked0,
+9226678808completed-jobbytes,statusupdated22:07:02.031232UTC,finalmanifestabsent.
+Du22:07:04.981760UTC:data12719948835+source546678333=
+**13266627168bytes/13.267GBtotal**;archive9869984717+processed1456918554=
+**11326903271bytes/11.327GBAlgoPack**(входитвtotal). Sequentialapparentbytesпри
+записи,безmodels/runs/tmp/localcopies,не byte-dedup claim. Доля jobs не доляbytes.
+FUTOI terminal550unresolved,непереаудирован. Main/token/Windows unchanged.
+
+Следующий первый шаг — bounded [TIC source feasibility](NEXT_SOURCE_REVIEW_20260916.md):
+новая информация о трансграничных потоках; сначала release clocks/revisions/2023break/
+форматы/права. Только потом один новый sealed screen. V102 ещё не выделен конкретному
+economic rule, config/run нет. V101 не ретюнить; broad AlgoPack scope unanswered.
+
+### V101 V2 pre-outcome (историческая запись)
 
 [V2 correction](V101_MANUFACTURING_DEMAND_V2.md) исправляет только combined
 year/month header. V1 source failed21:46:53UTC на20180215 до economics; root и
@@ -4615,7 +4654,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,01:01МСК / 2026-09-16,22:01UTC:
+Текущий первый шаг 2026-09-17,01:13МСК / 2026-09-16,22:13UTC:
+[V101 COMPLETE/INVALID](V101_MANUFACTURING_DEMAND_RESULT.md),33portfolio/0active.
+Не повторять эту weak/invalid ветку, не менять execution risk gates ради её дохода.
+Следующий bounded source-only шаг — **Treasury TIC** по
+[source review](NEXT_SOURCE_REVIEW_20260916.md). Проверить до3datedHTMLformats,
+release/revision clocks,2023seriesbreak,rights и serveraccess;не currentseries/2026.
+Если пригодно, короткий новый protocol/seal до outcomes;V102economic пока не определён.
+CensusHTTP403/OPECbulkrestriction не обходить; broadAlgoPackscope stillunanswered.
+Mainarchive продолжаетработу,FUTOIterminal550gapsнепереаудировать. Цель20–50%active.
+
+Исторический первый шаг 2026-09-17,01:01МСК / 2026-09-16,22:01UTC:
 [V101 V2 correction](V101_MANUFACTURING_DEMAND_V2.md): V1 source failed до экономики,
 V2 исправляет combined year/month header без изменений rules/costs/gates.
 16new/118combinedtestsPASS,6realrawPASS. V2seal/push,90GET+6reuse,96release replay
