@@ -1,5 +1,21 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — EIA consensus source feasibility, no economic increment
+
+[Полная запись](EIA_CONSENSUS_FEASIBILITY_20260916.md): bounded2+5Wayback pages,
+все7HTTP200/exact historical capture clocks. Один2022forecast до event при пустом
+actual; missing/changed-format/noncalendar pages не подменены текущей историей.
+CDX1262day-collapsed entries не считаются1262usable forecasts. Pushedpre-fetch
+commits6f5b23e/92a328d; Ruff PASS; Tuesday server script SHAcheckedbefore execution.
+Sample reports06bbc5fc3c627b5d6649306d55b61f974bf86fdba2e81b958578f7ff8e82f712 /
+c8a396d434bcc0cecd0b4c951cf8bc2b1c53e474107fd353ca5f5f7603336500.
+Owner restrictions leave bulk/reuse rights unresolved: no full collector, fit,
+economic protocol or PnL. Private source samples not redistributed or admitted.
+This is source feasibility, not V97 strategy or a strategy rejection.29portfolio/
+0Stage2 unchanged; no2026 market inputs. Earlier interrupted selection not counted.
+Archive18:55UTC12.408GBtotal/10.550GBAlgoPack;main18:58UTC14913/26305jobs,failed0.
+Scope question for broader AlgoPack refreshed once18:48UTC, still no answer.
+
 ## 2026-09-16 — V96 COMPLETE, REJECT_STAGE1
 
 [Все сценарии и годы](V96_VARIANCE_PREMIUM_RESULT.md),completed11:03:02.862232UTC.

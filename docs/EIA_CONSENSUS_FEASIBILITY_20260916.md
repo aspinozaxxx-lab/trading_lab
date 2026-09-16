@@ -98,3 +98,57 @@ each original URL and uses the same no-redirect/no-retry/access-refusal policy.
 Its new `captures/` must not exist; no original sample files are changed.
 Tuesday script SHA `70d3186760b2da01aaf758e1829744c896ab8337ac96b258db1e51c03f4c2461`,
 Ruff PASS before page fetches. Neither script reads credentials or market bundles.
+
+## Final outcome — limited source evidence; rights unresolved, no economic run
+
+Pre-fetch commit `92a328d` was pushed, Tuesday script bytes were checked on the
+server before execution. All five requests returned200 at19:04:03–19:04:11UTC,
+with exact requested Memento-Datetime, without redirects, credentials or retries.
+This does not make every HTTP200 response a valid calendar.
+
+| Capture year | Inspected oil event | Forecast before event | Limitation |
+| --- | --- | --- | --- |
+| 2021 | January22,11:00, GMT−5 | Empty | Early holiday-week capture |
+| 2022 | January5,10:30, America/New_York | Present; actual still empty | One example only |
+| 2023 | January5,11:00, America/New_York | Empty | Early holiday-week capture |
+| 2024 | January4,11:00, America/New_York | Empty | Changed HTML/embedded JSON |
+| 2025 | No usable calendar in captured body | Unknown | Do not interpret as zero forecast |
+
+The 2022 capture is `2022-01-04T19:31:06Z`, earlier than its displayed event
+`2022-01-05T15:30:00Z`. It provides a genuine archived pre-event forecast example,
+not verified multiyear coverage, a first-published consensus series, a checked join
+to all official EIA releases or evidence of a profitable trade. No market outcomes
+were computed. The simple HTML projection missed the changed2024 row class; direct
+inspection of its already-stored event JSON/HTML confirms an empty forecast. Do not
+treat that parser miss as evidence that the event did not exist.
+
+Artifacts outside Git:
+
+- Tuesday `captures/report.json` SHA
+  `c8a396d434bcc0cecd0b4c951cf8bc2b1c53e474107fd353ca5f5f7603336500`.
+- `calendar_projection.json` SHA
+  `5847110dc2988989bf824b4952e847da91f2877bcd0731873f2b1829bd8acc1b`;
+  this limited projection is not an economic input or a complete2024 parser.
+- Raw/body/header hashes and receipt clocks are in the reports. Preserve the two
+  distinct source roots; never rerun these once-only scripts into them.
+
+The [owner's current notices](https://www.forexfactory.com/notices), inspected after
+the bounded sample, restrict copying of its compiled economic-calendar database.
+Public/Wayback access alone does not establish rights for a historical corpus.
+**Do not bulk-download, redistribute, fit or backtest this source without an
+appropriate rights basis.** Existing limited feasibility samples remain private,
+unadmitted and outside Git. No new permission request, purchase or external message
+was sent to the owner. This is a branch-level rights/source gate, not rejection of
+the inventory-surprise mechanism and not a reason to halt the paid AlgoPack archive.
+
+The [Bank of Canada2020-8 landing page](https://www.bankofcanada.ca/2020/03/staff-working-paper-2020-8/)
+was checked for an openly supplied alternative: the inspected page links its paper,
+not a downloadable consensus dataset. No PDF was opened or replication data
+downloaded. This is not proof that no other permitted dataset exists. Its unrelated
+current navigation/news snippets are excluded from research inputs and decisions,
+as are earlier incidental2026 web snippets.
+
+No further sampling/bulk collection/parser framework for this branch now. Resume
+only on concrete new source/rights evidence; otherwise choose another independent
+permitted information set. Broader AlgoPack approval remains unanswered. V96 stays
+the last completed economic test;29portfolio/0Stage2 and goal status are unchanged.

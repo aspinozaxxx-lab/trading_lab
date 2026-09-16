@@ -1,5 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-16T18:55–18:58UTC /21:55–21:58МСК**: mainactive/running,
+прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
+14913/26305jobs,142013129rows,152740pages,failed0/blocked0,
+8463296984completed-jobbytes,updated18:57:36.995235UTC.
+Du18:55:02.766638UTC: archive9092952595+oldprocessed1456918554=
+**10549871149bytes/10.550GBAlgoPack**. Data11928496300+source479925524=
+**12408421824bytes/12.408GBtotal**. Sequential apparent bytes,безmodels/runs/tmp/
+localduplicates. FUTOI terminal/gaps не менялись и не re-audited. Services/token/
+Windows unchanged. Параллельный[EIA consensus source probe](EIA_CONSENSUS_FEASIBILITY_20260916.md)
+не дал нового экономического результата; V96 остаётся последним completedscreen.
+
+### Предыдущий снимок14:04МСК
+
 Actual **2026-09-16T11:04:16UTC /14:04МСК**: основной unit active/running,
 прежний PID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
 11357/26305jobs,110058394rows,118385pages,failed0/blocked0,

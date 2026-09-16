@@ -3,6 +3,36 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## 16 сентября,22:07МСК — EIA consensus feasibility закрыта, нового PnL нет
+
+[Результат ограниченной проверки](EIA_CONSENSUS_FEASIBILITY_20260916.md):7архивных
+страниц, один подтверждённый pre-event forecast example за2022. Остальные пустые
+или без пригодного календаря; это не оценка покрытия всей истории. Массовый сбор
+Forex Factory не запускать: права на использование корпуса не установлены,
+условия владельца ограничивают копирование базы. Samples private/outsideGit,
+economic_admission=false. Ни V97 economic protocol/run, ни новый доходный кандидат
+не созданы. V17 raw-change rule не повторялся; V96 ниже остаётся последним результатом.
+29portfolio hypotheses=25rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+
+Расширение условных AlgoPack<=2025 тестов наOrderStats/HI2 снова предложено пользователю
+один раз около18:48UTC; ответа пока нет. Принятие вопроса интерфейсом не согласие.
+Не спрашивать на каждом automatic continuation. Скачивание отдельно разрешено.
+Дальше иной независимый разрешённый механизм/источник или, после явного ответа,
+короткий фиксированный конкурс V85-механизмов. Не повторять этот source probe,
+закрытые экономические tests, FUTOI audit или минутное наблюдение downloader.
+
+### Архивы — actual16сентября21:55–21:58МСК
+
+Du18:55:02.766638UTC: data11928496300+source479925524=
+**12408421824bytes /12.408GB всего**. Включая AlgoPack archive9092952595+
+oldprocessed1456918554=**10549871149bytes /10.550GB AlgoPack**.
+Sequential apparent bytes,безmodels/runs/tmp/localcopies; это сохранённый объём,
+не число уникальных рыночных наблюдений после дедупликации.
+Main actual18:54:59UTC active/running,PID1663880,прежний invocation.
+Status read18:58:10UTC:14913/26305jobs,142013129rows,152740pages,failed0/blocked0,
+updated18:57:36.995235UTC. FUTOI terminal с550unresolved не менялся и не re-audited.
+Download services/token/Windows не менялись; файлы новых проб здесь ещё не включены.
+
 ## V96 COMPLETE — REJECT_STAGE1; цель20–50% не подтверждена
 
 [Полный результат](V96_VARIANCE_PREMIUM_RESULT.md), completed11:03:02.862232UTC.
@@ -4364,6 +4394,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 ## Очередь работ
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
+
+Актуальная надстройка2026-09-16: V94/V95/V96 уже закрытыREJECT_STAGE1, всего29portfolio/
+0Stage2. EIA consensus bounded sample завершён: одно pre-event forecast observation,
+но rights/full-source coverage unresolved; bulk/экономику поForex Factory не запускать.
+Broader AlgoPack scope всё ещё ожидает фактического ответа, не нового повторного вопроса.
+Main archive running; FUTOI V4 terminalCOMPLETE_WITH_SOURCE_GAPS, не повторять audit.
+Ниже старые checkpoints сохраняются как история, не команда повторить завершённые шаги.
 
 V92 [economic screen COMPLETE/REJECT_STAGE1](V92_OPTION_CONVERGENCE_RESULT.md): primary
 −2.5590/−3.9205%CAGR,control+2.5334/+0.9952%,source80.6513%,all4executioncomplete,
