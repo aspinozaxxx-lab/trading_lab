@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 02:05 МСК / 2026-09-16 23:05 UTC — V102 source paused, no economics
+
+[Отчёт](V102_TIC_SOURCE_PAUSED.md): V3failed25parsed/26raw,20200116bankrow `#`
+вместо29. V1/V2/V3 failures сохранены; predeclaredstop соблюдён,четвёртойверсии нет.
+SourceV3manifest1a2998c70a1428c65076d4e769ef5d7c6ab093976bcc94465a775cb2ffb4c953,
+56hashesPASS;noeconomicrunroots.112combinedlocal/47serverPASS,Ruffclean — не доход.
+29unique release dates получено acrossprobes+attemptsиз96,не полныйкорпус.
+33portfolio count unchanged,0activeStage2;не statistical rejection V102.
+Mainarchive23:03UTC17649/26305jobs67.09%,failed0;13.504GBtotal/11.549GBAlgoPack.
+Local2.747GBhascopies,не суммировать. Next existing-data novelty review,не TICparser.
+
 ## 2026-09-17 01:59 МСК / 2026-09-16 22:59 UTC — V102 V3 pre-outcome
 
 [V3](V102_TIC_BANK_FUNDING_V3.md): V2sourcefailed24parsed на outside-table title/unit

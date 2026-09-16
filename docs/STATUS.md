@@ -1,9 +1,29 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 01:59 МСК / 2026-09-16, 22:59 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 02:05 МСК / 2026-09-16, 23:05 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V102 V3 pre-outcome — ограниченная поддержка title/unit вне таблицы
+## V102 INCOMPLETE_SOURCE — приостановлен, экономического результата нет
+
+[Полный отчёт и объёмы](V102_TIC_SOURCE_PAUSED.md). V3failed23:01:02.773633UTC,
+25parsed/26rawHTTP200:20200116bankrowidentifier `#` вместо29. Согласно predeclared
+V3budget четвёртый parser не создан; source work приостановлен. V1/V2/V3roots/seals
+не повторять/не менять. Economic services/runs отсутствуют, CAGR/сделки не вычислялись.
+Это не statistical REJECT и не новый участник:33portfolio/0activeStage2 unchanged.
+V3manifest1a2998c70a1428c65076d4e769ef5d7c6ab093976bcc94465a775cb2ffb4c953,
+56hashes audited23:05:13UTC;112local/47servertestsPASS,Ruffclean. Всё<=2025.
+
+Mainarchive23:03:38UTC **17649/26305jobs67.09%**,159566359rows,172035pages,
+failed0/blocked0,active/running PID1663880. Du23:03:54UTC **13.504GB** data+source,
+из них **11.549GBAlgoPack**. Локально data+source **2.747GB**,естькопии:не складывать
+какuniquevolume. Безmodels/runs/tmp/transfers. FUTOIпрежние550unresolvedнепереаудированы.
+
+Следующий шаг — novelty review liquidity-risk compensation на уже готовом daily
+bundle, обязательно отличить от четырёх V66OHLCV-механизмов до нового config/seal.
+Если это только переименование/retune — не запускать. V103 ещё не выделен; не
+возвращаться автоматически к TIC parser. BroadAlgoPackscopeunanswered,goalactive.
+
+### V102 V3 pre-outcome — историческая запись
 
 [V3 correction](V102_TIC_BANK_FUNDING_V3.md): V2source failed22:53:14UTC до economics,
 24parsed/25raw,December16,2019title/unit outside single table. Новыйparser сохраняет
