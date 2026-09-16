@@ -1,9 +1,19 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 01:51 МСК / 2026-09-16, 22:51 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 01:59 МСК / 2026-09-16, 22:59 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V102 V2 pre-outcome — исправление одного неиспользуемого заголовка
+## V102 V3 pre-outcome — ограниченная поддержка title/unit вне таблицы
+
+[V3 correction](V102_TIC_BANK_FUNDING_V3.md): V2source failed22:53:14UTC до economics,
+24parsed/25raw,December16,2019title/unit outside single table. Новыйparser сохраняет
+числа/raw, добавляет только уже присутствующие заголовки в RAM; все checks прежние.
+28savedrawPASS,30V1/V2/V3testsPASS,Ruffclean. Plan68newGET+28reuse. При ещё одном
+неизвестном формате остановить TIC source work в этом turn, не писать новую версию.
+V1/V2 canonical failures не повторять; economics пока нет,33portfolio unchanged.
+V2pre-outcome23a8653;106combinedlocal/41serverPASS. Mainarchive untouched.
+
+### V102 V2 pre-outcome — историческая запись
 
 [Correction](V102_TIC_BANK_FUNDING_V2.md): V1source failed22:45:17UTC до economics,
 18parsed/19rawHTTP200,20190617duplicateApr-19/Apr-19rollingheaders. V1raw/root/seal

@@ -1,5 +1,12 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 01:59 МСК / 2026-09-16 22:59 UTC — V102 V3 pre-outcome
+
+[V3](V102_TIC_BANK_FUNDING_V3.md): V2sourcefailed24parsed на outside-table title/unit
+20191216,до economics.28savedrawPASS,30V1/V2/V3testsPASS,Ruffclean;68GET+28reuse.
+Только schema normalization,без numeric/economic изменений. Следующий schemafailure
+приостанавливает TIC в этом turn,не бесконечныеcorrections.33portfolio unchanged.
+
 ## 2026-09-17 01:51 МСК / 2026-09-16 22:51 UTC — V102 V2 pre-outcome
 
 [Correction](V102_TIC_BANK_FUNDING_V2.md): V1source failure до economics,
