@@ -1,6 +1,33 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V100 pre-stress Stage2 V99
+## 2026-09-17 00:03 МСК / 2026-09-16 21:03 UTC — V100 COMPLETE, Stage2 REJECT
+
+[Все результаты](V100_V99_ROBUSTNESS_RESULT.md): 12 новых stress ledgers завершены,
+четыре V99 baseline повторно не запускались. Verdict **REJECT_STAGE2_ROBUSTNESS**.
+Cost stress alone CAGR +6.6105%, MDD 22.5616%, 40 trips. Delay1 base/double:
++5.7201%/+5.5729%, Sharpe .63573/.62039, MDD 26.2944%/25.5511%, 40 trips;
+провал MDD/worst-year gates. Delay7 base/double/stress: CAGR +3.5918%/+3.5382%/
++3.2375%, Sharpe .43330/.42687/.39440, MDD 25.0909%/24.9180%/25.4546%, 46 trips;
+провал CAGR/Sharpe/worst-year, ещё MDD в base/stress. Все 12 execution-complete,
+critical 0, unresolved 0, terminal-flat. Known baseline 2022–2025 ~1% остаётся
+post-selection диагностикой, не новым holdout. Все годы/blocks/control сохранены.
+
+60-month V49 correlation .14797/.13963; в 13 отрицательных месяцах V49 средний V99
+−1.0402%/−1.0611%, положительных 2/13. Не promoted как hedge, не подбирать blend.
+Воронка 32: 27 rejected Stage1 + 1 rejected Stage2 + 1 incomplete + 3 invalid,
+0 активных Stage2/Stage3. V100 не 33-я гипотеза. Goal 20–50% не достигнута.
+
+Pre-outcome c4a6dc3; seal `e39b91c596d17de54a157dd512f283ca9821de4f4bd5719412d4d375553b5bf5`.
+Run `runs/v100_v99_robustness_v1_e39b91c596d1`, manifest
+`2e2f818541739ce106e38a429fc8bd6d4227e6cfad4a27e4fef82ba33ac109c4`, metrics
+`179bb78b742aa3b08bf3f1d7d90eb6ccc74782cfed95403b73a0ddfa39b00c82`.
+Completed 21:02:44.289928UTC; audit 49 hashes + 6 source-target + 12 cash/cost/
+metric/year/count replays + both dependence paths verified 21:03:47UTC.
+9 new/85 combined local PASS, 9 server PASS, Ruff clean; unit terminal success.
+Archive продолжался: 21:10UTC 16131/26305 jobs, 13.021GB total / 11.095GB AlgoPack,
+failed 0; unchanged process. Следующий source candidate Census M3, ещё не economic run.
+
+### 2026-09-16 — V100 pre-stress Stage2 V99 (историческая запись)
 
 [Protocol](V100_V99_ROBUSTNESS.md):12newledgers,0/1/7dayadditionalavailability,
 existing4tick/2×feestress,base/double,неоптимизация. Baseline4ledgersnotrerun.

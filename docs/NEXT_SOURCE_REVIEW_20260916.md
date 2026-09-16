@@ -1,7 +1,10 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
 Проверены параллельно сбору H.4.1, без новых цен/доходностей или массовой загрузки.
-**V99 прошёлStage1, поэтому сначала его Stage2**, а не реализация этих источников.
+При первоначальном review V99 прошёл Stage1 и получил приоритет для Stage2.
+Обновление 2026-09-17: [V100 завершён и отклонил устойчивость V99](V100_V99_ROBUSTNESS_RESULT.md).
+Следующий незаблокированный шаг — ограниченная feasibility-проверка Census M3 ниже.
+Новый источник не даёт автоматического economic PASS; полный сборщик не нужен.
 
 ## ОПЕК — источник найден, массовый корпус не разрешён условиями
 
@@ -31,7 +34,8 @@ attributed internal/research references не равны разрешению н�
 Найден[официальный архив full manufacturing releases](https://www.census.gov/manufacturing/m3/historical_data/index.html)
 и[архив advance durable-goods releases](https://www.census.gov/manufacturing/m3/adv/historical_data/index.html).
 Идея для feasibility: новая информация о заказах/запасах и возможном спросе на сырьё,
-не ещё одна комбинация нефтяных цен. Правило/актив/окно ещё не выбраны, V100seal/run нет.
+не ещё одна комбинация нефтяных цен. Правило/актив/окно ещё не выбраны, Census config/
+seal/run нет. V100 занят завершённым Stage2 V99; следующий economic номер — V101.
 
 Прочитан только HTML inventory; PDF/Excel не открывались и corpus не загружался.
 2026links/поисковые snippets не импортируются и не используются как признаки.

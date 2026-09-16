@@ -1,19 +1,56 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
-`2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
+Обновлено: **2026-09-17, 00:19 МСК / 2026-09-16, 21:19 UTC**. Период разработки ограничен данными не позже
+`2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V100 pre-stress — Stage2 кандидата V99
+## V100 COMPLETE — V99 отклонён на Stage2, устойчивого кандидата нет
 
-[Frozen-design protocol](V100_V99_ROBUSTNESS.md):12новыхledgers,delay0/1/7calendar
-days;coststress4ticks/2×fee,base/double для задержек. Старые4V99ledgers reuse only.
-Всеfour-year/leave-year-outblocks,60monthlyreturns vsV49,безweights/fit/плеча.
-Recentblock~1% и ожидаемыйпровал5%temporaldiagnostic ужеизвестны; это открыто
-post-selection,не independentholdout. Новыеdelay/cost/dependenceoutcomesещёнеполучены.
-9new/85combinedtestsPASS7.80s,Ruffclean. Далееseal/push/server9tests/одинstresspacket.
-V99canonicalиmainarchiveнеперезапускать;goal20–50%active,broaderAlgoPackunanswered.
+[Полный результат стресс-проверки](V100_V99_ROBUSTNESS_RESULT.md), завершение
+2026-09-16T21:02:44.289928UTC: **REJECT_STAGE2_ROBUSTNESS**. 12 новых ledgers,
+четыре baseline V99 только проверены, не пересчитаны. Более высокие издержки сами
+по себе сохраняют CAGR +6.6105%; задержка на один день даёт +5.7201%/+5.5729%,
+но MDD 26.2944%/25.5511% и худший год ниже −15%. Задержка на семь дней:
+CAGR +3.5918%/+3.5382%/+3.2375%, Sharpe .4333/.4269/.3944. Все stress ledgers
+execution-complete, critical/unresolved 0, terminal-flat: это экономический отсев,
+не сбой расчёта. Последний четырёхлетний baseline block +1.0562%/+.9775% был
+известен до V100; его провал не объявлять новым независимым открытием.
 
-## V99 COMPLETE — первый STAGE2_CANDIDATE; цель20–50% не достигнута
+Корреляция с V49 за 60 месяцев .14797/.13963, но в 13 отрицательных месяцах V49
+средний V99 −1.0402%/−1.0611%, положительных лишь 2/13. Это не надёжная защита;
+веса/плечо/правило не подбирать. Воронка остаётся **32 portfolio hypotheses**:
+27 rejected Stage1 + 1 rejected Stage2 + 1 incomplete + 3 invalid; активных
+Stage2/Stage3 кандидатов 0. V100 — проверка V99, не 33-я гипотеза; V93 отдельно.
+
+Pre-outcome commit c4a6dc3, seal
+`e39b91c596d17de54a157dd512f283ca9821de4f4bd5719412d4d375553b5bf5`.
+Run `runs/v100_v99_robustness_v1_e39b91c596d1`, manifest
+`2e2f818541739ce106e38a429fc8bd6d4227e6cfad4a27e4fef82ba33ac109c4`, metrics
+`179bb78b742aa3b08bf3f1d7d90eb6ccc74782cfed95403b73a0ddfa39b00c82`.
+49 artifact hashes, 6 new source-target replays, 12 cash/cost/performance/year/count
+replays и monthly dependence verified 21:03:47UTC. 9 new/85 combined local tests
+PASS; 9 server tests PASS; Ruff clean. Unit terminal success, не перезапускать.
+Frozen code/config/protocol и V99 canonical не менять. Goal 20–50% остаётся active.
+
+Следующий незаблокированный шаг — короткая [проверка Census M3](NEXT_SOURCE_REVIEW_20260916.md):
+датированные публикации, первоначальные значения и покрытие, затем один короткий
+экономический тест только при пригодности источника. Никакого нового framework.
+V101 — следующий свободный economic номер; Census ещё не имеет config/seal/run.
+OPEC bulk ограничен условиями; broader AlgoPack scope всё ещё unanswered.
+
+### Архивы — фактический снимок 17 сентября 00:10 МСК / 16 сентября 21:10 UTC
+
+Main unit active/running, прежние PID 1663880 и invocation
+`d562f0748c4341b48eb7f4d34d64b4a1`; **16131/26305 jobs (61.32% заданий)**,
+151315284 rows, 162791 pages, failed 0 / blocked 0, final manifest отсутствует.
+Status updated 21:10:20.536423UTC, completed-job bytes 8995349411.
+Du закончен 21:10:31.784359UTC: data 12485980051 + source_evidence 535171622 =
+**13021151673 bytes / 13.021 GB всего**. AlgoPack archive 9638303646 + ранее
+processed 1456918554 = **11095222200 bytes / 11.095 GB AlgoPack** (входит в итог).
+Последовательный apparent-byte замер при записи; без models/runs/tmp и локальных
+дубликатов. Процент jobs — не процент будущего объёма. Archive/token/Windows не
+менялись. FUTOI terminal COMPLETE_WITH_SOURCE_GAPS, 550 unresolved, без нового audit.
+
+## V99 COMPLETE — исторический Stage1 PASS; затем Stage2 REJECT в V100
 
 [Все варианты, годы и ограничения](V99_RESERVE_LIQUIDITY_RESULT.md),completed
 20:41:35.895286UTC. Primarybase/doubleCAGR+6.8599%/+6.8176%,Sharpe.73558/.73759,
@@ -25,9 +62,9 @@ MDD21.9892%/22.4424%,40roundtrips;control+.0191%/+.0162%,61trips.
 Слабость уже видна: primary2024−3.50%/−4.07%,2025−13.72%/−13.81%;geometricannual
 2018–2021~12.98%,2022–2025лишь1.06%/.98%. Это post-selectionописание того же
 ledger,неindependentholdout и не разрешение выбрать хорошие годы/поднятьплечо.
-**Следующее действие — Stage2V99:** отдельный заранее записанный план source/causal/
-accounting checks иfixedcost/delay/temporalstress безизменениябазовойстратегии.
-Новые stress-прогоны/config/seal ещё не созданы. CanonicalStage1 не повторять.
+Stage1 verdict сохранён как исторический. Последующий [V100](V100_V99_ROBUSTNESS_RESULT.md)
+завершён и отклонил кандидата; приведённый выше счётчик описывает состояние до V100.
+Ни Stage1, ни stress packet не повторять и не настраивать по увиденным результатам.
 
 Run`runs/v99_reserve_liquidity_v1_c9e27fe2d1a9`,manifest
 `2b3cf798c07975ad1221a76c5df801dc8346980d0707a706b5a9949b9f65b867`,metrics
@@ -52,7 +89,8 @@ BroaderAlgoPackscope unanswered, вопрос автоматически не п
 
 [Резервные источники](NEXT_SOURCE_REVIEW_20260916.md): OPECbulk corpus ограничен
 условиями владельца; CensusM3historicalindex найден,форматы/clock/rights ещёпроверить.
-Обаsource-only,неновыеeconomic tests. **СначалаStage2V99**,неещёодинсборщик.
+Оба source-only, не новые economic tests. Stage2 V99 уже завершён; следующим
+допустимым шагом стала ограниченная feasibility-проверка Census M3, не новый сборщик.
 
 ### V99 pre-outcome checkpoint (preserved)
 
@@ -4550,14 +4588,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Актуальная надстройка2026-09-16,20:47UTC: [V99COMPLETE/STAGE2_CANDIDATE](V99_RESERVE_LIQUIDITY_RESULT.md),
-32portfolio=27rejected+1incomplete+3invalid+1candidate. CAGR6.8599%/6.8176%,MDD22%,
-но2024–2025negative иrecent4years~1%annual. Цель20–50%неподтверждена.
-Первый незаблокированный шаг — **Stage2V99**: короткийfrozenrobustness protocol,
-fixedsource/clock/accounting/time/cost/delaychecks; не fit/оптимизация/плечо.
-Stage1/source/auditcanonical завершены,не повторять. Source datedarchives не strictPIT.
-Резервный[CensusM3source candidate](NEXT_SOURCE_REVIEW_20260916.md) покаdiscovery;
-OPECbulk ограниченусловиями,не обходить. Приоритетсейчаспрошедшемукандидату.
+Актуальная надстройка 2026-09-17, 00:10 МСК / 2026-09-16, 21:10 UTC:
+[V100 COMPLETE / REJECT_STAGE2_ROBUSTNESS](V100_V99_ROBUSTNESS_RESULT.md).
+V99 прошёл Stage1, но не выдержал задержек и проверки по периодам. 32 portfolio =
+27 rejected Stage1 + 1 rejected Stage2 + 1 incomplete + 3 invalid; активных кандидатов 0.
+Цель 20–50% не подтверждена. V100 не новая гипотеза в знаменателе; V93 отдельно.
+Первый незаблокированный шаг — **Census M3 source feasibility** по
+[плану](NEXT_SOURCE_REVIEW_20260916.md): bounded historical format/publication/rights
+check, без полного сборщика и без исходов 2026. Если источник пригоден, короткий
+V101 protocol/seal до одного нового screen; не повторять старые macro families.
+V99/V100 source/run/audit завершены, не повторять. Dated archives не strict PIT.
+OPEC bulk ограничен условиями, не обходить. Параметры V99 больше не настраивать.
 EIA consensus bounded sample завершён: одно pre-event forecast observation,
 но rights/full-source coverage unresolved; bulk/экономику поForex Factory не запускать.
 Broader AlgoPack scope всё ещё ожидает фактического ответа, не нового повторного вопроса.
