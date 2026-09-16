@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 02:56 МСК / 2026-09-16 23:56 UTC — V104 pre-outcome
+
+[V104](V104_INVENTORY_COVER_PREMIUM.md): physical commercial stocks/refinery-use
+days vs equal-weight same-month means of five prior years, >=3weeks each. BR long0.9
+when below baseline, else cash; constant-long control, unchanged ledger,2021–2025.
+New current_value level information, not V17 seven weekly-change composite or sign flip.
+16new/95combinedtestsPASS,Ruffclean; source byte/schema/date-only preflightPASS.
+Small existing EIA bundle transferred from local archive, no new HTTP/CSV/PDF parse.
+Code/config/tests/protocol sealed before numeric states/targets/outcomes. Next one
+server economic run after guarded import/tests. 34portfolio entrants unchanged.
+
 ## 2026-09-17 02:32 МСК / 2026-09-16 23:32 UTC — V103 COMPLETE / REJECT_STAGE1
 
 [Результат](V103_ILLIQUIDITY_PREMIUM_RESULT.md): monthly illiquidity high-minus-low,

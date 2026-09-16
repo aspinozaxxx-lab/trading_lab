@@ -1,9 +1,23 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 02:32 МСК / 2026-09-16, 23:32 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 02:56 МСК / 2026-09-16, 23:56 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V103 COMPLETE — REJECT_STAGE1, новой доходной стратегии нет
+## V104 pre-outcome — physical stock/use premium на готовых EIA vintages
+
+[Протокол](V104_INVENTORY_COVER_PREMIUM.md): BR long0.9/cash, если commercial crude
+stocks / refinery use ниже своего сезонного baseline: тот же месяц, пять предыдущих
+лет, равновесные yearly means, >=3validweeks в каждом году. Только current_value
+уровней, не V17 weekly-change composite. Control constant-long на том же календаре.
+2021–2025, no fitting/search, unchanged V72/V78/V64 targets/ledger, base/double costs.
+16new/95combined testsPASS17.90s, Ruffclean; real metadata-only preflightPASS.
+Source ранее был только локально: подготовлен existing5-file bundle, без нового
+HTTP/parser; server destination проверен absent. Code/config/tests/protocol sealed
+до новых numeric states/targets/outcomes. Next: commit/push, guarded server import,
+tests и ровно один economic screen. Воронка34 пока unchanged, goalactive.
+Main archive отдельно; V103 закрыт, TICpaused, broadAlgoPackscope не расширять.
+
+### V103 COMPLETE — предшествующий результат
 
 [Полный результат](V103_ILLIQUIDITY_PREMIUM_RESULT.md): один screen готовых данных
 завершён 23:29:52.849986UTC. Primary base/double CAGR **−3.1976%/−3.1702%**,
@@ -4743,7 +4757,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,02:32МСК / 2026-09-16,23:32UTC:
+Текущий первый шаг 2026-09-17,02:56МСК / 2026-09-16,23:56UTC:
+[V104 pre-outcome](V104_INVENTORY_COVER_PREMIUM.md),16new/95combinedtestsPASS.
+Physical stock/use level + seasonal prior-five-year baseline; не V17weeklychanges.
+Next guarded source/code transfer, sealed server tests и один economic run. Local
+metadata-only preflightPASS; numeric source states/market outcomes ещё не читались.
+34portfolio unchanged до результата. Mainarchive untouched, TICpaused,2026protected.
+
+Исторический первый шаг 2026-09-17,02:32МСК / 2026-09-16,23:32UTC:
 [V103 COMPLETE/REJECT_STAGE1](V103_ILLIQUIDITY_PREMIUM_RESULT.md),34portfolio/0active.
 На готовых данных получен отрицательный economic result в обоих costs; не повторять
 canonical/replay и не подбирать другое окно, знак, актив или плечо этой ветки. TIC V102

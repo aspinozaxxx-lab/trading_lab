@@ -1,0 +1,16 @@
+{
+  "protocol_id": "v104_inventory_cover_premium_v1",
+  "sealed_at_utc": "2026-09-16T23:56:30Z",
+  "sealed_before_new_numeric_source_states_targets_and_outcomes": true,
+  "existing_price_history_previously_seen": true,
+  "independent_holdout": false,
+  "source_metadata_only_preflight_passed_locally": true,
+  "files": {
+    "src/market_lab/futures_v104_inventory_cover_premium.py": "e2fc435e8e1349b908a62045dae37992bb16fd6929c2c02e86c2b91b722948c5",
+    "configs/v104_inventory_cover_premium_v1.json": "10a2aa15de016e5e28c92795f377069b19d50c5d5344ebe55a293da9c4f004a5",
+    "tests/test_futures_v104_inventory_cover_premium.py": "e69014ce810b148b59cb9ca6c174e2ce721fdd63c9b56c56daeef94f05e7371c",
+    "docs/V104_INVENTORY_COVER_PREMIUM.md": "e65c4dc2d243ea67e9e506c49ed25da655119ea2f4880f01723437de7cd0dca0",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+    "configs/futures_v17_eia_supply_demand.yaml": "1d8eee3f7aa99aff5798aeaf6a946d110cfa4e4b451b57580b1d9ef6cd17b37a"
+  }
+}

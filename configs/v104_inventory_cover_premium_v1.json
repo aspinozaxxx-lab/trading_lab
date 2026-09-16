@@ -1,0 +1,71 @@
+{
+  "protocol_id": "v104_inventory_cover_premium_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "root": "data/processed/info_radar/eia-wpsr-table1-original-vintages-2012-2025-v2",
+    "manifest_sha256": "aac389628b61df446616cd171084af81482d09a7d4b403337a8332b5373c142b",
+    "processed": {"path": "eia_wpsr_table1.parquet", "sha256": "5fccfa968ac88f04806df87bd7179a992f0f7c57137ba46db049d67350b54f3e", "bytes": 1169909, "rows": 38248},
+    "coverage": {"path": "coverage.parquet", "sha256": "2b219c7815d92f41321b0d1fa5c23c27f4f1737927a86a3528073ca955a01c82", "bytes": 65672, "rows": 728},
+    "allowed_columns": ["release_date", "available_at", "data_week_ending", "section", "item", "unit", "current_value", "source_url", "raw_sha256", "release_specific_archive"],
+    "coverage_columns": ["release_date", "data_week_ending", "available_at", "source_url", "sha256", "admissible", "exclusion_reason"],
+    "minimum_release_date": "2012-01-05",
+    "maximum_release_date": "2025-12-29",
+    "maximum_available_at": "2025-12-30T04:59:59+00:00",
+    "excluded_release": "2019-07-03",
+    "excluded_reason": "duplicate_stale_archive_file",
+    "http_downloads": false
+  },
+  "signal": {
+    "mechanism": "Low physical inventory relative to refinery use and its prior seasonal norm may require compensation for scarcity risk in oil futures. This tests a slow state-dependent long risk premium, not V17 weekly news-change direction or an alternate weight of its seven-component composite.",
+    "primary_reference": "https://www.nber.org/papers/w13249",
+    "counterpoint_reference": "https://www.federalreserve.gov/pubs/ifdp/2011/1025/ifdp1025.htm",
+    "cover_days": "1000*current_value[Stocks,Commercial (Excluding SPR)]/current_value[Crude Oil Supply,Crude Oil Input to Refineries]; million barrels divided by thousand barrels/day",
+    "seasonal_prior_years": 5,
+    "minimum_weeks_each_prior_year_month": 3,
+    "baseline": "For the observation month, compute mean cover_days in each of exactly five preceding calendar years, then arithmetic mean of all five yearly means. At least3valid distinct observation weeks in EVERY year/month; first published usable observation per week, already available strictly before current release. No current-year observations, later revisions or future releases in baseline; no shorter-history fallback.",
+    "primary": "long BR weight0.9 when current cover_days strictly below baseline and fully ready, otherwise cash; equality cash",
+    "control": "constant long0.9 on the same source-readiness/fill calendar; contextual baseline, never promote after outcomes",
+    "availability": "exact inherited conservative23:59:59America/New_York on official release date, independent of current retrieval or Last-Modified. Existing V72 EOD decision clock23:59:59.999999999Moscow, next factual open only.",
+    "missing": "nonpositive/nonfinite current stock or refinery use, missing selected row or incomplete baseline => newest release unready and cash, never fallback to older usable release. The excluded stale2019-07-03issue remains an unready calendar state.",
+    "maximum_source_age_at_fill_calendar_days": 14,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V103 completed economic rejection and preserved all outcomes; do not rerun or retune. V104 is a new physical stock/use level information set. V17 used reported_weekly_change only, seven-component signed surprise proxy and weekly directional repricing; its closed rule stays unchanged.",
+    "Theory of storage motivates a possible link between inventories and risk premiums, not guaranteed rising spot prices. US commercial inventories/refinery intake are not global Brent inventories, demand forecasts, measured convenience yield or producer hedging risk. Seasonal maintenance, imports/exports, capacity and structural breaks may dominate the proxy. Not a replication of the cited literature.",
+    "Current_value uses each original archived release; no year_ago_value/previous_value/reported_weekly_change or revised full-series substitution. First usable vintage per observation week only for historical baseline. The five-year/month rule is declared before new numerical features and outcomes; no sign/window/normalization/threshold/asset/size/control retuning.",
+    "Source2012-2025 is already admitted conditional development,727usable releases/728calendar issues,71cross-release revisions recorded. Historical immutability/original receipt not cryptographically proved. EIA attribution required; no new corpus, CSV/PDF parsing or collector. Every source and futures byte/schema/date gate before numerical read. All2026outcomes protected.",
+    "Economics2021-2025 on already-seen development history, no unseen holdout. Earlier source years are causal baseline warmup, not outcome fitting; no model, purge-dependent training or parameter search. Five-percent component gate does not replace predictable20-50percent objective.",
+    "Unchanged V72 target mapping and V64/V78 integer daily-open/spec/fee/margin research-proxy ledger, asset atomicity and cancel-and-clip. Unresolved exits/carry not deleted. Cash interest0, not broker-exact fees/BBO/joint fills. Cash/metric audit is not independent reconstruction of all execution risk counters.",
+    "One primary and predeclared control at base/double costs. Stage2 only if all frozen gates pass; otherwise preserve and close. No broaderAlgoPackscope, old2026prices, credentials, purchase, demo/live or Windowscollectors; main archive not interrupted, TIC parser stays paused."
+  ]
+}
