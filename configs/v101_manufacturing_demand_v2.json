@@ -1,0 +1,9 @@
+{
+  "protocol_id": "v101_manufacturing_demand_v2",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "source_parent": "source_evidence/v101_manufacturing_v2",
+  "failed_source_path": "source_evidence/v101_manufacturing/067dc4ec6026",
+  "failed_manifest_sha256": "8fab5d52bda458de1e32d20ee2ecd7d5d5089f3611245c95750cb1e5e9b7cba9",
+  "reused_failed_dates": ["20171215", "20180117", "20180215"],
+  "correction": "Support a combined YYYY Month [p/r] header as well as separate year and month headers. The saved 20180215 source has 2018 Jan. [p] in one header cell. V1 failed before any economic run; retain all V1 files, source and seal. Reuse its three HTTP200 raw pages plus the three original probe pages. Exactly90newGETs, no retry/redirect/auth. Same six/seven consecutive monthly columns and latest preliminary selection; all V1 economic rules, gates, calendar and costs unchanged. V2 is the same portfolio hypothesis, not another contestant."
+}

@@ -1,0 +1,16 @@
+{
+  "protocol_id": "v101_manufacturing_demand_v2",
+  "sealed_at_utc": "2026-09-16T22:02:20Z",
+  "sealed_before_full_source_states_targets_and_outcomes": true,
+  "economic_rules_unchanged_from_v1": true,
+  "v1_economic_run_never_started": true,
+  "six_format_samples_seen": true,
+  "source_manifest_sha_pinned_at_economic_invocation": true,
+  "files": {
+    "src/market_lab/futures_v101_manufacturing_demand_v2.py": "e897ec310e04a5035b2b64dc04be653a278b18d1341e0459330e3708a5f287d9",
+    "configs/v101_manufacturing_demand_v2.json": "6f744befa64081304fa8af12591cc116a8d784fd1df390a72ac6abbd7d2b7d97",
+    "tests/test_futures_v101_manufacturing_demand_v2.py": "4dfc61614fdaf1bffc6c14ec29871425c8940af931bb596f7c2d2f2e3217f496",
+    "docs/V101_MANUFACTURING_DEMAND_V2.md": "56257ea1a730b484ceb41bb38d38238fe7d38cd78b8423b9842dd0ae2c054fd1",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

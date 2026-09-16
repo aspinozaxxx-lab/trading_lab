@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 01:01 МСК / 2026-09-16 22:01 UTC — V101 V2 pre-outcome
+
+[Correction](V101_MANUFACTURING_DEMAND_V2.md): V1source failed21:46:53UTC,
+2parsed/3GET;20180215combined `2018 Jan. [p]` header не поддержан. Manifest
+`8fab5d52bda458de1e32d20ee2ecd7d5d5089f3611245c95750cb1e5e9b7cba9`, raw/seal
+сохранены. No economic run. V2 только structural parsing correction, все торговые
+правила/период/контроль/издержки/gates прежние.16new/118combinedtestsPASS9.57s,
+Ruffclean;6savedrawreparsed/HTTP200. План90newGET+6reuse, parent SHA checks,
+отдельные seal/source/run. Это всё ещё один будущий участник, воронка32безизменений.
+
 ## 2026-09-17 00:43 МСК / 2026-09-16 21:43 UTC — V101 pre-outcome
 
 [Protocol](V101_MANUFACTURING_DEMAND.md): новый G.17 manufacturing-output source,

@@ -3,7 +3,16 @@
 Обновлено: **2026-09-17, 00:19 МСК / 2026-09-16, 21:19 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V101 pre-outcome — новый manufacturing-demand screen
+## V101 V2 pre-outcome — исправление формата, экономика неизменна
+
+[V2 correction](V101_MANUFACTURING_DEMAND_V2.md) исправляет только combined
+year/month header. V1 source failed21:46:53UTC на20180215 до economics; root и
+seal сохранены, не перезапускать.16new/118combinedtestsPASS,Ruffclean,6realrawPASS.
+V2 наследует все V1 rules/gates/costs, использует6savedraw+90newGET в новомroot.
+Далее V2seal/server tests/source replay/один economic run. Воронка пока32,
+не считать V1/V2 отдельными гипотезами. Source failure не economic rejection.
+
+### V101 V1 pre-outcome (историческая запись)
 
 Предыдущий goal turn — PROGRESS: V100 отклонил V99 на Stage2, canonical результаты
 сохранены в20d50f4. [V101 protocol](V101_MANUFACTURING_DEMAND.md): один новый
@@ -4606,10 +4615,11 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,00:43МСК / 2026-09-16,21:43UTC:
-[V101 manufacturing-demand protocol](V101_MANUFACTURING_DEMAND.md) подготовлен,
-17new/102combinedtestsPASS,3realformatsPASS. Сделать seal/push, bounded96release
-source и один paired economic screen на прежнем ledger. Не пересчитывать V99/V100.
+Текущий первый шаг 2026-09-17,01:01МСК / 2026-09-16,22:01UTC:
+[V101 V2 correction](V101_MANUFACTURING_DEMAND_V2.md): V1 source failed до экономики,
+V2 исправляет combined year/month header без изменений rules/costs/gates.
+16new/118combinedtestsPASS,6realrawPASS. V2seal/push,90GET+6reuse,96release replay
+и один paired economic screen на прежнем ledger. Не пересчитывать V99/V100.
 Census source blockedHTTP403/no retry, поэтому прежний Census-first пункт ниже
 исторический. Воронка пока32, доходностьV101ещёнеизвестна. Goal20–50%active.
 
