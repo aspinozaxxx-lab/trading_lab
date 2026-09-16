@@ -1,0 +1,63 @@
+{
+  "protocol_id": "v102_tic_bank_funding_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["SI"],
+  "source": {
+    "source_parent": "source_evidence/v102_tic_bank_funding",
+    "probes": {
+      "initial": {"path": "source_evidence/tic_probe_20260917_v1", "manifest_sha256": "958c94a2c0654f24b77ea4414d22ddfd7d7d5f2eb789aa678524151186932ec7"},
+      "canonical": {"path": "source_evidence/tic_canonical_probe_20260917_v1", "manifest_sha256": "e411039a3ca1305048ea3f8ed38604841d3316dfb9f36a7f652bed8460fb08da"}
+    },
+    "expected_releases": 96,
+    "month_count_exceptions": {"2025-10": 0},
+    "date_overrides": {"/news/press-releases/jy2034": {"index_label": "01/19/2023", "release_date": "2024-01-19"}},
+    "reused_dates": {"20180416": "initial", "20230417": "initial", "20240119": "canonical", "20251118": "initial"},
+    "selection": "Only section1MonthlyReleases of the index, excluding sections2/3AnnualSurveys. All dated monthly TIC press releases December2017 through December2025. Short MM/DD labels use observation-year group +1 for January/February. Actual article date and og:url must agree. jy2034index typo is confirmed by its January19,2024article; override fixed before source/economics. No October2025publication; November18joint August/September table contributes only latest September.",
+    "series": "Row29, change in banks' own net dollar-denominated liabilities to foreign residents, billionsUSD not seasonally adjusted. Four monthly columns follow annual and12month totals; bind latest to rolling month/year header. Not securities flows or observation-month pseudo publication.",
+    "availability": "End of actual dated publication day America/New_York plus1hour; conditional archived-release proxy, not original witnessed receipt. CMS datetime is used only to verify date identity. No earlier nominal schedule date or Last-Modified clock.",
+    "fetch": "92new public serial GETs >=1s,4reused raw+metadata. Maximum3MBperHTML; no retry,redirect,credentials. Failure preserves root and blocks economics. No2026valued pages or current revised full series.",
+    "attribution": "U.S. Department of the Treasury, Treasury International Capital (TIC), dated press releases. Official Using TIC page expressly describes downloadable HTML/data for readers and spreadsheet/database use. Private analytical use only; no raw redistribution or Treasury endorsement. Privacy policy is not a data license. Source pages and usage page preserved outsideGit."
+  },
+  "signal": {
+    "mechanism": "Contraction of banks' cross-border net dollar funding may accompany dollar scarcity/risk aversion that persists after publication and supports USD versus RUB. This is a testable hypothesis, not established causality; row29 also changes with bank assets and nonseasonally-adjusted balance-sheet effects.",
+    "primary": "SI long0.9gross iff latest published row29monthly flow <0; zero/positive =>cash",
+    "control": "SI constant long0.9gross on same valid-source calendar; no post-outcome control promotion",
+    "target_weight": 0.9,
+    "maximum_age_days": 40,
+    "maximum_fill_gap_days": 3,
+    "decision": "18:45Moscow on completed decision day; next factual daily open, terminal flatten, no future exit eligibility filter",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "One new information source/hypothesis, not a retune of V101manufacturing or V99bank-reserve parameters. Bank cross-border flow may overlap earlier macro risk drivers; independence not established. No sign/asset/size/window/TTL/year selection after outcomes.",
+    "Four sample release tables/values and calendar metadata seen before seal; full monthly states, candidate targets and economic outcomes not computed. No ML, hyperparameter search or fitted threshold. Zero is the literal contraction boundary.",
+    "April17,2023official announcement says securities rows have February2023series break while banking reporting/formats unchanged. This motivates row29before outcomes; it does not prove no other revisions or breaks. Dated current archive copies are not a witnessed revision chain or original bytes.",
+    "Nonseasonally-adjusted row29is net banking liabilities, not a pure dollar-demand measure, policy surprise or isolated liability inflow. Asset changes, window dressing, two-month publication lag and Russia-specific sanctions/FX restrictions may dominate. Control includes matched-source availability and calendar gaps.",
+    "Existing daily integer spec-proxy ledger, fees, adverse ticks, rolls, halt carry, gross/margin/participation limits unchanged. Cash earns0. Audit checks cash/costs/metrics/counts, not independent full risk-counter reconstruction. Unknown exact original fees/specs/margins/BBO preclude live admission.",
+    "2018-2025already-seen development only, not independent holdout or20-50percent income evidence. Five-percentStage1component gate does not replace user's objective. No2026market outcomes, broaderAlgoPackeconomic admission, broker/demo/live, purchase, key handling, newWindowscollectors or changes to archive service."
+  ]
+}

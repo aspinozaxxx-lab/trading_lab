@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 01:40 МСК / 2026-09-16 22:40 UTC — V102 pre-outcome
+
+[Протокол](V102_TIC_BANK_FUNDING.md): новый TIC bank cross-border funding source,
+row29monthly<0 =>SIlong0.9,elsecash;constant-longcontrol,2018–2025,unchangeddailyledger.
+96monthlyrelease calendar/4realformatsPASS;20newtestsPASS,Ruffclean. Section1monthly
+excludesannualsurveys;indexJanuary2023typo сверяется с actualJanuary19,2024article.
+SourcebankreportingunaffectedbyFeb2023securitiesbreak,conditionaldatedarchiveonly.
+Plan92GET+4reuse,no2026/keys/retries/newengine. Fullsource/targets/outcomesnotcomputed.
+Nextsealedserverrun,thenoneStage1pairedscreen;33portfolio count ещё не меняется.
+Archive22:27UTC16990/26305jobs64.59%,13.350GBtotal/11.408GBAlgoPack,failed0.
+
 ## 2026-09-17 01:07 МСК / 2026-09-16 22:07 UTC — V101 COMPLETE, INVALID
 
 [Полный результат](V101_MANUFACTURING_DEMAND_RESULT.md): primarybase/double

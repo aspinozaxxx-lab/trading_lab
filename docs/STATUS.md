@@ -1,7 +1,20 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 01:16 МСК / 2026-09-16, 22:16 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 01:40 МСК / 2026-09-16, 22:40 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V102 pre-outcome — одна новая банковская TIC-гипотеза
+
+[Протокол](V102_TIC_BANK_FUNDING.md): SI long0.9/cash по последнему опубликованному
+отрицательному месячному потоку bank liabilities, row29. Matched-calendar constant-long
+control,2018–2025,прежние ledger/base-double/gates. Это новый источник, не retune V101.
+4realformats и96dateinventoryPASS;20synthetic testsPASS,Ruffclean. Source section1only;
+annual surveys исключены. Actual January19,2024release исправляет typoindex2023.
+Next: server tests,92newGET+4reuse в отдельномroot,source replay и ровно один paired
+economic run. Fullstates/targets/outcomes ещё не вычислены;33portfolio count unchanged.
+Mainarchive не изменён. Snapshot22:27UTC:16990/26305jobs64.59%,failed0;data12802159328
++source547342539=13349501867bytes(13.350GB);AlgoPack11408390617bytes(11.408GB).
+Sequentialdu/apparentbytes,безmodels/runs/tmp/localcopies,notdeduplicated. Goalactive.
 
 ## V101 COMPLETE — INVALID_EXECUTION_NO_PROMOTION, нового кандидата нет
 
@@ -37,10 +50,8 @@ Du22:07:04.981760UTC:data12719948835+source546678333=
 записи,безmodels/runs/tmp/localcopies,не byte-dedup claim. Доля jobs не доляbytes.
 FUTOI terminal550unresolved,непереаудирован. Main/token/Windows unchanged.
 
-Следующий первый шаг — bounded [TIC source feasibility](NEXT_SOURCE_REVIEW_20260916.md):
-новая информация о трансграничных потоках; сначала release clocks/revisions/2023break/
-форматы/права. Только потом один новый sealed screen. V102 ещё не выделен конкретному
-economic rule, config/run нет. V101 не ретюнить; broad AlgoPack scope unanswered.
+Следующий шаг уточнён выше: [V102 TIC screen](V102_TIC_BANK_FUNDING.md) после source
+feasibility. V101 не ретюнить; broad AlgoPack scope unanswered.
 
 ### V101 V2 pre-outcome (историческая запись)
 

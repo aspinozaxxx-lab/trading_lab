@@ -1,10 +1,16 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
 Текущий статус17сентября: [V101 завершён INVALID](V101_MANUFACTURING_DEMAND_RESULT.md),
-33portfolio/0activeStage2. V101V1sourcefailure и V2correction описаны отдельно;
-не повторять экономику/подбирать параметры. Следующий boundedsourcecandidateTIC.
+33portfolio/0activeStage2. TIC feasibility завершена; следующий шаг — один
+[V102 bank-funding screen](V102_TIC_BANK_FUNDING.md),92GET+4reusedreleases,pre-outcome.
+Original monthly inventory и4HTMLsamples сохранены,HTTP200;bankrow29formatsPASS.
+UsingTICcanonicalpage архивирована,privateanalysisonly/no raw redistribution.
+2023breaksecurities не касаетсяbankreporting по официальномуannouncement.
+Monthlysection1исключаетAnnualSurveys2/3;indexJanuary2023typo подтверждён actual
+January19,2024release. Старыйsystem-home-pageURL былHTMLredirect,неlicensetext.
+Ни outcomesV102,ниStage2candidate пока нет;V101 не повторять/не ретюнить.
 
-## Treasury TIC — новый source candidate, economics ещё не определены
+## Treasury TIC — первоначальный discovery record, заменён V102 protocol выше
 
 Поиск по docs/configs/src не нашёл прежней TIC family. Возможный механизм для
 исследования — трансграничный спрос на долларовые активы; это гипотеза, не доказанная
