@@ -1,5 +1,18 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-16T19:45UTC /22:45МСК**: mainactive/running,
+прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
+15339/26305jobs,145310900rows,156319pages,failed0/blocked0,
+8653995115completed-jobbytes,updated19:45:19.060216UTC,finalmanifestabsent.
+Du19:45:37.787795UTC: archive9296096446+oldprocessed1456918554=
+**10753015000bytes/10.753GBAlgoPack**. Data12136374503+source492811520=
+**12629186023bytes/12.629GBtotal**. Sequential apparent bytes,безmodels/runs/tmp/
+localduplicates. FUTOI terminal/gaps unchanged,notre-audited. Mainunit/token/Windows
+не менялись. Параллельный[V97screen](V97_HURRICANE_SUPPLY_RESULT.md) завершён
+REJECT_STAGE1; сохранение дополнительного источника не является economicPASS.
+
+### Предыдущий снимок21:55–21:58МСК
+
 Actual **2026-09-16T18:55–18:58UTC /21:55–21:58МСК**: mainactive/running,
 прежнийPID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1.
 14913/26305jobs,142013129rows,152740pages,failed0/blocked0,

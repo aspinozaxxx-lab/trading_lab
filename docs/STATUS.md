@@ -3,7 +3,42 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
-## V97 pre-outcome — новый hurricane supply-risk screen, ещё не результат
+## V97 COMPLETE — REJECT_STAGE1; цель20–50% не подтверждена
+
+[Полный результат](V97_HURRICANE_SUPPLY_RESULT.md), completed19:46:34.548073UTC.
+Primary base/double CAGR−0.8220%/−0.9295%,Sharpe−0.26129/−0.29647,
+MDD11.3760%/11.8357%,12/12round trips. Atlantic control−3.1036%/−3.6421%,
+63/63round trips. Primary3positiveyears/8, readycoverage96.7885%; all4ledgers
+executioncomplete/critical0/unresolved0/terminalflat. Rejectedprofit/Sharpe/count/
+positiveyears gates; не менять geography/wind/window/TTL/sign/size/control.
+Воронка30portfolio=26rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+
+Canonical`runs/v97_hurricane_supply_v1_4788fa2921a1`,manifest
+`4344480ae93d4c72ca83d2c628fbeebd53864b89fec0dffdc3a95a7b6e2e68b0`,metrics
+`23093ed9e15b78d532b0fe3c9f3b25fc867fc74b9ab44e2dda274ff2b5310450`.
+Все17artifact hashes+terminaljournalverified19:47:17UTC. Source COMPLETE19:38:52UTC,
+838messages/823parsed/15identitygaps;1697artifact hashescheckedbeforeeconomics,
+manifest`2dccce4a4aa7c3a0b4cf0e16ad7e47c4a8635ebd1b5879ee247e0848fc863d40`.
+Frozen code unchanged, one economic run. Source original_receipt_verified=false.
+
+Следом [FOMC-calendar source feasibility](FOMC_CALENDAR_FEASIBILITY_20260916.md):
+найдены8originalprior-year schedule releases и Board reuse policy. Пока нет raw
+corpus/config/seal/PnL; cancellation announcement March2020 и daily execution
+window ещё проверить. Source discovery не31-й тест и неStage2. AlgoPack broader
+scope unanswered; вопрос не повторять на каждом continuation.
+
+### Архивы — actual16сентября22:45МСК /19:45UTC
+
+Mainactive/running,PID1663880/invocationd562f0748c4341b48eb7f4d34d64b4a1;
+15339/26305jobs,145310900rows,156319pages,failed0/blocked0,
+updated19:45:19.060216UTC,finalmanifestabsent. Du19:45:37.787795UTC:
+data12136374503+source492811520=**12629186023bytes /12.629GB total**;
+AlgoPackarchive9296096446+oldprocessed1456918554=
+**10753015000bytes /10.753GB AlgoPack**. Sequential apparent bytes while downloading,
+безmodels/runs/tmp/localduplicates. FUTOI terminal/gaps unchanged; no re-audit.
+Main services/token/Windows unchanged. NHC source/economic units completed separately.
+
+### V97 pre-outcome checkpoint (preserved)
 
 [Протокол](V97_HURRICANE_SUPPLY.md): original issued NHC forecasts2018–2025,
 BR long/cash при forecast>=64kt в northernGulf в пределах72h; broadAtlanticcontrol.

@@ -1,6 +1,24 @@
 ﻿# Реестр экспериментов
 
-## 2026-09-16 — V97 pre-outcome hurricane supply-risk hypothesis
+## 2026-09-16 — V97 COMPLETE, REJECT_STAGE1
+
+[Все сценарии и годы](V97_HURRICANE_SUPPLY_RESULT.md),completed19:46:34.548073UTC.
+Primarybase/doubleCAGR−0.8220%/−0.9295%,Sharpe−0.26129/−0.29647,
+MDD11.3760%/11.8357%,12roundtrips. Atlanticcontrol−3.1036%/−3.6421%,63roundtrips.
+Primaryready96.7885%,3positiveyears/8; all4executioncomplete/critical0/unresolved0/
+terminalflat. Frozen>=20trips/profit/Sharpe/positiveyears gates failed; not retuned.
+Canonical`runs/v97_hurricane_supply_v1_4788fa2921a1`,manifest
+`4344480ae93d4c72ca83d2c628fbeebd53864b89fec0dffdc3a95a7b6e2e68b0`,metrics
+`23093ed9e15b78d532b0fe3c9f3b25fc867fc74b9ab44e2dda274ff2b5310450`.
+17hashes+terminaljournalchecked19:47:17UTC;pre-outcome7faffad,server13testsPASS.
+Source838messages/823parsed/15maskedidentitygaps,HTTPerrors0,
+manifest`2dccce4a4aa7c3a0b4cf0e16ad7e47c4a8635ebd1b5879ee247e0848fc863d40`.
+1697sourcehashescheckedbeforeoutcomes, originalreceiptfalse. Source/profit separate.
+30portfolio=26rejected+1incomplete+3invalid,0Stage2;V93 отдельно.
+Next[FOMCsourcefeasibility](FOMC_CALENDAR_FEASIBILITY_20260916.md) ещё не новыйrun.
+Archive19:45UTC12.629GBtotal/10.753GBAlgoPack,15339/26305jobs,failed0; unchanged.
+
+### 2026-09-16 — V97 pre-outcome hurricane supply-risk hypothesis (preserved)
 
 [Frozen design](V97_HURRICANE_SUPPLY.md): новая independent weather information,
 не EIArawchange/signflip. BR northernGulf>=64kt/72hforecast против allAtlantic;
