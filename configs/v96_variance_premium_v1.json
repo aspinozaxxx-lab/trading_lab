@@ -1,0 +1,67 @@
+{
+  "protocol_id": "v96_variance_premium_v1",
+  "declared_at_utc": "2026-09-16T10:36:59Z",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v64_seal_sha256": "b60a02b4ba1d5ea3dedcc0f82e5090cc82fea40cc1c7864f851a97b0ee39bbff",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["MIX", "RI"],
+  "source": {
+    "sp500_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SP500&cosd=2018-01-01&coed=2025-12-31",
+    "start": "2018-01-01",
+    "end": "2025-12-31",
+    "calendar_dependencies": "/srv/trading_lab_data/tmp/v96-calendar-deps-4.13.2",
+    "calendar_version": "4.13.2",
+    "vix_root": "data/processed/info_radar/fred-cboe-vix-term-structure-current-vintage-2018-2025-v2",
+    "vix_manifest_sha256": "0aecc29fdc9181a0af6941fa4f3778487ba0b5d6dedce07aa843b1b0eb32b2d1",
+    "vix_parquet_sha256": "6ffe7daa623d01c4fd23562e05d317e6b5a778d32838db37f25b562a170ab567"
+  },
+  "signal": {
+    "mechanism": "high option-implied minus realized equity variance proxies priced global uncertainty; test subsequent MOEX index risk premium, not an option-selling return",
+    "reference": "https://www.federalreserve.gov/pubs/feds/2011/201152/index.html",
+    "realized_sessions": 21,
+    "annualization": 252,
+    "rank_sessions": 252,
+    "holding_months": 3,
+    "formula": "(VIX/100)^2 - 252*mean(last21 squared adjacent XNYS close-to-close log SP500 returns); no demeaning or missing-session compression",
+    "monthly_rule": "at first completed MOEX day of each month, use latest source state available by18:45Moscow; high iff proxy strictly exceeds its previous252-session median excluding current state",
+    "primary": "three equal monthly cohorts, each high month contributes gross0.3, otherwise0; sum and split equally MIX/RI; all3 consecutive month states must be ready",
+    "control": "constant gross0.45 split equally MIX/RI on exactly the same readiness masks; matches nominal half-frequency exposure, not ex-post realized exposure",
+    "availability": "both US inputs assumed known only at23:59:59NewYork on next XNYS session; also respect archived VIX available_at; this lag does not prove original vintages",
+    "maximum_selection_source_age_days": 7,
+    "maximum_fill_gap_calendar_days": 7,
+    "between_selections": "hold monthly weights with causal contract rolls and existing daily integer resizing; no daily refreshing of the frozen monthly signal",
+    "warmup": "2018-2020 for trailing features and3monthly cohorts; fresh portfolio cash in2021",
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 30,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.0
+  },
+  "limitations": [
+    "New SP500 information, not V24 VIX/VIX3M governor or V14 RVI scaling. Transfer of the published international mechanism to Russia is unproved, especially after2022 financial segmentation.",
+    "Daily close-based realized variance is a noisy proxy, not the paper's intraday realized variance or a statistical forecast of future variance. Current-vintage public quotes and assumed lag do not prove historical original availability.",
+    "XNYS calendar is pinned third-party exchange_calendars metadata, not archived exchange announcements. Missing sessions/quotes remain masks. No protected2026 financial observations; future calendar dates alone may identify lag boundaries.",
+    "Existing daily candles, fee/margin/spec proxies, integer sizing and separate asset fills; no interest on idle cash. No options, broker, live or demo orders. MIX and RI share equity risk and are not independent bets.",
+    "30round trips is fixed before outcomes for two slow quarterly-contract sleeves; no lowering after results. Other Stage1 gates retained.5percent is only a component gate;20-50percent goal remains unverified.",
+    "One fixed rule,3months,21/252windows,sign,universe,size and masks. No post-result retuning, regime/year exclusion, control promotion or claim of independent holdout. No new AlgoPack value reads."
+  ]
+}

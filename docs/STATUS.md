@@ -3,6 +3,21 @@
 Обновлено: **2026-09-16**. Период разработки ограничен данными не позже
 `2025-12-31`; данные 2026 для текущих V8–V38 гипотез защищены и не используются.
 
+## V96 pre-outcome — внешний variance-premium proxy, один fixed screen
+
+[Протокол](V96_VARIANCE_PREMIUM.md): новая SP500 close history2018–2025 плюс
+существующий VIX; implied-minus-realized variance,21/252sessions,3monthly cohorts,
+MIX/RI long/cash против constant0.45gross. Это не V24 term-structure governor.
+Все rules/masks/costs/gates до outcomes;10new/66combined synthetic tests PASS24.61s,
+Ruff clean. Seal `798bfda91f931819c14c7dfa12b104b29b0bdf9b64c5c50402427fc1c12334cf`.
+Следом pushed server verification, один bounded SP500 source fetch и один paired
+economic run. Пока нет source fetch, новых external features или экономического
+результата. 28завершённых portfolio hypotheses/0Stage2 остаются прежними.
+Calendar dependencies установлены изолированно вне sharedvenv; пять holiday checks
+прошли. Только вывод количества с start2018-01-01 упал на non-session boundary;
+это не source/economic failure, collector использует проверенный sessions property.
+Объёмы архива ниже actual10:15UTC; нового измерения пока нет. Downloader не менялся.
+
 ## V95 COMPLETE — REJECT_STAGE1; цель 20–50% не подтверждена
 
 [Полный результат](V95_BETA_PREMIUM_RESULT.md): completed 2026-09-16T10:11:42.747061UTC.

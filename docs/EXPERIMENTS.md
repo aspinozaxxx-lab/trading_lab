@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-16 — V96 pre-outcome variance-premium protocol
+
+[Fixed design](V96_VARIANCE_PREMIUM.md), новая SP500 information против старого VIX.
+One Stage1 portfolio hypothesis;21-session realized variance/252prior median,
+3monthly cohorts, MIX/RI,2021–2025,base/double,constant0.45gross control.
+Source/economic run ещё не выполнены. ConfigSHA
+`cc789aa208fa932d7f4c7043f73a3a5d7f247f18eb6b4108792a23e86a0a3ca1`, seal
+`798bfda91f931819c14c7dfa12b104b29b0bdf9b64c5c50402427fc1c12334cf`.
+10new/66combined synthetic tests PASS24.61s,Ruffclean. SourceCSV2018–2025only,
+raw/calendar внеGit,source manifestSHA закрепляется до economic numeric reads.
+Никаких post-hoc parameter/control changes. Пока28завершённых/0Stage2.
+
 ## 2026-09-16 — V95 COMPLETE, REJECT_STAGE1
 
 [Все сценарии и годы](V95_BETA_PREMIUM_RESULT.md), completed 10:11:42.747061UTC.
