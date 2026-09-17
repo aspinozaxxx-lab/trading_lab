@@ -1,0 +1,23 @@
+{
+  "protocol_id": "v110_bank_credit_squeeze_v1",
+  "sealed_at_utc": "2026-09-17T04:21:30Z",
+  "sealed_before_full_numeric_corpus_states_targets_and_new_outcomes": true,
+  "selected_source_snippets_previously_seen": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 125,
+  "files": {
+    "src/market_lab/futures_v110_bank_credit_squeeze.py": "060671627d0b66c1189a986b4e11bbcc2f16c21e72890061dd7d82865ee7c0a4",
+    "configs/v110_bank_credit_squeeze_v1.json": "4bb8fa16035d38576ec91c87e3f218d9a9ef08153c908af4f74974a61bffd743",
+    "tests/test_futures_v110_bank_credit_squeeze.py": "b3693271bc2db6613f516474122d29e6340c16f6033d8702d3f2df3af2f387ad",
+    "docs/V110_BANK_CREDIT_SQUEEZE.md": "f7304dbe0c3501f51d902ddb7161f83b25dddfebd31ecb08f72693faebee7fee",
+    "docs/SLOOS_SOURCE_REVIEW_20260917.md": "16fbf397d20e3240e4502914145a7162b4038b6b1cdd01154a5fd23566b171be",
+    "scripts/sloos_board_xml_20260917.py": "280f55eb309a7d14a4594f90d267949ba476a8a3f314101912edb399c1de22b8",
+    "scripts/sloos_feasibility_20260917.py": "294757bd47cc2bdea796b67d111741aae40a4203978ed336701b0cc1f2d12f52",
+    "scripts/sloos_feasibility_20260917_v2.py": "3d0303661ad0e2592ec58eda1d842656bf9984a9e156806bda84040b787cd56c",
+    "scripts/sloos_fred_source_20260917.py": "c4956f49af5e00ae9bf8004f1ea3489e7c4bcc3b57f46f20d88505210f9599c0",
+    "scripts/sloos_fred_csv_20260917.py": "fcc66423bea0b40fe2cd9c20ef872c5ea48e4e25754157a09e1d0d122dfafa86",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 07:19 МСК / 04:19 UTC — V110 pre-outcome
+
+[Протокол](V110_BANK_CREDIT_SQUEEZE.md): SLOOS credit standards>0 AND demand<0
+→BRshort0.9/cash, constantshort control,2018–2025/base-double/unchangedledger.
+33quarterpairs directBoardXML;125synthetic tests/15futuresmetadata checksPASS.
+ConditionalEOMsecondmonth/currentvintage, not originalPIT. Fullnumericstates/
+targets/newPnL ещё не прочитаны. [Failedsourceattempts](SLOOS_SOURCE_REVIEW_20260917.md)
+preserved/backedup; originalPDF/HTML иFREDpaused, directXML отдельно раскрыт.
+39portfolio пока неизменно, next seal/commit/server tests/oneeconomicrun.
+
 ## 2026-09-17 06:37 МСК / 03:37 UTC — V109 COMPLETE / REJECT_STAGE1
 
 [Результат](V109_PRIVATE_DELEVERAGING_RESULT.md): private dealer borrowing AND

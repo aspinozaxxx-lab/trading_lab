@@ -1,0 +1,61 @@
+{
+  "protocol_id": "v110_bank_credit_squeeze_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "root": "source_evidence/sloos_board_20260917_v1/capture",
+    "manifest_sha256": "92b003b1c7f8d88bb7bcfdf2e4536e1d60088cb427a41b9f7d24866291158903",
+    "raw_sha256": "9e043b31aea376d3198fb04a94a7f8cd46e6983e1b45aea65c0bd5801f1fd0be",
+    "raw_start": "2017-10-01",
+    "raw_end": "2025-12-31",
+    "expected_reports": 33,
+    "definition": "Official Board XML SLOOS dataset, SUBLPDCILS_N.Q (standards) and SUBLPDCILD_N.Q (demand). All domestic banks, large/middle-market borrowers; quarterly percentages. Exact BANKSIZE=ALL/PANEL=DOM/LOANTYPE=CILG/MEASURE=STND or DEMAND/TERMS=NA/FREQ=162/UNIT=Percentage/UNIT_MULT=1. Same published definitions as FRED DRTSCILM/DRSDCILM, but no FRED numeric data obtained or used. Not large-bank subgroup, loan terms, interest rate, weighted aggregate or purified credit supply shock.",
+    "availability": "CONDITIONAL current-vintage screen: end of second month of quarter label, America/New_York. Jan label -> Feb month end, Apr -> May, Jul -> Aug, Oct -> Nov. source_date is this explicitly named proxy release date for unchanged TTL adapter, NOT an actual original release. Observation date retained separately. No availability from quarter label itself; no original vintage/revision guarantee.",
+    "date_mapping": "XML TIME_PERIOD is quarterly period-end label, normalized to its quarter start before the frozen conditional availability rule. Both labels retained; neither is claimed to be publication. Selected33quarters2017Q4-2025Q4. Other series and outside-window cells are ignored before status/value inspection. Status A required; unexpected statuses fail closed.",
+    "rights": "Board of Governors SLOOS direct official XML, public-domain Board data unless otherwise marked, attribution/notices preserved, private research/no raw redistribution. Official index and disclaimer captured/hash-verified. Separate FRED legal/CSV first attempts timed out, no FRED numeric data used."
+  },
+  "signal": {
+    "mechanism": "Joint tightening of credit standards and weakening business loan demand may precede weaker investment/activity and oil demand. US survey is not global oil demand; supply shocks, policy response, sanctions and bank composition can overwhelm this link.",
+    "primary": "BR short0.9 iff DRTSCILM>0 AND DRSDCILM<0 in latest complete available quarter; otherwise cash. Exact Decimal comparison to economic zero. One rule, no fit/search.",
+    "control": "Constant BR short0.9 on identical readiness/calendar; diagnostic only, no post-outcome promotion.",
+    "missing": "Either dot/missing value masks newest state; no zero fill, interpolation or older-good fallback. Missing entire quarter, malformed/nonfinite/out-of-range percentage, duplicate date, wrong header or protected date fails closed. Genuine zero is neutral/cash but ready.",
+    "maximum_source_age_at_fill_calendar_days": 120,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Economic hypothesis stated before full corpus states/targets/PnL. Earlier web snippets exposed selected2017/2025 survey values and old FRED data; source is not wholly unseen. Existing2018-2025 futures outcomes were seen in prior experiments, so this is development, not independent holdout.",
+    "Original PDF/HTML reconstruction paused after two route-format failures, preserved without V3. One actual2017 PDF cover confirms Nov6 publication of October survey, not Oct1 availability. FRED legal/firstCSV timed out; a separate one-request direct Board XML download succeeded. Conditional clock unchanged, not repair/proof of original timestamps or revisions.",
+    "One rule/asset over full2018-2025, zero natural sign boundaries, no favorable era/window/threshold/lag/TTL selected from new outcomes. Percentages reflect respondent shares, not credit amounts or causal CSI. All-bank population avoids explicit2023large-bank-cutoff subgroup splice but does not establish constant sample composition.",
+    "Unchanged V72/V78/V64 next-factual-open integer futures ledger and research specs/fees/margin. Cash interest0. Each of four cases must be execution-complete/critical0/unresolved0/terminalflat. Rolls counted separately from independent economic episodes; trip gate is not independence proof.",
+    "Five-percent Stage1 component gate does not redefine relatively predictable20-50percent active goal. Stage1 PASS if any is only a candidate for further examination, never profit/PIT/live proof. Source-only failures do not count as tested portfolio entrants.",
+    "No post-outcome sign/asset/window/size/cost/control tuning, model training, broker/demo/live, purchases, expandedAlgoPackeconomic scope, Windows collectors or credential reads. 2026market prices/returns/labels/targets/PnL remain protected; main archive continues separately."
+  ]
+}

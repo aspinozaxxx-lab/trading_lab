@@ -1,7 +1,22 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 06:37 МСК / 2026-09-17, 03:37 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 07:19 МСК / 2026-09-17, 04:19 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V110 pre-outcome — bank-credit squeeze, один условный тест
+
+[Протокол](V110_BANK_CREDIT_SQUEEZE.md): joint SLOOS standards tightening AND
+weaker loan demand → BRshort0.9/cash, constant-short control, full2018–2025,
+base/double costs и прежний ledger. Прямой Board XML получен,33quarters×2series,
+all66statusA/lexicalnumeric;125synthetic tests/15futuresmetadata checksPASS.
+Числовые состояния/targets/новыйPnL ещё не просмотрены. Conditionalsecond-monthEOM
+availability, currentvintage, не originalPIT. Source root/hash в протоколе.
+[Source failures](SLOOS_SOURCE_REVIEW_20260917.md) сохранены: PDF/HTML paused после
+двух route failures; FREDlegal/firstCSV timeout, никаких FREDnumeric data. Не retry.
+XML — отдельно раскрытая current-vintage ветка, не original-report reconstruction.
+Следующий шаг: seal+commit/push,125server tests, один economicrun и audit/backup.
+Пока39portfolio/0activeStage2/3; source failures не portfolio entrants. Goalactive,
+main AlgoPack продолжает отдельно,2026market защищён, V109closed/no retune.
 
 ## V109 COMPLETE — REJECT_STAGE1, слишком малая доходность и высокая просадка
 
@@ -5038,7 +5053,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,06:37МСК / 2026-09-17,03:37UTC:
+Текущий первый шаг 2026-09-17,07:19МСК / 2026-09-17,04:19UTC:
+[V110](V110_BANK_CREDIT_SQUEEZE.md): source metadata/code/tests готовы,
+seal+commit/push и125server tests, затем один economicrun/audit/backup. Не новый
+collector или повтор original PDF/FRED. Conditional clock/currentvintage явные,
+numeric states/outcomes ещё не прочитаны.39portfolio/0activeStage2/3, mainarchiveотдельно.
+
+Исторический первый шаг 2026-09-17,06:37МСК / 2026-09-17,03:37UTC:
 [V109 REJECT_STAGE1](V109_PRIVATE_DELEVERAGING_RESULT.md),39portfolio/0activeStage2/3.
 Не повторять canonical run/audit без новой причины и не менять rule/control.
 Следующий bounded source review — SLOOS bank-credit standards/demand:
