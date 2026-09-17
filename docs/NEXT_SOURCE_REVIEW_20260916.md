@@ -1,6 +1,21 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-Текущий статус17сентября02:05МСК: [V102 source paused](V102_TIC_SOURCE_PAUSED.md),
+Текущий статус17сентября03:06МСК:
+[V103 REJECT_STAGE1](V103_ILLIQUIDITY_PREMIUM_RESULT.md) и
+[V104 INVALID](V104_INVENTORY_COVER_PREMIUM_RESULT.md) уже завершены. Ни liquidity
+premium, ни physical inventory-cover premium не дали кандидата.35portfolio/0active.
+TICV102sourcepaused,не писать V4parser и не повторять прежние probes.
+
+Следующий bounded review на готовых данных — **CBR macro-survey forecast dispersion**.
+Catalog/code existing source содержит9statistics,включаяp10/p90; V21 использовал
+только median revisions. Проверить metadata-only coverage и самостоятельный механизм
+разногласий/неопределённости, без нового raw workbook parser. Новые statistic values,
+market targets/outcomes ещё не читались; V105/config пока нет. Не добавлять каналы
+или параметры в старый V21 по его результатам, не менять консервативную availability
+или current-vintage limitations. При недостаточной новизне/coverage — отказ, не большая
+подготовительная ветка. Broad AlgoPack scope по-прежнему unanswered.
+
+Исторический статус17сентября02:05МСК: [V102 source paused](V102_TIC_SOURCE_PAUSED.md),
 не complete feasibility и не economic result. Три последовательных format failures
 сохранены, четвёртая версия в этом turn не создавалась;не автоматически продолжать
 TIC parser в новой сессии.33portfolio/0activeStage2 unchanged,V102невычислялся.

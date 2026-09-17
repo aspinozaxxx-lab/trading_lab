@@ -1,5 +1,21 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 03:02 МСК /00:02UTC**: main active/running,
+PID1663880,invocation `d562f0748c4341b48eb7f4d34d64b4a1`,безперезапуска.
+**18153/26305jobs (69.0097%)**,164116081rows,176905pages,failed0/blocked0,
+9703018417completed-job bytes,updated00:02:47.458584UTC,finalmanifestabsent.
+Du00:02:50.796131UTC: archive10348442298+earlierprocessed1456918554=
+**11805360852bytes/11.805GB AlgoPack**;data13205174371+source559319597=
+**13764493968bytes/13.764GB total**. AlgoPack уже внутри итога; apparent bytes при
+записи,безmodels/runs/tmp/transfers. EIA5-file existing source скопирован с local для
+[V104](V104_INVENTORY_COVER_PREMIUM_RESULT.md): это не новый unique corpus междуhosts.
+V104completed/INVALID,не доходныйкандидат;economicrun/archive не мешали другдругу.
+Local последнийзамер23:26UTC2.747GB,необновлялся/частичнокопии,неприбавлять.
+FUTOIterminal550unresolved unchanged/notre-audited;mainfailed0неустраняетgaps.
+Main/token/Windows unchanged. Jobs percentage не процентконечногообъёмаиливремени.
+
+### Предыдущий снимок17сентября02:33МСК
+
 Actual **2026-09-17 02:33 МСК /2026-09-16T23:33UTC**: main active/running,
 PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
 **17895/26305jobs (68.0289%)**,161817583rows,174443pages,failed0/blocked0,

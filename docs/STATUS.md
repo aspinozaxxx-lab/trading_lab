@@ -1,9 +1,40 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 02:56 МСК / 2026-09-16, 23:56 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 03:06 МСК / 2026-09-17, 00:06 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V104 pre-outcome — physical stock/use premium на готовых EIA vintages
+## V104 COMPLETE — INVALID_EXECUTION_NO_PROMOTION
+
+[Результат](V104_INVENTORY_COVER_PREMIUM_RESULT.md): один run completed23:59:56.755827UTC.
+Primary diagnostic CAGR **+4.5010%/+3.2064%**,Sharpe.29671/.24927,
+MDD **44.1430%/46.1466%**,58trips,2positiveyears/5,2023–2025negative.
+Control+11.4097%/+10.5425%,62trips. Все4executionfalse: primarycritical2/1,
+control2/2, совпадают с aggregate gross-risk counters;unresolved0/terminalflat.
+Конкретные даты/orders risk flags независимо не реконструированы; это не доказанный
+исполняемый доход. Даже diagnostic numbers ниже gates и хуже constant-longcontrol.
+Readiness99.8426%,1271decisions на arm,1077/1267nonzero targets;728source states.
+
+Seal `7ad56a39820717a7f65f934fb483c1a3ff2c9bd28b6c95c4abce4123fbe629fd`,
+pre-outcome `a746304dd196a0c9ce91f1d5c6fa1da2e63c5d54`.
+Run `runs/v104_inventory_cover_premium_v1_7ad56a398207`, manifest
+`20c979ed40fa51466d1b5b8f7c5b9eec748e83a4fabd07849afe02ac70d0e7ce`.
+Audit00:01:13UTC:18hashes/728states/2targets/4cash-metric replaysPASS,
+95local/95servertestsPASS,Ruffclean;local result backup18hashes+manifestPASS.
+Existing5-file EIA corpus скопирован на сервер без freshHTTP/parser;canonicalнеrerun.
+
+**35portfolio =28REJECT_STAGE1+1REJECT_STAGE2+1incomplete+5invalid**,0activeStage2/3.
+V93отдельно,V102source-onlyнеentrant;goal20–50%active/неподтверждена. V104неretune.
+Следующий bounded review — **CBR macro-survey forecast dispersion**, не V21 median
+revisions. Source catalog/code содержитp10/p90/9statistics; новые числовые значения,
+coverage dispersion и outcomes ещё не считались. Сначала metadata-only novelty/
+availability review existing Parquet; не новый workbook parser и не добавление
+каналов/порогов к закрытому V21. V105/config пока нет.
+
+Main archive00:02UTC active/running,18153/26305jobs69.0097%,failed0/blocked0;
+**13.764GB data+source /11.805GB AlgoPack**,безmodels/runs/tmp,localcopiesнеприбавлять.
+FUTOI прежние550unresolvedнепереаудированы. Broadscopeunanswered,TICpaused,2026protected.
+
+### V104 pre-outcome — историческая запись
 
 [Протокол](V104_INVENTORY_COVER_PREMIUM.md): BR long0.9/cash, если commercial crude
 stocks / refinery use ниже своего сезонного baseline: тот же месяц, пять предыдущих
@@ -4757,7 +4788,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,02:56МСК / 2026-09-16,23:56UTC:
+Текущий первый шаг 2026-09-17,03:06МСК / 2026-09-17,00:06UTC:
+[V104 COMPLETE/INVALID](V104_INVENTORY_COVER_PREMIUM_RESULT.md),35portfolio/0active.
+Не повторять source/targets/ledger/audit и не tune-ить physical-stock/use rule:
+weak diagnostics ниже gates,хуже control и execution-invalid. V103тоже закрыт.
+Первый незаблокированный bounded шаг — **CBR macro-survey forecast dispersion**:
+проверить existing Parquet metadata (statistics/indicator/forecast horizon/availability)
+и отличие экономической гипотезы от V21 median revisions; ничего числового/outcomes
+ещё не просмотрено. При недостаточной coverage/новизне отклонить без нового parser.
+Если обосновано — короткий отдельный pre-outcome protocol/seal и Stage1 на старом
+ledger; не добавлять CPI/key-rate channels/thresholds в V21 по его outcomes.
+Current-vintage/консервативный publication lag не ослаблять,2026outcomes защищены.
+V105ещёневыделен. Mainarchive отдельно,TICparserpaused,broadAlgoPackscopeunanswered.
+
+Исторический первый шаг 2026-09-17,02:56МСК / 2026-09-16,23:56UTC:
 [V104 pre-outcome](V104_INVENTORY_COVER_PREMIUM.md),16new/95combinedtestsPASS.
 Physical stock/use level + seasonal prior-five-year baseline; не V17weeklychanges.
 Next guarded source/code transfer, sealed server tests и один economic run. Local

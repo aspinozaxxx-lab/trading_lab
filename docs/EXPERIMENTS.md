@@ -1,5 +1,24 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 03:06 МСК / 2026-09-17 00:06 UTC — V104 COMPLETE / INVALID
+
+[Результат](V104_INVENTORY_COVER_PREMIUM_RESULT.md): primary diagnostic CAGR
++4.5010%/+3.2064%,Sharpe.29671/.24927,MDD44.1430%/46.1466%,58trips,
+2positiveyears/5,последние3negative. Control+11.4097%/+10.5425%,62trips.
+All4executionfalse,primarycritical2/1/control2/2 из aggregate gross-risk counters;
+unresolved0,terminalflat. Не confirmed доход/Stage2 и не валидный statistical rejection.
+Ready99.8426%,1271decisions на arm;nonzero1077/1267,728sourcecalendar states.
+Seal7ad56a39820717a7f65f934fb483c1a3ff2c9bd28b6c95c4abce4123fbe629fd,
+pre-outcomea746304dd196a0c9ce91f1d5c6fa1da2e63c5d54;oneeconomicruncompleted23:59:56UTC.
+Run `runs/v104_inventory_cover_premium_v1_7ad56a398207`,manifest
+20c979ed40fa51466d1b5b8f7c5b9eec748e83a4fabd07849afe02ac70d0e7ce,
+metricse39f3a70b56c2a4f47b21ee4793c0834d6398143c3399bfcf91ba791ec61e396.
+18hashes/728states/2targets/4cash replaysPASS;95local/95server,Ruffclean,
+localbackup18hashes+manifestPASS. Existing EIA5files copied once,0freshHTTP.
+35portfolio=28rejectedStage1+1rejectedStage2+1incomplete+5invalid,0activeStage2/3.
+Next bounded novelty/metadata review CBR survey dispersion; не V21mean-revision retune.
+Mainarchive00:02UTC69.0097%jobs,13.764GBtotal/11.805GBAlgoPack,failed0.
+
 ## 2026-09-17 02:56 МСК / 2026-09-16 23:56 UTC — V104 pre-outcome
 
 [V104](V104_INVENTORY_COVER_PREMIUM.md): physical commercial stocks/refinery-use
