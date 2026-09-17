@@ -1,7 +1,21 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 07:58 МСК / 2026-09-17, 04:58 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 08:25 МСК / 2026-09-17, 05:25 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V112 pre-outcome — совместное рублёвое funding pressure
+
+[Протокол](V112_RUBLE_FUNDING_PRESSURE.md): SI short0.9, когда same-date RUONIA
+выше key rate AND банковский deficit без корсчетов положителен; иначе cash.
+Control — один rate-spread sign при той же трёхисточниковой readiness. Не повтор
+V18/V19/V71, не V27 governor или collateral income. Full2018–2025/base-double.
+Новый stock capture2012rows,4HTTP200; RUONIA1963/key2015 переиспользованы, все1963
+exact-date pairs найдены. Current-vintage/conditional clock, не original PIT.
+V1 import failed до HTTP, сохранён; V2 существующий stdlib parser, без package install.
+Source10files backup verified; 34new/168combined tests и15futures metadata checks PASS.
+Полные joint numeric states/targets/newPnL ещё не прочитаны. Next seal/commit/push,
+168server tests и один economic run/audit/backup. Пока41portfolio/0activeStage2/3,
+цель20–50active и не достигнута; AlgoPack продолжает независимо,2026market protected.
 
 ## V111 COMPLETE — REJECT_STAGE1, прибыль не найдена
 
@@ -5123,7 +5137,14 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17, 07:58 МСК / 2026-09-17, 04:58 UTC:
+Текущий первый шаг 2026-09-17, 08:25 МСК / 2026-09-17, 05:25 UTC:
+[V112](V112_RUBLE_FUNDING_PRESSURE.md): source/code/tests готовы; joint dates1963/1963,
+числовые states/новыйPnL ещё не прочитаны. Seal/commit/push,168server tests, один
+economic run/audit/backup; не новый источник/коллектор. V1 import failure сохранён,
+четыре фактических HTTP были только у V2. Conditional stock clock/current-vintage
+не равны original PIT. Пока41portfolio/0activeStage2/3, main AlgoPack независимо.
+
+Исторический первый шаг 2026-09-17, 07:58 МСК / 2026-09-17, 04:58 UTC:
 [V111 closed](V111_CREDIT_RISK_APPETITE_RESULT.md), 41 portfolio / 0 active Stage2/3.
 Не повторять run/audit без нового основания, не менять sign/asset/lag/threshold.
 Следующий небольшой source review — CBR banking liquidity: опубликованная единая

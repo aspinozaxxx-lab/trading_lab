@@ -1,5 +1,18 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 08:25 МСК / 05:25 UTC — V112 pre-outcome
+
+[Протокол](V112_RUBLE_FUNDING_PRESSURE.md): совместный RUONIA premium AND
+bank deficit без корсчетов → SI short0.9/cash; rate-premium-only control,
+full2018–2025/base-double/unchanged ledger. Новый quantity/price information set,
+не retuneV18/V19/V71 или V27 governor. Current-vintage/conditional availability.
+Capture2012rows/4HTTP200, reused RUONIA1963/key2015, exact-date matches1963/1963.
+V1 missing-bs4 import failed до HTTP, original сохранён; V2 existing stdlib parser.
+34new/168combined tests PASS,15futures metadata checks,10-file source backup verified.
+Joint numerical states/directions/targets/newPnL пока не читались. Далее seal/push,
+168server tests, один economic run и audit/backup.41portfolio/0activeStage2/3,
+goal20–50active, main AlgoPack независимо; 2026market protected.
+
 ## 2026-09-17 07:58 МСК / 04:58 UTC — V111 COMPLETE / REJECT_STAGE1
 
 [Результат](V111_CREDIT_RISK_APPETITE_RESULT.md): EBP<=0 → MIX long/cash,

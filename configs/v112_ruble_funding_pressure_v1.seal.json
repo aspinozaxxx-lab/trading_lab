@@ -1,0 +1,19 @@
+{
+  "protocol_id": "v112_ruble_funding_pressure_v1",
+  "sealed_at_utc": "2026-09-17T05:27:30Z",
+  "sealed_before_full_joint_numeric_states_directions_targets_and_new_outcomes": true,
+  "prior_macro_web_snippets_seen": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 168,
+  "files": {
+    "src/market_lab/futures_v112_ruble_funding_pressure.py": "08d1bd2c62632f367fe3ffeb9c9bb5558eb4c678b79867af7f3e56598f6d5138",
+    "configs/v112_ruble_funding_pressure_v1.json": "bad813e66095e18593c91e9f45b917f4c42fb617c7a5c232b9d4874ed65f1d6e",
+    "tests/test_futures_v112_ruble_funding_pressure.py": "d3fb70e119fdeb312ecad0cb22d45aa13b31306619869a81a46a4739390ef398",
+    "docs/V112_RUBLE_FUNDING_PRESSURE.md": "f89a8dcd132e857e453ab02e5846355a15194533545bb68ab9fda08572689cd5",
+    "scripts/cbr_bank_funding_source_20260917.py": "7957fe1084119fd7c9e816fe377f6f34574076a87f4cbcd7e951d61d05109ea7",
+    "src/market_lab/futures/cbr_liquidity_factors_source.py": "361b3bbe251e0dfd07d9d1e3d8b092f9b227eb101b0f7d1e0dd95e0c305e263e",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

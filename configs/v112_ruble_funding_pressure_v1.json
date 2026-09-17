@@ -1,0 +1,71 @@
+{
+  "protocol_id": "v112_ruble_funding_pressure_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["SI"],
+  "source": {
+    "root": "source_evidence/cbr_bank_funding_20260917_v2/capture",
+    "url": "https://www.cbr.ru/hd_base/bliquidity/?UniDbQuery.From=01.01.2018&UniDbQuery.Posted=True&UniDbQuery.To=31.12.2025",
+    "manifest_sha256": "6b5233ccde39baec49c7b9c467dc379f8bc27a75b41d1f1281d2d04a0798d1c0",
+    "raw_sha256": "e9379222e584244af664b847a68d5995e5ecc594245f9af5a06878aa101dc860",
+    "expected_raw_rows": 2012,
+    "column": "Deficit(+)/surplus(-) EXCLUDING correspondent accounts, third column; billion RUB at start of observation day. Not the reserve-adjusted revised headline.",
+    "availability": "Conditional end of the following calendar day Moscow; original publication/vintages not proved. Existing RUONIA publication-plus-one-day clock can delay joint availability further. No assumption that the flow-table10:30 announcement applies to this stock table.",
+    "rights": "CBR attributed private noncommercial research, raw/notices retained outside Git. No commercial data product, raw redistribution or live rights inferred from this screen."
+  },
+  "monetary": {
+    "ruonia_rows": 1963,
+    "key_rate_rows": 2015,
+    "files": {
+      "manifest": {"path": "data/processed/info_radar/cbr-dev-2018-2025-v1/manifest.json", "bytes": 4609, "sha256": "3b3143889cca66a33b216c6b0e51dbe768a2540e8b0e00f854390b8c49dd404c"},
+      "panel": {"path": "data/processed/info_radar/cbr-dev-2018-2025-v1/cbr_daily.parquet", "bytes": 102901, "sha256": "bc2352fa7de89ca6a3bdbf3bd291cbd62f817bde8c93455536727d583e9e535d"},
+      "ruonia": {"path": "data/raw/info_radar/cbr-dev-2018-2025-v1/0000_cbr_ruonia_html_table.html", "bytes": 852806, "sha256": "bf643af20912b6d334c417f718ee82053e14f412a62e5f15a7d2addd315c4a1b"},
+      "key_rate": {"path": "data/raw/info_radar/cbr-dev-2018-2025-v1/0001_cbr_key_rate_soap_key_rate_xml.xml", "bytes": 121958, "sha256": "06da1497c27f985151bbb4455cc7f6109660edf190a8fbf5280c0d04016d4639"}
+    },
+    "selection": "One joint event for every admitted RUONIA observation date; exact same observation date for key rate and beginning-of-day bank deficit. No comparison of old RUONIA with a newer policy rate. Official USD/RUB and other RUONIA columns are not interpreted.",
+    "clock": "RUONIA: midnight Moscow after printed publication date; key rate: midnight after effective date, unchanged from existing admitted sources. Joint available_at is max of all three clocks. Availability>=2026 Moscow excluded BEFORE numeric cells. 52 additional key-only dates are not fabricated RUONIA trades."
+  },
+  "signal": {
+    "mechanism": "Expensive ruble funding when banks are net borrowers from CBR may induce sale of FX/reduction of short-RUB funding positions, predicting subsequent RUB appreciation. Joint financing quantity and realized funding-price premium, not a generic healthy-economy indicator or a key-rate level governor. Transmission may already be priced or be overwhelmed by sanctions/capital controls.",
+    "primary": "SI short0.9 iff same-date RUONIA-key_rate>0 AND unadjusted bank deficit>0; otherwise cash. Exact Decimal comparisons, zero means cash.",
+    "control": "SI short0.9 iff RUONIA-key_rate>0, irrespective of deficit sign, but with identical three-input readiness. Diagnostic only, not independently promotable.",
+    "missing": "Latest joint event with absent/null selected cell masks both arms, no older-good fallback, zero fill or interpolation. Source gap can only retain last known state until TTL7; all decision days kept. No artificial RUONIA observation for holidays/key-only dates.",
+    "maximum_source_age_at_fill_calendar_days": 7,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V111 economically rejected, audited/backed up/pushed. No profitable20-50percent candidate. V18 forecast, V19 Minfin FX and V71 matched forecast-error rules remain closed. No inversion, threshold/asset/lag retune of those families.",
+    "V15/V26 RUONIA collateral income and V27 key-rate>=20 governor are not this same-date funding-price/quantity rule. No collateral income, old trend portfolio, leverage multiplier or parent-equity overlay is used.",
+    "CBR FAQ says structural deficit/surplus alone does not measure financial/economic health. The reserve-adjusted headline changed analytical definition in November2023 and revises after actual reserve requirements; it is not used. The continuously named excluding-correspondent-accounts column is a current-vintage stock, still not original PIT.",
+    "Publication allowance cannot remove revisions or prove availability. Small Oct/Dec2025 and2026 macro cells appeared in web snippets during metadata review; not unseen and not used to select asset/sign/thresholds. No2026 market prices/returns/labels/targets/PnL or protected availability values are read.",
+    "One full2018-2025 already-seen development screen, not independent holdout. Zero premium/deficit boundaries fixed before full joint states and new PnL. Same existing next-factual-open integer ledger; fees/margin/specs are research proxies, not broker-exact.",
+    "All four cases execution-complete/critical0/unresolved0/terminal-flat required. Counts include rolls, to be disclosed separately. A5percent component gate does not reduce the20-50percent goal. No post-outcome rule/control/cost tuning, no paid/broker/demo/live, credential reads, new Windows collectors or expanded AlgoPack economic scope."
+  ]
+}
