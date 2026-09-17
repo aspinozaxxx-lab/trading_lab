@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 05:37 МСК / 02:37 UTC — V108 pre-outcome
+
+[V108](V108_SUPPLY_CHAIN_PRESSURE.md): positive and rising same-vintage GSCPI →
+BRlong0.9/cash, constant-long diagnostic control. 43vintagesMay2022–Nov2025;
+June2022–Dec2025/base-double/unchangedledger. ConditionalEOMNYavailability,
+не witnessed PIT; raw2026 columns/observations исключены before numericconversion.
+[Capture](GSCPI_SOURCE_FEASIBILITY_20260917.md) COMPLETE02:16:18UTC, fourGET,
+manifest69b8f0daadb5..., CSV723e8dc81728..., 9hashes+manifest verifiedbothhosts.
+26new/85combinedsynthetic testsPASS,Ruffclean,15futuresmetadatachecksPASS.
+Новые source magnitudes/targets/outcomes ещё не читались. Nextseal/commit/push,
+server tests/oneeconomicrun/audit. Пока37portfolio/0activeStage2/3,goalactive.
+
 ## 2026-09-17 05:04 МСК / 02:04 UTC — V107 source paused, не economic entrant
 
 [Отчёт](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md): V2 failed 01:52:09 UTC на 2021Q2

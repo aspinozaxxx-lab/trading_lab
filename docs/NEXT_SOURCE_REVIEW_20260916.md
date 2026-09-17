@@ -1,6 +1,15 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 05:04 МСК — V107 paused; GSCPI metadata review
+## Текущий статус 17 сентября 05:37 МСК — GSCPI feasibility завершена
+
+[Source note](GSCPI_SOURCE_FEASIBILITY_20260917.md):43eligible vintages/43ready pairs,
+four boundedGET COMPLETE, no original-clock proof. Spreadsheet read-only workflow
+сохранил raw и исключил protected cells до numeric read. [V108](V108_SUPPLY_CHAIN_PRESSURE.md)
+фиксирует supply-constraint→BRlong/cash, не manufacturing-demand retune. 85tests и
+15futuresmetadata checksPASS. Next seal/commit/push и один economicrun; source
+numeric magnitudes/targets/PnL ещё не просмотрены. V107paused/noV3,archiveотдельно.
+
+## Исторический статус 17 сентября 05:04 МСК — V107 paused; GSCPI metadata review
 
 [V107](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md) дважды остановился на source parsing,
 экономики нет. Не писать V3 и не обходить pause ручными строками. 37 portfolio /

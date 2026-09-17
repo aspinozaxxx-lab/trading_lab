@@ -1,0 +1,63 @@
+{
+  "protocol_id": "v108_supply_chain_pressure_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2022-06-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "root": "source_evidence/gscpi_probe_20260917_v1/capture",
+    "manifest_sha256": "69b8f0daadb50fb512c7486fc8a6e23db19d5b3fbf93a8179111b1a96a879831",
+    "csv_sha256": "723e8dc81728176dea10e7d685478bfe888516ec68d1d2cc1b77d6fea8177c55",
+    "executed_capture_script_sha256": "54f791842cd3133a7b2b1124de2679e85ae3a5655ef51553d8daaf14acebd274",
+    "url": "https://www.newyorkfed.org/medialibrary/research/interactives/data/gscpi/gscpi_interactive_data.csv",
+    "first_vintage": "2022-05",
+    "last_vintage": "2025-11",
+    "expected_vintages": 43,
+    "availability": "End of labelled vintage month in America/New_York. Conservative conditional allowance, NOT observed original publication/receipt. Regular publication started May2022. December2025 vintage maps into2026UTC and is excluded BEFORE numeric read, as are later columns and observation rows>=2026.",
+    "unit": "Published GSCPI standard-deviation index. Current prior-calendar-month and preceding month from the SAME vintage column. Zero is a valid value; only #N/A denotes missing.",
+    "rights": "Federal Reserve Bank of New York derived GSCPI, private research with original identifiers and linked Terms of Use preserved. No third-party component feeds, public redistribution, broker/live or endorsement. Current archive columns do not prove unedited original vintages."
+  },
+  "signal": {
+    "mechanism": "Increasing above-normal global supply-chain pressure may indicate persistent cost-push scarcity and support an oil risk premium. GSCPI is not a crude-tanker or crude-supply index; its link to BR can fail or be dominated by weaker demand. This is a new falsifiable supply-constraint information set, not G17 output demand V101 or physical inventory cover V104.",
+    "primary": "BR long0.9 iff latest GSCPI>0 and latest>preceding-month GSCPI in same vintage; otherwise cash. Exact Decimal comparisons. No fitting or parameter search.",
+    "control": "Constant BR long0.9 on identical readiness/calendar; diagnostic only, cannot be promoted after outcomes.",
+    "maximum_source_age_at_fill_calendar_days": 62,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 12,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V107 two source failures preserved/paused, no economics. V107V3 forbidden; this uses independent machine-readable NYFed information and existing ledger, not a repair or substitution of current-account source.",
+    "Before seal only CSV header, dates, lexical missing/numeric types and counts inspected. Raw348datedrows+blankfooter,58columns;48vintage labels before2026. Initial nonblank diagnostics mistakenly counted #N/A and were not used for admission. Corrected inventory retains genuine zero, excludes #N/A and proves each selected vintage ends in previous month. No source value magnitudes, signal directions, market outcomes or threshold search.",
+    "Full raw is quarantined macro metadata and contains later columns/observations. They are skipped before feature numeric conversion. Only May2022-November2025 vintage columns and observations before2026 can enter. Retrospective pre2022 series is not a tradable pre2022 signal; evaluation startsJune2022 after regular launch.",
+    "Each vintage may itself have been edited. Its label is not witnessed publication time; EOM NewYork is an explicit conditional assumption, not restored original PIT. A positive result requires archived release dates/vintage verification and independent future testing. No arbitrary lag is claimed to fix revisions.",
+    "43monthly versions, not43independent returns. The2022year is a partial June-December segment;2023-2025 are full calendar years. All segments reported, no era chosen from outcomes. Twelve round trips is a short-source component-screen minimum, not evidence of predictable20-50percent. Count rolls separately from monthly signal changes.",
+    "GSCPI combines demand-adjusted shipping/manufacturing indicators, PCA and imputed data. Published association with producer inflation does not demonstrate MOEX oil predictability, causal effects, or a pure oil shortage measure. Known release-month allowance may delay information by weeks; not a news-surprise strategy.",
+    "Unchanged V72/V78/V64 next-factual-open integer ledger, risk/spec/fee proxies, no cash interest. Allfourcases must be execution-complete,critical0,unresolved0,terminalflat. Previously viewed development history is not an independent holdout. No post-outcome sign,asset,window,threshold,size,TTL,cost,control repair or promotion.",
+    "No2026 market outcomes, expandedAlgoPackeconomic scope, new model training, broker/demo/live, purchases, credential changes or Windows collectors. Mainarchive continues. Five-percent Stage1gate is only component selection and does not replace the active20-50percent objective."
+  ]
+}

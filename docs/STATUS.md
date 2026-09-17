@@ -1,7 +1,21 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 05:04 МСК / 2026-09-17, 02:04 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 05:37 МСК / 2026-09-17, 02:37 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V108 pre-outcome — supply-chain pressure, один быстрый screen
+
+[Протокол](V108_SUPPLY_CHAIN_PRESSURE.md): BRlong0.9/cash при GSCPI>0 и росте
+относительно preceding month в той же vintage column; constant-long control.
+43 monthly vintages May2022–Nov2025, evaluationJune2022–Dec2025, base/double costs,
+unchanged integer ledger. Новый supply-constraint information set, не retuneV101/V104.
+EOM NewYork — conditional availability, не original publication/receipt proof.
+[Source feasibility](GSCPI_SOURCE_FEASIBILITY_20260917.md): four GET COMPLETE,
+9 hashes+manifest/backup verified; all43 pairs ready, numeric magnitudes ещё не читались.
+26new/85combined synthetic tests PASS, Ruff clean, futures metadata15checksPASS.
+Следующий шаг seal/commit/push, server tests и единственный economic run/audit.
+37 portfolio пока unchanged,0activeStage2/3, goalactive. V107 paused/noV3.
+Main AlgoPack archive продолжает отдельно; volume snapshot ниже исторический.
 
 ## V107 SOURCE_PAUSED — две source failures, экономика не запускалась
 
@@ -4953,7 +4967,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,05:04МСК / 2026-09-17,02:04UTC:
+Текущий первый шаг 2026-09-17,05:37МСК / 2026-09-17,02:37UTC:
+[V108](V108_SUPPLY_CHAIN_PRESSURE.md): metadata-only feasibility завершена,43pairsready,
+85synthetic tests и15futurespreflightchecksPASS. Закрепить immutableseal+commit/push,
+проверитьserver и один economicrun/audit. Новые magnitudes/targets/PnL ещё не читались.
+Main archive продолжает отдельно; no2026market/noV107V3/noexpandedAlgoPackscope.
+
+Исторический первый шаг 2026-09-17,05:04МСК / 2026-09-17,02:04UTC:
 [V107 source paused](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md), V3 не создавать,
 partial corpus в economic run не подставлять. 37 portfolio / 0 active Stage2/3.
 Первый незаблокированный bounded шаг — metadata-only проверка GSCPI vintage matrix:

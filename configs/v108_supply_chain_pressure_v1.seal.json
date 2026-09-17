@@ -1,0 +1,18 @@
+{
+  "protocol_id": "v108_supply_chain_pressure_v1",
+  "sealed_at_utc": "2026-09-17T02:40:02Z",
+  "sealed_before_new_source_magnitudes_states_targets_and_outcomes": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 85,
+  "files": {
+    "src/market_lab/futures_v108_supply_chain_pressure.py": "e44b0ad8984a3563744b1f2d687f9a054952d72371a0f635f7a5480a3f950831",
+    "configs/v108_supply_chain_pressure_v1.json": "215b412576d1bd30bf3e9e4375a39c3200de74371bc14404b5917c3b78f8e1c8",
+    "tests/test_futures_v108_supply_chain_pressure.py": "08aa9823d7ad2d3e7eca0c476c8cfc7f62a3dc7dc0436a638f2c2131c0a3265f",
+    "docs/V108_SUPPLY_CHAIN_PRESSURE.md": "02c961111371e4d87987e8250013a643c0fc8a15f49774e73e059c9bae177f15",
+    "docs/GSCPI_SOURCE_FEASIBILITY_20260917.md": "f89a6f84a10c5a30d10a44c3bd1392e4a0b6b12b0e37aae9b93567f28209754c",
+    "scripts/gscpi_feasibility_20260917.py": "380fb671a1c073440670d0caa63ef0d8dd25c92fb449e746365346029102090e",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}
