@@ -1,0 +1,19 @@
+{
+  "protocol_id": "v106_commercial_hedging_premium_v1",
+  "sealed_at_utc": "2026-09-17T00:59:09Z",
+  "sealed_before_new_source_values_states_targets_and_outcomes": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 156,
+  "files": {
+    "src/market_lab/futures_v106_commercial_hedging_premium.py": "9d31681d4bdf6934768e06bc3bf0dade6e13590276d33eda4487a75eebf65273",
+    "configs/v106_commercial_hedging_premium_v1.json": "20ad92aa26fad9dc851469ec9d76e529be75269a61aa298f7bca66207e260e55",
+    "tests/test_futures_v106_commercial_hedging_premium.py": "f91c929825f6230ec65e0d6570fa0ad12501594506a25e34af77744f39e025d1",
+    "docs/V106_COMMERCIAL_HEDGING_PREMIUM.md": "84ad8e88e03b5cdfe21217a1c26a9b8264d4a1be2ea47900bb0135f90c37a3d2",
+    "src/market_lab/futures/cftc_radar.py": "9a13e0b7c79e0feab9def49f8b5088ee029601d13bdec169e4e54b653f72187f",
+    "configs/futures_v58_cftc_wti_positioning_br.yaml": "637eb6c44991b8f07b5c74cd844fa4178c8d4f0cc5fe3378c2dc11ebbb26fc31",
+    "configs/cftc_cot_energy_metals_source_v1.yaml": "22878af63002e1db0db4f4fb51c385d6da3851cd19e8d03deaee526af9c5fa01",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

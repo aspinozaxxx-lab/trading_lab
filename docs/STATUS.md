@@ -1,9 +1,23 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 03:45 МСК / 2026-09-17, 00:45 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 03:58 МСК / 2026-09-17, 00:58 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V105 COMPLETE — REJECT_STAGE1
+## V106 pre-outcome — commercial risk-supply premium
+
+[Протокол](V106_COMMERCIAL_HEDGING_PREMIUM.md): BRlong0.9/cash при положительном
+(producer_short−producer_long)/OI выше median строго предыдущих52WTIreports.
+Новый commercial information set, не managed-moneyflow V58/V59/V87. Totaltraders и
+spreading отвергнуты как измерители капитала/riskcapacity и numerical read не входят.
+Metadata:418WTI reports/417eligible before2026, known specialrelease overrides,
+maximum clock всех53dependencies, sourceTTL21days. Currentvintage, не originalPIT.
+Controlconstantlong на том же calendrier;2021–2025/base-double/unchangedledger.
+29new/156combinedsynthetictestsPASS5.59s,Ruffclean, byte/schema/date/unitpreflightPASS.
+Новые source numeric values/targets/outcomes пока не прочитаны. Следующий шаг —
+immutable seal/commit/push, server tests и один economicrun. Source уже наserver,
+без нового HTTP/parser/transfer.36portfolio пока unchanged,goalactive,V105closed.
+
+## V105 COMPLETE — предшествующий результат / REJECT_STAGE1
 
 [Полный результат](V105_SURVEY_DISPERSION_RESULT.md): IQRcontraction GDPforecasts →
 MIXlong/cash не дал преимущества. Primary CAGR **−12.3913%/−12.4209%**, Sharpe

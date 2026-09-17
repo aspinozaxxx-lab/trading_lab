@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 03:58 МСК / 00:58 UTC — V106 pre-outcome
+
+[Протокол](V106_COMMERCIAL_HEDGING_PREMIUM.md): high commercialnetshort share vs
+strictprevious52median → BRlong0.9/cash, constantlongcontrol,2021–2025/base-double.
+Source clock max(report+7,officialoverride), max across53dependencywindow;417eligible
+WTI reports поmetadata. Не managedmoney retune и не измереннаяriskcapacity;
+tradercounts/spreadingнечитать.29new/156combinedtestsPASS,Ruffclean,metadata-only
+preflightPASS до sourcevalues/targets/outcomes. Nextseal/serverone-run;36portfolio
+unchanged,goalactive,archiveотдельно,V105closed. Никакого новогоparser/HTTP.
+
 ## 2026-09-17 03:45 МСК / 00:45 UTC — V105 COMPLETE / REJECT_STAGE1
 
 [Результат](V105_SURVEY_DISPERSION_RESULT.md): primaryCAGR−12.3913%/−12.4209%,

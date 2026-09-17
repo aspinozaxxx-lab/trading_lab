@@ -1,0 +1,73 @@
+{
+  "protocol_id": "v106_commercial_hedging_premium_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["BR"],
+  "source": {
+    "root": "data/processed/info_radar/cftc-cot-energy-metals-2018-2025-v1",
+    "manifest_sha256": "e0151b2b86b45ffc62043d3d24856e68221bc75b47fdbc004abb4e2cf3fcfb68",
+    "audit_sha256": "500413b2991a534f240e737b848d40806e808ce062d20732415479a014f23055",
+    "protocol_sha256": "22878af63002e1db0db4f4fb51c385d6da3851cd19e8d03deaee526af9c5fa01",
+    "processed": {"file": "cot_positions.parquet", "bytes": 98150, "rows": 836, "sha256": "d155bf553545af14b4d8df12979a8a1dadb835a8f6dd159e222031e0b8c6209b"},
+    "raw": {"file": "raw_archives.zip", "bytes": 16637830, "sha256": "3defacb97bb070c0645536bcb379077e822215fc02a5fc86599a52640cb1a3c9"},
+    "wti_rows": 418,
+    "minimum_report_date": "2018-01-02",
+    "maximum_report_date": "2025-12-30",
+    "contract_units": "(CONTRACTS OF 1,000 BARRELS)",
+    "allowed_columns": ["report_date", "logical_market", "cftc_contract_market_code", "contract_units", "open_interest", "producer_long", "producer_short"],
+    "metadata_columns": ["report_date", "logical_market", "cftc_contract_market_code", "contract_units", "source_archive_year"],
+    "availability": "EOD America/New_York of max(report_date+7days, existing pinned official special publication date); maximum over the complete53-report dependency window. Old uniform7day source column is not used.",
+    "http_downloads": false
+  },
+  "signal": {
+    "mechanism": "Higher net short exposure of physical commercial traders may proxy demand to transfer downside commodity risk, requiring a larger long futures risk premium. This tests reported commercial risk supply, not fund trend-following, measured hedging intent or measured speculative risk capacity.",
+    "primary_reference": "https://www.nber.org/papers/w16875",
+    "counterpoint_reference": "https://www.nber.org/papers/w13249",
+    "pressure": "(producer_short-producer_long)/open_interest; producer labels mean the full Producer/Merchant/Processor/User category",
+    "baseline_reports": 52,
+    "maximum_report_gap_calendar_days": 10,
+    "maximum_window_calendar_days": 371,
+    "primary": "BRlong0.9 only if net short share strictly positive AND strictly above median of immediately previous52reports, all53valid; otherwise cash. Exact rational comparisons, equal baseline cash.",
+    "control": "constant BRlong0.9 on identical source-readiness/fill calendar; context only, not promotable after outcomes",
+    "missing": "Any invalid/missing position/OI, gap>10days, span>371days or incomplete53row window makes the newest state unready. No dropping/zeroing missing rows or shorter/older-good fallback. Late older reports cannot overwrite newer states.",
+    "maximum_source_age_at_fill_calendar_days": 21,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V105 economic rejection completed, preserved and pushed. New information is Producer/Merchant/Processor/User long/short exposure; closed V58/V59 use managed-money flow/crowding, V87 GOLD managed-money risk-demand. Original radar collects producer categories but routes energy_positioning only from managed_money. No sign/window retune of these parents.",
+    "Bounded review rejects using total_traders as speculative capital and spreading as spare risk capacity. Neither is read numerically. CFTC classifies traders, not individual activity; commercial groups can have speculative positions and include merchants/processors/users. Net reported exposure is only a risk-supply proxy, not observed demand, causality or capital constraint.",
+    "Theory motivates a possible premium but cited inventory research rejects positions-based hedging-pressure explanation in its sample. WTI is not MOEX Brent; seasonality, benchmark differences, endogenous OI, classification changes and price-driven hedging may dominate. Not replication or expected guaranteed20percent.",
+    "Current-vintage CFTC annual archive is not an original publication/revision chain. Preserve conditional development admission; known publication overrides applied, not arbitrary lag cure. WTI does not inherit GOLD-specific2019correction. Numeric reader excludes report clocks>=2026 before materialization; full-window clocks also govern eligibility.",
+    "Only existing Parquet and old raw hashes; no new HTTP, CSV parser or collector. Source2018-2020 used only as causal warmup, full2021-2025 already-seen development outcomes, not independent holdout. No training, normalization, seeds, calibration or search; no future-price eligibility.",
+    "One fixed 52-prior-report median uses a roughly annual baseline, with current plus52complete reports. Contracts must be finite nonnegative exact integers<=2^53-1, positions<=OI, OI>0. Numeric errors mask rather than imply cash profits. Strict sign/comparison uses exact fractions to avoid boundary rounding.",
+    "Unchanged V72/V78/V64 next-open integer ledger, margin/spec/fee research proxies and capital, no interest. Missing/halted exposure remains carried/unresolved, allfourcases must pass execution for Stage2. Cash-metric audit does not independently reconstruct every risk counter. All costs/arms/years shown; roundtrips include rolls.",
+    "No post-outcome sign, horizon, baseline, threshold, asset, size, freshness, source-rule or control changes. Five-percent Stage1 component gate does not replace predictable20-50percent goal. No broaderAlgoPackscope, old2026marketvalues, credentials, purchases, demo/live or Windowscollectors; archive continues and TIC stays paused."
+  ]
+}
