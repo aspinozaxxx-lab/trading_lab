@@ -1,6 +1,46 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 07:29 МСК — V110 закрыт; EBP bounded review
+## Текущий статус 17 сентября 07:58 МСК — V111 закрыт; CBR liquidity review
+
+[V111 REJECT_STAGE1](V111_CREDIT_RISK_APPETITE_RESULT.md): CAGR −2.8632%/−2.0091%,
+34 trips = 11 episodes + 23 rolls; все 4 execution-complete, но прибыли нет.
+41 portfolio / 0 active Stage2/3. EBP rule не перенастраивать, исходный failed
+capture manifest сохранён; audit и локальные source/run backups PASS.
+
+Следующий небольшой review — **ликвидность российского банковского сектора**.
+Предварительный `rg` по configs/docs/src не нашёл отдельного structural liquidity
+family; это не доказательство независимости или alpha. Не превращать провалившуюся
+H41 reserve-balance идею в ту же zero-rule с другим названием источника.
+
+Прочитан [FAQ Банка России](https://www.cbr.ru/oper_br/o_dkp/liquidity/):
+структурный дефицит/профицит описывает позицию баланса центрального банка и способ
+управления денежным рынком, а не сам по себе здоровье экономики/банков или сигнал
+покупки акций. Возможные причины включают наличность, бюджетные операции и активы.
+Экономический trading mechanism, актив, знак и горизонт **ещё не выбраны**.
+
+Прочитаны примечания [таблицы CBR, bounded query 2025](https://www.cbr.ru/hd_base/bliquidity/?UniDbQuery.From=01.10.2025&UniDbQuery.Posted=True&UniDbQuery.To=30.12.2025):
+до November2023 аналитический headline был без учёта корсчетов; далее учитывается
+сальдо корсчетов и усредняемых обязательных резервов (УОР). Нельзя склеить эти
+headlines как единую неизменную величину. До окончания регулирования УОР прогнозный;
+после фактической публикации баланс пересчитывается с начала периода усреднения.
+Дата строки — не доказательство первоначального available_at, текущая таблица —
+не original vintage. Ряд без корсчетов опубликован отдельно, но его historical
+continuity, original availability и revision policy пока не установлены.
+
+Web tool не открыл query 1–3Nov2023 (non-retryable safe-open error), HTTP collector
+не запускался. Примечания затем прочитаны из другого уже найденного 2025 query,
+не обхода запрета поставщика. Search/find показали отдельные macro cells Oct2025
+и 2026: они не используются для выбора сигнала и не являются unseen. Рыночные
+prices/returns/labels/targets/PnL2026 не открывались. Полного numeric corpus,
+нового config/seal/targets/backtest пока нет; FAQ/таблица не сохранены как source pack.
+
+Следующий bounded шаг: проверить единое определение выбранного ряда, публикацию,
+revisions и права для короткого research screen <=2025. Если mechanism или dating
+не позволяют содержательный дешёвый тест, короткий отказ без нового framework.
+Main AlgoPack отдельно; broader economic scope не расширен, paid/broker/demo/live
+не разрешаются этой записью, V107/TIC/FRED-original-report branches не перезапускать.
+
+## Исторический статус 17 сентября 07:29 МСК — V110 закрыт; EBP bounded review
 
 [V110 result](V110_BANK_CREDIT_SQUEEZE_RESULT.md): primary−3.9315%/−4.4744%,
 MDD50.16%/51.38%,47trips =5episodes+42rolls; basecontrolINVALID.40portfolio,

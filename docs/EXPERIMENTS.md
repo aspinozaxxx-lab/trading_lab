@@ -1,5 +1,28 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 07:58 МСК / 04:58 UTC — V111 COMPLETE / REJECT_STAGE1
+
+[Результат](V111_CREDIT_RISK_APPETITE_RESULT.md): EBP<=0 → MIX long/cash,
+CAGR −2.8632%/−2.0091%, Sharpe −0.04466/−0.02527, MDD 45.8246%/41.1052%,
+34 trips = 11 episodes + 23 rolls, 4 positive years/8. Control +0.5906%/+0.4552%,
+33 trips = 1 episode + 32 rolls. Все 4 execution-complete/critical0/unresolved0/
+terminal-flat; halt/capacity cancellations не удалены. Не Stage2 и не retune.
+96 ready states/71 long, 2024 decisions/arm, 1478/2008 nonzero targets,
+100% source / 99.25889% joint readiness. Current-vintage, не original PIT/holdout.
+
+Seal `6cfca6c74c62336fd19be9e3324ae34cb54a24d056e7b89438870c1f9ca7cd19`,
+pre-outcome `b3e2676adc230dbdfa94463e4eb211f4480f410e`, complete 04:48:18.441606 UTC.
+Run `runs/v111_credit_risk_appetite_v1_6cfca6c74c62`, manifest
+`5955c86fb46068b4c0f8e4d75c2e724acc3e3ff7c62ab8e598944c3041b7ebc9`.
+134 local/server tests PASS, 20 hashes/96 states/2 targets/4 cash-metric replays
+PASS both hosts. Backup 21 run files + 6 source files verified; frozen files unchanged.
+**41 portfolio = 32 Stage1 rejects + 1 Stage2 reject + 1 incomplete + 7 invalid**,
+0 active Stage2/3; goal 20–50% active, не достигнут. Один economic run.
+Следующий bounded source review: российская банковская ликвидность, не готовый rule.
+Main archive 04:56 UTC 21007/26305 jobs (79.8593%), failed0/blocked0,
+15.054 GB total / 13.070 GB AlgoPack; local 2.766 GB частично копии.
+FUTOI 550 gaps unchanged, 2026 market protected.
+
 ## 2026-09-17 07:46 МСК / 04:46 UTC — V111 pre-outcome
 
 [Протокол](V111_CREDIT_RISK_APPETITE.md): EBP<=0→MIXlong0.9/cash,

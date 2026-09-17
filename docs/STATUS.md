@@ -1,9 +1,38 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 07:46 МСК / 2026-09-17, 04:46 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 07:58 МСК / 2026-09-17, 04:58 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V111 pre-outcome — EBP risk appetite
+## V111 COMPLETE — REJECT_STAGE1, прибыль не найдена
+
+[Результат](V111_CREDIT_RISK_APPETITE_RESULT.md): EBP<=0 → MIX long/cash,
+CAGR **−2.8632% / −2.0091%**, Sharpe −0.04466 / −0.02527,
+MDD **45.8246% / 41.1052%**, 34 trips = 11 episodes + 23 rolls, 4 positive years/8.
+Control +0.5906% / +0.4552%, 33 trips = 1 episode + 32 rolls. Все 4 execution-complete,
+critical 0 / unresolved 0 / terminal flat; halt/capacity periods сохранены.
+96 ready states / 71 long, 2024 decisions/arm, 1478/2008 nonzero targets,
+100% source / 99.25889% joint readiness. Current-vintage conditional clock, не PIT.
+Double primary менее убыточен из-за разных integer positions: первая разница
+24 февраля 2022, base 3 / double 2 contracts; не выбирать cost-сценарий постфактум.
+
+Pre-outcome `b3e2676adc230dbdfa94463e4eb211f4480f410e`, seal `6cfca6c74c62...`;
+run `runs/v111_credit_risk_appetite_v1_6cfca6c74c62`, complete 04:48:18 UTC,
+manifest `5955c86fb46068b4c0f8e4d75c2e724acc3e3ff7c62ab8e598944c3041b7ebc9`.
+134 local / 134 server tests PASS; 20 hashes / 96 states / 2 targets / 4 cash-metric
+replays PASS на обоих hosts. Backup 21 run files и 6 source files verified.
+**41 portfolio = 32 Stage1 rejects + 1 Stage2 reject + 1 incomplete + 7 invalid**,
+0 active Stage2/3. Goal 20–50% active, не достигнут. Не retune/invert/повторять run.
+
+Следующий bounded шаг — [российская банковская ликвидность](NEXT_SOURCE_REVIEW_20260916.md):
+continuity/availability/rights и экономический механизм до нового rule/corpus.
+Профицит сам по себе не risk-on; analytic definition изменилось в November2023,
+а reserve-adjusted ряд содержит retrospective revisions. Не склеивать определения
+и не делать новый collector до feasibility. Broad AlgoPack scope unanswered.
+Main archive 04:56 UTC active: **21007/26305 jobs (79.8593%)**, failed 0 / blocked 0,
+**15.054 GB total / 13.070 GB AlgoPack**; local 2.766 GB — частично копии.
+FUTOI 550 gaps unchanged; paused source branches не перезапускались, 2026 market protected.
+
+### V111 pre-outcome — историческая запись
 
 [Протокол](V111_CREDIT_RISK_APPETITE.md): MIXlong0.9 при EBP<=0, иначе cash.
 Constant-long control, full2018–2025, base/double costs, прежний ledger.
@@ -5094,7 +5123,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,07:46МСК / 2026-09-17,04:46UTC:
+Текущий первый шаг 2026-09-17, 07:58 МСК / 2026-09-17, 04:58 UTC:
+[V111 closed](V111_CREDIT_RISK_APPETITE_RESULT.md), 41 portfolio / 0 active Stage2/3.
+Не повторять run/audit без нового основания, не менять sign/asset/lag/threshold.
+Следующий небольшой source review — CBR banking liquidity: опубликованная единая
+definition до/после November2023, clocks/revisions/rights и отдельный экономический
+механизм. Структурный профицит не означает автоматически рост акций; reserve-adjusted
+headline ретроспективно меняется после actual UOR. Не объявлять current table PIT,
+не склеивать старое/новое определение. До нового rule/seal/corpus; если нельзя
+получить честный дешёвый тест, короткий source отказ вместо нового framework.
+[Точные ссылки и уже просмотренное](NEXT_SOURCE_REVIEW_20260916.md). Main archive
+продолжает независимо; 2026 market защищён, paid/broker/demo/live scope не расширен.
+
+Исторический первый шаг 2026-09-17,07:46МСК / 2026-09-17,04:46UTC:
 [V111](V111_CREDIT_RISK_APPETITE.md): metadata/code/tests готовы, fixed single rule.
 Seal/commit/push,134server tests, один economicrun/audit/backup. Не новый collector
 или повторная загрузка EBP, не восстановление оригинальных vintages.40portfolio
