@@ -1,9 +1,36 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 07:19 МСК / 2026-09-17, 04:19 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 07:29 МСК / 2026-09-17, 04:29 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V110 pre-outcome — bank-credit squeeze, один условный тест
+## V110 COMPLETE — убыточный primary, INVALID_EXECUTION_NO_PROMOTION
+
+[Результат](V110_BANK_CREDIT_SQUEEZE_RESULT.md): credit squeeze → BRshort/cash,
+CAGR **−3.9315% / −4.4744%**, Sharpe −0.17175 / −0.21031,
+MDD **50.1576% / 51.3802%**,47trips =5episodes +42rolls;3positiveyears/8.
+Primary оба execution-complete; base control critical2/gross-limit2, поэтому
+формально сравнение INVALID, не promotion. Control−12.4800%/−12.3474%,96trips;
+ни двойные costs, ни отрицательный control не дают оснований менять правило.
+33ready states/14short,2024decisions/arm,884/2022nonzero targets;
+source readiness100%, joint99.95059%, unresolved0/terminalflat все4cases.
+
+Pre-outcome `96af9e66813494e2c89fc2e7a8355af2c160f122`, seal `841f92dd136a...`;
+run `runs/v110_bank_credit_squeeze_v1_841f92dd136a`, complete04:22:53UTC,
+manifest `8a065f06bc964b489f65c63dd289b47978272ba05f0eb49284afd1f7f5fd9352`.
+125local/125server tests PASS,20hashes/33states/2targets/4cash replays PASSbothhosts,
+21-file local backup verified. One economic run; frozen files unchanged.
+**40portfolio =31Stage1reject +1Stage2reject +1incomplete +7invalid**,
+0activeStage2/3. Goal20–50active, не достигнут; no retune/invert/repair control.
+
+Следующий bounded source review — [excess bond premium](NEXT_SOURCE_REVIEW_20260916.md):
+новая компонента corporate-bond risk appetite, не bank survey/repo/H41.
+Пока только official note: monthly whole-history revisions и release delays явно
+существуют. До corpus/admission/нового config; не считать исследовательский ряд PIT.
+Main archive04:24UTC active,20686/26305jobs78.6390%,failed0/blocked0,
+**14.919GBtotal /12.936GBAlgoPack**; local04:25UTC2.765GBчастично copies.
+FUTOI550gaps unchanged; PDF/HTML/FRED, V107/TIC paused,2026market protected.
+
+### V110 pre-outcome — историческая запись
 
 [Протокол](V110_BANK_CREDIT_SQUEEZE.md): joint SLOOS standards tightening AND
 weaker loan demand → BRshort0.9/cash, constant-short control, full2018–2025,
@@ -5053,7 +5080,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,07:19МСК / 2026-09-17,04:19UTC:
+Текущий первый шаг 2026-09-17,07:29МСК / 2026-09-17,04:29UTC:
+[V110 closed](V110_BANK_CREDIT_SQUEEZE_RESULT.md),40portfolio/0activeStage2/3.
+Не повторять economicrun/audit или retune/control repair без нового основания.
+Следующий bounded шаг — EBP metadata/definition/rights/revisions и отличие от
+STLFSI/V27: один direct official file, даты/колонки до числовых значений; затем
+отдельный frozen cheap rule либо короткий source отказ, не новый framework.
+Whole-history revisions известны; произвольный lag не доказывает PIT. Подробнее
+[очередь источников](NEXT_SOURCE_REVIEW_20260916.md). Mainarchive отдельно, goalactive,
+2026market защищён; никакого нового платного/broker/demo/live scope.
+
+Исторический первый шаг 2026-09-17,07:19МСК / 2026-09-17,04:19UTC:
 [V110](V110_BANK_CREDIT_SQUEEZE.md): source metadata/code/tests готовы,
 seal+commit/push и125server tests, затем один economicrun/audit/backup. Не новый
 collector или повтор original PDF/FRED. Conditional clock/currentvintage явные,

@@ -1,6 +1,37 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 06:37 МСК — V109 закрыт; SLOOS bounded review
+## Текущий статус 17 сентября 07:29 МСК — V110 закрыт; EBP bounded review
+
+[V110 result](V110_BANK_CREDIT_SQUEEZE_RESULT.md): primary−3.9315%/−4.4744%,
+MDD50.16%/51.38%,47trips =5episodes+42rolls; basecontrolINVALID.40portfolio,
+0activeStage2/3. Currentvintage clock, not originalPIT. No sign/asset/lag/control
+retune. Source attempts retained; originalPDF/HTML andFRED paused. Mainarchive отдельно.
+
+Следующий небольшой review: public **excess bond premium (EBP)** — corporate credit
+spread component not attributed to expected default risk. Это новая компонента
+market risk appetite, не SLOOS survey или V109 repo quantity. Связь с уже изученным
+STLFSI/V27 возможна; независимость/alpha не предполагаются. `rg` по docs/configs/src
+до этой записи не нашёл отдельного EBP/Gilchrist/Zakrajsek family.
+
+Прочитана только [официальная note,6Oct2016](https://www.federalreserve.gov/econres/notes/feds-notes/updating-the-recession-risk-and-the-excess-bond-premium-20161006.html):
+EBP — исследовательский продукт, не официальный статистический release. Плановое
+обновление после10am четвёртого businessday не гарантирует actual availability;
+возможны blackout/delay. **Вся история может пересматриваться ежемесячно** из-за
+balance-sheet revisions и изменения состава bond panel. В2018 документирована
+исправленная публикация с ранее отсутствовавшими месяцами. Это нельзя исправить
+произвольным publication lag или назвать original PIT.
+
+Note прямо ссылается на permanent `https://www.federalreserve.gov/econres/notes/feds-notes/ebp_csv.csv`.
+В этом turn CSV не скачивался/не открывался; нового корпуса, config, направления,
+актива или экономического результата нет. Следующий bounded шаг: rights/metadata
+одного direct file, даты и схема до числовых значений; проверить, что выбран именно
+EBP, не ex-post recession probability/label. 2026 observations исключить до values.
+Не брать underlying proprietary corporate securities без отдельного разрешения.
+Если full-history estimation/rights/availability не позволяют честный короткий
+conditional screen, source refusal; не строить reconstruction framework.
+До отдельного freeze никакой экономической проверки или обещания20–50%.
+
+## Исторический статус 17 сентября 06:37 МСК — V109 закрыт; SLOOS bounded review
 
 [V109REJECT_STAGE1](V109_PRIVATE_DELEVERAGING_RESULT.md): CAGR+0.5629%/+0.4379%,
 MDD26.49%/26.51%,25trips.39portfolio/0activeStage2/3; цель20–50не достигнута.

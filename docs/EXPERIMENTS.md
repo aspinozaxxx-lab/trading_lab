@@ -1,5 +1,27 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 07:29 МСК / 04:29 UTC — V110 COMPLETE / INVALID, primary убыточен
+
+[Результат](V110_BANK_CREDIT_SQUEEZE_RESULT.md): joint credit squeeze→BRshort/cash,
+CAGR−3.9315%/−4.4744%,Sharpe−0.17175/−0.21031,MDD50.1576%/51.3802%,
+47trips =5episodes+42rolls,3positiveyears/8. Primaryexecutioncomplete/critical0;
+controlbasecritical2/grosslimit2, формальный INVALID_EXECUTION_NO_PROMOTION.
+Control−12.4800%/−12.3474%,96trips=1actualepisode+95rolls; no control repair.
+33ready/14short states,2024decisions/arm,884/2022targets,100%source/99.95059%joint.
+Все4unresolved0/terminalflat; halt/carry и capacity cancellations не удалены.
+Current-vintage conditional clock, не independentholdout/originalPIT.
+
+Pre-outcome `96af9e66813494e2c89fc2e7a8355af2c160f122`, seal
+`841f92dd136ac3f0eb3fc7276913b174c04f6887c524b2610a22a1c75ce1fd71`.
+Run `runs/v110_bank_credit_squeeze_v1_841f92dd136a`, complete04:22:53.591193UTC,
+manifest `8a065f06bc964b489f65c63dd289b47978272ba05f0eb49284afd1f7f5fd9352`.
+125local/125server tests,Ruffclean,20hashes/33states/2targets/4cashreplays PASSbothhosts,
+21filebackupverified; oneeconomicrun, no sealed edits. Source failure roots retained.
+**40portfolio =31Stage1reject+1Stage2reject+1incomplete+7invalid**,0activeStage2/3.
+Goal20–50active; next EBP source review only, not yet economic config/admission.
+Mainarchive04:24UTC20686/26305jobs78.6390%,14.919GBtotal/12.936GBAlgoPack,
+failed0/blocked0; FUTOI550gaps unchanged. Local2.765GBчастично copies,неunique sum.
+
 ## 2026-09-17 07:19 МСК / 04:19 UTC — V110 pre-outcome
 
 [Протокол](V110_BANK_CREDIT_SQUEEZE.md): SLOOS credit standards>0 AND demand<0
