@@ -1,7 +1,31 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 08:37 МСК / 2026-09-17, 05:37 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 09:14 МСК / 2026-09-17, 06:14 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## Exporter FX source review завершён; экономическая ветка отложена
+
+[Разбор источника](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md): сохранены 31 XLSX
+2023–2025, PDF и release/index/calendar evidence. 35 GET HTTP200, без retry;
+3 файла повторно использованы из sample. Обе копии: 86 файлов / 128538742 байта,
+4 manifests / 80 member hashes / 2 derived reports проверены. Ruff PASS.
+
+7 выпусков без распознанного заголовка, 13 с дневными датами/миллионами USD,
+11 с месячной формой/миллиардами USD. Подпись источника меняется между опросом
+экспортёров и банков; реальная смена методологии не доказана. Дневная строка в
+месячном выпуске не была ежедневной публикацией. Только April2025 release date
+14 May2025 отдельно подтверждена; ratios имеют другой reference month и revisions.
+**SOURCE_FEASIBILITY_PAUSED**, не экономический reject, не новый V113. Не склеивать
+ряды, не backdate и не повторять source capture/audit. Числовые states/новый PnL
+не считались. **42 portfolio / 0 active Stage2/3**, цель 20–50% всё ещё не достигнута.
+
+Далее bounded review **рублёвых платежей компаний по отраслям** из
+[датированных выпусков ЦБ](https://www.cbr.ru/analytics/finflows/): definition,
+сезонная корректировка/revisions, publication и историческое приложение <=2025.
+Пока открыт только индекс; новый источник/правило/корпус не созданы.
+Main archive 06:07 UTC active, 21722/26305 jobs (82.5775%), failed0/blocked0:
+**15.477 GB total / 13.360 GB AlgoPack**. Local 06:09 UTC 2.895 GB — частично copies.
+FUTOI550gaps unchanged; broad AlgoPack scope unanswered, 2026 market protected.
 
 ## V112 COMPLETE — primary слишком слаб, сравнение INVALID
 
@@ -5165,7 +5189,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17, 08:37 МСК / 2026-09-17, 05:37 UTC:
+Текущий первый шаг 2026-09-17, 09:14 МСК / 2026-09-17, 06:14 UTC:
+[Exporter FX review](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md) сохранён и закрыт
+как SOURCE_FEASIBILITY_PAUSED, не portfolio entrant. Не склеивать дневные и
+месячные таблицы, не читать дневные строки как своевременно опубликованные,
+не повторять 35 GET или metadata audit без нового основания. 42 portfolio unchanged.
+Следующий независимый bounded review — фактические рублёвые платежи компаний
+в [Мониторинге отраслевых финансовых потоков](https://www.cbr.ru/analytics/finflows/).
+Сначала definition/номинальность/охват/seasonal revisions и dated <=2025 sample.
+Индекс 2020–2025 содержит даты выпусков, но current XLSX не открывался, corpus/
+numeric rules/seal ещё нет. Не строить extraction framework до дешёвого допуска.
+Не читать 2026 market, не расширять AlgoPack scope. Archive работает независимо.
+
+Исторический первый шаг 2026-09-17, 08:37 МСК / 2026-09-17, 05:37 UTC:
 [V112closed](V112_RUBLE_FUNDING_PRESSURE_RESULT.md):42portfolio/0activeStage2/3,
 не retune, не ремонтировать controls и не повторять canonical run/audit без причины.
 Следующий bounded source review — actual exporter net FX sales в dated CBR reports:

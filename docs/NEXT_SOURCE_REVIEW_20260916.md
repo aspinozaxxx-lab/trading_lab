@@ -1,6 +1,30 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 08:37 МСК — V112 закрыт; exporter FX review
+## Текущий статус 17 сентября 09:14 МСК — exporter FX отложен; рублёвые платежи
+
+[Exporter FX review](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md) завершён:
+31 XLSX сохранён, 35 GET HTTP200, 86-file backup обеих машин проверен.
+7 no-header / 13 daily / 11 monthly, source captions не единообразны, original
+publication clocks полного корпуса не восстановлены. Это SOURCE_FEASIBILITY_PAUSED,
+не экономический reject. Нет V113, signals или нового PnL; 42 portfolio unchanged.
+Не повторять скачивание/metadata audit, не склеивать версии и не backdate daily rows.
+
+Следующий bounded review — **фактические рублёвые платежи компаний по отраслям**.
+Открыт только [официальный индекс ЦБ](https://www.cbr.ru/analytics/finflows/):
+обобщённые платежи через платёжную систему Банка России, dated releases 2020–2025.
+Это не survey BCI V22, US manufacturing V101 или exporter currency conversion.
+Поиск соответствующего названия/английских аналогов по configs/src/docs не нашёл
+отдельного экономического теста; это не доказательство независимости/alpha.
+
+Следующее действие: один исторический definition/sample <=2025. Проверить состав
+включённых платежей, номинальность/дефлятор, seasonal adjustment/revisions, времена
+публикации и наличие dated XLSX. Текущая ссылка на статистическое приложение
+2026 не открывалась. Нельзя выдавать current table за original PIT или выбирать
+sign/asset/threshold по уже виденным outcomes. Нет нового corpus/config/seal/rule.
+Если source требует большого reconstruction project, остановить эту ветку до PnL
+и перейти к иной дешёвой гипотезе, не создавать очередной общий framework.
+
+## Исторический статус 17 сентября 08:37 МСК — V112 закрыт; exporter FX review
 
 [V112 result](V112_RUBLE_FUNDING_PRESSURE_RESULT.md): primary+0.6078%/+0.5789%,
 22trips,3positiveyears/8; оба controls critical2, formal INVALID.42portfolio,

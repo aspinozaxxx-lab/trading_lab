@@ -1,5 +1,24 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 09:07 МСК / 06:07 UTC**: main active/running,
+PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без restart.
+**21722/26305 jobs (82.5775%)**,192209977rows,207318pages,failed0/blocked0,
+11251179331completed-job bytes,statusupdated06:07:36.235517UTC/RUNNING.
+Snapshot06:07:41.237028UTC,separate-rootducompleted06:07:44.570989UTC.
+Archive11903068824 +earlierprocessed1456918554 =
+**13359987378 bytes / 13.360 GB AlgoPack**. Data14774628431 +source702571138 =
+**15477199569 bytes / 15.477 GB total**; AlgoPack входит в total. Sequential
+apparent bytes при записи, не deduplicatedunique; каждый nestedrootdu отдельно.
+Models/runs/tmp/transfers исключены; source содержит копии probes. Jobfraction не ETA.
+Local06:09:11.5903854UTC:data10841files/2719842747bytes +source270files/175208308bytes
+=**2895051055 bytes / 2.895 GB**. Частично server copies, не суммировать как unique.
+Параллельно [exporter FX source review](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md)
+сохранён:31XLSX,35HTTP200,86-file backupPASS; source-feasibility pause, новогоPnLнет.
+FUTOI550gaps unchanged/not re-audited; mainfailed0 их не устраняет.
+Windowscollectors/credentials/mainunit unchanged; raw/models внеGit.
+
+### Предыдущий снимок 17 сентября 08:30 МСК
+
 Actual **2026-09-17 08:30 МСК / 05:30 UTC**: main active/running,
 PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без restart.
 **21356/26305jobs (81.1861%)**,189441243rows,204297pages,failed0/blocked0,

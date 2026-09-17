@@ -1,5 +1,30 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 09:14 МСК / 06:14 UTC — exporter FX source review, без нового PnL
+
+[Полный разбор](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md): 31 release-specific
+XLSX, 35 HTTP200 с sample/metadata, 3 reused files. 7 no-header / 13 daily / 11 monthly.
+Времена публикации всего корпуса и сопоставимость подписей источника не доказаны.
+Дневные наблюдения в месячном отчёте не означают ежедневный доступ к ним.
+April2025 PDF pages4/5/26 visually verified; release14May2025 подтверждён,
+объёмы/ratio относятся к разным периодам, ratio revises. SOURCE_FEASIBILITY_PAUSED,
+не отрицательный экономический результат. Нет V113/rule/targets/нового backtest.
+
+External root `source_evidence/cbr_exporter_fx_sample_20260917_v1`, 86 файлов,
+128538742 байта на каждой машине; 4 manifests / 80 members / 2 derived reports PASS.
+Vintages manifest `a00e5863b1f16cf41028565cdff5c913726e47b3226bf1ea7c288890fee6485c`.
+Metadata `e44ca3a2e598737ff98a57212ef210ab9de6b0d1de4cfc6ec5b12e1e304db7a9`,
+definition `167b6a43cf84243ba6af684add34b0b41a7aaa27da834c85f4bbc973fae0e10e`.
+One offline BOM-reader failure исправлен до результата, HTTP не повторялись.
+Шесть source scripts Ruff PASS; frozen economic code не менялся и не запускался.
+
+42 portfolio = 32 Stage1 rejects + 1 Stage2 reject + 1 incomplete + 8 invalid,
+0 active Stage2/3. Goalactive/notachieved. Следующий bounded source review:
+фактические рублёвые платежи компаний по отраслям, пока только официальный индекс.
+Archive06:07UTC 21722/26305jobs82.5775%, failed0/blocked0,
+15.477GBtotal/13.360GBAlgoPack; local06:09UTC2.895GBчастичноcopies.
+FUTOI550gaps unchanged; broad AlgoPack scope unanswered, 2026 protected.
+
 ## 2026-09-17 08:37 МСК / 05:37 UTC — V112 COMPLETE / INVALID
 
 [Результат](V112_RUBLE_FUNDING_PRESSURE_RESULT.md): SIshort при joint fundingpressure,
