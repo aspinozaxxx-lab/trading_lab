@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 04:39 МСК / 01:39 UTC — V107 pre-outcome
+
+[Протокол](V107_CURRENT_ACCOUNT.md): positive and strengthening YoY quarterly
+current account → SI short0.9/cash, constant-short control, full 2021–2025/base-double.
+Новый information set, не V19/V21/V105 retune. Official HTML tooltips дают actual
+publication dates; data cutoff не clock. 20 selected releases, 2022Q1 отсутствует,
+2025Q4 опубликован в 2026 и excluded before PDF read. Два samples просмотрены,
+остальные 18 GET после seal; private research, не commercial/live/PIT admission.
+26 new / 85 combined tests PASS 2.92s, Ruff clean, futures metadata 15/15 PASS.
+Probe five GET COMPLETE, manifest 045d22b90e383965502a8a03ae04156cafa01a942083324fb11719d8546ce03a,
+backup 11 hashes + manifest PASS. Source capture не economic результат.
+Следующий шаг seal/commit/push/server source + one economic run only if COMPLETE.
+37 portfolio unchanged, goal active, main archive отдельно.
+
 ## 2026-09-17 04:16 МСК / 01:16 UTC — V106 COMPLETE / INVALID, нет продвижения
 
 [Результат](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): commercial net-short share

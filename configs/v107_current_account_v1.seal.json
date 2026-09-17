@@ -1,0 +1,19 @@
+{
+  "protocol_id": "v107_current_account_v1",
+  "sealed_at_utc": "2026-09-17T01:39:04Z",
+  "sealed_before_remaining_source_collection_and_new_targets_outcomes": true,
+  "two_known_format_sample_values_read_before_seal": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_market_preflight_passed_locally": true,
+  "synthetic_tests_passed": 85,
+  "files": {
+    "src/market_lab/futures_v107_current_account.py": "502c52f21178dee8ae1134833f3d0841dc6ead967beff0844133aa0fd14dd854",
+    "configs/v107_current_account_v1.json": "65b256b78f625d175462cb5201d837210faa3ba17500130b1e7e4048c0082bc1",
+    "tests/test_futures_v107_current_account.py": "99535bb8b76ab3d443a8f26e724bdac6d17ed1e3f05891e08e2973aae12ed3f5",
+    "docs/V107_CURRENT_ACCOUNT.md": "715d2c2bfecc3f341f12d78454feac5c5808ce9d665e559d52f6ebd0c5df7530",
+    "scripts/cbr_bop_feasibility_20260917.py": "838a3e6112c7fd7b4d7d4a5d3f3030e0b5ef23c0b61037ee1e54eb50cdb38449",
+    "src/market_lab/futures_v97_hurricane_supply.py": "498b89e1add390f90bc50906c314f2c1f1bc414bda0ef2cf702307de5d537f9f",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

@@ -1,9 +1,25 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 04:16 МСК / 2026-09-17, 01:16 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 04:39 МСК / 2026-09-17, 01:39 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V106 COMPLETE — primary слишком слабая, comparison INVALID_EXECUTION_NO_PROMOTION
+## V107 pre-outcome — текущий счёт / short SI
+
+[Протокол](V107_CURRENT_ACCOUNT.md): одна новая квартальная flow hypothesis,
+SI short0.9/cash при положительном и выросшем YoY current account в одном PDF;
+constant-short control, 2021–2025, base/double costs, прежний ledger и gates.
+Даты publication найдены в tooltip официального index, не data cutoff/PDF metadata.
+20 releases 2020Q3…2025Q3, отсутствует 2022Q1; два format samples уже просмотрены,
+остальных GET 18 после seal. 2025Q4 / 2026 исключены до PDF values. Current-vintage,
+не original receipts. Private research only; commercial/live rights не установлены.
+26 new / 85 combined synthetic tests PASS 2.92s, Ruff clean; старый futures
+byte/schema/date preflight 15/15 PASS. Probe 5 GET COMPLETE, полный backup проверен.
+Next: seal/commit/push, server tests, одна полная source assembly, затем один
+economic run только при complete manifest. Не строить новый execution framework.
+Предыдущий goal turn PROGRESS (V106 closure). Воронка пока 37 / 0 active Stage2/3;
+goal active, archive отдельно, broad AlgoPack scope unanswered, TIC paused.
+
+## V106 COMPLETE — предшествующий результат / INVALID_EXECUTION_NO_PROMOTION
 
 [Полный результат](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): commercial net-short
 share против строго предыдущих 52 reports → BR long/cash. Primary CAGR
