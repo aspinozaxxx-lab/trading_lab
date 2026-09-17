@@ -1,7 +1,20 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 05:49 МСК / 2026-09-17, 02:49 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 06:17 МСК / 2026-09-17, 03:17 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V109 pre-outcome — private dealer deleveraging
+
+[Протокол](V109_PRIVATE_DELEVERAGING.md): joint contraction borrowing/lending за
+4 weekly reports в nominal-Treasury uncleared bilateral repo → SI long0.9/cash;
+constant-long control, full2022–2025, base/double costs и прежний ledger. Это не
+капитал дилеров, не H.41 reserve balances V99 и не повтор V108. Conditional10day
+publication allowance, current-vintage, не original PIT или прибыльный результат.
+Metadata-only:209weekly rows/12keys,207eligible reports; source magnitudes/directions
+пока не прочитаны. Initial4 и schema-break windows маскируются. 28new/113combined
+tests PASS, Ruff clean,15futures metadata checks PASS; raw backup24files verified.
+Next seal/commit/push/server tests и один economic run. Пока38portfolio/0activeStage2/3,
+goal20–50active. Main AlgoPack handle вновь подтверждён live в этом turn, без restart.
 
 ## V108 COMPLETE — REJECT_STAGE1, прибыль не найдена
 
@@ -4999,7 +5012,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,05:49МСК / 2026-09-17,02:49UTC:
+Текущий первый шаг 2026-09-17,06:17МСК / 2026-09-17,03:17UTC:
+[V109](V109_PRIVATE_DELEVERAGING.md): source/schema feasibility завершена,
+113synthetic tests/15futures checksPASS, значения ещё не анализировались.
+Seal+commit/push, server tests, затем единственный экономический screen/audit.
+Main archive отдельно; no2026market, noV108retune, noV107V3, goalactive.
+
+Исторический первый шаг 2026-09-17,05:49МСК / 2026-09-17,02:49UTC:
 [V108 REJECT_STAGE1](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md), 38 portfolio / 0 active Stage2/3.
 Не повторять run или менять sign/threshold/asset/control. Следующий bounded review —
 public NY Fed primary-dealer financing: определения, schema eras, actual publication

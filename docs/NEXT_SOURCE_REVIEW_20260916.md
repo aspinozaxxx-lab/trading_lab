@@ -1,6 +1,16 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 05:49 МСК — V108 закрыт, dealer-financing review
+## Текущий статус 17 сентября 06:17 МСК — V109 готов к seal и screen
+
+[V109](V109_PRIVATE_DELEVERAGING.md) выбрал именно nominal-Treasury uncleared
+bilateral repo, не broad totals или capital capacity. Twelve bucket paths совпадают
+в historical menus2022/2024; olderpre2022 и ill-described чужие totals не используются.
+209weekly rows/12cells,207eligible, no missing; magnitudes не прочитаны. Conditional
+publication10days, four-report joint borrowing/lending contraction → SIlong/cash.
+113synthetictests/15futuresmetadatachecksPASS; source3roots/24files backupverified.
+Next seal/commit/push, server tests и один economicrun. Пока38portfolio/0activeStage2/3.
+
+## Исторический статус 17 сентября 05:49 МСК — V108 закрыт, dealer-financing review
 
 [V108REJECT_STAGE1](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md): primaryCAGR−1.5413%/
 −1.7797%,15trips, новый Stage2candidateнеполучен.38portfolio/0activeStage2/3.

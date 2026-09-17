@@ -1,5 +1,17 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 06:17 МСК / 03:17 UTC — V109 pre-outcome
+
+[V109](V109_PRIVATE_DELEVERAGING.md): обе стороны private uncleared-bilateral
+Treasury repo сокращаются относительно4reportsназад → SIlong0.9/cash. Controllong,
+2022–2025/base-double/unchangedledger. Twelve matching bucketpaths2022/2024,
+209rawweekly rows,207eligible; initial/break windows masked, source/currentvintage
+conditional10dayclock. New private financing, не H41reserveV99/CFTC/V108.
+Metadata/source9capturedGETsCOMPLETE,21hashes+3manifests/24-filebackupverified.
+28new/113combinedtestsPASS3.27s,Ruffclean,15futuresmetadatachecksPASS.
+Новые source magnitudes/directions/targets/outcomes пока не читались. Nextseal/push,
+server tests/oneeconomicrun.38portfolio/0activeStage2/3,goalactive,archiveотдельно.
+
 ## 2026-09-17 05:49 МСК / 02:49 UTC — V108 COMPLETE / REJECT_STAGE1
 
 [Результат](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md): GSCPI positive/rising samevintage

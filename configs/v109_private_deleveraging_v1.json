@@ -1,0 +1,72 @@
+{
+  "protocol_id": "v109_private_deleveraging_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2022-01-01", "end": "2025-12-31"},
+  "assets": ["SI"],
+  "source": {
+    "root": "source_evidence/dealer_metadata_20260917_v1",
+    "manifests": {
+      "capture": "7e5cd3b435efa2c4cb372a2bb7f869239c87f99a36bc973b06da0cda2762eee9",
+      "menu": "997b12c7ff7168a782aa21a9bfa74661ebc509ae878475fba638b40e08f5dde2",
+      "source": "754b9c8e84b192a48d4a8382d3a29df6ed637c83387d9b5230078accad61c82a"
+    },
+    "raw_sha256": "84d5c6bc8d4562bb50866730b90dc3fe0084233b1ac029d6afbf129db7dea658",
+    "raw_start": "2022-01-05",
+    "raw_end": "2025-12-31",
+    "expected_raw_reports": 209,
+    "expected_eligible_reports": 207,
+    "schema_break": "2024-07-03",
+    "borrowing_keys": ["PDSORA-UBGUTSET", "PDSORA-UBGUTSETTAL30", "PDSORA-UBGUTSETTAG30", "PDSORA-UBSUTSET", "PDSORA-UBSUTSETTAL30", "PDSORA-UBSUTSETTAG30"],
+    "lending_keys": ["PDSIRRA-UBGUTSET", "PDSIRRA-UBGUTSETTAL30", "PDSIRRA-UBGUTSETTAG30", "PDSIRRA-UBSUTSET", "PDSIRRA-UBSUTSETTAL30", "PDSIRRA-UBSUTSETTAG30"],
+    "definition": "Nominal US Treasury collateral, uncleared bilateral repo/reverse repo; general/specified collateral and overnight, <30day, >=30day buckets. Sum six mutually classified buckets per side. Excludes cleared, sponsored, GCF, triparty, TIPS and other-financing series. Not whole dealer balance sheet or regulatory capital.",
+    "unit": "Published financing amounts, million USD; source Wednesday dates, not transaction returns. Same bucket identifiers/labels in SBN2022 and SBN2024 historical menu. All five comparison reports must remain within one schema era anyway.",
+    "availability_calendar_days": 10,
+    "availability": "End of observation date plus10calendar days America/New_York, based on usual following-Thursday publication plus holiday allowance. Explicit CONDITIONAL archive assumption, not original release/receipt or revision proof. Rows with computed availability>=2026 excluded before cell inspection/conversion; Dec24/31 excluded.",
+    "rights": "Public NYFed Markets API under preserved NYFed Terms of Use, private research with identifiers/attribution; no confidential dealer-level data, raw public redistribution, credentials or purchases."
+  },
+  "signal": {
+    "mechanism": "Joint contraction in private intermediary secured borrowing and lending can proxy deleveraging and tighter dollar intermediation, potentially supporting USD versus RUB. Matched-book closure may occur without asset fire sales, and venue substitution/client demand can dominate; neither a capital-ratio estimate nor a proven cross-border causal effect.",
+    "comparison_reports": 4,
+    "primary": "SI long0.9 iff current borrowing total AND current lending total are each strictly below their own values four weekly reports earlier; otherwise cash. Five complete positive-total reports in one schema era required. Exact Decimal sums/comparisons; no training/search.",
+    "control": "Constant SI long0.9 on identical readiness/calendar. Diagnostic only, cannot be promoted after outcomes.",
+    "missing": "Missing/null cell masks newest state and any five-report window containing it; no zero fill or older-good fallback. Genuine individual zero allowed, either side's nonpositive total is unready. Malformed/nonfinite/negative financing, duplicate/unknown key or missing entire weekly calendar report fails closed. Four-report comparison crossing July2024 break unready, despite matching selected labels.",
+    "maximum_source_age_at_fill_calendar_days": 21,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V108 complete economic rejection/audit/backup/push. V108 rule closed, not inverted/retuned. Private dealer financing is new information, distinct from V99 H41 reserve balances and V106 CFTC hedging. New information does not prove independent alpha.",
+    "Source discovery found six API eras, including July2024 break. Default1539-series dictionary covers only current era and contains some irrelevant inconsistent descriptions. Broad total ids are not blindly backcast. Historical menu confirms these12specific key paths in2022/2024; numeric magnitudes/directions not inspected during schema/date/lexical inventory.",
+    "All209weekly observations and2508cells are lexical numeric, no missing in captured source. Eligible207reports before2026; masks/warmup/break still reduce target coverage. Current-vintage response lacks original receipt/revision chain. Ten-day allowance is conditional, not a repair of lookahead or PIT proof.",
+    "Dealer-level academic studies use confidential2007-2009 panels; this is not their replication. Public aggregate netting, client composition, venue substitution, quarter-end balance-sheet management and regulation can move financing without dollar stress. Russia's sanctions/capital controls can break transmission. No evidence promises20percent.",
+    "Full2022-2025 calendar, source starts2022 due new public venue breakdown, no favorable era chosen from outcomes. Initial warmup remains cash/masked; rolls are counted separately from signal episodes. Already-seen development history is not independent holdout. 2026market prices/returns/labels/targets/PnL remain protected.",
+    "Unchanged V72/V78/V64 EOD-next-factual-open integer ledger, research specs/fees/margin, cash interest0. Allfourcases executioncomplete/critical0/unresolved0/terminalflat required. Five-percent gate only screens a potential component, never redefines the active relatively predictable20-50percent objective.",
+    "No post-outcome sign,window,venue,collateral,asset,lag,TTL,size,control or cost tuning. No repaired control promotion, model training, broker/demo/live, purchases, expandedAlgoPackeconomic scope, credentials or Windows collectors. Main archive continues independently."
+  ]
+}

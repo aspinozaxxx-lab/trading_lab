@@ -1,0 +1,19 @@
+{
+  "protocol_id": "v109_private_deleveraging_v1",
+  "sealed_at_utc": "2026-09-17T03:19:13Z",
+  "sealed_before_new_source_magnitudes_states_targets_and_outcomes": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 113,
+  "files": {
+    "src/market_lab/futures_v109_private_deleveraging.py": "7bd8630e6ba0819d5ae5d5129bd9f81bdb5914560898ce5498f35929eba4e5e5",
+    "configs/v109_private_deleveraging_v1.json": "0d4bf1c9d6780ff9331a02160f2c109f3a4792184a85c3aa744a17c7629a9f48",
+    "tests/test_futures_v109_private_deleveraging.py": "229cc9e5b186b848efd33a3f820c07d6a95ba31bb73387a7d84346602a2e95ed",
+    "docs/V109_PRIVATE_DELEVERAGING.md": "1b4c5f01f6ebfac52f4dd34b2621f8ae21f53b1f8f5b2299ae61f6df5b6a0cbb",
+    "scripts/dealer_metadata_20260917.py": "31c18048b9cfc917ff79d1102c41d46d8dcc537c15a4ddcc799a8ed26d4b01b0",
+    "scripts/dealer_menu_20260917.py": "11a2ddfca8098c4a62c479190fb909623026a95afe3e8a8adbe48b633138ecd1",
+    "scripts/dealer_source_20260917.py": "c35fa4f6626fecfa2da67737e7d07d6c68f902dbd09db3208629fba6be69e4f9",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}
