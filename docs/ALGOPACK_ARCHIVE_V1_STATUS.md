@@ -1,5 +1,26 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 06:28 МСК / 03:28 UTC**: main active/running,
+PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, безперезапуска.
+**20147/26305jobs (76.5900%)**,180257437rows,194303pages,failed0/blocked0,
+10598451215completed-jobbytes,statusupdated03:28:49.862149UTC/RUNNING.
+Processsnapshot03:28:50.209536UTC,separate-rootducompleted03:28:53.390520UTC.
+Archive11247419750+earlierprocessed1456918554 =
+**12704338304bytes/12.704GBAlgoPack**. Data14112038230+source568933164 =
+**14680971394bytes/14.681GBtotal**; AlgoPack входит в total. Sequential apparent
+bytes при записи, не deduplicatedunique; каждый nestedrootdu отдельно. Без models,
+runs/tmp/transfers. Source включает probe/cache copies. Jobfraction не volume/ETA.
+Local03:29:58.5063636UTC:data10841files/2719842747bytes+source126files/39343467bytes
+=**2759186214bytes/2.759GB**. Частичнокопииserver, не прибавлять как unique.
+[V109](V109_PRIVATE_DELEVERAGING_RESULT.md) параллельно COMPLETE/REJECT_STAGE1:
+CAGR+0.5629%/+0.4379%,MDD26.49%/26.51%,не пригодный доходный компонент.
+Source24files/run21files backupsverified, run/tmp не включены в data total.
+FUTOI550gapsunchanged/notreaudited; mainfailed0 их не устраняет.
+Windowscollectors/credentials/mainserviceunchanged. Первый read-only status read
+на этом turn остановился из-за BOM; повторён с utf-8-sig, collector не затронут.
+
+### Предыдущий снимок 17 сентября 05:45 МСК
+
 Actual **2026-09-17 05:45 МСК / 02:45 UTC**: main active/running,
 PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, безперезапуска.
 **19698/26305jobs (74.8831%)**,176848553rows,190607pages,failed0/blocked0,

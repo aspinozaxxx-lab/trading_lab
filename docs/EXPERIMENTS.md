@@ -1,5 +1,28 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 06:37 МСК / 03:37 UTC — V109 COMPLETE / REJECT_STAGE1
+
+[Результат](V109_PRIVATE_DELEVERAGING_RESULT.md): private dealer borrowing AND
+lending contraction→SIlong/cash, CAGR+0.5629%/+0.4379%, Sharpe0.10587/0.09621,
+MDD26.4942%/26.5147%,25trips,2positiveyears/4. Controls−6.4157%/−6.3087%,18trips.
+Все4executioncomplete/critical0/unresolved0/terminalflat, factualhalt/carry1 сохранён.
+207eligible/199ready/53longreports,1016decisionsнаarm,252/963nonzerotargets,
+94.98031%source/94.88189%jointreadiness. Full2022–2025, initialcash/masks included;
+conditional10dayclock/currentvintage, не independentholdout/originalPIT.
+25primarytrips=24entryexit+1roll;18control=2entryexit+16roll, не независимые сигналы.
+Не проходят CAGR/Sharpe/MDD/positiveyears. NoStage2/noasset-sign-window-controlretune.
+
+Seal `a489aa4513c15fd1b8aed6068878b98e2be0f625ba7e51f64aced314f8f853d1`,
+pre-outcome `730976cb4ad25b7b5ea26d518b1575ee914cf1c4`, complete03:27:34.074418UTC.
+Run `runs/v109_private_deleveraging_v1_a489aa4513c1`, manifest
+`47f4d7e2dad70fba2c8642a93f4bba480f8c90b3756a644252ff4dce15841036`.
+113local/113server testsPASS,Ruffclean;20hashes/207rawstates/2targets/4cashreplays
+PASSbothhosts,21-filebackupverified. Oneeconomicrun, no post-outcome sealed changes.
+39portfolio=31Stage1reject+1Stage2reject+1incomplete+6invalid;0activeStage2/3,
+goal20–50active. SLOOS officialHTML review next, noV110/numericcorpus/ruleyet.
+Archive03:28UTC20147/26305jobs76.5900%,14.681GBtotal/12.704GBAlgoPack,failed0;
+FUTOI550gapsunchanged. Local2.759GBчастичнокопии, raw/models/results внеGit.
+
 ## 2026-09-17 06:17 МСК / 03:17 UTC — V109 pre-outcome
 
 [V109](V109_PRIVATE_DELEVERAGING.md): обе стороны private uncleared-bilateral

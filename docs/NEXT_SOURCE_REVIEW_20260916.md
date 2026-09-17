@@ -1,6 +1,51 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 06:17 МСК — V109 готов к seal и screen
+## Текущий статус 17 сентября 06:37 МСК — V109 закрыт; SLOOS bounded review
+
+[V109REJECT_STAGE1](V109_PRIVATE_DELEVERAGING_RESULT.md): CAGR+0.5629%/+0.4379%,
+MDD26.49%/26.51%,25trips.39portfolio/0activeStage2/3; цель20–50не достигнута.
+Private repo rule не перенастраивать; V107/TIC paused. Main AlgoPack отдельно.
+
+Следующий potential information set — bank lending conditions, не dealer repo
+V109, H41 reserves V99 или manufacturingV101. Preliminary rg по docs/configs/src
+не нашёл SLOOS/loan-officer/lending-standards family; это не доказательство alpha.
+Идея для проверки: кредитные ограничения могут менять доступность оборотного
+капитала и инвестиции. Public survey также отражает demand/macro expectations,
+а передача к MOEX может отсутствовать. Актив, направление и rule пока не выбраны.
+
+Прочитаны только official HTML overview/feed/research note и два narrative releases:
+
+- [SLOOS overview](https://www.federalreserve.gov/data/sloos.htm) даёт ссылки на
+  quarterly releases и дополнительные surveys; индекс имеет2020Septemberextra.
+  Survey/month/observation-quarter не original publication timestamp.
+- [Announcements](https://www.federalreserve.gov/feeds/sloos.html) документируют
+  corrections2015/2017/2019 и historical revisions, а также изменение large-bank
+  cutoff50bn→100bn в October2023 (published6Nov2023). Не смешивать размер банка
+  с размером заёмщика. Current DDP/FRED series нельзя автоматически назвать PIT.
+  Weighted aggregates добавлены4May2020, что не доказывает прежнюю доступность
+  их back history. DDP retirement notice не повод покупать доступ или менять scope.
+- [January2025](https://www.federalreserve.gov/data/sloos/sloos-202501.htm):
+  описывает2024Q4, ответы до3Jan2025, LastUpdate3Feb2025. Net tightening — доля
+  tightened минус eased, не уровень кредитной ставки/капитала. Standards и terms
+  различаются. LastUpdate пока не подтверждён отдельным original-release evidence.
+- [October2025](https://www.federalreserve.gov/data/sloos/sloos-202510.htm):
+  описывает2025Q3, ответы до3Oct2025, LastUpdate3Nov2025. Narrative qualitative
+  directions этих двух releases уже видены; не объявлять их полностью unseen.
+  Числовые Table1/2, Chartdata, PDF/CSV/XML ещё не открывались.
+- [Fed research,24May2024](https://www.federalreserve.gov/econres/notes/feds-notes/measuring-bank-credit-supply-shocks-using-the-senior-loan-officer-survey-20240524.html)
+  отделяет supply shock от demand/macro/bank factors на bank-level regressions.
+  Public net tightening не тот же очищенный CSI; не воспроизводить эту сложную
+  microdata модель и не считать retrospective research series доступной раньше.
+
+Следующий небольшой шаг — metadata-only dated-table inventory и rights/date/definition
+проверка до полного numeric corpus. Использовать public aggregate, сохранять missing
+как missing; нулевые пересмотренные observations не чинить самостоятельно. До любого
+economic screen нужны отдельный config/seal, rule, source boundaries и execution
+gates. При плохой coverage/невосстановимом dating — короткий source отказ вместо
+нового parser framework. ПокаV110/config/targets/outcomes/sourcecapture не созданы.
+Никаких purchases, confidential data, broaderAlgoPackscope,2026market или demo/live.
+
+## Исторический статус 17 сентября 06:17 МСК — V109 готов к seal и screen
 
 [V109](V109_PRIVATE_DELEVERAGING.md) выбрал именно nominal-Treasury uncleared
 bilateral repo, не broad totals или capital capacity. Twelve bucket paths совпадают

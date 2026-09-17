@@ -1,9 +1,35 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 06:17 МСК / 2026-09-17, 03:17 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 06:37 МСК / 2026-09-17, 03:37 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V109 pre-outcome — private dealer deleveraging
+## V109 COMPLETE — REJECT_STAGE1, слишком малая доходность и высокая просадка
+
+[Результат](V109_PRIVATE_DELEVERAGING_RESULT.md): joint private repo contraction
+→SIlong/cash дал CAGR **+0.5629% / +0.4379%**, Sharpe0.10587/0.09621,
+MDD **26.4942% / 26.5147%**, 25trips, 2positiveyears/4. Control−6.4157%/−6.3087%,
+18trips. Все4executioncomplete/critical0/unresolved0/terminalflat; factualhalt/carry1
+и targetcancels сохранены. 207reports/199ready/53long;1016decisionsнаarm,
+252/963nonzero targets, readiness94.98031%source/94.88189%joint. Не Stage2.
+Conditional10day/currentvintage, не originalPIT/independentholdout. Не retune/invert.
+
+Pre-outcome `730976cb4ad25b7b5ea26d518b1575ee914cf1c4`, seal `a489aa4513c1...`;
+run `runs/v109_private_deleveraging_v1_a489aa4513c1`, completed03:27:34UTC,
+manifest `47f4d7e2dad70fba2c8642a93f4bba480f8c90b3756a644252ff4dce15841036`.
+20hashes/207states/2targets/4cash-metricreplays PASSbothhosts; backup21filesPASS.
+113local/113server testsPASS, Ruffclean; один economic run, frozenfilesunchanged.
+**39 portfolio =31REJECT_STAGE1+1REJECT_STAGE2+1incomplete+6invalid**,
+0activeStage2/3. Goal20–50active, не достигнут. Turn PROGRESS, не полезная прибыль.
+
+Следующий bounded шаг — [SLOOS bank-credit source review](NEXT_SOURCE_REVIEW_20260916.md):
+definitions/publication/revisions до нового rule; не повтор V109/V99. Прочитаны
+только officialHTML, числовой corpus/новый config не созданы. Не строить CSI microdata
+framework, не считать quarter label публикацией. Main archive03:28UTCactive/running,
+**20147/26305jobs76.5900%**,failed0/blocked0; **14.681GBdata+source,12.704GBAlgoPack**.
+Local03:29UTC2.759GBчастичнокопии, не суммировать сserverкакunique. FUTOI550gaps
+unchanged/notreaudited; broadAlgoPackscopeunanswered,V107/TICpaused,2026protected.
+
+### V109 pre-outcome — историческая запись
 
 [Протокол](V109_PRIVATE_DELEVERAGING.md): joint contraction borrowing/lending за
 4 weekly reports в nominal-Treasury uncleared bilateral repo → SI long0.9/cash;
@@ -5012,7 +5038,20 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,06:17МСК / 2026-09-17,03:17UTC:
+Текущий первый шаг 2026-09-17,06:37МСК / 2026-09-17,03:37UTC:
+[V109 REJECT_STAGE1](V109_PRIVATE_DELEVERAGING_RESULT.md),39portfolio/0activeStage2/3.
+Не повторять canonical run/audit без новой причины и не менять rule/control.
+Следующий bounded source review — SLOOS bank-credit standards/demand:
+проверить dated HTML release tables, definitions, respondent/category continuity,
+publication vs survey quarter и revisions; до new corpus/config/seal/экономики.
+Два narrative releases2025 уже просмотрены, qualitative directions не считать
+unseen; numeric values ещё не открывались. Public aggregates не очищенный causal
+credit-supply shock и не CSI microdata replication. Не строить новый framework;
+если dating/coverage не позволяют короткий честный тест — source отказ.
+[Ссылки и ограничения](NEXT_SOURCE_REVIEW_20260916.md). Main archive отдельно,
+2026market защищён,V107/TICpaused,goalactive; no new paid/broker/demo/live scope.
+
+Исторический первый шаг 2026-09-17,06:17МСК / 2026-09-17,03:17UTC:
 [V109](V109_PRIVATE_DELEVERAGING.md): source/schema feasibility завершена,
 113synthetic tests/15futures checksPASS, значения ещё не анализировались.
 Seal+commit/push, server tests, затем единственный экономический screen/audit.
