@@ -1,5 +1,24 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 05:45 МСК / 02:45 UTC**: main active/running,
+PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, безперезапуска.
+**19698/26305jobs (74.8831%)**,176848553rows,190607pages,failed0/blocked0,
+10411465366completed-jobbytes,statusupdated02:45:22.773621UTC/RUNNING.
+Processsnapshot02:45:50.079907UTC,separate-rootducompleted02:45:53.263372UTC.
+Archive11061680119+earlierprocessed1456918554 =
+**12518598673bytes/12.519GBAlgoPack**. Data13924910121+source566365450 =
+**14491275571bytes/14.491GBtotal**,AlgoPackвходитвtotal. Sequentialapparentbytes
+призаписи,неdeduplicatedunique; каждыйnestedrootduотдельный. Models/runs/tmp
+не включены. Source содержит probe/cachecopies; jobfractionнеvolume/timefraction.
+Local02:45:54.0384005UTC:data10841files/2719842747bytes+source99files/36259159bytes
+=**2756101906bytes/2.756GB**. Частичнокопииserver,неприбавлятькакunique.
+[V108](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md) параллельно COMPLETE/REJECT_STAGE1:
+CAGR−1.5413%/−1.7797%,неprofit. Backupsource10files иrun21filesverified;
+run/tmpбайтыисключеныизdatatotal. FUTOI550gapsunchanged/notreaudited,mainfailed0
+их не устраняет. Windowscollectors/credentials/mainserviceunchanged.
+
+### Предыдущий снимок 17 сентября 05:04 МСК
+
 Actual **2026-09-17 05:04 МСК / 02:04 UTC**: main active/running,
 PID 1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
 **19310/26305 jobs (73.4081%)**, 173583208 rows, 187102 pages, failed 0 / blocked 0,

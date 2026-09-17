@@ -1,6 +1,46 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 05:37 МСК — GSCPI feasibility завершена
+## Текущий статус 17 сентября 05:49 МСК — V108 закрыт, dealer-financing review
+
+[V108REJECT_STAGE1](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md): primaryCAGR−1.5413%/
+−1.7797%,15trips, новый Stage2candidateнеполучен.38portfolio/0activeStage2/3.
+GSCPIнеперенастраивать, V107нечинить, mainAlgoPackпродолжает отдельно.
+
+Следующий independent information set для bounded review — private dealer funding
+и maturity transformation, не central-bank asset/liability proxyV99 и не CFTC
+commercial hedgingV106. Potential mechanism: contraction/maturity mismatch of
+secured intermediary funding может усиливать dollar funding pressure/risk repricing.
+Связь сMOEXне доказана; актив/направление/окно/порог ещё не выбраны.
+Repo gross volume не равен капиталу или свободной riskcapacity; broad stress naming
+само по себе не новая гипотеза. Первый шаг — definitions и metadata, не новый engine.
+
+Прочитаны только official HTML/API documentation shell и research notes:
+
+- [NYFed primary-dealer statistics](https://www.newyorkfed.org/markets/counterparties/primary-dealers-statistics):
+  weekly publication Thursdays около16:15 за предыдущую неделю; история сJan1998
+  разбита по schemaeras. [API shell](https://markets.newyorkfed.org/static/docs/markets-api.html)
+  linkedофициально, rendererневернул endpointdetails; seriesdefinitionsещёнескачаны.
+- [FR2004 changes,2022](https://www.federalreserve.gov/econres/notes/feds-notes/insights-from-revised-form-fr2004-into-primary-dealer-securities-financing-and-mbs-activity-20220805.html):
+  новый breakdown с5Jan2022 по venue/clearing/maturity. Borrowing/lending могут быть
+  matched, netting освобождает balance-sheetcapacity, totalgrossнеизмеряетcapital.
+  Поэтому нельзя без mappingсклеить одноимённыеseries илисделатьcapacityизvolume.
+- [Repo-runs study,2017](https://www.federalreserve.gov/econres/notes/feds-notes/primary-dealers-behavior-during-the-2007-08-crisis-part-I-repo-runs-20170622.html):
+  исследует confidential dealer-level2007–2009, не publicaggregatepredictorMOEX.
+  Legal-entity scope не всяholdingcompany; securities-in/out включают разные types,
+  их нельзя считать чистымcashrepoбезdefinitions. Использоватьнекакalphaproof.
+- [Fails primer](https://www.newyorkfed.org/markets/pridealers_failsprimer.html):
+  cumulativeoutstandingfails могут повторятьстарый fail и отражать chains/operational
+  issues. Не считать их новыми defaults, netfundingloss илиdirectcapitalcapacity.
+
+Поиск incidental вернул old release2022-01-06/observation2021-12-29 snippet со
+значениямиfails; самиPDFнеоткрывались. Эти значения неfeatures и неосноваrulechoice.
+Полный числовойcorpus/цены/PnL не читались,V109config/sealне создан. Оригинальные
+releasevintages, точныеholidayoverrides, currentdefinitioncontinuity ещё не доказаны.
+NYFedterms должны сопровождать любой sourcecapture; не publicredistribution,
+confidentialdata, extra paidAPI илиscopeextension. Если publicseriesнепригодны,
+короткийsourceотказ вместо reconstructeddealer-capitalframework.
+
+## Исторический статус 17 сентября 05:37 МСК — GSCPI feasibility завершена
 
 [Source note](GSCPI_SOURCE_FEASIBILITY_20260917.md):43eligible vintages/43ready pairs,
 four boundedGET COMPLETE, no original-clock proof. Spreadsheet read-only workflow

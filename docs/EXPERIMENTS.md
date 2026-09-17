@@ -1,5 +1,24 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 05:49 МСК / 02:49 UTC — V108 COMPLETE / REJECT_STAGE1
+
+[Результат](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md): GSCPI positive/rising samevintage
+→BRlong/cash: CAGR−1.5413%/−1.7797%,Sharpe−0.11252/−0.13720,MDD16.9334%/17.3909%,
+15roundtrips,1positiveyearsegment/4. Controls−12.0005%/−12.5425%,43trips; все4
+executioncomplete/critical0/unresolved0/terminalflat. Primarygrossдоcostsnegative.
+43states/8long,915decisionsнаarm,174/913nonzero,99.89071%source/jointready.
+June2022–Dec2025,partial2022явно; conditionalEOMNYнеoriginalclock/holdout.
+Seal0fe890330c7b..., pre-outcome6a1b2ad2c175..., completed02:43:38.416300UTC;
+run `runs/v108_supply_chain_pressure_v1_0fe890330c7b`, manifest
+`634faa49b805f7c4f53978c855f730d79d82bf9fbe89993ce3bd47dcdf3fb834`.
+Audit20hashes/43states/2targets/4cash-metricreplaysPASSbothhosts,backup21filesPASS.
+85local/85server testsPASS,Ruffclean. First77pass/8serverfixtureerrors fixed by
+separate UID999-owned temp parent; code unchanged, one economicrun only.
+38portfolio=30Stage1reject+1Stage2reject+1incomplete+6invalid;0activeStage2/3.
+NoStage2/retune,goalactive. NextboundedreviewNYFedprivatefunding/schema, неnewGSCPI.
+Archive02:45UTC19698/26305jobs74.8831%,14.491GBtotal/12.519GBAlgoPack,failed0.
+FUTOI550gapsunchanged. Models/raw/results/credentialsвнеGit,2026marketprotected.
+
 ## 2026-09-17 05:37 МСК / 02:37 UTC — V108 pre-outcome
 
 [V108](V108_SUPPLY_CHAIN_PRESSURE.md): positive and rising same-vintage GSCPI →

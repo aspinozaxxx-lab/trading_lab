@@ -1,9 +1,41 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 05:37 МСК / 2026-09-17, 02:37 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 05:49 МСК / 2026-09-17, 02:49 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V108 pre-outcome — supply-chain pressure, один быстрый screen
+## V108 COMPLETE — REJECT_STAGE1, прибыль не найдена
+
+[Результат](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md): покупка BR при положительном
+и растущем GSCPI дала CAGR **−1.5413% / −1.7797%**, Sharpe −0.11252 / −0.13720,
+MDD 16.9334% / 17.3909%, 15 завершённых сделок, 1 положительный сегмент из 4.
+Control: −12.0005% / −12.5425%, 43 сделки. Все 4 сценария execution-complete,
+critical 0 / unresolved 0 / terminal flat. Gross до costs тоже отрицателен.
+Меньшие потери относительно control — не прибыль; gates CAGR/Sharpe/positive years
+не пройдены. Без Stage2 и перенастройки. 43 ready vintages / 8 long states,
+915 решений на arm, 174 / 913 ненулевых targets, readiness 99.89071%.
+Conditional EOM New York/current archive, не original PIT или независимый holdout.
+
+Pre-outcome `6a1b2ad2c1756817f6711d72d046a473edf1d4ff`, seal
+`0fe890330c7b5732efa5badbdbdb0d26285a9789fb18c28dead3ed80794c4b36`;
+run `runs/v108_supply_chain_pressure_v1_0fe890330c7b`, complete02:43:38UTC,
+manifest `634faa49b805f7c4f53978c855f730d79d82bf9fbe89993ce3bd47dcdf3fb834`.
+20 hashes / 43 states / 2 targets / 4 cash-metric replays PASS; local backup 21 files PASS.
+85 local / 85 server tests PASS, Ruff clean. Первая server fixture permission failure
+сохранена; исправлено только место synthetic temp. Один economic run, без code/source retry.
+**38 portfolio = 30 REJECT_STAGE1 + 1 REJECT_STAGE2 + 1 incomplete + 6 invalid**,
+0 active Stage2/3. Goal 20–50% active, не подтверждён. Turn PROGRESS: экономический
+тест завершён и гипотеза отсеяна, но доходный результат не получен.
+
+Следующий bounded review: [NY Fed primary-dealer financing](NEXT_SOURCE_REVIEW_20260916.md).
+Private funding/maturity mismatch, не Fed balance-sheet V99 или CFTC hedging V106.
+Сначала definitions / 2022 schema break / publication / revisions; ни V109, ни corpus
+или signal rule ещё нет. Aggregate positions/settlement fails не измеряют capital capacity.
+Main archive 02:45 UTC active/running, **19698/26305 jobs, 74.8831%**, failed 0 / blocked 0;
+**14.491 GB data+source, включая 12.519 GB AlgoPack**. Local 2.756 GB — частично копии,
+не суммировать как unique. FUTOI 550 gaps unchanged/not re-audited. V107/TIC paused,
+2026 market protected.
+
+### V108 pre-outcome — историческая запись
 
 [Протокол](V108_SUPPLY_CHAIN_PRESSURE.md): BRlong0.9/cash при GSCPI>0 и росте
 относительно preceding month в той же vintage column; constant-long control.
@@ -4967,7 +4999,17 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,05:37МСК / 2026-09-17,02:37UTC:
+Текущий первый шаг 2026-09-17,05:49МСК / 2026-09-17,02:49UTC:
+[V108 REJECT_STAGE1](V108_SUPPLY_CHAIN_PRESSURE_RESULT.md), 38 portfolio / 0 active Stage2/3.
+Не повторять run или менять sign/threshold/asset/control. Следующий bounded review —
+public NY Fed primary-dealer financing: определения, schema eras, actual publication
+и revision metadata. Direct private funding отличается от V99 balance-sheet и
+V106 hedging; связь с MOEX ещё не доказана. Не приравнивать gross positions/fails
+к capital capacity и не строить parser до metadata feasibility.
+[Точные ссылки](NEXT_SOURCE_REVIEW_20260916.md). Main archive отдельно; broader AlgoPack
+scope unanswered, 2026 protected, V107 paused/no V3.
+
+Исторический первый шаг 2026-09-17,05:37МСК / 2026-09-17,02:37UTC:
 [V108](V108_SUPPLY_CHAIN_PRESSURE.md): metadata-only feasibility завершена,43pairsready,
 85synthetic tests и15futurespreflightchecksPASS. Закрепить immutableseal+commit/push,
 проверитьserver и один economicrun/audit. Новые magnitudes/targets/PnL ещё не читались.
