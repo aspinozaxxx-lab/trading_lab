@@ -1,5 +1,15 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 03:25 МСК / 2026-09-17 00:25 UTC — V105 pre-outcome
+
+[Протокол](V105_SURVEY_DISPERSION.md): один GDPsurvey IQRcontraction → MIXlong0.9/cash,
+тот же forecastyear у current/immediatelyprevioussurvey; constantlongcontrol,
+2021–2025/base-double/unchangedledger. Новые distributionalstats, не V21medianrule.
+Metadata36eligible/35complete-keypairs; month+1endavailability сохранена, sourcevalues
+available2026 excluded before numericread. Нет newHTTP/parser/fit/search или outcomes.
+Synthetictests+byte/schema/datepreflight перед seal, затем guardedserverimport/run.
+35portfolio entrants пока unchanged, goalactive, mainarchive продолжает работать.
+
 ## 2026-09-17 03:06 МСК / 2026-09-17 00:06 UTC — V104 COMPLETE / INVALID
 
 [Результат](V104_INVENTORY_COVER_PREMIUM_RESULT.md): primary diagnostic CAGR

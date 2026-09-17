@@ -1,9 +1,24 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 03:06 МСК / 2026-09-17, 00:06 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 03:25 МСК / 2026-09-17, 00:25 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V104 COMPLETE — INVALID_EXECUTION_NO_PROMOTION
+## V105 pre-outcome — GDP survey dispersion
+
+[Протокол](V105_SURVEY_DISPERSION.md): одна новая distributional hypothesis на ready
+CBR source: MIXlong0.9/cash при сокращении p75−p25 GDPforecasts для того же nextyear
+относительно непосредственно предыдущего survey. Не V21median revisions. Control
+constantlong на том же paired-readinesscalendar;2021–2025,base/double,unchangedledger.
+Metadata-only:37months/36eligible/35complete-keypairs; conservativeavailability
+month+1end сохранена, December2025values исключаются ДО numericread. Originalvintages
+не доказаны, disagreement не субъективнаяuncertainty; знак только гипотеза.
+Synthetictests и source/futuresmetadata preflight доsealing/outcomes; следующий шаг
+immutable seal/commit/push, servertests и один economicrun. Воронка35 пока unchanged.
+Source отсутствует наserver: перенести пять уже сохранённых files, безHTTP/parser.
+Mainarchive00:17UTC active/running,18309/26305jobs,failed0/blocked0;
+13.827GBdata+source/11.868GBAlgoPack. Localcopies/models/runs не прибавлять.
+
+## V104 COMPLETE — предшествующий результат / INVALID_EXECUTION_NO_PROMOTION
 
 [Результат](V104_INVENTORY_COVER_PREMIUM_RESULT.md): один run completed23:59:56.755827UTC.
 Primary diagnostic CAGR **+4.5010%/+3.2064%**,Sharpe.29671/.24927,

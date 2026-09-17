@@ -1,0 +1,17 @@
+{
+  "protocol_id": "v105_survey_dispersion_v1",
+  "sealed_at_utc": "2026-09-17T00:27:16Z",
+  "sealed_before_new_numeric_quartiles_states_targets_and_outcomes": true,
+  "existing_price_history_previously_seen": true,
+  "independent_holdout": false,
+  "source_metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 112,
+  "files": {
+    "src/market_lab/futures_v105_survey_dispersion.py": "8f69074a09bfb1b632cd4b2abc64590022a6ba9b09d478ca85e3f5c87675eaae",
+    "configs/v105_survey_dispersion_v1.json": "885b01fdc138743f7618e242a8f57480e52df53b32e4183b03eee17e79d38514",
+    "tests/test_futures_v105_survey_dispersion.py": "f6f15c56696fcce28b297b7a35158e7abb127763d501362d7ca81b8c7457e9c3",
+    "docs/V105_SURVEY_DISPERSION.md": "11c26130e23d5e1b0bb04d1dadfa7fe6eea14c96824525f8477c829b39de4137",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+    "configs/futures_v21_cbr_macro_revision_breadth.yaml": "5d97fd51050f5e23932fbbaf283d823f7322e8f38d158474b86d61f70fc822bc"
+  }
+}

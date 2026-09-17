@@ -1,0 +1,73 @@
+{
+  "protocol_id": "v105_survey_dispersion_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["MIX"],
+  "source": {
+    "root": "data/processed/info_radar/cbr-macro-survey-current-vintage-2021-2025-v1",
+    "manifest_sha256": "faae8927add739b0cf91dfdc9b7d8e7265d080f88685fd691e973ac907c4fdfe",
+    "processed": {"path": "cbr_macro_survey_forecasts.parquet", "sha256": "a139ead81d1e06495afcd680ff1cb7903f2a102165c9f7bd7a074577c7069d6a", "bytes": 78291, "rows": 11787},
+    "allowed_columns": ["survey_month", "available_at", "indicator", "statistic", "forecast_year", "forecast_period", "unit", "value", "current_vintage", "source_url", "source_sheet", "source_cell"],
+    "metadata_columns": ["survey_month", "available_at", "indicator", "statistic", "forecast_year", "forecast_period", "unit", "current_vintage", "source_url"],
+    "source_url": "https://www.cbr.ru/statistics/ddkp/mo_br/",
+    "minimum_survey_month": "2021-05-01",
+    "maximum_survey_month": "2025-12-01",
+    "maximum_available_at": "2026-01-31T20:59:59+00:00",
+    "survey_months": 37,
+    "eligible_survey_months": 36,
+    "http_downloads": false
+  },
+  "signal": {
+    "mechanism": "A contraction of disagreement about next-calendar-year real GDP growth may reduce required compensation for disagreement risk and support equity valuations. This is a deliberately falsifiable slow state hypothesis, not an established directional law; agreement is not subjective uncertainty and information may already be priced.",
+    "primary_reference": "https://www.ifo.de/en/cesifo/publications/2023/working-paper/macroeconomic-expectations-and-state-dependent-factor-returns",
+    "counterpoint_reference": "https://www.nber.org/papers/w1171",
+    "indicator": "gdp_yoy_pct",
+    "unit": "percent_yoy",
+    "statistics": ["p25", "p75"],
+    "dispersion": "p75 minus p25, in percentage points; zero is valid, inverted or missing quartiles are not",
+    "comparison": "Current survey target year equals survey calendar year+1. Compare with the immediately previous survey for exactly that same forecast year, including the previous survey's year+2 if crossing a calendar year. No earlier usable-survey fallback and no cross-year forecast comparison.",
+    "primary": "MIX long0.9 if current IQR strictly below previous IQR and both pairs are valid; otherwise cash. Equal/wider IQR means cash, no short arm.",
+    "control": "constant MIX long0.9 only on the identical paired-source-readiness/fill calendar; contextual baseline, not promotable after results",
+    "availability": "23:59:59 Europe/Moscow on last calendar day of month following survey_month, inherited unchanged. Current retrieval and Last-Modified never backdate availability. Numeric source reader excludes releases available from2026 BEFORE loading values.",
+    "source_date": "conservative availability's local calendar date for TTL; original survey_month and predecessor clocks retained separately",
+    "missing": "Missing, nonfinite or inverted selected quartile masks the newest survey and its immediate successor comparison. No older good-state fallback, numerical imputation, participant reconstruction or replacement indicator.",
+    "maximum_source_age_at_fill_calendar_days": 70,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "New distributional information, not V21 median revision signs, channel addition, sign reversal or reweighted forecast composite. Median forecasts are excluded from the numerical read. One predeclared GDP IQR contraction rule and control; no sign/quantile/horizon/threshold/universe/size/expiry/cost tuning after outcomes.",
+    "Survey disagreement differs from an individual's predictive uncertainty. Selected literature motivates dispersion as priced information and documents state-dependent, sometimes different signs; it does not validate this Russian index timing rule. Narrowing as horizon approaches, changing respondents and rounding may create the signal without any tradable risk repricing. Counts/individual forecasts unavailable for a constant-participant panel.",
+    "Existing official current-vintage workbook is conditionally admitted development only. Original historical vintages/receipt and immutability not proved. Conservative month+1-end clock retained. December2025availabilityJanuary2026 excluded before numeric values, not merely before trading. A2026GDP forecast made and available in2025 is not a realized2026market outcome.",
+    "37survey months in source/36eligible; metadata-only quartile pair presence36current/35predecessor pairs, before any new numeric state or target. No new HTTP, workbook parser or collector; five existing source files may be copied once to server. Raw source remains outsideGit; redistribution unverified.",
+    "Evaluation2021-2025 is already-seen development history, not independent holdout; initial unavailable months retained as cash in full evaluation calendar. No fitting, seeds, normalization, purge-dependent training or parameter search. Partial2021and only35possible update pairs limit inference; round trips include contract rolls, not independent releases.",
+    "Unchanged V72/V78/V64 daily next-open integer ledger and research spec/fee/margin proxies, no interest on cash. Missing/halted/unresolved exposure not deleted. Cash-metric replay is not an independent reconstruction of every execution risk counter. Allfour execution arms must pass before Stage2; known prior execution invalidity is not ignored.",
+    "Stage1five-percent gate selects possible components only; predictable20-50percent objective remains active/unproved. No live/demo trades, broaderAlgoPackscope, old2026marketvalues, credentials, purchase or Windows collectors. Main archive continues unchanged; V104closed and TICpaused."
+  ]
+}
