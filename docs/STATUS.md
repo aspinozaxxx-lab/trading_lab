@@ -1,7 +1,23 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 09:14 МСК / 2026-09-17, 06:14 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 10:04 МСК / 2026-09-17, 07:04 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V113 private-demand breadth — pre-outcome, готов к seal/run
+
+[Фиксированный протокол](V113_PRIVATE_DEMAND_BREADTH.md): MIX long0.9, только когда
+потребительские, инвестиционные и внешние платежи одновременно растут; aggregate
+growth-only control, full2021–2025, base/double costs, прежний integer ledger.
+Номинальные платежи, не realGDP; current copies датированных PDF, не original PIT.
+Корпус56PDF сохранён обеимашины;53complete/3explicit unavailable clock defects.
+Месяцы не удалены, обе стратегии masked до следующего valid release. Raw V1 partial
+HTTP200/curl28 сохранён; V2 COMPLETE53requests/3reuse, no automatic retries.
+Manifest `150c43f460928ee7d824c8fab88d1029295d5b4731235347dd920d3c2b3cf06c`.
+Metadata `dc1fb029f82a0842de8ac75bae893d917b26a1d0d6c94c48f5269138db890ec1`:
+1271decisions,87.804878%readiness;15futureschecks,42new/190combinedtests PASS.
+Полные numeric states/directions/actualtargets/newPnL ещё не прочитаны. Next seal,
+commit/push, server tests и один economic run/audit/backup. 42portfolio unchanged,
+0activeStage2/3. Main AlgoPack независим, Windows collectors не включались.
 
 ## Exporter FX source review завершён; экономическая ветка отложена
 
@@ -5189,7 +5205,15 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17, 09:14 МСК / 2026-09-17, 06:14 UTC:
+Текущий первый шаг 2026-09-17,10:04МСК /07:04UTC:
+[V113](V113_PRIVATE_DEMAND_BREADTH.md) source metadata готово:56PDF,
+53ready/3unavailable,87.804878%readiness,190tests и15futureschecks PASS.
+Следом code/config/source seal и push до полного numericstate/newoutcomes,
+server tests, один economicrun, затем source/ledger audit и backup.
+Не новый collector, не broad source search; не менять уже выбранное правило.
+42portfolio/0activeStage2/3,2026market protected, main archive независимо.
+
+Исторический первый шаг 2026-09-17, 09:14 МСК / 2026-09-17, 06:14 UTC:
 [Exporter FX review](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md) сохранён и закрыт
 как SOURCE_FEASIBILITY_PAUSED, не portfolio entrant. Не склеивать дневные и
 месячные таблицы, не читать дневные строки как своевременно опубликованные,

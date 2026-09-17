@@ -1,0 +1,23 @@
+{
+  "protocol_id": "v113_private_demand_breadth_v1",
+  "sealed_at_utc": "2026-09-17T07:03:25Z",
+  "sealed_before_full_numeric_states_directions_targets_and_new_outcomes": true,
+  "three_source_samples_seen": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 190,
+  "metadata_report_sha256": "dc1fb029f82a0842de8ac75bae893d917b26a1d0d6c94c48f5269138db890ec1",
+  "files": {
+    "src/market_lab/futures_v113_private_demand_breadth.py": "8d643272227716a087b149366702405e09befbd77094787af499697aec01c778",
+    "configs/v113_private_demand_breadth_v1.json": "76f5c6b6323269f274afe3f9a77d2ac48f569474ed3b5d0f802f27e71a708afa",
+    "tests/test_futures_v113_private_demand_breadth.py": "fda94d3f93d3d878c19dabdec2054cbc96ee32379554b5224e51e52c0a4c109b",
+    "docs/V113_PRIVATE_DEMAND_BREADTH.md": "dc10d6d8b1d9dc0cf0a41c624fca29f7357370e90adf8d2d55f95735c8b6f7f6",
+    "scripts/cbr_sector_payments_sample_20260917.py": "597ad7690d605b886d2978e0e3eb516a49fe436fa38c62096acb4178873e269f",
+    "scripts/cbr_sector_payments_continuity_20260917.py": "5a88ff65c9e6614e7117223e76817d7a555507b3ac38c0aee9d4fe14e6e4dba3",
+    "scripts/cbr_sector_payments_corpus_20260917.py": "56c79483338de6cefd80ecbb21d58876343203760d29e2ab09903c7a59093ba6",
+    "scripts/cbr_sector_payments_corpus_v2_20260917.py": "b397a3108a26dd41d1dc2424338f031a968569521488b101589fd76580d8d763",
+    "src/market_lab/futures_v97_hurricane_supply.py": "498b89e1add390f90bc50906c314f2c1f1bc414bda0ef2cf702307de5d537f9f",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

@@ -1,5 +1,19 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 10:04МСК /07:04UTC — V113 pre-outcome
+
+[Протокол](V113_PRIVATE_DEMAND_BREADTH.md): одна transactional-demand breadth
+гипотеза MIX long/cash, триpositive demandgroups против aggregate-positivecontrol.
+2021–2025/fullcalendar/base-double, старый ledger, no model/grid.56datedPDF,
+53complete/3explicit unavailableclock events, no guessed year/timing repairs.
+V1partialHTTP200timeout сохранён;V2sameURLs/53GET/3reuse COMPLETE06:47:08UTC.
+Manifest `150c43f460928ee7d824c8fab88d1029295d5b4731235347dd920d3c2b3cf06c`.
+Metadata `dc1fb029f82a0842de8ac75bae893d917b26a1d0d6c94c48f5269138db890ec1`,
+1271decisions/87.804878%readiness,15futureschecks/42new/190combinedtests PASS.
+Source-inferred pre-outcome mask policy refinement documented; rule/gates unchanged.
+Full numericalstates/targets/newPnL ещё не читались, seal/run следующий шаг.
+42portfolio unchanged,0activeStage2/3,goalactive/notachieved. 2026market protected.
+
 ## 2026-09-17 09:14 МСК / 06:14 UTC — exporter FX source review, без нового PnL
 
 [Полный разбор](CBR_EXPORTER_FX_SOURCE_REVIEW_20260917.md): 31 release-specific

@@ -1,0 +1,65 @@
+{
+  "protocol_id": "v113_private_demand_breadth_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2021-01-01", "end": "2025-12-31"},
+  "assets": ["MIX"],
+  "source": {
+    "root": "source_evidence/cbr_sector_payments_20260917_v1/corpus_v2",
+    "manifest_sha256": "150c43f460928ee7d824c8fab88d1029295d5b4731235347dd920d3c2b3cf06c",
+    "expected_releases": 56,
+    "unavailable_publications": {
+      "2022-08-11": {"failure": "PDF release header mismatch", "evidence": "Index/cover11Aug2022, selected table page4 erroneously prints11Aug2021. Do not silently correct selected-page year."},
+      "2024-03-07": {"failure": "PDF metadata later than stated publication", "evidence": "Creation/modification11Mar2024 15:07:18+03:00; cannot use current bytes on7Mar."},
+      "2025-10-09": {"failure": "PDF metadata later than stated publication", "evidence": "Creation13Oct2025 14:20:59+03:00, modification14Oct2025 15:38:01+03:00; cannot use current bytes on9Oct."}
+    },
+    "index_sha256": "a8881ea7681da93e9cf8da69409b0bcc6740a59d61c889856f667508da39f249",
+    "release_calendar": "One monthly publication May2021 through Dec2025; actual printed date and index link, not a guessed fixed publication day. Observation must be previous complete month. Full 2021-2025 evaluation keeps initial unavailable cash.",
+    "selected_cells": "Table1 only: first monthly column of aggregate incoming weighted payments, consumer demand, investment demand and external demand. Labels versioned explicitly, all data-column token counts must match header. Other columns checked only for schema position/count, never converted or used as earlier observations.",
+    "definition": "Nominal, seasonally adjusted, winsorized incoming ruble payments through Bank of Russia payment system. Growth relative to average previous calendar quarter. Less than half of all payment flows; economic sector weights2018, demand-use shares2017, overlapping groups. Not real GDP, company-level revenue or independent confirmations.",
+    "availability": "Conditional end of printed publication date Europe/Moscow, next factual open only. PDF creation/modification clocks must not exceed publication date EOD but are not witnessed original receipt proof. No later report revises an earlier signal.",
+    "rights": "Private research with Bank of Russia attribution under saved official terms/agreement; no raw public redistribution, dataset sale, broker/live rights or third-party rights inferred.",
+    "capture_note": "V1 stopped after first new request HTTP200/curl28 partial1383617of2474945bytes at30seconds, raw/failed manifest preserved. Explicit separate V2 uses120second ceiling, same56URLs,53requests and3reused samples, no automatic retries/redirect. V2 COMPLETE06:47:08.659793UTC. Current copies of dated PDFs, not immutable witnessed vintages. Reusable capture scripts remain byte-identical to actual executed hashes, including an import-order-only I001 finding in the V2 transport wrapper."
+  },
+  "signal": {
+    "primary": "MIX long0.9 iff consumer>0 AND investment>0 AND external>0; otherwise cash. Strict Decimal sign, zero/nonpositive is cash. No fitted parameters or model.",
+    "control": "MIX long0.9 iff aggregate>0 on identical four-cell readiness; otherwise cash. Diagnostic, not promotable alpha.",
+    "missing": "Any missing latest selected cell masks both arms. Three exact source-clock defects, declared before states/PnL, generate unavailable events at index-date EOD and mask both arms until the next usable publication; periods stay in full calendar and readiness denominator. No guessed corrections, zero imputation, older-good fallback or interpolation. Every other absent/duplicate publication or unexpected date/schema/column order/token failure stops before prices. This pre-outcome source-admission refinement replaces the draft all-or-nothing treatment without changing economic rule or80percent gate.",
+    "maximum_source_age_at_fill_calendar_days": 66,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": ["2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: exporter FX source review saved and unsafe cross-version merge deferred, not profit. V113 is new actual transactional private-demand breadth, not BCI surveyV22, US manufacturingV101, monetary flowV112 or a retuned old governor. Alpha independence is not established.",
+    "May2021, April2025 and December2025 source sample cells already seen; source is not unseen. All74pages of April sample initially text-extracted, output truncated. No full numerical states/directions/targets/newPnl read before seal. Market2021-2025 already-seen development, never independent holdout.",
+    "Nominal payment growth can reflect inflation, exchange rates, settlement timing, policy and classification changes instead of real business strength. Economic demand groups overlap and are not matched listed-index weights. Transmission may already be priced or dominated by local shocks.",
+    "CBR seasonal/winsorization estimates revise, including historical values. Common current XLSX explicitly uses updated winsorization for whole history and is excluded. Individual dated PDFs are current copies; header/index/PDF clocks do not rule out undetected replacement. Conditional developmental screen only, not proven PIT tradability.",
+    "Unchanged V72/V78/V64 EOD-next-factual-open integer ledger and research specs/fees/margin. Full calendar, cash, halts, cancellations, capacity and unresolved risk preserved. All4executioncomplete/critical0/unresolved0/terminalflat required. Signal episodes separated from roll roundtrips; 5percent component gate does not replace20-50percent goal.",
+    "No post-outcome sign/asset/threegroup/threshold/period/clock/TTL/size/control/cost/gate tuning. No protected2026 market values, broker/demo/live, purchases, credential reads, Windows collectors or expandedAlgoPackeconomic scope. Mainarchive independently running."
+  ]
+}
