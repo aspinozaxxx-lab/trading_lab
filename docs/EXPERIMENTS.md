@@ -1,5 +1,14 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 — V105 V2 pre-outcome, V1 identity failure preserved
+
+[V2](V105_SURVEY_DISPERSION_V2.md): source_url expectedpage vs storedworkbook failure
+inV1 before states/targets/prices/economics. Only inputs.json3173bytes remains,
+SHA f2032b793bcf044ccfd3bd6c9dd800b7dc87156b463d660265938f1de4bb12df; not rerun.
+V2only changes expectedURL/protocolID, all numerical/economic rules inherited.
+6new/118combinedtestsPASS,Ruffclean,metadataidentitypreflightPASS; newsealed version
+before first economic attempt. Sourcealreadycopied, noHTTP/parser.35portfolio unchanged.
+
 ## 2026-09-17 03:25 МСК / 2026-09-17 00:25 UTC — V105 pre-outcome
 
 [Протокол](V105_SURVEY_DISPERSION.md): один GDPsurvey IQRcontraction → MIXlong0.9/cash,

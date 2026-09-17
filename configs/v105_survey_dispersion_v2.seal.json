@@ -1,0 +1,16 @@
+{
+  "protocol_id": "v105_survey_dispersion_v2",
+  "sealed_at_utc": "2026-09-17T00:36:51Z",
+  "sealed_before_new_targets_and_economic_outcomes": true,
+  "source_identity_correction_only": true,
+  "existing_numeric_source_loaded_by_failed_v1_but_no_states_or_outcomes": true,
+  "independent_holdout": false,
+  "synthetic_tests_passed": 118,
+  "files": {
+    "src/market_lab/futures_v105_survey_dispersion_v2.py": "f710133645d8b030e620f8184ae1bd93244b41d1a91ec831520dea3264b4f25a",
+    "configs/v105_survey_dispersion_v2.json": "ff74a20cbf35da675c0cc1798e3fd440fc2fb91b52ae0e4b951cf21e1e8da934",
+    "tests/test_futures_v105_survey_dispersion_v2.py": "bc2414dbbdf1ffae9dfc9df1801b01c8b87169d97264a802da76d15507dbaa8f",
+    "docs/V105_SURVEY_DISPERSION_V2.md": "352c31c4d5c1bc399324d92941e3406637b6ac09c33a9cc114690fe3f3579675",
+    "configs/v105_survey_dispersion_v1.seal.json": "db89197a975f962a1af7b2f7060fa08c33dc22356d21eb3471d131c36e595edf"
+  }
+}

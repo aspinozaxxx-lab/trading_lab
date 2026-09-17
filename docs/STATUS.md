@@ -3,7 +3,18 @@
 Обновлено: **2026-09-17, 03:25 МСК / 2026-09-17, 00:25 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V105 pre-outcome — GDP survey dispersion
+## V105 V2 pre-outcome — source identity correction only
+
+[V2note](V105_SURVEY_DISPERSION_V2.md): V1failed00:30:46UTC before states/targets/
+marketread/economics. Stored source_url is officialworkbook, not expectedindexpage;
+unit/vintage unchanged. Failedroot retains onlyinputs.json SHA f2032b793bcf044ccfd3bd6c9dd800b7dc87156b463d660265938f1de4bb12df.
+V2inherits all economic rules unchanged, corrects only expectedURL/protocolID and
+adds metadataidentity gate before numericread. 6new/118combinedtestsPASS,Ruffclean,
+metadata-onlypreflightPASS. Newseal/commit before one newrun; V1neverrerun.
+Sourcecopy completed5files verified,0HTTP; mainarchive unchanged.35portfolio still,
+noeconomicresult/noStage2 for V105 yet. Sourcevalues loaded inV1RAM but not transformed.
+
+### V105 V1 pre-outcome — historical record
 
 [Протокол](V105_SURVEY_DISPERSION.md): одна новая distributional hypothesis на ready
 CBR source: MIXlong0.9/cash при сокращении p75−p25 GDPforecasts для того же nextyear

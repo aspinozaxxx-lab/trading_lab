@@ -1,0 +1,8 @@
+{
+  "protocol_id": "v105_survey_dispersion_v2",
+  "parent_v105_seal_sha256": "db89197a975f962a1af7b2f7060fa08c33dc22356d21eb3471d131c36e595edf",
+  "source_url": "https://www.cbr.ru/Content/Document/File/144490/full.xlsx",
+  "failed_v1_root": "runs/v105_survey_dispersion_v1_db89197a975f",
+  "failed_v1_inputs_sha256": "f2032b793bcf044ccfd3bd6c9dd800b7dc87156b463d660265938f1de4bb12df",
+  "change": "Source identity only: stored row source_url is the official workbook URL, not its index page. V1 failed before states/targets/market reads; all numerical/economic rules inherited unchanged. Keep failed V1 artifacts and unit; a new versioned run, never rerun V1."
+}
