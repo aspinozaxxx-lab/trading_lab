@@ -1,5 +1,26 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 08:37 МСК / 05:37 UTC — V112 COMPLETE / INVALID
+
+[Результат](V112_RUBLE_FUNDING_PRESSURE_RESULT.md): SIshort при joint fundingpressure,
+CAGR+0.6078%/+0.5789%,Sharpe0.15396/0.14774,MDD11.1566%/11.2140%,
+22trips=21episodes+1roll,3positiveyears/8. Primaryexecutioncomplete/critical0;
+оба controls critical2/gross-limit2, formal INVALID_EXECUTION_NO_PROMOTION.
+Controls−0.4008%/−0.5618%,99trips=96episodes+3rolls. No Stage2/no retune.
+1963ready states/76short,2024decisions/arm,76/324targets,97.67787%source/
+97.62846%joint readiness. Unresolved0/terminalflat все4 не отменяют control failures.
+
+Pre-outcome `f27a98b58b69e3a2c7d85e1450fddd82479187e9`, seal
+`2461c10932fa2cbcd85fe885690bdbe923aaaee0534827a625011d71692ea669`.
+Run `runs/v112_ruble_funding_pressure_v1_2461c10932fa`, complete05:29:14.219625UTC,
+manifest `72c4eef1ca40b4a2887e26dec5997eb776b4f39000a75fbb989a8ec339ba7920`.
+168local/server testsPASS,20hashes/1963states/2targets/4cashreplaysPASSbothhosts;
+21run+10sourcefilesbackupverified. Oneeconomicrun, sealedfilesunchanged.
+**42portfolio =32Stage1reject+1Stage2reject+1incomplete+8invalid**,0activeStage2/3,
+goal20–50active/notachieved. Next exporterFX source review only; no new rule/corpus.
+Main archive05:30UTC21356/26305jobs81.1861%,15.196GBtotal/13.209GBAlgoPack,
+failed0/blocked0; FUTOI550gapsunchanged. Local2.767GBчастичноcopies,неunique sum.
+
 ## 2026-09-17 08:25 МСК / 05:25 UTC — V112 pre-outcome
 
 [Протокол](V112_RUBLE_FUNDING_PRESSURE.md): совместный RUONIA premium AND

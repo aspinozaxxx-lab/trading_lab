@@ -1,6 +1,42 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-## Текущий статус 17 сентября 07:58 МСК — V111 закрыт; CBR liquidity review
+## Текущий статус 17 сентября 08:37 МСК — V112 закрыт; exporter FX review
+
+[V112 result](V112_RUBLE_FUNDING_PRESSURE_RESULT.md): primary+0.6078%/+0.5789%,
+22trips,3positiveyears/8; оба controls critical2, formal INVALID.42portfolio,
+0activeStage2/3. Source/run audits и backups PASS; не улучшать старое правило.
+V112 действительно добавил joint funding quantity/price, не повторял V18/V71.
+
+Следующий bounded review — **фактические чистые продажи валюты крупнейшими
+экспортёрами**. V64 — календарный proxy ожидаемых продаж перед налогами, V19 —
+государственные Minfin FX операции, V107 — current account, не конвертация валюты.
+Поиск `exporter/экспортер/экспортёр/foreign.exchange.sales` в configs/docs нашёл
+только V64/V78 explanations, не отдельный готовый actual-exporter-flow screen.
+Это не доказательство alpha/независимости; направление, нормализация и rule не выбраны.
+
+Пока сделан **только official web search**, без открытия PDF, загрузки корпуса или
+извлечения графиков. Найдены CBR monthly Financial Market Risk Reviews:
+
+- [April2025](https://www.cbr.ru/Collection/Collection/File/55867/ORFR_2025-4.pdf):
+  snippet содержит отдельный ratio net FX sales/FX export proceeds и прямо говорит
+  об ежемесячных пересмотрах из-за уточнения зарегистрированных внешнеторговых контрактов.
+- [July2025](https://www.cbr.ru/Collection/Collection/File/57148/ORFR_2025-7.pdf):
+  snippet указывает cohort29exporters, источник — опрос банков, данные ЦБ/MOEX.
+  Monthly net sale volume и ratio к export proceeds относятся к разным reference
+  months. Нельзя считать report month датой доступности всех cells.
+- [May2025](https://cbr.ru/Collection/Collection/File/55957/ORFR_2025-5.pdf) подтверждает
+  предупреждение о revisions ratio. Search snippets также показали числовые source
+  cells2023–2025 и исторический market narrative: они уже видены, не unseen.
+
+Search-rendered chart labels не проверенные числа для модели. Полные PDF/страницы,
+original release dates, cohort continuity и metadata ряда пока не прочитаны.
+Новый source pack/config/seal/targets/backtest не создавались. Следующий шаг — один
+небольшой dated source/definition sample, при работе с PDF читать соответствующий
+skill и проверять визуальный контекст. Не строить extraction framework до feasibility.
+Если cohort/clock/coverage не позволяют честный короткий screen, отказ без PnL.
+Никаких2026market outcomes, broader AlgoPack economic admission, paid/broker/live.
+
+## Исторический статус 17 сентября 07:58 МСК — V111 закрыт; CBR liquidity review
 
 [V111 REJECT_STAGE1](V111_CREDIT_RISK_APPETITE_RESULT.md): CAGR −2.8632%/−2.0091%,
 34 trips = 11 episodes + 23 rolls; все 4 execution-complete, но прибыли нет.

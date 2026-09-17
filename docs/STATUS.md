@@ -1,9 +1,37 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 08:25 МСК / 2026-09-17, 05:25 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 08:37 МСК / 2026-09-17, 05:37 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V112 pre-outcome — совместное рублёвое funding pressure
+## V112 COMPLETE — primary слишком слаб, сравнение INVALID
+
+[Результат](V112_RUBLE_FUNDING_PRESSURE_RESULT.md): joint funding pressure → SIshort,
+CAGR **+0.6078% / +0.5789%**, Sharpe0.15396/0.14774, MDD11.1566%/11.2140%,
+22trips =21episodes+1roll,3positiveyears/8,2018–2019cash. Primaryexecutioncomplete,
+critical0/unresolved0/terminalflat. Оба controls critical2/gross-limit2, поэтому
+формально **INVALID_EXECUTION_NO_PROMOTION**, не валидный сравнительный PASS/REJECT.
+Controls−0.4008%/−0.5618%,99trips. Primary не проходит даже component CAGR/Sharpe/
+positive-years/excess gates. Не усиливать, не менять знак/порог/контроль, не Stage2.
+
+1963jointready states/76short,2024decisions/arm,76/324nonzero targets,
+97.67787%source/97.62846%joint readiness; halt/cancellations не удалены.
+Pre-outcome `f27a98b58b69e3a2c7d85e1450fddd82479187e9`, seal `2461c10932fa...`;
+run `runs/v112_ruble_funding_pressure_v1_2461c10932fa`, complete05:29:14UTC,
+manifest `72c4eef1ca40b4a2887e26dec5997eb776b4f39000a75fbb989a8ec339ba7920`.
+168local/168server tests,20hashes/1963states/2targets/4cashreplays PASSbothhosts,
+backup21run+10source files verified. V1 import failure сохранён; no source HTTP retry.
+**42portfolio =32Stage1reject+1Stage2reject+1incomplete+8invalid**,0activeStage2/3.
+Goal20–50active, не достигнут. Current-vintage conditional clock, не original PIT.
+
+Следующий bounded review — [фактические продажи валюты экспортёрами](NEXT_SOURCE_REVIEW_20260916.md),
+не V64 tax calendar/Minfin FX/current account. Пока только official search snippets:
+monthly report cohort/definition/publication/revisions требуют проверки; ratio
+net sales/export proceeds пересматривается. Нового rule/sourcepack/backtest ещё нет.
+Main archive05:30UTCactive,21356/26305jobs81.1861%,failed0/blocked0,
+**15.196GBtotal/13.209GBAlgoPack**; local05:32UTC2.767GBчастично copies.
+FUTOI550gaps unchanged; broad AlgoPack scope unanswered,2026market protected.
+
+### V112 pre-outcome — историческая запись
 
 [Протокол](V112_RUBLE_FUNDING_PRESSURE.md): SI short0.9, когда same-date RUONIA
 выше key rate AND банковский deficit без корсчетов положителен; иначе cash.
@@ -5137,7 +5165,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17, 08:25 МСК / 2026-09-17, 05:25 UTC:
+Текущий первый шаг 2026-09-17, 08:37 МСК / 2026-09-17, 05:37 UTC:
+[V112closed](V112_RUBLE_FUNDING_PRESSURE_RESULT.md):42portfolio/0activeStage2/3,
+не retune, не ремонтировать controls и не повторять canonical run/audit без причины.
+Следующий bounded source review — actual exporter net FX sales в dated CBR reports:
+cohort/definition continuity, publication date vs observation month, revisions,
+rights и полнота. Это не V64 календарный proxy и не V19 государственные операции.
+Один небольшой metadata sample до нового корпуса/экономики; при дорогом blocker
+короткий отказ вместо extraction framework. Ratios могут пересматриваться и имеют
+более поздний reference month; не смешивать с net sale volumes или рынком2026.
+[Точные источники и уже виденные snippets](NEXT_SOURCE_REVIEW_20260916.md).
+Main archive независимо active, broader AlgoPack scope не предполагать, goalactive.
+
+Исторический первый шаг 2026-09-17, 08:25 МСК / 2026-09-17, 05:25 UTC:
 [V112](V112_RUBLE_FUNDING_PRESSURE.md): source/code/tests готовы; joint dates1963/1963,
 числовые states/новыйPnL ещё не прочитаны. Seal/commit/push,168server tests, один
 economic run/audit/backup; не новый источник/коллектор. V1 import failure сохранён,
