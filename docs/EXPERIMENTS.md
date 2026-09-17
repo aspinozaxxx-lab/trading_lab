@@ -1,5 +1,30 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 04:16 МСК / 01:16 UTC — V106 COMPLETE / INVALID, нет продвижения
+
+[Результат](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): commercial net-short share
+vs strictly previous 52 reports → BR long/cash. Primary CAGR +0.1664% / −0.0319%,
+Sharpe 0.05765 / 0.02508, MDD 9.4115% / 9.8303%, 10 trips, 2 positive years / 5;
+в 2024–2025 нет позиций. Primary оба execution-complete / critical 0. Controls
+diagnostic +12.8410% / +12.3384%, оба execution-invalid / gross-risk flags 2.
+All four unresolved 0 / terminal flat. Verdict INVALID_EXECUTION_NO_PROMOTION;
+primary слишком слаба независимо от control, не retune и не repair-to-promote.
+417 reports, 365 ready / 75 long source states включая warmup; 1271 decisions на arm,
+86 / 1204 nonzero, source readiness 94.8859%, joint 94.8072%. Original PIT false.
+Seal `75b297c3291c677dbd9ad61420ead7b463017d0b4b7915e4b831d67000f57394`,
+pre-outcome `6e0beb0625f252df9ff5a6f6175249aefbdf58f1`;
+run `runs/v106_commercial_hedging_premium_v1_75b297c3291c`, completed 01:01:14 UTC.
+Manifest `c756f2446a0adb511a739838c9e75d7f5c49d18414a696ae7ac444dc1782fa16`;
+metrics `934d9502bc9d05aff69a3901e0c487b12578e05246f172a0896a203aa974503a`.
+Audit 19 hashes / 417 reports and states / 2 targets / 4 cash-metric replays PASS;
+156 local / 156 server tests PASS, Ruff clean; backup 19 hashes + manifest PASS.
+Один economic run, без failed precursor, HTTP/parser/source transfer или tuning.
+37 portfolio = 29 REJECT_STAGE1 + 1 REJECT_STAGE2 + 1 incomplete + 6 invalid;
+0 active Stage2/3, goal active / не подтверждён. Следующий bounded source review —
+CBR balance of payments, пока три dated HTML / без PDF corpus или V107.
+Main archive 01:04 UTC 71.2032% jobs, 14.032 GB total / 12.070 GB AlgoPack, failed 0;
+FUTOI 550 gaps неизменны. Данные, результаты, модели и credentials вне Git.
+
 ## 2026-09-17 03:58 МСК / 00:58 UTC — V106 pre-outcome
 
 [Протокол](V106_COMMERCIAL_HEDGING_PREMIUM.md): high commercialnetshort share vs

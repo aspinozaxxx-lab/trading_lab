@@ -1,12 +1,55 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-Текущий статус17сентября03:45МСК:
+Текущий статус 17 сентября 04:16 МСК:
+[V106 завершён](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): primary +0.1664% /
+−0.0319% CAGR, 10 trips, слишком слабая; controls execution-invalid, формальный
+verdict INVALID_EXECUTION_NO_PROMOTION. Ни sign/window/asset retuning, ни control
+repair-to-promote. 37 portfolio / 0 active Stage2/3. CFTC review ниже теперь история:
+commercial rule уже проверено, total traders/spreading как risk-capacity proxy отвергнуты.
+
+## Следующий bounded review — датированные публикации платёжного баланса ЦБ
+
+Возможный новый information set — внешние торговые/доходные потоки, не Minfin FX
+operations V19, survey forecasts V21/V105 или закрытый manufacturing channel.
+Поиск экономических docs/configs/code не обнаружил отдельной balance-of-payments /
+current-account family; это preliminary novelty check, не доказательство alpha.
+
+Пока прочитаны только три официальных HTML releases; их linked quarterly commentary
+PDF не открывались, новый full corpus/parser/service не создавался:
+
+- [20 апреля 2023](https://cbr.ru/press/event/?id=14719): Q1 current-account surplus
+  сократился вместе с trade balance; текст сравнивает экспорт/импорт с теми же
+  кварталами прошлых лет. Нельзя принять это автоматически за QoQ surprise.
+- [19 октября 2023](https://www.cbr.ru/press/event/?id=17141): Q3 surplus вырос
+  относительно предыдущего квартала; названы экспорт, импорт и начисленные
+  дивиденды нерезидентам. Это другой denominator сравнения, чем YoY.
+- [30 января 2024](https://cbr.ru/press/event/?id=18378): текст о 2023 годе и
+  сопоставлении с 2021/2022, не автоматически standalone Q4 release signal.
+
+Следующий шаг — маленький dated-release inventory/coverage и проверка того, есть ли
+сопоставимый отдельный квартальный показатель с проверяемой publication/revision
+историей. До числового правила отдельно установить доступность, период, единицы,
+rights и границы источника. Никакого V107/config/seal/targets/outcomes пока нет.
+Не читать market outcomes 2026 и не принимать current revised series за original PIT.
+
+Не смешивать cumulative со standalone-quarter, YoY с QoQ. Вычитание текущих revised
+cumulative series не восстанавливает исходный monthly flow. Даже верно измеренный
+current account не равен фактической продаже валюты на MOEX: financial account,
+ограничения движения капитала и валюты расчётов требуют отдельного рассмотрения.
+При слабой coverage/невосстановимой revision chain или необходимости большого нового
+parser — зафиксировать source limitation и перейти дальше, не превращать review
+в инфраструктурную ветку. Это agenda, не source admission или новый economic entrant.
+Broad AlgoPack economic scope unanswered, TIC paused, archive работает отдельно.
+
+## Предыдущий статус 17 сентября 03:45 МСК
+
+Исторический статус17сентября03:45МСК:
 [V105 REJECT_STAGE1](V105_SURVEY_DISPERSION_RESULT.md) завершён; GDPforecast IQR
 contraction дал отрицательнуюдоходность в обоихcosts и не прошёлgates. V1URLidentity
 failure сохранён,V2economicrulesнеизменны.36portfolio/0activeStage2/3. Не новый
 surveychannel,quantile,sign/window retune; source review ниже — другое направление.
 
-## Следующий bounded review — CFTC producer hedging / risk capacity
+### CFTC producer hedging / risk capacity — исторический план, завершён V106
 
 В уже сохранённом energy/metals source parser/schema есть producer_long/short,
 managed_money_spreading, other_reportable_spreading и total_traders. Поиск точных

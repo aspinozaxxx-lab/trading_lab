@@ -1,5 +1,27 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 04:04 МСК / 01:04 UTC**: main active/running,
+PID 1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
+**18730/26305 jobs (71.2032%)**, 168828717 rows, 181988 pages, failed 0 / blocked 0,
+9965722568 completed-job bytes, status updated 01:03:47.066780 UTC; final manifest
+отсутствует. Process snapshot 01:04:03.356177 UTC; du completed 01:04:06.489572 UTC.
+Archive 10613337693 + earlier processed 1456918554 =
+**12070256247 bytes / 12.070 GB AlgoPack**. Data 13472995320 + source 559319597 =
+**14032314917 bytes / 14.032 GB total**; AlgoPack уже включён в total.
+Это sequential apparent-byte замер при записи, не deduplicated unique-data measure,
+без models/runs/tmp/transfers. Доля jobs не доля конечного объёма или времени.
+Local последний замер предыдущего turn: data 10841 files / 2719842747 bytes +
+source 25 files / 27598511 bytes = **2747441258 bytes / 2.747 GB**; частично копии,
+не прибавлять к server как unique. В этом turn local data/source не переизмерялись.
+Параллельно [V106](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md) завершён:
+primary слишком слабая, comparison INVALID; нового Stage2 кандидата нет.
+Source уже на сервере, новых source HTTP/transfer/parser не было. Result backup
+сохранён отдельно в local external runs и не включён в объём данных выше.
+FUTOI 550 unresolved ticker-days unchanged / not re-audited; main failed 0 не
+устраняет их. Credentials, main unit и Windows collectors не менялись.
+
+### Предыдущий снимок 17 сентября 03:41 МСК
+
 Actual **2026-09-17 03:41 МСК /00:41UTC**: mainactive/running,
 PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, безперезапуска.
 **18521/26305jobs (70.4087%)**,167082007rows,180105pages,failed0/blocked0,

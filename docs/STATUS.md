@@ -1,9 +1,44 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 03:58 МСК / 2026-09-17, 00:58 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 04:16 МСК / 2026-09-17, 01:16 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V106 pre-outcome — commercial risk-supply premium
+## V106 COMPLETE — primary слишком слабая, comparison INVALID_EXECUTION_NO_PROMOTION
+
+[Полный результат](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): commercial net-short
+share против строго предыдущих 52 reports → BR long/cash. Primary CAGR
+**+0.1664% / −0.0319%**, Sharpe 0.05765 / 0.02508, MDD **9.4115% / 9.8303%**,
+10 round trips, 2 положительных года из 5; в 2024–2025 нет позиций.
+Primary оба execution_complete/critical 0. Controls diagnostic CAGR
++12.8410% / +12.3384%, но оба execution-invalid: по 2 aggregate gross-risk flags.
+У всех unresolved 0 / terminal flat. Формальный verdict всей проверки INVALID;
+primary и независимо от control ниже gates. Не ремонтировать control ради её promotion.
+
+417 eligible reports, 365 ready states / 75 long states включая warmup;
+1271 решение на arm, 86 / 1204 nonzero targets, 18 / 249 used releases.
+Source readiness 94.8859%, joint readiness 94.8072%. Known publication delays
+учтены, но original receipts/revisions не доказаны; WTI→Brent — proxy.
+Code/config/seal и pre-outcome commit/push
+`6e0beb0625f252df9ff5a6f6175249aefbdf58f1` зафиксированы до новых values/outcomes.
+Seal `75b297c3291c677dbd9ad61420ead7b463017d0b4b7915e4b831d67000f57394`;
+run `runs/v106_commercial_hedging_premium_v1_75b297c3291c`, completed 01:01:14 UTC.
+Manifest `c756f2446a0adb511a739838c9e75d7f5c49d18414a696ae7ac444dc1782fa16`.
+Audit 19 hashes / 417 reports/states / 2 targets / 4 cash-metric replays PASS;
+156 local / 156 server tests PASS, Ruff clean. Local backup 19 hashes + manifest PASS.
+Один economic run, без failures/reruns; source уже на сервере, без HTTP/parser.
+
+**37 portfolio = 29 REJECT_STAGE1 + 1 REJECT_STAGE2 + 1 incomplete + 6 invalid**,
+0 active Stage2/3. V93 отдельно, V102 source-only / failed V105 V1 не entrants.
+Цель устойчивых 20–50% active и не подтверждена. V106 не retune/flip/lever.
+Следующий bounded шаг: [платёжный баланс ЦБ](NEXT_SOURCE_REVIEW_20260916.md),
+датированные HTML releases, coverage/revisions/сопоставимость периодов до правила.
+Это discovery, не новый source admission, V107 или economic config.
+Main archive 01:04 UTC active/running, **18730/26305 jobs (71.2032%)**,
+failed 0 / blocked 0; **14.032 GB data+source, включая 12.070 GB AlgoPack**.
+Local последний замер 2.747 GB, частично копии — не прибавлять к server как unique.
+FUTOI 550 gaps unchanged, broad AlgoPack scope unanswered, TIC paused, 2026 protected.
+
+### V106 pre-outcome — историческая запись
 
 [Протокол](V106_COMMERCIAL_HEDGING_PREMIUM.md): BRlong0.9/cash при положительном
 (producer_short−producer_long)/OI выше median строго предыдущих52WTIreports.
@@ -4858,7 +4893,22 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,03:45МСК / 2026-09-17,00:45UTC:
+Текущий первый шаг 2026-09-17,04:16МСК / 2026-09-17,01:16UTC:
+[V106 COMPLETE / INVALID](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md), 37 portfolio,
+0 active Stage2/3. Primary +0.1664% / −0.0319% CAGR, 10 trips, нет активности в
+2024–2025; оба controls execution-invalid. Не повторять economic run/audit без
+новой причины, не подбирать sign/window/asset/risk и не чинить controls ради promotion.
+Первый незаблокированный небольшой шаг — dated CBR balance-of-payments releases:
+проверить coverage/publication/revisions и отдельные сопоставимые квартальные
+показатели. Уже прочитаны три HTML releases 2023–2024; новый PDF corpus/parser,
+числовой signal, V107 config/seal/targets/outcomes не созданы. Не смешивать cumulative
+и standalone-quarter, YoY и QoQ; current account не равен конверсии валюты на MOEX.
+До следующего теста нужны отдельные source/rule/seal gates. При дорогом source
+blocker — короткий отказ, не большая подготовительная ветка. Подробности в
+[next source review](NEXT_SOURCE_REVIEW_20260916.md). Main archive продолжает
+скачивание отдельно; broader AlgoPack scope unanswered, TIC paused, 2026 protected.
+
+Исторический первый шаг 2026-09-17,03:45МСК / 2026-09-17,00:45UTC:
 [V105 COMPLETE/REJECT_STAGE1](V105_SURVEY_DISPERSION_RESULT.md),36portfolio/0active.
 Economicrun завершён один раз; не повторять source/targets/ledger/audit без новой
 причины, не переворачивать sign и не менять quantiles/channel/expiry этой ветки.
