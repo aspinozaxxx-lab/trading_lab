@@ -1,5 +1,23 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 03:41 МСК /00:41UTC**: mainactive/running,
+PID1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, безперезапуска.
+**18521/26305jobs (70.4087%)**,167082007rows,180105pages,failed0/blocked0,
+9867673585completed-job bytes,statusupdated00:41:25.749744UTC,finalmanifestabsent.
+Ducompleted00:41:35.905773UTC:archive10514202350+earlierprocessed1456918554=
+**11971120904bytes/11.971GB AlgoPack**; data13372713924+source559319597=
+**13932033521bytes/13.932GB total**. AlgoPack уже входитвtotal; sequentialapparent
+bytes при записи,не deduplicatedunique measure,безmodels/runs/tmp/transfers.
+Localdata10841files2719842747bytes+source25files27598511bytes=
+**2747441258bytes/2.747GB**, замер в этомturn,частичнокопии — не складывать сserver.
+CBRfive-file existing source скопирован для[V105](V105_SURVEY_DISPERSION_RESULT.md),
+не новыйunique corpusмеждуhosts. V105экономическиотклонён,не новыйStage2кандидат;
+исследование не прерывалоarchive. FUTOI550unresolvedticker-days unchanged/notreaudited,
+mainfailed0 не устраняетэтиgaps. Jobfraction не доля конечногообъёма/времени.
+Credentials,mainunit/Windowscollectors не менялись.
+
+### Предыдущий снимок17сентября03:02МСК
+
 Actual **2026-09-17 03:02 МСК /00:02UTC**: main active/running,
 PID1663880,invocation `d562f0748c4341b48eb7f4d34d64b4a1`,безперезапуска.
 **18153/26305jobs (69.0097%)**,164116081rows,176905pages,failed0/blocked0,

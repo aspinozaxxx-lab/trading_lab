@@ -1,5 +1,27 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 03:45 МСК / 00:45 UTC — V105 COMPLETE / REJECT_STAGE1
+
+[Результат](V105_SURVEY_DISPERSION_RESULT.md): primaryCAGR−12.3913%/−12.4209%,
+Sharpe−.58853/−.58892,MDD50.8977%/50.9756%,19trips,1positiveyear/5.
+Control−8.9998%/−9.1891%,19trips. All4executioncomplete/critical0/unresolved0,
+terminalflat; economics нижеgates,хужеcontrol. No flip/quantile/channel retuning.
+36states/35pairs/21contractions,1271decisionsperarm,670/1086nonzero,
+ready86.7034%,joint85.5232%. Runcompleted00:38:45.793800UTC,одноeconomicиспытание.
+V1expectedindexpage/actualworkbookidentityfailed beforeeconomics; V2исправилтолькоURL.
+Seal2ec8e075107a8935138df0c9c28a70f1fd60cd53a238ee3cb4be1292933e6146,
+pre-outcomebb7189c8ff27725052c0bb07ff60c1e3451c4121;
+run `runs/v105_survey_dispersion_v2_2ec8e075107a`,manifest
+1fb4ae8edba6a939608c1528773792c4092ec72c03e0960e08f374485edd7b75,
+metricsbaee47d5cc941ef127036f6d3a6b6a8b41ae4a044eeebbabb48aaebe924cf792.
+Audit18hashes/36states/2targets/4cash-metric replaysPASS00:40:06UTC,
+118local/118server testsPASS,Ruffclean,fullbackup18hashes+manifest/failedV1PASS.
+Existing5sourcefiles copied,0HTTP;source/raw/results remainoutsideGit.
+36portfolio=29rejectedStage1+1rejectedStage2+1incomplete+5invalid,0activeStage2/3.
+Next bounded review CFTCproducerhedging/riskcapacity,notnetmanagedmoneyretune;
+V106/config/numericvalues нет. Goalactive,archive00:41UTC70.4087%jobs,
+13.932GBtotal/11.971GBAlgoPack,failed0;FUTOI550gapsunchanged.
+
 ## 2026-09-17 — V105 V2 pre-outcome, V1 identity failure preserved
 
 [V2](V105_SURVEY_DISPERSION_V2.md): source_url expectedpage vs storedworkbook failure

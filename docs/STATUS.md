@@ -1,9 +1,39 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 03:25 МСК / 2026-09-17, 00:25 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 03:45 МСК / 2026-09-17, 00:45 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V105 V2 pre-outcome — source identity correction only
+## V105 COMPLETE — REJECT_STAGE1
+
+[Полный результат](V105_SURVEY_DISPERSION_RESULT.md): IQRcontraction GDPforecasts →
+MIXlong/cash не дал преимущества. Primary CAGR **−12.3913%/−12.4209%**, Sharpe
+−.58853/−.58892, MDD **50.8977%/50.9756%**,19trips,1positiveyear/5.
+Control−8.9998%/−9.1891%,19trips. Все4executioncomplete/critical0/unresolved0/
+terminalflat, но economics ниже gates и хужеcontrol. Это conditional development,
+не holdout/live. Не менять sign/quantiles/канал/окно после результата.
+
+36eligible source states/35pairs/21contractions;1271decisions наarm,670/1086nonzero,
+ready86.7034%,joint85.5232%. V1identityfailureдоeconomics сохранён: expectedpage vs
+actualworkbook URL. V2только исправил эту identity, все economic rules unchanged.
+Единственный economicrun завершён00:38:45.793800UTC;
+`runs/v105_survey_dispersion_v2_2ec8e075107a`, seal
+`2ec8e075107a8935138df0c9c28a70f1fd60cd53a238ee3cb4be1292933e6146`,
+pre-outcome `bb7189c8ff27725052c0bb07ff60c1e3451c4121`, manifest
+`1fb4ae8edba6a939608c1528773792c4092ec72c03e0960e08f374485edd7b75`.
+Audit00:40:06UTC:18hashes/36states/2targets/4cash-metric replaysPASS;
+118local/118server testsPASS,Ruffclean;localbackup18hashes+manifest и failedV1PASS.
+Original journal+manifest provecompletion; позднийtransientunitnot-found самнеproof.
+
+**36portfolio =29REJECT_STAGE1+1REJECT_STAGE2+1incomplete+5invalid**,0activeStage2/3.
+V93separate,V102source-only/V105failedV1недополнительныеentrants. Goal20–50%active,
+неподтверждена. Next bounded review: CFTCproducerhedging/riskcapacity, не старые
+managed-moneyflow/crowding V58/V59/V87. Новыеvalues не читались, V106configнет;
+сначала novelty/publication/metadata, без нового parser/collector. См.next source review.
+Mainarchive00:41UTC active/running,18521/26305jobs70.4087%,failed0/blocked0;
+**13.932GBdata+source/11.971GBAlgoPack**. Local2.747GBчастичнокопии,неприбавлять.
+FUTOI550gapsunchanged,broadAlgoPackscopeunanswered,TICpaused,2026protected.
+
+### V105 V2 pre-outcome — историческая запись
 
 [V2note](V105_SURVEY_DISPERSION_V2.md): V1failed00:30:46UTC before states/targets/
 marketread/economics. Stored source_url is officialworkbook, not expectedindexpage;
@@ -4814,7 +4844,21 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,03:06МСК / 2026-09-17,00:06UTC:
+Текущий первый шаг 2026-09-17,03:45МСК / 2026-09-17,00:45UTC:
+[V105 COMPLETE/REJECT_STAGE1](V105_SURVEY_DISPERSION_RESULT.md),36portfolio/0active.
+Economicrun завершён один раз; не повторять source/targets/ledger/audit без новой
+причины, не переворачивать sign и не менять quantiles/channel/expiry этой ветки.
+V1sourceidentityfailure и V2seal/outcomes сохранены, rule unchanged; это одинentrant.
+Первый незаблокированный bounded шаг — CFTCproducerhedging demand / speculative
+risk capacity на существующем energy/metals source. Source code содержит producer
+long/short, spreading, total_traders; новая numeric feasibility не считалась.
+Проверить novelty против V58/V59/V87 и metadata/overridecalendar до выбора правила.
+Traders count не капитал/измереннаяriskcapacity; при отсутствии defensibleproxy
+отклонить идею без нового parser. Primary rationale/counterpoint в
+[next source review](NEXT_SOURCE_REVIEW_20260916.md). V106ещёневыделен.
+Mainarchive отдельно,broaderAlgoPackscopeunanswered,TICpaused,2026protected.
+
+Исторический первый шаг 2026-09-17,03:06МСК / 2026-09-17,00:06UTC:
 [V104 COMPLETE/INVALID](V104_INVENTORY_COVER_PREMIUM_RESULT.md),35portfolio/0active.
 Не повторять source/targets/ledger/audit и не tune-ить physical-stock/use rule:
 weak diagnostics ниже gates,хуже control и execution-invalid. V103тоже закрыт.

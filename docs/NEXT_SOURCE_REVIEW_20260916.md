@@ -1,6 +1,42 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-Текущий статус17сентября03:06МСК:
+Текущий статус17сентября03:45МСК:
+[V105 REJECT_STAGE1](V105_SURVEY_DISPERSION_RESULT.md) завершён; GDPforecast IQR
+contraction дал отрицательнуюдоходность в обоихcosts и не прошёлgates. V1URLidentity
+failure сохранён,V2economicrulesнеизменны.36portfolio/0activeStage2/3. Не новый
+surveychannel,quantile,sign/window retune; source review ниже — другое направление.
+
+## Следующий bounded review — CFTC producer hedging / risk capacity
+
+В уже сохранённом energy/metals source parser/schema есть producer_long/short,
+managed_money_spreading, other_reportable_spreading и total_traders. Поиск точных
+имён в экономических configs и futures_v*.py не нашёл их использования, кроме
+source schemas; это предварительный novelty check, не доказанная независимость.
+V58/V59 уже закрыли WTI managed-money net-flow/crowding, V87 — GOLDnet-flow→MIX/SI.
+Не переименовывать эти сигналы и не менять их знак. Новые fieldvalues/coverage
+числовойпригодности/targets/outcomes ещё не читались; V106config/seal нет.
+
+[Acharya/Lochstoer/Ramadorai, NBER16875](https://www.nber.org/papers/w16875) связывают
+издержки хеджирования с demand производителей и ограниченной способностью
+спекулянтов принимать риск. Это rationale другого demand/capacity information set,
+не доказательство tradableMOEXalpha и не разрешение считать числоtraders капиталом.
+В качестве counterpoint [Gorton/Hayashi/Rouwenhorst, NBER13249](https://www.nber.org/papers/w13249)
+отвергают существенную роль positions-based hedgingpressure в объяснении premia в
+своей выборке. Пока прочитаны primary abstracts, не полныйpaper/PDF или новые данные.
+
+Следующий шаг: коротко проверить измеримость demand/capacity существующими полями,
+отличие от прежнего positioning, metadata-key coverage и pinnedpublication overrides.
+Traders count не измеряет капитал, spreading не доказывает hedgingintent/capacity,
+producer category может включать не только направление экономическогоhedge.
+При слабой измеримости — отказ доeconomics, не новый большойparser/collector.
+Если оправдано, один отдельный frozenrule/control/cost protocol перед values/targets.
+Не использовать uniformreport+7days вместо известныхshutdown/correctionoverrides,
+не ослаблять source current-vintage/admission/2026. BroadAlgoPackscopeunanswered,
+TICpaused,archiveидёт отдельно. Это agenda, не проверенная гипотеза/новыйentrant.
+
+## Предыдущий статус17сентября03:06МСК
+
+Исторический статус17сентября03:06МСК:
 [V103 REJECT_STAGE1](V103_ILLIQUIDITY_PREMIUM_RESULT.md) и
 [V104 INVALID](V104_INVENTORY_COVER_PREMIUM_RESULT.md) уже завершены. Ни liquidity
 premium, ни physical inventory-cover premium не дали кандидата.35portfolio/0active.
