@@ -1,5 +1,29 @@
 ﻿# AlgoPack archive V1: RUNNING, сохранение до окончания подписки
 
+Actual **2026-09-17 05:04 МСК / 02:04 UTC**: main active/running,
+PID 1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
+**19310/26305 jobs (73.4081%)**, 173583208 rows, 187102 pages, failed 0 / blocked 0,
+10231965524 completed-job bytes, status updated 02:04:16.393279 UTC / RUNNING.
+Process snapshot 02:04:26 UTC; separate-root du completed 02:04:29 UTC.
+Archive 10880197812 + earlier processed 1456918554 =
+**12337116366 bytes / 12.337 GB AlgoPack**. Data 13741966395 + source 565989777 =
+**14307956172 bytes / 14.308 GB total**; AlgoPack уже входит в total.
+Замер apparent bytes при записи, не deduplicated unique information. Каждый du
+запускался отдельно: нельзя складывать parent/child из одного GNU du invocation.
+Models/runs/tmp transfer bundles не включены. Source evidence включает probe/cache
+copies и сохранённый capture archive, поэтому не весь прирост — новая информация.
+Доля jobs не доля конечного объёма или времени. Final completion не объявляется.
+
+Local snapshot 02:02:33.6851448 UTC: data 10841 files / 2719842747 bytes + source
+82 files / 35495015 bytes = **2755337762 bytes / 2.755 GB**. Частично копии server
+sources — не прибавлять к server как unique. Failed V107 source backups проверены;
+этот [source-only отсев](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md) не дал нового PnL.
+V107 paused после двух разных parser failures, без третьей версии. Новая metadata
+проверка GSCPI не останавливала archive. FUTOI 550 unresolved ticker-days unchanged /
+not re-audited; failed 0 main не устраняет gaps. Credentials/Windows/main unchanged.
+
+### Предыдущий снимок 17 сентября 04:04 МСК
+
 Actual **2026-09-17 04:04 МСК / 01:04 UTC**: main active/running,
 PID 1663880, invocation `d562f0748c4341b48eb7f4d34d64b4a1`, без перезапуска.
 **18730/26305 jobs (71.2032%)**, 168828717 rows, 181988 pages, failed 0 / blocked 0,

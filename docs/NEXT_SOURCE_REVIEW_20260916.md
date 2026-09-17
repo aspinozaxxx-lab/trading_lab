@@ -1,6 +1,58 @@
 # Резервные источники после V99: bounded discovery, не economic tests
 
-Текущий статус 17 сентября 04:16 МСК:
+## Текущий статус 17 сентября 05:04 МСК — V107 paused; GSCPI metadata review
+
+[V107](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md) дважды остановился на source parsing,
+экономики нет. Не писать V3 и не обходить pause ручными строками. 37 portfolio /
+0 active Stage2/3. TIPS real yield и inflation compensation уже закрыты V78;
+поиск нового названия или ещё одного sign/window по ним не новый information set.
+
+Поиск GSCPI / supply-chain-pressure по configs/docs/src до этой записи не нашёл
+отдельного economic test. Возможная новая информация — ограничения поставок и
+транспортировки, не G.17 manufacturing demand V101. Направление эффекта на MOEX
+пока не выбрано: снижение input costs и изменение commodity-export revenues могут
+действовать противоположно. Новый механизм не означает доказанную доходность.
+
+[NY Fed launch, 18May2022](https://www.newyorkfed.org/newsevents/news/research/2022/20220518)
+указывает первый public introduction January2022, регулярную публикацию с May2022
+и время 10:00 ET в четвёртый business day месяца. История с 1997 ретроспективная,
+не доступный тогда сигнал. Actual publication dates всё равно нужно подтвердить.
+[Методология и revisions](https://libertystreeteconomics.newyorkfed.org/2022/03/global-supply-chain-pressure-index-march-2022-update/)
+описывают demand adjustment, PCA/imputation и изменения прошлых оценок вплоть до
+года назад. По current revised series нельзя восстановить original information set.
+
+Прочитаны HTML, official frontend JS и descriptive JSON; CSV/XLSX не открывались.
+Текущие macro snippets из поиска не используются как features, market outcomes не
+читались. [Product page](https://www.newyorkfed.org/research/policy/gscpi) загружает
+`/medialibrary/Research/Interactives/gscpi/js/main-es2015.js` (1409838 bytes).
+В JS явно есть `revisions`, revision month labels и download routes:
+
+- `/medialibrary/research/interactives/data/gscpi/gscpi_interactive_data.csv`
+- `/medialibrary/research/interactives/gscpi/downloads/gscpi_data.xlsx`
+- `/medialibrary/research/interactives/data/gscpi/gscpi.json` — descriptive metadata,
+  10134 bytes, FAQ повторяет revision/PCA limitations.
+
+JS observation не доказывает полноту historical vintage matrix или original clock.
+Следующий маленький шаг — header/calendar-only inventory CSV и точный смысл колонок,
+не чтение signal values или full economic preparation. Сохранить один bounded raw
+только при допустимом scope/rights, hash/receipt и metadata; исключать release>=2026
+до числового feature read. Если хранится лишь короткий current revision tail,
+отклонить source для этого screen без собственного reconstructed-PCA framework.
+
+[Terms](https://www.newyorkfed.org/privacy/termsofuse) разрешают personal/business
+use с attribution и сохранением identifiers, но отдельно ограничивают third-party
+content и публичные serial blog archives. Это не разрешение скачивать исходные
+лицензируемые BDI/Harpex/PMI feeds. Для derived GSCPI дополнительно проверить
+source-specific notices до corpus. Никаких purchases, писем или публичного архива.
+CSV/XLSX metadata review требует соответствующего spreadsheet skill; в этом review
+были только HTML/JS/JSON, skill лишь inspected, spreadsheet action ещё не было.
+
+Пока V108/config/rule/targets/outcomes отсутствуют. Broad AlgoPack scope unanswered,
+TIC/V107 paused, 2026 protected; основная загрузка продолжается отдельно.
+
+## Предыдущий статус 17 сентября 04:16 МСК
+
+Исторический статус 17 сентября 04:16 МСК:
 [V106 завершён](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md): primary +0.1664% /
 −0.0319% CAGR, 10 trips, слишком слабая; controls execution-invalid, формальный
 verdict INVALID_EXECUTION_NO_PROMOTION. Ни sign/window/asset retuning, ни control

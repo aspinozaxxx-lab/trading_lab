@@ -1,5 +1,21 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 05:04 МСК / 02:04 UTC — V107 source paused, не economic entrant
+
+[Отчёт](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md): V2 failed 01:52:09 UTC на 2021Q2
+после 3 parsed releases / 2 новых GET. Narrative heading с footnote принят за row;
+визуальная PDF проверка показала правильные units в настоящей таблице. Это не
+первоначальная compact-layout проблема V1. Единственный repair использован, V3 нет.
+Обе failures/raw/manifests сохранены; V2 12 hashes + manifest / backup13files PASS.
+Pre-outcome commit `1e407b2`, seal `9f417b375a4f...`, failed manifest
+`46df3f4d1f00e79e16ee86ff531433819ea0beb6a12c1d178abee201e593edc4`.
+93 local / 93 server tests до source PASS; closure93localPASS/Ruff/seals unchanged.
+Markets/targets/ledger не запускались; CAGR/Sharpe/MDD/trades не вычислены, не 0.
+37portfolio=29Stage1reject+1Stage2reject+1incomplete+6invalid, 0activeStage2/3.
+GSCPI source review нашёл revision-aware official frontend, но CSV/XLSX values и
+vintage coverage ещё не просмотрены. Это agenda, не V108/результат/новый entrant.
+TIPS/breakeven не повторять: уже V78. Goal20–50active, main archive отдельно.
+
 ## 2026-09-17 — V107 V2 pre-outcome, один format-only repair
 
 [V2 note](V107_CURRENT_ACCOUNT_V2.md): V1 failed01:41:28UTC на первом2020Q3PDF,

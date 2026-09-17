@@ -1,9 +1,41 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 04:39 МСК / 2026-09-17, 01:39 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 05:04 МСК / 2026-09-17, 02:04 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V107 V2 pre-outcome — format-only correction, PnL ещё не считался
+## V107 SOURCE_PAUSED — две source failures, экономика не запускалась
+
+[Закрытие попыток](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md): V2 failed 01:52:09 UTC
+на 2021Q2, после 3 parsed releases / 2 новых GET. Заголовок narrative section с
+номером сноски ошибочно принят за row; визуально настоящая таблица и units есть.
+Это другая причина, чем compact layout V1. Лимит одного format repair исчерпан:
+без V3, ручного обхода или экономики на partial corpus. Economic roots отсутствуют,
+PnL/decisions/trades не вычислялись. Source-only failure не новый portfolio entrant.
+
+V2 pre-outcome commit `1e407b2`, seal `9f417b375a4f...`, failed manifest
+`46df3f4d1f00e79e16ee86ff531433819ea0beb6a12c1d178abee201e593edc4`.
+12 artifact hashes + manifest и 13-file local backup verified; V1/cache сохранены.
+93 local / 93 server tests PASS до source; closure 93 local PASS, Ruff clean,
+7/12 seal-bound files unchanged. Source admission/original receipts/live false.
+**37 portfolio = 29 REJECT_STAGE1 + 1 REJECT_STAGE2 + 1 incomplete + 6 invalid**,
+0 active Stage2/3; goal active, достижение 20–50% не подтверждено.
+
+Следующий bounded шаг: metadata-only inventory original GSCPI release/vintage
+columns. Новый supply-constraint information set; retrospective ряд до запуска
+индекса в 2022 не был доступным сигналом. Пересмотры и imputation документированы.
+В официальном JS найдены revision columns / download routes, но CSV/XLSX ещё не
+открывались, полный vintage coverage не установлен, V108/rule/targets нет.
+Не строить parser/framework, если достаточных vintages нет. TIPS/breakeven уже V78,
+не новая гипотеза. Подробности в [review](NEXT_SOURCE_REVIEW_20260916.md).
+
+Main archive 02:04 UTC active/running, **19310/26305 jobs (73.4081%)**,
+failed 0 / blocked 0; **14.308 GB data+source, включая 12.337 GB AlgoPack**.
+Local 02:02 UTC 2.755 GB — частично копии, не прибавлять к server как unique.
+FUTOI 550 gaps unchanged/not re-audited. Broad AlgoPack scope unanswered,
+TIC и V107 source paused, 2026 protected. Этот goal turn: PROGRESS по source
+feasibility/отсеву, но нового экономического результата нет; goal не завершён.
+
+### V107 V2 pre-outcome — историческая запись
 
 [V2](V107_CURRENT_ACCOUNT_V2.md): V1 source failed на первом2020Q3PDF: compact
 quarter table с отдельной YoY-difference column, без annual sums, unit/title после
@@ -4921,7 +4953,19 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,04:16МСК / 2026-09-17,01:16UTC:
+Текущий первый шаг 2026-09-17,05:04МСК / 2026-09-17,02:04UTC:
+[V107 source paused](V107_CURRENT_ACCOUNT_SOURCE_PAUSED.md), V3 не создавать,
+partial corpus в economic run не подставлять. 37 portfolio / 0 active Stage2/3.
+Первый незаблокированный bounded шаг — metadata-only проверка GSCPI vintage matrix:
+официальный JS использует CSV с revision columns, но их calendar/coverage/значения
+ещё не прочитаны. Сначала source-specific rights, header/dated publication coverage
+и original-vintage meaning; только затем отдельный rule/config/seal и economics.
+Не использовать retrospective pre-2022 или current-revised series как original PIT,
+не открывать 2026 market outcomes. При непригодном corpus короткий отказ без нового
+framework. Источник и точные observed routes в [review](NEXT_SOURCE_REVIEW_20260916.md).
+Main archive отдельно; broad AlgoPack scope unanswered, TIC/V107 paused.
+
+Исторический первый шаг 2026-09-17,04:16МСК / 2026-09-17,01:16UTC:
 [V106 COMPLETE / INVALID](V106_COMMERCIAL_HEDGING_PREMIUM_RESULT.md), 37 portfolio,
 0 active Stage2/3. Primary +0.1664% / −0.0319% CAGR, 10 trips, нет активности в
 2024–2025; оба controls execution-invalid. Не повторять economic run/audit без
