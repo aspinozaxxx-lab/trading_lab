@@ -1,7 +1,21 @@
 ﻿# Текущее состояние исследования
 
-Обновлено: **2026-09-17, 07:29 МСК / 2026-09-17, 04:29 UTC**. Период разработки ограничен данными не позже
+Обновлено: **2026-09-17, 07:46 МСК / 2026-09-17, 04:46 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
+
+## V111 pre-outcome — EBP risk appetite
+
+[Протокол](V111_CREDIT_RISK_APPETITE.md): MIXlong0.9 при EBP<=0, иначе cash.
+Constant-long control, full2018–2025, base/double costs, прежний ledger.
+Source metadata:98monthly/96eligible/96complete; другие поля и2026values не читаются.
+134synthetic tests/15futures metadata checks PASS; magnitudes/states/targets/newPnL
+ещё не прочитаны. Whole-history revisions известны, conditional following-monthEOM
+clock не доказывает originalPIT и не устраняет estimation leakage.
+Два HTTP200, исходный parser failed на M/D/YYYY вместоISO, raw/failedmanifest сохранены.
+Исправлен только offline parser, новых HTTP/retry не было. Backup6files SHA verified.
+Далее seal/commit/push,134server tests, единственный economicrun и audit/backup.
+Пока40portfolio/0activeStage2/3; цель20–50active, не подтверждена.
+Main archive handle подтверждён live в этом turn, без restart. V110closed/no retune.
 
 ## V110 COMPLETE — убыточный primary, INVALID_EXECUTION_NO_PROMOTION
 
@@ -5080,7 +5094,13 @@ Sealed execution study имеет verdict `NO_GO`. Для RAM ordinary расч�
 
 ### P0 — быстрый конкурс стратегий, затем только прошедшие кандидаты
 
-Текущий первый шаг 2026-09-17,07:29МСК / 2026-09-17,04:29UTC:
+Текущий первый шаг 2026-09-17,07:46МСК / 2026-09-17,04:46UTC:
+[V111](V111_CREDIT_RISK_APPETITE.md): metadata/code/tests готовы, fixed single rule.
+Seal/commit/push,134server tests, один economicrun/audit/backup. Не новый collector
+или повторная загрузка EBP, не восстановление оригинальных vintages.40portfolio
+пока неизменно; source magnitudes/новыйPnL не прочитаны. Mainarchive отдельно.
+
+Исторический первый шаг 2026-09-17,07:29МСК / 2026-09-17,04:29UTC:
 [V110 closed](V110_BANK_CREDIT_SQUEEZE_RESULT.md),40portfolio/0activeStage2/3.
 Не повторять economicrun/audit или retune/control repair без нового основания.
 Следующий bounded шаг — EBP metadata/definition/rights/revisions и отличие от

@@ -1,0 +1,17 @@
+{
+  "protocol_id": "v111_credit_risk_appetite_v1",
+  "sealed_at_utc": "2026-09-17T04:46:27Z",
+  "sealed_before_source_magnitudes_states_targets_and_new_outcomes": true,
+  "existing_market_history_previously_seen": true,
+  "independent_holdout": false,
+  "metadata_only_preflight_passed_locally": true,
+  "synthetic_tests_passed": 134,
+  "files": {
+    "src/market_lab/futures_v111_credit_risk_appetite.py": "72d0c8d972ad3b9611a7395bba7ca2e3c234bb2722e8d41dc4140cdc78e8cbc5",
+    "configs/v111_credit_risk_appetite_v1.json": "9a3a586ef28dd7cac93f915df0e9db3efc93aac3b0a3935f5b6170e55daf99bf",
+    "tests/test_futures_v111_credit_risk_appetite.py": "fb5b3d59e08b3c2611186924b2bd8f87bd722f1735708fec4367031096114b82",
+    "docs/V111_CREDIT_RISK_APPETITE.md": "c741e8822dcd85b411bc0d79d98b5b923003beb0d902a2e9ddc56385c321959f",
+    "scripts/ebp_source_20260917.py": "314616faab05cc1307b0ec19d27301c0b126d10ca6ea564f7647c149a6265889",
+    "configs/v101_manufacturing_demand_v1.seal.json": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a"
+  }
+}

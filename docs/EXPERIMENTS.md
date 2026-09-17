@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 07:46 МСК / 04:46 UTC — V111 pre-outcome
+
+[Протокол](V111_CREDIT_RISK_APPETITE.md): EBP<=0→MIXlong0.9/cash,
+constantlong control, full2018–2025/base-double/unchangedledger.
+98monthly/96eligible/96complete metadata, no source magnitudes/states/newPnL yet.
+134synthetic tests/15futures checks PASS. Source HTTP200×2, initial ISO parser
+failure preserved; strict offline M/D/YYYY correction, no newHTTP.6filebackupPASS.
+Currentvintage followingmonthEOM conditional clock, not originalPIT; wholehistory
+revisions/estimation leakage explicit. Next seal/commit/server tests/oneeconomicrun.
+40portfolio/0activeStage2/3 unchanged, active20–50goal not achieved.
+
 ## 2026-09-17 07:29 МСК / 04:29 UTC — V110 COMPLETE / INVALID, primary убыточен
 
 [Результат](V110_BANK_CREDIT_SQUEEZE_RESULT.md): joint credit squeeze→BRshort/cash,

@@ -1,0 +1,68 @@
+{
+  "protocol_id": "v111_credit_risk_appetite_v1",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {"start": "2018-01-01", "end": "2025-12-31"},
+  "assets": ["MIX"],
+  "source": {
+    "root": "source_evidence/ebp_20260917_v1/capture",
+    "manifest_sha256": "87af2e4930b09a58bfe3e9bcf15d6f8c3e66b5e8f47cf28341739e583da991e1",
+    "raw_sha256": "cc51b2747654e3ed003e0a6ce5500de054c1a8dcd3ec00bace1c6742416ab2eb",
+    "capture_status": "FAILED_SOURCE_NO_RETRY",
+    "capture_parser_failure": "date format",
+    "capture_note": "Both bounded HTTP requests succeeded, complete raw CSV39697bytes saved. Initial metadata parser wrongly expected ISO dates; source actually uses US M/D/YYYY. Original failed manifest preserved. No new HTTP/replacement source: isolated strict M/D/YYYY parser and 98-month/96-eligible metadata preflight must pass before numeric admission. Capture failure alone is neither economic rejection nor missing source proof.",
+    "headers": ["date", "gz_spread", "ebp", "est_prob"],
+    "date_column": "date",
+    "value_column": "ebp",
+    "missing_tokens": ["", ".", "NA"],
+    "raw_start": "2017-11-01",
+    "raw_end": "2025-12-31",
+    "expected_raw_reports": 98,
+    "expected_eligible_reports": 96,
+    "definition": "Board staff excess bond premium, corporate credit-spread component not attributed to expected defaults, monthly percent/percentage-point spread units. Only published ebp selected; gz_spread and est_prob never interpreted. No underlying proprietary bond-level records or reconstruction.",
+    "availability": "CONDITIONAL end of following calendar month America/New_York; source_date is observation month end, proxy_release_date the following month end. Original observation label/date token also retained. Normal fourth-business-day publication is not used as proof; delays, FOMC blackouts and revisions remain possible. Nov/Dec2025 computed availability>=2026 excluded BEFORE value-token inspection. One-month-end allowance cannot remove retrospective full-history estimation/revision leakage.",
+    "rights": "Personal research using the explicitly published Board staff CSV linked from official FEDS Note; Board disclaimer/publication preserved, authors credited. No underlying third-party proprietary dataset rights or public redistribution/commercial product license inferred."
+  },
+  "signal": {
+    "mechanism": "Nonpositive excess corporate-bond premium may indicate accommodating risk appetite/credit intermediation and support equity demand. US-to-MOEX transmission can fail under sanctions/capital controls and local commodity/policy shocks. High EBP can also forecast higher long-horizon returns, so this direction is a hypothesis, not an established trading law.",
+    "primary": "MIX long0.9 iff latest complete available ebp<=0, otherwise cash. Exact Decimal sign; real zero is long. No moving averages, training, magnitude threshold grid or trend overlay.",
+    "control": "Constant MIX long0.9 on identical readiness/calendar. Diagnostic only, cannot be promoted/tuned after outcomes.",
+    "missing": "Missing latest ebp masks primary and control; no zero imputation, interpolation or older-good fallback. Whole monthly calendar gap, duplicate date, malformed/nonfinite selected ebp or schema drift fails closed. Other/protected-date cells and unrelated columns are ignored before value interpretation.",
+    "maximum_source_age_at_fill_calendar_days": 93,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false
+  },
+  "execution": {
+    "initial_cash_rub": 1000000.0,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1.0,
+    "margin_buffer": 2.0,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0.0,
+    "costs": {"base": [1, 1.0], "double": [2, 2.0]}
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 5,
+    "expected_years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Prior goal turn PROGRESS: V110 complete, loss/invalid comparison, audited/backed up/pushed. Its BR credit-squeeze rule is closed; no inversion or control repair. EBP is a new market-price-derived credit-premium component, not SLOOS survey, private repo quantity or H41 reserves. It can correlate with STLFSI/V25; independent alpha is not assumed.",
+    "V25/V27 already tested STLFSI stress-governed multileg trend/risk/cash-carry portfolios. This is a stand-alone MIX/EBP rule, not an EBP substitution into a previously optimized parent or new leverage combination. Zero is fixed before source directions/new outcomes, not fitted to results.",
+    "Official2016note explicitly warns whole history may revise monthly because firms revise balance sheets and bond sample composition changes. Scheduled fourth businessday is not guaranteed; known2018 correction fixed historical missing months in one posted file. Current snapshot and extra delay DO NOT prove historical tradability or repair full-sample estimation leakage.",
+    "2018-2025 full already-seen futures development history, after public monthly EBP announcement2016. Not an independent holdout, not a genuine historical strategy track record. 2026 market prices/returns/labels/targets/PnL protected; latest raw macro rows quarantined from numeric use.",
+    "Unchanged EOD-next-factual-open integer ledger, research specs/fees/margin, zero idle-cash interest. All fourcases executioncomplete/critical0/unresolved0/terminalflat required. Rolls separate from signal episodes. Five-percent component screen does not replace relatively predictable20-50percent goal.",
+    "No post-outcome asset/sign/lag/TTL/size/cost/control/feature tuning; no model training, broker/demo/live, purchases, Windows collectors, credential reads or expandedAlgoPackeconomic scope. Main archive independently active."
+  ]
+}
