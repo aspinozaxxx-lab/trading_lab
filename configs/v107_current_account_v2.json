@@ -1,0 +1,93 @@
+{
+  "protocol_id": "v107_current_account_v2",
+  "stage": 1,
+  "goal_verified": false,
+  "live_trading_allowed": false,
+  "protected_from": "2026-01-01",
+  "parent_v101_seal_sha256": "067dc4ec60266536e57c51df322c74c7daaef9b91a3f46db5fcaad78a672f55a",
+  "period": {
+    "start": "2021-01-01",
+    "end": "2025-12-31"
+  },
+  "assets": [
+    "SI"
+  ],
+  "source": {
+    "probe_path": "source_evidence/cbr_bop_probe_20260917_v2/capture",
+    "probe_manifest_sha256": "ae97954255ce05db340a78e36a929bf440f39f260dc998aa33013d68a8f4cb6d",
+    "source_parent": "source_evidence/v107_cbr_current_account_v2",
+    "expected_releases": 20,
+    "quarter_range": [
+      "2020Q3",
+      "2025Q3"
+    ],
+    "absent_quarters": [
+      "2022Q1"
+    ],
+    "reuse": {
+      "2021Q1": "q1_2021.pdf",
+      "2025Q3": "q3_2025.pdf",
+      "2020Q3": "q3_2020.pdf"
+    },
+    "new_http_requests": 17,
+    "pypdf_version": "6.10.0",
+    "availability": "Actual publication date in pinned official index tooltip, EOD Moscow; NOT quarter end, data cutoff or PDF modification time. Latest vintages retrieved now; original receipts/revision chain unverified.",
+    "rights": "Private numerical research only with CBR attribution; official about page permits copying with source links but also contains a commercial-use restriction. No claim of commercial, redistribution-service, broker or live licensing; resolve before such use. Raw PDFs and third-party content remain outside Git."
+  },
+  "signal": {
+    "mechanism": "A positive and year-on-year strengthening published quarterly current account may indicate persistent net external-flow support for RUB. This is a lagged regime hypothesis, not news surprise or measured MOEX conversion flow.",
+    "primary": "SI short0.9 only if latest published standalone-quarter current account is positive and strictly greater than same quarter of previous year as printed in the SAME publication; otherwise cash.",
+    "control": "Constant SI short0.9 on identical readiness/fill calendar; diagnostic, never promoted after outcomes.",
+    "maximum_source_age_at_fill_calendar_days": 120,
+    "maximum_decision_to_fill_calendar_days": 7,
+    "model_fit": false,
+    "parameter_search": false,
+    "missing": "Missing quarterly publication is not fabricated. Latest state expires120calendar days after publication. Missing or ambiguous table values, units, years or timing stop source assembly; do not substitute headline rounding or annual/cumulative values."
+  },
+  "execution": {
+    "initial_cash_rub": 1000000,
+    "weight_per_asset": 0.9,
+    "maximum_signal_gross": 0.9,
+    "maximum_gross_multiple": 1,
+    "margin_buffer": 2,
+    "maximum_participation": 0.01,
+    "collateral_interest": 0,
+    "costs": {
+      "base": [
+        1,
+        1
+      ],
+      "double": [
+        2,
+        2
+      ]
+    }
+  },
+  "screen_gates": {
+    "minimum_ready_asset_date_fraction": 0.8,
+    "minimum_round_trips": 20,
+    "minimum_cagr_each_cost": 0.05,
+    "minimum_sharpe_each_cost": 0.5,
+    "maximum_drawdown_each_cost": 0.25,
+    "minimum_positive_years_each_cost": 3,
+    "expected_years": [
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025"
+    ],
+    "minimum_worst_year_each_cost": -0.15,
+    "minimum_cagr_excess_over_control_each_cost": 0.02
+  },
+  "limitations": [
+    "Previous goal turn PROGRESS: V106 closed without promotion, all outcomes and backup saved/pushed. New BoP information, not V19 Minfin operations or V21/V105 forecast revisions. Different information does not establish independent return driver.",
+    "Two format samples2021Q1/2025Q3, including numerical source values, were inspected before seal; full corpus, new targets and economic outcomes were not. PDF visual/table/date review found publication tooltips:2021-04-15 and2025-11-21, distinct from data cutoffs2021-04-09 and2025-11-14. Source metadata, not original witnessed receipt.",
+    "Current dated PDFs can contain revised prior-quarter data. Compare two standalone quarters within one contemporaneously labelled publication; never overwrite previous states, difference current cumulative series, or mix YoY/QoQ and annual totals. Header/table structure is mandatory. Commercial/live rights not confirmed; this is private research only.",
+    "Accruals, financial-account flows, capital controls, settlement currencies and lags mean current account is not observed currency conversion. A strengthening surplus need not predict futures returns; no claim of causality or news surprise.",
+    "Unchanged V72/V78/V64 integer next-open ledger, risk/spec/fee proxies, full2021-2025 development previously viewed, not holdout. Source2020 only warmup. No current-vintage2026 data or prices, fitted models, source-driven asset selection or new execution engine.",
+    "Quarter2022Q1 has no separate indexed publication; no invented release. Latest quarter of combined2022Q2 issue only, subject to explicit standalone table. Main archive continues; no Windows collector or token change. Original probe launch failed before mkdir/HTTP on parent permission, corrected with an owned task-only parent; capture succeeded once with5GETs.",
+    "Allfourcases must be execution-complete. Counts include rolls, not independent publications. Five-percent Stage1 gate is only component screening, not the20-50percent goal. No post-outcome sign/asset/window/TTL/size/control changes. At most one format-only repair with a new sealed version and raw reuse; a second distinct source-format failure pauses this branch, never economics on partial source.",
+    "V1 source failed on the first2020Q3 table before any states/targets/market load/economics. Compact table has no annual sums, an explicitly labelled YoY difference column and unit/title after rows in PDF text order. V2 only supports this layout, joining a decimal-comma glyph space; it never uses the rounded difference column as a balance. Frozen trading rules unchanged. Three cached raw PDF/metadata pairs reused; composite probe has zero new HTTP. This uses the one allowed structural repair; any next distinct format failure pauses the branch."
+  ]
+}

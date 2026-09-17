@@ -1,5 +1,16 @@
 ﻿# Реестр экспериментов
 
+## 2026-09-17 — V107 V2 pre-outcome, один format-only repair
+
+[V2 note](V107_CURRENT_ACCOUNT_V2.md): V1 failed01:41:28UTC на первом2020Q3PDF,
+0parsed/1GET, до states/targets/market/PnL. Compact quarter table, separate rounded
+YoYdifference, unit/title в конце extraction. Six artifact hashes+manifest/backup
+PASS; failedroot immutable, no economic root. V2 поддерживает только этот format,
+правило и все economics unchanged/AST verified. 8new/93combinedtestsPASS3.75s,
+три known sample parses PASS; composite reuse15hashes+manifestPASS,0newHTTP.
+После новогоseal/push один source attempt (17GET), только COMPLETE допускает
+economics. Следующий distinctformatfailure = pause, без V3parser.37portfolio пока.
+
 ## 2026-09-17 04:39 МСК / 01:39 UTC — V107 pre-outcome
 
 [Протокол](V107_CURRENT_ACCOUNT.md): positive and strengthening YoY quarterly

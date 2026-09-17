@@ -3,7 +3,19 @@
 Обновлено: **2026-09-17, 04:39 МСК / 2026-09-17, 01:39 UTC**. Период разработки ограничен данными не позже
 `2025-12-31`; рыночные исходы 2026 для текущих historical-гипотез защищены и не используются.
 
-## V107 pre-outcome — текущий счёт / short SI
+## V107 V2 pre-outcome — format-only correction, PnL ещё не считался
+
+[V2](V107_CURRENT_ACCOUNT_V2.md): V1 source failed на первом2020Q3PDF: compact
+quarter table с отдельной YoY-difference column, без annual sums, unit/title после
+строк в PDF text order. 0 parsed / 1 GET, economic root отсутствует. Failed root
+и backup сохранены. V2 только поддерживает этот layout; rule/risk/costs/gates
+неизменны, AST equality проверена. 8 new / 93 combined tests PASS 3.75s, Ruff clean.
+Три cached PDF samples PASS; composite probe 15 hashes + manifest verified, 0 newHTTP.
+Следующий шаг — V2 seal/commit/push, server tests, 17 remaining GET, затем один
+economic run только при COMPLETE. При следующем distinct format failure pause,
+не V3 parser. Пока37portfolio/0activeStage2/3, goal active, archive отдельно.
+
+### V107 V1 pre-outcome — историческая запись
 
 [Протокол](V107_CURRENT_ACCOUNT.md): одна новая квартальная flow hypothesis,
 SI short0.9/cash при положительном и выросшем YoY current account в одном PDF;
